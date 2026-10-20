@@ -43,6 +43,11 @@ describe('loadCountryShapes', () => {
     expect(shapesWithoutArea.map((shape) => shape.name)).toEqual([])
   })
 
+  it('loads the same countries with full-detail borders', () => {
+    const fullShapes = loadCountryShapes('full')
+    expect(fullShapes.map((shape) => shape.name)).toEqual(shapes.map((shape) => shape.name))
+  })
+
   it('gives every shape with a numeric code an alpha-3 code', () => {
     const missingAlpha3 = shapes.filter(
       (shape) => shape.isoNumeric !== null && shape.isoAlpha3 === null,

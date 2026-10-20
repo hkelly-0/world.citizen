@@ -49,9 +49,14 @@ function simplifyBorders(topology: WorldAtlasTopology): WorldAtlasTopology {
   return simplify(weighted, minWeight)
 }
 
-export function loadCountryShapes(): CountryShape[] {
+// 'simplified' is for the globe.gl globe, which draws every point at all zooms.
+// 'full' is for MapLibre, which simplifies the borders itself for each zoom level.
+export type BorderDetail = 'simplified' | 'full'
+
+export function loadCountryShapes(detail: BorderDetail = 'simplified'): CountryShape[] {
   // The JSON import is untyped, so we tell TypeScript its TopoJSON shape.
-  const topology = simplifyBorders(worldAtlas50m as unknown as WorldAtlasTopology)
+  const fullTopology = worldAtlas50m as unknown as WorldAtlasTopology
+  const topology = detail === 'simplified' ? simplifyBorders(fullTopology) : fullTopology
   const countries = feature(topology, topology.objects.countries)
 
   return countries.features.map((country) => {
