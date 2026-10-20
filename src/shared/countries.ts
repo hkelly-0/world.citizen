@@ -1,4 +1,5 @@
 import { feature } from 'topojson-client'
+import { presimplify, quantile, simplify } from 'topojson-simplify'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import type { Geometry } from 'geojson'
 import isoCountries from 'i18n-iso-countries'
@@ -20,9 +21,37 @@ type WorldAtlasTopology = Topology<{
   countries: GeometryCollection<{ name: string }>
 }>
 
+// The 1:50m borders have about 80,000 points, which is slow to draw on phones.
+// Simplifying keeps roughly this fraction of them (about 15,000 points).
+const FRACTION_OF_POINTS_TO_KEEP = 0.1
+
+// Without this, small countries and islands (e.g. Vatican, Singapore, Malta)
+// collapse to a line and disappear. Keeping the 3 most important points of
+// every border segment guarantees each outline stays a real shape.
+const MIN_POINTS_PER_BORDER_SEGMENT = 3
+
+// Removes border points that barely change a country's outline. Shared borders
+// are simplified once, so neighbouring countries still meet exactly.
+function simplifyBorders(topology: WorldAtlasTopology): WorldAtlasTopology {
+  // Gives every point a weight: how much the outline changes if it is removed.
+  // The arc endpoints, where borders meet, get an infinite weight.
+  const weighted = presimplify(topology)
+
+  for (const arc of weighted.arcs) {
+    const interiorPoints = arc.slice(1, -1)
+    interiorPoints.sort((a, b) => b[2] - a[2])
+    for (const point of interiorPoints.slice(0, MIN_POINTS_PER_BORDER_SEGMENT)) {
+      point[2] = Infinity
+    }
+  }
+
+  const minWeight = quantile(weighted, FRACTION_OF_POINTS_TO_KEEP)
+  return simplify(weighted, minWeight)
+}
+
 export function loadCountryShapes(): CountryShape[] {
   // The JSON import is untyped, so we tell TypeScript its TopoJSON shape.
-  const topology = worldAtlas50m as unknown as WorldAtlasTopology
+  const topology = simplifyBorders(worldAtlas50m as unknown as WorldAtlasTopology)
   const countries = feature(topology, topology.objects.countries)
 
   return countries.features.map((country) => {
