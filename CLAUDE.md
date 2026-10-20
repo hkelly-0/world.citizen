@@ -68,4 +68,4 @@ src/
 ## Status
 - Done: web scaffold with a clickable globe. Tapping a country shows its name and ISO codes; tapping the ocean closes the panel.
 - Next: flashcard design details, the country facts dataset, then Capacitor/Android (needs Android Studio and SDK, not yet installed).
-- Note: npm 10.9.2 crashes resolving Vitest 5's peer dependencies; installs were done with `npx npm@11 install`.
+- Note: requires npm 11+ (developed on Node 24 / npm 11.19.1). npm 10.9.2 crashes resolving Vitest 5's peer dependencies; on npm 10, install with `npx npm@11 install`.
