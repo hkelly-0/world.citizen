@@ -57,9 +57,10 @@ const RING_RADIUS = 24
 const RING_COLOR = '#ffd400'
 const RING_WIDTH = 3
 
-// Islands and territories further than this from the country's largest part
-// are left out when framing (e.g. French Guiana for France). The distance is
-// this many times the largest part's own radius, but at least the minimum.
+// Islands and territories whose nearest coastline is further than this from
+// the centre of the country's largest part are left out when framing (e.g.
+// French Guiana for France). The distance is this many times the largest
+// part's own radius, but at least the minimum.
 const NEARBY_PARTS_RADIUS_MULTIPLE = 1.5
 const NEARBY_PARTS_MIN_DEGREES = 2
 
@@ -100,9 +101,14 @@ function mainLandmass(country) {
   ) * (180 / Math.PI)
   const maxDistance = Math.max(NEARBY_PARTS_MIN_DEGREES, largestRadius * NEARBY_PARTS_RADIUS_MULTIPLE)
 
-  const nearbyParts = parts.filter(
-    (part) => geoDistance(centre, geoCentroid(part)) * (180 / Math.PI) <= maxDistance,
-  )
+  // A part's distance is to its nearest coastline point, not its centre, so
+  // big neighbouring islands (e.g. New Zealand's North Island) are kept.
+  const nearbyParts = parts.filter((part) => {
+    const nearestDistance = Math.min(
+      ...part.geometry.coordinates[0].map((point) => geoDistance(centre, point)),
+    ) * (180 / Math.PI)
+    return nearestDistance <= maxDistance
+  })
   return {
     type: 'Feature',
     properties: {},
