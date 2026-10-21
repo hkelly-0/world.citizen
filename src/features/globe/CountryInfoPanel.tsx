@@ -1,14 +1,12 @@
 import type { CountryShape } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
+import { AREA_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
   country: CountryShape
   onClose: () => void
 }
-
-// Full numbers with thousands separators, e.g. 66,650,804.
-const numberFormat = new Intl.NumberFormat('en')
 
 export function CountryInfoPanel({ country, onClose }: CountryInfoPanelProps) {
   // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
@@ -34,11 +32,9 @@ export function CountryInfoPanel({ country, onClose }: CountryInfoPanelProps) {
             <dt>{facts.capitals.length === 1 ? 'Capital' : 'Capitals'}</dt>
             <dd>{facts.capitals.join(', ')}</dd>
             <dt>Population</dt>
-            <dd>
-              {numberFormat.format(facts.population)} ({facts.populationYear})
-            </dd>
+            <dd>{rangeTitle(POPULATION_RANGES, facts.population)}</dd>
             <dt>Area</dt>
-            <dd>{numberFormat.format(facts.areaKm2)} km²</dd>
+            <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
             <dt>IHDI</dt>
             <dd>{facts.ihdi === null ? 'No data' : `${facts.ihdi} (${facts.ihdiYear})`}</dd>
           </dl>

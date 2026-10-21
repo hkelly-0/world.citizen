@@ -21,10 +21,9 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('French Republic')).toBeInTheDocument()
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
-    expect(
-      screen.getByText(`${facts.population.toLocaleString('en')} (${facts.populationYear})`),
-    ).toBeInTheDocument()
-    expect(screen.getByText(`${facts.areaKm2.toLocaleString('en')} km²`)).toBeInTheDocument()
+    // Population and area show range titles, not exact numbers.
+    expect(screen.getByText('numerous')).toBeInTheDocument()
+    expect(screen.getByText('medium')).toBeInTheDocument()
     expect(screen.getByText(`${facts.ihdi} (${facts.ihdiYear})`)).toBeInTheDocument()
   })
 
