@@ -16,6 +16,17 @@
   font-size: 1.4rem;
 }
 
+/* Sits directly under the heading, so pull it up into the heading's margin. */
+.country-info-panel__official-name {
+  margin: -8px 32px 12px 0;
+  color: #a9b1c2;
+}
+
+.country-info-panel__note {
+  margin: 0;
+  color: #a9b1c2;
+}
+
 .country-info-panel dl {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -29,7 +40,8 @@
 
 .country-info-panel dd {
   margin: 0;
-  font-family: ui-monospace, Consolas, monospace;
+  /* Equal-width digits so numbers line up. */
+  font-variant-numeric: tabular-nums;
 }
 
 .country-info-panel__close {

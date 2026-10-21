@@ -2,34 +2,59 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CountryShape } from '../../shared/countries'
+import { countryFacts } from '../../shared/countryFacts'
 import { CountryInfoPanel } from './CountryInfoPanel'
 
-const peru: CountryShape = {
-  name: 'Peru',
-  isoNumeric: '604',
-  isoAlpha3: 'PER',
+const france: CountryShape = {
+  name: 'France',
+  isoNumeric: '250',
+  isoAlpha3: 'FRA',
   geometry: { type: 'Polygon', coordinates: [] },
 }
 
 describe('CountryInfoPanel', () => {
-  it('shows the country name and ISO codes', () => {
-    render(<CountryInfoPanel country={peru} onClose={() => {}} />)
+  it("shows the country's names and facts", () => {
+    render(<CountryInfoPanel country={france} onClose={() => {}} />)
 
-    expect(screen.getByRole('heading', { name: 'Peru' })).toBeInTheDocument()
-    expect(screen.getByText('PER')).toBeInTheDocument()
-    expect(screen.getByText('604')).toBeInTheDocument()
+    const facts = countryFacts['FRA']!
+    expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    expect(screen.getByText('French Republic')).toBeInTheDocument()
+    expect(screen.getByText('Capital')).toBeInTheDocument()
+    expect(screen.getByText('Paris')).toBeInTheDocument()
+    expect(
+      screen.getByText(`${facts.population.toLocaleString('en')} (${facts.populationYear})`),
+    ).toBeInTheDocument()
+    expect(screen.getByText(`${facts.areaKm2.toLocaleString('en')} km²`)).toBeInTheDocument()
+    expect(screen.getByText(`${facts.ihdi} (${facts.ihdiYear})`)).toBeInTheDocument()
   })
 
-  it('shows "None" when a country has no ISO codes', () => {
-    const kosovo: CountryShape = { ...peru, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
+  it('lists every capital for countries with several', () => {
+    const southAfrica: CountryShape = { ...france, name: 'South Africa', isoAlpha3: 'ZAF' }
+    render(<CountryInfoPanel country={southAfrica} onClose={() => {}} />)
+
+    expect(screen.getByText('Capitals')).toBeInTheDocument()
+    expect(screen.getByText('Pretoria, Bloemfontein, Cape Town')).toBeInTheDocument()
+  })
+
+  it('shows "No data" when a country has no IHDI', () => {
+    const vatican: CountryShape = { ...france, name: 'Vatican', isoAlpha3: 'VAT' }
+    render(<CountryInfoPanel country={vatican} onClose={() => {}} />)
+
+    expect(screen.getByRole('heading', { name: 'Vatican City' })).toBeInTheDocument()
+    expect(screen.getByText('No data')).toBeInTheDocument()
+  })
+
+  it('shows a note for map areas that are not one of the 195 countries', () => {
+    const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
     render(<CountryInfoPanel country={kosovo} onClose={() => {}} />)
 
-    expect(screen.getAllByText('None')).toHaveLength(2)
+    expect(screen.getByRole('heading', { name: 'Kosovo' })).toBeInTheDocument()
+    expect(screen.getByText('Not one of the 195 countries in this app.')).toBeInTheDocument()
   })
 
   it('calls onClose when the close button is pressed', async () => {
     const onClose = vi.fn()
-    render(<CountryInfoPanel country={peru} onClose={onClose} />)
+    render(<CountryInfoPanel country={france} onClose={onClose} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
 
