@@ -4,8 +4,8 @@
 #
 # Needs GDAL (brew install gdal) and the public-domain source image, saved in
 # the folder given as the first argument:
-#   blue-marble.jpg   NASA Blue Marble Next Generation, December 2004, 21600x10800
-#     https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73909/world.topo.bathy.200412.3x21600x10800.jpg
+#   blue-marble.jpg   NASA Blue Marble Next Generation, June 2004, 21600x10800
+#     https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73726/world.topo.bathy.200406.3x21600x10800.jpg
 #
 # Usage: scripts/make-background-tiles.sh <source-folder>
 set -e
