@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CountryShape } from '../../shared/countries'
-import { countryFacts } from '../../shared/countryFacts'
 import { CountryInfoPanel } from './CountryInfoPanel'
 
 const france: CountryShape = {
@@ -16,15 +15,14 @@ describe('CountryInfoPanel', () => {
   it("shows the country's names and facts", () => {
     render(<CountryInfoPanel country={france} onClose={() => {}} />)
 
-    const facts = countryFacts['FRA']!
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
-    // Population and area show range titles, not exact numbers.
+    // Population, area and IHDI show range titles, not exact numbers.
     expect(screen.getByText('Numerous')).toBeInTheDocument()
     expect(screen.getByText('Medium')).toBeInTheDocument()
-    expect(screen.getByText(`${facts.ihdi} (${facts.ihdiYear})`)).toBeInTheDocument()
+    expect(screen.getByText('8 - Great')).toBeInTheDocument()
   })
 
   it('lists every capital for countries with several', () => {

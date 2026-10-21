@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from './countryFacts'
-import { AREA_RANGES, POPULATION_RANGES, rangeTitle } from './statRanges'
+import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from './statRanges'
 
 describe('rangeTitle', () => {
   it('puts population values in the right range', () => {
@@ -22,13 +22,31 @@ describe('rangeTitle', () => {
     expect(rangeTitle(AREA_RANGES, 9_706_961)).toBe('Immense')
   })
 
+  it('puts IHDI values in the range given by multiplying by 10 and rounding', () => {
+    expect(rangeTitle(IHDI_RANGES, 0.226)).toBe('2 - Very Awful')
+    expect(rangeTitle(IHDI_RANGES, 0.3)).toBe('3 - Awful')
+    expect(rangeTitle(IHDI_RANGES, 0.64)).toBe('6 - Ok')
+    expect(rangeTitle(IHDI_RANGES, 0.65)).toBe('7 - Good')
+    expect(rangeTitle(IHDI_RANGES, 0.836)).toBe('8 - Great')
+    expect(rangeTitle(IHDI_RANGES, 0.923)).toBe('9 - Excellent')
+    expect(rangeTitle(IHDI_RANGES, 0.95)).toBe('10 - Fantastic')
+  })
+
+  it('matches multiplying by 10 and rounding for every country with an IHDI', () => {
+    for (const country of Object.values(countryFacts)) {
+      if (country.ihdi === null) continue
+      const rounded = Math.round(country.ihdi * 10)
+      expect(rangeTitle(IHDI_RANGES, country.ihdi).startsWith(`${rounded} - `)).toBe(true)
+    }
+  })
+
   it('puts a value exactly on a boundary in the upper range', () => {
     expect(rangeTitle(POPULATION_RANGES, 1_000_000)).toBe('Smallish')
     expect(rangeTitle(AREA_RANGES, 10_000)).toBe('Tiny')
   })
 
   it('lists ranges from smallest to largest, starting at 0', () => {
-    for (const ranges of [POPULATION_RANGES, AREA_RANGES]) {
+    for (const ranges of [POPULATION_RANGES, AREA_RANGES, IHDI_RANGES]) {
       expect(ranges[0].min).toBe(0)
       const minimums = ranges.map((range) => range.min)
       expect(minimums).toEqual([...minimums].sort((a, b) => a - b))

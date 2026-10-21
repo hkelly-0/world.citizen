@@ -1,6 +1,6 @@
 import type { CountryShape } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
-import { AREA_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
@@ -36,7 +36,7 @@ export function CountryInfoPanel({ country, onClose }: CountryInfoPanelProps) {
             <dt>Area</dt>
             <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
             <dt>IHDI</dt>
-            <dd>{facts.ihdi === null ? 'No data' : `${facts.ihdi} (${facts.ihdiYear})`}</dd>
+            <dd>{facts.ihdi === null ? 'No data' : rangeTitle(IHDI_RANGES, facts.ihdi)}</dd>
           </dl>
         </>
       )}
