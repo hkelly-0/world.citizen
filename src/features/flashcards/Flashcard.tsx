@@ -1,38 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
-import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import { isCapitalCorrect } from './capitalAnswer'
+import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import './Flashcard.css'
-
-// Countries without an IHDI have this as their correct IHDI answer.
-const NO_DATA = 'No data'
-
-// A question answered by picking one range title.
-type RangeQuestion = {
-  label: string
-  options: string[]
-  correctAnswer: string
-}
-
-function rangeQuestions(country: CountryFacts): RangeQuestion[] {
-  return [
-    {
-      label: 'Area',
-      options: AREA_RANGES.map((range) => range.title),
-      correctAnswer: rangeTitle(AREA_RANGES, country.areaKm2),
-    },
-    {
-      label: 'Population',
-      options: POPULATION_RANGES.map((range) => range.title),
-      correctAnswer: rangeTitle(POPULATION_RANGES, country.population),
-    },
-    {
-      label: 'IHDI',
-      options: [...IHDI_RANGES.map((range) => range.title), NO_DATA],
-      correctAnswer: country.ihdi === null ? NO_DATA : rangeTitle(IHDI_RANGES, country.ihdi),
-    },
-  ]
-}
 
 type FlashcardProps = {
   country: CountryFacts
