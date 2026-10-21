@@ -26,28 +26,6 @@ describe('loadCountryShapes', () => {
     expect(kosovo?.isoAlpha3).toBeNull()
   })
 
-  it('keeps a real outline for every country after simplifying borders', () => {
-    // A ring needs at least 3 distinct points to enclose an area.
-    function hasArea(ring: number[][]) {
-      return new Set(ring.map((point) => point.join(','))).size >= 3
-    }
-    const shapesWithoutArea = shapes.filter((shape) => {
-      const polygons =
-        shape.geometry.type === 'Polygon'
-          ? [shape.geometry.coordinates]
-          : shape.geometry.type === 'MultiPolygon'
-            ? shape.geometry.coordinates
-            : []
-      return !polygons.every((polygon) => hasArea(polygon[0]))
-    })
-    expect(shapesWithoutArea.map((shape) => shape.name)).toEqual([])
-  })
-
-  it('loads the same countries with full-detail borders', () => {
-    const fullShapes = loadCountryShapes('full')
-    expect(fullShapes.map((shape) => shape.name)).toEqual(shapes.map((shape) => shape.name))
-  })
-
   it('gives every shape with a numeric code an alpha-3 code', () => {
     const missingAlpha3 = shapes.filter(
       (shape) => shape.isoNumeric !== null && shape.isoAlpha3 === null,

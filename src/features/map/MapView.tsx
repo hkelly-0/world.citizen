@@ -52,7 +52,7 @@ const BORDERS_MAX_DETAIL_ZOOM = 8
 const MAX_ZOOM = 10
 
 // Full-detail borders: MapLibre simplifies them itself for each zoom level.
-const COUNTRY_SHAPES = loadCountryShapes('full')
+const COUNTRY_SHAPES = loadCountryShapes()
 
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
 // a tapped feature can be turned back into its CountryShape.
