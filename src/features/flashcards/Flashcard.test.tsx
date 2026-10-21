@@ -18,6 +18,21 @@ async function answerCapital(typed: string) {
 }
 
 describe('Flashcard', () => {
+  it("shows the country's picture", () => {
+    render(<Flashcard country={france} onFinish={vi.fn()} />)
+
+    expect(screen.getByRole('img', { name: 'Map of France' })).toHaveAttribute(
+      'src',
+      '/country-images/FRA.webp',
+    )
+  })
+
+  it('shows no picture for Tuvalu, which has none', () => {
+    render(<Flashcard country={countryFacts['TUV']} onFinish={vi.fn()} />)
+
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+  })
+
   it('asks area, population, IHDI, then capital, and reports 4 correct', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} onFinish={onFinish} />)

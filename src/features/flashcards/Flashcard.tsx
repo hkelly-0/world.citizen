@@ -4,6 +4,11 @@ import { isCapitalCorrect } from './capitalAnswer'
 import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import './Flashcard.css'
 
+// Pictures made by scripts/make-country-images.mjs. Tuvalu has none because
+// world-atlas has no outline for it.
+const COUNTRY_IMAGES = '/country-images'
+const COUNTRIES_WITHOUT_IMAGE = ['TUV']
+
 type FlashcardProps = {
   country: CountryFacts
   // Called after the last question, with how many of the 4 were correct.
@@ -46,6 +51,13 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>
+      {!COUNTRIES_WITHOUT_IMAGE.includes(country.isoAlpha3) && (
+        <img
+          className="flashcard__image"
+          src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
+          alt={`Map of ${country.commonName}`}
+        />
+      )}
       <h2>{country.commonName}</h2>
 
       {isCapitalStep ? (

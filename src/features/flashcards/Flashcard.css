@@ -8,6 +8,15 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* Square picture of the country, kept small so the options fit on a phone. */
+.flashcard__image {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1;
+  margin: 0 auto 8px;
+}
+
 .flashcard h2 {
   margin: 0 0 16px;
   font-size: 1.6rem;
