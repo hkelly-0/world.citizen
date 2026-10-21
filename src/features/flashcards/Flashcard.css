@@ -1,0 +1,98 @@
+.flashcard {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.flashcard h2 {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.flashcard__question {
+  display: block;
+  margin: 0 0 12px;
+  color: #a9b1c2;
+  font-size: 1.1rem;
+}
+
+.flashcard__options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Shared look for every button on the card. */
+.flashcard__option,
+.flashcard__check,
+.flashcard__next {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.flashcard__option:hover:not(:disabled),
+.flashcard__check:hover,
+.flashcard__next:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.flashcard__option:disabled {
+  cursor: default;
+}
+
+.flashcard__option--correct {
+  border-color: #3fb950;
+  background: rgba(63, 185, 80, 0.25);
+}
+
+.flashcard__option--wrong {
+  border-color: #f85149;
+  background: rgba(248, 81, 73, 0.25);
+}
+
+.flashcard__capital-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.flashcard__capital-input {
+  min-height: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: inherit;
+  /* 16px or more stops phones zooming in when the field is focused. */
+  font-size: 1rem;
+}
+
+.flashcard__result {
+  margin: 16px 0 0;
+  font-weight: 600;
+}
+
+.flashcard__result--correct {
+  color: #3fb950;
+}
+
+.flashcard__result--wrong {
+  color: #f85149;
+}
+
+.flashcard__next {
+  width: 100%;
+  margin-top: 16px;
+}

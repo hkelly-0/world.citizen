@@ -1,0 +1,19 @@
+.back-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  /* Above the map canvas on the globe screen. */
+  z-index: 1;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: rgba(40, 48, 70, 0.95);
+}
