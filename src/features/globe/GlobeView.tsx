@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 // app, so Vite copies the script and we tell MapLibre where it is.
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
+import { BackButton } from '../../shared/BackButton'
 import { loadCountryShapes } from '../../shared/countries'
 import { CountryInfoPanel } from './CountryInfoPanel'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
@@ -129,7 +130,11 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
-export default function GlobeView() {
+type GlobeViewProps = {
+  onBack: () => void
+}
+
+export default function GlobeView({ onBack }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
@@ -205,6 +210,7 @@ export default function GlobeView() {
   return (
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
+      <BackButton onClick={onBack} />
       {selectedCountry !== null && (
         <CountryInfoPanel country={selectedCountry} onClose={() => setSelectedIndex(null)} />
       )}

@@ -1,0 +1,32 @@
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 100%;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.main-menu h1 {
+  margin: 0 0 16px;
+  font-size: 2rem;
+}
+
+.main-menu__option {
+  width: 100%;
+  max-width: 280px;
+  min-height: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.9);
+  color: inherit;
+  font: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.main-menu__option:hover {
+  background: rgba(40, 48, 70, 0.95);
+}
