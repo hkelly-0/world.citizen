@@ -9,23 +9,23 @@ export type StatRange = {
 }
 
 export const POPULATION_RANGES: StatRange[] = [
-  { title: 'minute', min: 0 },
-  { title: 'few', min: 100_000 },
-  { title: 'smallish', min: 1_000_000 },
-  { title: 'moderate', min: 10_000_000 },
-  { title: 'numerous', min: 50_000_000 },
-  { title: 'multitudes', min: 100_000_000 },
-  { title: '1.4 billion', min: 1_000_000_000 },
+  { title: 'Minute', min: 0 },
+  { title: 'Few', min: 100_000 },
+  { title: 'Smallish', min: 1_000_000 },
+  { title: 'Moderate', min: 10_000_000 },
+  { title: 'Numerous', min: 50_000_000 },
+  { title: 'Multitudes', min: 100_000_000 },
+  { title: '1.4 Billion', min: 1_000_000_000 },
 ]
 
 // In square kilometres.
 export const AREA_RANGES: StatRange[] = [
-  { title: 'teensy-weensy', min: 0 },
-  { title: 'tiny', min: 10_000 },
-  { title: 'small', min: 100_000 },
-  { title: 'medium', min: 300_000 },
-  { title: 'large', min: 1_000_000 },
-  { title: 'immense', min: 5_000_000 },
+  { title: 'Teensy-weensy', min: 0 },
+  { title: 'Tiny', min: 10_000 },
+  { title: 'Small', min: 100_000 },
+  { title: 'Medium', min: 300_000 },
+  { title: 'Large', min: 1_000_000 },
+  { title: 'Immense', min: 5_000_000 },
 ]
 
 // Returns the title of the range the value falls in: the last range whose

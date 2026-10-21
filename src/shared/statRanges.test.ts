@@ -4,27 +4,27 @@ import { AREA_RANGES, POPULATION_RANGES, rangeTitle } from './statRanges'
 
 describe('rangeTitle', () => {
   it('puts population values in the right range', () => {
-    expect(rangeTitle(POPULATION_RANGES, 501)).toBe('minute')
-    expect(rangeTitle(POPULATION_RANGES, 500_000)).toBe('few')
-    expect(rangeTitle(POPULATION_RANGES, 5_000_000)).toBe('smallish')
-    expect(rangeTitle(POPULATION_RANGES, 30_000_000)).toBe('moderate')
-    expect(rangeTitle(POPULATION_RANGES, 66_650_804)).toBe('numerous')
-    expect(rangeTitle(POPULATION_RANGES, 347_000_000)).toBe('multitudes')
-    expect(rangeTitle(POPULATION_RANGES, 1_463_865_525)).toBe('1.4 billion')
+    expect(rangeTitle(POPULATION_RANGES, 501)).toBe('Minute')
+    expect(rangeTitle(POPULATION_RANGES, 500_000)).toBe('Few')
+    expect(rangeTitle(POPULATION_RANGES, 5_000_000)).toBe('Smallish')
+    expect(rangeTitle(POPULATION_RANGES, 30_000_000)).toBe('Moderate')
+    expect(rangeTitle(POPULATION_RANGES, 66_650_804)).toBe('Numerous')
+    expect(rangeTitle(POPULATION_RANGES, 347_000_000)).toBe('Multitudes')
+    expect(rangeTitle(POPULATION_RANGES, 1_463_865_525)).toBe('1.4 Billion')
   })
 
   it('puts area values in the right range', () => {
-    expect(rangeTitle(AREA_RANGES, 0.44)).toBe('teensy-weensy')
-    expect(rangeTitle(AREA_RANGES, 50_000)).toBe('tiny')
-    expect(rangeTitle(AREA_RANGES, 200_000)).toBe('small')
-    expect(rangeTitle(AREA_RANGES, 551_695)).toBe('medium')
-    expect(rangeTitle(AREA_RANGES, 2_000_000)).toBe('large')
-    expect(rangeTitle(AREA_RANGES, 9_706_961)).toBe('immense')
+    expect(rangeTitle(AREA_RANGES, 0.44)).toBe('Teensy-weensy')
+    expect(rangeTitle(AREA_RANGES, 50_000)).toBe('Tiny')
+    expect(rangeTitle(AREA_RANGES, 200_000)).toBe('Small')
+    expect(rangeTitle(AREA_RANGES, 551_695)).toBe('Medium')
+    expect(rangeTitle(AREA_RANGES, 2_000_000)).toBe('Large')
+    expect(rangeTitle(AREA_RANGES, 9_706_961)).toBe('Immense')
   })
 
   it('puts a value exactly on a boundary in the upper range', () => {
-    expect(rangeTitle(POPULATION_RANGES, 1_000_000)).toBe('smallish')
-    expect(rangeTitle(AREA_RANGES, 10_000)).toBe('tiny')
+    expect(rangeTitle(POPULATION_RANGES, 1_000_000)).toBe('Smallish')
+    expect(rangeTitle(AREA_RANGES, 10_000)).toBe('Tiny')
   })
 
   it('lists ranges from smallest to largest, starting at 0', () => {
@@ -35,9 +35,9 @@ describe('rangeTitle', () => {
     }
   })
 
-  it('puts only China and India in the "1.4 billion" range', () => {
+  it('puts only China and India in the "1.4 Billion" range', () => {
     const billions = Object.values(countryFacts)
-      .filter((country) => rangeTitle(POPULATION_RANGES, country.population) === '1.4 billion')
+      .filter((country) => rangeTitle(POPULATION_RANGES, country.population) === '1.4 Billion')
       .map((country) => country.isoAlpha3)
     expect(billions.sort()).toEqual(['CHN', 'IND'])
   })
