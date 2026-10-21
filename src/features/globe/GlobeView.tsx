@@ -7,9 +7,9 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
-import { CountryInfoPanel } from '../globe/CountryInfoPanel'
+import { CountryInfoPanel } from './CountryInfoPanel'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
-import './MapView.css'
+import './GlobeView.css'
 
 setWorkerUrl(maplibreWorkerUrl)
 
@@ -129,7 +129,7 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
-export default function MapView() {
+export default function GlobeView() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
@@ -203,8 +203,8 @@ export default function MapView() {
   const selectedCountry = selectedIndex === null ? null : COUNTRY_SHAPES[selectedIndex]
 
   return (
-    <div className="map-view">
-      <div className="map-view__canvas" ref={containerRef} />
+    <div className="globe-view">
+      <div className="globe-view__canvas" ref={containerRef} />
       {selectedCountry !== null && (
         <CountryInfoPanel country={selectedCountry} onClose={() => setSelectedIndex(null)} />
       )}
