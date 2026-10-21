@@ -24,11 +24,34 @@ const CAN_HOVER = window.matchMedia('(hover: hover)').matches
 // Higher pixel ratios look marginally sharper but are slow in Android WebView.
 const MAX_PIXEL_RATIO = IS_TOUCH_DEVICE ? 1.5 : 2
 
+// Only shown where the background imagery doesn't reach (beyond about 85°N/S).
 const OCEAN_COLOR = '#16324f'
-const LAND_COLOR = '#d9d2bc'
-const HOVERED_COLOR = '#f3eedf'
+const HOVERED_COLOR = '#ffffff'
+const HOVERED_OPACITY = 0.2
 const SELECTED_COLOR = '#ffc83c'
-const BORDER_COLOR = '#6f6957'
+const SELECTED_OPACITY = 0.45
+const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
+
+// Background imagery, cut into tiles by scripts/make-background-tiles.sh.
+// Prototype: both are bundled so they can be compared with an on-screen switch.
+const BACKGROUNDS = {
+  satellite: { label: 'Satellite', tiles: '/tiles/satellite/{z}/{x}/{y}.webp' },
+  relief: { label: 'Relief', tiles: '/tiles/relief/{z}/{x}/{y}.webp' },
+}
+type Background = keyof typeof BACKGROUNDS
+const INITIAL_BACKGROUND: Background = 'satellite'
+
+// The 21600px source images have no extra detail past this zoom level, so
+// MapLibre enlarges these tiles instead when zooming further in.
+const BACKGROUND_MAX_DETAIL_ZOOM = 6
+
+function backgroundLayerId(background: Background): string {
+  return `${background}-imagery`
+}
+
+function initialVisibility(background: Background): 'visible' | 'none' {
+  return background === INITIAL_BACKGROUND ? 'visible' : 'none'
+}
 
 // The map is a globe when zoomed out and blends into a flat map between these
 // zoom levels. MapLibre's built-in 'globe' only goes flat at zoom 11-12, which
@@ -75,11 +98,37 @@ const MAP_STYLE: StyleSpecification = {
       data: COUNTRY_FEATURES,
       maxzoom: BORDERS_MAX_DETAIL_ZOOM,
     },
+    satellite: {
+      type: 'raster',
+      tiles: [BACKGROUNDS.satellite.tiles],
+      tileSize: 256,
+      maxzoom: BACKGROUND_MAX_DETAIL_ZOOM,
+    },
+    relief: {
+      type: 'raster',
+      tiles: [BACKGROUNDS.relief.tiles],
+      tileSize: 256,
+      maxzoom: BACKGROUND_MAX_DETAIL_ZOOM,
+    },
   },
   layers: [
-    // Everything not covered by a country is ocean.
     { id: 'ocean', type: 'background', paint: { 'background-color': OCEAN_COLOR } },
+    // Only one background is visible at a time; a hidden layer loads no tiles.
     {
+      id: backgroundLayerId('satellite'),
+      type: 'raster',
+      source: 'satellite',
+      layout: { visibility: initialVisibility('satellite') },
+    },
+    {
+      id: backgroundLayerId('relief'),
+      type: 'raster',
+      source: 'relief',
+      layout: { visibility: initialVisibility('relief') },
+    },
+    {
+      // Invisible unless hovered or selected, so the imagery shows through.
+      // It is still used to find which country was tapped.
       id: 'country-fills',
       type: 'fill',
       source: 'countries',
@@ -90,9 +139,15 @@ const MAP_STYLE: StyleSpecification = {
           'case',
           ['boolean', ['feature-state', 'selected'], false],
           SELECTED_COLOR,
-          ['boolean', ['feature-state', 'hovered'], false],
           HOVERED_COLOR,
-          LAND_COLOR,
+        ],
+        'fill-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'selected'], false],
+          SELECTED_OPACITY,
+          ['boolean', ['feature-state', 'hovered'], false],
+          HOVERED_OPACITY,
+          0,
         ],
       },
     },
@@ -110,6 +165,7 @@ export default function MapView() {
   const mapRef = useRef<MapLibreMap | null>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [background, setBackground] = useState<Background>(INITIAL_BACKGROUND)
 
   // Create the map once, when the component mounts.
   useEffect(() => {
@@ -176,11 +232,38 @@ export default function MapView() {
     }
   }, [selectedIndex])
 
+  // Show only the chosen background imagery.
+  useEffect(() => {
+    const map = mapRef.current
+    // The layers only exist once the map style has loaded. Before then, the
+    // initial visibility set in MAP_STYLE already matches INITIAL_BACKGROUND.
+    if (map === null || map.getLayer(backgroundLayerId(background)) === undefined) return
+
+    for (const name of Object.keys(BACKGROUNDS) as Background[]) {
+      map.setLayoutProperty(
+        backgroundLayerId(name),
+        'visibility',
+        name === background ? 'visible' : 'none',
+      )
+    }
+  }, [background])
+
   const selectedCountry = selectedIndex === null ? null : COUNTRY_SHAPES[selectedIndex]
 
   return (
     <div className="map-view">
       <div className="map-view__canvas" ref={containerRef} />
+      <div className="map-view__background-switch" role="group" aria-label="Map background">
+        {(Object.keys(BACKGROUNDS) as Background[]).map((name) => (
+          <button
+            key={name}
+            aria-pressed={name === background}
+            onClick={() => setBackground(name)}
+          >
+            {BACKGROUNDS[name].label}
+          </button>
+        ))}
+      </div>
       {selectedCountry !== null && (
         <CountryInfoPanel country={selectedCountry} onClose={() => setSelectedIndex(null)} />
       )}
