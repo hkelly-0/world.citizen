@@ -74,7 +74,7 @@ scripts/            # one-off asset generation (background map tiles)
 - Lazy-load the globe screen so flashcards stay fast.
 
 ## Status
-- Done: MapLibre globe with satellite imagery that flattens into a map when zoomed in. Tapping a country highlights it and shows its name and ISO codes; tapping the ocean closes the panel.
+- Done: MapLibre globe with satellite imagery that flattens into a map when zoomed in. Tapping a country highlights it and shows its facts (names, capitals, population, area, IHDI); tapping the ocean closes the panel. Tuvalu has no outline in world-atlas, so it cannot be tapped.
 - Done: country facts dataset (`src/data/countries.json`).
 - Next: flashcard design details, then Capacitor/Android (needs Android Studio and SDK, not yet installed).
 - Note: requires npm 11+ (developed on Node 24 / npm 11.19.1). npm 10.9.2 crashes resolving Vitest 5's peer dependencies; on npm 10, install with `npx npm@11 install`.
