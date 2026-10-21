@@ -10,9 +10,11 @@ describe('App', () => {
     localStorage.clear()
   })
 
-  it('opens on a main menu with Globe and Flashcards', () => {
+  it('opens on a main menu with the title, subtitle, Globe and Flashcards', () => {
     render(<App />)
 
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(screen.getByText('learn every country')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Globe' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })

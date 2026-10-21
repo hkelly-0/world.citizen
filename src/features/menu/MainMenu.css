@@ -10,8 +10,14 @@
 }
 
 .main-menu h1 {
-  margin: 0 0 16px;
+  margin: 0;
   font-size: 2rem;
+}
+
+.main-menu__subtitle {
+  margin: 0 0 16px;
+  color: #a9b1c2;
+  font-size: 1.1rem;
 }
 
 .main-menu__option {

@@ -9,7 +9,8 @@ type MainMenuProps = {
 export function MainMenu({ onOpenGlobe, onOpenFlashcards }: MainMenuProps) {
   return (
     <main className="main-menu">
-      <h1>Geography</h1>
+      <h1>world.citizen</h1>
+      <p className="main-menu__subtitle">learn every country</p>
       <button className="main-menu__option" onClick={onOpenGlobe}>
         Globe
       </button>
