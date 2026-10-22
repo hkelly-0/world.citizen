@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, type FormEvent } from 'react'
+import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
 import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
@@ -52,7 +52,6 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
   function submitCapital(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
     event.preventDefault()
-    if (typedCapital.trim() === '') return
     submitAnswer(typedCapital, isCapitalCorrect(typedCapital, country.capitals))
   }
 
@@ -145,9 +144,6 @@ function RangeQuestionView({ question, answer, onAnswer }: RangeQuestionViewProp
           </button>
         ))}
       </div>
-      {isAnswered && (
-        <Result isCorrect={answer === question.correctAnswer} correctAnswer={question.correctAnswer} />
-      )}
     </>
   )
 }
@@ -176,31 +172,66 @@ function CapitalQuestion({
         <label className="flashcard__question" htmlFor="capital-answer">
           {label}?
         </label>
-        <input
-          id="capital-answer"
-          className="flashcard__capital-input"
-          value={typedCapital}
-          onChange={(event) => onTypedCapitalChange(event.target.value)}
-          disabled={isAnswered}
-          autoComplete="off"
-          autoFocus
-        />
-        {!isAnswered && <button className="flashcard__check">Check</button>}
+        {isAnswered ? (
+          <CapitalReveal
+            typed={answer}
+            isCorrect={isCapitalCorrect(answer, country.capitals)}
+            correctCapitals={country.capitals.join(', ')}
+          />
+        ) : (
+          <input
+            id="capital-answer"
+            className="flashcard__capital-input"
+            value={typedCapital}
+            onChange={(event) => onTypedCapitalChange(event.target.value)}
+            autoComplete="off"
+            autoFocus
+          />
+        )}
+        {!isAnswered && <button className="flashcard__check">Reveal</button>}
       </form>
-      {isAnswered && (
-        <Result
-          isCorrect={isCapitalCorrect(answer, country.capitals)}
-          correctAnswer={country.capitals.join(', ')}
-        />
-      )}
     </>
   )
 }
 
-function Result({ isCorrect, correctAnswer }: { isCorrect: boolean; correctAnswer: string }) {
-  return isCorrect ? (
-    <p className="flashcard__result flashcard__result--correct">Correct! {correctAnswer}</p>
-  ) : (
-    <p className="flashcard__result flashcard__result--wrong">Wrong — it's {correctAnswer}</p>
+// How long each letter of the correct capital takes to appear.
+const TYPING_MS_PER_LETTER = 40
+
+type CapitalRevealProps = {
+  typed: string
+  isCorrect: boolean
+  // All the capitals, e.g. "Pretoria, Bloemfontein, Cape Town".
+  correctCapitals: string
+}
+
+// Replaces the text box once the capital is answered. A correct answer fades
+// to green with the box highlighted green. A wrong answer fades to red, and
+// the correct capital is then typed out in green beside it.
+function CapitalReveal({ typed, isCorrect, correctCapitals }: CapitalRevealProps) {
+  const [lettersTyped, setLettersTyped] = useState(0)
+
+  useEffect(() => {
+    if (isCorrect) return
+    const timer = window.setInterval(() => {
+      setLettersTyped((count) => {
+        if (count + 1 >= correctCapitals.length) window.clearInterval(timer)
+        return count + 1
+      })
+    }, TYPING_MS_PER_LETTER)
+    return () => window.clearInterval(timer)
+  }, [isCorrect, correctCapitals])
+
+  return (
+    <div className={isCorrect ? 'flashcard__capital-input flashcard__capital-input--correct' : 'flashcard__capital-input'}>
+      <span className={isCorrect ? 'flashcard__capital-green' : 'flashcard__capital-red'}>{typed}</span>
+      {!isCorrect && lettersTyped > 0 && (
+        <>
+          {typed !== '' && ' '}
+          <span className="flashcard__capital-green flashcard__capital-green--typed">
+            {correctCapitals.slice(0, lettersTyped)}
+          </span>
+        </>
+      )}
+    </div>
   )
 }

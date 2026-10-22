@@ -36,7 +36,7 @@ async function answerRangeQuestion(option: string) {
 
 async function answerCapital(typed: string) {
   await userEvent.type(screen.getByLabelText('Capital?'), typed)
-  await userEvent.click(screen.getByRole('button', { name: 'Check' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 }
 
 describe('Flashcard', () => {
@@ -83,7 +83,7 @@ describe('Flashcard', () => {
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
     await answerRangeQuestion('Great - 8')
     await answerCapital('paris')
-    expect(screen.getByText('Correct! Paris')).toBeInTheDocument()
+    expect(screen.getByText('paris')).toHaveClass('flashcard__capital-green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(5, 5)
@@ -95,7 +95,10 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap wrong country')
     await userEvent.click(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' }))
-    expect(screen.getByText("Wrong — it's Medium - ≥ 300K km²")).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' })).toHaveClass('flashcard__option--wrong')
+    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toHaveClass(
+      'flashcard__option--correct',
+    )
     // Options can't be changed once answered.
     expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toBeDisabled()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -103,10 +106,27 @@ describe('Flashcard', () => {
     await answerRangeQuestion('Numerous - ≥ 50M')
     await answerRangeQuestion('Great - 8')
     await answerCapital('Lyon')
-    expect(screen.getByText("Wrong — it's Paris")).toBeInTheDocument()
+    expect(screen.getByText('Lyon')).toHaveClass('flashcard__capital-red')
+    // The correct capital is typed out letter by letter.
+    expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(2, 5)
+  })
+
+  it('reveals the capital without any text typed, counting it as wrong', async () => {
+    const onFinish = vi.fn()
+    render(<Flashcard country={france} onFinish={onFinish} />)
+
+    await answerLocation('Tap right country')
+    await answerRangeQuestion('Medium - ≥ 300K km²')
+    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('Great - 8')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(onFinish).toHaveBeenCalledWith(4, 5)
   })
 
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {
@@ -117,7 +137,7 @@ describe('Flashcard', () => {
     await answerRangeQuestion('Minute - < 100K')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
-    expect(screen.getByText('Correct! No data')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'No data' })).toHaveClass('flashcard__option--correct')
   })
 
   it('accepts any one capital for countries with several', async () => {
@@ -128,8 +148,8 @@ describe('Flashcard', () => {
     await answerRangeQuestion('Numerous - ≥ 50M')
     await answerRangeQuestion('Very Bad - 4')
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
-    await userEvent.click(screen.getByRole('button', { name: 'Check' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
-    expect(screen.getByText('Correct! Pretoria, Bloemfontein, Cape Town')).toBeInTheDocument()
+    expect(screen.getByText('Cape Town')).toHaveClass('flashcard__capital-green')
   })
 })

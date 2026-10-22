@@ -70,7 +70,7 @@ describe('App', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     }
     await userEvent.type(screen.getByRole('textbox'), 'Nowhere')
-    await userEvent.click(screen.getByRole('button', { name: 'Check' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     const saved = JSON.parse(localStorage.getItem('geography-app/flashcard-progress') ?? '{}')
