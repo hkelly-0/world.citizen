@@ -1,10 +1,28 @@
+// Which parts of a country count as its "main landmass": what the globe
+// frames when the country is tapped, and what its flashcard picture shows.
+// Also used by scripts/make-country-images.mjs, which Node runs directly, so
+// this file must only use TypeScript that Node can strip (no enums etc.) and
+// give full file extensions in imports.
 import { geoArea, geoBounds, geoCentroid, geoDistance } from 'd3-geo'
 import type { Feature, Geometry, MultiPolygon, Polygon, Position } from 'geojson'
+import overridesJson from '../../data/mainLandmassOverrides.json' with { type: 'json' }
+
+// A hand-picked main landmass: every part whose centre falls inside the box
+// counts. The box is [west, south, east, north] in degrees; for a country
+// across the 180° meridian, east can go above 180 (e.g. 190 for 170°W).
+export type MainLandmassOverride = {
+  box: [number, number, number, number]
+  // Why the automatic rule isn't right for this country.
+  note: string
+}
+
+// Hand-written exceptions to the automatic rule, keyed by ISO alpha-3.
+export const MAIN_LANDMASS_OVERRIDES = overridesJson as Record<string, MainLandmassOverride>
 
 // Islands and territories whose nearest coastline is further than this from
 // the centre of the country's largest part are left out (e.g. French Guiana
 // for France). The distance is this many times the largest part's own radius,
-// but at least the minimum. Same rule as scripts/make-country-images.mjs.
+// but at least the minimum.
 const NEARBY_PARTS_RADIUS_MULTIPLE = 1.5
 const NEARBY_PARTS_MIN_DEGREES = 2
 
@@ -28,8 +46,12 @@ function partsOf(geometry: Geometry): Feature<Polygon>[] {
   }))
 }
 
-// The country's largest part plus any parts near it, as one MultiPolygon.
-function mainLandmass(geometry: Geometry): MultiPolygon {
+function toMultiPolygon(parts: Feature<Polygon>[]): MultiPolygon {
+  return { type: 'MultiPolygon', coordinates: parts.map((part) => part.geometry.coordinates) }
+}
+
+// The automatic rule: the country's largest part plus any parts near it.
+function automaticMainLandmass(geometry: Geometry): MultiPolygon {
   const parts = partsOf(geometry)
   const largest = parts.reduce((a, b) => (geoArea(b) > geoArea(a) ? b : a))
   const centre = geoCentroid(largest)
@@ -47,13 +69,43 @@ function mainLandmass(geometry: Geometry): MultiPolygon {
     )
     return nearestDistance <= maxDistance
   })
-  return { type: 'MultiPolygon', coordinates: nearbyParts.map((part) => part.geometry.coordinates) }
+  return toMultiPolygon(nearbyParts)
+}
+
+// The parts whose centre falls inside the box (see MainLandmassOverride).
+export function partsInBox(
+  geometry: Geometry,
+  [west, south, east, north]: MainLandmassOverride['box'],
+): MultiPolygon {
+  const inside = partsOf(geometry).filter((part) => {
+    const [longitude, latitude] = geoCentroid(part)
+    // Try the longitude both as it is and one turn east, so a box whose east
+    // edge is above 180 also catches parts just west of 180°W.
+    const isInLongitude = [longitude, longitude + 360].some((lng) => lng >= west && lng <= east)
+    return isInLongitude && latitude >= south && latitude <= north
+  })
+  return toMultiPolygon(inside)
+}
+
+// The country's main landmass: its hand-written override if it has one,
+// otherwise the automatic rule. isoAlpha3 is null for areas without a code.
+export function mainLandmass(geometry: Geometry, isoAlpha3: string | null): MultiPolygon {
+  const override = isoAlpha3 === null ? undefined : MAIN_LANDMASS_OVERRIDES[isoAlpha3]
+  return override === undefined ? automaticMainLandmass(geometry) : partsInBox(geometry, override.box)
 }
 
 // The box around the country's main landmass, as [west, south, east, north]
 // in degrees. A country across the 180° meridian (Russia, Fiji) has an east
 // above 180, so that east is always greater than west.
-export function mainLandmassBounds(geometry: Geometry): [number, number, number, number] {
-  const [[west, south], [east, north]] = geoBounds(mainLandmass(geometry))
+export function mainLandmassBounds(
+  geometry: Geometry,
+  isoAlpha3: string | null,
+): [number, number, number, number] {
+  const [[west, south], [east, north]] = geoBounds(mainLandmass(geometry, isoAlpha3))
   return [west, south, east < west ? east + 360 : east, north]
+}
+
+// The centre of the country's main landmass, as [longitude, latitude].
+export function mainLandmassCentre(geometry: Geometry, isoAlpha3: string | null): [number, number] {
+  return geoCentroid(mainLandmass(geometry, isoAlpha3))
 }

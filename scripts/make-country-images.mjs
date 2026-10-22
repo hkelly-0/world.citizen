@@ -14,9 +14,12 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
-import { geoArea, geoCentroid, geoDistance, geoOrthographic, geoPath } from 'd3-geo'
+import { geoCentroid, geoOrthographic, geoPath } from 'd3-geo'
 import isoCountries from 'i18n-iso-countries'
 import { feature, mesh } from 'topojson-client'
+// Shared with the globe, so pictures and the globe frame the same parts.
+// Hand-picked exceptions are in src/data/mainLandmassOverrides.json.
+import { mainLandmass } from '../src/features/globe/mainLandmass.ts'
 
 const OUTPUT = 'public/country-images'
 const TILES = 'public/tiles/satellite'
@@ -57,13 +60,6 @@ const RING_RADIUS = 24
 const RING_COLOR = '#ffd400'
 const RING_WIDTH = 3
 
-// Islands and territories whose nearest coastline is further than this from
-// the centre of the country's largest part are left out when framing (e.g.
-// French Guiana for France). The distance is this many times the largest
-// part's own radius, but at least the minimum.
-const NEARBY_PARTS_RADIUS_MULTIPLE = 1.5
-const NEARBY_PARTS_MIN_DEGREES = 2
-
 // --- Country outlines (same data as the globe) ---
 const topology = JSON.parse(readFileSync('node_modules/world-atlas/countries-50m.json', 'utf8'))
 const countries = feature(topology, topology.objects.countries).features
@@ -76,48 +72,6 @@ function alpha3Of(country) {
 }
 
 // --- Choosing what to frame ---
-
-// Splits a Polygon or MultiPolygon into one Polygon feature per part.
-function partsOf(country) {
-  const polygons =
-    country.geometry.type === 'Polygon'
-      ? [country.geometry.coordinates]
-      : country.geometry.coordinates
-  return polygons.map((coordinates) => ({
-    type: 'Feature',
-    properties: {},
-    geometry: { type: 'Polygon', coordinates },
-  }))
-}
-
-// The country's largest part plus any parts near it, as one MultiPolygon.
-function mainLandmass(country) {
-  const parts = partsOf(country)
-  const largest = parts.reduce((a, b) => (geoArea(b) > geoArea(a) ? b : a))
-  const centre = geoCentroid(largest)
-  // The furthest point of the largest part from its centre, in degrees.
-  const largestRadius = Math.max(
-    ...largest.geometry.coordinates[0].map((point) => geoDistance(centre, point)),
-  ) * (180 / Math.PI)
-  const maxDistance = Math.max(NEARBY_PARTS_MIN_DEGREES, largestRadius * NEARBY_PARTS_RADIUS_MULTIPLE)
-
-  // A part's distance is to its nearest coastline point, not its centre, so
-  // big neighbouring islands (e.g. New Zealand's North Island) are kept.
-  const nearbyParts = parts.filter((part) => {
-    const nearestDistance = Math.min(
-      ...part.geometry.coordinates[0].map((point) => geoDistance(centre, point)),
-    ) * (180 / Math.PI)
-    return nearestDistance <= maxDistance
-  })
-  return {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'MultiPolygon',
-      coordinates: nearbyParts.map((part) => part.geometry.coordinates),
-    },
-  }
-}
 
 // How much of the picture's width the country's longest side should fill.
 // Between the small and large sizes, each tenfold change in size changes the
@@ -206,7 +160,7 @@ async function loadTiles(tileKeys, zoom) {
 // --- Drawing ---
 
 async function drawCountry(country) {
-  const framed = mainLandmass(country)
+  const framed = mainLandmass(country.geometry, alpha3Of(country))
   const projection = projectionFor(framed)
   const path = geoPath(projection)
 

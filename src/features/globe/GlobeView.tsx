@@ -104,7 +104,8 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     const map = mapRef.current
     if (selectedIndex === null || map === null) return
 
-    const [west, south, east, north] = mainLandmassBounds(COUNTRY_SHAPES[selectedIndex].geometry)
+    const shape = COUNTRY_SHAPES[selectedIndex]
+    const [west, south, east, north] = mainLandmassBounds(shape.geometry, shape.isoAlpha3)
     const mapHeight = map.getContainer().clientHeight
     const panelHeight = panelRef.current?.offsetHeight ?? 0
     // On a short screen the panel could leave no room, so it gets at most 40%.

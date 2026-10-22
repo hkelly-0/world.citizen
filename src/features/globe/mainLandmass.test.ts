@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { loadCountryShapes } from '../../shared/countries'
-import { mainLandmassBounds } from './mainLandmass'
+import { MAIN_LANDMASS_OVERRIDES, mainLandmassBounds, partsInBox } from './mainLandmass'
 
 const shapes = loadCountryShapes()
 
-function boundsOf(isoAlpha3: string) {
+function shapeOf(isoAlpha3: string) {
   const shape = shapes.find((country) => country.isoAlpha3 === isoAlpha3)
   if (shape === undefined) throw new Error(`No shape for ${isoAlpha3}`)
-  return mainLandmassBounds(shape.geometry)
+  return shape
 }
 
 describe('mainLandmassBounds', () => {
   it('leaves out far-off territories, e.g. French Guiana for France', () => {
-    const [west, south, east, north] = boundsOf('FRA')
+    const [west, south, east, north] = mainLandmassBounds(shapeOf('FRA').geometry, 'FRA')
 
     expect(west).toBeGreaterThan(-6)
     expect(east).toBeLessThan(10)
@@ -21,9 +21,42 @@ describe('mainLandmassBounds', () => {
   })
 
   it('gives an east above 180 for a country across the 180° meridian', () => {
-    const [west, , east] = boundsOf('RUS')
+    const [west, , east] = mainLandmassBounds(shapeOf('RUS').geometry, 'RUS')
 
     expect(east).toBeGreaterThan(180)
     expect(east).toBeGreaterThan(west)
+  })
+})
+
+describe('partsInBox', () => {
+  it('keeps the parts whose centre is inside the box, e.g. the USA with Alaska and Hawaii', () => {
+    const usa = shapeOf('USA').geometry
+    const withAlaskaAndHawaii = partsInBox(usa, [-170, 18, -66, 72])
+    const mainlandOnly = partsInBox(usa, [-125, 24, -66, 50])
+
+    expect(withAlaskaAndHawaii.coordinates.length).toBeGreaterThan(mainlandOnly.coordinates.length)
+    // Every [longitude, latitude] point of the kept parts.
+    const points = withAlaskaAndHawaii.coordinates.flat(2)
+    expect(Math.min(...points.map(([longitude]) => longitude))).toBeLessThan(-150)
+    expect(Math.min(...points.map(([, latitude]) => latitude))).toBeLessThan(23)
+  })
+
+  it('catches parts just west of 180°W when the box goes past 180', () => {
+    // Russia's Chukotka reaches past 180° into the western hemisphere.
+    const russia = shapeOf('RUS').geometry
+    const farEast = partsInBox(russia, [160, 60, 200, 75])
+
+    expect(farEast.coordinates.length).toBeGreaterThan(0)
+  })
+})
+
+describe('MAIN_LANDMASS_OVERRIDES', () => {
+  // Catches typos: a wrong code, or a box that misses every part and so
+  // leaves nothing to frame.
+  it("names real countries, and each box selects at least one of the country's parts", () => {
+    for (const [isoAlpha3, override] of Object.entries(MAIN_LANDMASS_OVERRIDES)) {
+      const selected = partsInBox(shapeOf(isoAlpha3).geometry, override.box)
+      expect(selected.coordinates.length, isoAlpha3).toBeGreaterThan(0)
+    }
   })
 })
