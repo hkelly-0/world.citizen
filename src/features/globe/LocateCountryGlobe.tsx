@@ -1,26 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
 import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
-import { mainLandmassCentre } from './mainLandmass'
+import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
+import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './LocateCountryGlobe.css'
 
-// How long the coloured answer stays on the globe before it fades. A wrong
-// answer waits longer, so the globe can fly to the correct country first.
-const PAUSE_AFTER_CORRECT_MS = 1500
-const PAUSE_AFTER_WRONG_MS = 2500
+// The globe flies to the correct country, which stays in view for a while
+// before the globe fades. A wrong answer first shows the tapped country's name
+// in red for a moment; the name fades out as the globe starts to fly.
+const WRONG_NAME_MS = 1200
+const FLY_TO_ANSWER_MS = 1500
+const HOLD_ON_ANSWER_MS = 1500
 // Must match the opacity transition in LocateCountryGlobe.css.
 const FADE_MS = 600
-const FLY_TO_ANSWER_MS = 1500
-// The globe flies out to at most this zoom, so the whole country is in view.
-const MAX_FLY_TO_ZOOM = 3
+// The red highlight and the red name fade in together. Must match the
+// fade-in animation in LocateCountryGlobe.css.
+const WRONG_FADE_IN_MS = 400
+// The correct country is centred in the space below the "Select ..." label.
+// In pixels.
+const LABEL_SPACE_PX = 112
+const BOTTOM_PADDING_PX = 24
 
 type LocateCountryGlobeProps = {
   // The country the user has to find, e.g. "FIN".
   isoAlpha3: string
   countryName: string
-  // Called once the globe has faded away, with the name of the area the user
-  // tapped and whether it was the right country.
-  onAnswer: (pickedName: string, isCorrect: boolean) => void
+  // Called once the globe has faded away, with whether the user tapped the
+  // right country.
+  onAnswer: (isCorrect: boolean) => void
 }
 
 // A full-screen globe asking the user to tap a country. The tapped country
@@ -33,10 +40,15 @@ export default function LocateCountryGlobe({
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isFading, setIsFading] = useState(false)
+  // The name of the wrongly tapped country, shown in red in the middle of the
+  // screen until the globe flies to the correct country.
+  const [wrongName, setWrongName] = useState<string | null>(null)
+  const [isWrongNameFading, setIsWrongNameFading] = useState(false)
   // The map's click handler is set up once, so it reads these through refs.
   const onAnswerRef = useRef(onAnswer)
   const hasAnsweredRef = useRef(false)
   const timeoutsRef = useRef<number[]>([])
+  const fadeInFrameRef = useRef<number | null>(null)
 
   useEffect(() => {
     onAnswerRef.current = onAnswer
@@ -48,6 +60,23 @@ export default function LocateCountryGlobe({
 
     const map = createCountryMap(container)
     hasAnsweredRef.current = false
+
+    // Turns the correct country green and flies to it, with the same centre
+    // and zoom as tapping a country on the globe screen.
+    function flyToCorrectCountry() {
+      const correctIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
+      const correctGeometry = COUNTRY_SHAPES[correctIndex].geometry
+      map.setFeatureState({ source: 'countries', id: correctIndex }, { correct: true })
+      map.flyTo({
+        center: mainLandmassCentre(correctGeometry, isoAlpha3),
+        zoom: focusZoomFor(
+          mainLandmassWidthKm(correctGeometry, isoAlpha3),
+          map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
+        ),
+        offset: [0, (LABEL_SPACE_PX - BOTTOM_PADDING_PX) / 2],
+        duration: FLY_TO_ANSWER_MS,
+      })
+    }
 
     map.on('click', (event) => {
       if (hasAnsweredRef.current) return
@@ -63,30 +92,41 @@ export default function LocateCountryGlobe({
         (pickedShape.isoAlpha3 === null ? undefined : countryFacts[pickedShape.isoAlpha3]?.commonName) ??
         pickedShape.name
 
-      map.setFeatureState(
-        { source: 'countries', id: pickedIndex },
-        isCorrect ? { correct: true } : { wrong: true },
-      )
-      if (!isCorrect) {
-        const correctIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
-        map.setFeatureState({ source: 'countries', id: correctIndex }, { correct: true })
-        map.flyTo({
-          center: mainLandmassCentre(COUNTRY_SHAPES[correctIndex].geometry, isoAlpha3),
-          zoom: Math.min(map.getZoom(), MAX_FLY_TO_ZOOM),
-          duration: FLY_TO_ANSWER_MS,
-        })
+      if (isCorrect) {
+        flyToCorrectCountry()
+      } else {
+        // Fades the red highlight in, one animation frame at a time.
+        const fadeStart = performance.now()
+        const stepFadeIn = (now: number) => {
+          const progress = Math.min((now - fadeStart) / WRONG_FADE_IN_MS, 1)
+          map.setFeatureState(
+            { source: 'countries', id: pickedIndex },
+            { wrong: true, wrongFadeIn: progress },
+          )
+          fadeInFrameRef.current = progress < 1 ? requestAnimationFrame(stepFadeIn) : null
+        }
+        stepFadeIn(fadeStart)
+        setWrongName(pickedName)
+        timeoutsRef.current.push(
+          window.setTimeout(() => {
+            setIsWrongNameFading(true)
+            flyToCorrectCountry()
+          }, WRONG_NAME_MS),
+        )
       }
 
-      const pause = isCorrect ? PAUSE_AFTER_CORRECT_MS : PAUSE_AFTER_WRONG_MS
+      const flyStart = isCorrect ? 0 : WRONG_NAME_MS
+      const pause = flyStart + FLY_TO_ANSWER_MS + HOLD_ON_ANSWER_MS
       timeoutsRef.current.push(
         window.setTimeout(() => setIsFading(true), pause),
-        window.setTimeout(() => onAnswerRef.current(pickedName, isCorrect), pause + FADE_MS),
+        window.setTimeout(() => onAnswerRef.current(isCorrect), pause + FADE_MS),
       )
     })
 
     return () => {
       timeoutsRef.current.forEach(window.clearTimeout)
       timeoutsRef.current = []
+      if (fadeInFrameRef.current !== null) cancelAnimationFrame(fadeInFrameRef.current)
       map.remove()
     }
   }, [isoAlpha3])
@@ -95,6 +135,17 @@ export default function LocateCountryGlobe({
     <div className={isFading ? 'locate-globe locate-globe--fading' : 'locate-globe'}>
       <div className="locate-globe__canvas" ref={containerRef} />
       <p className="locate-globe__label">Select {countryName}</p>
+      {wrongName !== null && (
+        <p
+          className={
+            isWrongNameFading
+              ? 'locate-globe__wrong-name locate-globe__wrong-name--fading'
+              : 'locate-globe__wrong-name'
+          }
+        >
+          {wrongName}
+        </p>
+      )}
     </div>
   )
 }

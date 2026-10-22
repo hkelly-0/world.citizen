@@ -12,12 +12,12 @@ vi.mock('../globe/LocateCountryGlobe', () => ({
     onAnswer,
   }: {
     countryName: string
-    onAnswer: (pickedName: string, isCorrect: boolean) => void
+    onAnswer: (isCorrect: boolean) => void
   }) => (
     <div>
       <p>Select {countryName}</p>
-      <button onClick={() => onAnswer(countryName, true)}>Tap right country</button>
-      <button onClick={() => onAnswer('Sweden', false)}>Tap wrong country</button>
+      <button onClick={() => onAnswer(true)}>Tap right country</button>
+      <button onClick={() => onAnswer(false)}>Tap wrong country</button>
     </div>
   ),
 }))
@@ -76,7 +76,6 @@ describe('Flashcard', () => {
 
     expect(await screen.findByText('Select France')).toBeInTheDocument()
     await answerLocation('Tap right country')
-    expect(screen.getByText('Correct! France')).toBeInTheDocument()
     expect(screen.getByText('Area?')).toBeInTheDocument()
     await answerRangeQuestion('Medium')
     expect(screen.getByText('Population?')).toBeInTheDocument()
@@ -95,7 +94,6 @@ describe('Flashcard', () => {
     render(<Flashcard country={france} onFinish={onFinish} />)
 
     await answerLocation('Tap wrong country')
-    expect(screen.getByText('Wrong — you picked Sweden')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Tiny' }))
     expect(screen.getByText("Wrong — it's Medium")).toBeInTheDocument()
     // Options can't be changed once answered.

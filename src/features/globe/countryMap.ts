@@ -120,7 +120,9 @@ const MAP_STYLE: StyleSpecification = {
           ['boolean', ['feature-state', 'correct'], false],
           ANSWER_OPACITY,
           ['boolean', ['feature-state', 'wrong'], false],
-          ANSWER_OPACITY,
+          // "wrongFadeIn" (0 to 1) lets the red fade in; MapLibre doesn't
+          // animate feature-state changes itself.
+          ['*', ANSWER_OPACITY, ['coalesce', ['feature-state', 'wrongFadeIn'], 1]],
           ['boolean', ['feature-state', 'selected'], false],
           SELECTED_OPACITY,
           ['boolean', ['feature-state', 'hovered'], false],

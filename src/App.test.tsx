@@ -6,8 +6,8 @@ import App from './App'
 // The flashcards' globe question needs WebGL too. This stand-in answers
 // correctly when its button is clicked.
 vi.mock('./features/globe/LocateCountryGlobe', () => ({
-  default: ({ onAnswer }: { onAnswer: (pickedName: string, isCorrect: boolean) => void }) => (
-    <button onClick={() => onAnswer('Anywhere', true)}>Tap right country</button>
+  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
+    <button onClick={() => onAnswer(true)}>Tap right country</button>
   ),
 }))
 
