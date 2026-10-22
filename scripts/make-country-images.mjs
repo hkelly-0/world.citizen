@@ -15,11 +15,12 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { geoCentroid, geoOrthographic, geoPath } from 'd3-geo'
-import isoCountries from 'i18n-iso-countries'
 import { feature, mesh } from 'topojson-client'
 // Shared with the globe, so pictures and the globe frame the same parts.
 // Hand-picked exceptions are in src/data/mainLandmassOverrides.json.
 import { mainLandmass } from '../src/features/globe/mainLandmass.ts'
+// Shared with the globe, so pictures and the globe give countries the same ISO codes.
+import { loadCountryShapes } from '../src/shared/countries.ts'
 
 const OUTPUT = 'public/country-images'
 const TILES = 'public/tiles/satellite'
@@ -66,10 +67,7 @@ const countries = feature(topology, topology.objects.countries).features
 // Every border line once, so shared borders aren't drawn twice.
 const allBorders = mesh(topology, topology.objects.countries)
 const allCountries = { type: 'FeatureCollection', features: countries }
-
-function alpha3Of(country) {
-  return country.id === undefined ? null : (isoCountries.numericToAlpha3(String(country.id)) ?? null)
-}
+const countryShapes = loadCountryShapes()
 
 // --- Choosing what to frame ---
 
@@ -159,8 +157,8 @@ async function loadTiles(tileKeys, zoom) {
 
 // --- Drawing ---
 
-async function drawCountry(country) {
-  const framed = mainLandmass(country.geometry, alpha3Of(country))
+async function drawCountry(shape) {
+  const framed = mainLandmass(shape.geometry, shape.isoAlpha3)
   const projection = projectionFor(framed)
   const path = geoPath(projection)
 
@@ -170,7 +168,7 @@ async function drawCountry(country) {
   const maskCanvas = createCanvas(IMAGE_SIZE, IMAGE_SIZE)
   const maskContext = maskCanvas.getContext('2d')
   maskContext.beginPath()
-  geoPath(projection, maskContext)(country)
+  geoPath(projection, maskContext)(shape.geometry)
   maskContext.fillStyle = 'white'
   maskContext.fill()
   const mask = maskContext.getImageData(0, 0, IMAGE_SIZE, IMAGE_SIZE).data
@@ -290,13 +288,13 @@ const codes = requestedCodes.length > 0 ? requestedCodes : Object.keys(countryFa
 
 mkdirSync(OUTPUT, { recursive: true })
 for (const code of codes) {
-  const country = countries.find((candidate) => alpha3Of(candidate) === code)
-  if (country === undefined) {
+  const shape = countryShapes.find((candidate) => candidate.isoAlpha3 === code)
+  if (shape === undefined) {
     // e.g. Tuvalu, which world-atlas has no outline for.
     console.log(`${code}: no outline, skipped`)
     continue
   }
-  const { image, hasRing } = await drawCountry(country)
+  const { image, hasRing } = await drawCountry(shape)
   writeFileSync(join(OUTPUT, `${code}.webp`), image)
   console.log(`${code}: ${Math.round(image.length / 1024)} KB${hasRing ? ', ringed' : ''}`)
 }

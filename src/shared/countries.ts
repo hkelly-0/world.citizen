@@ -1,8 +1,10 @@
+// Also used by scripts/make-country-images.mjs, which Node runs directly, so
+// this file must only use TypeScript that Node can strip (no enums etc.).
 import { feature } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import type { Geometry } from 'geojson'
 import isoCountries from 'i18n-iso-countries'
-import worldAtlas50m from 'world-atlas/countries-50m.json'
+import worldAtlas50m from 'world-atlas/countries-50m.json' with { type: 'json' }
 
 // One country outline on the globe, identified by its ISO 3166-1 codes.
 export type CountryShape = {
