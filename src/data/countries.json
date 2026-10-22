@@ -12,7 +12,8 @@
     "hdi": 0.496,
     "hdiYear": 2023,
     "ihdi": 0.321,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "AGO": {
     "isoAlpha3": "AGO",
@@ -27,7 +28,8 @@
     "hdi": 0.616,
     "hdiYear": 2023,
     "ihdi": 0.36,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ALB": {
     "isoAlpha3": "ALB",
@@ -42,7 +44,8 @@
     "hdi": 0.81,
     "hdiYear": 2023,
     "ihdi": 0.705,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "AND": {
     "isoAlpha3": "AND",
@@ -57,7 +60,8 @@
     "hdi": 0.913,
     "hdiYear": 2023,
     "ihdi": 0.837,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ARE": {
     "isoAlpha3": "ARE",
@@ -72,7 +76,8 @@
     "hdi": 0.94,
     "hdiYear": 2023,
     "ihdi": 0.866,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ARG": {
     "isoAlpha3": "ARG",
@@ -87,7 +92,8 @@
     "hdi": 0.865,
     "hdiYear": 2023,
     "ihdi": 0.761,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ARM": {
     "isoAlpha3": "ARM",
@@ -102,7 +108,8 @@
     "hdi": 0.811,
     "hdiYear": 2023,
     "ihdi": 0.743,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ATG": {
     "isoAlpha3": "ATG",
@@ -117,7 +124,8 @@
     "hdi": 0.851,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.744
   },
   "AUS": {
     "isoAlpha3": "AUS",
@@ -132,7 +140,8 @@
     "hdi": 0.958,
     "hdiYear": 2023,
     "ihdi": 0.873,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "AUT": {
     "isoAlpha3": "AUT",
@@ -147,7 +156,8 @@
     "hdi": 0.93,
     "hdiYear": 2023,
     "ihdi": 0.861,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "AZE": {
     "isoAlpha3": "AZE",
@@ -162,7 +172,8 @@
     "hdi": 0.789,
     "hdiYear": 2023,
     "ihdi": 0.735,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BDI": {
     "isoAlpha3": "BDI",
@@ -177,7 +188,8 @@
     "hdi": 0.439,
     "hdiYear": 2023,
     "ihdi": 0.286,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BEL": {
     "isoAlpha3": "BEL",
@@ -192,7 +204,8 @@
     "hdi": 0.951,
     "hdiYear": 2023,
     "ihdi": 0.891,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BEN": {
     "isoAlpha3": "BEN",
@@ -208,7 +221,8 @@
     "hdi": 0.515,
     "hdiYear": 2023,
     "ihdi": 0.316,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BFA": {
     "isoAlpha3": "BFA",
@@ -223,7 +237,8 @@
     "hdi": 0.459,
     "hdiYear": 2023,
     "ihdi": 0.273,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BGD": {
     "isoAlpha3": "BGD",
@@ -238,7 +253,8 @@
     "hdi": 0.685,
     "hdiYear": 2023,
     "ihdi": 0.482,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BGR": {
     "isoAlpha3": "BGR",
@@ -253,7 +269,8 @@
     "hdi": 0.845,
     "hdiYear": 2023,
     "ihdi": 0.748,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BHR": {
     "isoAlpha3": "BHR",
@@ -268,7 +285,8 @@
     "hdi": 0.899,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.803
   },
   "BHS": {
     "isoAlpha3": "BHS",
@@ -283,7 +301,8 @@
     "hdi": 0.82,
     "hdiYear": 2023,
     "ihdi": 0.67,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BIH": {
     "isoAlpha3": "BIH",
@@ -298,7 +317,8 @@
     "hdi": 0.804,
     "hdiYear": 2023,
     "ihdi": 0.689,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BLR": {
     "isoAlpha3": "BLR",
@@ -313,7 +333,8 @@
     "hdi": 0.824,
     "hdiYear": 2023,
     "ihdi": 0.771,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BLZ": {
     "isoAlpha3": "BLZ",
@@ -328,7 +349,8 @@
     "hdi": 0.721,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.583
   },
   "BOL": {
     "isoAlpha3": "BOL",
@@ -344,7 +366,8 @@
     "hdi": 0.733,
     "hdiYear": 2023,
     "ihdi": 0.578,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BRA": {
     "isoAlpha3": "BRA",
@@ -359,7 +382,8 @@
     "hdi": 0.786,
     "hdiYear": 2023,
     "ihdi": 0.594,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BRB": {
     "isoAlpha3": "BRB",
@@ -374,7 +398,8 @@
     "hdi": 0.811,
     "hdiYear": 2023,
     "ihdi": 0.62,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BRN": {
     "isoAlpha3": "BRN",
@@ -389,7 +414,8 @@
     "hdi": 0.837,
     "hdiYear": 2023,
     "ihdi": 0.756,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BTN": {
     "isoAlpha3": "BTN",
@@ -404,7 +430,8 @@
     "hdi": 0.698,
     "hdiYear": 2023,
     "ihdi": 0.478,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "BWA": {
     "isoAlpha3": "BWA",
@@ -419,7 +446,8 @@
     "hdi": 0.731,
     "hdiYear": 2023,
     "ihdi": 0.509,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CAF": {
     "isoAlpha3": "CAF",
@@ -434,7 +462,8 @@
     "hdi": 0.414,
     "hdiYear": 2023,
     "ihdi": 0.253,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CAN": {
     "isoAlpha3": "CAN",
@@ -449,7 +478,8 @@
     "hdi": 0.939,
     "hdiYear": 2023,
     "ihdi": 0.867,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CHE": {
     "isoAlpha3": "CHE",
@@ -464,7 +494,8 @@
     "hdi": 0.97,
     "hdiYear": 2023,
     "ihdi": 0.894,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CHL": {
     "isoAlpha3": "CHL",
@@ -479,7 +510,8 @@
     "hdi": 0.878,
     "hdiYear": 2023,
     "ihdi": 0.723,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CHN": {
     "isoAlpha3": "CHN",
@@ -494,7 +526,8 @@
     "hdi": 0.797,
     "hdiYear": 2023,
     "ihdi": 0.67,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CIV": {
     "isoAlpha3": "CIV",
@@ -510,7 +543,8 @@
     "hdi": 0.582,
     "hdiYear": 2023,
     "ihdi": 0.35,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CMR": {
     "isoAlpha3": "CMR",
@@ -525,7 +559,8 @@
     "hdi": 0.588,
     "hdiYear": 2023,
     "ihdi": 0.361,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "COD": {
     "isoAlpha3": "COD",
@@ -540,7 +575,8 @@
     "hdi": 0.522,
     "hdiYear": 2023,
     "ihdi": 0.341,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "COG": {
     "isoAlpha3": "COG",
@@ -555,7 +591,8 @@
     "hdi": 0.649,
     "hdiYear": 2023,
     "ihdi": 0.426,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "COL": {
     "isoAlpha3": "COL",
@@ -570,7 +607,8 @@
     "hdi": 0.788,
     "hdiYear": 2023,
     "ihdi": 0.593,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "COM": {
     "isoAlpha3": "COM",
@@ -585,7 +623,8 @@
     "hdi": 0.603,
     "hdiYear": 2023,
     "ihdi": 0.356,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CPV": {
     "isoAlpha3": "CPV",
@@ -600,7 +639,8 @@
     "hdi": 0.668,
     "hdiYear": 2023,
     "ihdi": 0.478,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CRI": {
     "isoAlpha3": "CRI",
@@ -615,7 +655,8 @@
     "hdi": 0.833,
     "hdiYear": 2023,
     "ihdi": 0.678,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CUB": {
     "isoAlpha3": "CUB",
@@ -630,7 +671,8 @@
     "hdi": 0.762,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.633
   },
   "CYP": {
     "isoAlpha3": "CYP",
@@ -645,7 +687,8 @@
     "hdi": 0.913,
     "hdiYear": 2023,
     "ihdi": 0.841,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "CZE": {
     "isoAlpha3": "CZE",
@@ -660,7 +703,8 @@
     "hdi": 0.915,
     "hdiYear": 2023,
     "ihdi": 0.867,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "DEU": {
     "isoAlpha3": "DEU",
@@ -675,7 +719,8 @@
     "hdi": 0.959,
     "hdiYear": 2023,
     "ihdi": 0.89,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "DJI": {
     "isoAlpha3": "DJI",
@@ -690,7 +735,8 @@
     "hdi": 0.513,
     "hdiYear": 2023,
     "ihdi": 0.341,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "DMA": {
     "isoAlpha3": "DMA",
@@ -705,7 +751,8 @@
     "hdi": 0.761,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.632
   },
   "DNK": {
     "isoAlpha3": "DNK",
@@ -720,7 +767,8 @@
     "hdi": 0.962,
     "hdiYear": 2023,
     "ihdi": 0.909,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "DOM": {
     "isoAlpha3": "DOM",
@@ -735,7 +783,8 @@
     "hdi": 0.776,
     "hdiYear": 2023,
     "ihdi": 0.634,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "DZA": {
     "isoAlpha3": "DZA",
@@ -750,7 +799,8 @@
     "hdi": 0.763,
     "hdiYear": 2023,
     "ihdi": 0.601,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ECU": {
     "isoAlpha3": "ECU",
@@ -765,7 +815,8 @@
     "hdi": 0.777,
     "hdiYear": 2023,
     "ihdi": 0.64,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "EGY": {
     "isoAlpha3": "EGY",
@@ -780,7 +831,8 @@
     "hdi": 0.754,
     "hdiYear": 2023,
     "ihdi": 0.582,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ERI": {
     "isoAlpha3": "ERI",
@@ -795,7 +847,8 @@
     "hdi": 0.503,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.313
   },
   "ESP": {
     "isoAlpha3": "ESP",
@@ -810,7 +863,8 @@
     "hdi": 0.918,
     "hdiYear": 2023,
     "ihdi": 0.819,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "EST": {
     "isoAlpha3": "EST",
@@ -825,7 +879,8 @@
     "hdi": 0.905,
     "hdiYear": 2023,
     "ihdi": 0.841,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ETH": {
     "isoAlpha3": "ETH",
@@ -840,7 +895,8 @@
     "hdi": 0.497,
     "hdiYear": 2023,
     "ihdi": 0.326,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "FIN": {
     "isoAlpha3": "FIN",
@@ -855,7 +911,8 @@
     "hdi": 0.948,
     "hdiYear": 2023,
     "ihdi": 0.891,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "FJI": {
     "isoAlpha3": "FJI",
@@ -870,7 +927,8 @@
     "hdi": 0.731,
     "hdiYear": 2023,
     "ihdi": 0.626,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "FRA": {
     "isoAlpha3": "FRA",
@@ -885,7 +943,8 @@
     "hdi": 0.92,
     "hdiYear": 2023,
     "ihdi": 0.836,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "FSM": {
     "isoAlpha3": "FSM",
@@ -900,7 +959,8 @@
     "hdi": 0.615,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.452
   },
   "GAB": {
     "isoAlpha3": "GAB",
@@ -915,7 +975,8 @@
     "hdi": 0.733,
     "hdiYear": 2023,
     "ihdi": 0.558,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GBR": {
     "isoAlpha3": "GBR",
@@ -930,7 +991,8 @@
     "hdi": 0.946,
     "hdiYear": 2023,
     "ihdi": 0.869,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GEO": {
     "isoAlpha3": "GEO",
@@ -945,7 +1007,8 @@
     "hdi": 0.844,
     "hdiYear": 2023,
     "ihdi": 0.754,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GHA": {
     "isoAlpha3": "GHA",
@@ -960,7 +1023,8 @@
     "hdi": 0.628,
     "hdiYear": 2023,
     "ihdi": 0.399,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GIN": {
     "isoAlpha3": "GIN",
@@ -975,7 +1039,8 @@
     "hdi": 0.5,
     "hdiYear": 2023,
     "ihdi": 0.302,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GMB": {
     "isoAlpha3": "GMB",
@@ -990,7 +1055,8 @@
     "hdi": 0.524,
     "hdiYear": 2023,
     "ihdi": 0.329,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GNB": {
     "isoAlpha3": "GNB",
@@ -1005,7 +1071,8 @@
     "hdi": 0.514,
     "hdiYear": 2023,
     "ihdi": 0.331,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GNQ": {
     "isoAlpha3": "GNQ",
@@ -1020,7 +1087,8 @@
     "hdi": 0.674,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.525
   },
   "GRC": {
     "isoAlpha3": "GRC",
@@ -1035,7 +1103,8 @@
     "hdi": 0.908,
     "hdiYear": 2023,
     "ihdi": 0.825,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GRD": {
     "isoAlpha3": "GRD",
@@ -1050,7 +1119,8 @@
     "hdi": 0.791,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.669
   },
   "GTM": {
     "isoAlpha3": "GTM",
@@ -1065,7 +1135,8 @@
     "hdi": 0.662,
     "hdiYear": 2023,
     "ihdi": 0.479,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "GUY": {
     "isoAlpha3": "GUY",
@@ -1080,7 +1151,8 @@
     "hdi": 0.776,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.651
   },
   "HND": {
     "isoAlpha3": "HND",
@@ -1095,7 +1167,8 @@
     "hdi": 0.645,
     "hdiYear": 2023,
     "ihdi": 0.496,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "HRV": {
     "isoAlpha3": "HRV",
@@ -1110,7 +1183,8 @@
     "hdi": 0.889,
     "hdiYear": 2023,
     "ihdi": 0.828,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "HTI": {
     "isoAlpha3": "HTI",
@@ -1125,7 +1199,8 @@
     "hdi": 0.554,
     "hdiYear": 2023,
     "ihdi": 0.337,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "HUN": {
     "isoAlpha3": "HUN",
@@ -1140,7 +1215,8 @@
     "hdi": 0.87,
     "hdiYear": 2023,
     "ihdi": 0.819,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "IDN": {
     "isoAlpha3": "IDN",
@@ -1155,7 +1231,8 @@
     "hdi": 0.728,
     "hdiYear": 2023,
     "ihdi": 0.608,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "IND": {
     "isoAlpha3": "IND",
@@ -1170,7 +1247,8 @@
     "hdi": 0.685,
     "hdiYear": 2023,
     "ihdi": 0.475,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "IRL": {
     "isoAlpha3": "IRL",
@@ -1185,7 +1263,8 @@
     "hdi": 0.949,
     "hdiYear": 2023,
     "ihdi": 0.886,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "IRN": {
     "isoAlpha3": "IRN",
@@ -1200,7 +1279,8 @@
     "hdi": 0.799,
     "hdiYear": 2023,
     "ihdi": 0.643,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "IRQ": {
     "isoAlpha3": "IRQ",
@@ -1215,7 +1295,8 @@
     "hdi": 0.695,
     "hdiYear": 2023,
     "ihdi": 0.534,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ISL": {
     "isoAlpha3": "ISL",
@@ -1230,7 +1311,8 @@
     "hdi": 0.972,
     "hdiYear": 2023,
     "ihdi": 0.923,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ISR": {
     "isoAlpha3": "ISR",
@@ -1245,7 +1327,8 @@
     "hdi": 0.919,
     "hdiYear": 2023,
     "ihdi": 0.813,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ITA": {
     "isoAlpha3": "ITA",
@@ -1260,7 +1343,8 @@
     "hdi": 0.915,
     "hdiYear": 2023,
     "ihdi": 0.817,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "JAM": {
     "isoAlpha3": "JAM",
@@ -1275,7 +1359,8 @@
     "hdi": 0.72,
     "hdiYear": 2023,
     "ihdi": 0.59,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "JOR": {
     "isoAlpha3": "JOR",
@@ -1290,7 +1375,8 @@
     "hdi": 0.754,
     "hdiYear": 2023,
     "ihdi": 0.637,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "JPN": {
     "isoAlpha3": "JPN",
@@ -1305,7 +1391,8 @@
     "hdi": 0.925,
     "hdiYear": 2023,
     "ihdi": 0.845,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KAZ": {
     "isoAlpha3": "KAZ",
@@ -1320,7 +1407,8 @@
     "hdi": 0.837,
     "hdiYear": 2023,
     "ihdi": 0.766,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KEN": {
     "isoAlpha3": "KEN",
@@ -1335,7 +1423,8 @@
     "hdi": 0.628,
     "hdiYear": 2023,
     "ihdi": 0.456,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KGZ": {
     "isoAlpha3": "KGZ",
@@ -1350,7 +1439,8 @@
     "hdi": 0.72,
     "hdiYear": 2023,
     "ihdi": 0.649,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KHM": {
     "isoAlpha3": "KHM",
@@ -1365,7 +1455,8 @@
     "hdi": 0.606,
     "hdiYear": 2023,
     "ihdi": 0.444,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KIR": {
     "isoAlpha3": "KIR",
@@ -1380,7 +1471,8 @@
     "hdi": 0.644,
     "hdiYear": 2023,
     "ihdi": 0.535,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KNA": {
     "isoAlpha3": "KNA",
@@ -1395,7 +1487,8 @@
     "hdi": 0.84,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.73
   },
   "KOR": {
     "isoAlpha3": "KOR",
@@ -1410,7 +1503,8 @@
     "hdi": 0.937,
     "hdiYear": 2023,
     "ihdi": 0.857,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "KWT": {
     "isoAlpha3": "KWT",
@@ -1425,7 +1519,8 @@
     "hdi": 0.852,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.745
   },
   "LAO": {
     "isoAlpha3": "LAO",
@@ -1440,7 +1535,8 @@
     "hdi": 0.617,
     "hdiYear": 2023,
     "ihdi": 0.462,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LBN": {
     "isoAlpha3": "LBN",
@@ -1455,7 +1551,8 @@
     "hdi": 0.752,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.621
   },
   "LBR": {
     "isoAlpha3": "LBR",
@@ -1470,7 +1567,8 @@
     "hdi": 0.51,
     "hdiYear": 2023,
     "ihdi": 0.326,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LBY": {
     "isoAlpha3": "LBY",
@@ -1485,7 +1583,8 @@
     "hdi": 0.721,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.583
   },
   "LCA": {
     "isoAlpha3": "LCA",
@@ -1500,7 +1599,8 @@
     "hdi": 0.748,
     "hdiYear": 2023,
     "ihdi": 0.523,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LIE": {
     "isoAlpha3": "LIE",
@@ -1515,7 +1615,8 @@
     "hdi": 0.938,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.851
   },
   "LKA": {
     "isoAlpha3": "LKA",
@@ -1531,7 +1632,8 @@
     "hdi": 0.776,
     "hdiYear": 2023,
     "ihdi": 0.63,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LSO": {
     "isoAlpha3": "LSO",
@@ -1546,7 +1648,8 @@
     "hdi": 0.55,
     "hdiYear": 2023,
     "ihdi": 0.357,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LTU": {
     "isoAlpha3": "LTU",
@@ -1561,7 +1664,8 @@
     "hdi": 0.895,
     "hdiYear": 2023,
     "ihdi": 0.812,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LUX": {
     "isoAlpha3": "LUX",
@@ -1576,7 +1680,8 @@
     "hdi": 0.922,
     "hdiYear": 2023,
     "ihdi": 0.838,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "LVA": {
     "isoAlpha3": "LVA",
@@ -1591,7 +1696,8 @@
     "hdi": 0.889,
     "hdiYear": 2023,
     "ihdi": 0.812,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MAR": {
     "isoAlpha3": "MAR",
@@ -1606,7 +1712,8 @@
     "hdi": 0.71,
     "hdiYear": 2023,
     "ihdi": 0.517,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MCO": {
     "isoAlpha3": "MCO",
@@ -1621,7 +1728,8 @@
     "hdi": null,
     "hdiYear": null,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": null
   },
   "MDA": {
     "isoAlpha3": "MDA",
@@ -1636,7 +1744,8 @@
     "hdi": 0.785,
     "hdiYear": 2023,
     "ihdi": 0.719,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MDG": {
     "isoAlpha3": "MDG",
@@ -1651,7 +1760,8 @@
     "hdi": 0.487,
     "hdiYear": 2023,
     "ihdi": 0.319,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MDV": {
     "isoAlpha3": "MDV",
@@ -1666,7 +1776,8 @@
     "hdi": 0.766,
     "hdiYear": 2023,
     "ihdi": 0.602,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MEX": {
     "isoAlpha3": "MEX",
@@ -1681,7 +1792,8 @@
     "hdi": 0.789,
     "hdiYear": 2023,
     "ihdi": 0.646,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MHL": {
     "isoAlpha3": "MHL",
@@ -1696,7 +1808,8 @@
     "hdi": 0.733,
     "hdiYear": 2023,
     "ihdi": 0.626,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MKD": {
     "isoAlpha3": "MKD",
@@ -1711,7 +1824,8 @@
     "hdi": 0.815,
     "hdiYear": 2023,
     "ihdi": 0.723,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MLI": {
     "isoAlpha3": "MLI",
@@ -1726,7 +1840,8 @@
     "hdi": 0.419,
     "hdiYear": 2023,
     "ihdi": 0.281,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MLT": {
     "isoAlpha3": "MLT",
@@ -1741,7 +1856,8 @@
     "hdi": 0.924,
     "hdiYear": 2023,
     "ihdi": 0.843,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MMR": {
     "isoAlpha3": "MMR",
@@ -1756,7 +1872,8 @@
     "hdi": 0.609,
     "hdiYear": 2023,
     "ihdi": 0.477,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MNE": {
     "isoAlpha3": "MNE",
@@ -1771,7 +1888,8 @@
     "hdi": 0.862,
     "hdiYear": 2023,
     "ihdi": 0.771,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MNG": {
     "isoAlpha3": "MNG",
@@ -1786,7 +1904,8 @@
     "hdi": 0.747,
     "hdiYear": 2023,
     "ihdi": 0.647,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MOZ": {
     "isoAlpha3": "MOZ",
@@ -1801,7 +1920,8 @@
     "hdi": 0.493,
     "hdiYear": 2023,
     "ihdi": 0.297,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MRT": {
     "isoAlpha3": "MRT",
@@ -1816,7 +1936,8 @@
     "hdi": 0.563,
     "hdiYear": 2023,
     "ihdi": 0.374,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MUS": {
     "isoAlpha3": "MUS",
@@ -1831,7 +1952,8 @@
     "hdi": 0.806,
     "hdiYear": 2023,
     "ihdi": 0.669,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MWI": {
     "isoAlpha3": "MWI",
@@ -1846,7 +1968,8 @@
     "hdi": 0.517,
     "hdiYear": 2023,
     "ihdi": 0.365,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "MYS": {
     "isoAlpha3": "MYS",
@@ -1862,7 +1985,8 @@
     "hdi": 0.819,
     "hdiYear": 2023,
     "ihdi": 0.707,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NAM": {
     "isoAlpha3": "NAM",
@@ -1877,7 +2001,8 @@
     "hdi": 0.665,
     "hdiYear": 2023,
     "ihdi": 0.438,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NER": {
     "isoAlpha3": "NER",
@@ -1892,7 +2017,8 @@
     "hdi": 0.419,
     "hdiYear": 2023,
     "ihdi": 0.265,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NGA": {
     "isoAlpha3": "NGA",
@@ -1907,7 +2033,8 @@
     "hdi": 0.56,
     "hdiYear": 2023,
     "ihdi": 0.379,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NIC": {
     "isoAlpha3": "NIC",
@@ -1922,7 +2049,8 @@
     "hdi": 0.706,
     "hdiYear": 2023,
     "ihdi": 0.535,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NLD": {
     "isoAlpha3": "NLD",
@@ -1938,7 +2066,8 @@
     "hdi": 0.955,
     "hdiYear": 2023,
     "ihdi": 0.892,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NOR": {
     "isoAlpha3": "NOR",
@@ -1953,7 +2082,8 @@
     "hdi": 0.97,
     "hdiYear": 2023,
     "ihdi": 0.909,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NPL": {
     "isoAlpha3": "NPL",
@@ -1968,7 +2098,8 @@
     "hdi": 0.622,
     "hdiYear": 2023,
     "ihdi": 0.437,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NRU": {
     "isoAlpha3": "NRU",
@@ -1983,7 +2114,8 @@
     "hdi": 0.703,
     "hdiYear": 2023,
     "ihdi": 0.599,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "NZL": {
     "isoAlpha3": "NZL",
@@ -1998,7 +2130,8 @@
     "hdi": 0.938,
     "hdiYear": 2023,
     "ihdi": 0.853,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "OMN": {
     "isoAlpha3": "OMN",
@@ -2013,7 +2146,8 @@
     "hdi": 0.858,
     "hdiYear": 2023,
     "ihdi": 0.75,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PAK": {
     "isoAlpha3": "PAK",
@@ -2028,7 +2162,8 @@
     "hdi": 0.544,
     "hdiYear": 2023,
     "ihdi": 0.364,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PAN": {
     "isoAlpha3": "PAN",
@@ -2043,7 +2178,8 @@
     "hdi": 0.839,
     "hdiYear": 2023,
     "ihdi": 0.664,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PER": {
     "isoAlpha3": "PER",
@@ -2058,7 +2194,8 @@
     "hdi": 0.794,
     "hdiYear": 2023,
     "ihdi": 0.633,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PHL": {
     "isoAlpha3": "PHL",
@@ -2073,7 +2210,8 @@
     "hdi": 0.72,
     "hdiYear": 2023,
     "ihdi": 0.597,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PLW": {
     "isoAlpha3": "PLW",
@@ -2088,7 +2226,8 @@
     "hdi": 0.786,
     "hdiYear": 2023,
     "ihdi": 0.616,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PNG": {
     "isoAlpha3": "PNG",
@@ -2103,7 +2242,8 @@
     "hdi": 0.576,
     "hdiYear": 2023,
     "ihdi": 0.423,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "POL": {
     "isoAlpha3": "POL",
@@ -2118,7 +2258,8 @@
     "hdi": 0.906,
     "hdiYear": 2023,
     "ihdi": 0.817,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PRK": {
     "isoAlpha3": "PRK",
@@ -2133,7 +2274,8 @@
     "hdi": null,
     "hdiYear": null,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": null
   },
   "PRT": {
     "isoAlpha3": "PRT",
@@ -2148,7 +2290,8 @@
     "hdi": 0.89,
     "hdiYear": 2023,
     "ihdi": 0.795,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PRY": {
     "isoAlpha3": "PRY",
@@ -2163,7 +2306,8 @@
     "hdi": 0.756,
     "hdiYear": 2023,
     "ihdi": 0.599,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "PSE": {
     "isoAlpha3": "PSE",
@@ -2178,7 +2322,8 @@
     "hdi": 0.674,
     "hdiYear": 2023,
     "ihdi": 0.538,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "QAT": {
     "isoAlpha3": "QAT",
@@ -2193,7 +2338,8 @@
     "hdi": 0.886,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.787
   },
   "ROU": {
     "isoAlpha3": "ROU",
@@ -2208,7 +2354,8 @@
     "hdi": 0.845,
     "hdiYear": 2023,
     "ihdi": 0.758,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "RUS": {
     "isoAlpha3": "RUS",
@@ -2223,7 +2370,8 @@
     "hdi": 0.832,
     "hdiYear": 2023,
     "ihdi": 0.758,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "RWA": {
     "isoAlpha3": "RWA",
@@ -2238,7 +2386,8 @@
     "hdi": 0.578,
     "hdiYear": 2023,
     "ihdi": 0.399,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SAU": {
     "isoAlpha3": "SAU",
@@ -2253,7 +2402,8 @@
     "hdi": 0.9,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.804
   },
   "SDN": {
     "isoAlpha3": "SDN",
@@ -2268,7 +2418,8 @@
     "hdi": 0.511,
     "hdiYear": 2023,
     "ihdi": 0.328,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SEN": {
     "isoAlpha3": "SEN",
@@ -2283,7 +2434,8 @@
     "hdi": 0.53,
     "hdiYear": 2023,
     "ihdi": 0.34,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SGP": {
     "isoAlpha3": "SGP",
@@ -2298,7 +2450,8 @@
     "hdi": 0.946,
     "hdiYear": 2023,
     "ihdi": 0.823,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SLB": {
     "isoAlpha3": "SLB",
@@ -2313,7 +2466,8 @@
     "hdi": 0.584,
     "hdiYear": 2023,
     "ihdi": 0.483,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SLE": {
     "isoAlpha3": "SLE",
@@ -2328,7 +2482,8 @@
     "hdi": 0.467,
     "hdiYear": 2023,
     "ihdi": 0.281,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SLV": {
     "isoAlpha3": "SLV",
@@ -2343,7 +2498,8 @@
     "hdi": 0.678,
     "hdiYear": 2023,
     "ihdi": 0.555,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SMR": {
     "isoAlpha3": "SMR",
@@ -2358,7 +2514,8 @@
     "hdi": 0.915,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.823
   },
   "SOM": {
     "isoAlpha3": "SOM",
@@ -2373,7 +2530,8 @@
     "hdi": 0.404,
     "hdiYear": 2023,
     "ihdi": 0.229,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SRB": {
     "isoAlpha3": "SRB",
@@ -2388,7 +2546,8 @@
     "hdi": 0.833,
     "hdiYear": 2023,
     "ihdi": 0.772,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SSD": {
     "isoAlpha3": "SSD",
@@ -2403,7 +2562,8 @@
     "hdi": 0.388,
     "hdiYear": 2023,
     "ihdi": 0.226,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "STP": {
     "isoAlpha3": "STP",
@@ -2418,7 +2578,8 @@
     "hdi": 0.637,
     "hdiYear": 2023,
     "ihdi": 0.478,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SUR": {
     "isoAlpha3": "SUR",
@@ -2433,7 +2594,8 @@
     "hdi": 0.722,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.584
   },
   "SVK": {
     "isoAlpha3": "SVK",
@@ -2448,7 +2610,8 @@
     "hdi": 0.88,
     "hdiYear": 2023,
     "ihdi": 0.833,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SVN": {
     "isoAlpha3": "SVN",
@@ -2463,7 +2626,8 @@
     "hdi": 0.931,
     "hdiYear": 2023,
     "ihdi": 0.885,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SWE": {
     "isoAlpha3": "SWE",
@@ -2478,7 +2642,8 @@
     "hdi": 0.959,
     "hdiYear": 2023,
     "ihdi": 0.886,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SWZ": {
     "isoAlpha3": "SWZ",
@@ -2494,7 +2659,8 @@
     "hdi": 0.695,
     "hdiYear": 2023,
     "ihdi": 0.431,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SYC": {
     "isoAlpha3": "SYC",
@@ -2509,7 +2675,8 @@
     "hdi": 0.848,
     "hdiYear": 2023,
     "ihdi": 0.755,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "SYR": {
     "isoAlpha3": "SYR",
@@ -2524,7 +2691,8 @@
     "hdi": 0.564,
     "hdiYear": 2023,
     "ihdi": 0.419,
-    "ihdiYear": 2015
+    "ihdiYear": 2015,
+    "ihdiEstimate": null
   },
   "TCD": {
     "isoAlpha3": "TCD",
@@ -2539,7 +2707,8 @@
     "hdi": 0.416,
     "hdiYear": 2023,
     "ihdi": 0.252,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TGO": {
     "isoAlpha3": "TGO",
@@ -2554,7 +2723,8 @@
     "hdi": 0.571,
     "hdiYear": 2023,
     "ihdi": 0.363,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "THA": {
     "isoAlpha3": "THA",
@@ -2569,7 +2739,8 @@
     "hdi": 0.798,
     "hdiYear": 2023,
     "ihdi": 0.677,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TJK": {
     "isoAlpha3": "TJK",
@@ -2584,7 +2755,8 @@
     "hdi": 0.691,
     "hdiYear": 2023,
     "ihdi": 0.594,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TKM": {
     "isoAlpha3": "TKM",
@@ -2599,7 +2771,8 @@
     "hdi": 0.764,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.636
   },
   "TLS": {
     "isoAlpha3": "TLS",
@@ -2614,7 +2787,8 @@
     "hdi": 0.634,
     "hdiYear": 2023,
     "ihdi": 0.451,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TON": {
     "isoAlpha3": "TON",
@@ -2629,7 +2803,8 @@
     "hdi": 0.769,
     "hdiYear": 2023,
     "ihdi": 0.682,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TTO": {
     "isoAlpha3": "TTO",
@@ -2644,7 +2819,8 @@
     "hdi": 0.807,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.689
   },
   "TUN": {
     "isoAlpha3": "TUN",
@@ -2659,7 +2835,8 @@
     "hdi": 0.746,
     "hdiYear": 2023,
     "ihdi": 0.595,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TUR": {
     "isoAlpha3": "TUR",
@@ -2674,7 +2851,8 @@
     "hdi": 0.853,
     "hdiYear": 2023,
     "ihdi": 0.708,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TUV": {
     "isoAlpha3": "TUV",
@@ -2689,7 +2867,8 @@
     "hdi": 0.689,
     "hdiYear": 2023,
     "ihdi": 0.578,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "TZA": {
     "isoAlpha3": "TZA",
@@ -2704,7 +2883,8 @@
     "hdi": 0.555,
     "hdiYear": 2023,
     "ihdi": 0.391,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "UGA": {
     "isoAlpha3": "UGA",
@@ -2719,7 +2899,8 @@
     "hdi": 0.582,
     "hdiYear": 2023,
     "ihdi": 0.4,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "UKR": {
     "isoAlpha3": "UKR",
@@ -2734,7 +2915,8 @@
     "hdi": 0.779,
     "hdiYear": 2023,
     "ihdi": 0.715,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "URY": {
     "isoAlpha3": "URY",
@@ -2749,7 +2931,8 @@
     "hdi": 0.862,
     "hdiYear": 2023,
     "ihdi": 0.747,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "USA": {
     "isoAlpha3": "USA",
@@ -2764,7 +2947,8 @@
     "hdi": 0.938,
     "hdiYear": 2023,
     "ihdi": 0.832,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "UZB": {
     "isoAlpha3": "UZB",
@@ -2779,7 +2963,8 @@
     "hdi": 0.74,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.606
   },
   "VAT": {
     "isoAlpha3": "VAT",
@@ -2794,7 +2979,8 @@
     "hdi": null,
     "hdiYear": null,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": null
   },
   "VCT": {
     "isoAlpha3": "VCT",
@@ -2809,7 +2995,8 @@
     "hdi": 0.798,
     "hdiYear": 2023,
     "ihdi": null,
-    "ihdiYear": null
+    "ihdiYear": null,
+    "ihdiEstimate": 0.678
   },
   "VEN": {
     "isoAlpha3": "VEN",
@@ -2824,7 +3011,8 @@
     "hdi": 0.709,
     "hdiYear": 2023,
     "ihdi": 0.605,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "VNM": {
     "isoAlpha3": "VNM",
@@ -2839,7 +3027,8 @@
     "hdi": 0.766,
     "hdiYear": 2023,
     "ihdi": 0.641,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "VUT": {
     "isoAlpha3": "VUT",
@@ -2854,7 +3043,8 @@
     "hdi": 0.621,
     "hdiYear": 2023,
     "ihdi": 0.521,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "WSM": {
     "isoAlpha3": "WSM",
@@ -2869,7 +3059,8 @@
     "hdi": 0.708,
     "hdiYear": 2023,
     "ihdi": 0.609,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "YEM": {
     "isoAlpha3": "YEM",
@@ -2884,7 +3075,8 @@
     "hdi": 0.47,
     "hdiYear": 2023,
     "ihdi": 0.325,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ZAF": {
     "isoAlpha3": "ZAF",
@@ -2901,7 +3093,8 @@
     "hdi": 0.741,
     "hdiYear": 2023,
     "ihdi": 0.476,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ZMB": {
     "isoAlpha3": "ZMB",
@@ -2916,7 +3109,8 @@
     "hdi": 0.595,
     "hdiYear": 2023,
     "ihdi": 0.361,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   },
   "ZWE": {
     "isoAlpha3": "ZWE",
@@ -2931,6 +3125,7 @@
     "hdi": 0.598,
     "hdiYear": 2023,
     "ihdi": 0.406,
-    "ihdiYear": 2023
+    "ihdiYear": 2023,
+    "ihdiEstimate": null
   }
 }

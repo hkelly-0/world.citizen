@@ -137,6 +137,29 @@ await readCsv(
   },
 )
 
+// --- Estimated IHDI for countries that have an HDI but no IHDI ---
+// IHDI is closely tied to HDI, and lower HDIs lose proportionally more to
+// inequality. So fit a straight line (ordinary least squares) through the
+// countries that have both, and apply it to the ones missing an IHDI.
+const bothCodes = selected
+  .map((country) => country.cca3)
+  .filter((code) => hdis[code] !== undefined && ihdis[code] !== undefined)
+const meanHdi = bothCodes.reduce((sum, code) => sum + hdis[code].value, 0) / bothCodes.length
+const meanIhdi = bothCodes.reduce((sum, code) => sum + ihdis[code].value, 0) / bothCodes.length
+let hdiTimesIhdi = 0
+let hdiSquared = 0
+for (const code of bothCodes) {
+  const hdiOffset = hdis[code].value - meanHdi
+  hdiTimesIhdi += hdiOffset * (ihdis[code].value - meanIhdi)
+  hdiSquared += hdiOffset * hdiOffset
+}
+const slope = hdiTimesIhdi / hdiSquared
+const intercept = meanIhdi - slope * meanHdi
+function estimateIhdi(hdi) {
+  return Math.round((slope * hdi + intercept) * 1000) / 1000
+}
+console.log(`IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`)
+
 // --- Join on ISO alpha-3, sorted by code so diffs stay stable ---
 const countries = {}
 for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
@@ -161,6 +184,8 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // Null when UNDP has no IHDI for the country; shown as "no data".
     ihdi: ihdi === null ? null : ihdi.value,
     ihdiYear: ihdi === null ? null : ihdi.year,
+    // Only for countries with an HDI but no IHDI; null otherwise.
+    ihdiEstimate: hdi !== null && ihdi === null ? estimateIhdi(hdi.value) : null,
   }
 }
 
@@ -170,3 +195,5 @@ console.log(`Wrote ${Object.keys(countries).length} countries to ${OUTPUT}`)
 const missingHdi = Object.values(countries).filter((country) => country.hdi === null)
 console.log(`No HDI for ${missingHdi.length}: ${missingHdi.map((c) => c.isoAlpha3).join(', ')}`)
 console.log(`No IHDI for ${missingIhdi.length}: ${missingIhdi.map((c) => c.isoAlpha3).join(', ')}`)
+const estimated = Object.values(countries).filter((country) => country.ihdiEstimate !== null)
+console.log(`Estimated IHDI for ${estimated.length}: ${estimated.map((c) => c.isoAlpha3).join(', ')}`)

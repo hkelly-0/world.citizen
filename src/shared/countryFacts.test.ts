@@ -44,6 +44,17 @@ describe('countryFacts', () => {
     }
   })
 
+  it('has an IHDI estimate exactly for countries with an HDI but no IHDI', () => {
+    for (const country of countries) {
+      const needsEstimate = country.hdi !== null && country.ihdi === null
+      expect(country.ihdiEstimate !== null).toBe(needsEstimate)
+      if (country.ihdiEstimate !== null) {
+        expect(country.ihdiEstimate).toBeGreaterThan(0)
+        expect(country.ihdiEstimate).toBeLessThan(country.hdi!)
+      }
+    }
+  })
+
   it('lists several capitals for countries that have them', () => {
     expect(countryFacts['ZAF']?.capitals).toEqual(['Pretoria', 'Bloemfontein', 'Cape Town'])
     expect(countryFacts['BOL']?.capitals).toEqual(['Sucre', 'La Paz'])

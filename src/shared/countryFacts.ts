@@ -20,6 +20,9 @@ export type CountryFacts = {
   // value for the country, shown as "no data".
   ihdi: number | null
   ihdiYear: number | null
+  // Our own estimate of the IHDI, worked out from the HDI, for countries that
+  // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
+  ihdiEstimate: number | null
 }
 
 // All 195 countries (193 UN members + Vatican City and Palestine), keyed by
