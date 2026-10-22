@@ -71,6 +71,7 @@ export default function LocateCountryGlobe({
       map.flyTo({
         center: centre,
         zoom: focusZoomFor(
+          isoAlpha3,
           mainLandmassWidthKm(correctGeometry, isoAlpha3),
           map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
           centre[1],

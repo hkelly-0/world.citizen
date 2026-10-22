@@ -123,6 +123,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     map.flyTo({
       center: centre,
       zoom: focusZoomFor(
+        shape.isoAlpha3,
         mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
         mapWidth >= WIDE_SCREEN_MIN_PX,
         centre[1],
