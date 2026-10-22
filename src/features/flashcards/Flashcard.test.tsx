@@ -49,27 +49,6 @@ describe('Flashcard', () => {
     )
   })
 
-  it('shows no picture for Tuvalu, which has none', () => {
-    render(<Flashcard country={countryFacts['TUV']} onFinish={vi.fn()} />)
-
-    expect(screen.queryByRole('img')).not.toBeInTheDocument()
-  })
-
-  it('skips the location question for Tuvalu, which has no outline to tap', async () => {
-    const onFinish = vi.fn()
-    render(<Flashcard country={countryFacts['TUV']} onFinish={onFinish} />)
-
-    expect(screen.queryByText('Select Tuvalu')).not.toBeInTheDocument()
-    expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('Teensy-weensy - < 10K km²')
-    await answerRangeQuestion('Minute - < 100K')
-    await answerRangeQuestion('Ok - 6')
-    await answerCapital('Funafuti')
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-
-    expect(onFinish).toHaveBeenCalledWith(expect.any(Number), 4)
-  })
-
   it('asks location, area, population, IHDI, then capital, and reports 5 correct', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} onFinish={onFinish} />)
@@ -86,7 +65,7 @@ describe('Flashcard', () => {
     expect(screen.getByText('paris')).toHaveClass('flashcard__capital-green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(5, 5)
+    expect(onFinish).toHaveBeenCalledWith(5)
   })
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {
@@ -111,7 +90,7 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(2, 5)
+    expect(onFinish).toHaveBeenCalledWith(2)
   })
 
   it('reveals the capital without any text typed, counting it as wrong', async () => {
@@ -126,7 +105,7 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(4, 5)
+    expect(onFinish).toHaveBeenCalledWith(4)
   })
 
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {

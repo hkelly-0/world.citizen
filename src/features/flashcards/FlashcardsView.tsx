@@ -25,8 +25,8 @@ export function FlashcardsView({ onBack }: FlashcardsViewProps) {
     chooseNextCountry(ALL_CODES, progress, today),
   )
 
-  function finishCard(code: string, correctCount: number, questionCount: number) {
-    const grade = gradeFromCorrectCount(correctCount, questionCount)
+  function finishCard(code: string, correctCount: number) {
+    const grade = gradeFromCorrectCount(correctCount)
     const newProgress = { ...progress, [code]: reviewCard(progress[code], grade, today) }
     setProgress(newProgress)
     saveProgress(newProgress)
@@ -43,7 +43,7 @@ export function FlashcardsView({ onBack }: FlashcardsViewProps) {
         <Flashcard
           key={currentCode}
           country={countryFacts[currentCode]}
-          onFinish={(correctCount, questionCount) => finishCard(currentCode, correctCount, questionCount)}
+          onFinish={(correctCount) => finishCard(currentCode, correctCount)}
         />
       )}
     </div>

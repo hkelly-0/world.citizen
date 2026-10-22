@@ -53,15 +53,8 @@ describe('App', () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
 
-    // The country is random. Tuvalu has no location question, so wait for
-    // either the globe or the area question, and tap the globe if it's there.
-    await waitFor(() =>
-      expect(
-        screen.queryByRole('button', { name: 'Tap right country' }) ?? screen.queryByText('Area?'),
-      ).not.toBeNull(),
-    )
-    const globeButton = screen.queryByRole('button', { name: 'Tap right country' })
-    if (globeButton !== null) await userEvent.click(globeButton)
+    // The country is random, but every card starts with the globe.
+    await userEvent.click(await screen.findByRole('button', { name: 'Tap right country' }))
 
     // Pick the first option each time (button 0 is "← Menu"), then type a
     // capital. Right or wrong, the card gets saved.

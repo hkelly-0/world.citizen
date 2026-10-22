@@ -8,17 +8,13 @@ import './Flashcard.css'
 // card asks the location question. This keeps the other questions fast.
 const LocateCountryGlobe = lazy(() => import('../globe/LocateCountryGlobe'))
 
-// Pictures made by scripts/make-country-images.mjs. Tuvalu has none because
-// world-atlas has no outline for it, which also means it can't be tapped on
-// the globe, so its card skips the location question.
+// Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
-const COUNTRIES_WITHOUT_IMAGE = ['TUV']
 
 type FlashcardProps = {
   country: CountryFacts
-  // Called after the last question, with how many were correct out of how many
-  // were asked (5, or 4 for a country without a location question).
-  onFinish: (correctCount: number, questionCount: number) => void
+  // Called after the last question, with how many were correct out of 5.
+  onFinish: (correctCount: number) => void
 }
 
 // One country's card: first its location (tapped on the globe), then area,
@@ -26,8 +22,6 @@ type FlashcardProps = {
 // Each answer is revealed before moving on.
 export function Flashcard({ country, onFinish }: FlashcardProps) {
   const questions = rangeQuestions(country)
-  const hasLocationQuestion = !COUNTRIES_WITHOUT_IMAGE.includes(country.isoAlpha3)
-  const questionCount = hasLocationQuestion ? 5 : 4
   // Whether the user has tapped a country on the globe yet.
   const [hasLocated, setHasLocated] = useState(false)
   // 0–2 are the range questions; 3 is the capital.
@@ -57,7 +51,7 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   function goToNext() {
     if (isCapitalStep) {
-      onFinish(correctCount, questionCount)
+      onFinish(correctCount)
     } else {
       setStep(step + 1)
       setAnswer(null)
@@ -69,7 +63,7 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
       {/* Covers the screen until the user taps a country, then fades away.
           While the globe's code loads, a plain cover of the same colour hides
           the card so it doesn't flash up first. */}
-      {hasLocationQuestion && !hasLocated && (
+      {!hasLocated && (
         <Suspense fallback={<div className="flashcard__globe-loading">Loading globe…</div>}>
           <LocateCountryGlobe
             isoAlpha3={country.isoAlpha3}
@@ -78,13 +72,11 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
           />
         </Suspense>
       )}
-      {!COUNTRIES_WITHOUT_IMAGE.includes(country.isoAlpha3) && (
-        <img
-          className="flashcard__image"
-          src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
-          alt={`Map of ${country.commonName}`}
-        />
-      )}
+      <img
+        className="flashcard__image"
+        src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
+        alt={`Map of ${country.commonName}`}
+      />
       <h2>{country.commonName}</h2>
 
       {isCapitalStep ? (
