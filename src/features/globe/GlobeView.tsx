@@ -3,7 +3,7 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
 import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
-import { focusZoomFor } from './focusZoom'
+import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './GlobeView.css'
 
@@ -15,7 +15,7 @@ function isPanelOpenInHistory(): boolean {
 
 // When a country is selected the globe turns to centre its main landmass in
 // the space not covered by the back button and info panel, and zooms to a
-// level set by the country's width (focusZoom.ts). The padding is in pixels.
+// level set by the country's width and the screen width (focusZoom.ts). The padding is in pixels.
 const FOCUS_PADDING = 24
 const FOCUS_TOP_PADDING = 72
 const FOCUS_DURATION_MS = 1200
@@ -111,6 +111,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     if (selectedIndex === null || map === null) return
 
     const shape = COUNTRY_SHAPES[selectedIndex]
+    const mapWidth = map.getContainer().clientWidth
     const mapHeight = map.getContainer().clientHeight
     const panelHeight = panelRef.current?.offsetHeight ?? 0
     // On a short screen the panel could leave no room, so it gets at most 40%.
@@ -120,7 +121,10 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     )
     map.flyTo({
       center: mainLandmassCentre(shape.geometry, shape.isoAlpha3),
-      zoom: focusZoomFor(mainLandmassWidthKm(shape.geometry, shape.isoAlpha3)),
+      zoom: focusZoomFor(
+        mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
+        mapWidth >= WIDE_SCREEN_MIN_PX,
+      ),
       // Moves the country from the middle of the screen to the middle of the
       // space between the top padding and the bottom padding.
       offset: [0, (FOCUS_TOP_PADDING - bottomPadding) / 2],
