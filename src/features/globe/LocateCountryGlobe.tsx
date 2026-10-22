@@ -67,11 +67,13 @@ export default function LocateCountryGlobe({
       const correctIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
       const correctGeometry = COUNTRY_SHAPES[correctIndex].geometry
       map.setFeatureState({ source: 'countries', id: correctIndex }, { correct: true })
+      const centre = mainLandmassCentre(correctGeometry, isoAlpha3)
       map.flyTo({
-        center: mainLandmassCentre(correctGeometry, isoAlpha3),
+        center: centre,
         zoom: focusZoomFor(
           mainLandmassWidthKm(correctGeometry, isoAlpha3),
           map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
+          centre[1],
         ),
         offset: [0, (LABEL_SPACE_PX - BOTTOM_PADDING_PX) / 2],
         duration: FLY_TO_ANSWER_MS,

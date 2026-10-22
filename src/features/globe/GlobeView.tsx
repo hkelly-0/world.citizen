@@ -119,11 +119,13 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       panelHeight + PANEL_BOTTOM_MARGIN + FOCUS_PADDING,
       mapHeight * 0.4,
     )
+    const centre = mainLandmassCentre(shape.geometry, shape.isoAlpha3)
     map.flyTo({
-      center: mainLandmassCentre(shape.geometry, shape.isoAlpha3),
+      center: centre,
       zoom: focusZoomFor(
         mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
         mapWidth >= WIDE_SCREEN_MIN_PX,
+        centre[1],
       ),
       // Moves the country from the middle of the screen to the middle of the
       // space between the top padding and the bottom padding.

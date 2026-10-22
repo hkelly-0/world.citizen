@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { loadCountryShapes } from '../../shared/countries'
 import { focusZoomFor } from './focusZoom'
-import { mainLandmassWidthKm } from './mainLandmass'
+import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 
 const shapes = loadCountryShapes()
 
 function focusZoomOf(isoAlpha3: string, isWideScreen = false) {
   const shape = shapes.find((country) => country.isoAlpha3 === isoAlpha3)
   if (shape === undefined) throw new Error(`No shape for ${isoAlpha3}`)
-  return focusZoomFor(mainLandmassWidthKm(shape.geometry, isoAlpha3), isWideScreen)
+  const [, latitude] = mainLandmassCentre(shape.geometry, isoAlpha3)
+  return focusZoomFor(mainLandmassWidthKm(shape.geometry, isoAlpha3), isWideScreen, latitude)
 }
 
 describe('focusZoomFor on phones', () => {
@@ -22,7 +23,7 @@ describe('focusZoomFor on phones', () => {
   it('goes to 4.1 for countries as small as São Tomé and Príncipe or smaller', () => {
     expect(focusZoomOf('STP')).toBe(4.1)
     expect(focusZoomOf('BEL')).toBe(4.1)
-    expect(focusZoomFor(1, false)).toBe(4.1)
+    expect(focusZoomFor(1, false, 0)).toBe(4.1)
   })
 
   it('keeps zooming out for countries bigger than Canada, down to 1.25', () => {
@@ -31,8 +32,31 @@ describe('focusZoomFor on phones', () => {
   })
 
   it('zooms out further the wider the country', () => {
-    expect(focusZoomFor(1000, false)).toBeGreaterThan(focusZoomFor(2000, false))
-    expect(focusZoomFor(2000, false)).toBeGreaterThan(focusZoomFor(4000, false))
+    expect(focusZoomFor(1000, false, 0)).toBeGreaterThan(focusZoomFor(2000, false, 0))
+    expect(focusZoomFor(2000, false, 0)).toBeGreaterThan(focusZoomFor(4000, false, 0))
+  })
+})
+
+describe('focusZoomFor near the poles', () => {
+  it('zooms out above 66° latitude, in either hemisphere', () => {
+    expect(focusZoomFor(3000, false, 73)).toBeLessThan(focusZoomFor(3000, false, 66))
+    expect(focusZoomFor(3000, false, -73)).toBe(focusZoomFor(3000, false, 73))
+    expect(focusZoomFor(3000, false, 66)).toBe(focusZoomFor(3000, false, 0))
+  })
+
+  it('zooms out by about 1.4 levels at Greenland\'s latitude', () => {
+    expect(focusZoomFor(1, false, 73)).toBeCloseTo(4.1 - 1.44, 1)
+  })
+
+  it('stays finite at the poles', () => {
+    expect(Number.isFinite(focusZoomFor(1, false, 90))).toBe(true)
+  })
+})
+
+describe('focusZoomOf for Greenland and Antarctica', () => {
+  it('frames Greenland well out and Antarctica at the minimum', () => {
+    expect(focusZoomOf('GRL')).toBeLessThan(2)
+    expect(focusZoomOf('ATA')).toBe(1.25)
   })
 })
 
@@ -46,7 +70,7 @@ describe('focusZoomFor on wide screens', () => {
 
   it('goes to 4.3 for countries as small as São Tomé and Príncipe or smaller', () => {
     expect(focusZoomOf('STP', true)).toBe(4.3)
-    expect(focusZoomFor(1, true)).toBe(4.3)
+    expect(focusZoomFor(1, true, 0)).toBe(4.3)
   })
 
   it('zooms in further than on phones', () => {
