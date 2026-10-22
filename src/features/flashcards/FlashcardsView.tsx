@@ -3,7 +3,13 @@ import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { todayString } from './dates'
-import { chooseNextCountry, type CountryProgress, type DeckProgress, type QuestionId } from './deck'
+import {
+  chooseNextCountry,
+  type CountryProgress,
+  type DeckProgress,
+  type GlobeKind,
+  type QuestionId,
+} from './deck'
 import { Flashcard } from './Flashcard'
 import { gradeFromAnswer, reviewQuestion } from './sm2'
 import './FlashcardsView.css'
@@ -13,13 +19,15 @@ const ALL_CODES = Object.keys(countryFacts)
 type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
   questionIds: QuestionId[]
+  // Which kinds of globe question may be asked, if the globe question is.
+  globeKinds: GlobeKind[]
   onBack: () => void
 }
 
 // The flashcards screen: shows one country's card at a time, chosen by SM-2,
 // and saves progress after each card. Only the questions in `questionIds` are
 // asked, and only they decide which countries are due.
-export function FlashcardsView({ questionIds, onBack }: FlashcardsViewProps) {
+export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsViewProps) {
   // Fixed while the screen is open, so a session past midnight stays consistent.
   const [today] = useState(todayString)
   const [progress, setProgress] = useState<DeckProgress>(loadProgress)
@@ -54,6 +62,7 @@ export function FlashcardsView({ questionIds, onBack }: FlashcardsViewProps) {
           key={currentCode}
           country={countryFacts[currentCode]}
           questionIds={questionIds}
+          globeKinds={globeKinds}
           onFinish={(results) => finishCard(currentCode, results)}
         />
       )}

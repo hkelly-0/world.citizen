@@ -5,6 +5,11 @@ import type { QuestionProgress } from './sm2'
 export type QuestionId = 'globe' | 'area' | 'population' | 'ihdi' | 'capital'
 export const QUESTION_IDS: QuestionId[] = ['globe', 'area', 'population', 'ihdi', 'capital']
 
+// The two ways the 'globe' question can be asked: tap the country on the globe,
+// or type the name of the country shown on it. Both share the 'globe' schedule.
+export type GlobeKind = 'locate' | 'name'
+export const GLOBE_KINDS: GlobeKind[] = ['locate', 'name']
+
 // Progress for each question about one country. Questions that have never
 // been answered have no entry.
 export type CountryProgress = Partial<Record<QuestionId, QuestionProgress>>

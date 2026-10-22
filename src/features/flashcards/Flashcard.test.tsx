@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
-import { QUESTION_IDS } from './deck'
+import { GLOBE_KINDS, QUESTION_IDS } from './deck'
 import { Flashcard } from './Flashcard'
 
 // The real globes need WebGL, which jsdom doesn't have. These stand-ins have
@@ -60,7 +60,7 @@ describe('Flashcard', () => {
   })
 
   it("shows the country's picture", () => {
-    render(<Flashcard country={france} questionIds={QUESTION_IDS} onFinish={vi.fn()} />)
+    render(<Flashcard country={france} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={vi.fn()} />)
 
     expect(screen.getByRole('img', { name: 'Map of France' })).toHaveAttribute(
       'src',
@@ -70,7 +70,7 @@ describe('Flashcard', () => {
 
   it('asks location, area, population, IHDI, then capital, and reports all right', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={QUESTION_IDS} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     expect(await screen.findByText('Select France')).toBeInTheDocument()
     await answerLocation('Tap right country')
@@ -96,7 +96,7 @@ describe('Flashcard', () => {
   it('asks to name the country on the globe instead, half the time', async () => {
     vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={QUESTION_IDS} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     expect(await screen.findByText('This is')).toBeInTheDocument()
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
@@ -119,7 +119,7 @@ describe('Flashcard', () => {
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={QUESTION_IDS} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     await answerLocation('Tap wrong country')
     await userEvent.click(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' }))
@@ -150,7 +150,7 @@ describe('Flashcard', () => {
 
   it('reveals the capital without any text typed, counting it as wrong', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={QUESTION_IDS} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     await answerLocation('Tap right country')
     await answerRangeQuestion('Medium - ≥ 300K km²')
@@ -170,7 +170,7 @@ describe('Flashcard', () => {
   })
 
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {
-    render(<Flashcard country={countryFacts['VAT']} questionIds={QUESTION_IDS} onFinish={() => {}} />)
+    render(<Flashcard country={countryFacts['VAT']} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={() => {}} />)
 
     await answerLocation('Tap right country')
     await answerRangeQuestion('Teensy-weensy - < 10K km²')
@@ -181,7 +181,7 @@ describe('Flashcard', () => {
   })
 
   it('says the IHDI is estimated when the correct answer is our estimate', async () => {
-    render(<Flashcard country={countryFacts['SAU']} questionIds={QUESTION_IDS} onFinish={() => {}} />)
+    render(<Flashcard country={countryFacts['SAU']} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={() => {}} />)
 
     await answerLocation('Tap right country')
     await answerRangeQuestion('Large - ≥ 1M km²')
@@ -193,7 +193,7 @@ describe('Flashcard', () => {
   })
 
   it('accepts any one capital for countries with several', async () => {
-    render(<Flashcard country={countryFacts['ZAF']} questionIds={QUESTION_IDS} onFinish={() => {}} />)
+    render(<Flashcard country={countryFacts['ZAF']} questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onFinish={() => {}} />)
 
     await answerLocation('Tap right country')
     await answerRangeQuestion('Large - ≥ 1M km²')
@@ -207,7 +207,7 @@ describe('Flashcard', () => {
 
   it('asks only the chosen questions, and reports only their results', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={['population', 'capital']} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={['population', 'capital']} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     // No globe question, and the card starts at population.
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
@@ -222,7 +222,7 @@ describe('Flashcard', () => {
 
   it('finishes after the last range question when the capital is not asked', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={['globe', 'area']} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={['globe', 'area']} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     await answerLocation('Tap right country')
     await answerRangeQuestion('Tiny - ≥ 10K km²')
@@ -232,10 +232,28 @@ describe('Flashcard', () => {
 
   it('finishes straight after the globe question when it is the only one asked', async () => {
     const onFinish = vi.fn()
-    render(<Flashcard country={france} questionIds={['globe']} onFinish={onFinish} />)
+    render(<Flashcard country={france} questionIds={['globe']} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     await answerLocation('Tap wrong country')
 
     expect(onFinish).toHaveBeenCalledWith({ globe: false })
+  })
+
+  it('always asks to locate the country when only that kind of globe question is allowed', async () => {
+    // A random value that would otherwise pick the name question.
+    vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
+    render(<Flashcard country={france} questionIds={['globe']} globeKinds={['locate']} onFinish={vi.fn()} />)
+
+    expect(await screen.findByText('Select France')).toBeInTheDocument()
+    expect(screen.queryByText('This is')).not.toBeInTheDocument()
+  })
+
+  it('always asks to name the country when only that kind of globe question is allowed', async () => {
+    // A random value that would otherwise pick the location question.
+    vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
+    render(<Flashcard country={france} questionIds={['globe']} globeKinds={['name']} onFinish={vi.fn()} />)
+
+    expect(await screen.findByText('This is')).toBeInTheDocument()
+    expect(screen.queryByText('Select France')).not.toBeInTheDocument()
   })
 })

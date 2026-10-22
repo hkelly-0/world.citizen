@@ -1,6 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
-import { QUESTION_IDS, type QuestionId } from './features/flashcards/deck'
+import {
+  GLOBE_KINDS,
+  QUESTION_IDS,
+  type GlobeKind,
+  type QuestionId,
+} from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
@@ -32,11 +37,15 @@ function screenInHistory(): Screen {
 function customQuestionIdsInHistory(): QuestionId[] {
   return history.state?.questionIds ?? []
 }
+function customGlobeKindsInHistory(): GlobeKind[] {
+  return history.state?.globeKinds ?? []
+}
 
 export default function App() {
   // Read from history, so reloading the website stays on the same screen.
   const [screen, setScreen] = useState<Screen>(screenInHistory)
   const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(customQuestionIdsInHistory)
+  const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -58,9 +67,10 @@ export default function App() {
   }
   // Leaves the custom practice choice the same way, so back goes straight to
   // the main menu.
-  function startCustomPractice(questionIds: QuestionId[]) {
-    history.replaceState({ screen: 'custom-flashcards', questionIds }, '')
+  function startCustomPractice(questionIds: QuestionId[], globeKinds: GlobeKind[]) {
+    history.replaceState({ screen: 'custom-flashcards', questionIds, globeKinds }, '')
     setCustomQuestionIds(questionIds)
+    setCustomGlobeKinds(globeKinds)
     setScreen('custom-flashcards')
   }
   const goToMenu = () => history.back()
@@ -82,13 +92,19 @@ export default function App() {
     )
   }
   if (screen === 'classic-flashcards') {
-    return <FlashcardsView questionIds={QUESTION_IDS} onBack={goToMenu} />
+    return <FlashcardsView questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onBack={goToMenu} />
   }
   if (screen === 'custom-practice') {
     return <CustomPracticeMenu onBack={goToMenu} onGo={startCustomPractice} />
   }
   if (screen === 'custom-flashcards') {
-    return <FlashcardsView questionIds={customQuestionIds} onBack={goToMenu} />
+    return (
+      <FlashcardsView
+        questionIds={customQuestionIds}
+        globeKinds={customGlobeKinds}
+        onBack={goToMenu}
+      />
+    )
   }
   return (
     <MainMenu

@@ -4,10 +4,17 @@ import { describe, expect, it, vi } from 'vitest'
 import { CustomPracticeMenu } from './CustomPracticeMenu'
 
 describe('CustomPracticeMenu', () => {
-  it('lists the 5 question types, all unticked, with Go disabled', () => {
+  it('lists the 6 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu onBack={vi.fn()} onGo={vi.fn()} />)
 
-    for (const label of ['Location', 'Area', 'Population', 'IHDI', 'Capital']) {
+    for (const label of [
+      'Locate country on globe',
+      'Name country from globe',
+      'Area',
+      'Population',
+      'IHDI',
+      'Capital',
+    ]) {
       expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     }
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
@@ -18,13 +25,24 @@ describe('CustomPracticeMenu', () => {
     render(<CustomPracticeMenu onBack={vi.fn()} onGo={onGo} />)
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Location' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Name country from globe' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
     // Unticking removes it again.
     await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'])
+    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'])
+  })
+
+  it('treats both globe options as the one globe question type', async () => {
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu onBack={vi.fn()} onGo={onGo} />)
+
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Name country from globe' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Locate country on globe' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+
+    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'])
   })
 
   it('disables Go again when every box is unticked', async () => {

@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
-import type { QuestionId } from './deck'
+import type { GlobeKind, QuestionId } from './deck'
 import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
 import './Flashcard.css'
@@ -18,6 +18,9 @@ type FlashcardProps = {
   country: CountryFacts
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
   questionIds: QuestionId[]
+  // Which kinds of globe question may be asked: both for Classic, where each
+  // card picks one at random, or just one for custom practice.
+  globeKinds: GlobeKind[]
   // Called after the last question, with whether each asked question was answered right.
   onFinish: (results: Partial<Record<QuestionId, boolean>>) => void
 }
@@ -27,15 +30,17 @@ type FlashcardProps = {
 // `questionIds`. The globe question is, at random half the time each, either
 // finding the country (tapped on the globe) or naming the country shown on the
 // globe (typed). Each answer is revealed before moving on.
-export function Flashcard({ country, questionIds, onFinish }: FlashcardProps) {
+export function Flashcard({ country, questionIds, globeKinds, onFinish }: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
   const asksCapital = questionIds.includes('capital')
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
   const isGlobeOnly = questionIds.length === 1 && asksGlobe
   const questions = rangeQuestions(country).filter((question) => questionIds.includes(question.id))
-  // Chosen once, when the card is first shown.
-  const [isNameQuestion] = useState(() => Math.random() < 0.5)
+  // Chosen once, when the card is first shown: at random if both kinds are allowed.
+  const [isNameQuestion] = useState(() =>
+    globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
+  )
   // Whether the user has answered the globe question yet (or it isn't asked).
   const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(!asksGlobe)
   // Counts through the range questions being asked; the step after them is the capital.
