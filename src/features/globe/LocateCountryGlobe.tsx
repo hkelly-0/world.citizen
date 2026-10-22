@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { countryFacts } from '../../shared/countryFacts'
+import { countryDisplayName } from '../../shared/countryFacts'
 import {
   COUNTRY_SHAPES,
   createCountryMap,
@@ -94,9 +94,7 @@ export default function LocateCountryGlobe({
 
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
       const isCorrect = pickedShape.isoAlpha3 === isoAlpha3
-      const pickedName =
-        (pickedShape.isoAlpha3 === null ? undefined : countryFacts[pickedShape.isoAlpha3]?.commonName) ??
-        pickedShape.name
+      const pickedName = countryDisplayName(pickedShape)
 
       if (isCorrect) {
         flyToCorrectCountry()

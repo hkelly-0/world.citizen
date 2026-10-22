@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { countryFacts } from './countryFacts'
+import type { CountryShape } from './countries'
+import { countryDisplayName, countryFacts } from './countryFacts'
 
 describe('countryFacts', () => {
   const countries = Object.values(countryFacts)
@@ -58,5 +59,20 @@ describe('countryFacts', () => {
   it('lists several capitals for countries that have them', () => {
     expect(countryFacts['ZAF']?.capitals).toEqual(['Pretoria', 'Bloemfontein', 'Cape Town'])
     expect(countryFacts['BOL']?.capitals).toEqual(['Sucre', 'La Paz'])
+  })
+})
+
+describe('countryDisplayName', () => {
+  function shape(name: string, isoAlpha3: string | null): CountryShape {
+    return { name, isoNumeric: null, isoAlpha3, geometry: { type: 'Point', coordinates: [0, 0] } }
+  }
+
+  it("uses our common name for the 195 countries, not the map data's name", () => {
+    expect(countryDisplayName(shape('Vatican', 'VAT'))).toBe('Vatican City')
+  })
+
+  it("falls back to the map data's name for other areas", () => {
+    expect(countryDisplayName(shape('Kosovo', null))).toBe('Kosovo')
+    expect(countryDisplayName(shape('Greenland', 'GRL'))).toBe('Greenland')
   })
 })
