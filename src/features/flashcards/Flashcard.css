@@ -131,3 +131,15 @@
   width: 100%;
   margin-top: 16px;
 }
+
+/* Stands in for the location globe while its code loads, so the card behind
+   isn't visible. Same covering and colour as .locate-globe. */
+.flashcard__globe-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000010;
+}

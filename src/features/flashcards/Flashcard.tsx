@@ -66,9 +66,11 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>
-      {/* Covers the screen until the user taps a country, then fades away. */}
+      {/* Covers the screen until the user taps a country, then fades away.
+          While the globe's code loads, a plain cover of the same colour hides
+          the card so it doesn't flash up first. */}
       {hasLocationQuestion && !hasLocated && (
-        <Suspense fallback={<p className="loading">Loading globe…</p>}>
+        <Suspense fallback={<div className="flashcard__globe-loading">Loading globe…</div>}>
           <LocateCountryGlobe
             isoAlpha3={country.isoAlpha3}
             countryName={country.commonName}
