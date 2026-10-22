@@ -68,3 +68,25 @@
     opacity: 1;
   }
 }
+
+/* Shown once the globe has flown to the correct country. */
+.locate-globe__next {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 420px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.locate-globe__next:hover {
+  background: rgba(40, 48, 70, 0.95);
+}

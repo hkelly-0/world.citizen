@@ -9,12 +9,12 @@ import {
 } from './countryMap'
 import './LocateCountryGlobe.css'
 
-// The globe flies to the correct country, which stays in view for a while
-// before the globe fades. A wrong answer first shows the tapped country's name
-// in red for a moment; the name fades out as the globe starts to fly.
+// The globe flies to the correct country, then a Next button appears and the
+// globe stays until it is pressed. A wrong answer first shows the tapped
+// country's name in red for a moment; the name fades out as the globe starts
+// to fly.
 const WRONG_NAME_MS = 1200
 const FLY_TO_ANSWER_MS = 1500
-const HOLD_ON_ANSWER_MS = 1500
 // Must match the opacity transition in LocateCountryGlobe.css.
 const FADE_MS = 600
 // The red highlight and the red name fade in together. Must match the
@@ -29,14 +29,14 @@ type LocateCountryGlobeProps = {
   // The country the user has to find, e.g. "FIN".
   isoAlpha3: string
   countryName: string
-  // Called once the globe has faded away, with whether the user tapped the
-  // right country.
+  // Called once the user has pressed Next and the globe has faded away, with
+  // whether they tapped the right country.
   onAnswer: (isCorrect: boolean) => void
 }
 
 // A full-screen globe asking the user to tap a country. The tapped country
 // turns green or red (a wrong answer also shows the right country in green),
-// then the globe fades away.
+// then a Next button fades the globe away.
 export default function LocateCountryGlobe({
   isoAlpha3,
   countryName,
@@ -44,6 +44,11 @@ export default function LocateCountryGlobe({
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isFading, setIsFading] = useState(false)
+  // Whether the globe has finished flying to the correct country, so the Next
+  // button is shown.
+  const [isNextShown, setIsNextShown] = useState(false)
+  // Whether the user tapped the right country; read when Next is pressed.
+  const isCorrectRef = useRef(false)
   // The name of the wrongly tapped country, shown in red in the middle of the
   // screen until the globe flies to the correct country.
   const [wrongName, setWrongName] = useState<string | null>(null)
@@ -94,6 +99,7 @@ export default function LocateCountryGlobe({
 
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
       const isCorrect = pickedShape.isoAlpha3 === isoAlpha3
+      isCorrectRef.current = isCorrect
       const pickedName = countryDisplayName(pickedShape)
 
       if (isCorrect) {
@@ -120,10 +126,8 @@ export default function LocateCountryGlobe({
       }
 
       const flyStart = isCorrect ? 0 : WRONG_NAME_MS
-      const pause = flyStart + FLY_TO_ANSWER_MS + HOLD_ON_ANSWER_MS
       timeoutsRef.current.push(
-        window.setTimeout(() => setIsFading(true), pause),
-        window.setTimeout(() => onAnswerRef.current(isCorrect), pause + FADE_MS),
+        window.setTimeout(() => setIsNextShown(true), flyStart + FLY_TO_ANSWER_MS),
       )
     })
 
@@ -134,6 +138,14 @@ export default function LocateCountryGlobe({
       map.remove()
     }
   }, [isoAlpha3])
+
+  // Fades the globe away to reveal the card, then reports the answer.
+  function goToNext() {
+    setIsFading(true)
+    timeoutsRef.current.push(
+      window.setTimeout(() => onAnswerRef.current(isCorrectRef.current), FADE_MS),
+    )
+  }
 
   return (
     <div className={isFading ? 'locate-globe locate-globe--fading' : 'locate-globe'}>
@@ -149,6 +161,11 @@ export default function LocateCountryGlobe({
         >
           {wrongName}
         </p>
+      )}
+      {isNextShown && (
+        <button className="locate-globe__next" onClick={goToNext} autoFocus>
+          Next
+        </button>
       )}
     </div>
   )
