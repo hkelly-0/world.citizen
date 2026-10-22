@@ -23,33 +23,41 @@ describe('NameCountryGlobe', () => {
     vi.useRealTimers()
   })
 
-  it('turns a correct name green, then reports it once the globe has faded', async () => {
+  it('turns a correct name green, then reports it once Next is pressed and the globe has faded', async () => {
     const onAnswer = vi.fn()
     render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'Turkey')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     expect(screen.getByText('Turkey')).toHaveClass('typed-answer__green')
-    expect(onAnswer).not.toHaveBeenCalled()
 
-    await act(() => vi.advanceTimersByTimeAsync(3000))
+    // Nothing happens by itself; the answer waits for Next.
+    await act(() => vi.advanceTimersByTimeAsync(5000))
+    expect(onAnswer).not.toHaveBeenCalled()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(onAnswer).not.toHaveBeenCalled()
+    await act(() => vi.advanceTimersByTimeAsync(600))
     expect(onAnswer).toHaveBeenCalledWith(true)
   })
 
-  it('turns a wrong name red and types out the correct one', async () => {
+  it('turns a wrong name red, types out the correct one, then shows Next', async () => {
     const onAnswer = vi.fn()
     render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'Greece')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     expect(screen.getByText('Greece')).toHaveClass('typed-answer__red')
+    // Next waits for the correct name to finish typing out.
+    expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument()
 
     await act(() => vi.advanceTimersByTimeAsync(3000))
     expect(screen.getByText('Türkiye')).toHaveClass('typed-answer__green')
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    await act(() => vi.advanceTimersByTimeAsync(600))
     expect(onAnswer).toHaveBeenCalledWith(false)
   })
 
-  it('reports the answer without fading when the globe does not fade out', async () => {
+  it('reports the answer as soon as Next is pressed when the globe does not fade out', async () => {
     const onAnswer = vi.fn()
     const { container } = render(
       <NameCountryGlobe country={turkey} fadesOut={false} onAnswer={onAnswer} />,
@@ -57,8 +65,7 @@ describe('NameCountryGlobe', () => {
 
     await userEvent.type(screen.getByLabelText('This is'), 'Turkey')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
-    // Only the hold on the answer, with no fade to wait for.
-    await act(() => vi.advanceTimersByTimeAsync(1500))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onAnswer).toHaveBeenCalledWith(true)
     expect(container.querySelector('.name-globe--fading')).toBeNull()

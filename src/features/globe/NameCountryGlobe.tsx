@@ -10,9 +10,6 @@ import {
 } from './countryMap'
 import './NameCountryGlobe.css'
 
-// After answering, the revealed answer stays in view for a while (after the
-// correct name has finished typing out) before the globe fades.
-const HOLD_ON_ANSWER_MS = 1500
 // Must match the opacity transition in NameCountryGlobe.css.
 const FADE_MS = 600
 // The country is centred in the space between the back button and the
@@ -26,15 +23,15 @@ type NameCountryGlobeProps = {
   // no more questions, so the next card's globe replaces this one without the
   // card flashing up between them.
   fadesOut: boolean
-  // Called once the globe has faded away, with whether the user typed the
-  // right name.
+  // Called once the user has pressed Next and the globe has faded away, with
+  // whether they typed the right name.
   onAnswer: (isCorrect: boolean) => void
 }
 
 // A full-screen globe, opened on one country highlighted in yellow, asking the
 // user to type its name. The user can spin and zoom the globe, but taps on it
 // do nothing. The typed name turns green or red (with the correct name typed
-// out beside a wrong one), then the globe fades away.
+// out beside a wrong one), then a Next button fades the globe away.
 export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLFormElement>(null)
@@ -42,6 +39,9 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
   // The user's answer, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
   const [isFading, setIsFading] = useState(false)
+  // Whether the answer has been revealed in full (a wrong answer's correct name
+  // has finished typing out), so the Next button is shown.
+  const [isNextShown, setIsNextShown] = useState(false)
   const timeoutsRef = useRef<number[]>([])
 
   useEffect(() => {
@@ -78,15 +78,18 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
 
     // A wrong answer waits for the correct name to finish typing out.
     const typingMs = isCorrect ? 0 : country.commonName.length * TYPING_MS_PER_LETTER
-    const pause = typingMs + HOLD_ON_ANSWER_MS
-    if (fadesOut) {
-      timeoutsRef.current.push(
-        window.setTimeout(() => setIsFading(true), pause),
-        window.setTimeout(() => onAnswer(isCorrect), pause + FADE_MS),
-      )
-    } else {
-      timeoutsRef.current.push(window.setTimeout(() => onAnswer(isCorrect), pause))
+    timeoutsRef.current.push(window.setTimeout(() => setIsNextShown(true), typingMs))
+  }
+
+  // Fades the globe away to reveal the card (if it fades), then reports the answer.
+  function goToNext() {
+    const isCorrect = isCountryNameCorrect(answer ?? '', country)
+    if (!fadesOut) {
+      onAnswer(isCorrect)
+      return
     }
+    setIsFading(true)
+    timeoutsRef.current.push(window.setTimeout(() => onAnswer(isCorrect), FADE_MS))
   }
 
   return (
@@ -114,6 +117,11 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
             isCorrect={isCountryNameCorrect(answer, country)}
             correctAnswer={country.commonName}
           />
+        )}
+        {isNextShown && (
+          <button type="button" className="name-globe__next" onClick={goToNext} autoFocus>
+            Next
+          </button>
         )}
       </form>
     </div>
