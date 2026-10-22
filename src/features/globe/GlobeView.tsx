@@ -8,6 +8,7 @@ import {
   flyToCountry,
 } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
+import { CountrySearch } from './CountrySearch'
 import './GlobeView.css'
 
 // The open info panel has its own browser history entry (on top of the globe
@@ -45,6 +46,12 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       history.pushState({ ...history.state, panelOpen: true }, '')
     }
     setSelectedIndex(index)
+  }
+
+  // Choosing a country in the search box works like tapping it on the globe.
+  function selectSearchedCountry(isoAlpha3: string) {
+    const index = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
+    if (index !== -1) selectCountry(index)
   }
 
   // Going back fires 'popstate', which clears the selection (below).
@@ -129,6 +136,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
       <BackButton onClick={goToMenu} />
+      <CountrySearch onSelect={selectSearchedCountry} />
       {selectedCountry !== null && (
         <CountryInfoPanel country={selectedCountry} onClose={closePanel} ref={panelRef} />
       )}
