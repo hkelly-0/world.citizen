@@ -22,6 +22,12 @@ describe('searchCountries', () => {
     expect(namesFound('leste')).toEqual(['Timor-Leste'])
   })
 
+  it('also matches alternative names, but lists the common name', () => {
+    expect(namesFound('burma')).toEqual(['Myanmar'])
+    expect(namesFound('holl')).toEqual(['Netherlands'])
+    expect(namesFound('britain')).toEqual(['United Kingdom'])
+  })
+
   it('does not match the middle of a word', () => {
     expect(namesFound('land')).toEqual([])
   })
