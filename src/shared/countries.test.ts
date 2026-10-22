@@ -4,8 +4,14 @@ import { loadCountryShapes } from './countries'
 describe('loadCountryShapes', () => {
   const shapes = loadCountryShapes()
 
-  it('loads every country outline from the 1:50m dataset', () => {
-    expect(shapes.length).toBe(241)
+  it('loads every country outline from the 1:50m dataset, plus Tuvalu', () => {
+    expect(shapes.length).toBe(242)
+  })
+
+  it('includes Tuvalu, which the 1:50m dataset leaves out', () => {
+    const tuvalu = shapes.find((shape) => shape.isoAlpha3 === 'TUV')
+    expect(tuvalu?.isoNumeric).toBe('798')
+    expect(tuvalu?.geometry.type).toBe('MultiPolygon')
   })
 
   it('maps ISO numeric codes to alpha-3 codes', () => {
