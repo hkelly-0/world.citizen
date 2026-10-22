@@ -62,7 +62,7 @@ describe('Flashcard', () => {
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
     await answerRangeQuestion('Great - 8')
     await answerCapital('paris')
-    expect(screen.getByText('paris')).toHaveClass('flashcard__capital-green')
+    expect(screen.getByText('paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(5)
@@ -85,9 +85,9 @@ describe('Flashcard', () => {
     await answerRangeQuestion('Numerous - ≥ 50M')
     await answerRangeQuestion('Great - 8')
     await answerCapital('Lyon')
-    expect(screen.getByText('Lyon')).toHaveClass('flashcard__capital-red')
+    expect(screen.getByText('Lyon')).toHaveClass('typed-answer__red')
     // The correct capital is typed out letter by letter.
-    expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
+    expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(2)
@@ -102,7 +102,7 @@ describe('Flashcard', () => {
     await answerRangeQuestion('Numerous - ≥ 50M')
     await answerRangeQuestion('Great - 8')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
-    expect(await screen.findByText('Paris')).toHaveClass('flashcard__capital-green')
+    expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(4)
@@ -141,6 +141,6 @@ describe('Flashcard', () => {
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
-    expect(screen.getByText('Cape Town')).toHaveClass('flashcard__capital-green')
+    expect(screen.getByText('Cape Town')).toHaveClass('typed-answer__green')
   })
 })

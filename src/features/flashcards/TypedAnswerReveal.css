@@ -1,0 +1,48 @@
+/* The text box for a typed answer (also used by the text boxes the reveal
+   replaces, so both look the same). */
+.typed-answer__box {
+  min-height: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: inherit;
+  /* 16px or more stops phones zooming in when the field is focused. */
+  font-size: 1rem;
+}
+
+/* The answered text: the text box turns into a plain box whose text fades
+   to green (correct) or red (wrong). Without a "from" keyframe the fade
+   starts from the text's normal colour. */
+.typed-answer__box--correct {
+  border-color: #3fb950;
+  background: rgba(63, 185, 80, 0.25);
+}
+
+.typed-answer__green {
+  color: #3fb950;
+  animation: typed-answer-fade-to-green 600ms ease;
+}
+
+/* The correct answer typed out beside a wrong answer appears at once. */
+.typed-answer__green--typed {
+  animation: none;
+}
+
+.typed-answer__red {
+  color: #f85149;
+  animation: typed-answer-fade-to-red 600ms ease;
+}
+
+@keyframes typed-answer-fade-to-green {
+  to {
+    color: #3fb950;
+  }
+}
+
+@keyframes typed-answer-fade-to-red {
+  to {
+    color: #f85149;
+  }
+}

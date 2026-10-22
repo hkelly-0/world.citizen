@@ -80,53 +80,6 @@
   gap: 8px;
 }
 
-.flashcard__capital-input {
-  min-height: 44px;
-  padding: 8px 12px;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.3);
-  color: inherit;
-  /* 16px or more stops phones zooming in when the field is focused. */
-  font-size: 1rem;
-}
-
-/* The answered capital: the text box turns into a plain box whose text fades
-   to green (correct) or red (wrong). Without a "from" keyframe the fade
-   starts from the text's normal colour. */
-.flashcard__capital-input--correct {
-  border-color: #3fb950;
-  background: rgba(63, 185, 80, 0.25);
-}
-
-.flashcard__capital-green {
-  color: #3fb950;
-  animation: flashcard-fade-to-green 600ms ease;
-}
-
-/* The correct capital typed out beside a wrong answer appears at once. */
-.flashcard__capital-green--typed {
-  animation: none;
-}
-
-.flashcard__capital-red {
-  color: #f85149;
-  animation: flashcard-fade-to-red 600ms ease;
-}
-
-@keyframes flashcard-fade-to-green {
-  to {
-    color: #3fb950;
-  }
-}
-
-@keyframes flashcard-fade-to-red {
-  to {
-    color: #f85149;
-  }
-}
-
 .flashcard__next {
   width: 100%;
   margin-top: 16px;
