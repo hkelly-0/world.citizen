@@ -5,7 +5,7 @@ import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../s
 const NO_DATA = 'No data'
 
 // No country's IHDI is high enough for this range, so it isn't offered.
-const UNUSED_IHDI_TITLE = '10 - Fantastic'
+const UNUSED_IHDI_TITLE = 'Fantastic - 10'
 
 // Options are listed largest first, so the biggest range is at the top.
 function largestFirst(titles: string[]): string[] {

@@ -22,7 +22,7 @@ vi.mock('../globe/LocateCountryGlobe', () => ({
   ),
 }))
 
-// France: area Medium, population Numerous, IHDI 8 - Great, capital Paris.
+// France: area Medium, population Numerous, IHDI Great - 8, capital Paris.
 const france = countryFacts['FRA']
 
 async function answerLocation(button: 'Tap right country' | 'Tap wrong country') {
@@ -61,9 +61,9 @@ describe('Flashcard', () => {
 
     expect(screen.queryByText('Select Tuvalu')).not.toBeInTheDocument()
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('Teensy-weensy')
-    await answerRangeQuestion('Minute')
-    await answerRangeQuestion('6 - Ok')
+    await answerRangeQuestion('Teensy-weensy - < 10K km²')
+    await answerRangeQuestion('Minute - < 100K')
+    await answerRangeQuestion('Ok - 6')
     await answerCapital('Funafuti')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
@@ -77,11 +77,11 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Select France')).toBeInTheDocument()
     await answerLocation('Tap right country')
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('Medium')
+    await answerRangeQuestion('Medium - ≥ 300K km²')
     expect(screen.getByText('Population?')).toBeInTheDocument()
-    await answerRangeQuestion('Numerous')
+    await answerRangeQuestion('Numerous - ≥ 50M')
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
-    await answerRangeQuestion('8 - Great')
+    await answerRangeQuestion('Great - 8')
     await answerCapital('paris')
     expect(screen.getByText('Correct! Paris')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -94,14 +94,14 @@ describe('Flashcard', () => {
     render(<Flashcard country={france} onFinish={onFinish} />)
 
     await answerLocation('Tap wrong country')
-    await userEvent.click(screen.getByRole('button', { name: 'Tiny' }))
-    expect(screen.getByText("Wrong — it's Medium")).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' }))
+    expect(screen.getByText("Wrong — it's Medium - ≥ 300K km²")).toBeInTheDocument()
     // Options can't be changed once answered.
-    expect(screen.getByRole('button', { name: 'Medium' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toBeDisabled()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    await answerRangeQuestion('Numerous')
-    await answerRangeQuestion('8 - Great')
+    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('Great - 8')
     await answerCapital('Lyon')
     expect(screen.getByText("Wrong — it's Paris")).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -113,8 +113,8 @@ describe('Flashcard', () => {
     render(<Flashcard country={countryFacts['VAT']} onFinish={() => {}} />)
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Teensy-weensy')
-    await answerRangeQuestion('Minute')
+    await answerRangeQuestion('Teensy-weensy - < 10K km²')
+    await answerRangeQuestion('Minute - < 100K')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
     expect(screen.getByText('Correct! No data')).toBeInTheDocument()
@@ -124,9 +124,9 @@ describe('Flashcard', () => {
     render(<Flashcard country={countryFacts['ZAF']} onFinish={() => {}} />)
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Large')
-    await answerRangeQuestion('Numerous')
-    await answerRangeQuestion('4 - Very Bad')
+    await answerRangeQuestion('Large - ≥ 1M km²')
+    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('Very Bad - 4')
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
     await userEvent.click(screen.getByRole('button', { name: 'Check' }))
 

@@ -4,45 +4,45 @@ import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from './statR
 
 describe('rangeTitle', () => {
   it('puts population values in the right range', () => {
-    expect(rangeTitle(POPULATION_RANGES, 501)).toBe('Minute')
-    expect(rangeTitle(POPULATION_RANGES, 500_000)).toBe('Few')
-    expect(rangeTitle(POPULATION_RANGES, 5_000_000)).toBe('Smallish')
-    expect(rangeTitle(POPULATION_RANGES, 30_000_000)).toBe('Moderate')
-    expect(rangeTitle(POPULATION_RANGES, 66_650_804)).toBe('Numerous')
-    expect(rangeTitle(POPULATION_RANGES, 347_000_000)).toBe('Multitudes')
+    expect(rangeTitle(POPULATION_RANGES, 501)).toBe('Minute - < 100K')
+    expect(rangeTitle(POPULATION_RANGES, 500_000)).toBe('Few - ≥ 100K')
+    expect(rangeTitle(POPULATION_RANGES, 5_000_000)).toBe('Smallish - ≥ 1M')
+    expect(rangeTitle(POPULATION_RANGES, 30_000_000)).toBe('Moderate - ≥ 10M')
+    expect(rangeTitle(POPULATION_RANGES, 66_650_804)).toBe('Numerous - ≥ 50M')
+    expect(rangeTitle(POPULATION_RANGES, 347_000_000)).toBe('Multitudes - ≥ 100M')
     expect(rangeTitle(POPULATION_RANGES, 1_463_865_525)).toBe('1.4 Billion')
   })
 
   it('puts area values in the right range', () => {
-    expect(rangeTitle(AREA_RANGES, 0.44)).toBe('Teensy-weensy')
-    expect(rangeTitle(AREA_RANGES, 50_000)).toBe('Tiny')
-    expect(rangeTitle(AREA_RANGES, 200_000)).toBe('Small')
-    expect(rangeTitle(AREA_RANGES, 551_695)).toBe('Medium')
-    expect(rangeTitle(AREA_RANGES, 2_000_000)).toBe('Large')
-    expect(rangeTitle(AREA_RANGES, 9_706_961)).toBe('Immense')
+    expect(rangeTitle(AREA_RANGES, 0.44)).toBe('Teensy-weensy - < 10K km²')
+    expect(rangeTitle(AREA_RANGES, 50_000)).toBe('Tiny - ≥ 10K km²')
+    expect(rangeTitle(AREA_RANGES, 200_000)).toBe('Small - ≥ 100K km²')
+    expect(rangeTitle(AREA_RANGES, 551_695)).toBe('Medium - ≥ 300K km²')
+    expect(rangeTitle(AREA_RANGES, 2_000_000)).toBe('Large - ≥ 1M km²')
+    expect(rangeTitle(AREA_RANGES, 9_706_961)).toBe('Immense - ≥ 5M km²')
   })
 
   it('puts IHDI values in the range given by multiplying by 10 and rounding', () => {
-    expect(rangeTitle(IHDI_RANGES, 0.226)).toBe('2 - Very Awful')
-    expect(rangeTitle(IHDI_RANGES, 0.3)).toBe('3 - Awful')
-    expect(rangeTitle(IHDI_RANGES, 0.64)).toBe('6 - Ok')
-    expect(rangeTitle(IHDI_RANGES, 0.65)).toBe('7 - Good')
-    expect(rangeTitle(IHDI_RANGES, 0.836)).toBe('8 - Great')
-    expect(rangeTitle(IHDI_RANGES, 0.923)).toBe('9 - Excellent')
-    expect(rangeTitle(IHDI_RANGES, 0.95)).toBe('10 - Fantastic')
+    expect(rangeTitle(IHDI_RANGES, 0.226)).toBe('Very Awful - 2')
+    expect(rangeTitle(IHDI_RANGES, 0.3)).toBe('Awful - 3')
+    expect(rangeTitle(IHDI_RANGES, 0.64)).toBe('Ok - 6')
+    expect(rangeTitle(IHDI_RANGES, 0.65)).toBe('Good - 7')
+    expect(rangeTitle(IHDI_RANGES, 0.836)).toBe('Great - 8')
+    expect(rangeTitle(IHDI_RANGES, 0.923)).toBe('Excellent - 9')
+    expect(rangeTitle(IHDI_RANGES, 0.95)).toBe('Fantastic - 10')
   })
 
   it('matches multiplying by 10 and rounding for every country with an IHDI', () => {
     for (const country of Object.values(countryFacts)) {
       if (country.ihdi === null) continue
       const rounded = Math.round(country.ihdi * 10)
-      expect(rangeTitle(IHDI_RANGES, country.ihdi).startsWith(`${rounded} - `)).toBe(true)
+      expect(rangeTitle(IHDI_RANGES, country.ihdi).endsWith(` - ${rounded}`)).toBe(true)
     }
   })
 
   it('puts a value exactly on a boundary in the upper range', () => {
-    expect(rangeTitle(POPULATION_RANGES, 1_000_000)).toBe('Smallish')
-    expect(rangeTitle(AREA_RANGES, 10_000)).toBe('Tiny')
+    expect(rangeTitle(POPULATION_RANGES, 1_000_000)).toBe('Smallish - ≥ 1M')
+    expect(rangeTitle(AREA_RANGES, 10_000)).toBe('Tiny - ≥ 10K km²')
   })
 
   it('lists ranges from smallest to largest, starting at 0', () => {

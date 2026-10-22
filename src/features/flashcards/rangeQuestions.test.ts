@@ -5,21 +5,21 @@ import { rangeQuestions } from './rangeQuestions'
 const france = countryFacts['FRA']
 
 describe('rangeQuestions', () => {
-  it('lists options largest first, without "10 - Fantastic", with "No data" last', () => {
+  it('lists options largest first, without "Fantastic - 10", with "No data" last', () => {
     const [area, population, ihdi] = rangeQuestions(france)
 
-    expect(area.options).toEqual(['Immense', 'Large', 'Medium', 'Small', 'Tiny', 'Teensy-weensy'])
+    expect(area.options).toEqual(['Immense - ≥ 5M km²', 'Large - ≥ 1M km²', 'Medium - ≥ 300K km²', 'Small - ≥ 100K km²', 'Tiny - ≥ 10K km²', 'Teensy-weensy - < 10K km²'])
     expect(population.options[0]).toBe('1.4 Billion')
-    expect(population.options.at(-1)).toBe('Minute')
+    expect(population.options.at(-1)).toBe('Minute - < 100K')
     expect(ihdi.options).toEqual([
-      '9 - Excellent',
-      '8 - Great',
-      '7 - Good',
-      '6 - Ok',
-      '5 - Bad',
-      '4 - Very Bad',
-      '3 - Awful',
-      '2 - Very Awful',
+      'Excellent - 9',
+      'Great - 8',
+      'Good - 7',
+      'Ok - 6',
+      'Bad - 5',
+      'Very Bad - 4',
+      'Awful - 3',
+      'Very Awful - 2',
       'No data',
     ])
   })
