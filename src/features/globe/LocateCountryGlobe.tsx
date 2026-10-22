@@ -87,6 +87,16 @@ export default function LocateCountryGlobe({
       if (picked === undefined) return
       hasAnsweredRef.current = true
 
+      // Stops the user interrupting the fly to the correct country.
+      map.dragPan.disable()
+      map.dragRotate.disable()
+      map.scrollZoom.disable()
+      map.boxZoom.disable()
+      map.doubleClickZoom.disable()
+      map.touchZoomRotate.disable()
+      map.touchPitch.disable()
+      map.keyboard.disable()
+
       const pickedIndex = Number(picked.id)
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
       const isCorrect = pickedShape.isoAlpha3 === isoAlpha3
