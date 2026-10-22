@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Same as the body background in src/index.css, so the status and navigation bars match the app. -->
+    <color name="appBackground">#000010</color>
+</resources>
