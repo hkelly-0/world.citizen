@@ -8,6 +8,8 @@ import App from './App'
 describe('App', () => {
   afterEach(() => {
     localStorage.clear()
+    // Screens add history entries, so start each test back on the menu's.
+    history.replaceState(null, '')
   })
 
   it('opens on a main menu with the title, subtitle, Globe and Flashcards', () => {
@@ -26,7 +28,17 @@ describe('App', () => {
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
-    expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
+
+  it("goes back to the menu with the browser's back button", async () => {
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    expect(screen.getByText('Area?')).toBeInTheDocument()
+
+    history.back()
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
   it('saves progress after finishing a card', async () => {

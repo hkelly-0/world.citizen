@@ -130,6 +130,12 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
+// The open info panel has its own browser history entry (on top of the globe
+// screen's), so back closes the panel before leaving the globe.
+function isPanelOpenInHistory(): boolean {
+  return history.state?.panelOpen === true
+}
+
 type GlobeViewProps = {
   onBack: () => void
 }
@@ -139,6 +145,35 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
   const mapRef = useRef<MapLibreMap | null>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+
+  // Opening the panel adds its history entry; tapping another country while
+  // it's open just swaps the country.
+  function selectCountry(index: number) {
+    if (!isPanelOpenInHistory()) {
+      history.pushState({ ...history.state, panelOpen: true }, '')
+    }
+    setSelectedIndex(index)
+  }
+
+  // Going back fires 'popstate', which clears the selection (below).
+  function closePanel() {
+    if (isPanelOpenInHistory()) history.back()
+  }
+
+  // With the panel open, its history entry is skipped too.
+  function goToMenu() {
+    if (isPanelOpenInHistory()) history.go(-2)
+    else onBack()
+  }
+
+  // Back (browser or Android) from the panel's entry closes the panel.
+  useEffect(() => {
+    const closePanelIfLeft = () => {
+      if (!isPanelOpenInHistory()) setSelectedIndex(null)
+    }
+    window.addEventListener('popstate', closePanelIfLeft)
+    return () => window.removeEventListener('popstate', closePanelIfLeft)
+  }, [])
 
   // Create the map once, when the component mounts.
   useEffect(() => {
@@ -159,7 +194,8 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     // Tapping a country selects it; tapping the ocean closes the info panel.
     map.on('click', (event) => {
       const [country] = map.queryRenderedFeatures(event.point, { layers: ['country-fills'] })
-      setSelectedIndex(country === undefined ? null : Number(country.id))
+      if (country === undefined) closePanel()
+      else selectCountry(Number(country.id))
     })
 
     if (CAN_HOVER) {
@@ -210,9 +246,9 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
   return (
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
-      <BackButton onClick={onBack} />
+      <BackButton onClick={goToMenu} />
       {selectedCountry !== null && (
-        <CountryInfoPanel country={selectedCountry} onClose={() => setSelectedIndex(null)} />
+        <CountryInfoPanel country={selectedCountry} onClose={closePanel} />
       )}
     </div>
   )
