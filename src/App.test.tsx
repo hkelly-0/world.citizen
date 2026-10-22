@@ -103,4 +103,27 @@ describe('App', () => {
     const [countryProgress] = Object.values(saved) as object[]
     expect(Object.keys(countryProgress).sort()).toEqual(['area', 'capital', 'globe', 'ihdi', 'population'])
   })
+
+  it('practises only the ticked question types, and saves progress for just those', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+
+    // Straight to the capital: no globe or range questions.
+    expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Area?')).not.toBeInTheDocument()
+    await userEvent.type(screen.getByRole('textbox'), 'Nowhere')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    const saved = JSON.parse(localStorage.getItem('geography-app/question-progress') ?? '{}')
+    const [countryProgress] = Object.values(saved) as object[]
+    expect(Object.keys(countryProgress)).toEqual(['capital'])
+
+    // Back goes straight to the main menu.
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
 })

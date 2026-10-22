@@ -16,22 +16,26 @@ const COUNTRY_IMAGES = '/country-images'
 
 type FlashcardProps = {
   country: CountryFacts
-  // Called after the last question, with whether each question was answered right.
-  onFinish: (results: Record<QuestionId, boolean>) => void
+  // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
+  questionIds: QuestionId[]
+  // Called after the last question, with whether each asked question was answered right.
+  onFinish: (results: Partial<Record<QuestionId, boolean>>) => void
 }
 
 // One country's card: first a globe question, then area, population and IHDI
-// (picked from range titles), then the capital (typed). The globe question is,
-// at random half the time each, either finding the country (tapped on the
-// globe) or naming the country shown on the globe (typed). Each answer is
-// revealed before moving on.
-export function Flashcard({ country, onFinish }: FlashcardProps) {
-  const questions = rangeQuestions(country)
+// (picked from range titles), then the capital (typed), skipping any not in
+// `questionIds`. The globe question is, at random half the time each, either
+// finding the country (tapped on the globe) or naming the country shown on the
+// globe (typed). Each answer is revealed before moving on.
+export function Flashcard({ country, questionIds, onFinish }: FlashcardProps) {
+  const asksGlobe = questionIds.includes('globe')
+  const asksCapital = questionIds.includes('capital')
+  const questions = rangeQuestions(country).filter((question) => questionIds.includes(question.id))
   // Chosen once, when the card is first shown.
   const [isNameQuestion] = useState(() => Math.random() < 0.5)
-  // Whether the user has answered the globe question yet.
-  const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(false)
-  // 0–2 are the range questions; 3 is the capital.
+  // Whether the user has answered the globe question yet (or it isn't asked).
+  const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(!asksGlobe)
+  // Counts through the range questions being asked; the step after them is the capital.
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
@@ -40,10 +44,14 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
   const [typedCapital, setTypedCapital] = useState('')
 
   const isCapitalStep = step === questions.length
+  const isLastStep = asksCapital ? isCapitalStep : step === questions.length - 1
 
   function submitGlobeAnswer(isCorrect: boolean) {
+    const newResults = { ...results, globe: isCorrect }
     setHasAnsweredGlobe(true)
-    setResults((previous) => ({ ...previous, globe: isCorrect }))
+    setResults(newResults)
+    // When only the globe question is asked, the card is finished.
+    if (questions.length === 0 && !asksCapital) onFinish(newResults)
   }
 
   function submitAnswer(id: QuestionId, chosen: string, isCorrect: boolean) {
@@ -58,9 +66,8 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
   }
 
   function goToNext() {
-    if (isCapitalStep) {
-      // Every question has been answered by now.
-      onFinish(results as Record<QuestionId, boolean>)
+    if (isLastStep) {
+      onFinish(results)
     } else {
       setStep(step + 1)
       setAnswer(null)
@@ -92,21 +99,22 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
       />
       <h2>{country.commonName}</h2>
 
-      {isCapitalStep ? (
-        <CapitalQuestion
-          country={country}
-          typedCapital={typedCapital}
-          onTypedCapitalChange={setTypedCapital}
-          onSubmit={submitCapital}
-          answer={answer}
-        />
-      ) : (
+      {!isCapitalStep && (
         <RangeQuestionView
           question={questions[step]}
           answer={answer}
           onAnswer={(chosen) =>
             submitAnswer(questions[step].id, chosen, chosen === questions[step].correctAnswer)
           }
+        />
+      )}
+      {isCapitalStep && asksCapital && (
+        <CapitalQuestion
+          country={country}
+          typedCapital={typedCapital}
+          onTypedCapitalChange={setTypedCapital}
+          onSubmit={submitCapital}
+          answer={answer}
         />
       )}
 

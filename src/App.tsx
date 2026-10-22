@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
+import { QUESTION_IDS, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
@@ -9,8 +10,15 @@ import { MainMenu } from './features/menu/MainMenu'
 const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
-// cards, and 'custom-practice' the choice of question types to practise.
-type Screen = 'menu' | 'globe' | 'flashcards' | 'classic-flashcards' | 'custom-practice'
+// cards, 'custom-practice' the choice of question types to practise, and
+// 'custom-flashcards' the cards asking only those question types.
+type Screen =
+  | 'menu'
+  | 'globe'
+  | 'flashcards'
+  | 'classic-flashcards'
+  | 'custom-practice'
+  | 'custom-flashcards'
 
 // Opening a screen adds a browser history entry (the URL stays the same), so
 // the browser's back button, and Android's, return to the main menu. The main
@@ -19,9 +27,16 @@ function screenInHistory(): Screen {
   return history.state?.screen ?? 'menu'
 }
 
+// The question types chosen for custom practice are kept in its history entry
+// too, so reloading the website keeps practising the same ones.
+function customQuestionIdsInHistory(): QuestionId[] {
+  return history.state?.questionIds ?? []
+}
+
 export default function App() {
   // Read from history, so reloading the website stays on the same screen.
   const [screen, setScreen] = useState<Screen>(screenInHistory)
+  const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(customQuestionIdsInHistory)
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -40,6 +55,13 @@ export default function App() {
   function replaceScreen(next: Screen) {
     history.replaceState({ screen: next }, '')
     setScreen(next)
+  }
+  // Leaves the custom practice choice the same way, so back goes straight to
+  // the main menu.
+  function startCustomPractice(questionIds: QuestionId[]) {
+    history.replaceState({ screen: 'custom-flashcards', questionIds }, '')
+    setCustomQuestionIds(questionIds)
+    setScreen('custom-flashcards')
   }
   const goToMenu = () => history.back()
 
@@ -60,11 +82,13 @@ export default function App() {
     )
   }
   if (screen === 'classic-flashcards') {
-    return <FlashcardsView onBack={goToMenu} />
+    return <FlashcardsView questionIds={QUESTION_IDS} onBack={goToMenu} />
   }
   if (screen === 'custom-practice') {
-    // Custom practice cards aren't built yet, so "Go" does nothing for now.
-    return <CustomPracticeMenu onBack={goToMenu} onGo={() => {}} />
+    return <CustomPracticeMenu onBack={goToMenu} onGo={startCustomPractice} />
+  }
+  if (screen === 'custom-flashcards') {
+    return <FlashcardsView questionIds={customQuestionIds} onBack={goToMenu} />
   }
   return (
     <MainMenu

@@ -13,12 +13,16 @@ export type CountryProgress = Partial<Record<QuestionId, QuestionProgress>>
 // Countries that have never been reviewed have no entry.
 export type DeckProgress = Record<string, CountryProgress>
 
-// When the country's whole card is due: the earliest due date of its answered
-// questions. Returns null if none of its questions has been answered.
-export function countryDueDate(country: CountryProgress | undefined): string | null {
+// When the country's card is due: the earliest due date of its answered
+// questions among `questionIds` (all 5 for Classic, or the question types
+// ticked for custom practice). Returns null if none of them has been answered.
+export function countryDueDate(
+  country: CountryProgress | undefined,
+  questionIds: QuestionId[],
+): string | null {
   if (country === undefined) return null
   let earliest: string | null = null
-  for (const id of QUESTION_IDS) {
+  for (const id of questionIds) {
     const question = country[id]
     if (question !== undefined && (earliest === null || question.dueDate < earliest)) {
       earliest = question.dueDate
@@ -28,24 +32,27 @@ export function countryDueDate(country: CountryProgress | undefined): string | n
 }
 
 // Picks the next country to show: the most overdue review first, then a random
-// country the user hasn't seen yet. Returns null when nothing is left today.
+// country the user hasn't seen yet. Only the questions in `questionIds` count.
+// Returns null when nothing is left today.
 // `random` is a parameter so tests can make the choice predictable.
 export function chooseNextCountry(
   allCodes: string[],
   progress: DeckProgress,
   today: string,
+  questionIds: QuestionId[],
   random: () => number = Math.random,
 ): string | null {
+  const dueDate = (code: string) => countryDueDate(progress[code], questionIds)
   const dueCodes = allCodes
     .filter((code) => {
-      const dueDate = countryDueDate(progress[code])
-      return dueDate !== null && dueDate <= today
+      const date = dueDate(code)
+      return date !== null && date <= today
     })
     // Due countries all have a due date, so `!` is safe here.
-    .sort((a, b) => countryDueDate(progress[a])!.localeCompare(countryDueDate(progress[b])!))
+    .sort((a, b) => dueDate(a)!.localeCompare(dueDate(b)!))
   if (dueCodes.length > 0) return dueCodes[0]
 
-  const newCodes = allCodes.filter((code) => countryDueDate(progress[code]) === null)
+  const newCodes = allCodes.filter((code) => dueDate(code) === null)
   if (newCodes.length > 0) return newCodes[Math.floor(random() * newCodes.length)]
 
   return null
