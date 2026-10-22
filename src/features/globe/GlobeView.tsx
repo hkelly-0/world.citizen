@@ -3,6 +3,7 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
 import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
+import { mainLandmassBounds } from './mainLandmass'
 import './GlobeView.css'
 
 // The open info panel has its own browser history entry (on top of the globe
@@ -11,6 +12,17 @@ function isPanelOpenInHistory(): boolean {
   return history.state?.panelOpen === true
 }
 
+// When a country is selected the globe turns and zooms to fit its main
+// landmass in the space not covered by the back button and info panel. The
+// padding is in pixels. Tiny countries stop zooming at about the level where
+// the 1:50m borders run out of detail.
+const FOCUS_PADDING = 24
+const FOCUS_TOP_PADDING = 72
+const FOCUS_MAX_ZOOM = 8
+const FOCUS_DURATION_MS = 1200
+// The panel's bottom margin, plus a gap above it.
+const PANEL_BOTTOM_MARGIN = 16
+
 type GlobeViewProps = {
   onBack: () => void
 }
@@ -18,6 +30,7 @@ type GlobeViewProps = {
 export default function GlobeView({ onBack }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
+  const panelRef = useRef<HTMLElement>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
@@ -85,6 +98,38 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     }
   }, [selectedIndex])
 
+  // Turn and zoom the globe to the selected country. The panel is already on
+  // screen by now, so it can be measured.
+  useEffect(() => {
+    const map = mapRef.current
+    if (selectedIndex === null || map === null) return
+
+    const [west, south, east, north] = mainLandmassBounds(COUNTRY_SHAPES[selectedIndex].geometry)
+    const mapHeight = map.getContainer().clientHeight
+    const panelHeight = panelRef.current?.offsetHeight ?? 0
+    // On a short screen the panel could leave no room, so it gets at most 40%.
+    const bottomPadding = Math.min(
+      panelHeight + PANEL_BOTTOM_MARGIN + FOCUS_PADDING,
+      mapHeight * 0.4,
+    )
+    map.fitBounds(
+      [
+        [west, south],
+        [east, north],
+      ],
+      {
+        padding: {
+          top: FOCUS_TOP_PADDING,
+          left: FOCUS_PADDING,
+          right: FOCUS_PADDING,
+          bottom: bottomPadding,
+        },
+        maxZoom: FOCUS_MAX_ZOOM,
+        duration: FOCUS_DURATION_MS,
+      },
+    )
+  }, [selectedIndex])
+
   const selectedCountry = selectedIndex === null ? null : COUNTRY_SHAPES[selectedIndex]
 
   return (
@@ -92,7 +137,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       <div className="globe-view__canvas" ref={containerRef} />
       <BackButton onClick={goToMenu} />
       {selectedCountry !== null && (
-        <CountryInfoPanel country={selectedCountry} onClose={closePanel} />
+        <CountryInfoPanel country={selectedCountry} onClose={closePanel} ref={panelRef} />
       )}
     </div>
   )

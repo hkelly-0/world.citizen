@@ -1,3 +1,4 @@
+import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
@@ -6,16 +7,18 @@ import './CountryInfoPanel.css'
 type CountryInfoPanelProps = {
   country: CountryShape
   onClose: () => void
+  // Lets the globe measure the panel, to centre a country in the space above it.
+  ref?: Ref<HTMLElement>
 }
 
-export function CountryInfoPanel({ country, onClose }: CountryInfoPanelProps) {
+export function CountryInfoPanel({ country, onClose, ref }: CountryInfoPanelProps) {
   // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = facts?.commonName ?? country.name
 
   return (
-    <aside className="country-info-panel" aria-label={`${name} details`}>
+    <aside ref={ref} className="country-info-panel" aria-label={`${name} details`}>
       <button className="country-info-panel__close" onClick={onClose} aria-label="Close">
         ×
       </button>

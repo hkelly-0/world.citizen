@@ -29,7 +29,7 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
    - Capital check ignores case, accents and surrounding spaces; spelling must otherwise be exact (no fuzzy matching). Any one of several capitals counts.
    - Scheduling: SM-2 (Anki-style). Grade from the number correct out of 5: 5 → 5, 4 → 4, 3 → 3, 2 → 2, 0–1 → 0 (below 3 fails; a failed card is due tomorrow). Tuvalu's card has 4 questions: 4 → 5, 3 → 4, 2 → 2, 0–1 → 0. Due reviews come first (most overdue first), then unseen countries in random order, with no daily limit on new cards.
    - Possible later additions: more facts (flag, region, languages, etc.).
-2. **Interactive globe** – spin and pinch-zoom a 3D globe with satellite imagery, which flattens into a map when zoomed in; tap a country to open an info panel.
+2. **Interactive globe** – spin and pinch-zoom a 3D globe with satellite imagery, which flattens into a map when zoomed in; tap a country to open an info panel; the globe turns and zooms (in or out) to fit the country's main landmass in the space above the panel (`mainLandmass.ts`, which leaves out far-off islands and territories).
 
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 
