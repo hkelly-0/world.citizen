@@ -4,10 +4,9 @@ import {
   COUNTRY_SHAPES,
   createCountryMap,
   findTappedCountryIndex,
+  flyToCountry,
   stopHoverHighlight,
 } from './countryMap'
-import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
-import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './LocateCountryGlobe.css'
 
 // The globe flies to the correct country, which stays in view for a while
@@ -70,20 +69,8 @@ export default function LocateCountryGlobe({
     // and zoom as tapping a country on the globe screen.
     function flyToCorrectCountry() {
       const correctIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
-      const correctGeometry = COUNTRY_SHAPES[correctIndex].geometry
       map.setFeatureState({ source: 'countries', id: correctIndex }, { correct: true })
-      const centre = mainLandmassCentre(correctGeometry, isoAlpha3)
-      map.flyTo({
-        center: centre,
-        zoom: focusZoomFor(
-          isoAlpha3,
-          mainLandmassWidthKm(correctGeometry, isoAlpha3),
-          map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
-          centre[1],
-        ),
-        offset: [0, (LABEL_SPACE_PX - BOTTOM_PADDING_PX) / 2],
-        duration: FLY_TO_ANSWER_MS,
-      })
+      flyToCountry(map, correctIndex, LABEL_SPACE_PX, BOTTOM_PADDING_PX, FLY_TO_ANSWER_MS)
     }
 
     map.on('click', (event) => {

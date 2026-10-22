@@ -14,6 +14,8 @@ import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
+import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
+import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import { chooseTappedIndex, TAP_BUFFER_PX, VERY_SMALL_AREA_KM2 } from './tapBuffer'
 import { zoomLimitsFor } from './zoomLimits'
 
@@ -173,6 +175,34 @@ export function findTappedCountryIndex(map: MapLibreMap, point: PointLike): numb
     nearby.map((feature) => Number(feature.id)),
     VERY_SMALL_INDICES,
   )
+}
+
+// Turns the globe to centre the country's main landmass in the space between
+// topPadding and bottomPadding (pixels), and zooms to a level set by the
+// country's width and the screen width (focusZoom.ts). Used both when a
+// country is tapped on the globe screen and after a flashcard location answer.
+export function flyToCountry(
+  map: MapLibreMap,
+  countryIndex: number,
+  topPadding: number,
+  bottomPadding: number,
+  durationMs: number,
+) {
+  const shape = COUNTRY_SHAPES[countryIndex]
+  const centre = mainLandmassCentre(shape.geometry, shape.isoAlpha3)
+  map.flyTo({
+    center: centre,
+    zoom: focusZoomFor(
+      shape.isoAlpha3,
+      mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
+      map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
+      centre[1],
+    ),
+    // Moves the country from the middle of the screen to the middle of the
+    // space between the top padding and the bottom padding.
+    offset: [0, (topPadding - bottomPadding) / 2],
+    duration: durationMs,
+  })
 }
 
 // For each map with hover highlighting, a function that clears the highlight

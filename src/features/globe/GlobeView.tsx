@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
-import { COUNTRY_SHAPES, createCountryMap, findTappedCountryIndex } from './countryMap'
+import {
+  COUNTRY_SHAPES,
+  createCountryMap,
+  findTappedCountryIndex,
+  flyToCountry,
+} from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
-import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
-import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './GlobeView.css'
 
 // The open info panel has its own browser history entry (on top of the globe
@@ -110,8 +113,6 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     const map = mapRef.current
     if (selectedIndex === null || map === null) return
 
-    const shape = COUNTRY_SHAPES[selectedIndex]
-    const mapWidth = map.getContainer().clientWidth
     const mapHeight = map.getContainer().clientHeight
     const panelHeight = panelRef.current?.offsetHeight ?? 0
     // On a short screen the panel could leave no room, so it gets at most 40%.
@@ -119,20 +120,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       panelHeight + PANEL_BOTTOM_MARGIN + FOCUS_PADDING,
       mapHeight * 0.4,
     )
-    const centre = mainLandmassCentre(shape.geometry, shape.isoAlpha3)
-    map.flyTo({
-      center: centre,
-      zoom: focusZoomFor(
-        shape.isoAlpha3,
-        mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
-        mapWidth >= WIDE_SCREEN_MIN_PX,
-        centre[1],
-      ),
-      // Moves the country from the middle of the screen to the middle of the
-      // space between the top padding and the bottom padding.
-      offset: [0, (FOCUS_TOP_PADDING - bottomPadding) / 2],
-      duration: FOCUS_DURATION_MS,
-    })
+    flyToCountry(map, selectedIndex, FOCUS_TOP_PADDING, bottomPadding, FOCUS_DURATION_MS)
   }, [selectedIndex])
 
   const selectedCountry = selectedIndex === null ? null : COUNTRY_SHAPES[selectedIndex]
