@@ -81,7 +81,7 @@ src/
     statRanges.ts   # named ranges for population, area and IHDI
     progress.ts     # flashcard progress in localStorage
     BackButton.tsx  # "← Menu" button used by each screen
-scripts/            # one-off asset generation (background map tiles, country facts, country pictures)
+scripts/            # one-off asset generation (background map tiles, country facts, country pictures, app icon)
 android/            # Capacitor's native Android project (mostly generated)
 ```
 
@@ -98,5 +98,6 @@ android/            # Capacitor's native Android project (mostly generated)
 - Done: flashcard location question on the globe (`LocateCountryGlobe.tsx`); graded out of 5. Not yet checked on a real phone or emulator.
 - Done: country pictures for 194 countries, shown on the flashcards.
 - Done: Capacitor Android project; debug APK runs on the emulator (menu, globe and flashcards checked).
-- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it), app icon.
+- Done: app icon (a person whose head is a globe), drawn by `node scripts/make-app-icon.mjs` into `android/app/src/main/res/mipmap-*/` (Android) and `public/favicon.svg` + `public/apple-touch-icon.png` (website), and committed.
+- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it).
 - Note: requires npm 11+ (developed on Node 24 / npm 11.19.1). npm 10.9.2 crashes resolving Vitest 5's peer dependencies; on npm 10, install with `npx npm@11 install`.
