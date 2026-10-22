@@ -17,6 +17,8 @@
 .locate-globe__canvas {
   width: 100%;
   height: 100%;
+  /* Touches on the globe move the globe, never the page. */
+  touch-action: none;
 }
 
 .locate-globe__label {

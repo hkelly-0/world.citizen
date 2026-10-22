@@ -8,6 +8,8 @@
 .globe-view__canvas {
   width: 100%;
   height: 100%;
+  /* Touches on the globe move the globe, never the page. */
+  touch-action: none;
 }
 
 /* Debugging only (dev server). Drawn over the info panel if they meet. */
