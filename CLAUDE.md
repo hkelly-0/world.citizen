@@ -31,6 +31,8 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
    - Possible later additions: more facts (flag, region, languages, etc.).
 2. **Interactive globe** – spin and pinch-zoom a 3D globe with satellite imagery, which flattens into a map when zoomed in; tap a country to open an info panel; the globe turns to centre the country's main landmass in the space above the panel (`mainLandmass.ts`; see Data → Country pictures) and zooms by its width (`focusZoom.ts`): countries up to ~320 km across (São Tomé and Príncipe) go to zoom 4.1, and wider ones zoom out 0.41 per extra 1000 km (Ivory Coast ~3.9, India ~2.3, China ~1.9, Canada ~1.6), stopping at 1.25 (Russia). When the globe is 768 px or wider (laptops) it zooms in further: tiny countries 4.3, then 0.314 per extra 1000 km (USA ~2.7, China ~2.6, Russia ~1.7).
 
+Both globes limit zoom (`zoomLimits.ts`): at the equator the minimum is 1.3 on phones and 1.8 when the globe is 768 px or wider, and the maximum is 6. MapLibre draws the globe larger near the poles (by 1/cos(latitude)) and already lowers the minimum zoom to match, so the minimum is passed unchanged and the zoomed-out globe is the same size everywhere. The maximum is lowered by log2(1/cos(latitude)) (capped at 80°) here.
+
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 
 ## Architecture decisions

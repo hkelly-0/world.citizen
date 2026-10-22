@@ -7,6 +7,7 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
+import { zoomLimitsFor } from './zoomLimits'
 
 setWorkerUrl(maplibreWorkerUrl)
 
@@ -50,7 +51,6 @@ const FLAT_FROM_ZOOM = 5
 // The 1:50m borders have no extra detail past about this zoom level, so
 // MapLibre stops cutting finer tiles and enlarges these ones instead.
 const BORDERS_MAX_DETAIL_ZOOM = 8
-const MAX_ZOOM = 10
 
 // Full-detail borders: MapLibre simplifies them itself for each zoom level.
 export const COUNTRY_SHAPES = loadCountryShapes()
@@ -158,10 +158,19 @@ export function createCountryMap(container: HTMLElement): MapLibreMap {
     style: MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
-    maxZoom: MAX_ZOOM,
     pixelRatio: Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO),
     attributionControl: false,
   })
+
+  // The zoom limits depend on the latitude at the centre of the map, so they
+  // are updated whenever the map moves. MapLibre then keeps the zoom inside them.
+  function updateZoomLimits() {
+    const { minZoom, maxZoom } = zoomLimitsFor(map.getCenter().lat, container.clientWidth)
+    map.setMinZoom(minZoom)
+    map.setMaxZoom(maxZoom)
+  }
+  updateZoomLimits()
+  map.on('move', updateZoomLimits)
 
   if (CAN_HOVER) {
     // Kept outside React state: hover changes often and only affects the map.
