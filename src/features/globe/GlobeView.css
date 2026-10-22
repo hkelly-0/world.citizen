@@ -9,3 +9,18 @@
   width: 100%;
   height: 100%;
 }
+
+/* Debugging only (dev server). Drawn over the info panel if they meet. */
+.globe-view__zoom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}

@@ -33,6 +33,8 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
   const panelRef = useRef<HTMLElement>(null)
   // Index into COUNTRY_SHAPES, or null when no country is selected.
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  // The map's current zoom level, shown for debugging on the dev server only.
+  const [zoom, setZoom] = useState<number | null>(null)
 
   // Opening the panel adds its history entry; tapping another country while
   // it's open just swaps the country.
@@ -77,6 +79,11 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       if (country === undefined) closePanel()
       else selectCountry(Number(country.id))
     })
+
+    if (import.meta.env.DEV) {
+      setZoom(map.getZoom())
+      map.on('zoom', () => setZoom(map.getZoom()))
+    }
 
     return () => {
       map.remove()
@@ -140,6 +147,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       {selectedCountry !== null && (
         <CountryInfoPanel country={selectedCountry} onClose={closePanel} ref={panelRef} />
       )}
+      {zoom !== null && <div className="globe-view__zoom">Zoom {zoom.toFixed(2)}</div>}
     </div>
   )
 }
