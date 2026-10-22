@@ -34,13 +34,26 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
-  it('opens the flashcards and goes back to the menu', async () => {
+  it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
+
+  it("goes from classic flashcards to the main menu with the browser's back button", async () => {
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    expect(screen.getByText('Area?')).toBeInTheDocument()
+
+    history.back()
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
@@ -48,15 +61,27 @@ describe('App', () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    expect(screen.getByText('Area?')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Classic' })).toBeInTheDocument()
 
     history.back()
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
+
+  it('opens custom practice from the flashcards menu, and goes back to the main menu', async () => {
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
+    expect(screen.getByText('Select which question types to see today')).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
   it('saves progress after finishing a card', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
 
     // The country and globe question are random, but every card starts with
     // a globe question.
