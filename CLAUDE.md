@@ -1,6 +1,6 @@
-## Behaviour
+# Claude Behaviour
 
-Do not make assumptions: if my instructions are unclear, ask me as many clarifying questions as required to remove all ambiguity.
+Do not make assumptions: if my instructions are unclear, ask me as many clarifying questions as required to remove all ambiguity. Use your AskUserQuestion tool.
 
 This code should be explicit to the reader. Do not use complex engineering patterns when simple ones will suffice, unless I explicitly ask for modular or scalable solutions.
 
