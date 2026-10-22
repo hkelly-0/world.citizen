@@ -3,7 +3,8 @@ import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
 import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
-import { mainLandmassBounds } from './mainLandmass'
+import { focusZoomFor } from './focusZoom'
+import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './GlobeView.css'
 
 // The open info panel has its own browser history entry (on top of the globe
@@ -12,13 +13,11 @@ function isPanelOpenInHistory(): boolean {
   return history.state?.panelOpen === true
 }
 
-// When a country is selected the globe turns and zooms to fit its main
-// landmass in the space not covered by the back button and info panel. The
-// padding is in pixels. Tiny countries stop zooming at about the level where
-// the 1:50m borders run out of detail.
+// When a country is selected the globe turns to centre its main landmass in
+// the space not covered by the back button and info panel, and zooms to a
+// level set by the country's width (focusZoom.ts). The padding is in pixels.
 const FOCUS_PADDING = 24
 const FOCUS_TOP_PADDING = 72
-const FOCUS_MAX_ZOOM = 8
 const FOCUS_DURATION_MS = 1200
 // The panel's bottom margin, plus a gap above it.
 const PANEL_BOTTOM_MARGIN = 16
@@ -112,7 +111,6 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     if (selectedIndex === null || map === null) return
 
     const shape = COUNTRY_SHAPES[selectedIndex]
-    const [west, south, east, north] = mainLandmassBounds(shape.geometry, shape.isoAlpha3)
     const mapHeight = map.getContainer().clientHeight
     const panelHeight = panelRef.current?.offsetHeight ?? 0
     // On a short screen the panel could leave no room, so it gets at most 40%.
@@ -120,22 +118,14 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       panelHeight + PANEL_BOTTOM_MARGIN + FOCUS_PADDING,
       mapHeight * 0.4,
     )
-    map.fitBounds(
-      [
-        [west, south],
-        [east, north],
-      ],
-      {
-        padding: {
-          top: FOCUS_TOP_PADDING,
-          left: FOCUS_PADDING,
-          right: FOCUS_PADDING,
-          bottom: bottomPadding,
-        },
-        maxZoom: FOCUS_MAX_ZOOM,
-        duration: FOCUS_DURATION_MS,
-      },
-    )
+    map.flyTo({
+      center: mainLandmassCentre(shape.geometry, shape.isoAlpha3),
+      zoom: focusZoomFor(mainLandmassWidthKm(shape.geometry, shape.isoAlpha3)),
+      // Moves the country from the middle of the screen to the middle of the
+      // space between the top padding and the bottom padding.
+      offset: [0, (FOCUS_TOP_PADDING - bottomPadding) / 2],
+      duration: FOCUS_DURATION_MS,
+    })
   }, [selectedIndex])
 
   const selectedCountry = selectedIndex === null ? null : COUNTRY_SHAPES[selectedIndex]

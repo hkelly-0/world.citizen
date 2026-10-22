@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { loadCountryShapes } from '../../shared/countries'
-import { MAIN_LANDMASS_OVERRIDES, mainLandmassBounds, partsInBox } from './mainLandmass'
+import { MAIN_LANDMASS_OVERRIDES, mainLandmassWidthKm, partsInBox } from './mainLandmass'
 
 const shapes = loadCountryShapes()
 
@@ -10,21 +10,23 @@ function shapeOf(isoAlpha3: string) {
   return shape
 }
 
-describe('mainLandmassBounds', () => {
+describe('mainLandmassWidthKm', () => {
   it('leaves out far-off territories, e.g. French Guiana for France', () => {
-    const [west, south, east, north] = mainLandmassBounds(shapeOf('FRA').geometry, 'FRA')
+    // Mainland France is about 1000 km across; with French Guiana it would be
+    // over 7000 km.
+    const width = mainLandmassWidthKm(shapeOf('FRA').geometry, 'FRA')
 
-    expect(west).toBeGreaterThan(-6)
-    expect(east).toBeLessThan(10)
-    expect(south).toBeGreaterThan(41)
-    expect(north).toBeLessThan(52)
+    expect(width).toBeGreaterThan(900)
+    expect(width).toBeLessThan(2000)
   })
 
-  it('gives an east above 180 for a country across the 180° meridian', () => {
-    const [west, , east] = mainLandmassBounds(shapeOf('RUS').geometry, 'RUS')
+  it('measures a country across the 180° meridian the short way round', () => {
+    // Russia is about 9000 km across; measured the wrong way round the globe
+    // it would be far more.
+    const width = mainLandmassWidthKm(shapeOf('RUS').geometry, 'RUS')
 
-    expect(east).toBeGreaterThan(180)
-    expect(east).toBeGreaterThan(west)
+    expect(width).toBeGreaterThan(7000)
+    expect(width).toBeLessThan(10000)
   })
 })
 

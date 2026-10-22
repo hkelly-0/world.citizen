@@ -3,7 +3,7 @@
 // Also used by scripts/make-country-images.mjs, which Node runs directly, so
 // this file must only use TypeScript that Node can strip (no enums etc.) and
 // give full file extensions in imports.
-import { geoArea, geoBounds, geoCentroid, geoDistance } from 'd3-geo'
+import { geoArea, geoCentroid, geoDistance } from 'd3-geo'
 import type { Feature, Geometry, MultiPolygon, Polygon, Position } from 'geojson'
 import overridesJson from '../../data/mainLandmassOverrides.json' with { type: 'json' }
 
@@ -27,6 +27,8 @@ const NEARBY_PARTS_RADIUS_MULTIPLE = 1.5
 const NEARBY_PARTS_MIN_DEGREES = 2
 
 const RADIANS_TO_DEGREES = 180 / Math.PI
+// Kilometres along the globe per degree (Earth's mean radius is 6371 km).
+const KM_PER_DEGREE = (6371 * Math.PI) / 180
 
 // Distance in degrees along the globe from the centre to a [longitude, latitude].
 function degreesFrom(centre: [number, number], point: Position): number {
@@ -94,15 +96,18 @@ export function mainLandmass(geometry: Geometry, isoAlpha3: string | null): Mult
   return override === undefined ? automaticMainLandmass(geometry) : partsInBox(geometry, override.box)
 }
 
-// The box around the country's main landmass, as [west, south, east, north]
-// in degrees. A country across the 180° meridian (Russia, Fiji) has an east
-// above 180, so that east is always greater than west.
-export function mainLandmassBounds(
-  geometry: Geometry,
-  isoAlpha3: string | null,
-): [number, number, number, number] {
-  const [[west, south], [east, north]] = geoBounds(mainLandmass(geometry, isoAlpha3))
-  return [west, south, east < west ? east + 360 : east, north]
+// How far across the country's main landmass is, in km: twice the distance
+// from its centre to its furthest coastline point.
+export function mainLandmassWidthKm(geometry: Geometry, isoAlpha3: string | null): number {
+  const landmass = mainLandmass(geometry, isoAlpha3)
+  const centre: [number, number] = geoCentroid(landmass)
+  let furthestDegrees = 0
+  for (const polygon of landmass.coordinates) {
+    for (const point of polygon[0]) {
+      furthestDegrees = Math.max(furthestDegrees, degreesFrom(centre, point))
+    }
+  }
+  return 2 * furthestDegrees * KM_PER_DEGREE
 }
 
 // The centre of the country's main landmass, as [longitude, latitude].
