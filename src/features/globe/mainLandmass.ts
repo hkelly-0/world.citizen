@@ -17,7 +17,9 @@ export type MainLandmassOverride = {
 }
 
 // Hand-written exceptions to the automatic rule, keyed by ISO alpha-3.
-export const MAIN_LANDMASS_OVERRIDES = overridesJson as Record<string, MainLandmassOverride>
+// TypeScript reads each JSON box as number[], not four numbers, so the cast
+// goes through unknown.
+export const MAIN_LANDMASS_OVERRIDES = overridesJson as unknown as Record<string, MainLandmassOverride>
 
 // Islands and territories whose nearest coastline is further than this from
 // the centre of the country's largest part are left out (e.g. French Guiana

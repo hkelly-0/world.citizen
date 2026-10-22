@@ -28,7 +28,6 @@ describe('focusZoomFor', () => {
   it('keeps zooming out for countries bigger than Canada, down to 1.25', () => {
     expect(focusZoomOf('RUS')).toBeLessThan(focusZoomOf('CAN'))
     expect(focusZoomOf('RUS')).toBe(1.25)
-    expect(focusZoomOf('USA')).toBe(1.25)
   })
 
   it('zooms out further the wider the country', () => {

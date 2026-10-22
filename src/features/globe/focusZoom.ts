@@ -3,7 +3,7 @@
 // across (about São Tomé and Príncipe) go to TINY_COUNTRY_ZOOM; wider ones
 // zoom out by ZOOM_OUT_PER_1000_KM for every 1000 km of extra width, e.g.
 // Ivory Coast (850 km) to about 3.9, India (4700 km) 2.3, China (5700 km)
-// 1.9 and Canada (6350 km) 1.6. The widest countries (Russia, USA) stop at
+// 1.9 and Canada (6350 km) 1.6. The widest country (Russia) stops at
 // MIN_FOCUS_ZOOM.
 const TINY_COUNTRY_KM = 320
 const TINY_COUNTRY_ZOOM = 4.1
