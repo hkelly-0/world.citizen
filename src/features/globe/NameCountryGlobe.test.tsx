@@ -25,7 +25,7 @@ describe('NameCountryGlobe', () => {
 
   it('turns a correct name green, then reports it once the globe has faded', async () => {
     const onAnswer = vi.fn()
-    render(<NameCountryGlobe country={turkey} onAnswer={onAnswer} />)
+    render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'Turkey')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
@@ -38,7 +38,7 @@ describe('NameCountryGlobe', () => {
 
   it('turns a wrong name red and types out the correct one', async () => {
     const onAnswer = vi.fn()
-    render(<NameCountryGlobe country={turkey} onAnswer={onAnswer} />)
+    render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'Greece')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
@@ -47,5 +47,20 @@ describe('NameCountryGlobe', () => {
     await act(() => vi.advanceTimersByTimeAsync(3000))
     expect(screen.getByText('Türkiye')).toHaveClass('typed-answer__green')
     expect(onAnswer).toHaveBeenCalledWith(false)
+  })
+
+  it('reports the answer without fading when the globe does not fade out', async () => {
+    const onAnswer = vi.fn()
+    const { container } = render(
+      <NameCountryGlobe country={turkey} fadesOut={false} onAnswer={onAnswer} />,
+    )
+
+    await userEvent.type(screen.getByLabelText('This is'), 'Turkey')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    // Only the hold on the answer, with no fade to wait for.
+    await act(() => vi.advanceTimersByTimeAsync(1500))
+
+    expect(onAnswer).toHaveBeenCalledWith(true)
+    expect(container.querySelector('.name-globe--fading')).toBeNull()
   })
 })

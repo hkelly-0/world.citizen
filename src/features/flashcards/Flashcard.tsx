@@ -30,6 +30,9 @@ type FlashcardProps = {
 export function Flashcard({ country, questionIds, onFinish }: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
   const asksCapital = questionIds.includes('capital')
+  // With only the globe question, the globe doesn't fade to reveal the card,
+  // which would flash up for a moment before the next card's globe.
+  const isGlobeOnly = questionIds.length === 1 && asksGlobe
   const questions = rangeQuestions(country).filter((question) => questionIds.includes(question.id))
   // Chosen once, when the card is first shown.
   const [isNameQuestion] = useState(() => Math.random() < 0.5)
@@ -82,11 +85,16 @@ export function Flashcard({ country, questionIds, onFinish }: FlashcardProps) {
       {!hasAnsweredGlobe && (
         <Suspense fallback={<div className="flashcard__globe-loading">Loading globe…</div>}>
           {isNameQuestion ? (
-            <NameCountryGlobe country={country} onAnswer={submitGlobeAnswer} />
+            <NameCountryGlobe
+              country={country}
+              fadesOut={!isGlobeOnly}
+              onAnswer={submitGlobeAnswer}
+            />
           ) : (
             <LocateCountryGlobe
               isoAlpha3={country.isoAlpha3}
               countryName={country.commonName}
+              fadesOut={!isGlobeOnly}
               onAnswer={submitGlobeAnswer}
             />
           )}

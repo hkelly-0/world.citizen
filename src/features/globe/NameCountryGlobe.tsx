@@ -22,6 +22,10 @@ const BACK_BUTTON_SPACE_PX = 64
 type NameCountryGlobeProps = {
   // The country the user has to name.
   country: CountryFacts
+  // Whether the globe fades away to reveal the card. False when the card has
+  // no more questions, so the next card's globe replaces this one without the
+  // card flashing up between them.
+  fadesOut: boolean
   // Called once the globe has faded away, with whether the user typed the
   // right name.
   onAnswer: (isCorrect: boolean) => void
@@ -31,7 +35,7 @@ type NameCountryGlobeProps = {
 // user to type its name. The user can spin and zoom the globe, but taps on it
 // do nothing. The typed name turns green or red (with the correct name typed
 // out beside a wrong one), then the globe fades away.
-export default function NameCountryGlobe({ country, onAnswer }: NameCountryGlobeProps) {
+export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLFormElement>(null)
   const [typedName, setTypedName] = useState('')
@@ -75,10 +79,14 @@ export default function NameCountryGlobe({ country, onAnswer }: NameCountryGlobe
     // A wrong answer waits for the correct name to finish typing out.
     const typingMs = isCorrect ? 0 : country.commonName.length * TYPING_MS_PER_LETTER
     const pause = typingMs + HOLD_ON_ANSWER_MS
-    timeoutsRef.current.push(
-      window.setTimeout(() => setIsFading(true), pause),
-      window.setTimeout(() => onAnswer(isCorrect), pause + FADE_MS),
-    )
+    if (fadesOut) {
+      timeoutsRef.current.push(
+        window.setTimeout(() => setIsFading(true), pause),
+        window.setTimeout(() => onAnswer(isCorrect), pause + FADE_MS),
+      )
+    } else {
+      timeoutsRef.current.push(window.setTimeout(() => onAnswer(isCorrect), pause))
+    }
   }
 
   return (

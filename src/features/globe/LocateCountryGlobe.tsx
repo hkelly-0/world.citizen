@@ -29,6 +29,10 @@ type LocateCountryGlobeProps = {
   // The country the user has to find, e.g. "FIN".
   isoAlpha3: string
   countryName: string
+  // Whether the globe fades away to reveal the card after Next. False when
+  // the card has no more questions, so the next card's globe replaces this one
+  // without the card flashing up between them.
+  fadesOut: boolean
   // Called once the user has pressed Next and the globe has faded away, with
   // whether they tapped the right country.
   onAnswer: (isCorrect: boolean) => void
@@ -40,6 +44,7 @@ type LocateCountryGlobeProps = {
 export default function LocateCountryGlobe({
   isoAlpha3,
   countryName,
+  fadesOut,
   onAnswer,
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -139,8 +144,12 @@ export default function LocateCountryGlobe({
     }
   }, [isoAlpha3])
 
-  // Fades the globe away to reveal the card, then reports the answer.
+  // Fades the globe away to reveal the card (if it fades), then reports the answer.
   function goToNext() {
+    if (!fadesOut) {
+      onAnswerRef.current(isCorrectRef.current)
+      return
+    }
     setIsFading(true)
     timeoutsRef.current.push(
       window.setTimeout(() => onAnswerRef.current(isCorrectRef.current), FADE_MS),
