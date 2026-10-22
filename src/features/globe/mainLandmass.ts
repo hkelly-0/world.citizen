@@ -98,9 +98,16 @@ export function mainLandmass(geometry: Geometry, isoAlpha3: string | null): Mult
   return override === undefined ? automaticMainLandmass(geometry) : partsInBox(geometry, override.box)
 }
 
+// Antarctica is one shape around the South Pole, so its computed centre and
+// width are wrong (about 1200 km across, off the pole). The continent is about
+// 4500 km across, centred on the pole.
+const ANTARCTICA_CENTRE: [number, number] = [0, -90]
+const ANTARCTICA_WIDTH_KM = 4500
+
 // How far across the country's main landmass is, in km: twice the distance
 // from its centre to its furthest coastline point.
 export function mainLandmassWidthKm(geometry: Geometry, isoAlpha3: string | null): number {
+  if (isoAlpha3 === 'ATA') return ANTARCTICA_WIDTH_KM
   const landmass = mainLandmass(geometry, isoAlpha3)
   const centre: [number, number] = geoCentroid(landmass)
   let furthestDegrees = 0
@@ -114,5 +121,6 @@ export function mainLandmassWidthKm(geometry: Geometry, isoAlpha3: string | null
 
 // The centre of the country's main landmass, as [longitude, latitude].
 export function mainLandmassCentre(geometry: Geometry, isoAlpha3: string | null): [number, number] {
+  if (isoAlpha3 === 'ATA') return ANTARCTICA_CENTRE
   return geoCentroid(mainLandmass(geometry, isoAlpha3))
 }
