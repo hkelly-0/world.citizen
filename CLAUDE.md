@@ -20,7 +20,7 @@ A geography learning app shipped as **both an Android APK and a website** with i
 Audience: friends and family; the APK is sideloaded (no Play Store).
 
 ## Features
-The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" back button. Screens are switched with React state in `src/App.tsx` (no URL routing).
+The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" back button. Screens are switched with React state in `src/App.tsx` (no URL routing). Each screen, and the globe's open info panel, adds a browser history entry with the same URL, so back (browser, or Android via `@capacitor/app` in `src/main.tsx`) closes the panel, then returns to the menu; on Android, back from the menu closes the app.
 
 1. **Flashcards** – learn facts about countries, with locally saved progress.
    - Scope: 193 UN members + 2 observers (Vatican, Palestine).
@@ -93,5 +93,5 @@ android/            # Capacitor's native Android project (mostly generated)
 - Done: main menu and flashcards with SM-2 scheduling and saved progress.
 - Done: country pictures for 194 countries, shown on the flashcards.
 - Done: Capacitor Android project; debug APK runs on the emulator (menu, globe and flashcards checked).
-- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it), app icon, Android back button.
+- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it), app icon.
 - Note: requires npm 11+ (developed on Node 24 / npm 11.19.1). npm 10.9.2 crashes resolving Vitest 5's peer dependencies; on npm 10, install with `npx npm@11 install`.
