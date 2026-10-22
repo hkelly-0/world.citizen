@@ -140,6 +140,15 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
+// For each map with hover highlighting, a function that clears the highlight
+// and stops it coming back. See stopHoverHighlight.
+const hoverStoppers = new WeakMap<MapLibreMap, () => void>()
+
+// Removes the hover highlight from the map and stops it appearing again.
+export function stopHoverHighlight(map: MapLibreMap) {
+  hoverStoppers.get(map)?.()
+}
+
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
 // container, with hover highlighting on devices that can hover. The caller
 // handles clicks and must call map.remove() when done.
@@ -157,6 +166,7 @@ export function createCountryMap(container: HTMLElement): MapLibreMap {
   if (CAN_HOVER) {
     // Kept outside React state: hover changes often and only affects the map.
     let hoveredIndex: number | null = null
+    let isHoverStopped = false
 
     function setHovered(index: number | null) {
       if (hoveredIndex !== null) {
@@ -170,11 +180,16 @@ export function createCountryMap(container: HTMLElement): MapLibreMap {
     }
 
     map.on('mousemove', 'country-fills', (event) => {
+      if (isHoverStopped) return
       const country = event.features?.[0]
       const index = country === undefined ? null : Number(country.id)
       if (index !== hoveredIndex) setHovered(index)
     })
     map.on('mouseleave', 'country-fills', () => setHovered(null))
+    hoverStoppers.set(map, () => {
+      isHoverStopped = true
+      setHovered(null)
+    })
   }
 
   return map

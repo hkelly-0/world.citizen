@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
-import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
+import { COUNTRY_SHAPES, createCountryMap, stopHoverHighlight } from './countryMap'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './LocateCountryGlobe.css'
@@ -87,7 +87,8 @@ export default function LocateCountryGlobe({
       if (picked === undefined) return
       hasAnsweredRef.current = true
 
-      // Stops the user interrupting the fly to the correct country.
+      // Stops the user interrupting the fly to the correct country, and removes
+      // the white hover highlight.
       map.dragPan.disable()
       map.dragRotate.disable()
       map.scrollZoom.disable()
@@ -96,6 +97,7 @@ export default function LocateCountryGlobe({
       map.touchZoomRotate.disable()
       map.touchPitch.disable()
       map.keyboard.disable()
+      stopHoverHighlight(map)
 
       const pickedIndex = Number(picked.id)
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
