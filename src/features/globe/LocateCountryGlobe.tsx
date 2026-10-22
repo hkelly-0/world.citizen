@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
-import { COUNTRY_SHAPES, createCountryMap, stopHoverHighlight } from './countryMap'
+import {
+  COUNTRY_SHAPES,
+  createCountryMap,
+  findTappedCountryIndex,
+  stopHoverHighlight,
+} from './countryMap'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import './LocateCountryGlobe.css'
@@ -83,9 +88,9 @@ export default function LocateCountryGlobe({
 
     map.on('click', (event) => {
       if (hasAnsweredRef.current) return
-      const [picked] = map.queryRenderedFeatures(event.point, { layers: ['country-fills'] })
+      const pickedIndex = findTappedCountryIndex(map, event.point)
       // Tapping the ocean isn't an answer.
-      if (picked === undefined) return
+      if (pickedIndex === null) return
       hasAnsweredRef.current = true
 
       // Stops the user interrupting the fly to the correct country, and removes
@@ -100,7 +105,6 @@ export default function LocateCountryGlobe({
       map.keyboard.disable()
       stopHoverHighlight(map)
 
-      const pickedIndex = Number(picked.id)
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
       const isCorrect = pickedShape.isoAlpha3 === isoAlpha3
       const pickedName =

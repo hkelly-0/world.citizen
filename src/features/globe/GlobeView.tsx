@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
-import { COUNTRY_SHAPES, createCountryMap } from './countryMap'
+import { COUNTRY_SHAPES, createCountryMap, findTappedCountryIndex } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
@@ -74,9 +74,9 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
 
     // Tapping a country selects it; tapping the ocean closes the info panel.
     map.on('click', (event) => {
-      const [country] = map.queryRenderedFeatures(event.point, { layers: ['country-fills'] })
-      if (country === undefined) closePanel()
-      else selectCountry(Number(country.id))
+      const index = findTappedCountryIndex(map, event.point)
+      if (index === null) closePanel()
+      else selectCountry(index)
     })
 
     if (import.meta.env.DEV) {

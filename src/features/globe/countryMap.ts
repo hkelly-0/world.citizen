@@ -1,4 +1,10 @@
-import { Map as MapLibreMap, setWorkerUrl, type StyleSpecification } from 'maplibre-gl'
+import {
+  Map as MapLibreMap,
+  Point,
+  setWorkerUrl,
+  type PointLike,
+  type StyleSpecification,
+} from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 // MapLibre prepares map tiles in a background worker. It looks for the worker
 // script next to its own file, which doesn't exist once Vite has bundled the
@@ -6,7 +12,9 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
+import { countryFacts } from '../../shared/countryFacts'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
+import { chooseTappedIndex, TAP_BUFFER_PX, VERY_SMALL_AREA_KM2 } from './tapBuffer'
 import { zoomLimitsFor } from './zoomLimits'
 
 setWorkerUrl(maplibreWorkerUrl)
@@ -66,6 +74,13 @@ const COUNTRY_FEATURES: FeatureCollection = {
     properties: {},
   })),
 }
+
+// Positions in COUNTRY_SHAPES of the countries that get a tap buffer.
+const VERY_SMALL_INDICES = new Set<number>()
+COUNTRY_SHAPES.forEach((shape, index) => {
+  const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
+  if (facts !== undefined && facts.areaKm2 < VERY_SMALL_AREA_KM2) VERY_SMALL_INDICES.add(index)
+})
 
 const MAP_STYLE: StyleSpecification = {
   version: 8,
@@ -138,6 +153,26 @@ const MAP_STYLE: StyleSpecification = {
       paint: { 'line-color': BORDER_COLOR, 'line-width': 0.8 },
     },
   ],
+}
+
+// Returns the position in COUNTRY_SHAPES of the country a tap at `point` (screen
+// pixels) picked, or null for the ocean. Very small countries within
+// TAP_BUFFER_PX of the tap count as tapped (see tapBuffer.ts).
+export function findTappedCountryIndex(map: MapLibreMap, point: PointLike): number | null {
+  const [exact] = map.queryRenderedFeatures(point, { layers: ['country-fills'] })
+  const { x, y } = Point.convert(point)
+  const nearby = map.queryRenderedFeatures(
+    [
+      [x - TAP_BUFFER_PX, y - TAP_BUFFER_PX],
+      [x + TAP_BUFFER_PX, y + TAP_BUFFER_PX],
+    ],
+    { layers: ['country-fills'] },
+  )
+  return chooseTappedIndex(
+    exact === undefined ? null : Number(exact.id),
+    nearby.map((feature) => Number(feature.id)),
+    VERY_SMALL_INDICES,
+  )
 }
 
 // For each map with hover highlighting, a function that clears the highlight
