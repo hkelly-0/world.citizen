@@ -112,19 +112,28 @@ await readCsv(
   },
 )
 
-// --- Inequality-adjusted HDI: the latest year with a value, per country ---
+// --- HDI and inequality-adjusted HDI: the latest year with a value, per country ---
 // The UNDP file is Latin-1 encoded, not UTF-8.
+const hdis = {}
 const ihdis = {}
 await readCsv(
   join(sources, 'hdr-composite.csv'),
   { gzipped: false, encoding: 'latin1' },
   (row) => {
-    const years = Object.keys(row)
-      .filter((column) => column.startsWith('ihdi_') && row[column].trim() !== '')
-      .map((column) => Number(column.slice('ihdi_'.length)))
-    if (years.length === 0) return
-    const latestYear = Math.max(...years)
-    ihdis[row.iso3] = { value: Number(row[`ihdi_${latestYear}`]), year: latestYear }
+    const latestValue = (prefix) => {
+      // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
+      const yearColumn = new RegExp(`^${prefix}_\\d{4}$`)
+      const years = Object.keys(row)
+        .filter((column) => yearColumn.test(column) && row[column].trim() !== '')
+        .map((column) => Number(column.slice(prefix.length + 1)))
+      if (years.length === 0) return undefined
+      const latestYear = Math.max(...years)
+      return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
+    }
+    const hdi = latestValue('hdi')
+    if (hdi !== undefined) hdis[row.iso3] = hdi
+    const ihdi = latestValue('ihdi')
+    if (ihdi !== undefined) ihdis[row.iso3] = ihdi
   },
 )
 
@@ -135,6 +144,7 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
   if (populations[code] === undefined) {
     throw new Error(`No ${POPULATION_YEAR} population for ${code}`)
   }
+  const hdi = hdis[code] ?? null
   const ihdi = ihdis[code] ?? null
 
   countries[code] = {
@@ -145,6 +155,9 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     areaKm2: country.area,
     population: populations[code],
     populationYear: POPULATION_YEAR,
+    // Null when UNDP has no HDI for the country.
+    hdi: hdi === null ? null : hdi.value,
+    hdiYear: hdi === null ? null : hdi.year,
     // Null when UNDP has no IHDI for the country; shown as "no data".
     ihdi: ihdi === null ? null : ihdi.value,
     ihdiYear: ihdi === null ? null : ihdi.year,
@@ -154,4 +167,6 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
 writeFileSync(OUTPUT, JSON.stringify(countries, null, 2) + '\n')
 const missingIhdi = Object.values(countries).filter((country) => country.ihdi === null)
 console.log(`Wrote ${Object.keys(countries).length} countries to ${OUTPUT}`)
+const missingHdi = Object.values(countries).filter((country) => country.hdi === null)
+console.log(`No HDI for ${missingHdi.length}: ${missingHdi.map((c) => c.isoAlpha3).join(', ')}`)
 console.log(`No IHDI for ${missingIhdi.length}: ${missingIhdi.map((c) => c.isoAlpha3).join(', ')}`)

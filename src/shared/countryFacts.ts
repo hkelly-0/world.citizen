@@ -12,6 +12,10 @@ export type CountryFacts = {
   areaKm2: number
   population: number
   populationYear: number
+  // Human Development Index (0–1), before adjusting for inequality. Null when
+  // UNDP has no value for the country. Not yet shown anywhere in the app.
+  hdi: number | null
+  hdiYear: number | null
   // Inequality-adjusted Human Development Index (0–1). Null when UNDP has no
   // value for the country, shown as "no data".
   ihdi: number | null
