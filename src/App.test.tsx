@@ -3,11 +3,16 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 
-// The flashcards' globe question needs WebGL too. This stand-in answers
-// correctly when its button is clicked.
+// The flashcards' globe questions need WebGL too. These stand-ins answer
+// correctly when their button is clicked.
 vi.mock('./features/globe/LocateCountryGlobe', () => ({
   default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
-    <button onClick={() => onAnswer(true)}>Tap right country</button>
+    <button onClick={() => onAnswer(true)}>Answer globe question</button>
+  ),
+}))
+vi.mock('./features/globe/NameCountryGlobe', () => ({
+  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
+    <button onClick={() => onAnswer(true)}>Answer globe question</button>
   ),
 }))
 
@@ -53,8 +58,9 @@ describe('App', () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
 
-    // The country is random, but every card starts with the globe.
-    await userEvent.click(await screen.findByRole('button', { name: 'Tap right country' }))
+    // The country and globe question are random, but every card starts with
+    // a globe question.
+    await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
 
     // Pick the first option each time (button 0 is "← Menu"), then type a
     // capital. Right or wrong, the card gets saved.

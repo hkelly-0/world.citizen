@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { Flashcard } from './Flashcard'
 
-// The real globe needs WebGL, which jsdom doesn't have. This stand-in has a
-// button for each kind of tap.
+// The real globes need WebGL, which jsdom doesn't have. These stand-ins have
+// a button for each kind of answer.
 vi.mock('../globe/LocateCountryGlobe', () => ({
   default: ({
     countryName,
@@ -21,6 +21,20 @@ vi.mock('../globe/LocateCountryGlobe', () => ({
     </div>
   ),
 }))
+
+vi.mock('../globe/NameCountryGlobe', () => ({
+  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
+    <div>
+      <p>This is</p>
+      <button onClick={() => onAnswer(true)}>Type right name</button>
+      <button onClick={() => onAnswer(false)}>Type wrong name</button>
+    </div>
+  ),
+}))
+
+// The card asks the name question when Math.random() is below 0.5.
+const LOCATION_QUESTION_RANDOM = 0.9
+const NAME_QUESTION_RANDOM = 0.1
 
 // France: area Medium, population Numerous, IHDI Great - 8, capital Paris.
 const france = countryFacts['FRA']
@@ -40,6 +54,10 @@ async function answerCapital(typed: string) {
 }
 
 describe('Flashcard', () => {
+  beforeEach(() => {
+    vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
+  })
+
   it("shows the country's picture", () => {
     render(<Flashcard country={france} onFinish={vi.fn()} />)
 
@@ -66,6 +84,24 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith(5)
+  })
+
+  it('asks to name the country on the globe instead, half the time', async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
+    const onFinish = vi.fn()
+    render(<Flashcard country={france} onFinish={onFinish} />)
+
+    expect(await screen.findByText('This is')).toBeInTheDocument()
+    expect(screen.queryByText('Select France')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Type wrong name' }))
+    expect(screen.getByText('Area?')).toBeInTheDocument()
+    await answerRangeQuestion('Medium - ≥ 300K km²')
+    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('Great - 8')
+    await answerCapital('paris')
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(onFinish).toHaveBeenCalledWith(4)
   })
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {

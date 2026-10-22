@@ -1,0 +1,55 @@
+/* Covers the whole screen, including the card's picture, but sits below the
+   back button (z-index 2) so the user can still leave. Same as .locate-globe. */
+.name-globe {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: #000010;
+  opacity: 1;
+  transition: opacity 600ms ease;
+}
+
+.name-globe--fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.name-globe__canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* "This is" with the text box underneath, along the bottom of the screen. */
+.name-globe__panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* Lines the contents up with the card on wide screens. */
+  padding: 16px max(16px, calc((100% - 420px) / 2));
+  background: rgba(15, 20, 35, 0.9);
+}
+
+.name-globe__label {
+  color: #a9b1c2;
+  font-size: 1.1rem;
+}
+
+/* Same look as the card's buttons. */
+.name-globe__reveal {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.name-globe__reveal:hover {
+  background: rgba(255, 255, 255, 0.14);
+}

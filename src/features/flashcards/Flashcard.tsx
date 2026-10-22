@@ -6,8 +6,9 @@ import { TypedAnswerReveal } from './TypedAnswerReveal'
 import './Flashcard.css'
 
 // The globe (MapLibre + border data) is large, so it is loaded only when a
-// card asks the location question. This keeps the other questions fast.
+// card asks a globe question. This keeps the other questions fast.
 const LocateCountryGlobe = lazy(() => import('../globe/LocateCountryGlobe'))
+const NameCountryGlobe = lazy(() => import('../globe/NameCountryGlobe'))
 
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
@@ -18,13 +19,17 @@ type FlashcardProps = {
   onFinish: (correctCount: number) => void
 }
 
-// One country's card: first its location (tapped on the globe), then area,
-// population and IHDI (picked from range titles), then the capital (typed).
-// Each answer is revealed before moving on.
+// One country's card: first a globe question, then area, population and IHDI
+// (picked from range titles), then the capital (typed). The globe question is,
+// at random half the time each, either finding the country (tapped on the
+// globe) or naming the country shown on the globe (typed). Each answer is
+// revealed before moving on.
 export function Flashcard({ country, onFinish }: FlashcardProps) {
   const questions = rangeQuestions(country)
-  // Whether the user has tapped a country on the globe yet.
-  const [hasLocated, setHasLocated] = useState(false)
+  // Chosen once, when the card is first shown.
+  const [isNameQuestion] = useState(() => Math.random() < 0.5)
+  // Whether the user has answered the globe question yet.
+  const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(false)
   // 0–2 are the range questions; 3 is the capital.
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
@@ -34,8 +39,8 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   const isCapitalStep = step === questions.length
 
-  function submitLocation(isCorrect: boolean) {
-    setHasLocated(true)
+  function submitGlobeAnswer(isCorrect: boolean) {
+    setHasAnsweredGlobe(true)
     if (isCorrect) setCorrectCount((count) => count + 1)
   }
 
@@ -61,16 +66,20 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>
-      {/* Covers the screen until the user taps a country, then fades away.
-          While the globe's code loads, a plain cover of the same colour hides
-          the card so it doesn't flash up first. */}
-      {!hasLocated && (
+      {/* Covers the screen until the user answers the globe question, then
+          fades away. While the globe's code loads, a plain cover of the same
+          colour hides the card so it doesn't flash up first. */}
+      {!hasAnsweredGlobe && (
         <Suspense fallback={<div className="flashcard__globe-loading">Loading globe…</div>}>
-          <LocateCountryGlobe
-            isoAlpha3={country.isoAlpha3}
-            countryName={country.commonName}
-            onAnswer={submitLocation}
-          />
+          {isNameQuestion ? (
+            <NameCountryGlobe country={country} onAnswer={submitGlobeAnswer} />
+          ) : (
+            <LocateCountryGlobe
+              isoAlpha3={country.isoAlpha3}
+              countryName={country.commonName}
+              onAnswer={submitGlobeAnswer}
+            />
+          )}
         </Suspense>
       )}
       <img
