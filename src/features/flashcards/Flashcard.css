@@ -143,3 +143,10 @@
   justify-content: center;
   background: #000010;
 }
+
+/* Shown after an answer when the correct answer is our own estimate. */
+.flashcard__note {
+  margin: 8px 0 0;
+  color: #a9b1c2;
+  font-size: 0.9rem;
+}

@@ -1,7 +1,7 @@
 import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
-import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
@@ -16,6 +16,7 @@ export function CountryInfoPanel({ country, onClose, ref }: CountryInfoPanelProp
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = facts?.commonName ?? country.name
+  const ihdi = facts === undefined ? null : ihdiRange(facts)
 
   return (
     <aside ref={ref} className="country-info-panel" aria-label={`${name} details`}>
@@ -39,7 +40,7 @@ export function CountryInfoPanel({ country, onClose, ref }: CountryInfoPanelProp
             <dt>Area</dt>
             <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
             <dt>IHDI</dt>
-            <dd>{facts.ihdi === null ? 'No data' : rangeTitle(IHDI_RANGES, facts.ihdi)}</dd>
+            <dd>{ihdi === null ? 'No data' : ihdi.isEstimate ? `${ihdi.title} (est.)` : ihdi.title}</dd>
           </dl>
         </>
       )}

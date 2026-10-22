@@ -1,7 +1,8 @@
 import type { CountryFacts } from '../../shared/countryFacts'
-import { AREA_RANGES, IHDI_RANGES, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import { AREA_RANGES, IHDI_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 
-// Countries without an IHDI have this as their correct IHDI answer.
+// Countries with neither an IHDI nor an HDI to estimate it from have this as
+// their correct IHDI answer.
 const NO_DATA = 'No data'
 
 // No country's IHDI is high enough for this range, so it isn't offered.
@@ -17,9 +18,12 @@ export type RangeQuestion = {
   label: string
   options: string[]
   correctAnswer: string
+  // True when the correct answer comes from our estimate, not UNDP's figure.
+  isEstimate?: boolean
 }
 
 export function rangeQuestions(country: CountryFacts): RangeQuestion[] {
+  const ihdi = ihdiRange(country)
   return [
     {
       label: 'Area',
@@ -39,7 +43,8 @@ export function rangeQuestions(country: CountryFacts): RangeQuestion[] {
         ),
         NO_DATA,
       ],
-      correctAnswer: country.ihdi === null ? NO_DATA : rangeTitle(IHDI_RANGES, country.ihdi),
+      correctAnswer: ihdi === null ? NO_DATA : ihdi.title,
+      isEstimate: ihdi?.isEstimate,
     },
   ]
 }

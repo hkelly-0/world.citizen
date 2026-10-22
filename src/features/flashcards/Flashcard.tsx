@@ -146,6 +146,9 @@ function RangeQuestionView({ question, answer, onAnswer }: RangeQuestionViewProp
           </button>
         ))}
       </div>
+      {isAnswered && question.isEstimate && (
+        <p className="flashcard__note">Estimated: UNDP has no IHDI for this country.</p>
+      )}
     </>
   )
 }

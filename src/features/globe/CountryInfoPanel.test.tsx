@@ -41,6 +41,13 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('No data')).toBeInTheDocument()
   })
 
+  it('marks an estimated IHDI with (est.)', () => {
+    const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
+    render(<CountryInfoPanel country={saudiArabia} onClose={() => {}} />)
+
+    expect(screen.getByText(/\(est\.\)$/)).toBeInTheDocument()
+  })
+
   it('shows a note for map areas that are not one of the 195 countries', () => {
     const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
     render(<CountryInfoPanel country={kosovo} onClose={() => {}} />)

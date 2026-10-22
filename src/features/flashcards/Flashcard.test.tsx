@@ -140,6 +140,18 @@ describe('Flashcard', () => {
     expect(screen.getByRole('button', { name: 'No data' })).toHaveClass('flashcard__option--correct')
   })
 
+  it('says the IHDI is estimated when the correct answer is our estimate', async () => {
+    render(<Flashcard country={countryFacts['SAU']} onFinish={() => {}} />)
+
+    await answerLocation('Tap right country')
+    await answerRangeQuestion('Large - ≥ 1M km²')
+    await answerRangeQuestion('Moderate - ≥ 10M')
+    expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Great - 8' }))
+
+    expect(screen.getByText(/Estimated: UNDP has no IHDI/)).toBeInTheDocument()
+  })
+
   it('accepts any one capital for countries with several', async () => {
     render(<Flashcard country={countryFacts['ZAF']} onFinish={() => {}} />)
 

@@ -53,3 +53,18 @@ export function rangeTitle(ranges: StatRange[], value: number): string {
   }
   return title
 }
+
+// The IHDI range to show for a country: from its real IHDI if UNDP has one,
+// otherwise from our estimate (isEstimate is then true), otherwise null.
+export function ihdiRange(country: {
+  ihdi: number | null
+  ihdiEstimate: number | null
+}): { title: string; isEstimate: boolean } | null {
+  if (country.ihdi !== null) {
+    return { title: rangeTitle(IHDI_RANGES, country.ihdi), isEstimate: false }
+  }
+  if (country.ihdiEstimate !== null) {
+    return { title: rangeTitle(IHDI_RANGES, country.ihdiEstimate), isEstimate: true }
+  }
+  return null
+}

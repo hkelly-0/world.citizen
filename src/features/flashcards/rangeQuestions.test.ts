@@ -31,4 +31,20 @@ describe('rangeQuestions', () => {
       }
     }
   })
+
+  it("uses the estimated IHDI for a country that has an HDI but no IHDI", () => {
+    // Saudi Arabia: no IHDI from UNDP, HDI 0.9, so an estimate of 0.804.
+    const saudiArabia = countryFacts['SAU']
+    expect(saudiArabia.ihdi).toBeNull()
+    expect(saudiArabia.ihdiEstimate).not.toBeNull()
+
+    const ihdi = rangeQuestions(saudiArabia)[2]
+    expect(ihdi.correctAnswer).toBe('Great - 8')
+    expect(ihdi.isEstimate).toBe(true)
+  })
+
+  it('does not mark a real IHDI as an estimate, and uses "No data" with neither', () => {
+    expect(rangeQuestions(france)[2].isEstimate).toBe(false)
+    expect(rangeQuestions(countryFacts['VAT'])[2].correctAnswer).toBe('No data')
+  })
 })
