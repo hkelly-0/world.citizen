@@ -1,3 +1,4 @@
 {
-  "USA": { "box": [-125, 24, -66, 50], "note": "Contiguous states only: leave out Alaska and Hawaii" }
+  "USA": { "box": [-125, 24, -66, 50], "note": "Contiguous states only: leave out Alaska and Hawaii" },
+  "IDN": { "box": [94, -12, 142, 7], "note": "Include every island" }
 }
