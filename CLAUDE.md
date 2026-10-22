@@ -33,7 +33,9 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 
 ## Architecture decisions
-- **One web codebase**, deployed as the website and packaged as an APK with **Capacitor**.
+- **One web codebase**, deployed as the website and packaged as an APK with **Capacitor** (`capacitor.config.ts`, native project in `android/`).
+  - App ID `world.citizen` (must never change, or installed apps can't be updated); app name `world.citizen`.
+  - `npm run android:sync` builds the web app and copies it into `android/` (the copy is gitignored). Then build/run from Android Studio (`npx cap open android`), or `cd android && ./gradlew assembleDebug` with `JAVA_HOME` set to a Java 21 JDK, e.g. `~/Library/Java/JavaVirtualMachines/jbr-21.0.11/Contents/Home` (the project targets Java 21; Android Studio's bundled JDK is 25, which Gradle 8.14 doesn't support).
 - **Build tool:** Vite.
 - **UI framework:** React, written in TypeScript.
 - **Styling:** plain CSS files, one per component, imported directly.
@@ -76,6 +78,7 @@ src/
     progress.ts     # flashcard progress in localStorage
     BackButton.tsx  # "← Menu" button used by each screen
 scripts/            # one-off asset generation (background map tiles, country facts, country pictures)
+android/            # Capacitor's native Android project (mostly generated)
 ```
 
 ## Performance guidelines (Android WebView)
@@ -89,5 +92,6 @@ scripts/            # one-off asset generation (background map tiles, country fa
 - Done: country facts dataset (`src/data/countries.json`), shown as named ranges.
 - Done: main menu and flashcards with SM-2 scheduling and saved progress.
 - Done: country pictures for 194 countries, shown on the flashcards.
-- Next: range boundaries page, then Capacitor/Android (needs Android Studio and SDK, not yet installed).
+- Done: Capacitor Android project; debug APK runs on the emulator (menu, globe and flashcards checked).
+- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it), app icon, Android back button.
 - Note: requires npm 11+ (developed on Node 24 / npm 11.19.1). npm 10.9.2 crashes resolving Vitest 5's peer dependencies; on npm 10, install with `npx npm@11 install`.
