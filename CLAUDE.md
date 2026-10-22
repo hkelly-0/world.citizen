@@ -33,7 +33,7 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
 
 Both globes limit zoom (`zoomLimits.ts`): at the equator the minimum is 1.3 on phones and 1.8 when the globe is 768 px or wider, and the maximum is 6. MapLibre draws the globe larger near the poles (by 1/cos(latitude)) and already lowers the minimum zoom to match, so the minimum is passed unchanged and the zoomed-out globe is the same size everywhere. The maximum is lowered here by the same amount (`latitudeZoom.ts`, capped at 85.05° like MapLibre).
 
-Tap buffer (`tapBuffer.ts`, used by both globes through `findTappedCountryIndex` in `countryMap.ts`): the 25 countries under 1,000 km² (Vatican, Monaco, Tuvalu, Singapore, etc.) are only a few pixels wide on the globe, so a tap within 20 screen pixels of one counts as a tap on it, even if it lands on a bigger neighbour. Hover highlighting doesn't use the buffer.
+Tap buffer (`tapBuffer.ts`, used by both globes through `findTappedCountryIndex` in `countryMap.ts`): the 25 countries under 1,000 km² (Vatican, Monaco, Tuvalu, Singapore, etc.) are only a few pixels wide on the globe, so a tap within 20 screen pixels of one counts as a tap on it, even if it lands on a bigger neighbour. Hover (pointer cursor and highlight) uses it too, so what is highlighted is what a click picks.
 
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 

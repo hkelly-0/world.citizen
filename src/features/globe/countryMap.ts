@@ -223,13 +223,14 @@ export function createCountryMap(container: HTMLElement): MapLibreMap {
       map.getCanvas().style.cursor = index === null ? '' : 'pointer'
     }
 
-    map.on('mousemove', 'country-fills', (event) => {
+    // Uses the same lookup as a click, so the pointer cursor and highlight also
+    // show within the tap buffer of a very small country.
+    map.on('mousemove', (event) => {
       if (isHoverStopped) return
-      const country = event.features?.[0]
-      const index = country === undefined ? null : Number(country.id)
+      const index = findTappedCountryIndex(map, event.point)
       if (index !== hoveredIndex) setHovered(index)
     })
-    map.on('mouseleave', 'country-fills', () => setHovered(null))
+    map.on('mouseout', () => setHovered(null))
     hoverStoppers.set(map, () => {
       isHoverStopped = true
       setHovered(null)
