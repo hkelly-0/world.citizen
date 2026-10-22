@@ -24,9 +24,10 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
 
 1. **Flashcards** – learn facts about countries, with locally saved progress.
    - Scope: 193 UN members + 2 observers (Vatican, Palestine).
-   - One card per country, showing its picture and common name. Questions in order: area, population, IHDI (tap one range-title button; IHDI also offers "No data"), then capital (typed). Each answer is revealed (correct option green, wrong pick red) before a "Next" button.
+   - One card per country, showing its picture and common name. Questions in order: location, area, population, IHDI (tap one range-title button; IHDI also offers "No data"), then capital (typed). Each answer is revealed (correct option green, wrong pick red) before a "Next" button.
+   - Location question: a full-screen globe (`LocateCountryGlobe.tsx`) with "Select Finland" over it. The user spins and zooms, then taps a country. Tapping the ocean does nothing; tapping any land is the answer (areas outside the 195, e.g. Greenland, are wrong). The tapped country turns green or red; if wrong, the correct country turns green and the globe flies to it. After a pause the globe fades to reveal the card, with a result line ("Correct!" / "Wrong — you picked Sweden"). Tuvalu has no outline to tap, so its card skips this question.
    - Capital check ignores case, accents and surrounding spaces; spelling must otherwise be exact (no fuzzy matching). Any one of several capitals counts.
-   - Scheduling: SM-2 (Anki-style). Grade from the number correct out of 4: 4 → 5, 3 → 4, 2 → 2, 0–1 → 0 (below 3 fails; a failed card is due tomorrow). Due reviews come first (most overdue first), then unseen countries in random order, with no daily limit on new cards.
+   - Scheduling: SM-2 (Anki-style). Grade from the number correct out of 5: 5 → 5, 4 → 4, 3 → 3, 2 → 2, 0–1 → 0 (below 3 fails; a failed card is due tomorrow). Tuvalu's card has 4 questions: 4 → 5, 3 → 4, 2 → 2, 0–1 → 0. Due reviews come first (most overdue first), then unseen countries in random order, with no daily limit on new cards.
    - Possible later additions: more facts (flag, region, languages, etc.).
 2. **Interactive globe** – spin and pinch-zoom a 3D globe with satellite imagery, which flattens into a map when zoomed in; tap a country to open an info panel.
 
@@ -40,7 +41,7 @@ Features should link up via ISO country codes, e.g. "show on globe" from a flash
 - **UI framework:** React, written in TypeScript.
 - **Styling:** plain CSS files, one per component, imported directly.
 - **Tests:** Vitest + Testing Library (`npm test`). The WebGL map itself is not unit-tested.
-- **Globe:** MapLibre GL JS (`src/features/globe/GlobeView.tsx`). Its projection is a globe when zoomed out and blends into a flat Mercator map between zoom 4 and 5. Borders are a GeoJSON source that MapLibre tiles and simplifies per zoom level; tapped countries are found with `queryRenderedFeatures`, and hover/selection highlights use feature state (no data rebuilds).
+- **Globe:** MapLibre GL JS (`src/features/globe/countryMap.ts` creates the map, shared by `GlobeView.tsx` and the flashcards' `LocateCountryGlobe.tsx`). Its projection is a globe when zoomed out and blends into a flat Mercator map between zoom 4 and 5. Borders are a GeoJSON source that MapLibre tiles and simplifies per zoom level; tapped countries are found with `queryRenderedFeatures`, and hover/selection highlights use feature state (no data rebuilds).
   - MapLibre's worker script is copied by Vite (`?url` import) and passed to `setWorkerUrl`, because MapLibre can't find it after bundling.
   - Alternatives considered: `globe.gl` (tried first; too slow on phones because every country is a separate 3D mesh, and blurry/blocky when zoomed in), CesiumJS (too heavy), raw three.js (too much work).
 - **Offline-first:** all country data bundled with the app, no runtime network dependency.
@@ -69,7 +70,7 @@ src/
     countries.json
   features/
     menu/           # main menu
-    globe/          # MapLibre globe/map view, selection, info panel, flat-map geometry fixes
+    globe/          # shared map setup (countryMap.ts), globe screen, flashcard location globe, info panel, flat-map geometry fixes
     flashcards/     # SM-2 (sm2.ts), next-card choice (deck.ts), capital check, card UI
   shared/
     countries.ts    # country outlines + ISO codes from world-atlas
@@ -85,12 +86,13 @@ android/            # Capacitor's native Android project (mostly generated)
 - Let MapLibre handle level of detail: pass full-detail borders and tiled imagery, not single large images or pre-simplified geometry.
 - Cap the device pixel ratio: 1.5 on touch devices, 2 otherwise.
 - Only set up hover handling on devices that can hover.
-- Lazy-load the globe screen so flashcards stay fast.
+- Lazy-load the globe screen, and the flashcards' location globe, so the rest of the flashcards stay fast.
 
 ## Status
 - Done: MapLibre globe with satellite imagery that flattens into a map when zoomed in. Tapping a country highlights it and shows its facts (names, capitals, population, area, IHDI); tapping the ocean closes the panel. Tuvalu has no outline in world-atlas, so it cannot be tapped.
 - Done: country facts dataset (`src/data/countries.json`), shown as named ranges.
 - Done: main menu and flashcards with SM-2 scheduling and saved progress.
+- Done: flashcard location question on the globe (`LocateCountryGlobe.tsx`); graded out of 5. Not yet checked on a real phone or emulator.
 - Done: country pictures for 194 countries, shown on the flashcards.
 - Done: Capacitor Android project; debug APK runs on the emulator (menu, globe and flashcards checked).
 - Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it), app icon.

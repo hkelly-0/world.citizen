@@ -1,24 +1,35 @@
-import { useState, type FormEvent } from 'react'
+import { lazy, Suspense, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
 import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import './Flashcard.css'
 
+// The globe (MapLibre + border data) is large, so it is loaded only when a
+// card asks the location question. This keeps the other questions fast.
+const LocateCountryGlobe = lazy(() => import('../globe/LocateCountryGlobe'))
+
 // Pictures made by scripts/make-country-images.mjs. Tuvalu has none because
-// world-atlas has no outline for it.
+// world-atlas has no outline for it, which also means it can't be tapped on
+// the globe, so its card skips the location question.
 const COUNTRY_IMAGES = '/country-images'
 const COUNTRIES_WITHOUT_IMAGE = ['TUV']
 
 type FlashcardProps = {
   country: CountryFacts
-  // Called after the last question, with how many of the 4 were correct.
-  onFinish: (correctCount: number) => void
+  // Called after the last question, with how many were correct out of how many
+  // were asked (5, or 4 for a country without a location question).
+  onFinish: (correctCount: number, questionCount: number) => void
 }
 
-// One country's card: area, population and IHDI (picked from range titles),
-// then the capital (typed). Each answer is revealed before moving on.
+// One country's card: first its location (tapped on the globe), then area,
+// population and IHDI (picked from range titles), then the capital (typed).
+// Each answer is revealed before moving on.
 export function Flashcard({ country, onFinish }: FlashcardProps) {
   const questions = rangeQuestions(country)
+  const hasLocationQuestion = !COUNTRIES_WITHOUT_IMAGE.includes(country.isoAlpha3)
+  const questionCount = hasLocationQuestion ? 5 : 4
+  // The user's tap on the globe, or null until they've answered it.
+  const [located, setLocated] = useState<{ pickedName: string; isCorrect: boolean } | null>(null)
   // 0–2 are the range questions; 3 is the capital.
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
@@ -27,6 +38,11 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
   const [typedCapital, setTypedCapital] = useState('')
 
   const isCapitalStep = step === questions.length
+
+  function submitLocation(pickedName: string, isCorrect: boolean) {
+    setLocated({ pickedName, isCorrect })
+    if (isCorrect) setCorrectCount((count) => count + 1)
+  }
 
   function submitAnswer(chosen: string, isCorrect: boolean) {
     setAnswer(chosen)
@@ -42,7 +58,7 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   function goToNext() {
     if (isCapitalStep) {
-      onFinish(correctCount)
+      onFinish(correctCount, questionCount)
     } else {
       setStep(step + 1)
       setAnswer(null)
@@ -51,6 +67,16 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>
+      {/* Covers the screen until the user taps a country, then fades away. */}
+      {hasLocationQuestion && located === null && (
+        <Suspense fallback={<p className="loading">Loading globe…</p>}>
+          <LocateCountryGlobe
+            isoAlpha3={country.isoAlpha3}
+            countryName={country.commonName}
+            onAnswer={submitLocation}
+          />
+        </Suspense>
+      )}
       {!COUNTRIES_WITHOUT_IMAGE.includes(country.isoAlpha3) && (
         <img
           className="flashcard__image"
@@ -59,6 +85,7 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
         />
       )}
       <h2>{country.commonName}</h2>
+      {located !== null && step === 0 && <LocationResult country={country} located={located} />}
 
       {isCapitalStep ? (
         <CapitalQuestion
@@ -168,6 +195,24 @@ function CapitalQuestion({
         />
       )}
     </>
+  )
+}
+
+function LocationResult({
+  country,
+  located,
+}: {
+  country: CountryFacts
+  located: { pickedName: string; isCorrect: boolean }
+}) {
+  return located.isCorrect ? (
+    <p className="flashcard__result flashcard__result--correct flashcard__location-result">
+      Correct! {country.commonName}
+    </p>
+  ) : (
+    <p className="flashcard__result flashcard__result--wrong flashcard__location-result">
+      Wrong — you picked {located.pickedName}
+    </p>
   )
 }
 

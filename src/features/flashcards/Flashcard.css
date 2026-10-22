@@ -109,3 +109,9 @@
   width: 100%;
   margin-top: 16px;
 }
+
+/* Result of the location question, shown above the first range question. */
+.flashcard__location-result {
+  margin: 0 0 16px;
+  text-align: center;
+}

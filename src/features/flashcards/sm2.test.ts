@@ -2,12 +2,21 @@ import { describe, expect, it } from 'vitest'
 import { gradeFromCorrectCount, reviewCard } from './sm2'
 
 describe('gradeFromCorrectCount', () => {
+  it('maps the number of correct answers (out of 5) to an SM-2 grade', () => {
+    expect(gradeFromCorrectCount(5, 5)).toBe(5)
+    expect(gradeFromCorrectCount(4, 5)).toBe(4)
+    expect(gradeFromCorrectCount(3, 5)).toBe(3)
+    expect(gradeFromCorrectCount(2, 5)).toBe(2)
+    expect(gradeFromCorrectCount(1, 5)).toBe(0)
+    expect(gradeFromCorrectCount(0, 5)).toBe(0)
+  })
+
   it('maps the number of correct answers (out of 4) to an SM-2 grade', () => {
-    expect(gradeFromCorrectCount(4)).toBe(5)
-    expect(gradeFromCorrectCount(3)).toBe(4)
-    expect(gradeFromCorrectCount(2)).toBe(2)
-    expect(gradeFromCorrectCount(1)).toBe(0)
-    expect(gradeFromCorrectCount(0)).toBe(0)
+    expect(gradeFromCorrectCount(4, 4)).toBe(5)
+    expect(gradeFromCorrectCount(3, 4)).toBe(4)
+    expect(gradeFromCorrectCount(2, 4)).toBe(2)
+    expect(gradeFromCorrectCount(1, 4)).toBe(0)
+    expect(gradeFromCorrectCount(0, 4)).toBe(0)
   })
 })
 

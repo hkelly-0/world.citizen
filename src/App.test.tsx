@@ -1,7 +1,15 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
+
+// The flashcards' globe question needs WebGL too. This stand-in answers
+// correctly when its button is clicked.
+vi.mock('./features/globe/LocateCountryGlobe', () => ({
+  default: ({ onAnswer }: { onAnswer: (pickedName: string, isCorrect: boolean) => void }) => (
+    <button onClick={() => onAnswer('Anywhere', true)}>Tap right country</button>
+  ),
+}))
 
 // The globe screen needs WebGL, which the test environment doesn't have, so
 // only the menu and flashcards screens are tested here.
@@ -45,8 +53,18 @@ describe('App', () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
 
-    // The country is random, so pick the first option each time (button 0 is
-    // "← Menu"), then type a capital. Right or wrong, the card gets saved.
+    // The country is random. Tuvalu has no location question, so wait for
+    // either the globe or the area question, and tap the globe if it's there.
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('button', { name: 'Tap right country' }) ?? screen.queryByText('Area?'),
+      ).not.toBeNull(),
+    )
+    const globeButton = screen.queryByRole('button', { name: 'Tap right country' })
+    if (globeButton !== null) await userEvent.click(globeButton)
+
+    // Pick the first option each time (button 0 is "← Menu"), then type a
+    // capital. Right or wrong, the card gets saved.
     for (let i = 0; i < 3; i++) {
       await userEvent.click(screen.getAllByRole('button', { name: /./ })[1])
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))

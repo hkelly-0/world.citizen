@@ -15,9 +15,17 @@ export type CardProgress = {
 const STARTING_EASE_FACTOR = 2.5
 const MINIMUM_EASE_FACTOR = 1.3
 
-// Each card asks 4 questions (area, population, IHDI, capital). SM-2 grades
+// Each card asks 5 questions (location, area, population, IHDI, capital), or 4
+// without the location question (Tuvalu has no outline to tap). SM-2 grades
 // from 0 to 5, where 3 or more is a pass.
-export function gradeFromCorrectCount(correctCount: number): number {
+export function gradeFromCorrectCount(correctCount: number, questionCount: number): number {
+  if (questionCount === 5) {
+    if (correctCount === 5) return 5
+    if (correctCount === 4) return 4
+    if (correctCount === 3) return 3
+    if (correctCount === 2) return 2
+    return 0
+  }
   if (correctCount === 4) return 5
   if (correctCount === 3) return 4
   if (correctCount === 2) return 2

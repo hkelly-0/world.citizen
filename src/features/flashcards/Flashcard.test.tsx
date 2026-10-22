@@ -4,8 +4,30 @@ import { describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { Flashcard } from './Flashcard'
 
+// The real globe needs WebGL, which jsdom doesn't have. This stand-in has a
+// button for each kind of tap.
+vi.mock('../globe/LocateCountryGlobe', () => ({
+  default: ({
+    countryName,
+    onAnswer,
+  }: {
+    countryName: string
+    onAnswer: (pickedName: string, isCorrect: boolean) => void
+  }) => (
+    <div>
+      <p>Select {countryName}</p>
+      <button onClick={() => onAnswer(countryName, true)}>Tap right country</button>
+      <button onClick={() => onAnswer('Sweden', false)}>Tap wrong country</button>
+    </div>
+  ),
+}))
+
 // France: area Medium, population Numerous, IHDI 8 - Great, capital Paris.
 const france = countryFacts['FRA']
+
+async function answerLocation(button: 'Tap right country' | 'Tap wrong country') {
+  await userEvent.click(await screen.findByRole('button', { name: button }))
+}
 
 async function answerRangeQuestion(option: string) {
   await userEvent.click(screen.getByRole('button', { name: option }))
@@ -33,11 +55,28 @@ describe('Flashcard', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument()
   })
 
-  it('asks area, population, IHDI, then capital, and reports 4 correct', async () => {
+  it('skips the location question for Tuvalu, which has no outline to tap', async () => {
+    const onFinish = vi.fn()
+    render(<Flashcard country={countryFacts['TUV']} onFinish={onFinish} />)
+
+    expect(screen.queryByText('Select Tuvalu')).not.toBeInTheDocument()
+    expect(screen.getByText('Area?')).toBeInTheDocument()
+    await answerRangeQuestion('Teensy-weensy')
+    await answerRangeQuestion('Minute')
+    await answerRangeQuestion('6 - Ok')
+    await answerCapital('Funafuti')
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(onFinish).toHaveBeenCalledWith(expect.any(Number), 4)
+  })
+
+  it('asks location, area, population, IHDI, then capital, and reports 5 correct', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} onFinish={onFinish} />)
 
-    expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    expect(await screen.findByText('Select France')).toBeInTheDocument()
+    await answerLocation('Tap right country')
+    expect(screen.getByText('Correct! France')).toBeInTheDocument()
     expect(screen.getByText('Area?')).toBeInTheDocument()
     await answerRangeQuestion('Medium')
     expect(screen.getByText('Population?')).toBeInTheDocument()
@@ -48,13 +87,15 @@ describe('Flashcard', () => {
     expect(screen.getByText('Correct! Paris')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(4)
+    expect(onFinish).toHaveBeenCalledWith(5, 5)
   })
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} onFinish={onFinish} />)
 
+    await answerLocation('Tap wrong country')
+    expect(screen.getByText('Wrong — you picked Sweden')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Tiny' }))
     expect(screen.getByText("Wrong — it's Medium")).toBeInTheDocument()
     // Options can't be changed once answered.
@@ -67,12 +108,13 @@ describe('Flashcard', () => {
     expect(screen.getByText("Wrong — it's Paris")).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(2)
+    expect(onFinish).toHaveBeenCalledWith(2, 5)
   })
 
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {
     render(<Flashcard country={countryFacts['VAT']} onFinish={() => {}} />)
 
+    await answerLocation('Tap right country')
     await answerRangeQuestion('Teensy-weensy')
     await answerRangeQuestion('Minute')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
@@ -83,6 +125,7 @@ describe('Flashcard', () => {
   it('accepts any one capital for countries with several', async () => {
     render(<Flashcard country={countryFacts['ZAF']} onFinish={() => {}} />)
 
+    await answerLocation('Tap right country')
     await answerRangeQuestion('Large')
     await answerRangeQuestion('Numerous')
     await answerRangeQuestion('4 - Very Bad')
