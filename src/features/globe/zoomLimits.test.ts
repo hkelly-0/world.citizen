@@ -17,8 +17,9 @@ describe('zoomLimitsFor', () => {
     expect(maxZoom).toBeCloseTo(5)
   })
 
-  it('is the same in both hemispheres and stops changing past 80°', () => {
+  it('is the same in both hemispheres and stops changing past 85.05°, like MapLibre', () => {
     expect(zoomLimitsFor(-45, 400)).toEqual(zoomLimitsFor(45, 400))
-    expect(zoomLimitsFor(89, 400)).toEqual(zoomLimitsFor(80, 400))
+    expect(zoomLimitsFor(89, 400)).toEqual(zoomLimitsFor(85.06, 400))
+    expect(Number.isFinite(zoomLimitsFor(90, 400).maxZoom)).toBe(true)
   })
 })

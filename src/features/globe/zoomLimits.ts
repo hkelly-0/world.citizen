@@ -9,18 +9,11 @@
 // - Maximum: MapLibre doesn't adjust it, so it is lowered here by the same
 //   amount, so the closest view shows the same amount of ground at any latitude.
 import { WIDE_SCREEN_MIN_PX } from './focusZoom'
+import { latitudeZoomOut } from './latitudeZoom'
 
 const PHONE_MIN_ZOOM_AT_EQUATOR = 1.3
 const WIDE_SCREEN_MIN_ZOOM_AT_EQUATOR = 1.8
 const MAX_ZOOM_AT_EQUATOR = 6
-// Stops the correction blowing up as cos(latitude) approaches 0 at the poles.
-const MAX_LATITUDE_DEGREES = 80
-
-// Zoom levels to take off at a latitude. Zero at the equator.
-function latitudeZoomOut(latitude: number): number {
-  const degrees = Math.min(Math.abs(latitude), MAX_LATITUDE_DEGREES)
-  return -Math.log2(Math.cos((degrees * Math.PI) / 180))
-}
 
 // latitude is the centre of the map, in degrees; mapWidthPx is the map's width.
 export function zoomLimitsFor(
