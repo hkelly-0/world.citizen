@@ -1,37 +1,34 @@
 import { addDays } from './dates'
 
-// How well the user knows one country's card, as tracked by SM-2 (the
-// algorithm Anki is based on): https://super-memory.com/english/ol/sm2.htm
-export type CardProgress = {
+// How well the user knows the answer to one question about one country (e.g.
+// France's capital), as tracked by SM-2 (the algorithm Anki is based on):
+// https://super-memory.com/english/ol/sm2.htm
+export type QuestionProgress = {
   // Correct reviews in a row; reset to 0 by a failed review.
   repetitions: number
-  // How quickly the interval grows; lower for cards the user finds hard.
+  // How quickly the interval grows; lower for questions the user finds hard.
   easeFactor: number
   intervalDays: number
-  // "YYYY-MM-DD"; the card is shown again on or after this date.
+  // "YYYY-MM-DD"; the question is due again on or after this date.
   dueDate: string
 }
 
 const STARTING_EASE_FACTOR = 2.5
 const MINIMUM_EASE_FACTOR = 1.3
 
-// Each card asks 5 questions (location, area, population, IHDI, capital). SM-2
-// grades from 0 to 5, where 3 or more is a pass.
-export function gradeFromCorrectCount(correctCount: number): number {
-  if (correctCount === 5) return 5
-  if (correctCount === 4) return 4
-  if (correctCount === 3) return 3
-  if (correctCount === 2) return 2
-  return 0
+// SM-2 grades from 0 to 5, where 3 or more is a pass. Each question is only
+// right or wrong, so a right answer gets the top grade and a wrong one the lowest.
+export function gradeFromAnswer(isCorrect: boolean): number {
+  return isCorrect ? 5 : 0
 }
 
-// Returns the card's progress after a review with the given grade (0–5).
-// `previous` is undefined for a card that has never been reviewed.
-export function reviewCard(
-  previous: CardProgress | undefined,
+// Returns the question's progress after a review with the given grade (0–5).
+// `previous` is undefined for a question that has never been reviewed.
+export function reviewQuestion(
+  previous: QuestionProgress | undefined,
   grade: number,
   today: string,
-): CardProgress {
+): QuestionProgress {
   const repetitionsBefore = previous?.repetitions ?? 0
   const easeFactorBefore = previous?.easeFactor ?? STARTING_EASE_FACTOR
   const intervalBefore = previous?.intervalDays ?? 0

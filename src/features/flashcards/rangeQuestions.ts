@@ -15,6 +15,7 @@ function largestFirst(titles: string[]): string[] {
 
 // A question answered by picking one range title.
 export type RangeQuestion = {
+  id: 'area' | 'population' | 'ihdi'
   label: string
   options: string[]
   correctAnswer: string
@@ -26,16 +27,19 @@ export function rangeQuestions(country: CountryFacts): RangeQuestion[] {
   const ihdi = ihdiRange(country)
   return [
     {
+      id: 'area',
       label: 'Area',
       options: largestFirst(AREA_RANGES.map((range) => range.title)),
       correctAnswer: rangeTitle(AREA_RANGES, country.areaKm2),
     },
     {
+      id: 'population',
       label: 'Population',
       options: largestFirst(POPULATION_RANGES.map((range) => range.title)),
       correctAnswer: rangeTitle(POPULATION_RANGES, country.population),
     },
     {
+      id: 'ihdi',
       label: 'IHDI',
       options: [
         ...largestFirst(

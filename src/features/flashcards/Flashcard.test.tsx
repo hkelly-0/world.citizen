@@ -67,7 +67,7 @@ describe('Flashcard', () => {
     )
   })
 
-  it('asks location, area, population, IHDI, then capital, and reports 5 correct', async () => {
+  it('asks location, area, population, IHDI, then capital, and reports all right', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} onFinish={onFinish} />)
 
@@ -83,7 +83,13 @@ describe('Flashcard', () => {
     expect(screen.getByText('paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(5)
+    expect(onFinish).toHaveBeenCalledWith({
+      globe: true,
+      area: true,
+      population: true,
+      ihdi: true,
+      capital: true,
+    })
   })
 
   it('asks to name the country on the globe instead, half the time', async () => {
@@ -101,7 +107,13 @@ describe('Flashcard', () => {
     await answerCapital('paris')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(4)
+    expect(onFinish).toHaveBeenCalledWith({
+      globe: false,
+      area: true,
+      population: true,
+      ihdi: true,
+      capital: true,
+    })
   })
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {
@@ -126,7 +138,13 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(2)
+    expect(onFinish).toHaveBeenCalledWith({
+      globe: false,
+      area: false,
+      population: true,
+      ihdi: true,
+      capital: false,
+    })
   })
 
   it('reveals the capital without any text typed, counting it as wrong', async () => {
@@ -141,7 +159,13 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith(4)
+    expect(onFinish).toHaveBeenCalledWith({
+      globe: true,
+      area: true,
+      population: true,
+      ihdi: true,
+      capital: false,
+    })
   })
 
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {

@@ -12,14 +12,14 @@ describe('progress storage', () => {
 
   it('loads what was saved', () => {
     const progress = {
-      FRA: { repetitions: 1, easeFactor: 2.5, intervalDays: 1, dueDate: '2026-01-02' },
+      FRA: { capital: { repetitions: 1, easeFactor: 2.5, intervalDays: 1, dueDate: '2026-01-02' } },
     }
     saveProgress(progress)
     expect(loadProgress()).toEqual(progress)
   })
 
   it('starts empty when the saved data is unreadable', () => {
-    localStorage.setItem('geography-app/flashcard-progress', 'not json')
+    localStorage.setItem('geography-app/question-progress', 'not json')
     expect(loadProgress()).toEqual({})
   })
 })

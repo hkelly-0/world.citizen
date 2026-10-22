@@ -1,7 +1,7 @@
 import type { DeckProgress } from '../features/flashcards/deck'
 
 // Flashcard progress is kept in the browser's localStorage, on this device only.
-const STORAGE_KEY = 'geography-app/flashcard-progress'
+const STORAGE_KEY = 'geography-app/question-progress'
 
 export function loadProgress(): DeckProgress {
   try {

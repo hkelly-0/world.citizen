@@ -3,9 +3,15 @@ import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { todayString } from './dates'
-import { chooseNextCountry, type DeckProgress } from './deck'
+import {
+  chooseNextCountry,
+  QUESTION_IDS,
+  type CountryProgress,
+  type DeckProgress,
+  type QuestionId,
+} from './deck'
 import { Flashcard } from './Flashcard'
-import { gradeFromCorrectCount, reviewCard } from './sm2'
+import { gradeFromAnswer, reviewQuestion } from './sm2'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -25,9 +31,13 @@ export function FlashcardsView({ onBack }: FlashcardsViewProps) {
     chooseNextCountry(ALL_CODES, progress, today),
   )
 
-  function finishCard(code: string, correctCount: number) {
-    const grade = gradeFromCorrectCount(correctCount)
-    const newProgress = { ...progress, [code]: reviewCard(progress[code], grade, today) }
+  // Each question gets its own SM-2 review, even ones that weren't due yet.
+  function finishCard(code: string, results: Record<QuestionId, boolean>) {
+    const newCountryProgress: CountryProgress = {}
+    for (const id of QUESTION_IDS) {
+      newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(results[id]), today)
+    }
+    const newProgress = { ...progress, [code]: newCountryProgress }
     setProgress(newProgress)
     saveProgress(newProgress)
     setCurrentCode(chooseNextCountry(ALL_CODES, newProgress, today))
@@ -43,7 +53,7 @@ export function FlashcardsView({ onBack }: FlashcardsViewProps) {
         <Flashcard
           key={currentCode}
           country={countryFacts[currentCode]}
-          onFinish={(correctCount) => finishCard(currentCode, correctCount)}
+          onFinish={(results) => finishCard(currentCode, results)}
         />
       )}
     </div>

@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
+import type { QuestionId } from './deck'
 import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
 import './Flashcard.css'
@@ -15,8 +16,8 @@ const COUNTRY_IMAGES = '/country-images'
 
 type FlashcardProps = {
   country: CountryFacts
-  // Called after the last question, with how many were correct out of 5.
-  onFinish: (correctCount: number) => void
+  // Called after the last question, with whether each question was answered right.
+  onFinish: (results: Record<QuestionId, boolean>) => void
 }
 
 // One country's card: first a globe question, then area, population and IHDI
@@ -34,30 +35,32 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
-  const [correctCount, setCorrectCount] = useState(0)
+  // Whether each question answered so far was right.
+  const [results, setResults] = useState<Partial<Record<QuestionId, boolean>>>({})
   const [typedCapital, setTypedCapital] = useState('')
 
   const isCapitalStep = step === questions.length
 
   function submitGlobeAnswer(isCorrect: boolean) {
     setHasAnsweredGlobe(true)
-    if (isCorrect) setCorrectCount((count) => count + 1)
+    setResults((previous) => ({ ...previous, globe: isCorrect }))
   }
 
-  function submitAnswer(chosen: string, isCorrect: boolean) {
+  function submitAnswer(id: QuestionId, chosen: string, isCorrect: boolean) {
     setAnswer(chosen)
-    if (isCorrect) setCorrectCount((count) => count + 1)
+    setResults((previous) => ({ ...previous, [id]: isCorrect }))
   }
 
   function submitCapital(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
     event.preventDefault()
-    submitAnswer(typedCapital, isCapitalCorrect(typedCapital, country.capitals))
+    submitAnswer('capital', typedCapital, isCapitalCorrect(typedCapital, country.capitals))
   }
 
   function goToNext() {
     if (isCapitalStep) {
-      onFinish(correctCount)
+      // Every question has been answered by now.
+      onFinish(results as Record<QuestionId, boolean>)
     } else {
       setStep(step + 1)
       setAnswer(null)
@@ -102,7 +105,7 @@ export function Flashcard({ country, onFinish }: FlashcardProps) {
           question={questions[step]}
           answer={answer}
           onAnswer={(chosen) =>
-            submitAnswer(chosen, chosen === questions[step].correctAnswer)
+            submitAnswer(questions[step].id, chosen, chosen === questions[step].correctAnswer)
           }
         />
       )}
