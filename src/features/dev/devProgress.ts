@@ -5,7 +5,7 @@ import { QUESTION_IDS, type CountryProgress, type DeckProgress } from '../flashc
 import { reviewQuestion, type QuestionProgress } from '../flashcards/fsrs'
 
 // Changes to saved flashcard progress for testing different situations, used
-// by the Developer section of Settings (dev server only). Each returns new
+// by the dev menu (`DevTools.tsx`, dev server only). Each returns new
 // progress and leaves the one passed in unchanged.
 
 // Applies `change` to every answered question of every country.

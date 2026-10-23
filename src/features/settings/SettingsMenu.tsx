@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { QUESTION_IDS, type QuestionId } from '../flashcards/deck'
-import { DevTools } from './DevTools'
 // Same layout, buttons and checkboxes as the custom practice menu.
 import '../menu/MainMenu.css'
 import '../flashcards/CustomPracticeMenu.css'
@@ -61,8 +60,6 @@ export function SettingsMenu({ learnedQuestionIds, onBack, onSave }: SettingsMen
       >
         {isSaved ? 'Saved' : 'Save'}
       </button>
-      {/* Left out of the website and APK builds. */}
-      {import.meta.env.DEV && <DevTools />}
     </main>
   )
 }

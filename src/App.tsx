@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
 import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
@@ -7,6 +7,7 @@ import { MainMenu } from './features/menu/MainMenu'
 import { collectedCountries } from './features/passport/passport'
 import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
 import { PassportView } from './features/passport/PassportView'
+import { DevTools } from './features/dev/DevTools'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
 import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
@@ -105,91 +106,106 @@ export default function App() {
   }
   const goToMenu = () => history.back()
 
-  if (screen === 'globe') {
+  // Goes up each time a dev tool changes the saved progress. Used as the
+  // current screen's key, so the screen is rebuilt and reads the new progress.
+  const [devChangeCount, setDevChangeCount] = useState(0)
+
+  // The screen being shown, chosen by `screen`.
+  function currentScreen() {
+    if (screen === 'globe') {
+      return (
+        <Suspense fallback={<p className="loading">Loading globe…</p>}>
+          <GlobeView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
+        </Suspense>
+      )
+    }
+    if (screen === 'flashcards') {
+      return (
+        <FlashcardsMenu
+          onBack={goToMenu}
+          onOpenClassic={() => replaceScreen('classic-flashcards')}
+          onOpenCustomPractice={() => replaceScreen('custom-practice')}
+        />
+      )
+    }
+    if (screen === 'classic-flashcards') {
+      return (
+        <FlashcardsView
+          questionIds={learnedQuestionIds}
+          learnedQuestionIds={learnedQuestionIds}
+          globeKinds={GLOBE_KINDS}
+          canDiscoverCountries={true}
+          onBack={goToMenu}
+        />
+      )
+    }
+    if (screen === 'custom-practice') {
+      return (
+        <CustomPracticeMenu
+          learnedQuestionIds={learnedQuestionIds}
+          onBack={goToMenu}
+          onGo={startCustomPractice}
+        />
+      )
+    }
+    if (screen === 'custom-flashcards') {
+      return (
+        <FlashcardsView
+          questionIds={customQuestionIds}
+          learnedQuestionIds={learnedQuestionIds}
+          globeKinds={customGlobeKinds}
+          canDiscoverCountries={false}
+          onBack={goToMenu}
+        />
+      )
+    }
+    if (screen === 'settings') {
+      return (
+        <SettingsMenu
+          learnedQuestionIds={learnedQuestionIds}
+          onBack={goToMenu}
+          onSave={saveSettings}
+        />
+      )
+    }
+    if (screen === 'passport') {
+      return (
+        <PassportView
+          learnedQuestionIds={learnedQuestionIds}
+          onBack={goToMenu}
+          onPlayFlashcard={playPassportFlashcard}
+        />
+      )
+    }
+    if (screen === 'passport-flashcard' && passportFlashcardCode !== null) {
+      return (
+        <PassportFlashcardView
+          // A fresh card each time one is opened.
+          key={passportFlashcardCode}
+          isoAlpha3={passportFlashcardCode}
+          learnedQuestionIds={learnedQuestionIds}
+          // Back to the Passport's history entry.
+          onBack={() => history.back()}
+        />
+      )
+    }
     return (
-      <Suspense fallback={<p className="loading">Loading globe…</p>}>
-        <GlobeView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
-      </Suspense>
-    )
-  }
-  if (screen === 'flashcards') {
-    return (
-      <FlashcardsMenu
-        onBack={goToMenu}
-        onOpenClassic={() => replaceScreen('classic-flashcards')}
-        onOpenCustomPractice={() => replaceScreen('custom-practice')}
+      <MainMenu
+        // Read each time the menu is shown, so it includes countries just studied.
+        passportCount={collectedCountries(loadProgress()).length}
+        onOpenGlobe={() => openScreen('globe')}
+        onOpenFlashcards={() => openScreen('flashcards')}
+        onOpenPassport={() => openScreen('passport')}
+        onOpenSettings={() => openScreen('settings')}
       />
     )
   }
-  if (screen === 'classic-flashcards') {
-    return (
-      <FlashcardsView
-        questionIds={learnedQuestionIds}
-        learnedQuestionIds={learnedQuestionIds}
-        globeKinds={GLOBE_KINDS}
-        canDiscoverCountries={true}
-        onBack={goToMenu}
-      />
-    )
-  }
-  if (screen === 'custom-practice') {
-    return (
-      <CustomPracticeMenu
-        learnedQuestionIds={learnedQuestionIds}
-        onBack={goToMenu}
-        onGo={startCustomPractice}
-      />
-    )
-  }
-  if (screen === 'custom-flashcards') {
-    return (
-      <FlashcardsView
-        questionIds={customQuestionIds}
-        learnedQuestionIds={learnedQuestionIds}
-        globeKinds={customGlobeKinds}
-        canDiscoverCountries={false}
-        onBack={goToMenu}
-      />
-    )
-  }
-  if (screen === 'settings') {
-    return (
-      <SettingsMenu
-        learnedQuestionIds={learnedQuestionIds}
-        onBack={goToMenu}
-        onSave={saveSettings}
-      />
-    )
-  }
-  if (screen === 'passport') {
-    return (
-      <PassportView
-        learnedQuestionIds={learnedQuestionIds}
-        onBack={goToMenu}
-        onPlayFlashcard={playPassportFlashcard}
-      />
-    )
-  }
-  if (screen === 'passport-flashcard' && passportFlashcardCode !== null) {
-    return (
-      <PassportFlashcardView
-        // A fresh card each time one is opened.
-        key={passportFlashcardCode}
-        isoAlpha3={passportFlashcardCode}
-        learnedQuestionIds={learnedQuestionIds}
-        // Back to the Passport's history entry.
-        onBack={() => history.back()}
-      />
-    )
-  }
+
   return (
-    <MainMenu
-      // Read each time the menu is shown, so it includes countries just studied.
-      passportCount={collectedCountries(loadProgress()).length}
-      onOpenGlobe={() => openScreen('globe')}
-      onOpenFlashcards={() => openScreen('flashcards')}
-      onOpenPassport={() => openScreen('passport')}
-      onOpenSettings={() => openScreen('settings')}
-    />
+    <>
+      <Fragment key={devChangeCount}>{currentScreen()}</Fragment>
+      {/* Left out of the website and APK builds. */}
+      {import.meta.env.DEV && <DevTools onChange={() => setDevChangeCount((count) => count + 1)} />}
+    </>
   )
 }

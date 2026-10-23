@@ -1,0 +1,77 @@
+/* Plain and compact: a testing aid, not part of the app's design. Fixed
+   halfway down the right edge, above every screen (including the globes and
+   the Passport's enlarged card), with the panel opening to the left of the
+   "dev" tab. */
+.dev-tools {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.dev-tools__toggle {
+  padding: 12px 6px;
+  border: 1px dashed #a9b1c2;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background: #000010;
+  color: #a9b1c2;
+  font: inherit;
+  font-size: 0.8rem;
+  /* Reads top to bottom along the edge. */
+  writing-mode: vertical-rl;
+  cursor: pointer;
+}
+
+.dev-tools__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  /* Never wider than the screen, leaving room for the tab. */
+  max-width: calc(100vw - 48px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px dashed #a9b1c2;
+  border-radius: 8px;
+  background: #000010;
+}
+
+.dev-tools__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dev-tools__button {
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid #a9b1c2;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dev-tools__button:hover,
+.dev-tools__toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.dev-tools__button--danger {
+  border-color: var(--wrong-red);
+  color: var(--wrong-red);
+}
+
+.dev-tools__message {
+  margin: 0;
+  color: #a9b1c2;
+  font-size: 0.9rem;
+}

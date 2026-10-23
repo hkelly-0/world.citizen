@@ -27,7 +27,7 @@ export function loadReviewLog(): ReviewLogEntry[] {
   }
 }
 
-// Forgets every logged answer. Only used by the Developer section of Settings.
+// Forgets every logged answer. Only used by the dev menu (`DevTools.tsx`).
 export function clearReviewLog(): void {
   try {
     localStorage.removeItem(STORAGE_KEY)
