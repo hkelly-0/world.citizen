@@ -11,13 +11,21 @@
   position: relative;
 }
 
+/* The title, subtitle and buttons form one column as wide as the buttons,
+   centred on the screen, with their text aligned to its left edge. */
 .main-menu h1 {
+  width: 100%;
+  max-width: 280px;
   margin: 0;
   font-size: 2rem;
+  text-align: left;
 }
 
 .main-menu__subtitle {
+  width: 100%;
+  max-width: 280px;
   margin: 0 0 16px;
+  text-align: left;
   color: #a9b1c2;
   font-size: 1.1rem;
 }
@@ -32,6 +40,8 @@
   color: inherit;
   font: inherit;
   font-size: 1.2rem;
+  text-align: left;
+  padding: 0 16px;
   cursor: pointer;
 }
 
@@ -45,15 +55,17 @@
   font-size: 1rem;
 }
 
-/* Smaller than the other options, pinned to the bottom of the screen. Not
+/* Smaller than the other options, pinned to the bottom of the screen in line
+   with them. Not
    position: fixed, because on a phone's first load that is measured against
    the page with the browser's address and tool bars hidden, which can put the
    button out of sight. The menu fills the visible height (see index.css). */
 .main-menu__settings {
   position: absolute;
   bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  /* The left edge of the column of options above: 280px wide, centred, but
+     never closer than the 16px padding. */
+  left: max(16px, calc(50% - 140px));
   min-height: 40px;
   padding: 8px 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);

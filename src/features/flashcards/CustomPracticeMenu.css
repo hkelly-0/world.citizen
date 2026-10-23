@@ -1,6 +1,7 @@
 .custom-practice__title {
+  width: 100%;
   max-width: 280px;
-  text-align: center;
+  text-align: left;
   font-size: 1.4rem;
 }
 
