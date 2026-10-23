@@ -2,6 +2,9 @@ import { App as CapacitorApp } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Roboto Mono, bundled with the app so it works offline.
+import '@fontsource/roboto-mono/400.css'
+import '@fontsource/roboto-mono/700.css'
 import './index.css'
 import App from './App.tsx'
 

@@ -48,7 +48,7 @@ Features should link up via ISO country codes, e.g. "show on globe" from a flash
   - `npm run android:sync` builds the web app and copies it into `android/` (the copy is gitignored). Then build/run from Android Studio (`npx cap open android`), or `cd android && ./gradlew assembleDebug` with `JAVA_HOME` set to a Java 21 JDK, e.g. `~/Library/Java/JavaVirtualMachines/jbr-21.0.11/Contents/Home` (the project targets Java 21; Android Studio's bundled JDK is 25, which Gradle 8.14 doesn't support).
 - **Build tool:** Vite.
 - **UI framework:** React, written in TypeScript.
-- **Styling:** plain CSS files, one per component, imported directly.
+- **Styling:** plain CSS files, one per component, imported directly. The whole app uses Roboto Mono, bundled with the `@fontsource/roboto-mono` package (set in `src/index.css`, imported in `src/main.tsx`); its font lacks ← and ≥, which use the system's monospace font.
 - **Tests:** Vitest + Testing Library (`npm test`). The WebGL map itself is not unit-tested.
 - **Globe:** MapLibre GL JS (`src/features/globe/countryMap.ts` creates the map, shared by `GlobeView.tsx` and the flashcards' `LocateCountryGlobe.tsx`). Its projection is a globe when zoomed out and blends into a flat Mercator map between zoom 4 and 5. Borders are a GeoJSON source that MapLibre tiles and simplifies per zoom level; tapped countries are found with `queryRenderedFeatures`, and hover/selection highlights use feature state (no data rebuilds).
   - MapLibre's worker script is copied by Vite (`?url` import) and passed to `setWorkerUrl`, because MapLibre can't find it after bundling.

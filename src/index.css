@@ -21,7 +21,8 @@ body {
 body {
   background: #000010;
   color: #f2f4f8;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  /* Roboto Mono has no ← or ≥, which fall back to the system's monospace font. */
+  font-family: 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 
 .loading {
