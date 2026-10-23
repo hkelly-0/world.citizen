@@ -44,6 +44,7 @@ describe('FlashcardsView', () => {
     render(
       <FlashcardsView
         questionIds={['area']}
+        learnedQuestionIds={['area']}
         globeKinds={['locate']}
         canDiscoverCountries={true}
         onBack={() => {}}
@@ -70,6 +71,7 @@ describe('FlashcardsView', () => {
     render(
       <FlashcardsView
         questionIds={['area']}
+        learnedQuestionIds={['area']}
         globeKinds={['locate']}
         canDiscoverCountries={true}
         onBack={() => {}}
@@ -82,7 +84,7 @@ describe('FlashcardsView', () => {
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
-  it("shows the Passport count going up after a new country's card, but not a seen one's", async () => {
+  it("shows the Passport count going up after a new country's card, and a seen one's familiarity", async () => {
     // France is due today, so its card comes first, then a new country.
     const today = todayString()
     saveProgress({
@@ -101,6 +103,7 @@ describe('FlashcardsView', () => {
     render(
       <FlashcardsView
         questionIds={['area']}
+        learnedQuestionIds={['area']}
         globeKinds={['locate']}
         canDiscoverCountries={true}
         onBack={() => {}}
@@ -111,7 +114,10 @@ describe('FlashcardsView', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
+    expect(screen.getByText('France')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
 
+    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     await answerArea()
     expect(screen.getByLabelText('2/195')).toBeInTheDocument()
@@ -125,6 +131,7 @@ describe('FlashcardsView', () => {
     render(
       <FlashcardsView
         questionIds={['area']}
+        learnedQuestionIds={['area']}
         globeKinds={['locate']}
         canDiscoverCountries={true}
         onBack={() => {}}
@@ -140,6 +147,7 @@ describe('FlashcardsView', () => {
     render(
       <FlashcardsView
         questionIds={['capital']}
+        learnedQuestionIds={['capital']}
         globeKinds={['locate']}
         canDiscoverCountries={true}
         onBack={() => {}}
@@ -156,6 +164,7 @@ describe('FlashcardsView', () => {
       render(
         <FlashcardsView
           questionIds={['capital']}
+          learnedQuestionIds={['capital']}
           globeKinds={['locate']}
           canDiscoverCountries={false}
           onBack={() => {}}
@@ -168,6 +177,7 @@ describe('FlashcardsView', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await screen.findByText('Paris')
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
 
       // No other country is in the Passport, so no new one comes next.
       expect(
@@ -179,6 +189,7 @@ describe('FlashcardsView', () => {
       render(
         <FlashcardsView
           questionIds={['area']}
+          learnedQuestionIds={['area']}
           globeKinds={['locate']}
           canDiscoverCountries={false}
           onBack={() => {}}

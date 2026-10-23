@@ -6,6 +6,7 @@ import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
 import {
   collectedCountries,
+  countryRecall,
   isTooUnfamiliarForNewCountry,
   NEW_COUNTRY_WARNING,
 } from '../passport/passport'
@@ -19,6 +20,7 @@ import {
   type QuestionId,
 } from './deck'
 import { Flashcard } from './Flashcard'
+import { FamiliarityReward } from './FamiliarityReward'
 import type { AnswerResult } from './fsrs'
 import { NewCountryReward } from './NewCountryReward'
 import './FlashcardsView.css'
@@ -28,6 +30,9 @@ const ALL_CODES = Object.keys(countryFacts)
 type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
   questionIds: QuestionId[]
+  // The information chosen in Settings, which the familiarity reward's ring
+  // covers (as on the Passport), even when only some of it is practised.
+  learnedQuestionIds: QuestionId[]
   // Which kinds of globe question may be asked, if the globe question is.
   globeKinds: GlobeKind[]
   // True for Classic. False for Custom Practice, which only shows countries
@@ -43,9 +48,11 @@ type FlashcardsViewProps = {
 // user chooses to go on (once per visit to the screen). Otherwise, a country
 // not yet in the Passport is introduced with a "Discovering a new country"
 // screen before its card, and after its card a reward shows the Passport count
-// going up.
+// going up. After the card of a country already in the Passport, a reward
+// shows its familiarity instead.
 export function FlashcardsView({
   questionIds,
+  learnedQuestionIds,
   globeKinds,
   canDiscoverCountries,
   onBack,
@@ -71,8 +78,13 @@ export function FlashcardsView({
   // The country whose "Discovering a new country" screen has been passed, by
   // "Go →" or by "Discover a new country anyway →".
   const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
-  // Set after a new country's first card, until "Next →" moves on to the next card.
-  const [reward, setReward] = useState<{ code: string; countBefore: number } | null>(null)
+  // Set after each card, until "Next →" moves on to the next card: the
+  // Passport count for a new country's first card, otherwise its familiarity.
+  const [reward, setReward] = useState<
+    | { kind: 'new-country'; code: string; countBefore: number }
+    | { kind: 'familiarity'; code: string; recall: number | null }
+    | null
+  >(null)
 
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
@@ -99,7 +111,10 @@ export function FlashcardsView({
     // The country's first card: it has just joined the Passport.
     if (Object.keys(progress[code] ?? {}).length === 0) {
       recordDiscovery(code, new Date())
-      setReward({ code, countBefore: collectedCountries(progress).length })
+      setReward({ kind: 'new-country', code, countBefore: collectedCountries(progress).length })
+    } else {
+      const recall = countryRecall(newProgress[code], learnedQuestionIds, today)
+      setReward({ kind: 'familiarity', code, recall })
     }
     setCurrentCode(chooseNextCountry(cardCodes(newProgress), newProgress, today, questionIds))
   }
@@ -107,10 +122,17 @@ export function FlashcardsView({
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
-      {reward !== null ? (
+      {reward?.kind === 'new-country' ? (
         <NewCountryReward
           countryName={countryFacts[reward.code].commonName}
           countBefore={reward.countBefore}
+          continueLabel="Next →"
+          onContinue={() => setReward(null)}
+        />
+      ) : reward?.kind === 'familiarity' ? (
+        <FamiliarityReward
+          countryName={countryFacts[reward.code].commonName}
+          recall={reward.recall}
           continueLabel="Next →"
           onContinue={() => setReward(null)}
         />

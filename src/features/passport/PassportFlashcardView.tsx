@@ -8,8 +8,9 @@ import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
+import { FamiliarityReward } from '../flashcards/FamiliarityReward'
 import { NewCountryReward } from '../flashcards/NewCountryReward'
-import { collectedCountries } from './passport'
+import { collectedCountries, countryRecall } from './passport'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -17,16 +18,16 @@ type PassportFlashcardViewProps = {
   isoAlpha3: string
   // The information chosen in Settings; only these questions are asked.
   learnedQuestionIds: QuestionId[]
-  // Returns to the Passport, after "Done" or "← Passport".
+  // Returns to the Passport, after the reward's "Done" or "← Passport".
   onBack: () => void
 }
 
 // One country's full flashcard, opened from its card in the Passport (or from
 // "New country", for an unseen one). It asks the questions chosen in Settings,
 // always finding the country on the globe (never naming it). Finishing it
-// reviews each question as Classic does, then "Done" returns to the Passport.
-// A new country's card instead ends with "Next", leading to the Passport count
-// going up, with its own "Done".
+// reviews each question as Classic does, then its last "Next" leads to a
+// reward: the Passport count going up for a new country, otherwise the
+// country's familiarity. The reward's "Done" returns to the Passport.
 export function PassportFlashcardView({
   isoAlpha3,
   learnedQuestionIds,
@@ -35,33 +36,46 @@ export function PassportFlashcardView({
   // Not yet in the Passport: no question answered. Fixed when the screen
   // opens, so finishing the card doesn't change it.
   const [isNewCountry] = useState(() => Object.keys(loadProgress()[isoAlpha3] ?? {}).length === 0)
-  // How many countries were in the Passport before this one joined; null
-  // until a new country's first card is finished.
-  const [rewardCountBefore, setRewardCountBefore] = useState<number | null>(null)
+  // Set once the card is finished: the Passport count for a new country's
+  // first card, otherwise its familiarity.
+  const [reward, setReward] = useState<
+    | { kind: 'new-country'; countBefore: number }
+    | { kind: 'familiarity'; recall: number | null }
+    | null
+  >(null)
 
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
     const progress = loadProgress()
-    saveProgress(reviewCountry(progress, isoAlpha3, learnedQuestionIds, results, today))
+    const newProgress = reviewCountry(progress, isoAlpha3, learnedQuestionIds, results, today)
+    saveProgress(newProgress)
     logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
     // The country's first card (opened from "New country"): it has just
     // joined the Passport.
     if (isNewCountry) {
       recordDiscovery(isoAlpha3, new Date())
-      setRewardCountBefore(collectedCountries(progress).length)
+      setReward({ kind: 'new-country', countBefore: collectedCountries(progress).length })
     } else {
-      onBack()
+      const recall = countryRecall(newProgress[isoAlpha3], learnedQuestionIds, today)
+      setReward({ kind: 'familiarity', recall })
     }
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} label="← Passport" />
-      {rewardCountBefore !== null ? (
+      {reward?.kind === 'new-country' ? (
         <NewCountryReward
           countryName={countryFacts[isoAlpha3].commonName}
-          countBefore={rewardCountBefore}
+          countBefore={reward.countBefore}
+          continueLabel="Done"
+          onContinue={onBack}
+        />
+      ) : reward?.kind === 'familiarity' ? (
+        <FamiliarityReward
+          countryName={countryFacts[isoAlpha3].commonName}
+          recall={reward.recall}
           continueLabel="Done"
           onContinue={onBack}
         />
@@ -70,7 +84,6 @@ export function PassportFlashcardView({
           country={countryFacts[isoAlpha3]}
           questionIds={learnedQuestionIds}
           globeKinds={['locate']}
-          finishLabel={isNewCountry ? 'Next' : 'Done'}
           onFinish={finishCard}
         />
       )}

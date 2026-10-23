@@ -125,6 +125,7 @@ export default function App() {
     return (
       <FlashcardsView
         questionIds={learnedQuestionIds}
+        learnedQuestionIds={learnedQuestionIds}
         globeKinds={GLOBE_KINDS}
         canDiscoverCountries={true}
         onBack={goToMenu}
@@ -144,6 +145,7 @@ export default function App() {
     return (
       <FlashcardsView
         questionIds={customQuestionIds}
+        learnedQuestionIds={learnedQuestionIds}
         globeKinds={customGlobeKinds}
         canDiscoverCountries={false}
         onBack={goToMenu}

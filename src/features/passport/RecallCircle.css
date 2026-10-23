@@ -8,9 +8,23 @@
 .recall-circle__track,
 .recall-circle__fill {
   fill: none;
-  stroke-width: 4px;
 }
 
 .recall-circle__track {
   stroke: rgba(255, 255, 255, 0.15);
+}
+
+/* Waits a moment on the empty ring, then fills it clockwise. Shifting the dash
+   back by its own length hides it in the gap that follows it. */
+.recall-circle__fill--animated {
+  animation: recall-circle-fill 1s ease-in-out 0.6s both;
+}
+
+@keyframes recall-circle-fill {
+  from {
+    stroke-dashoffset: var(--recall-circle-filled-length);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
