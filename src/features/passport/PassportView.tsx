@@ -56,7 +56,7 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
             <select value={sort} onChange={(event) => changeSort(event.target.value as PassportSort)}>
               <option value="alphabetical">Alphabetical</option>
               <option value="date-discovered">Date discovered</option>
-              <option value="ease">Ease</option>
+              <option value="ease">Familiarity</option>
             </select>
           </label>
           <ul className="passport__grid">

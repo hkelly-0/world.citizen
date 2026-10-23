@@ -31,7 +31,7 @@ describe('EaseCircle', () => {
         <EaseCircle ease={null} />
       </>,
     )
-    expect(screen.getByRole('img', { name: 'Ease 2.3' })).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'No ease yet' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Familiarity 2.3' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'No familiarity yet' })).toBeInTheDocument()
   })
 })

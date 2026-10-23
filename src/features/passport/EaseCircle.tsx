@@ -28,7 +28,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 // clockwise from the top, and coloured, by its ease (see `countryEase`). An
 // empty grey ring when the country has no ease.
 export function EaseCircle({ ease }: { ease: number | null }) {
-  const label = ease === null ? 'No ease yet' : `Ease ${ease.toFixed(1)}`
+  const label = ease === null ? 'No familiarity yet' : `Familiarity ${ease.toFixed(1)}`
   return (
     <svg
       className="ease-circle"
