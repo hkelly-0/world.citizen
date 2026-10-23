@@ -25,6 +25,19 @@ const HUE_STEP = 10
 // countryGroups.json. The file lists groups region by region, so this also
 // covers island groups that share no border (e.g. the Caribbean ones).
 export function groupNeighbours(): Map<string, Set<string>> {
+  const result = borderingGroups()
+  COUNTRY_GROUPS.forEach((group, index) => {
+    const next = COUNTRY_GROUPS[index + 1]
+    if (next === undefined) return
+    result.get(group.id)!.add(next.id)
+    result.get(next.id)!.add(group.id)
+  })
+  return result
+}
+
+// For each group id, the ids of the groups whose countries share a land border
+// with its countries.
+export function borderingGroups(): Map<string, Set<string>> {
   const groupOfCountry = new Map<string, string>()
   const result = new Map<string, Set<string>>()
   for (const group of COUNTRY_GROUPS) {
@@ -36,8 +49,6 @@ export function groupNeighbours(): Map<string, Set<string>> {
     result.get(a)!.add(b)
     result.get(b)!.add(a)
   }
-
-  COUNTRY_GROUPS.forEach((group, index) => link(group.id, COUNTRY_GROUPS[index + 1]?.id))
 
   // The JSON import is untyped, so we tell TypeScript its TopoJSON shape.
   const topology = worldAtlas50m as unknown as Topology<{ countries: GeometryCollection }>

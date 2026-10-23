@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import groupColoursJson from '../../data/countryGroupColours.json'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import {
+  borderingGroups,
   chooseGroupHues,
   colourToHue,
   groupNeighbours,
@@ -28,6 +29,14 @@ describe('groupNeighbours', () => {
 
   it('links groups listed next to each other, so island groups have neighbours', () => {
     expect(groupNeighbours().get('leeward-islands')?.has('southern-caribbean')).toBe(true)
+  })
+})
+
+describe('borderingGroups', () => {
+  it('links only groups that share a land border', () => {
+    const bordering = borderingGroups()
+    expect(bordering.get('east-asia')?.has('eastern-europe')).toBe(true)
+    expect(bordering.get('leeward-islands')?.size).toBe(0)
   })
 })
 
@@ -58,10 +67,12 @@ describe('the saved colours (countryGroupColours.json)', () => {
     expect(Object.keys(savedColours).sort()).toEqual(COUNTRY_GROUPS.map((group) => group.id).sort())
   })
 
-  it('keep neighbouring groups clearly apart in hue', () => {
+  // Only bordering groups: colours can be edited by hand, and groups that are
+  // merely listed next to each other may be far apart on the map.
+  it('keep bordering groups clearly apart in hue', () => {
     const hues = new Map(
       Object.entries(savedColours).map(([id, colour]) => [id, colourToHue(colour)!]),
     )
-    expectNeighboursApart(hues, groupNeighbours())
+    expectNeighboursApart(hues, borderingGroups())
   })
 })
