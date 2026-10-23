@@ -5,6 +5,7 @@ import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
 import { collectedCountries } from './features/passport/passport'
+import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
 import { PassportView } from './features/passport/PassportView'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
@@ -18,11 +19,13 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 // cards, 'custom-practice' the choice of question types to practise, and
 // 'custom-flashcards' the cards asking only those question types.
 // 'settings' chooses which information is learned at all. 'passport' lists
-// the countries seen as flashcards.
+// the countries seen as flashcards, and 'passport-flashcard' plays one of
+// their cards.
 type Screen =
   | 'menu'
   | 'settings'
   | 'passport'
+  | 'passport-flashcard'
   | 'globe'
   | 'flashcards'
   | 'classic-flashcards'
@@ -44,12 +47,19 @@ function customQuestionIdsInHistory(): QuestionId[] {
 function customGlobeKindsInHistory(): GlobeKind[] {
   return history.state?.globeKinds ?? []
 }
+// The country whose card is played from the Passport, kept the same way.
+function passportFlashcardCodeInHistory(): string | null {
+  return history.state?.isoAlpha3 ?? null
+}
 
 export default function App() {
   // Read from history, so reloading the website stays on the same screen.
   const [screen, setScreen] = useState<Screen>(screenInHistory)
   const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(customQuestionIdsInHistory)
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
+  const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
+    passportFlashcardCodeInHistory,
+  )
   // The information chosen in Settings. Everything else in the app (info
   // panel, Classic and Custom Practice) shows or asks only these.
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
@@ -79,6 +89,13 @@ export default function App() {
     setCustomQuestionIds(questionIds)
     setCustomGlobeKinds(globeKinds)
     setScreen('custom-flashcards')
+  }
+  // Opens a country's card from the Passport, with its own history entry, so
+  // "Done" and back both return to the Passport.
+  function playPassportFlashcard(isoAlpha3: string) {
+    history.pushState({ screen: 'passport-flashcard', isoAlpha3 }, '')
+    setPassportFlashcardCode(isoAlpha3)
+    setScreen('passport-flashcard')
   }
   function saveSettings(questionIds: QuestionId[]) {
     saveLearnedQuestionIds(questionIds)
@@ -135,7 +152,25 @@ export default function App() {
     )
   }
   if (screen === 'passport') {
-    return <PassportView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
+    return (
+      <PassportView
+        learnedQuestionIds={learnedQuestionIds}
+        onBack={goToMenu}
+        onPlayFlashcard={playPassportFlashcard}
+      />
+    )
+  }
+  if (screen === 'passport-flashcard' && passportFlashcardCode !== null) {
+    return (
+      <PassportFlashcardView
+        // A fresh card each time one is opened.
+        key={passportFlashcardCode}
+        isoAlpha3={passportFlashcardCode}
+        learnedQuestionIds={learnedQuestionIds}
+        // Back to the Passport's history entry.
+        onBack={() => history.back()}
+      />
+    )
   }
   return (
     <MainMenu

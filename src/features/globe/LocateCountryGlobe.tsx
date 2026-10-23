@@ -33,6 +33,9 @@ type LocateCountryGlobeProps = {
   // the card has no more questions, so the next card's globe replaces this one
   // without the card flashing up between them.
   fadesOut: boolean
+  // The text of the Next button: "Done" when this is the last question of the
+  // Passport's single card.
+  nextLabel: string
   // Called once the user has pressed Next and the globe has faded away, with
   // whether they tapped the right country.
   onAnswer: (isCorrect: boolean) => void
@@ -45,6 +48,7 @@ export default function LocateCountryGlobe({
   isoAlpha3,
   countryName,
   fadesOut,
+  nextLabel,
   onAnswer,
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -173,7 +177,7 @@ export default function LocateCountryGlobe({
       )}
       {isNextShown && (
         <button className="locate-globe__next" onClick={goToNext} autoFocus>
-          Next
+          {nextLabel}
         </button>
       )}
     </div>

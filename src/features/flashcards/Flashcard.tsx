@@ -23,6 +23,9 @@ type FlashcardProps = {
   globeKinds: GlobeKind[]
   // Called after the last question, with whether each asked question was answered right.
   onFinish: (results: Partial<Record<QuestionId, boolean>>) => void
+  // The text of the button after the last question: "Next" when another card
+  // follows, or "Done" for the Passport's single card.
+  finishLabel?: string
 }
 
 // One country's card: first a globe question, then area, population and IHDI
@@ -30,7 +33,13 @@ type FlashcardProps = {
 // `questionIds`. The globe question is, at random half the time each, either
 // finding the country (tapped on the globe) or naming the country shown on the
 // globe (typed). Each answer is revealed before moving on.
-export function Flashcard({ country, questionIds, globeKinds, onFinish }: FlashcardProps) {
+export function Flashcard({
+  country,
+  questionIds,
+  globeKinds,
+  onFinish,
+  finishLabel = 'Next',
+}: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
   const asksCapital = questionIds.includes('capital')
   // With only the globe question, the globe doesn't fade to reveal the card,
@@ -100,6 +109,7 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
               isoAlpha3={country.isoAlpha3}
               countryName={country.commonName}
               fadesOut={!isGlobeOnly}
+              nextLabel={isGlobeOnly ? finishLabel : 'Next'}
               onAnswer={submitGlobeAnswer}
             />
           )}
@@ -133,7 +143,7 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
 
       {answer !== null && (
         <button className="flashcard__next" onClick={goToNext} autoFocus>
-          Next
+          {isLastStep ? finishLabel : 'Next'}
         </button>
       )}
     </article>

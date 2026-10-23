@@ -16,13 +16,15 @@ type PassportViewProps = {
   // The information chosen in Settings; only these questions count towards ease.
   learnedQuestionIds: QuestionId[]
   onBack: () => void
+  // Opens the full flashcard for the country with this ISO alpha-3 code.
+  onPlayFlashcard: (isoAlpha3: string) => void
 }
 
 // Every country the user has seen as a flashcard, as a grid of pictures with
 // their names and a ring showing how easy the user finds each, sorted
 // alphabetically, by date discovered or by ease (the last choice is
 // remembered). It grows as they study.
-export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) {
+export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
   const [openCode, setOpenCode] = useState<string | null>(null)
@@ -103,6 +105,12 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
               learnedQuestionIds={[]}
               onClose={() => setOpenCode(null)}
             />
+            <button
+              className="passport__play"
+              onClick={() => onPlayFlashcard(openCountry.isoAlpha3)}
+            >
+              Play flashcard →
+            </button>
           </div>
         </div>
       )}
