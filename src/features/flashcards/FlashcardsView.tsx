@@ -6,7 +6,6 @@ import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
 import {
   collectedCountries,
-  countryRecall,
   isTooUnfamiliarForNewCountry,
   NEW_COUNTRY_WARNING,
 } from '../passport/passport'
@@ -20,9 +19,9 @@ import {
   type QuestionId,
 } from './deck'
 import { Flashcard } from './Flashcard'
-import { FamiliarityReward } from './FamiliarityReward'
+import { CardReward } from './CardReward'
 import type { AnswerResult } from './fsrs'
-import { NewCountryReward } from './NewCountryReward'
+import { rewardAfterCard, type CardRewardDetails } from './rewardAfterCard'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -80,11 +79,7 @@ export function FlashcardsView({
   const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
   // Set after each card, until "Next →" moves on to the next card: the
   // Passport count for a new country's first card, otherwise its familiarity.
-  const [reward, setReward] = useState<
-    | { kind: 'new-country'; code: string; countBefore: number }
-    | { kind: 'familiarity'; code: string; recall: number | null }
-    | null
-  >(null)
+  const [reward, setReward] = useState<CardRewardDetails | null>(null)
 
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
@@ -108,34 +103,18 @@ export function FlashcardsView({
     setProgress(newProgress)
     saveProgress(newProgress)
     logCardReviews(code, questionIds, results, today)
+    const newReward = rewardAfterCard(code, progress, newProgress, learnedQuestionIds, today)
     // The country's first card: it has just joined the Passport.
-    if (Object.keys(progress[code] ?? {}).length === 0) {
-      recordDiscovery(code, new Date())
-      setReward({ kind: 'new-country', code, countBefore: collectedCountries(progress).length })
-    } else {
-      const recall = countryRecall(newProgress[code], learnedQuestionIds, today)
-      setReward({ kind: 'familiarity', code, recall })
-    }
+    if (newReward.kind === 'new-country') recordDiscovery(code, new Date())
+    setReward(newReward)
     setCurrentCode(chooseNextCountry(cardCodes(newProgress), newProgress, today, questionIds))
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
-      {reward?.kind === 'new-country' ? (
-        <NewCountryReward
-          countryName={countryFacts[reward.code].commonName}
-          countBefore={reward.countBefore}
-          continueLabel="Next →"
-          onContinue={() => setReward(null)}
-        />
-      ) : reward?.kind === 'familiarity' ? (
-        <FamiliarityReward
-          countryName={countryFacts[reward.code].commonName}
-          recall={reward.recall}
-          continueLabel="Next →"
-          onContinue={() => setReward(null)}
-        />
+      {reward !== null ? (
+        <CardReward reward={reward} continueLabel="Next →" onContinue={() => setReward(null)} />
       ) : currentCode === null ? (
         <p className="flashcards-view__done">
           {canDiscoverCountries

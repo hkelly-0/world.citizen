@@ -1,5 +1,5 @@
 /* The auto margins centre it vertically in the screen. */
-.new-country-reward {
+.card-reward {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,14 +8,14 @@
   text-align: center;
 }
 
-.new-country-reward__country {
+.card-reward__country {
   margin: 0;
   /* The green of a right answer. */
   color: var(--correct-green);
   font-size: 1.4rem;
 }
 
-.new-country-reward__count {
+.card-reward__count {
   display: flex;
   margin: 0;
   font-size: 3rem;
@@ -23,14 +23,14 @@
 }
 
 /* Shows one number at a time; the other is clipped above or below. */
-.new-country-reward__window {
+.card-reward__window {
   position: relative;
   height: 1.2em;
   overflow: hidden;
 }
 
-.new-country-reward__old,
-.new-country-reward__new {
+.card-reward__old,
+.card-reward__new {
   position: absolute;
   right: 0;
   /* Waits a moment on the old count, then rolls down. Both keep their end
@@ -42,16 +42,16 @@
 }
 
 /* The old count drops down and out. */
-.new-country-reward__old {
-  animation-name: new-country-reward-out;
+.card-reward__old {
+  animation-name: card-reward-out;
 }
 
 /* The new count drops in from above. */
-.new-country-reward__new {
-  animation-name: new-country-reward-in;
+.card-reward__new {
+  animation-name: card-reward-in;
 }
 
-@keyframes new-country-reward-out {
+@keyframes card-reward-out {
   from {
     transform: translateY(0);
   }
@@ -60,7 +60,7 @@
   }
 }
 
-@keyframes new-country-reward-in {
+@keyframes card-reward-in {
   from {
     transform: translateY(-100%);
   }
@@ -70,7 +70,7 @@
 }
 
 /* Shaped like the flashcards' Next button. */
-.new-country-reward__continue {
+.card-reward__continue {
   min-width: 160px;
   min-height: 44px;
   padding: 8px 16px;
@@ -82,6 +82,6 @@
   cursor: pointer;
 }
 
-.new-country-reward__continue:hover {
+.card-reward__continue:hover {
   background: rgba(255, 255, 255, 0.14);
 }

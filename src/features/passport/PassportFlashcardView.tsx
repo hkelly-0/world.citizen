@@ -8,9 +8,8 @@ import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
-import { FamiliarityReward } from '../flashcards/FamiliarityReward'
-import { NewCountryReward } from '../flashcards/NewCountryReward'
-import { collectedCountries, countryRecall } from './passport'
+import { CardReward } from '../flashcards/CardReward'
+import { rewardAfterCard, type CardRewardDetails } from '../flashcards/rewardAfterCard'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -33,16 +32,9 @@ export function PassportFlashcardView({
   learnedQuestionIds,
   onBack,
 }: PassportFlashcardViewProps) {
-  // Not yet in the Passport: no question answered. Fixed when the screen
-  // opens, so finishing the card doesn't change it.
-  const [isNewCountry] = useState(() => Object.keys(loadProgress()[isoAlpha3] ?? {}).length === 0)
   // Set once the card is finished: the Passport count for a new country's
   // first card, otherwise its familiarity.
-  const [reward, setReward] = useState<
-    | { kind: 'new-country'; countBefore: number }
-    | { kind: 'familiarity'; recall: number | null }
-    | null
-  >(null)
+  const [reward, setReward] = useState<CardRewardDetails | null>(null)
 
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     const today = todayString()
@@ -51,34 +43,18 @@ export function PassportFlashcardView({
     const newProgress = reviewCountry(progress, isoAlpha3, learnedQuestionIds, results, today)
     saveProgress(newProgress)
     logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
+    const newReward = rewardAfterCard(isoAlpha3, progress, newProgress, learnedQuestionIds, today)
     // The country's first card (opened from "New country"): it has just
     // joined the Passport.
-    if (isNewCountry) {
-      recordDiscovery(isoAlpha3, new Date())
-      setReward({ kind: 'new-country', countBefore: collectedCountries(progress).length })
-    } else {
-      const recall = countryRecall(newProgress[isoAlpha3], learnedQuestionIds, today)
-      setReward({ kind: 'familiarity', recall })
-    }
+    if (newReward.kind === 'new-country') recordDiscovery(isoAlpha3, new Date())
+    setReward(newReward)
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} label="← Passport" />
-      {reward?.kind === 'new-country' ? (
-        <NewCountryReward
-          countryName={countryFacts[isoAlpha3].commonName}
-          countBefore={reward.countBefore}
-          continueLabel="Done"
-          onContinue={onBack}
-        />
-      ) : reward?.kind === 'familiarity' ? (
-        <FamiliarityReward
-          countryName={countryFacts[isoAlpha3].commonName}
-          recall={reward.recall}
-          continueLabel="Done"
-          onContinue={onBack}
-        />
+      {reward !== null ? (
+        <CardReward reward={reward} continueLabel="Done" onContinue={onBack} />
       ) : (
         <Flashcard
           country={countryFacts[isoAlpha3]}
