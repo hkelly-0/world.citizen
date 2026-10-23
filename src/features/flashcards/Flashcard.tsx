@@ -170,10 +170,14 @@ type RangeQuestionViewProps = {
 function RangeQuestionView({ question, answer, onAnswer }: RangeQuestionViewProps) {
   const isAnswered = answer !== null
 
-  // After answering, the correct option turns green and a wrong pick turns red.
+  // After answering, the correct option turns green and a wrong pick turns red,
+  // or orange if it was one title away.
   function optionClassName(option: string): string {
     if (!isAnswered) return 'flashcard__option'
     if (option === question.correctAnswer) return 'flashcard__option flashcard__option--correct'
+    if (option === answer && rangeAnswerResult(question, answer) === 'close') {
+      return 'flashcard__option flashcard__option--close'
+    }
     if (option === answer) return 'flashcard__option flashcard__option--wrong'
     return 'flashcard__option'
   }

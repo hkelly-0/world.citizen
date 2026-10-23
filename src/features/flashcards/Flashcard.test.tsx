@@ -148,11 +148,15 @@ describe('Flashcard', () => {
     })
   })
 
-  it('counts a pick one title away as close', async () => {
+  it('colours a pick one title away orange and counts it as close', async () => {
     const onFinish = vi.fn()
     render(<Flashcard country={france} questionIds={['area']} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Small - ≥ 100K km²' }))
+    expect(screen.getByRole('button', { name: 'Small - ≥ 100K km²' })).toHaveClass('flashcard__option--close')
+    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toHaveClass(
+      'flashcard__option--correct',
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({ area: 'close' })
