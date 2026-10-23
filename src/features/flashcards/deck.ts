@@ -1,4 +1,4 @@
-import type { QuestionProgress } from './sm2'
+import { gradeFromAnswer, reviewQuestion, type QuestionProgress } from './sm2'
 
 // The questions asked about each country. Each has its own SM-2 schedule, so
 // e.g. a country's capital can be well known while its population isn't.
@@ -61,4 +61,23 @@ export function chooseNextCountry(
   if (newCodes.length > 0) return newCodes[Math.floor(random() * newCodes.length)]
 
   return null
+}
+
+// The progress after finishing a country's card. Each asked question gets its
+// own SM-2 review, even ones that weren't due yet. Questions not asked keep
+// their progress.
+export function reviewCountry(
+  progress: DeckProgress,
+  code: string,
+  questionIds: QuestionId[],
+  results: Partial<Record<QuestionId, boolean>>,
+  today: string,
+): DeckProgress {
+  const newCountryProgress: CountryProgress = { ...progress[code] }
+  for (const id of questionIds) {
+    // Every asked question has a result once the card is finished.
+    const isCorrect = results[id]!
+    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(isCorrect), today)
+  }
+  return { ...progress, [code]: newCountryProgress }
 }

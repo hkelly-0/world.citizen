@@ -6,13 +6,12 @@ import { loadProgress, saveProgress } from '../../shared/progress'
 import { todayString } from './dates'
 import {
   chooseNextCountry,
-  type CountryProgress,
+  reviewCountry,
   type DeckProgress,
   type GlobeKind,
   type QuestionId,
 } from './deck'
 import { Flashcard } from './Flashcard'
-import { gradeFromAnswer, reviewQuestion } from './sm2'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -40,13 +39,7 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
   // Each asked question gets its own SM-2 review, even ones that weren't due
   // yet. Questions not asked keep their progress.
   function finishCard(code: string, results: Partial<Record<QuestionId, boolean>>) {
-    const newCountryProgress: CountryProgress = { ...progress[code] }
-    for (const id of questionIds) {
-      // Every asked question has a result once the card is finished.
-      const isCorrect = results[id]!
-      newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(isCorrect), today)
-    }
-    const newProgress = { ...progress, [code]: newCountryProgress }
+    const newProgress = reviewCountry(progress, code, questionIds, results, today)
     setProgress(newProgress)
     saveProgress(newProgress)
     // The country's first card: it has just joined the Passport.
