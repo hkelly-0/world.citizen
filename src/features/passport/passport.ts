@@ -54,6 +54,21 @@ export function countryRecall(
   return chances.reduce((sum, chance) => sum + chance, 0) / chances.length
 }
 
+// How well the user knows the countries they have seen: the average of
+// `countryRecall` over every country with any of `questionIds` answered. Null
+// if there are none. Used to warn before a new country in the flashcards.
+export function averageRecall(
+  progress: DeckProgress,
+  questionIds: QuestionId[],
+  today: string,
+): number | null {
+  const recalls = Object.values(progress)
+    .map((country) => countryRecall(country, questionIds, today))
+    .filter((recall) => recall !== null)
+  if (recalls.length === 0) return null
+  return recalls.reduce((sum, recall) => sum + recall, 0) / recalls.length
+}
+
 // The countries in the Passport, sorted as chosen, with ties kept A–Z.
 // - 'date-discovered' puts the first discovered at the top. Countries with no
 //   discovery time (seen before times were recorded) count as discovered
