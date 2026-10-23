@@ -4,7 +4,8 @@ import { loadDiscoveries } from '../../shared/discoveries'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
 import type { QuestionId } from '../flashcards/deck'
-import { COUNTRY_COUNT, sortedCollectedCountries } from './passport'
+import { EaseCircle } from './EaseCircle'
+import { countryEase, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
 import './PassportView.css'
 
 // Pictures made by scripts/make-country-images.mjs.
@@ -17,12 +18,14 @@ type PassportViewProps = {
 }
 
 // Every country the user has seen as a flashcard, as a grid of pictures with
-// their names, sorted alphabetically, by date discovered or by ease (the last
-// choice is remembered). It grows as they study.
+// their names and a ring showing how easy the user finds each, sorted
+// alphabetically, by date discovered or by ease (the last choice is
+// remembered). It grows as they study.
 export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
+  const progress = loadProgress()
   const countries = sortedCollectedCountries(
-    loadProgress(),
+    progress,
     loadDiscoveries(),
     learnedQuestionIds,
     sort,
@@ -64,7 +67,12 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
                   src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
                   alt={`Map of ${country.commonName}`}
                 />
-                <span>{country.commonName}</span>
+                <span className="passport__name">
+                  {country.commonName}
+                  <EaseCircle
+                    ease={countryEase(progress[country.isoAlpha3], learnedQuestionIds)}
+                  />
+                </span>
               </li>
             ))}
           </ul>

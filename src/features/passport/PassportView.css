@@ -69,6 +69,13 @@
   text-align: center;
 }
 
+/* The name with its ease ring beside it, centred together. */
+.passport__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* Faded at the edge in a circle, as on the flashcards. */
 .passport__image {
   display: block;

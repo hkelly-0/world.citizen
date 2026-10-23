@@ -1,0 +1,16 @@
+.ease-circle {
+  flex-shrink: 0;
+  /* SVG circles start their outline at 3 o'clock; turning back a quarter
+     starts the fill at 12 o'clock, still going clockwise. */
+  transform: rotate(-90deg);
+}
+
+.ease-circle__track,
+.ease-circle__fill {
+  fill: none;
+  stroke-width: 4px;
+}
+
+.ease-circle__track {
+  stroke: rgba(255, 255, 255, 0.15);
+}

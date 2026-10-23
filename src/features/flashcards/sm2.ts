@@ -14,7 +14,7 @@ export type QuestionProgress = {
 }
 
 const STARTING_EASE_FACTOR = 2.5
-const MINIMUM_EASE_FACTOR = 1.3
+export const MINIMUM_EASE_FACTOR = 1.3
 
 // SM-2 grades from 0 to 5, where 3 or more is a pass. Each question is only
 // right or wrong, so a right answer gets the top grade and a wrong one the lowest.
