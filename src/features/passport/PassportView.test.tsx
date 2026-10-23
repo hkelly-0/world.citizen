@@ -32,6 +32,18 @@ describe('PassportView', () => {
     expect(screen.queryByText('Peru')).not.toBeInTheDocument()
   })
 
+  it("enlarges a country with its info panel when clicked, and closes it", async () => {
+    saveProgress({ FRA: { globe: answered } })
+    render(<PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} />)
+
+    await userEvent.click(screen.getByRole('button', { name: /France/ }))
+    expect(screen.getByRole('complementary', { name: 'France details' })).toBeInTheDocument()
+    expect(screen.getByText('Paris')).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Close' }))
+    expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
+  })
+
   it('sorts by date discovered when chosen, and remembers the choice', async () => {
     saveProgress({ FRA: { globe: answered }, PER: { globe: answered } })
     recordDiscovery('PER', new Date('2026-10-20T09:00:00Z'))

@@ -57,8 +57,17 @@
   list-style: none;
 }
 
+.passport__grid li {
+  display: flex;
+}
+
+/* A button, so the card can be clicked or reached with the keyboard. */
 .passport__country {
   display: flex;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
   flex-direction: column;
   align-items: center;
   gap: 8px;
@@ -83,4 +92,48 @@
   aspect-ratio: 1;
   mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
   -webkit-mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
+}
+
+/* The enlarged card: a dark background over the whole screen. */
+.passport__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+}
+
+.passport__enlarged {
+  /* Positioned so the panel's × button sits at the card's top right. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+  padding-top: 16px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.passport__enlarged .passport__image {
+  max-width: 300px;
+}
+
+/* The globe's panel has its own background and sits over the globe; here the
+   card behind the picture provides the background and the panel sits in the
+   flow. */
+.passport__enlarged .country-info-panel {
+  position: static;
+  width: 100%;
+  box-sizing: border-box;
+  background: none;
+  box-shadow: none;
 }

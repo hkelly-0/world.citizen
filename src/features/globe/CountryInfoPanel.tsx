@@ -6,7 +6,8 @@ import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../sha
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
-  country: CountryShape
+  // Only the name and code are used, so the Passport can pass just those.
+  country: Pick<CountryShape, 'name' | 'isoAlpha3'>
   // The information chosen in Settings; facts left out there aren't shown.
   // (Names are always shown, and 'globe' has no fact here.)
   learnedQuestionIds: QuestionId[]

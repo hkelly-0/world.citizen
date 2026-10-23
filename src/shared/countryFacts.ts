@@ -34,7 +34,7 @@ export const countryFacts: Record<string, CountryFacts> = countriesJson
 
 // The name to show for a country outline on the globe: our common name for the
 // 195 countries, otherwise the map data's name (e.g. Greenland, Kosovo).
-export function countryDisplayName(shape: CountryShape): string {
+export function countryDisplayName(shape: Pick<CountryShape, 'name' | 'isoAlpha3'>): string {
   const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
   return facts?.commonName ?? shape.name
 }
@@ -61,7 +61,7 @@ export type SubtitlePart = { text: string } | { isoAlpha3: string; name: string 
 // Splits a territory's subtitle into text and the countries it names, e.g.
 // [{ text: 'Autonomous territory of ' }, { isoAlpha3: 'DNK', name: 'Denmark' }].
 // Returns undefined for the 195 countries and areas with no subtitle.
-export function territorySubtitle(shape: CountryShape): SubtitlePart[] | undefined {
+export function territorySubtitle(shape: Pick<CountryShape, 'name' | 'isoAlpha3'>): SubtitlePart[] | undefined {
   const subtitle = territorySubtitles[shape.isoAlpha3 ?? shape.name]
   if (subtitle === undefined) return undefined
   // Splitting on a pattern with a capture group keeps the captured codes, so

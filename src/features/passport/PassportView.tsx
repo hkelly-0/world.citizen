@@ -4,6 +4,7 @@ import { loadDiscoveries } from '../../shared/discoveries'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
 import type { QuestionId } from '../flashcards/deck'
+import { CountryInfoPanel } from '../globe/CountryInfoPanel'
 import { EaseCircle } from './EaseCircle'
 import { countryEase, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
 import './PassportView.css'
@@ -23,6 +24,8 @@ type PassportViewProps = {
 // remembered). It grows as they study.
 export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
+  // The country whose enlarged card is open, if any.
+  const [openCode, setOpenCode] = useState<string | null>(null)
   const progress = loadProgress()
   const countries = sortedCollectedCountries(
     progress,
@@ -30,6 +33,8 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
     learnedQuestionIds,
     sort,
   )
+
+  const openCountry = countries.find((country) => country.isoAlpha3 === openCode)
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -61,22 +66,45 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
           </label>
           <ul className="passport__grid">
             {countries.map((country) => (
-              <li key={country.isoAlpha3} className="passport__country">
-                <img
-                  className="passport__image"
-                  src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
-                  alt={`Map of ${country.commonName}`}
-                />
-                <span className="passport__name">
-                  {country.commonName}
-                  <EaseCircle
-                    ease={countryEase(progress[country.isoAlpha3], learnedQuestionIds)}
+              <li key={country.isoAlpha3}>
+                <button
+                  className="passport__country"
+                  onClick={() => setOpenCode(country.isoAlpha3)}
+                >
+                  <img
+                    className="passport__image"
+                    src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
+                    alt={`Map of ${country.commonName}`}
                   />
-                </span>
+                  <span className="passport__name">
+                    {country.commonName}
+                    <EaseCircle
+                      ease={countryEase(progress[country.isoAlpha3], learnedQuestionIds)}
+                    />
+                  </span>
+                </button>
               </li>
             ))}
           </ul>
         </>
+      )}
+      {openCountry !== undefined && (
+        // Clicking the dark background closes the enlarged card.
+        <div className="passport__overlay" onClick={() => setOpenCode(null)}>
+          <div className="passport__enlarged" onClick={(event) => event.stopPropagation()}>
+            <img
+              className="passport__image"
+              src={`${COUNTRY_IMAGES}/${openCountry.isoAlpha3}.webp`}
+              alt={`Map of ${openCountry.commonName}`}
+            />
+            <CountryInfoPanel
+              country={{ name: openCountry.commonName, isoAlpha3: openCountry.isoAlpha3 }}
+              learnedQuestionIds={learnedQuestionIds}
+              onClose={() => setOpenCode(null)}
+              onSelectCountry={() => {}}
+            />
+          </div>
+        </div>
       )}
     </main>
   )
