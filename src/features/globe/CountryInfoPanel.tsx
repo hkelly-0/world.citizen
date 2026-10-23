@@ -1,6 +1,6 @@
 import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
-import { countryDisplayName, countryFacts } from '../../shared/countryFacts'
+import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import type { QuestionId } from '../flashcards/deck'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
@@ -29,7 +29,9 @@ export function CountryInfoPanel({ country, learnedQuestionIds, onClose, ref }: 
       </button>
       <h2>{name}</h2>
       {facts === undefined ? (
-        <p className="country-info-panel__note">Not one of the 195 countries in this app.</p>
+        <p className="country-info-panel__note">
+          {territorySubtitle(country) ?? 'Not one of the 195 countries in this app.'}
+        </p>
       ) : (
         <>
           {/* Skip the official name when it's the same, e.g. "Japan". */}

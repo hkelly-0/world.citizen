@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import type { CountryShape } from './countries'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
-import { alternativeNames, countryDisplayName, countryFacts } from './countryFacts'
+import { loadCountryShapes } from './countries'
+import { alternativeNames, countryDisplayName, countryFacts, territorySubtitle } from './countryFacts'
 
 describe('countryFacts', () => {
   const countries = Object.values(countryFacts)
@@ -87,6 +88,16 @@ describe('alternativeNames', () => {
   it('only lists alternatives for the 195 countries', () => {
     for (const code of Object.keys(nameAlternativesJson)) {
       expect(countryFacts[code]).toBeDefined()
+    }
+  })
+})
+
+describe('territorySubtitle', () => {
+  it('has a subtitle for every map area outside the 195 countries, and none for the 195', () => {
+    for (const shape of loadCountryShapes()) {
+      const isCountry = shape.isoAlpha3 !== null && countryFacts[shape.isoAlpha3] !== undefined
+      if (isCountry) expect(territorySubtitle(shape), shape.name).toBeUndefined()
+      else expect(territorySubtitle(shape), shape.name).toBeTruthy()
     }
   })
 })

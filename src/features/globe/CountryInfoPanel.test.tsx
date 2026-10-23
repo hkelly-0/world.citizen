@@ -49,11 +49,24 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText(/\(est\.\)$/)).toBeInTheDocument()
   })
 
-  it('shows a note for map areas that are not one of the 195 countries', () => {
+  it('says what a territory is, by ISO code or, with no code, by map name', () => {
+    const greenland: CountryShape = { ...france, name: 'Greenland', isoAlpha3: 'GRL' }
+    const { unmount } = render(
+      <CountryInfoPanel country={greenland} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />,
+    )
+    expect(screen.getByRole('heading', { name: 'Greenland' })).toBeInTheDocument()
+    expect(screen.getByText('Autonomous territory of Denmark')).toBeInTheDocument()
+    unmount()
+
     const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
     render(<CountryInfoPanel country={kosovo} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    expect(screen.getByText('Partially recognised state. Claimed by Serbia')).toBeInTheDocument()
+  })
 
-    expect(screen.getByRole('heading', { name: 'Kosovo' })).toBeInTheDocument()
+  it('shows a note for map areas with no subtitle', () => {
+    const unknown: CountryShape = { ...france, name: 'Nowhere', isoNumeric: null, isoAlpha3: null }
+    render(<CountryInfoPanel country={unknown} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+
     expect(screen.getByText('Not one of the 195 countries in this app.')).toBeInTheDocument()
   })
 
