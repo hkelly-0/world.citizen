@@ -33,32 +33,40 @@ export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnsw
   }, [isCorrect, correctAnswer])
 
   return (
-    <div className={isCorrect ? 'typed-answer__box typed-answer__box--correct' : 'typed-answer__box'}>
-      {isCorrect ? (
-        // Each letter is hidden from screen readers; the label reads the whole answer.
-        <span className="typed-answer__green" aria-label={typed}>
-          {[...typed].map((letter, index) => (
-            <span
-              key={index}
-              className="typed-answer__jump-letter"
-              style={{ animationDelay: `${index * JUMP_MS_PER_LETTER}ms` }}
-              aria-hidden="true"
-            >
-              {letter}
-            </span>
-          ))}
-        </span>
-      ) : (
-        <span className="typed-answer__red">{typed}</span>
-      )}
-      {!isCorrect && lettersTyped > 0 && (
-        <>
-          {typed !== '' && ' '}
-          <span className="typed-answer__green typed-answer__green--typed">
-            {correctAnswer.slice(0, lettersTyped)}
+    <div
+      className={
+        isCorrect
+          ? 'typed-answer__box typed-answer__box--answered typed-answer__box--correct'
+          : 'typed-answer__box typed-answer__box--answered'
+      }
+    >
+      <span>
+        {isCorrect ? (
+          // Each letter is hidden from screen readers; the label reads the whole answer.
+          <span className="typed-answer__green" aria-label={typed}>
+            {[...typed].map((letter, index) => (
+              <span
+                key={index}
+                className="typed-answer__jump-letter"
+                style={{ animationDelay: `${index * JUMP_MS_PER_LETTER}ms` }}
+                aria-hidden="true"
+              >
+                {letter}
+              </span>
+            ))}
           </span>
-        </>
-      )}
+        ) : (
+          <span className="typed-answer__red">{typed}</span>
+        )}
+        {!isCorrect && lettersTyped > 0 && (
+          <>
+            {typed !== '' && ' '}
+            <span className="typed-answer__green typed-answer__green--typed">
+              {correctAnswer.slice(0, lettersTyped)}
+            </span>
+          </>
+        )}
+      </span>
     </div>
   )
 }

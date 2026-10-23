@@ -14,6 +14,13 @@
   font-size: 1rem;
 }
 
+/* A text box centres what is typed in it; the answered box is a div, so it
+   centres its text the same way, keeping it where it was while typing. */
+.typed-answer__box--answered {
+  display: flex;
+  align-items: center;
+}
+
 /* The answered text: the text box turns into a plain box whose text fades
    to green (correct) or red (wrong). Without a "from" keyframe the fade
    starts from the text's normal colour. */
