@@ -14,8 +14,8 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
+import groupColoursJson from '../../data/countryGroupColours.json'
 import { areCountryGroupsShown } from '../dev/showCountryGroups'
-import { chooseCountryGroupColours } from './countryGroupColours'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
@@ -76,9 +76,9 @@ const BORDERS_MAX_DETAIL_ZOOM = 8
 // Full-detail borders: MapLibre simplifies them itself for each zoom level.
 export const COUNTRY_SHAPES = loadCountryShapes()
 
-// Each country's group colour (see countryGroupColours.ts), chosen once per
-// page load.
-const GROUP_COLOURS: Record<string, string> = chooseCountryGroupColours()
+// Each group's colour, keyed by group id, saved by
+// scripts/make-country-group-colours.mjs.
+const GROUP_COLOURS: Record<string, string> = groupColoursJson
 
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
 // a tapped feature can be turned back into its CountryShape. The 195 countries
@@ -95,7 +95,7 @@ const COUNTRY_FEATURES: FeatureCollection = {
       properties:
         facts === undefined
           ? {}
-          : { groupId: facts.groupId, groupColour: GROUP_COLOURS[facts.isoAlpha3] },
+          : { groupId: facts.groupId, groupColour: GROUP_COLOURS[facts.groupId] },
     }
   }),
 }

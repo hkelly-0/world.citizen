@@ -1,5 +1,23 @@
 import { describe, expect, it } from 'vitest'
-import { chooseCountryGroupColours, chooseGroupHues, groupNeighbours } from './countryGroupColours'
+import groupColoursJson from '../../data/countryGroupColours.json'
+import { COUNTRY_GROUPS } from '../../shared/countryFacts'
+import {
+  chooseGroupHues,
+  colourToHue,
+  groupNeighbours,
+  hueDistance,
+  hueToColour,
+} from './countryGroupColours'
+
+const savedColours: Record<string, string> = groupColoursJson
+
+function expectNeighboursApart(hues: Map<string, number>, neighbours: Map<string, Set<string>>) {
+  for (const [id, others] of neighbours) {
+    for (const other of others) {
+      expect(hueDistance(hues.get(id)!, hues.get(other)!), `${id} / ${other}`).toBeGreaterThan(10)
+    }
+  }
+}
 
 describe('groupNeighbours', () => {
   it('links groups that share a land border, both ways', () => {
@@ -16,22 +34,34 @@ describe('groupNeighbours', () => {
 describe('chooseGroupHues', () => {
   it('keeps every pair of neighbouring groups clearly apart in hue', () => {
     const neighbours = groupNeighbours()
-    for (let run = 0; run < 20; run++) {
-      const hues = chooseGroupHues(neighbours)
-      for (const [id, others] of neighbours) {
-        for (const other of others) {
-          const difference = Math.abs(hues.get(id)! - hues.get(other)!) % 360
-          expect(Math.min(difference, 360 - difference), `${id} / ${other}`).toBeGreaterThan(10)
-        }
-      }
-    }
+    for (let run = 0; run < 20; run++)
+      expectNeighboursApart(chooseGroupHues(neighbours), neighbours)
+  })
+
+  it('keeps the hues it is given and picks the rest', () => {
+    const neighbours = groupNeighbours()
+    const hues = chooseGroupHues(neighbours, new Map([['nordic', 123]]))
+    expect(hues.get('nordic')).toBe(123)
+    expect(hues.size).toBe(COUNTRY_GROUPS.length)
   })
 })
 
-describe('chooseCountryGroupColours', () => {
-  it('gives all 195 countries a colour, shared within each group', () => {
-    const colours = chooseCountryGroupColours()
-    expect(Object.keys(colours).length).toBe(195)
-    expect(colours['NOR']).toBe(colours['SWE'])
+describe('hueToColour and colourToHue', () => {
+  it('write a hue as hsl(...) and read it back', () => {
+    expect(colourToHue(hueToColour(210))).toBe(210)
+    expect(colourToHue('#ff0000')).toBe(null)
+  })
+})
+
+describe('the saved colours (countryGroupColours.json)', () => {
+  it('give exactly the groups a colour each', () => {
+    expect(Object.keys(savedColours).sort()).toEqual(COUNTRY_GROUPS.map((group) => group.id).sort())
+  })
+
+  it('keep neighbouring groups clearly apart in hue', () => {
+    const hues = new Map(
+      Object.entries(savedColours).map(([id, colour]) => [id, colourToHue(colour)!]),
+    )
+    expectNeighboursApart(hues, groupNeighbours())
   })
 })

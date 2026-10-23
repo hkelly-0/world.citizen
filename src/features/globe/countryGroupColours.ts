@@ -1,12 +1,18 @@
 import { neighbors } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import isoCountries from 'i18n-iso-countries'
-import worldAtlas50m from 'world-atlas/countries-50m.json'
-import { COUNTRY_GROUPS } from '../../shared/countryFacts'
+import worldAtlas50m from 'world-atlas/countries-50m.json' with { type: 'json' }
+import countryGroupsJson from '../../data/countryGroups.json' with { type: 'json' }
 
-// Colours for the country groups (src/data/countryGroups.json): the tint of
-// the region globe, where new regions are chosen, and of the dev option that
-// tints every globe.
+// Picks the colours of the country groups (src/data/countryGroups.json): the
+// tint of the region globe, where new regions are chosen, and of the dev option
+// that tints every globe. Not used by the app itself:
+// scripts/make-country-group-colours.mjs saves the colours to
+// src/data/countryGroupColours.json, which the app reads. The JSON imports
+// carry `with { type: 'json' }` so the script can import this file in Node.
+
+type CountryGroup = { id: string; name: string; countries: string[] }
+const COUNTRY_GROUPS: CountryGroup[] = countryGroupsJson
 
 // Bright: fully saturated, mid lightness.
 const SATURATION = 95
@@ -49,21 +55,24 @@ export function groupNeighbours(): Map<string, Set<string>> {
 }
 
 // Distance between two hues round the colour wheel, 0 to 180 degrees.
-function hueDistance(a: number, b: number): number {
+export function hueDistance(a: number, b: number): number {
   const difference = Math.abs(a - b) % 360
   return Math.min(difference, 360 - difference)
 }
 
-// Picks a hue for each group, as far as possible from its neighbours' hues.
-// Groups are coloured in a random order; each tries every HUE_STEP degrees
-// (from a random start) and takes the hue furthest from the neighbours
-// already coloured, with ties broken at random.
+// Picks a hue for each group that has none in `keptHues`, as far as possible
+// from its neighbours' hues; groups in `keptHues` keep theirs. The new groups
+// are coloured in a random order; each tries every HUE_STEP degrees (from a
+// random start) and takes the hue furthest from the neighbours already
+// coloured, with ties broken at random.
 export function chooseGroupHues(
   neighbours: Map<string, Set<string>>,
+  keptHues: Map<string, number> = new Map(),
   random: () => number = Math.random,
 ): Map<string, number> {
   const hues = new Map<string, number>()
-  const order = [...neighbours.keys()].sort(() => random() - 0.5)
+  for (const [id, hue] of keptHues) if (neighbours.has(id)) hues.set(id, hue)
+  const order = [...neighbours.keys()].filter((id) => !hues.has(id)).sort(() => random() - 0.5)
   const start = random() * 360
   for (const id of order) {
     let bestHues: number[] = []
@@ -88,14 +97,13 @@ export function chooseGroupHues(
   return hues
 }
 
-// A colour for each of the 195 countries, keyed by ISO alpha-3 code: its
-// group's colour. Different on every page load.
-export function chooseCountryGroupColours(): Record<string, string> {
-  const hues = chooseGroupHues(groupNeighbours())
-  const colours: Record<string, string> = {}
-  for (const group of COUNTRY_GROUPS) {
-    const colour = `hsl(${Math.round(hues.get(group.id)!)}, ${SATURATION}%, ${LIGHTNESS}%)`
-    for (const code of group.countries) colours[code] = colour
-  }
-  return colours
+// The CSS colour saved for a hue, e.g. "hsl(210, 95%, 55%)".
+export function hueToColour(hue: number): string {
+  return `hsl(${Math.round(hue)}, ${SATURATION}%, ${LIGHTNESS}%)`
+}
+
+// The hue of a saved colour, or null if it isn't written as hsl(...).
+export function colourToHue(colour: string): number | null {
+  const match = /^hsl\(\s*(\d+(?:\.\d+)?)/.exec(colour)
+  return match === null ? null : Number(match[1])
 }

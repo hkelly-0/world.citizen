@@ -1,8 +1,8 @@
 // Draws a world map of the country groups in src/data/countryGroups.json, for
 // checking the groups by eye (not used by the app). Mercator, cropped to
-// MAP_NORTH..MAP_SOUTH so Antarctica doesn't fill the picture. Each group gets
-// a random colour, so every run looks different; map areas outside the 195
-// countries (Greenland, Kosovo, etc.) are grey.
+// MAP_NORTH..MAP_SOUTH so Antarctica doesn't fill the picture. Each group has
+// its colour on the globe (src/data/countryGroupColours.json); map areas
+// outside the 195 countries (Greenland, Kosovo, etc.) are grey.
 //
 // Usage: node scripts/make-country-groups-map.mjs
 import { readFileSync, writeFileSync } from 'node:fs'
@@ -16,16 +16,11 @@ const MAP_NORTH = 84
 const MAP_SOUTH = -60
 
 const groups = JSON.parse(readFileSync('src/data/countryGroups.json', 'utf8'))
-// Fully random hues often gave neighbouring groups near-identical colours.
-// Groups are listed region by region, so stepping each next group's hue by the
-// golden angle (~137.5°) from a random start keeps neighbours far apart.
-const startHue = Math.random() * 360
+// The globe's colours, saved by scripts/make-country-group-colours.mjs.
+const groupColours = JSON.parse(readFileSync('src/data/countryGroupColours.json', 'utf8'))
 const colourOf = {}
-for (const [index, group] of groups.entries()) {
-  const hue = Math.floor((startHue + index * 137.5) % 360)
-  const saturation = 55 + Math.random() * 35
-  const lightness = 40 + Math.random() * 25
-  for (const code of group.countries) colourOf[code] = `hsl(${hue}, ${saturation}%, ${lightness}%)`
+for (const group of groups) {
+  for (const code of group.countries) colourOf[code] = groupColours[group.id]
 }
 
 // Scale so the whole width is 360°, then shift up so MAP_NORTH is the top edge.
