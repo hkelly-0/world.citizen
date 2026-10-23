@@ -1,0 +1,10 @@
+# Generated or bundled, not hand-formatted.
+dist
+android
+public
+node_modules
+src/data
+package-lock.json
+
+# Written by hand with one paragraph per line.
+CLAUDE.md
