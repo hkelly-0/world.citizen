@@ -12,6 +12,18 @@
   touch-action: none;
 }
 
+/* The info panel floats over the bottom of the globe. */
+.globe-view .country-info-panel {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 360px;
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
 /* Debugging only (dev server). Drawn over the info panel if they meet. */
 .globe-view__zoom {
   position: absolute;

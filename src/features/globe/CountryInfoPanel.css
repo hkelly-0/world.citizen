@@ -1,14 +1,10 @@
+/* Only the panel's contents are styled here. Each screen places it and gives
+   it a background (the globe in GlobeView.css, the Passport's enlarged card in
+   PassportView.css). The × button sits at the top right of the nearest
+   positioned ancestor, so the screen must position the panel or its card. */
 .country-info-panel {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  max-width: 360px;
   padding: 16px 20px;
-  border-radius: 12px;
-  background: rgba(15, 20, 35, 0.9);
   color: #f2f4f8;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .country-info-panel h2 {

@@ -126,14 +126,3 @@
 .passport__enlarged .passport__image {
   max-width: 300px;
 }
-
-/* The globe's panel has its own background and sits over the globe; here the
-   card behind the picture provides the background and the panel sits in the
-   flow. */
-.passport__enlarged .country-info-panel {
-  position: static;
-  width: 100%;
-  box-sizing: border-box;
-  background: none;
-  box-shadow: none;
-}
