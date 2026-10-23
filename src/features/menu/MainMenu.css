@@ -53,6 +53,11 @@
   content: '→';
 }
 
+/* Go and Save: centred in the column rather than starting at its left edge. */
+.main-menu__option--centered {
+  justify-content: center;
+}
+
 .main-menu__option--no-arrow::after {
   content: none;
 }

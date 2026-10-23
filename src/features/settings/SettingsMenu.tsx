@@ -50,7 +50,11 @@ export function SettingsMenu({ learnedQuestionIds, onBack, onSave }: SettingsMen
       </fieldset>
       <button
         // "Saved" has nothing to go on to, so no arrow.
-        className={isSaved ? 'main-menu__option main-menu__option--no-arrow' : 'main-menu__option'}
+        className={
+          isSaved
+            ? 'main-menu__option main-menu__option--centered main-menu__option--no-arrow'
+            : 'main-menu__option main-menu__option--centered'
+        }
         onClick={() => onSave(chosenInOrder)}
         disabled={isSaved || chosen.length === 0}
       >
