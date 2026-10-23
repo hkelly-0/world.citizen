@@ -64,10 +64,10 @@ export function CountryInfoPanel({
             <p className="country-info-panel__official-name">{facts.officialName}</p>
           )}
           <dl>
-            {learnedQuestionIds.includes('capital') && (
+            {learnedQuestionIds.includes('area') && (
               <>
-                <dt>{facts.capitals.length === 1 ? 'Capital' : 'Capitals'}</dt>
-                <dd>{facts.capitals.join(', ')}</dd>
+                <dt>Area</dt>
+                <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
               </>
             )}
             {learnedQuestionIds.includes('population') && (
@@ -76,18 +76,18 @@ export function CountryInfoPanel({
                 <dd>{rangeTitle(POPULATION_RANGES, facts.population)}</dd>
               </>
             )}
-            {learnedQuestionIds.includes('area') && (
-              <>
-                <dt>Area</dt>
-                <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
-              </>
-            )}
             {learnedQuestionIds.includes('ihdi') && (
               <>
                 <dt>IHDI</dt>
                 <dd>
                   {ihdi === null ? 'No data' : ihdi.isEstimate ? `${ihdi.title} (est.)` : ihdi.title}
                 </dd>
+              </>
+            )}
+            {learnedQuestionIds.includes('capital') && (
+              <>
+                <dt>{facts.capitals.length === 1 ? 'Capital' : 'Capitals'}</dt>
+                <dd>{facts.capitals.join(', ')}</dd>
               </>
             )}
           </dl>
