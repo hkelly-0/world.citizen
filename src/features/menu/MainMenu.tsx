@@ -10,7 +10,7 @@ type MainMenuProps = {
   onOpenSettings: () => void
 }
 
-// The first screen: choose between the globe, the flashcards and the
+// The first screen: choose between the flashcards, the globe and the
 // passport, with settings at the bottom.
 export function MainMenu({
   passportCount,
@@ -23,11 +23,11 @@ export function MainMenu({
     <main className="main-menu">
       <h1>world.citizen</h1>
       <p className="main-menu__subtitle">learn every country</p>
-      <button className="main-menu__option" onClick={onOpenGlobe}>
-        Globe
-      </button>
       <button className="main-menu__option" onClick={onOpenFlashcards}>
         Flashcards
+      </button>
+      <button className="main-menu__option" onClick={onOpenGlobe}>
+        Globe
       </button>
       <button className="main-menu__option" onClick={onOpenPassport}>
         Passport{' '}
