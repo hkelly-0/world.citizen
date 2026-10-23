@@ -36,3 +36,23 @@
 .main-menu__option:hover {
   background: rgba(40, 48, 70, 0.95);
 }
+
+/* Smaller than the other options, pinned to the bottom of the screen. */
+.main-menu__settings {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #a9b1c2;
+  font: inherit;
+  cursor: pointer;
+}
+
+.main-menu__settings:hover {
+  background: rgba(40, 48, 70, 0.95);
+}

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CountryShape } from '../../shared/countries'
+import { QUESTION_IDS } from '../flashcards/deck'
 import { CountryInfoPanel } from './CountryInfoPanel'
 
 const france: CountryShape = {
@@ -13,7 +14,7 @@ const france: CountryShape = {
 
 describe('CountryInfoPanel', () => {
   it("shows the country's names and facts", () => {
-    render(<CountryInfoPanel country={france} onClose={() => {}} />)
+    render(<CountryInfoPanel country={france} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
@@ -27,7 +28,7 @@ describe('CountryInfoPanel', () => {
 
   it('lists every capital for countries with several', () => {
     const southAfrica: CountryShape = { ...france, name: 'South Africa', isoAlpha3: 'ZAF' }
-    render(<CountryInfoPanel country={southAfrica} onClose={() => {}} />)
+    render(<CountryInfoPanel country={southAfrica} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
 
     expect(screen.getByText('Capitals')).toBeInTheDocument()
     expect(screen.getByText('Pretoria, Bloemfontein, Cape Town')).toBeInTheDocument()
@@ -35,7 +36,7 @@ describe('CountryInfoPanel', () => {
 
   it('shows "No data" when a country has no IHDI', () => {
     const vatican: CountryShape = { ...france, name: 'Vatican', isoAlpha3: 'VAT' }
-    render(<CountryInfoPanel country={vatican} onClose={() => {}} />)
+    render(<CountryInfoPanel country={vatican} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
 
     expect(screen.getByRole('heading', { name: 'Vatican City' })).toBeInTheDocument()
     expect(screen.getByText('No data')).toBeInTheDocument()
@@ -43,22 +44,35 @@ describe('CountryInfoPanel', () => {
 
   it('marks an estimated IHDI with (est.)', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
-    render(<CountryInfoPanel country={saudiArabia} onClose={() => {}} />)
+    render(<CountryInfoPanel country={saudiArabia} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
 
     expect(screen.getByText(/\(est\.\)$/)).toBeInTheDocument()
   })
 
   it('shows a note for map areas that are not one of the 195 countries', () => {
     const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
-    render(<CountryInfoPanel country={kosovo} onClose={() => {}} />)
+    render(<CountryInfoPanel country={kosovo} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
 
     expect(screen.getByRole('heading', { name: 'Kosovo' })).toBeInTheDocument()
     expect(screen.getByText('Not one of the 195 countries in this app.')).toBeInTheDocument()
   })
 
+  it('hides facts not learned in Settings, but keeps the names', () => {
+    render(
+      <CountryInfoPanel country={france} learnedQuestionIds={['globe', 'area']} onClose={() => {}} />,
+    )
+
+    expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    expect(screen.getByText('French Republic')).toBeInTheDocument()
+    expect(screen.getByText('Medium - ≥ 300K km²')).toBeInTheDocument()
+    expect(screen.queryByText('Paris')).not.toBeInTheDocument()
+    expect(screen.queryByText('Population')).not.toBeInTheDocument()
+    expect(screen.queryByText('IHDI')).not.toBeInTheDocument()
+  })
+
   it('calls onClose when the close button is pressed', async () => {
     const onClose = vi.fn()
-    render(<CountryInfoPanel country={france} onClose={onClose} />)
+    render(<CountryInfoPanel country={france} learnedQuestionIds={QUESTION_IDS} onClose={onClose} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
 

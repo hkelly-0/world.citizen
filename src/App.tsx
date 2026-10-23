@@ -1,14 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
-import {
-  GLOBE_KINDS,
-  QUESTION_IDS,
-  type GlobeKind,
-  type QuestionId,
-} from './features/flashcards/deck'
+import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
+import { SettingsMenu } from './features/settings/SettingsMenu'
+import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
 
 // The map (MapLibre + border data) is large, so it is loaded only when shown.
 // This keeps other screens, like the flashcards, fast to open.
@@ -17,8 +14,10 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
 // cards, 'custom-practice' the choice of question types to practise, and
 // 'custom-flashcards' the cards asking only those question types.
+// 'settings' chooses which information is learned at all.
 type Screen =
   | 'menu'
+  | 'settings'
   | 'globe'
   | 'flashcards'
   | 'classic-flashcards'
@@ -46,6 +45,9 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>(screenInHistory)
   const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(customQuestionIdsInHistory)
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
+  // The information chosen in Settings. Everything else in the app (info
+  // panel, Classic and Custom Practice) shows or asks only these.
+  const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -73,12 +75,16 @@ export default function App() {
     setCustomGlobeKinds(globeKinds)
     setScreen('custom-flashcards')
   }
+  function saveSettings(questionIds: QuestionId[]) {
+    saveLearnedQuestionIds(questionIds)
+    setLearnedQuestionIds(questionIds)
+  }
   const goToMenu = () => history.back()
 
   if (screen === 'globe') {
     return (
       <Suspense fallback={<p className="loading">Loading globe…</p>}>
-        <GlobeView onBack={goToMenu} />
+        <GlobeView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
       </Suspense>
     )
   }
@@ -92,10 +98,18 @@ export default function App() {
     )
   }
   if (screen === 'classic-flashcards') {
-    return <FlashcardsView questionIds={QUESTION_IDS} globeKinds={GLOBE_KINDS} onBack={goToMenu} />
+    return (
+      <FlashcardsView questionIds={learnedQuestionIds} globeKinds={GLOBE_KINDS} onBack={goToMenu} />
+    )
   }
   if (screen === 'custom-practice') {
-    return <CustomPracticeMenu onBack={goToMenu} onGo={startCustomPractice} />
+    return (
+      <CustomPracticeMenu
+        learnedQuestionIds={learnedQuestionIds}
+        onBack={goToMenu}
+        onGo={startCustomPractice}
+      />
+    )
   }
   if (screen === 'custom-flashcards') {
     return (
@@ -106,10 +120,20 @@ export default function App() {
       />
     )
   }
+  if (screen === 'settings') {
+    return (
+      <SettingsMenu
+        learnedQuestionIds={learnedQuestionIds}
+        onBack={goToMenu}
+        onSave={saveSettings}
+      />
+    )
+  }
   return (
     <MainMenu
       onOpenGlobe={() => openScreen('globe')}
       onOpenFlashcards={() => openScreen('flashcards')}
+      onOpenSettings={() => openScreen('settings')}
     />
   )
 }

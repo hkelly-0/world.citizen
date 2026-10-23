@@ -3,10 +3,12 @@ import './MainMenu.css'
 type MainMenuProps = {
   onOpenGlobe: () => void
   onOpenFlashcards: () => void
+  onOpenSettings: () => void
 }
 
-// The first screen: choose between the globe and the flashcards.
-export function MainMenu({ onOpenGlobe, onOpenFlashcards }: MainMenuProps) {
+// The first screen: choose between the globe and the flashcards, with
+// settings at the bottom.
+export function MainMenu({ onOpenGlobe, onOpenFlashcards, onOpenSettings }: MainMenuProps) {
   return (
     <main className="main-menu">
       <h1>world.citizen</h1>
@@ -16,6 +18,9 @@ export function MainMenu({ onOpenGlobe, onOpenFlashcards }: MainMenuProps) {
       </button>
       <button className="main-menu__option" onClick={onOpenFlashcards}>
         Flashcards
+      </button>
+      <button className="main-menu__settings" onClick={onOpenSettings}>
+        Settings
       </button>
     </main>
   )

@@ -1,17 +1,21 @@
 import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts } from '../../shared/countryFacts'
+import type { QuestionId } from '../flashcards/deck'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
   country: CountryShape
+  // The information chosen in Settings; facts left out there aren't shown.
+  // (Names are always shown, and 'globe' has no fact here.)
+  learnedQuestionIds: QuestionId[]
   onClose: () => void
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
 }
 
-export function CountryInfoPanel({ country, onClose, ref }: CountryInfoPanelProps) {
+export function CountryInfoPanel({ country, learnedQuestionIds, onClose, ref }: CountryInfoPanelProps) {
   // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
@@ -33,14 +37,32 @@ export function CountryInfoPanel({ country, onClose, ref }: CountryInfoPanelProp
             <p className="country-info-panel__official-name">{facts.officialName}</p>
           )}
           <dl>
-            <dt>{facts.capitals.length === 1 ? 'Capital' : 'Capitals'}</dt>
-            <dd>{facts.capitals.join(', ')}</dd>
-            <dt>Population</dt>
-            <dd>{rangeTitle(POPULATION_RANGES, facts.population)}</dd>
-            <dt>Area</dt>
-            <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
-            <dt>IHDI</dt>
-            <dd>{ihdi === null ? 'No data' : ihdi.isEstimate ? `${ihdi.title} (est.)` : ihdi.title}</dd>
+            {learnedQuestionIds.includes('capital') && (
+              <>
+                <dt>{facts.capitals.length === 1 ? 'Capital' : 'Capitals'}</dt>
+                <dd>{facts.capitals.join(', ')}</dd>
+              </>
+            )}
+            {learnedQuestionIds.includes('population') && (
+              <>
+                <dt>Population</dt>
+                <dd>{rangeTitle(POPULATION_RANGES, facts.population)}</dd>
+              </>
+            )}
+            {learnedQuestionIds.includes('area') && (
+              <>
+                <dt>Area</dt>
+                <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
+              </>
+            )}
+            {learnedQuestionIds.includes('ihdi') && (
+              <>
+                <dt>IHDI</dt>
+                <dd>
+                  {ihdi === null ? 'No data' : ihdi.isEstimate ? `${ihdi.title} (est.)` : ihdi.title}
+                </dd>
+              </>
+            )}
           </dl>
         </>
       )}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
+import type { QuestionId } from '../flashcards/deck'
 import {
   COUNTRY_SHAPES,
   createCountryMap,
@@ -27,10 +28,12 @@ const FOCUS_DURATION_MS = 1200
 const PANEL_BOTTOM_MARGIN = 16
 
 type GlobeViewProps = {
+  // The information chosen in Settings, shown on the info panel.
+  learnedQuestionIds: QuestionId[]
   onBack: () => void
 }
 
-export default function GlobeView({ onBack }: GlobeViewProps) {
+export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const panelRef = useRef<HTMLElement>(null)
@@ -138,7 +141,12 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       <BackButton onClick={goToMenu} />
       <CountrySearch onSelect={selectSearchedCountry} />
       {selectedCountry !== null && (
-        <CountryInfoPanel country={selectedCountry} onClose={closePanel} ref={panelRef} />
+        <CountryInfoPanel
+          country={selectedCountry}
+          learnedQuestionIds={learnedQuestionIds}
+          onClose={closePanel}
+          ref={panelRef}
+        />
       )}
       {zoom !== null && <div className="globe-view__zoom">Zoom {zoom.toFixed(2)}</div>}
     </div>

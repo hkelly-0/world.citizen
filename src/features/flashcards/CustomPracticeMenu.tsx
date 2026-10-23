@@ -17,6 +17,9 @@ const CHOICES: { choice: Choice; label: string }[] = [
 ]
 
 type CustomPracticeMenuProps = {
+  // The question types chosen in Settings; only these are offered (both globe
+  // options if 'globe' is one of them).
+  learnedQuestionIds: QuestionId[]
   onBack: () => void
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
@@ -25,8 +28,11 @@ type CustomPracticeMenuProps = {
 }
 
 // Lets the user tick which questions to practise. "Go" needs at least one.
-export function CustomPracticeMenu({ onBack, onGo }: CustomPracticeMenuProps) {
+export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
   const [chosen, setChosen] = useState<Choice[]>([])
+  const offered = CHOICES.filter(({ choice }) =>
+    learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice),
+  )
 
   function toggle(choice: Choice) {
     setChosen(
@@ -47,7 +53,7 @@ export function CustomPracticeMenu({ onBack, onGo }: CustomPracticeMenuProps) {
       <BackButton onClick={onBack} />
       <h1 className="custom-practice__title">Select which question types to see today</h1>
       <fieldset className="custom-practice__choices">
-        {CHOICES.map(({ choice, label }) => (
+        {offered.map(({ choice, label }) => (
           <label key={choice} className="custom-practice__choice">
             {label}
             <input

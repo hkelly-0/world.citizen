@@ -20,7 +20,7 @@ A geography learning app shipped as **both an Android APK and a website** with i
 Audience: friends and family; the APK is sideloaded (no Play Store).
 
 ## Features
-The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" back button that returns to the main menu. Screens are switched with React state in `src/App.tsx` (no URL routing). Each screen, and the globe's open info panel, adds a browser history entry with the same URL, so back (browser, or Android via `@capacitor/app` in `src/main.tsx`) closes the panel, then returns to the main menu (opening Classic or Custom Practice replaces the flashcards menu's history entry, and Go replaces Custom Practice's, so back skips them); on Android, back from the main menu closes the app.
+The app opens on a main menu (Globe, Flashcards, and a smaller Settings button pinned to the bottom); each screen has a "← Menu" back button that returns to the main menu. Screens are switched with React state in `src/App.tsx` (no URL routing). Each screen, and the globe's open info panel, adds a browser history entry with the same URL, so back (browser, or Android via `@capacitor/app` in `src/main.tsx`) closes the panel, then returns to the main menu (opening Classic or Custom Practice replaces the flashcards menu's history entry, and Go replaces Custom Practice's, so back skips them); on Android, back from the main menu closes the app.
 
 1. **Flashcards** – learn facts about countries, with locally saved progress.
    - Flashcards opens a flashcards menu (`FlashcardsMenu.tsx`): **Classic** (the full country cards described below) or **Custom Practice** (`CustomPracticeMenu.tsx`): "Select which question types to see today", a checkbox for each of "Locate country on globe", "Name country from globe", Area, Population, IHDI and Capital (all unticked to start), and a "Go" button, disabled until one is ticked. Go starts cards asking only the ticked questions, in the usual order. The two globe options are the same question type with one shared SM-2 schedule: if only one is ticked, the globe question is always asked that way; if both are ticked, it is a coin flip as in Classic. If only the globe question is asked, each card ends after it, and the globe doesn't fade to reveal the card, so the next country's globe follows without the card flashing up. Only the ticked questions decide which countries are due (earliest ticked question due first; countries with none of them answered are new) and only they are reviewed; the others keep their schedules. The ticked types (and which globe kinds) are kept in the history entry, so reloading the website keeps them.
@@ -37,6 +37,8 @@ The app opens on a main menu (Globe, Flashcards); each screen has a "← Menu" b
 Both globes limit zoom (`zoomLimits.ts`): at the equator the minimum is 1.3 on phones and 1.8 when the globe is 768 px or wider, and the maximum is 6. MapLibre draws the globe larger near the poles (by 1/cos(latitude)) and already lowers the minimum zoom to match, so the minimum is passed unchanged and the zoomed-out globe is the same size everywhere. The maximum is lowered here by the same amount (`latitudeZoom.ts`, capped at 85.05° like MapLibre).
 
 Tap buffer (`tapBuffer.ts`, used by both globes through `findTappedCountryIndex` in `countryMap.ts`): the 25 countries under 1,000 km² (Vatican, Monaco, Tuvalu, Singapore, etc.) are only a few pixels wide on the globe, so a tap within 20 screen pixels of one counts as a tap on it, even if it lands on a bigger neighbour. Hover (pointer cursor and highlight) uses it too, so what is highlighted is what a click picks.
+
+3. **Settings** (`src/features/settings/SettingsMenu.tsx`, saved by `src/shared/settings.ts` in localStorage) – the root control for what is learned. Same layout as Custom Practice: "Information I want to learn:" with a checkbox for each of Location, Area, Population, IHDI and Capital (all ticked by default), and a button that reads "Saved" (disabled) until a box is changed, then "Save" (disabled if none is ticked); saving stays on the screen and the button goes back to "Saved". "← Menu" returns to the main menu, discarding unsaved changes. Unticked information isn't shown on the globe's info panel (names are always shown; Location has nothing there), isn't asked in Classic, and isn't offered in Custom Practice (Location off hides both globe options). Their SM-2 schedules are kept.
 
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 
@@ -80,6 +82,7 @@ src/
     countries.json
   features/
     menu/           # main menu
+    settings/       # settings screen: which information is learned
     globe/          # shared map setup (countryMap.ts), globe screen, flashcard location and name globes, info panel, flat-map geometry fixes
     flashcards/     # SM-2 per question (sm2.ts), per-country progress and next-card choice (deck.ts), capital and country-name checks, typed-answer reveal, card UI
   shared/
@@ -87,6 +90,7 @@ src/
     countryFacts.ts # typed access to countries.json
     statRanges.ts   # named ranges for population, area and IHDI
     progress.ts     # flashcard progress (per country, per question) in localStorage
+    settings.ts     # which question types are learned (Settings), in localStorage
     BackButton.tsx  # "← Menu" button used by each screen
 scripts/            # one-off asset generation (background map tiles, country facts, country pictures, app icon)
 android/            # Capacitor's native Android project (mostly generated)
@@ -102,6 +106,7 @@ android/            # Capacitor's native Android project (mostly generated)
 - Done: MapLibre globe with satellite imagery that flattens into a map when zoomed in. Tapping a country highlights it and shows its facts (names, capitals, population, area, IHDI); tapping the ocean closes the panel.
 - Done: country facts dataset (`src/data/countries.json`), shown as named ranges.
 - Done: main menu and flashcards with SM-2 scheduling and saved progress.
+- Done: Settings screen choosing which information is learned.
 - Done: flashcard location question on the globe (`LocateCountryGlobe.tsx`); graded out of 5. Not yet checked on a real phone or emulator.
 - Done: flashcard name question (`NameCountryGlobe.tsx`), alternating at random with the location question. Not yet checked on a phone, in particular how the bottom panel sits above the on-screen keyboard.
 - Done: country pictures for all 195 countries, shown on the flashcards.

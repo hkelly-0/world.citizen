@@ -25,13 +25,14 @@ describe('App', () => {
     history.replaceState(null, '')
   })
 
-  it('opens on a main menu with the title, subtitle, Globe and Flashcards', () => {
+  it('opens on a main menu with the title, subtitle, Globe, Flashcards and Settings', () => {
     render(<App />)
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
     expect(screen.getByText('learn every country')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Globe' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 
   it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {
@@ -125,5 +126,44 @@ describe('App', () => {
     // Back goes straight to the main menu.
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
+
+  it('saves settings, then asks only the learned questions in Classic and offers only them in Custom Practice', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    for (const label of ['Location', 'Area', 'Population', 'IHDI']) {
+      await userEvent.click(screen.getByRole('checkbox', { name: label }))
+    }
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    // Save stays on the settings screen, now showing "Saved", and keeps them.
+    expect(screen.getByRole('button', { name: 'Saved' })).toBeDisabled()
+    expect(JSON.parse(localStorage.getItem('geography-app/learned-question-ids')!)).toEqual(['capital'])
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
+    expect(screen.getAllByRole('checkbox')).toHaveLength(1)
+    expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    // Straight to the capital: no globe or range questions.
+    expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Area?')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Reveal' })).toBeInTheDocument()
+  })
+
+  it('leaves settings unchanged when going back without saving', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+
+    await userEvent.click(await screen.findByRole('button', { name: 'Settings' }))
+    expect(screen.getByRole('checkbox', { name: 'Area' })).toBeChecked()
+    expect(localStorage.getItem('geography-app/learned-question-ids')).toBeNull()
   })
 })
