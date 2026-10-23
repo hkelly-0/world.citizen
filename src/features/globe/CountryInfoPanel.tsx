@@ -13,8 +13,9 @@ type CountryInfoPanelProps = {
   learnedQuestionIds: QuestionId[]
   onClose: () => void
   // Called with a country's ISO alpha-3 code when its name in a territory's
-  // subtitle is clicked, to select that country instead.
-  onSelectCountry: (isoAlpha3: string) => void
+  // subtitle is clicked, to select that country instead. Only the globe shows
+  // territories, so only it passes this.
+  onSelectCountry?: (isoAlpha3: string) => void
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
 }
@@ -50,7 +51,7 @@ export function CountryInfoPanel({
                   <button
                     key={i}
                     className="country-info-panel__country-link"
-                    onClick={() => onSelectCountry(part.isoAlpha3)}
+                    onClick={() => onSelectCountry?.(part.isoAlpha3)}
                   >
                     {part.name}
                   </button>

@@ -101,7 +101,6 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
               country={{ name: openCountry.commonName, isoAlpha3: openCountry.isoAlpha3 }}
               learnedQuestionIds={learnedQuestionIds}
               onClose={() => setOpenCode(null)}
-              onSelectCountry={() => {}}
             />
           </div>
         </div>
