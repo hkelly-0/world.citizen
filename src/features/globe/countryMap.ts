@@ -40,6 +40,7 @@ const SELECTED_COLOR = '#ffc83c'
 const SELECTED_OPACITY = 0.45
 // Used by the flashcards' "select the country" question.
 const CORRECT_COLOR = '#3fb950'
+// The same red as --wrong-red in index.css (MapLibre can't read CSS variables).
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'

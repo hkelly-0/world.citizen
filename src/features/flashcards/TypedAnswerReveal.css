@@ -31,7 +31,7 @@
 }
 
 .typed-answer__red {
-  color: #f85149;
+  color: var(--wrong-red);
   animation: typed-answer-fade-to-red 600ms ease;
 }
 
@@ -43,6 +43,6 @@
 
 @keyframes typed-answer-fade-to-red {
   to {
-    color: #f85149;
+    color: var(--wrong-red);
   }
 }

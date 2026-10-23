@@ -51,7 +51,7 @@
   font-size: 2rem;
   font-weight: bold;
   /* Same red as the wrong country's highlight in countryMap.ts. */
-  color: #f85149;
+  color: var(--wrong-red);
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
   animation: locate-globe-fade-in 400ms ease;
   transition: opacity 400ms ease;

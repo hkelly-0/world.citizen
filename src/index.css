@@ -13,6 +13,16 @@ body {
   overscroll-behavior: none;
 }
 
+:root {
+  /* The red of a wrong answer, and of buttons that go on despite a warning.
+     The globes' wrong-country red is set in countryMap.ts, as MapLibre can't
+     read CSS variables. */
+  --wrong-red: #f85149;
+  /* Its tint as a button or option background, and stronger on hover. */
+  --wrong-red-tint: rgba(248, 81, 73, 0.25);
+  --wrong-red-tint-hover: rgba(248, 81, 73, 0.4);
+}
+
 #root {
   height: 100%;
   overflow-y: auto;

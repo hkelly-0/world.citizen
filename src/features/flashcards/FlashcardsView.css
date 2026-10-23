@@ -34,14 +34,14 @@
 .flashcards-view__discover {
   min-height: 44px;
   padding: 8px 16px;
-  border: 1px solid #f85149;
+  border: 1px solid var(--wrong-red);
   border-radius: 8px;
-  background: rgba(248, 81, 73, 0.25);
+  background: var(--wrong-red-tint);
   color: inherit;
   font: inherit;
   cursor: pointer;
 }
 
 .flashcards-view__discover:hover {
-  background: rgba(248, 81, 73, 0.4);
+  background: var(--wrong-red-tint-hover);
 }
