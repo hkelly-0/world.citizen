@@ -88,6 +88,7 @@ Generated files are committed; each script lists its download links.
 - `src/data/countries.json` – facts for the 195 countries (typed as `CountryFacts` in `countryFacts.ts`), made by `node scripts/make-country-data.mjs <source-folder>`.
   - Names, capitals and area: mledoze/countries (a few missing second capitals are added in the script). Population: UN WPP 2024, 2025 medium-variant projection. HDI and IHDI: UNDP HDR 2025, latest year per country.
   - `ihdiEstimate`: for countries with an HDI but no IHDI, a least-squares line fitted on countries with both. Kept apart from `ihdi` so real and estimated values never mix; marked "(est.)" / "Estimated" in the UI.
+  - `groupId` / `groupName`: each country's group from the hand-written `src/data/countryGroups.json`, a partition of the 195 into groups of 3 to 5 similar neighbours (the script throws if a country is missing, repeated, or a group's size is off). Not used in the app yet. Rename a group by its `name`; its `id` stays fixed.
 - `src/data/countryNameAlternatives.json` – hand-written other names (e.g. `"TUR": ["Turkey"]`), read with `alternativeNames`; used by the name question and the search.
 - `src/data/territorySubtitles.json` – hand-written description of each map area outside the 195, keyed by ISO code or, where there is none, the map's name. `{ISO}` in the text links to that country. Contested areas get neutral wording. To be reviewed by the owner.
 

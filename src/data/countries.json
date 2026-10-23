@@ -13,7 +13,9 @@
     "hdiYear": 2023,
     "ihdi": 0.321,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-central-asia",
+    "groupName": "Southern Central Asia"
   },
   "AGO": {
     "isoAlpha3": "AGO",
@@ -29,7 +31,9 @@
     "hdiYear": 2023,
     "ihdi": 0.36,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "south-central-africa",
+    "groupName": "South-Central Africa"
   },
   "ALB": {
     "isoAlpha3": "ALB",
@@ -45,7 +49,9 @@
     "hdiYear": 2023,
     "ihdi": 0.705,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southeastern-europe",
+    "groupName": "Southeastern Europe"
   },
   "AND": {
     "isoAlpha3": "AND",
@@ -61,7 +67,9 @@
     "hdiYear": 2023,
     "ihdi": 0.837,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "iberia",
+    "groupName": "Iberian Peninsula"
   },
   "ARE": {
     "isoAlpha3": "ARE",
@@ -77,7 +85,9 @@
     "hdiYear": 2023,
     "ihdi": 0.866,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "gulf-states",
+    "groupName": "Gulf States"
   },
   "ARG": {
     "isoAlpha3": "ARG",
@@ -93,7 +103,9 @@
     "hdiYear": 2023,
     "ihdi": 0.761,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-south-america",
+    "groupName": "Eastern South America"
   },
   "ARM": {
     "isoAlpha3": "ARM",
@@ -109,7 +121,9 @@
     "hdiYear": 2023,
     "ihdi": 0.743,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "ATG": {
     "isoAlpha3": "ATG",
@@ -125,7 +139,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.744
+    "ihdiEstimate": 0.744,
+    "groupId": "leeward-islands",
+    "groupName": "Leeward Islands"
   },
   "AUS": {
     "isoAlpha3": "AUS",
@@ -141,7 +157,9 @@
     "hdiYear": 2023,
     "ihdi": 0.873,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "australasia",
+    "groupName": "Australasia"
   },
   "AUT": {
     "isoAlpha3": "AUT",
@@ -157,7 +175,9 @@
     "hdiYear": 2023,
     "ihdi": 0.861,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "german-speaking-europe",
+    "groupName": "German-speaking Europe"
   },
   "AZE": {
     "isoAlpha3": "AZE",
@@ -173,7 +193,9 @@
     "hdiYear": 2023,
     "ihdi": 0.735,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "BDI": {
     "isoAlpha3": "BDI",
@@ -189,7 +211,9 @@
     "hdiYear": 2023,
     "ihdi": 0.286,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-africa",
+    "groupName": "East Africa"
   },
   "BEL": {
     "isoAlpha3": "BEL",
@@ -205,7 +229,9 @@
     "hdiYear": 2023,
     "ihdi": 0.891,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "western-europe",
+    "groupName": "Western Europe"
   },
   "BEN": {
     "isoAlpha3": "BEN",
@@ -222,7 +248,9 @@
     "hdiYear": 2023,
     "ihdi": 0.316,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "gulf-of-guinea",
+    "groupName": "Gulf of Guinea"
   },
   "BFA": {
     "isoAlpha3": "BFA",
@@ -238,7 +266,9 @@
     "hdiYear": 2023,
     "ihdi": 0.273,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "sahel",
+    "groupName": "Sahel"
   },
   "BGD": {
     "isoAlpha3": "BGD",
@@ -254,7 +284,9 @@
     "hdiYear": 2023,
     "ihdi": 0.482,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-subcontinent",
+    "groupName": "Indian Subcontinent"
   },
   "BGR": {
     "isoAlpha3": "BGR",
@@ -270,7 +302,9 @@
     "hdiYear": 2023,
     "ihdi": 0.748,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southeastern-europe",
+    "groupName": "Southeastern Europe"
   },
   "BHR": {
     "isoAlpha3": "BHR",
@@ -286,7 +320,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.803
+    "ihdiEstimate": 0.803,
+    "groupId": "gulf-states",
+    "groupName": "Gulf States"
   },
   "BHS": {
     "isoAlpha3": "BHS",
@@ -302,7 +338,9 @@
     "hdiYear": 2023,
     "ihdi": 0.67,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "greater-antilles-bahamas",
+    "groupName": "Greater Antilles & Bahamas"
   },
   "BIH": {
     "isoAlpha3": "BIH",
@@ -318,7 +356,9 @@
     "hdiYear": 2023,
     "ihdi": 0.689,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "BLR": {
     "isoAlpha3": "BLR",
@@ -334,7 +374,9 @@
     "hdiYear": 2023,
     "ihdi": 0.771,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-europe",
+    "groupName": "Eastern Europe"
   },
   "BLZ": {
     "isoAlpha3": "BLZ",
@@ -350,7 +392,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.583
+    "ihdiEstimate": 0.583,
+    "groupId": "northern-central-america",
+    "groupName": "Northern Central America"
   },
   "BOL": {
     "isoAlpha3": "BOL",
@@ -367,7 +411,9 @@
     "hdiYear": 2023,
     "ihdi": 0.578,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "andes",
+    "groupName": "Andean Countries"
   },
   "BRA": {
     "isoAlpha3": "BRA",
@@ -383,7 +429,9 @@
     "hdiYear": 2023,
     "ihdi": 0.594,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-south-america",
+    "groupName": "Eastern South America"
   },
   "BRB": {
     "isoAlpha3": "BRB",
@@ -399,7 +447,9 @@
     "hdiYear": 2023,
     "ihdi": 0.62,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-caribbean",
+    "groupName": "Southern Caribbean"
   },
   "BRN": {
     "isoAlpha3": "BRN",
@@ -415,7 +465,9 @@
     "hdiYear": 2023,
     "ihdi": 0.756,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "malay-peninsula-borneo",
+    "groupName": "Malay Peninsula & Borneo"
   },
   "BTN": {
     "isoAlpha3": "BTN",
@@ -431,7 +483,9 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-subcontinent",
+    "groupName": "Indian Subcontinent"
   },
   "BWA": {
     "isoAlpha3": "BWA",
@@ -447,7 +501,9 @@
     "hdiYear": 2023,
     "ihdi": 0.509,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-africa",
+    "groupName": "Southern Africa"
   },
   "CAF": {
     "isoAlpha3": "CAF",
@@ -463,7 +519,9 @@
     "hdiYear": 2023,
     "ihdi": 0.253,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "congo-basin",
+    "groupName": "Congo Basin"
   },
   "CAN": {
     "isoAlpha3": "CAN",
@@ -479,7 +537,9 @@
     "hdiYear": 2023,
     "ihdi": 0.867,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-america",
+    "groupName": "North America"
   },
   "CHE": {
     "isoAlpha3": "CHE",
@@ -495,7 +555,9 @@
     "hdiYear": 2023,
     "ihdi": 0.894,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "german-speaking-europe",
+    "groupName": "German-speaking Europe"
   },
   "CHL": {
     "isoAlpha3": "CHL",
@@ -511,7 +573,9 @@
     "hdiYear": 2023,
     "ihdi": 0.723,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "andes",
+    "groupName": "Andean Countries"
   },
   "CHN": {
     "isoAlpha3": "CHN",
@@ -527,7 +591,9 @@
     "hdiYear": 2023,
     "ihdi": 0.67,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-asia",
+    "groupName": "East Asia"
   },
   "CIV": {
     "isoAlpha3": "CIV",
@@ -544,7 +610,9 @@
     "hdiYear": 2023,
     "ihdi": 0.35,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "upper-guinea-coast",
+    "groupName": "Upper Guinea Coast"
   },
   "CMR": {
     "isoAlpha3": "CMR",
@@ -560,7 +628,9 @@
     "hdiYear": 2023,
     "ihdi": 0.361,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-african-coast",
+    "groupName": "Central African Coast"
   },
   "COD": {
     "isoAlpha3": "COD",
@@ -576,7 +646,9 @@
     "hdiYear": 2023,
     "ihdi": 0.341,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "congo-basin",
+    "groupName": "Congo Basin"
   },
   "COG": {
     "isoAlpha3": "COG",
@@ -592,7 +664,9 @@
     "hdiYear": 2023,
     "ihdi": 0.426,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "congo-basin",
+    "groupName": "Congo Basin"
   },
   "COL": {
     "isoAlpha3": "COL",
@@ -608,7 +682,9 @@
     "hdiYear": 2023,
     "ihdi": 0.593,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-south-america",
+    "groupName": "Northern South America"
   },
   "COM": {
     "isoAlpha3": "COM",
@@ -624,7 +700,9 @@
     "hdiYear": 2023,
     "ihdi": 0.356,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mozambique-channel",
+    "groupName": "Mozambique Channel"
   },
   "CPV": {
     "isoAlpha3": "CPV",
@@ -640,7 +718,9 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "atlantic-west-africa",
+    "groupName": "Atlantic West Africa"
   },
   "CRI": {
     "isoAlpha3": "CRI",
@@ -656,7 +736,9 @@
     "hdiYear": 2023,
     "ihdi": 0.678,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-central-america",
+    "groupName": "Southern Central America"
   },
   "CUB": {
     "isoAlpha3": "CUB",
@@ -672,7 +754,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.633
+    "ihdiEstimate": 0.633,
+    "groupId": "greater-antilles-bahamas",
+    "groupName": "Greater Antilles & Bahamas"
   },
   "CYP": {
     "isoAlpha3": "CYP",
@@ -688,7 +772,9 @@
     "hdiYear": 2023,
     "ihdi": 0.841,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southeastern-europe",
+    "groupName": "Southeastern Europe"
   },
   "CZE": {
     "isoAlpha3": "CZE",
@@ -704,7 +790,9 @@
     "hdiYear": 2023,
     "ihdi": 0.867,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "visegrad",
+    "groupName": "Visegrád Group"
   },
   "DEU": {
     "isoAlpha3": "DEU",
@@ -720,7 +808,9 @@
     "hdiYear": 2023,
     "ihdi": 0.89,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "german-speaking-europe",
+    "groupName": "German-speaking Europe"
   },
   "DJI": {
     "isoAlpha3": "DJI",
@@ -736,7 +826,9 @@
     "hdiYear": 2023,
     "ihdi": 0.341,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "horn-of-africa",
+    "groupName": "Horn of Africa"
   },
   "DMA": {
     "isoAlpha3": "DMA",
@@ -752,7 +844,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.632
+    "ihdiEstimate": 0.632,
+    "groupId": "leeward-islands",
+    "groupName": "Leeward Islands"
   },
   "DNK": {
     "isoAlpha3": "DNK",
@@ -768,7 +862,9 @@
     "hdiYear": 2023,
     "ihdi": 0.909,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nordic",
+    "groupName": "Nordic Countries"
   },
   "DOM": {
     "isoAlpha3": "DOM",
@@ -784,7 +880,9 @@
     "hdiYear": 2023,
     "ihdi": 0.634,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "greater-antilles-bahamas",
+    "groupName": "Greater Antilles & Bahamas"
   },
   "DZA": {
     "isoAlpha3": "DZA",
@@ -800,7 +898,9 @@
     "hdiYear": 2023,
     "ihdi": 0.601,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maghreb",
+    "groupName": "Maghreb"
   },
   "ECU": {
     "isoAlpha3": "ECU",
@@ -816,7 +916,9 @@
     "hdiYear": 2023,
     "ihdi": 0.64,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "andes",
+    "groupName": "Andean Countries"
   },
   "EGY": {
     "isoAlpha3": "EGY",
@@ -832,7 +934,9 @@
     "hdiYear": 2023,
     "ihdi": 0.582,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nile-valley",
+    "groupName": "Nile Valley"
   },
   "ERI": {
     "isoAlpha3": "ERI",
@@ -848,7 +952,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.313
+    "ihdiEstimate": 0.313,
+    "groupId": "horn-of-africa",
+    "groupName": "Horn of Africa"
   },
   "ESP": {
     "isoAlpha3": "ESP",
@@ -864,7 +970,9 @@
     "hdiYear": 2023,
     "ihdi": 0.819,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "iberia",
+    "groupName": "Iberian Peninsula"
   },
   "EST": {
     "isoAlpha3": "EST",
@@ -880,7 +988,9 @@
     "hdiYear": 2023,
     "ihdi": 0.841,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "baltic-states",
+    "groupName": "Baltic States"
   },
   "ETH": {
     "isoAlpha3": "ETH",
@@ -896,7 +1006,9 @@
     "hdiYear": 2023,
     "ihdi": 0.326,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "horn-of-africa",
+    "groupName": "Horn of Africa"
   },
   "FIN": {
     "isoAlpha3": "FIN",
@@ -912,7 +1024,9 @@
     "hdiYear": 2023,
     "ihdi": 0.891,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nordic",
+    "groupName": "Nordic Countries"
   },
   "FJI": {
     "isoAlpha3": "FJI",
@@ -928,7 +1042,9 @@
     "hdiYear": 2023,
     "ihdi": 0.626,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "melanesia",
+    "groupName": "Melanesia"
   },
   "FRA": {
     "isoAlpha3": "FRA",
@@ -944,7 +1060,9 @@
     "hdiYear": 2023,
     "ihdi": 0.836,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "western-europe",
+    "groupName": "Western Europe"
   },
   "FSM": {
     "isoAlpha3": "FSM",
@@ -960,7 +1078,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.452
+    "ihdiEstimate": 0.452,
+    "groupId": "micronesia",
+    "groupName": "Micronesia"
   },
   "GAB": {
     "isoAlpha3": "GAB",
@@ -976,7 +1096,9 @@
     "hdiYear": 2023,
     "ihdi": 0.558,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-african-coast",
+    "groupName": "Central African Coast"
   },
   "GBR": {
     "isoAlpha3": "GBR",
@@ -992,7 +1114,9 @@
     "hdiYear": 2023,
     "ihdi": 0.869,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-atlantic-islands",
+    "groupName": "North Atlantic Islands"
   },
   "GEO": {
     "isoAlpha3": "GEO",
@@ -1008,7 +1132,9 @@
     "hdiYear": 2023,
     "ihdi": 0.754,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "GHA": {
     "isoAlpha3": "GHA",
@@ -1024,7 +1150,9 @@
     "hdiYear": 2023,
     "ihdi": 0.399,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "gulf-of-guinea",
+    "groupName": "Gulf of Guinea"
   },
   "GIN": {
     "isoAlpha3": "GIN",
@@ -1040,7 +1168,9 @@
     "hdiYear": 2023,
     "ihdi": 0.302,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "atlantic-west-africa",
+    "groupName": "Atlantic West Africa"
   },
   "GMB": {
     "isoAlpha3": "GMB",
@@ -1056,7 +1186,9 @@
     "hdiYear": 2023,
     "ihdi": 0.329,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "atlantic-west-africa",
+    "groupName": "Atlantic West Africa"
   },
   "GNB": {
     "isoAlpha3": "GNB",
@@ -1072,7 +1204,9 @@
     "hdiYear": 2023,
     "ihdi": 0.331,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "atlantic-west-africa",
+    "groupName": "Atlantic West Africa"
   },
   "GNQ": {
     "isoAlpha3": "GNQ",
@@ -1088,7 +1222,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.525
+    "ihdiEstimate": 0.525,
+    "groupId": "central-african-coast",
+    "groupName": "Central African Coast"
   },
   "GRC": {
     "isoAlpha3": "GRC",
@@ -1104,7 +1240,9 @@
     "hdiYear": 2023,
     "ihdi": 0.825,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southeastern-europe",
+    "groupName": "Southeastern Europe"
   },
   "GRD": {
     "isoAlpha3": "GRD",
@@ -1120,7 +1258,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.669
+    "ihdiEstimate": 0.669,
+    "groupId": "southern-caribbean",
+    "groupName": "Southern Caribbean"
   },
   "GTM": {
     "isoAlpha3": "GTM",
@@ -1136,7 +1276,9 @@
     "hdiYear": 2023,
     "ihdi": 0.479,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-central-america",
+    "groupName": "Northern Central America"
   },
   "GUY": {
     "isoAlpha3": "GUY",
@@ -1152,7 +1294,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.651
+    "ihdiEstimate": 0.651,
+    "groupId": "northern-south-america",
+    "groupName": "Northern South America"
   },
   "HND": {
     "isoAlpha3": "HND",
@@ -1168,7 +1312,9 @@
     "hdiYear": 2023,
     "ihdi": 0.496,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-central-america",
+    "groupName": "Northern Central America"
   },
   "HRV": {
     "isoAlpha3": "HRV",
@@ -1184,7 +1330,9 @@
     "hdiYear": 2023,
     "ihdi": 0.828,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "HTI": {
     "isoAlpha3": "HTI",
@@ -1200,7 +1348,9 @@
     "hdiYear": 2023,
     "ihdi": 0.337,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "greater-antilles-bahamas",
+    "groupName": "Greater Antilles & Bahamas"
   },
   "HUN": {
     "isoAlpha3": "HUN",
@@ -1216,7 +1366,9 @@
     "hdiYear": 2023,
     "ihdi": 0.819,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "visegrad",
+    "groupName": "Visegrád Group"
   },
   "IDN": {
     "isoAlpha3": "IDN",
@@ -1232,7 +1384,9 @@
     "hdiYear": 2023,
     "ihdi": 0.608,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maritime-southeast-asia",
+    "groupName": "Maritime Southeast Asia"
   },
   "IND": {
     "isoAlpha3": "IND",
@@ -1248,7 +1402,9 @@
     "hdiYear": 2023,
     "ihdi": 0.475,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-subcontinent",
+    "groupName": "Indian Subcontinent"
   },
   "IRL": {
     "isoAlpha3": "IRL",
@@ -1264,7 +1420,9 @@
     "hdiYear": 2023,
     "ihdi": 0.886,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-atlantic-islands",
+    "groupName": "North Atlantic Islands"
   },
   "IRN": {
     "isoAlpha3": "IRN",
@@ -1280,7 +1438,9 @@
     "hdiYear": 2023,
     "ihdi": 0.643,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-middle-east",
+    "groupName": "Northern Middle East"
   },
   "IRQ": {
     "isoAlpha3": "IRQ",
@@ -1296,7 +1456,9 @@
     "hdiYear": 2023,
     "ihdi": 0.534,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-middle-east",
+    "groupName": "Northern Middle East"
   },
   "ISL": {
     "isoAlpha3": "ISL",
@@ -1312,7 +1474,9 @@
     "hdiYear": 2023,
     "ihdi": 0.923,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-atlantic-islands",
+    "groupName": "North Atlantic Islands"
   },
   "ISR": {
     "isoAlpha3": "ISR",
@@ -1328,7 +1492,9 @@
     "hdiYear": 2023,
     "ihdi": 0.813,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "levant",
+    "groupName": "Levant"
   },
   "ITA": {
     "isoAlpha3": "ITA",
@@ -1344,7 +1510,9 @@
     "hdiYear": 2023,
     "ihdi": 0.817,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "italy-malta",
+    "groupName": "Italian Peninsula & Malta"
   },
   "JAM": {
     "isoAlpha3": "JAM",
@@ -1360,7 +1528,9 @@
     "hdiYear": 2023,
     "ihdi": 0.59,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "greater-antilles-bahamas",
+    "groupName": "Greater Antilles & Bahamas"
   },
   "JOR": {
     "isoAlpha3": "JOR",
@@ -1376,7 +1546,9 @@
     "hdiYear": 2023,
     "ihdi": 0.637,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "levant",
+    "groupName": "Levant"
   },
   "JPN": {
     "isoAlpha3": "JPN",
@@ -1392,7 +1564,9 @@
     "hdiYear": 2023,
     "ihdi": 0.845,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-asia",
+    "groupName": "East Asia"
   },
   "KAZ": {
     "isoAlpha3": "KAZ",
@@ -1408,7 +1582,9 @@
     "hdiYear": 2023,
     "ihdi": 0.766,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-asian-steppe",
+    "groupName": "Central Asian Steppe"
   },
   "KEN": {
     "isoAlpha3": "KEN",
@@ -1424,7 +1600,9 @@
     "hdiYear": 2023,
     "ihdi": 0.456,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-africa",
+    "groupName": "East Africa"
   },
   "KGZ": {
     "isoAlpha3": "KGZ",
@@ -1440,7 +1618,9 @@
     "hdiYear": 2023,
     "ihdi": 0.649,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-asian-steppe",
+    "groupName": "Central Asian Steppe"
   },
   "KHM": {
     "isoAlpha3": "KHM",
@@ -1456,7 +1636,9 @@
     "hdiYear": 2023,
     "ihdi": 0.444,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mainland-southeast-asia",
+    "groupName": "Mainland Southeast Asia"
   },
   "KIR": {
     "isoAlpha3": "KIR",
@@ -1472,7 +1654,9 @@
     "hdiYear": 2023,
     "ihdi": 0.535,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "micronesia",
+    "groupName": "Micronesia"
   },
   "KNA": {
     "isoAlpha3": "KNA",
@@ -1488,7 +1672,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.73
+    "ihdiEstimate": 0.73,
+    "groupId": "leeward-islands",
+    "groupName": "Leeward Islands"
   },
   "KOR": {
     "isoAlpha3": "KOR",
@@ -1504,7 +1690,9 @@
     "hdiYear": 2023,
     "ihdi": 0.857,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-asia",
+    "groupName": "East Asia"
   },
   "KWT": {
     "isoAlpha3": "KWT",
@@ -1520,7 +1708,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.745
+    "ihdiEstimate": 0.745,
+    "groupId": "gulf-states",
+    "groupName": "Gulf States"
   },
   "LAO": {
     "isoAlpha3": "LAO",
@@ -1536,7 +1726,9 @@
     "hdiYear": 2023,
     "ihdi": 0.462,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mainland-southeast-asia",
+    "groupName": "Mainland Southeast Asia"
   },
   "LBN": {
     "isoAlpha3": "LBN",
@@ -1552,7 +1744,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.621
+    "ihdiEstimate": 0.621,
+    "groupId": "levant",
+    "groupName": "Levant"
   },
   "LBR": {
     "isoAlpha3": "LBR",
@@ -1568,7 +1762,9 @@
     "hdiYear": 2023,
     "ihdi": 0.326,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "upper-guinea-coast",
+    "groupName": "Upper Guinea Coast"
   },
   "LBY": {
     "isoAlpha3": "LBY",
@@ -1584,7 +1780,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.583
+    "ihdiEstimate": 0.583,
+    "groupId": "maghreb",
+    "groupName": "Maghreb"
   },
   "LCA": {
     "isoAlpha3": "LCA",
@@ -1600,7 +1798,9 @@
     "hdiYear": 2023,
     "ihdi": 0.523,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-caribbean",
+    "groupName": "Southern Caribbean"
   },
   "LIE": {
     "isoAlpha3": "LIE",
@@ -1616,7 +1816,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.851
+    "ihdiEstimate": 0.851,
+    "groupId": "german-speaking-europe",
+    "groupName": "German-speaking Europe"
   },
   "LKA": {
     "isoAlpha3": "LKA",
@@ -1633,7 +1835,9 @@
     "hdiYear": 2023,
     "ihdi": 0.63,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-ocean-islands",
+    "groupName": "Indian Ocean Islands"
   },
   "LSO": {
     "isoAlpha3": "LSO",
@@ -1649,7 +1853,9 @@
     "hdiYear": 2023,
     "ihdi": 0.357,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-africa",
+    "groupName": "Southern Africa"
   },
   "LTU": {
     "isoAlpha3": "LTU",
@@ -1665,7 +1871,9 @@
     "hdiYear": 2023,
     "ihdi": 0.812,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "baltic-states",
+    "groupName": "Baltic States"
   },
   "LUX": {
     "isoAlpha3": "LUX",
@@ -1681,7 +1889,9 @@
     "hdiYear": 2023,
     "ihdi": 0.838,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "western-europe",
+    "groupName": "Western Europe"
   },
   "LVA": {
     "isoAlpha3": "LVA",
@@ -1697,7 +1907,9 @@
     "hdiYear": 2023,
     "ihdi": 0.812,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "baltic-states",
+    "groupName": "Baltic States"
   },
   "MAR": {
     "isoAlpha3": "MAR",
@@ -1713,7 +1925,9 @@
     "hdiYear": 2023,
     "ihdi": 0.517,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maghreb",
+    "groupName": "Maghreb"
   },
   "MCO": {
     "isoAlpha3": "MCO",
@@ -1729,7 +1943,9 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "western-europe",
+    "groupName": "Western Europe"
   },
   "MDA": {
     "isoAlpha3": "MDA",
@@ -1745,7 +1961,9 @@
     "hdiYear": 2023,
     "ihdi": 0.719,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-europe",
+    "groupName": "Eastern Europe"
   },
   "MDG": {
     "isoAlpha3": "MDG",
@@ -1761,7 +1979,9 @@
     "hdiYear": 2023,
     "ihdi": 0.319,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mozambique-channel",
+    "groupName": "Mozambique Channel"
   },
   "MDV": {
     "isoAlpha3": "MDV",
@@ -1777,7 +1997,9 @@
     "hdiYear": 2023,
     "ihdi": 0.602,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-ocean-islands",
+    "groupName": "Indian Ocean Islands"
   },
   "MEX": {
     "isoAlpha3": "MEX",
@@ -1793,7 +2015,9 @@
     "hdiYear": 2023,
     "ihdi": 0.646,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-america",
+    "groupName": "North America"
   },
   "MHL": {
     "isoAlpha3": "MHL",
@@ -1809,7 +2033,9 @@
     "hdiYear": 2023,
     "ihdi": 0.626,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "micronesia",
+    "groupName": "Micronesia"
   },
   "MKD": {
     "isoAlpha3": "MKD",
@@ -1825,7 +2051,9 @@
     "hdiYear": 2023,
     "ihdi": 0.723,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southeastern-europe",
+    "groupName": "Southeastern Europe"
   },
   "MLI": {
     "isoAlpha3": "MLI",
@@ -1841,7 +2069,9 @@
     "hdiYear": 2023,
     "ihdi": 0.281,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "sahel",
+    "groupName": "Sahel"
   },
   "MLT": {
     "isoAlpha3": "MLT",
@@ -1857,7 +2087,9 @@
     "hdiYear": 2023,
     "ihdi": 0.843,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "italy-malta",
+    "groupName": "Italian Peninsula & Malta"
   },
   "MMR": {
     "isoAlpha3": "MMR",
@@ -1873,7 +2105,9 @@
     "hdiYear": 2023,
     "ihdi": 0.477,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mainland-southeast-asia",
+    "groupName": "Mainland Southeast Asia"
   },
   "MNE": {
     "isoAlpha3": "MNE",
@@ -1889,7 +2123,9 @@
     "hdiYear": 2023,
     "ihdi": 0.771,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "MNG": {
     "isoAlpha3": "MNG",
@@ -1905,7 +2141,9 @@
     "hdiYear": 2023,
     "ihdi": 0.647,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-asian-steppe",
+    "groupName": "Central Asian Steppe"
   },
   "MOZ": {
     "isoAlpha3": "MOZ",
@@ -1921,7 +2159,9 @@
     "hdiYear": 2023,
     "ihdi": 0.297,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mozambique-channel",
+    "groupName": "Mozambique Channel"
   },
   "MRT": {
     "isoAlpha3": "MRT",
@@ -1937,7 +2177,9 @@
     "hdiYear": 2023,
     "ihdi": 0.374,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maghreb",
+    "groupName": "Maghreb"
   },
   "MUS": {
     "isoAlpha3": "MUS",
@@ -1953,7 +2195,9 @@
     "hdiYear": 2023,
     "ihdi": 0.669,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-ocean-islands",
+    "groupName": "Indian Ocean Islands"
   },
   "MWI": {
     "isoAlpha3": "MWI",
@@ -1969,7 +2213,9 @@
     "hdiYear": 2023,
     "ihdi": 0.365,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "south-central-africa",
+    "groupName": "South-Central Africa"
   },
   "MYS": {
     "isoAlpha3": "MYS",
@@ -1986,7 +2232,9 @@
     "hdiYear": 2023,
     "ihdi": 0.707,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "malay-peninsula-borneo",
+    "groupName": "Malay Peninsula & Borneo"
   },
   "NAM": {
     "isoAlpha3": "NAM",
@@ -2002,7 +2250,9 @@
     "hdiYear": 2023,
     "ihdi": 0.438,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-africa",
+    "groupName": "Southern Africa"
   },
   "NER": {
     "isoAlpha3": "NER",
@@ -2018,7 +2268,9 @@
     "hdiYear": 2023,
     "ihdi": 0.265,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "sahel",
+    "groupName": "Sahel"
   },
   "NGA": {
     "isoAlpha3": "NGA",
@@ -2034,7 +2286,9 @@
     "hdiYear": 2023,
     "ihdi": 0.379,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "gulf-of-guinea",
+    "groupName": "Gulf of Guinea"
   },
   "NIC": {
     "isoAlpha3": "NIC",
@@ -2050,7 +2304,9 @@
     "hdiYear": 2023,
     "ihdi": 0.535,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-central-america",
+    "groupName": "Southern Central America"
   },
   "NLD": {
     "isoAlpha3": "NLD",
@@ -2067,7 +2323,9 @@
     "hdiYear": 2023,
     "ihdi": 0.892,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "western-europe",
+    "groupName": "Western Europe"
   },
   "NOR": {
     "isoAlpha3": "NOR",
@@ -2083,7 +2341,9 @@
     "hdiYear": 2023,
     "ihdi": 0.909,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nordic",
+    "groupName": "Nordic Countries"
   },
   "NPL": {
     "isoAlpha3": "NPL",
@@ -2099,7 +2359,9 @@
     "hdiYear": 2023,
     "ihdi": 0.437,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-subcontinent",
+    "groupName": "Indian Subcontinent"
   },
   "NRU": {
     "isoAlpha3": "NRU",
@@ -2115,7 +2377,9 @@
     "hdiYear": 2023,
     "ihdi": 0.599,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "micronesia",
+    "groupName": "Micronesia"
   },
   "NZL": {
     "isoAlpha3": "NZL",
@@ -2131,7 +2395,9 @@
     "hdiYear": 2023,
     "ihdi": 0.853,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "australasia",
+    "groupName": "Australasia"
   },
   "OMN": {
     "isoAlpha3": "OMN",
@@ -2147,7 +2413,9 @@
     "hdiYear": 2023,
     "ihdi": 0.75,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "arabian-peninsula",
+    "groupName": "Arabian Peninsula"
   },
   "PAK": {
     "isoAlpha3": "PAK",
@@ -2163,7 +2431,9 @@
     "hdiYear": 2023,
     "ihdi": 0.364,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-subcontinent",
+    "groupName": "Indian Subcontinent"
   },
   "PAN": {
     "isoAlpha3": "PAN",
@@ -2179,7 +2449,9 @@
     "hdiYear": 2023,
     "ihdi": 0.664,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-central-america",
+    "groupName": "Southern Central America"
   },
   "PER": {
     "isoAlpha3": "PER",
@@ -2195,7 +2467,9 @@
     "hdiYear": 2023,
     "ihdi": 0.633,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "andes",
+    "groupName": "Andean Countries"
   },
   "PHL": {
     "isoAlpha3": "PHL",
@@ -2211,7 +2485,9 @@
     "hdiYear": 2023,
     "ihdi": 0.597,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maritime-southeast-asia",
+    "groupName": "Maritime Southeast Asia"
   },
   "PLW": {
     "isoAlpha3": "PLW",
@@ -2227,7 +2503,9 @@
     "hdiYear": 2023,
     "ihdi": 0.616,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "micronesia",
+    "groupName": "Micronesia"
   },
   "PNG": {
     "isoAlpha3": "PNG",
@@ -2243,7 +2521,9 @@
     "hdiYear": 2023,
     "ihdi": 0.423,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "australasia",
+    "groupName": "Australasia"
   },
   "POL": {
     "isoAlpha3": "POL",
@@ -2259,7 +2539,9 @@
     "hdiYear": 2023,
     "ihdi": 0.817,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "visegrad",
+    "groupName": "Visegrád Group"
   },
   "PRK": {
     "isoAlpha3": "PRK",
@@ -2275,7 +2557,9 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-asia",
+    "groupName": "East Asia"
   },
   "PRT": {
     "isoAlpha3": "PRT",
@@ -2291,7 +2575,9 @@
     "hdiYear": 2023,
     "ihdi": 0.795,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "iberia",
+    "groupName": "Iberian Peninsula"
   },
   "PRY": {
     "isoAlpha3": "PRY",
@@ -2307,7 +2593,9 @@
     "hdiYear": 2023,
     "ihdi": 0.599,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-south-america",
+    "groupName": "Eastern South America"
   },
   "PSE": {
     "isoAlpha3": "PSE",
@@ -2323,7 +2611,9 @@
     "hdiYear": 2023,
     "ihdi": 0.538,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "levant",
+    "groupName": "Levant"
   },
   "QAT": {
     "isoAlpha3": "QAT",
@@ -2339,7 +2629,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.787
+    "ihdiEstimate": 0.787,
+    "groupId": "gulf-states",
+    "groupName": "Gulf States"
   },
   "ROU": {
     "isoAlpha3": "ROU",
@@ -2355,7 +2647,9 @@
     "hdiYear": 2023,
     "ihdi": 0.758,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-europe",
+    "groupName": "Eastern Europe"
   },
   "RUS": {
     "isoAlpha3": "RUS",
@@ -2371,7 +2665,9 @@
     "hdiYear": 2023,
     "ihdi": 0.758,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-europe",
+    "groupName": "Eastern Europe"
   },
   "RWA": {
     "isoAlpha3": "RWA",
@@ -2387,7 +2683,9 @@
     "hdiYear": 2023,
     "ihdi": 0.399,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-africa",
+    "groupName": "East Africa"
   },
   "SAU": {
     "isoAlpha3": "SAU",
@@ -2403,7 +2701,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.804
+    "ihdiEstimate": 0.804,
+    "groupId": "arabian-peninsula",
+    "groupName": "Arabian Peninsula"
   },
   "SDN": {
     "isoAlpha3": "SDN",
@@ -2419,7 +2719,9 @@
     "hdiYear": 2023,
     "ihdi": 0.328,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nile-valley",
+    "groupName": "Nile Valley"
   },
   "SEN": {
     "isoAlpha3": "SEN",
@@ -2435,7 +2737,9 @@
     "hdiYear": 2023,
     "ihdi": 0.34,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "atlantic-west-africa",
+    "groupName": "Atlantic West Africa"
   },
   "SGP": {
     "isoAlpha3": "SGP",
@@ -2451,7 +2755,9 @@
     "hdiYear": 2023,
     "ihdi": 0.823,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "malay-peninsula-borneo",
+    "groupName": "Malay Peninsula & Borneo"
   },
   "SLB": {
     "isoAlpha3": "SLB",
@@ -2467,7 +2773,9 @@
     "hdiYear": 2023,
     "ihdi": 0.483,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "melanesia",
+    "groupName": "Melanesia"
   },
   "SLE": {
     "isoAlpha3": "SLE",
@@ -2483,7 +2791,9 @@
     "hdiYear": 2023,
     "ihdi": 0.281,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "upper-guinea-coast",
+    "groupName": "Upper Guinea Coast"
   },
   "SLV": {
     "isoAlpha3": "SLV",
@@ -2499,7 +2809,9 @@
     "hdiYear": 2023,
     "ihdi": 0.555,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-central-america",
+    "groupName": "Northern Central America"
   },
   "SMR": {
     "isoAlpha3": "SMR",
@@ -2515,7 +2827,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.823
+    "ihdiEstimate": 0.823,
+    "groupId": "italy-malta",
+    "groupName": "Italian Peninsula & Malta"
   },
   "SOM": {
     "isoAlpha3": "SOM",
@@ -2531,7 +2845,9 @@
     "hdiYear": 2023,
     "ihdi": 0.229,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "horn-of-africa",
+    "groupName": "Horn of Africa"
   },
   "SRB": {
     "isoAlpha3": "SRB",
@@ -2547,7 +2863,9 @@
     "hdiYear": 2023,
     "ihdi": 0.772,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "SSD": {
     "isoAlpha3": "SSD",
@@ -2563,7 +2881,9 @@
     "hdiYear": 2023,
     "ihdi": 0.226,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nile-valley",
+    "groupName": "Nile Valley"
   },
   "STP": {
     "isoAlpha3": "STP",
@@ -2579,7 +2899,9 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "central-african-coast",
+    "groupName": "Central African Coast"
   },
   "SUR": {
     "isoAlpha3": "SUR",
@@ -2595,7 +2917,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.584
+    "ihdiEstimate": 0.584,
+    "groupId": "northern-south-america",
+    "groupName": "Northern South America"
   },
   "SVK": {
     "isoAlpha3": "SVK",
@@ -2611,7 +2935,9 @@
     "hdiYear": 2023,
     "ihdi": 0.833,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "visegrad",
+    "groupName": "Visegrád Group"
   },
   "SVN": {
     "isoAlpha3": "SVN",
@@ -2627,7 +2953,9 @@
     "hdiYear": 2023,
     "ihdi": 0.885,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "SWE": {
     "isoAlpha3": "SWE",
@@ -2643,7 +2971,9 @@
     "hdiYear": 2023,
     "ihdi": 0.886,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "nordic",
+    "groupName": "Nordic Countries"
   },
   "SWZ": {
     "isoAlpha3": "SWZ",
@@ -2660,7 +2990,9 @@
     "hdiYear": 2023,
     "ihdi": 0.431,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-africa",
+    "groupName": "Southern Africa"
   },
   "SYC": {
     "isoAlpha3": "SYC",
@@ -2676,7 +3008,9 @@
     "hdiYear": 2023,
     "ihdi": 0.755,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "indian-ocean-islands",
+    "groupName": "Indian Ocean Islands"
   },
   "SYR": {
     "isoAlpha3": "SYR",
@@ -2692,7 +3026,9 @@
     "hdiYear": 2023,
     "ihdi": 0.419,
     "ihdiYear": 2015,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "levant",
+    "groupName": "Levant"
   },
   "TCD": {
     "isoAlpha3": "TCD",
@@ -2708,7 +3044,9 @@
     "hdiYear": 2023,
     "ihdi": 0.252,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "sahel",
+    "groupName": "Sahel"
   },
   "TGO": {
     "isoAlpha3": "TGO",
@@ -2724,7 +3062,9 @@
     "hdiYear": 2023,
     "ihdi": 0.363,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "gulf-of-guinea",
+    "groupName": "Gulf of Guinea"
   },
   "THA": {
     "isoAlpha3": "THA",
@@ -2740,7 +3080,9 @@
     "hdiYear": 2023,
     "ihdi": 0.677,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mainland-southeast-asia",
+    "groupName": "Mainland Southeast Asia"
   },
   "TJK": {
     "isoAlpha3": "TJK",
@@ -2756,7 +3098,9 @@
     "hdiYear": 2023,
     "ihdi": 0.594,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-central-asia",
+    "groupName": "Southern Central Asia"
   },
   "TKM": {
     "isoAlpha3": "TKM",
@@ -2772,7 +3116,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.636
+    "ihdiEstimate": 0.636,
+    "groupId": "southern-central-asia",
+    "groupName": "Southern Central Asia"
   },
   "TLS": {
     "isoAlpha3": "TLS",
@@ -2788,7 +3134,9 @@
     "hdiYear": 2023,
     "ihdi": 0.451,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maritime-southeast-asia",
+    "groupName": "Maritime Southeast Asia"
   },
   "TON": {
     "isoAlpha3": "TON",
@@ -2804,7 +3152,9 @@
     "hdiYear": 2023,
     "ihdi": 0.682,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "polynesia",
+    "groupName": "Polynesia"
   },
   "TTO": {
     "isoAlpha3": "TTO",
@@ -2820,7 +3170,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.689
+    "ihdiEstimate": 0.689,
+    "groupId": "southern-caribbean",
+    "groupName": "Southern Caribbean"
   },
   "TUN": {
     "isoAlpha3": "TUN",
@@ -2836,7 +3188,9 @@
     "hdiYear": 2023,
     "ihdi": 0.595,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "maghreb",
+    "groupName": "Maghreb"
   },
   "TUR": {
     "isoAlpha3": "TUR",
@@ -2852,7 +3206,9 @@
     "hdiYear": 2023,
     "ihdi": 0.708,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-middle-east",
+    "groupName": "Northern Middle East"
   },
   "TUV": {
     "isoAlpha3": "TUV",
@@ -2868,7 +3224,9 @@
     "hdiYear": 2023,
     "ihdi": 0.578,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "polynesia",
+    "groupName": "Polynesia"
   },
   "TZA": {
     "isoAlpha3": "TZA",
@@ -2884,7 +3242,9 @@
     "hdiYear": 2023,
     "ihdi": 0.391,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-africa",
+    "groupName": "East Africa"
   },
   "UGA": {
     "isoAlpha3": "UGA",
@@ -2900,7 +3260,9 @@
     "hdiYear": 2023,
     "ihdi": 0.4,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "east-africa",
+    "groupName": "East Africa"
   },
   "UKR": {
     "isoAlpha3": "UKR",
@@ -2916,7 +3278,9 @@
     "hdiYear": 2023,
     "ihdi": 0.715,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-europe",
+    "groupName": "Eastern Europe"
   },
   "URY": {
     "isoAlpha3": "URY",
@@ -2932,7 +3296,9 @@
     "hdiYear": 2023,
     "ihdi": 0.747,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "eastern-south-america",
+    "groupName": "Eastern South America"
   },
   "USA": {
     "isoAlpha3": "USA",
@@ -2948,7 +3314,9 @@
     "hdiYear": 2023,
     "ihdi": 0.832,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "north-america",
+    "groupName": "North America"
   },
   "UZB": {
     "isoAlpha3": "UZB",
@@ -2964,7 +3332,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.606
+    "ihdiEstimate": 0.606,
+    "groupId": "southern-central-asia",
+    "groupName": "Southern Central Asia"
   },
   "VAT": {
     "isoAlpha3": "VAT",
@@ -2980,7 +3350,9 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "italy-malta",
+    "groupName": "Italian Peninsula & Malta"
   },
   "VCT": {
     "isoAlpha3": "VCT",
@@ -2996,7 +3368,9 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
-    "ihdiEstimate": 0.678
+    "ihdiEstimate": 0.678,
+    "groupId": "southern-caribbean",
+    "groupName": "Southern Caribbean"
   },
   "VEN": {
     "isoAlpha3": "VEN",
@@ -3012,7 +3386,9 @@
     "hdiYear": 2023,
     "ihdi": 0.605,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "northern-south-america",
+    "groupName": "Northern South America"
   },
   "VNM": {
     "isoAlpha3": "VNM",
@@ -3028,7 +3404,9 @@
     "hdiYear": 2023,
     "ihdi": 0.641,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "mainland-southeast-asia",
+    "groupName": "Mainland Southeast Asia"
   },
   "VUT": {
     "isoAlpha3": "VUT",
@@ -3044,7 +3422,9 @@
     "hdiYear": 2023,
     "ihdi": 0.521,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "melanesia",
+    "groupName": "Melanesia"
   },
   "WSM": {
     "isoAlpha3": "WSM",
@@ -3060,7 +3440,9 @@
     "hdiYear": 2023,
     "ihdi": 0.609,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "polynesia",
+    "groupName": "Polynesia"
   },
   "YEM": {
     "isoAlpha3": "YEM",
@@ -3076,7 +3458,9 @@
     "hdiYear": 2023,
     "ihdi": 0.325,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "arabian-peninsula",
+    "groupName": "Arabian Peninsula"
   },
   "ZAF": {
     "isoAlpha3": "ZAF",
@@ -3094,7 +3478,9 @@
     "hdiYear": 2023,
     "ihdi": 0.476,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "southern-africa",
+    "groupName": "Southern Africa"
   },
   "ZMB": {
     "isoAlpha3": "ZMB",
@@ -3110,7 +3496,9 @@
     "hdiYear": 2023,
     "ihdi": 0.361,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "south-central-africa",
+    "groupName": "South-Central Africa"
   },
   "ZWE": {
     "isoAlpha3": "ZWE",
@@ -3126,6 +3514,8 @@
     "hdiYear": 2023,
     "ihdi": 0.406,
     "ihdiYear": 2023,
-    "ihdiEstimate": null
+    "ihdiEstimate": null,
+    "groupId": "south-central-africa",
+    "groupName": "South-Central Africa"
   }
 }

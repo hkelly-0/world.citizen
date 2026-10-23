@@ -26,6 +26,10 @@ export type CountryFacts = {
   // Our own estimate of the IHDI, worked out from the HDI, for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
+  // The group of 3 to 5 similar neighbouring countries this one belongs to,
+  // hand-written in countryGroups.json. Not yet used anywhere in the app.
+  groupId: string
+  groupName: string
 }
 
 // All 195 countries (193 UN members + Vatican City and Palestine), keyed by

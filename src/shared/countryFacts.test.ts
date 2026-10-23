@@ -64,6 +64,21 @@ describe('countryFacts', () => {
     }
   })
 
+  it('puts every country in a group of 3 to 5, with one name per group', () => {
+    const groupSizes: Record<string, number> = {}
+    const groupNames: Record<string, string> = {}
+    for (const country of countries) {
+      groupSizes[country.groupId] = (groupSizes[country.groupId] ?? 0) + 1
+      groupNames[country.groupId] ??= country.groupName
+      expect(country.groupName).toBe(groupNames[country.groupId])
+    }
+    for (const size of Object.values(groupSizes)) {
+      expect(size).toBeGreaterThanOrEqual(3)
+      expect(size).toBeLessThanOrEqual(5)
+    }
+    expect(countryFacts['NOR']?.groupName).toBe('Nordic Countries')
+  })
+
   it('lists several capitals for countries that have them', () => {
     expect(countryFacts['ZAF']?.capitals).toEqual(['Pretoria', 'Bloemfontein', 'Cape Town'])
     expect(countryFacts['BOL']?.capitals).toEqual(['Sucre', 'La Paz'])

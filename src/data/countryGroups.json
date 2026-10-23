@@ -1,0 +1,156 @@
+[
+  { "id": "north-america", "name": "North America", "countries": ["CAN", "USA", "MEX"] },
+  {
+    "id": "northern-central-america",
+    "name": "Northern Central America",
+    "countries": ["GTM", "BLZ", "HND", "SLV"]
+  },
+  {
+    "id": "southern-central-america",
+    "name": "Southern Central America",
+    "countries": ["NIC", "CRI", "PAN"]
+  },
+  {
+    "id": "greater-antilles-bahamas",
+    "name": "Greater Antilles & Bahamas",
+    "countries": ["CUB", "JAM", "HTI", "DOM", "BHS"]
+  },
+  { "id": "leeward-islands", "name": "Leeward Islands", "countries": ["ATG", "KNA", "DMA"] },
+  {
+    "id": "southern-caribbean",
+    "name": "Southern Caribbean",
+    "countries": ["LCA", "VCT", "GRD", "BRB", "TTO"]
+  },
+  {
+    "id": "northern-south-america",
+    "name": "Northern South America",
+    "countries": ["COL", "VEN", "GUY", "SUR"]
+  },
+  { "id": "andes", "name": "Andean Countries", "countries": ["ECU", "PER", "BOL", "CHL"] },
+  {
+    "id": "eastern-south-america",
+    "name": "Eastern South America",
+    "countries": ["BRA", "PRY", "URY", "ARG"]
+  },
+  { "id": "nordic", "name": "Nordic Countries", "countries": ["DNK", "NOR", "SWE", "FIN"] },
+  {
+    "id": "north-atlantic-islands",
+    "name": "North Atlantic Islands",
+    "countries": ["GBR", "IRL", "ISL"]
+  },
+  { "id": "baltic-states", "name": "Baltic States", "countries": ["EST", "LVA", "LTU"] },
+  {
+    "id": "western-europe",
+    "name": "Western Europe",
+    "countries": ["FRA", "BEL", "NLD", "LUX", "MCO"]
+  },
+  {
+    "id": "german-speaking-europe",
+    "name": "German-speaking Europe",
+    "countries": ["DEU", "AUT", "CHE", "LIE"]
+  },
+  {
+    "id": "italy-malta",
+    "name": "Italian Peninsula & Malta",
+    "countries": ["ITA", "SMR", "VAT", "MLT"]
+  },
+  { "id": "iberia", "name": "Iberian Peninsula", "countries": ["ESP", "PRT", "AND"] },
+  { "id": "visegrad", "name": "Visegrád Group", "countries": ["POL", "CZE", "SVK", "HUN"] },
+  {
+    "id": "former-yugoslavia",
+    "name": "Former Yugoslavia",
+    "countries": ["SVN", "HRV", "BIH", "SRB", "MNE"]
+  },
+  {
+    "id": "southeastern-europe",
+    "name": "Southeastern Europe",
+    "countries": ["MKD", "ALB", "GRC", "BGR", "CYP"]
+  },
+  {
+    "id": "eastern-europe",
+    "name": "Eastern Europe",
+    "countries": ["RUS", "BLR", "UKR", "MDA", "ROU"]
+  },
+  { "id": "caucasus", "name": "Caucasus", "countries": ["GEO", "ARM", "AZE"] },
+  {
+    "id": "northern-middle-east",
+    "name": "Northern Middle East",
+    "countries": ["TUR", "IRQ", "IRN"]
+  },
+  { "id": "levant", "name": "Levant", "countries": ["ISR", "PSE", "LBN", "SYR", "JOR"] },
+  { "id": "gulf-states", "name": "Gulf States", "countries": ["KWT", "BHR", "QAT", "ARE"] },
+  { "id": "arabian-peninsula", "name": "Arabian Peninsula", "countries": ["SAU", "OMN", "YEM"] },
+  {
+    "id": "southern-central-asia",
+    "name": "Southern Central Asia",
+    "countries": ["UZB", "TKM", "TJK", "AFG"]
+  },
+  { "id": "central-asian-steppe", "name": "Central Asian Steppe", "countries": ["KAZ", "KGZ", "MNG"] },
+  { "id": "east-asia", "name": "East Asia", "countries": ["CHN", "JPN", "KOR", "PRK"] },
+  {
+    "id": "indian-subcontinent",
+    "name": "Indian Subcontinent",
+    "countries": ["IND", "PAK", "BGD", "NPL", "BTN"]
+  },
+  {
+    "id": "indian-ocean-islands",
+    "name": "Indian Ocean Islands",
+    "countries": ["LKA", "MDV", "MUS", "SYC"]
+  },
+  {
+    "id": "mainland-southeast-asia",
+    "name": "Mainland Southeast Asia",
+    "countries": ["MMR", "THA", "LAO", "KHM", "VNM"]
+  },
+  {
+    "id": "malay-peninsula-borneo",
+    "name": "Malay Peninsula & Borneo",
+    "countries": ["MYS", "SGP", "BRN"]
+  },
+  {
+    "id": "maritime-southeast-asia",
+    "name": "Maritime Southeast Asia",
+    "countries": ["IDN", "PHL", "TLS"]
+  },
+  { "id": "australasia", "name": "Australasia", "countries": ["AUS", "NZL", "PNG"] },
+  { "id": "melanesia", "name": "Melanesia", "countries": ["FJI", "SLB", "VUT"] },
+  { "id": "polynesia", "name": "Polynesia", "countries": ["WSM", "TON", "TUV"] },
+  {
+    "id": "micronesia",
+    "name": "Micronesia",
+    "countries": ["KIR", "NRU", "FSM", "MHL", "PLW"]
+  },
+  { "id": "maghreb", "name": "Maghreb", "countries": ["MAR", "DZA", "TUN", "LBY", "MRT"] },
+  { "id": "nile-valley", "name": "Nile Valley", "countries": ["EGY", "SDN", "SSD"] },
+  { "id": "horn-of-africa", "name": "Horn of Africa", "countries": ["ETH", "ERI", "DJI", "SOM"] },
+  { "id": "sahel", "name": "Sahel", "countries": ["MLI", "BFA", "NER", "TCD"] },
+  {
+    "id": "atlantic-west-africa",
+    "name": "Atlantic West Africa",
+    "countries": ["SEN", "GMB", "GNB", "GIN", "CPV"]
+  },
+  { "id": "upper-guinea-coast", "name": "Upper Guinea Coast", "countries": ["SLE", "LBR", "CIV"] },
+  { "id": "gulf-of-guinea", "name": "Gulf of Guinea", "countries": ["GHA", "TGO", "BEN", "NGA"] },
+  {
+    "id": "central-african-coast",
+    "name": "Central African Coast",
+    "countries": ["CMR", "GNQ", "GAB", "STP"]
+  },
+  { "id": "congo-basin", "name": "Congo Basin", "countries": ["CAF", "COG", "COD"] },
+  {
+    "id": "east-africa",
+    "name": "East Africa",
+    "countries": ["KEN", "UGA", "TZA", "RWA", "BDI"]
+  },
+  {
+    "id": "south-central-africa",
+    "name": "South-Central Africa",
+    "countries": ["AGO", "ZMB", "MWI", "ZWE"]
+  },
+  { "id": "mozambique-channel", "name": "Mozambique Channel", "countries": ["MOZ", "MDG", "COM"] },
+  {
+    "id": "southern-africa",
+    "name": "Southern Africa",
+    "countries": ["ZAF", "NAM", "BWA", "LSO", "SWZ"]
+  }
+]

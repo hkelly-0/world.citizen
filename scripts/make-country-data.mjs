@@ -2,6 +2,8 @@
 // observer states (Vatican City and Palestine), keyed by ISO alpha-3 code.
 // Run once from the project root; the generated file is bundled with the app.
 //
+// Each country's group comes from the hand-written src/data/countryGroups.json.
+//
 // Needs Node 24+ and these three source files, saved in the folder given as
 // the first argument:
 //   mledoze-countries.json   Names, capitals, total area (ODbL)
@@ -18,6 +20,7 @@ import { createGunzip } from 'node:zlib'
 import { join } from 'node:path'
 
 const OUTPUT = 'src/data/countries.json'
+const GROUPS = 'src/data/countryGroups.json'
 
 // UN observer states, included alongside the UN members.
 const OBSERVER_STATES = ['VAT', 'PSE']
@@ -158,12 +161,33 @@ console.log(
   `IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`,
 )
 
+// --- Country groups: every country in exactly one group of 3 to 5 ---
+const groups = JSON.parse(readFileSync(GROUPS, 'utf8'))
+const groupOf = {}
+for (const group of groups) {
+  if (group.countries.length < 3 || group.countries.length > 5) {
+    throw new Error(`Group ${group.id} has ${group.countries.length} countries, not 3 to 5`)
+  }
+  for (const code of group.countries) {
+    if (!selected.some((country) => country.cca3 === code)) {
+      throw new Error(`Group ${group.id} lists ${code}, which is not one of the 195`)
+    }
+    if (groupOf[code] !== undefined) {
+      throw new Error(`${code} is in both ${groupOf[code].id} and ${group.id}`)
+    }
+    groupOf[code] = group
+  }
+}
+
 // --- Join on ISO alpha-3, sorted by code so diffs stay stable ---
 const countries = {}
 for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
   const code = country.cca3
   if (populations[code] === undefined) {
     throw new Error(`No ${POPULATION_YEAR} population for ${code}`)
+  }
+  if (groupOf[code] === undefined) {
+    throw new Error(`${code} is not in any group in ${GROUPS}`)
   }
   const hdi = hdis[code] ?? null
   const ihdi = ihdis[code] ?? null
@@ -184,6 +208,8 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     ihdiYear: ihdi === null ? null : ihdi.year,
     // Only for countries with an HDI but no IHDI; null otherwise.
     ihdiEstimate: hdi !== null && ihdi === null ? estimateIhdi(hdi.value) : null,
+    groupId: groupOf[code].id,
+    groupName: groupOf[code].name,
   }
 }
 
