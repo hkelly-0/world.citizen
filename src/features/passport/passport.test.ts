@@ -9,6 +9,7 @@ import {
   collectedCountries,
   countryRecall,
   COUNTRY_COUNT,
+  isTooUnfamiliarForNewCountry,
   randomUnseenCountry,
   sortedCollectedCountries,
 } from './passport'
@@ -130,6 +131,20 @@ describe('averageRecall', () => {
   it('is null when no country has a given question answered', () => {
     expect(averageRecall({}, QUESTION_IDS, TODAY)).toBeNull()
     expect(averageRecall({ FRA: { capital: withStability(5) } }, ['globe'], TODAY)).toBeNull()
+  })
+})
+
+describe('isTooUnfamiliarForNewCountry', () => {
+  // Answered on TODAY: soon forgotten with a low stability, remembered with a high one.
+  const answeredToday = (stability: number) => ({ ...answered, stability, lastReview: TODAY, dueDate: addDays(TODAY, 1) })
+
+  it('is true when the seen countries are on average below 80% in 30 days', () => {
+    expect(isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(0.2) } }, ['globe'], TODAY)).toBe(true)
+    expect(isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(10000) } }, ['globe'], TODAY)).toBe(false)
+  })
+
+  it('is false when no country has been seen', () => {
+    expect(isTooUnfamiliarForNewCountry({}, QUESTION_IDS, TODAY)).toBe(false)
   })
 })
 

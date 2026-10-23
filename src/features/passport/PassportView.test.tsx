@@ -6,11 +6,19 @@ import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadPassportSort } from '../../shared/passportSort'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { addDays, todayString } from '../flashcards/dates'
 import { QUESTION_IDS } from '../flashcards/deck'
-import { randomUnseenCountry } from './passport'
+import { NEW_COUNTRY_WARNING, randomUnseenCountry } from './passport'
 import { PassportView } from './PassportView'
 
 const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
+
+// Answered today with a high stability, so well remembered in 30 days (no
+// warning before a new country), or a low one, so soon forgotten (a warning).
+function answeredToday(stability: number) {
+  const today = todayString()
+  return { ...answered, stability, lastReview: today, dueDate: addDays(today, 1) }
+}
 
 describe('PassportView', () => {
   beforeEach(() => localStorage.clear())
@@ -35,7 +43,7 @@ describe('PassportView', () => {
   })
 
   it("plays an unseen country's flashcard from the enlarged New country card", async () => {
-    saveProgress({ FRA: { globe: answered } })
+    saveProgress({ FRA: { globe: answeredToday(10000) } })
     vi.spyOn(Math, 'random').mockReturnValue(0)
     const onPlayFlashcard = vi.fn()
     render(
@@ -51,6 +59,25 @@ describe('PassportView', () => {
     expect(screen.getByText("Discover a country you haven't seen yet.")).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
     expect(onPlayFlashcard).toHaveBeenCalledWith(randomUnseenCountry(loadProgress(), () => 0))
+    expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')
+  })
+
+  it('warns on the New country card while the seen countries are unfamiliar', async () => {
+    saveProgress({ FRA: { globe: answeredToday(0.2) } })
+    const onPlayFlashcard = vi.fn()
+    render(
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        onBack={vi.fn()}
+        onPlayFlashcard={onPlayFlashcard}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    expect(screen.getByText(NEW_COUNTRY_WARNING)).toBeInTheDocument()
+    expect(screen.queryByText("Discover a country you haven't seen yet.")).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go anyways' }))
+    expect(onPlayFlashcard).toHaveBeenCalledTimes(1)
     expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')
   })
 

@@ -56,7 +56,7 @@ export function countryRecall(
 
 // How well the user knows the countries they have seen: the average of
 // `countryRecall` over every country with any of `questionIds` answered. Null
-// if there are none. Used to warn before a new country in the flashcards.
+// if there are none. Used to warn before a new country (`isTooUnfamiliarForNewCountry`).
 export function averageRecall(
   progress: DeckProgress,
   questionIds: QuestionId[],
@@ -67,6 +67,28 @@ export function averageRecall(
     .filter((recall) => recall !== null)
   if (recalls.length === 0) return null
   return recalls.reduce((sum, recall) => sum + recall, 0) / recalls.length
+}
+
+// Before a new country, the user is warned if the average chance of still
+// remembering the countries already seen 30 days from now (`averageRecall`) is
+// below this.
+const NEW_COUNTRY_WARNING_RECALL = 0.8
+
+// The warning shown before a new country, in the flashcards and on the
+// Passport's "New country" card.
+export const NEW_COUNTRY_WARNING =
+  "It's recommended to become familiar with the countries you've already seen before learning new ones."
+
+// Whether to warn before a new country: the countries already seen, for
+// `questionIds`, are less familiar than NEW_COUNTRY_WARNING_RECALL. Never when
+// none has been seen.
+export function isTooUnfamiliarForNewCountry(
+  progress: DeckProgress,
+  questionIds: QuestionId[],
+  today: string,
+): boolean {
+  const recall = averageRecall(progress, questionIds, today)
+  return recall !== null && recall < NEW_COUNTRY_WARNING_RECALL
 }
 
 // The countries in the Passport, sorted as chosen, with ties kept A–Z.

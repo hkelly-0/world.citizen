@@ -146,6 +146,17 @@
   background: rgba(255, 255, 255, 0.14);
 }
 
+/* "Go anyways", when the seen countries aren't familiar enough yet: in the red
+   of a wrong pick, like the flashcards' "Discover a new country anyways →". */
+.passport__play--warning {
+  border-color: #f85149;
+  background: rgba(248, 81, 73, 0.25);
+}
+
+.passport__play--warning:hover {
+  background: rgba(248, 81, 73, 0.4);
+}
+
 /* The "New country" card's plus, drawn in the grey of the quieter text. */
 .passport__plus {
   stroke: #a9b1c2;

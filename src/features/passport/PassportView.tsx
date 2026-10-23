@@ -10,6 +10,8 @@ import { RecallCircle } from './RecallCircle'
 import {
   countryRecall,
   COUNTRY_COUNT,
+  isTooUnfamiliarForNewCountry,
+  NEW_COUNTRY_WARNING,
   randomUnseenCountry,
   sortedCollectedCountries,
 } from './passport'
@@ -30,7 +32,8 @@ type PassportViewProps = {
 // their names and a ring showing how likely the user is to remember each in 30 days,
 // sorted alphabetically, by date discovered or by recall chance (the last choice is
 // remembered). It grows as they study. A "New country" card always comes last
-// (until all 195 are collected) and plays a random unseen country's flashcard.
+// (until all 195 are collected) and plays a random unseen country's flashcard;
+// it warns first if the countries already seen aren't familiar enough yet.
 export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
@@ -49,6 +52,9 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
 
   const openCountry = countries.find((country) => country.isoAlpha3 === openCode)
   const hasUnseenCountries = countries.length < COUNTRY_COUNT
+  // The same check as before a new country in the flashcards, for the
+  // questions chosen in Settings.
+  const warnBeforeNewCountry = isTooUnfamiliarForNewCountry(progress, learnedQuestionIds, today)
 
   // The "New country" card, after every country in the grid whatever the sort.
   const newCountryItem = hasUnseenCountries && (
@@ -157,16 +163,18 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
                 ×
               </button>
               <h2>New country</h2>
-              <p className="country-info-panel__note">Discover a country you haven't seen yet.</p>
+              <p className="country-info-panel__note">
+                {warnBeforeNewCountry ? NEW_COUNTRY_WARNING : "Discover a country you haven't seen yet."}
+              </p>
             </aside>
             <button
-              className="passport__play"
+              className={warnBeforeNewCountry ? 'passport__play passport__play--warning' : 'passport__play'}
               onClick={() => {
                 // Only shown while some country is unseen, so `!` is safe here.
                 onPlayFlashcard(randomUnseenCountry(progress)!)
               }}
             >
-              Play flashcard →
+              {warnBeforeNewCountry ? 'Go anyways' : 'Play flashcard →'}
             </button>
           </div>
         </div>

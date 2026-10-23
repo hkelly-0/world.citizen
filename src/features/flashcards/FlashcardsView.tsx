@@ -4,7 +4,7 @@ import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
-import { averageRecall } from '../passport/passport'
+import { isTooUnfamiliarForNewCountry, NEW_COUNTRY_WARNING } from '../passport/passport'
 import { todayString } from './dates'
 import {
   chooseNextCountry,
@@ -19,11 +19,6 @@ import type { AnswerResult } from './fsrs'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
-
-// Before a new country, the user is warned if the average chance of still
-// remembering the countries already seen 30 days from now (`averageRecall`) is
-// below this.
-const NEW_COUNTRY_WARNING_RECALL = 0.8
 
 type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
@@ -53,12 +48,10 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
     currentCode !== null && countryDueDate(progress[currentCode], questionIds) === null
-  const recall = averageRecall(progress, questionIds, today)
   const showNewCountryWarning =
     currentIsNew &&
     !newCountryWarningDismissed &&
-    recall !== null &&
-    recall < NEW_COUNTRY_WARNING_RECALL
+    isTooUnfamiliarForNewCountry(progress, questionIds, today)
 
   // Each asked question gets its own FSRS review, even ones that weren't due
   // yet. Questions not asked keep their progress.
@@ -79,10 +72,7 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
         <p className="flashcards-view__done">No more cards today. Come back tomorrow!</p>
       ) : showNewCountryWarning ? (
         <div className="flashcards-view__warning">
-          <p>
-            It's recommended to become familiar with the countries you've already seen before
-            learning new ones.
-          </p>
+          <p>{NEW_COUNTRY_WARNING}</p>
           <button
             type="button"
             className="flashcards-view__discover"
