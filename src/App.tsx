@@ -4,7 +4,10 @@ import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashca
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
+import { collectedCountries } from './features/passport/passport'
+import { PassportView } from './features/passport/PassportView'
 import { SettingsMenu } from './features/settings/SettingsMenu'
+import { loadProgress } from './shared/progress'
 import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
 
 // The map (MapLibre + border data) is large, so it is loaded only when shown.
@@ -14,10 +17,12 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
 // cards, 'custom-practice' the choice of question types to practise, and
 // 'custom-flashcards' the cards asking only those question types.
-// 'settings' chooses which information is learned at all.
+// 'settings' chooses which information is learned at all. 'passport' lists
+// the countries seen as flashcards.
 type Screen =
   | 'menu'
   | 'settings'
+  | 'passport'
   | 'globe'
   | 'flashcards'
   | 'classic-flashcards'
@@ -129,10 +134,16 @@ export default function App() {
       />
     )
   }
+  if (screen === 'passport') {
+    return <PassportView onBack={goToMenu} />
+  }
   return (
     <MainMenu
+      // Read each time the menu is shown, so it includes countries just studied.
+      passportCount={collectedCountries(loadProgress()).length}
       onOpenGlobe={() => openScreen('globe')}
       onOpenFlashcards={() => openScreen('flashcards')}
+      onOpenPassport={() => openScreen('passport')}
       onOpenSettings={() => openScreen('settings')}
     />
   )

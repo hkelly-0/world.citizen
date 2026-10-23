@@ -37,6 +37,12 @@
   background: rgba(40, 48, 70, 0.95);
 }
 
+/* The Passport's "42/195", quieter than the button's title. */
+.main-menu__count {
+  color: #a9b1c2;
+  font-size: 1rem;
+}
+
 /* Smaller than the other options, pinned to the bottom of the screen. */
 .main-menu__settings {
   position: fixed;
