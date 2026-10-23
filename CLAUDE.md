@@ -57,7 +57,7 @@ Features link up via ISO alpha-3 country codes. Scope: the 195 countries (193 UN
 - **Build tool:** Vite. Requires npm 11+ (developed on Node 24 / npm 11.19.1); npm 10.9.2 crashes resolving Vitest 5's peer dependencies, so on npm 10 install with `npx npm@11 install`.
 - **UI framework:** React, written in TypeScript.
 - **Styling:** plain CSS files, one per component, imported directly. Colours shared across components are CSS variables on `:root` in `src/index.css`. The whole app uses Roboto Mono (`@fontsource/roboto-mono`); it lacks ← and ≥, which fall back to the system's monospace font.
-- **Formatting and linting:** Prettier (`npm run format`, config in `.prettierrc.json`) and oxlint (`npm run lint`). Run `npm run format` before committing.
+- **Formatting and linting:** Prettier (`npm run format`, config in `.prettierrc.json`) and oxlint (`npm run lint`). A pre-commit hook (husky + lint-staged, `.husky/pre-commit`) formats staged files; `npm install` sets it up.
 - **Tests:** Vitest + Testing Library (`npm test`). The WebGL map itself is not unit-tested.
 - **Globe:** MapLibre GL JS (`src/features/globe/countryMap.ts` creates the map for every globe). A globe projection when zoomed out, blending into flat Mercator between zoom 4 and 5. Borders are a GeoJSON source that MapLibre tiles and simplifies per zoom; taps use `queryRenderedFeatures`, highlights use feature state (no data rebuilds).
   - MapLibre's worker script is copied by Vite (`?url` import) and passed to `setWorkerUrl`, because MapLibre can't find it after bundling.
