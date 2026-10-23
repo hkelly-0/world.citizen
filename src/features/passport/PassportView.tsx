@@ -99,7 +99,8 @@ export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) 
             />
             <CountryInfoPanel
               country={{ name: openCountry.commonName, isoAlpha3: openCountry.isoAlpha3 }}
-              learnedQuestionIds={learnedQuestionIds}
+              // No question types, so only the names are shown, not the facts.
+              learnedQuestionIds={[]}
               onClose={() => setOpenCode(null)}
             />
           </div>

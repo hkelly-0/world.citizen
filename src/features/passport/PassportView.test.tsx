@@ -32,13 +32,14 @@ describe('PassportView', () => {
     expect(screen.queryByText('Peru')).not.toBeInTheDocument()
   })
 
-  it("enlarges a country with its info panel when clicked, and closes it", async () => {
+  it('enlarges a country with its names but no facts when clicked, and closes it', async () => {
     saveProgress({ FRA: { globe: answered } })
     render(<PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} />)
 
     await userEvent.click(screen.getByRole('button', { name: /France/ }))
     expect(screen.getByRole('complementary', { name: 'France details' })).toBeInTheDocument()
-    expect(screen.getByText('Paris')).toBeInTheDocument()
+    expect(screen.getByText('French Republic')).toBeInTheDocument()
+    expect(screen.queryByText('Paris')).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
