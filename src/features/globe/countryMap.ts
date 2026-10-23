@@ -2,6 +2,7 @@ import {
   Map as MapLibreMap,
   Point,
   setWorkerUrl,
+  type LayerSpecification,
   type PointLike,
   type StyleSpecification,
 } from 'maplibre-gl'
@@ -13,10 +14,12 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
-import { areCountryGroupsShown, chooseCountryGroupColours } from '../dev/countryGroupColours'
+import { areCountryGroupsShown } from '../dev/showCountryGroups'
+import { chooseCountryGroupColours } from './countryGroupColours'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
+import { regionBounds } from './regionBounds'
 import { chooseTappedIndex, TAP_BUFFER_PX, VERY_SMALL_AREA_KM2 } from './tapBuffer'
 import { zoomLimitsFor } from './zoomLimits'
 
@@ -45,8 +48,12 @@ const CORRECT_COLOR = '#3fb950'
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
-// The dev option's country group tint, over the satellite imagery.
+// The country group tint over the satellite imagery (the region globe, and
+// the dev option), stronger for the region under the pointer and the one
+// selected.
 const GROUP_OPACITY = 0.45
+const GROUP_HOVERED_OPACITY = 0.65
+const GROUP_SELECTED_OPACITY = 0.8
 
 // NASA Blue Marble satellite imagery, cut into tiles by
 // scripts/make-background-tiles.sh.
@@ -69,24 +76,43 @@ const BORDERS_MAX_DETAIL_ZOOM = 8
 // Full-detail borders: MapLibre simplifies them itself for each zoom level.
 export const COUNTRY_SHAPES = loadCountryShapes()
 
-// Each country's group colour for the dev option (see countryGroupColours.ts),
-// chosen once per page load. Left empty outside the dev server.
-const GROUP_COLOURS: Record<string, string> = import.meta.env.DEV ? chooseCountryGroupColours() : {}
+// Each country's group colour (see countryGroupColours.ts), chosen once per
+// page load.
+const GROUP_COLOURS: Record<string, string> = chooseCountryGroupColours()
 
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
-// a tapped feature can be turned back into its CountryShape. Countries in a
-// group carry its colour as "groupColour"; other map areas have none.
+// a tapped feature can be turned back into its CountryShape. The 195 countries
+// carry their group's id and colour as "groupId" and "groupColour"; other map
+// areas have neither.
 const COUNTRY_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
   features: COUNTRY_SHAPES.map((shape, index) => {
-    const groupColour = shape.isoAlpha3 === null ? undefined : GROUP_COLOURS[shape.isoAlpha3]
+    const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
     return {
       type: 'Feature',
       id: index,
       geometry: prepareGeometryForFlatMap(shape.geometry),
-      properties: groupColour === undefined ? {} : { groupColour },
+      properties:
+        facts === undefined
+          ? {}
+          : { groupId: facts.groupId, groupColour: GROUP_COLOURS[facts.isoAlpha3] },
     }
   }),
+}
+
+// The positions in COUNTRY_SHAPES of each group's countries, by group id.
+const GROUP_INDICES = new Map<string, number[]>()
+COUNTRY_SHAPES.forEach((shape, index) => {
+  const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
+  if (facts === undefined) return
+  GROUP_INDICES.set(facts.groupId, [...(GROUP_INDICES.get(facts.groupId) ?? []), index])
+})
+
+// The group id of the country at this position in COUNTRY_SHAPES, or null
+// for map areas outside the 195 countries.
+export function groupIdOfCountry(countryIndex: number): string | null {
+  const isoAlpha3 = COUNTRY_SHAPES[countryIndex].isoAlpha3
+  return (isoAlpha3 === null ? undefined : countryFacts[isoAlpha3]?.groupId) ?? null
 }
 
 // Positions in COUNTRY_SHAPES of the countries that get a tap buffer.
@@ -169,24 +195,71 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
-// The same style with each country tinted by its group's colour, between the
-// imagery and the highlights. Used while the dev option is on.
-const MAP_STYLE_WITH_GROUPS: StyleSpecification = {
-  ...MAP_STYLE,
-  layers: MAP_STYLE.layers.flatMap((layer) =>
-    layer.id === 'satellite-imagery'
-      ? [
-          layer,
-          {
-            id: 'country-groups',
-            type: 'fill',
-            source: 'countries',
-            filter: ['has', 'groupColour'],
-            paint: { 'fill-color': ['get', 'groupColour'], 'fill-opacity': GROUP_OPACITY },
-          },
-        ]
-      : [layer],
-  ),
+// The style with countries tinted by their group's colour, between the
+// imagery and the highlights: only the groups in `tintedGroupIds`, or every
+// group if it is null. The feature states "groupHovered" and "groupSelected"
+// (set on all of a group's countries by setGroupFeatureState) strengthen it.
+function styleWithGroups(tintedGroupIds: string[] | null): StyleSpecification {
+  const groupsLayer: LayerSpecification = {
+    id: 'country-groups',
+    type: 'fill',
+    source: 'countries',
+    filter:
+      tintedGroupIds === null
+        ? ['has', 'groupId']
+        : ['in', ['get', 'groupId'], ['literal', tintedGroupIds]],
+    paint: {
+      'fill-color': ['get', 'groupColour'],
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'groupSelected'], false],
+        GROUP_SELECTED_OPACITY,
+        ['boolean', ['feature-state', 'groupHovered'], false],
+        GROUP_HOVERED_OPACITY,
+        GROUP_OPACITY,
+      ],
+    },
+  }
+  return {
+    ...MAP_STYLE,
+    layers: MAP_STYLE.layers.flatMap((layer) =>
+      layer.id === 'satellite-imagery' ? [layer, groupsLayer] : [layer],
+    ),
+  }
+}
+
+// Sets a feature state (e.g. { groupHovered: true }) on every country of the
+// group, so the whole region is highlighted together.
+export function setGroupFeatureState(
+  map: MapLibreMap,
+  groupId: string,
+  state: Record<string, boolean>,
+) {
+  for (const index of GROUP_INDICES.get(groupId) ?? []) {
+    map.setFeatureState({ source: 'countries', id: index }, state)
+  }
+}
+
+// Small regions (e.g. the Leeward Islands) would otherwise fill the screen.
+const GROUP_MAX_ZOOM = 5
+
+// Turns and zooms the globe to fit the main landmasses of the group's
+// countries in the space between topPadding and bottomPadding (pixels), with
+// sidePadding at the left and right.
+export function flyToGroup(
+  map: MapLibreMap,
+  groupId: string,
+  topPadding: number,
+  bottomPadding: number,
+  sidePadding: number,
+  durationMs: number,
+) {
+  const shapes = (GROUP_INDICES.get(groupId) ?? []).map((index) => COUNTRY_SHAPES[index])
+  map.fitBounds(regionBounds(shapes), {
+    padding: { top: topPadding, bottom: bottomPadding, left: sidePadding, right: sidePadding },
+    maxZoom: GROUP_MAX_ZOOM,
+    duration: durationMs,
+  })
 }
 
 // Returns the position in COUNTRY_SHAPES of the country a tap at `point` (screen
@@ -247,13 +320,19 @@ export function stopHoverHighlight(map: MapLibreMap) {
 }
 
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
-// container, with hover highlighting on devices that can hover, and the
-// country group tint if the dev option is on. The caller
+// container, with hover highlighting on devices that can hover. The groups in
+// `tintedGroupIds` are tinted in their colours (the region globe); without it,
+// every group is tinted while the dev option is on. The caller
 // handles clicks and must call map.remove() when done.
-export function createCountryMap(container: HTMLElement): MapLibreMap {
+export function createCountryMap(container: HTMLElement, tintedGroupIds?: string[]): MapLibreMap {
   const map = new MapLibreMap({
     container,
-    style: areCountryGroupsShown() ? MAP_STYLE_WITH_GROUPS : MAP_STYLE,
+    style:
+      tintedGroupIds !== undefined
+        ? styleWithGroups(tintedGroupIds)
+        : areCountryGroupsShown()
+          ? styleWithGroups(null)
+          : MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
     pixelRatio: Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO),

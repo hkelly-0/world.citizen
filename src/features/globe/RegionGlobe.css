@@ -1,0 +1,66 @@
+/* Covers the whole screen, like the flashcards' location globe, but sits
+   below the back button (z-index 2) so the user can still leave. */
+.region-globe {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: #000010;
+}
+
+.region-globe__canvas {
+  width: 100%;
+  height: 100%;
+  /* Touches on the globe move the globe, never the page. */
+  touch-action: none;
+}
+
+/* Like the location globe's "Select ..." label. */
+.region-globe__label {
+  position: absolute;
+  /* Below the back button. */
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  font-size: 1.1rem;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  text-align: center;
+  /* Lets taps and drags reach the globe underneath. */
+  pointer-events: none;
+}
+
+/* The region's card floats over the bottom of the globe, like the Globe
+   screen's info panel. */
+.region-globe .country-info-panel {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Shaped like the flashcards' Next button. */
+.region-globe__discover {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.region-globe__discover:hover {
+  background: rgba(255, 255, 255, 0.14);
+}

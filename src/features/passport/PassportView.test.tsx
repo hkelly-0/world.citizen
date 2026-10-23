@@ -10,7 +10,31 @@ import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from '../flashcards/dates'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { NEW_COUNTRY_WARNING } from './passport'
+import type { DeckProgress } from '../flashcards/deck'
 import { PassportView } from './PassportView'
+
+// The region globe needs WebGL, which the test environment doesn't have. This
+// stand-in offers a "Discover ..." button for each region it would tint.
+vi.mock('../globe/RegionGlobe', async () => {
+  const { groupsToChoose } = await import('./passport')
+  return {
+    default: ({
+      progress,
+      onDiscover,
+    }: {
+      progress: DeckProgress
+      onDiscover: (groupId: string) => void
+    }) => (
+      <div>
+        {groupsToChoose(progress).map((choice) => (
+          <button key={choice.id} onClick={() => onDiscover(choice.id)}>
+            Discover {choice.name}
+          </button>
+        ))}
+      </div>
+    ),
+  }
+})
 
 const answered = {
   stability: 10,
@@ -55,7 +79,7 @@ describe('PassportView', () => {
     expect(names().at(-1)).toBe('New country')
   })
 
-  it('asks for a group on the New country card, then plays one of its unseen countries', async () => {
+  it('opens the region globe from the New country card, then plays a country of the chosen region', async () => {
     saveProgress({ FRA: { globe: answeredToday(10000) }, NOR: { globe: answeredToday(10000) } })
     vi.spyOn(Math, 'random').mockReturnValue(0)
     const onPlayFlashcard = vi.fn()
@@ -69,17 +93,25 @@ describe('PassportView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'New country' }))
     expect(screen.getByRole('complementary', { name: 'New country details' })).toBeInTheDocument()
-    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
-    const play = screen.getByRole('button', { name: 'Play flashcard →' })
-    expect(play).toBeDisabled()
-    await userEvent.selectOptions(
-      screen.getByRole('combobox', { name: 'Group of countries' }),
-      'Nordic Countries (1/4)',
-    )
-    await userEvent.click(play)
+    expect(screen.getByText('Choose a region of countries to discover.')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Discover Nordic Countries' }))
     // The first unseen Nordic country in countryGroups.json order (DNK, NOR, SWE, FIN).
     expect(onPlayFlashcard).toHaveBeenCalledWith('DNK')
     expect(loadLearningGroup()).toBe('nordic')
+  })
+
+  it('goes back from the region globe to the Passport', async () => {
+    render(
+      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
+    await screen.findByRole('button', { name: 'Discover Nordic Countries' })
+    await userEvent.click(screen.getByRole('button', { name: '← Passport' }))
+    expect(screen.getByRole('heading', { name: /^Passport/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Discover / })).not.toBeInTheDocument()
   })
 
   it('plays a country from the pending group without asking again', async () => {
@@ -97,7 +129,7 @@ describe('PassportView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'New country' }))
     expect(screen.getByText('Next: a country from Nordic Countries (2 of 4).')).toBeInTheDocument()
-    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Choose a region →' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
     expect(onPlayFlashcard).toHaveBeenCalledWith('NOR')
   })

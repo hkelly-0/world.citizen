@@ -1,11 +1,35 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { State } from 'ts-fsrs'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from './dates'
+import type { DeckProgress } from './deck'
 import { FlashcardsView } from './FlashcardsView'
+
+// The region globe needs WebGL, which the test environment doesn't have. This
+// stand-in offers a "Discover ..." button for each region it would tint.
+vi.mock('../globe/RegionGlobe', async () => {
+  const { groupsToChoose } = await import('../passport/passport')
+  return {
+    default: ({
+      progress,
+      onDiscover,
+    }: {
+      progress: DeckProgress
+      onDiscover: (groupId: string) => void
+    }) => (
+      <div>
+        {groupsToChoose(progress).map((choice) => (
+          <button key={choice.id} onClick={() => onDiscover(choice.id)}>
+            Discover {choice.name}
+          </button>
+        ))}
+      </div>
+    ),
+  }
+})
 
 const DISCOVERING = /^Discovering a new country/
 
@@ -105,18 +129,11 @@ describe('FlashcardsView', () => {
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
-  it('asks for a group first, then shows its countries', async () => {
+  it('asks for a region on the globe first, then shows its countries', async () => {
     renderClassic()
 
     expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
-    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
-    const go = screen.getByRole('button', { name: 'Go →' })
-    expect(go).toBeDisabled()
-    await userEvent.selectOptions(
-      screen.getByRole('combobox', { name: 'Group of countries' }),
-      'Nordic Countries (0/4)',
-    )
-    await userEvent.click(go)
+    await userEvent.click(await screen.findByRole('button', { name: 'Discover Nordic Countries' }))
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
     ).toBeInTheDocument()
@@ -129,7 +146,7 @@ describe('FlashcardsView', () => {
     saveLearningGroup('nordic')
     renderClassic()
 
-    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Discover / })).not.toBeInTheDocument()
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (2 of 4)...'),
     ).toBeInTheDocument()
@@ -146,18 +163,26 @@ describe('FlashcardsView', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     await answerArea()
     await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
-    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
-    expect(screen.queryByRole('option', { name: /^Nordic Countries/ })).not.toBeInTheDocument()
+    expect(
+      await screen.findByRole('button', { name: 'Discover Baltic States' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Discover Nordic Countries' }),
+    ).not.toBeInTheDocument()
   })
 
-  it('warns before asking for a group while the seen countries are unfamiliar', async () => {
+  it('warns before the region globe while the seen countries are unfamiliar', async () => {
     saveFranceArea(0.2)
     renderClassic()
 
     expect(screen.getByText(WARNING)).toBeInTheDocument()
-    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Discover Nordic Countries' }),
+    ).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
-    expect(screen.getByRole('combobox', { name: 'Group of countries' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('button', { name: 'Discover Nordic Countries' }),
+    ).toBeInTheDocument()
   })
 
   it("shows the Passport count going up after a new country's card, and a seen one's familiarity", async () => {

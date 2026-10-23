@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
@@ -25,10 +25,13 @@ import {
 } from './deck'
 import { Flashcard } from './Flashcard'
 import { CardReward } from './CardReward'
-import { GroupChooser } from './GroupChooser'
 import type { AnswerResult } from './fsrs'
 import { rewardAfterCard, type CardRewardDetails } from './rewardAfterCard'
 import './FlashcardsView.css'
+
+// The globe (MapLibre + border data) is large, so it is loaded only when a new
+// region must be chosen.
+const RegionGlobe = lazy(() => import('../globe/RegionGlobe'))
 
 type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
@@ -48,8 +51,8 @@ type FlashcardsViewProps = {
 // and saves progress after each card. Only the questions in `questionIds` are
 // asked, and only they decide which countries are due. In Classic, new
 // countries come from the group of countries the user chose (learningGroup.ts)
-// until all of them are in the Passport; then a dropdown asks for the next
-// group. Before a new country, or before that dropdown,
+// until all of them are in the Passport; then a globe of the regions (country
+// groups) asks for the next one. Before a new country, or before that globe,
 // it warns if the countries already seen aren't familiar enough yet, until the
 // user chooses to go on (once per visit to the screen). Otherwise, a country
 // not yet in the Passport is introduced with a "Discovering a new country"
@@ -161,7 +164,7 @@ export function FlashcardsView({
             onClick={() => {
               setNewCountryWarningDismissed(true)
               // The user has just chosen to discover it, so go straight to its
-              // card (or to the group dropdown, if no group is pending).
+              // card (or to the region globe, if no group is pending).
               setDiscoveryScreenPassedFor(currentCode)
             }}
           >
@@ -169,15 +172,9 @@ export function FlashcardsView({
           </button>
         </div>
       ) : needsNewGroup ? (
-        <div className="flashcards-view__choose-group">
-          <p>Choose a group of countries to learn.</p>
-          <GroupChooser
-            progress={progress}
-            buttonLabel="Go →"
-            buttonClassName="flashcards-view__go"
-            onChoose={chooseGroup}
-          />
-        </div>
+        <Suspense fallback={<p className="flashcards-view__done">Loading globe…</p>}>
+          <RegionGlobe progress={progress} onDiscover={chooseGroup} />
+        </Suspense>
       ) : currentCode === null ? (
         <p className="flashcards-view__done">
           {canDiscoverCountries

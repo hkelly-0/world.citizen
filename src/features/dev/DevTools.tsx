@@ -6,7 +6,7 @@ import { clearReviewLog } from '../../shared/reviewLog'
 import { todayString } from '../flashcards/dates'
 import type { DeckProgress } from '../flashcards/deck'
 import { COUNTRY_COUNT } from '../passport/passport'
-import { areCountryGroupsShown, setCountryGroupsShown } from './countryGroupColours'
+import { areCountryGroupsShown, setCountryGroupsShown } from './showCountryGroups'
 import {
   addCountries,
   makeAllDueToday,

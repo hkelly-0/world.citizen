@@ -4,21 +4,9 @@ import isoCountries from 'i18n-iso-countries'
 import worldAtlas50m from 'world-atlas/countries-50m.json'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 
-// Colours for the dev option that tints every globe by country group
-// (src/data/countryGroups.json). Not part of the app itself.
-
-// Whether the globes show the group colours. Kept in memory only, so a reload
-// turns it off. Globes read it when they are created; the dev menu remounts
-// the current screen after changing it.
-let areGroupsShown = false
-
-export function areCountryGroupsShown(): boolean {
-  return areGroupsShown
-}
-
-export function setCountryGroupsShown(shown: boolean) {
-  areGroupsShown = shown
-}
+// Colours for the country groups (src/data/countryGroups.json): the tint of
+// the region globe, where new regions are chosen, and of the dev option that
+// tints every globe.
 
 // Bright: fully saturated, mid lightness.
 const SATURATION = 95

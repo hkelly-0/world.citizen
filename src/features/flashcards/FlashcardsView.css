@@ -77,20 +77,3 @@
 .flashcards-view__go:hover {
   background: rgba(255, 255, 255, 0.14);
 }
-
-/* Shown when a new group of countries must be chosen. The auto margins centre
-   it vertically in the screen. */
-.flashcards-view__choose-group {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  max-width: 420px;
-  margin: auto 0;
-  text-align: center;
-}
-
-.flashcards-view__choose-group p {
-  margin: 0;
-  font-size: 1.2rem;
-}
