@@ -1,5 +1,6 @@
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
+import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
 import { todayString } from '../flashcards/dates'
@@ -17,10 +18,10 @@ type PassportFlashcardViewProps = {
   onBack: () => void
 }
 
-// One country's full flashcard, opened from its card in the Passport. It asks
-// the questions chosen in Settings, always finding the country on the globe
-// (never naming it). Finishing it reviews each question as Classic does, then
-// "Done" returns to the Passport.
+// One country's full flashcard, opened from its card in the Passport (or from
+// "New country", for an unseen one). It asks the questions chosen in Settings,
+// always finding the country on the globe (never naming it). Finishing it
+// reviews each question as Classic does, then "Done" returns to the Passport.
 export function PassportFlashcardView({
   isoAlpha3,
   learnedQuestionIds,
@@ -29,8 +30,12 @@ export function PassportFlashcardView({
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
-    saveProgress(reviewCountry(loadProgress(), isoAlpha3, learnedQuestionIds, results, today))
+    const progress = loadProgress()
+    saveProgress(reviewCountry(progress, isoAlpha3, learnedQuestionIds, results, today))
     logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
+    // The country's first card (opened from "New country"): it has just
+    // joined the Passport.
+    if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) recordDiscovery(isoAlpha3, new Date())
     onBack()
   }
 

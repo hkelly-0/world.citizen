@@ -7,7 +7,12 @@ import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
 import { CountryInfoPanel } from '../globe/CountryInfoPanel'
 import { RecallCircle } from './RecallCircle'
-import { countryRecall, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
+import {
+  countryRecall,
+  COUNTRY_COUNT,
+  randomUnseenCountry,
+  sortedCollectedCountries,
+} from './passport'
 import './PassportView.css'
 
 // Pictures made by scripts/make-country-images.mjs.
@@ -24,11 +29,14 @@ type PassportViewProps = {
 // Every country the user has seen as a flashcard, as a grid of pictures with
 // their names and a ring showing how likely the user is to remember each in 30 days,
 // sorted alphabetically, by date discovered or by recall chance (the last choice is
-// remembered). It grows as they study.
+// remembered). It grows as they study. A "New country" card always comes last
+// (until all 195 are collected) and plays a random unseen country's flashcard.
 export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
   const [openCode, setOpenCode] = useState<string | null>(null)
+  // Whether the enlarged "New country" card is open.
+  const [newCountryOpen, setNewCountryOpen] = useState(false)
   const progress = loadProgress()
   const today = todayString()
   const countries = sortedCollectedCountries(
@@ -40,6 +48,17 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
   )
 
   const openCountry = countries.find((country) => country.isoAlpha3 === openCode)
+  const hasUnseenCountries = countries.length < COUNTRY_COUNT
+
+  // The "New country" card, after every country in the grid whatever the sort.
+  const newCountryItem = hasUnseenCountries && (
+    <li>
+      <button className="passport__country" onClick={() => setNewCountryOpen(true)}>
+        <PlusSymbol />
+        <span className="passport__name">New country</span>
+      </button>
+    </li>
+  )
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -56,9 +75,12 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
         </span>
       </h1>
       {countries.length === 0 ? (
-        <p className="passport__empty">
-          No countries yet. Countries join your Passport once you've seen them in Flashcards.
-        </p>
+        <>
+          <p className="passport__empty">
+            No countries yet. Countries join your Passport once you've seen them in Flashcards.
+          </p>
+          <ul className="passport__grid">{newCountryItem}</ul>
+        </>
       ) : (
         <>
           <label className="passport__sort">
@@ -90,6 +112,7 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
                 </button>
               </li>
             ))}
+            {newCountryItem}
           </ul>
         </>
       )}
@@ -117,6 +140,46 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
           </div>
         </div>
       )}
+      {newCountryOpen && (
+        // Clicking the dark background closes the enlarged card.
+        <div className="passport__overlay" onClick={() => setNewCountryOpen(false)}>
+          <div className="passport__enlarged" onClick={(event) => event.stopPropagation()}>
+            <PlusSymbol />
+            {/* Styled like the info panel shown for a country (its CSS is
+                loaded by CountryInfoPanel above). The country is picked only
+                when Play is pressed, so nothing here gives it away. */}
+            <aside className="country-info-panel" aria-label="New country details">
+              <button
+                className="country-info-panel__close"
+                onClick={() => setNewCountryOpen(false)}
+                aria-label="Close"
+              >
+                ×
+              </button>
+              <h2>New country</h2>
+              <p className="country-info-panel__note">Discover a country you haven't seen yet.</p>
+            </aside>
+            <button
+              className="passport__play"
+              onClick={() => {
+                // Only shown while some country is unseen, so `!` is safe here.
+                onPlayFlashcard(randomUnseenCountry(progress)!)
+              }}
+            >
+              Play flashcard →
+            </button>
+          </div>
+        </div>
+      )}
     </main>
+  )
+}
+
+// The "New country" card's picture: a large plus, the same size as a country's.
+function PlusSymbol() {
+  return (
+    <svg className="passport__image passport__plus" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 20 V80 M20 50 H80" />
+    </svg>
   )
 }

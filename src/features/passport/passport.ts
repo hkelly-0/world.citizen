@@ -19,6 +19,19 @@ export function collectedCountries(progress: DeckProgress): CountryFacts[] {
     .sort((a, b) => a.commonName.localeCompare(b.commonName))
 }
 
+// A random country not yet in the Passport (no question answered), for the
+// "New country" card, as its ISO alpha-3 code. Null once all 195 are collected.
+// `random` is a parameter so tests can make the choice predictable.
+export function randomUnseenCountry(
+  progress: DeckProgress,
+  random: () => number = Math.random,
+): string | null {
+  const collectedCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
+  const unseenCodes = Object.keys(countryFacts).filter((code) => !collectedCodes.includes(code))
+  if (unseenCodes.length === 0) return null
+  return unseenCodes[Math.floor(random() * unseenCodes.length)]
+}
+
 // How far ahead familiarity looks. The chance of remembering on the day of a
 // review is always about 100%, however it went, so it is measured this many
 // days later instead, which tells a well-learned country from a shaky one.

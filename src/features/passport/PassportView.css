@@ -145,3 +145,11 @@
 .passport__play:hover {
   background: rgba(255, 255, 255, 0.14);
 }
+
+/* The "New country" card's plus, drawn in the grey of the quieter text. */
+.passport__plus {
+  stroke: #a9b1c2;
+  stroke-width: 8;
+  stroke-linecap: round;
+  fill: none;
+}

@@ -1,17 +1,44 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
+import { countryFacts } from '../../shared/countryFacts'
 import { addDays } from '../flashcards/dates'
-import { QUESTION_IDS } from '../flashcards/deck'
+import { QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { recallChance } from '../flashcards/fsrs'
 import {
   collectedCountries,
   countryRecall,
   COUNTRY_COUNT,
+  randomUnseenCountry,
   sortedCollectedCountries,
 } from './passport'
 
 const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
 const TODAY = '2026-02-01'
+
+describe('randomUnseenCountry', () => {
+  it('picks among the countries with no question answered', () => {
+    // Every country but France and Peru is collected; Peru has an entry but
+    // nothing answered.
+    const progress: DeckProgress = Object.fromEntries(
+      Object.keys(countryFacts)
+        .filter((code) => code !== 'FRA' && code !== 'PER')
+        .map((code) => [code, { globe: answered }]),
+    )
+    progress.PER = {}
+    const unseen = ['FRA', 'PER'].sort((a, b) =>
+      Object.keys(countryFacts).indexOf(a) - Object.keys(countryFacts).indexOf(b),
+    )
+    expect(randomUnseenCountry(progress, () => 0)).toBe(unseen[0])
+    expect(randomUnseenCountry(progress, () => 0.99)).toBe(unseen[1])
+  })
+
+  it('is null once every country is collected', () => {
+    const progress = Object.fromEntries(
+      Object.keys(countryFacts).map((code) => [code, { globe: answered }]),
+    )
+    expect(randomUnseenCountry(progress)).toBeNull()
+  })
+})
 
 describe('collectedCountries', () => {
   it('is empty with no progress', () => {
