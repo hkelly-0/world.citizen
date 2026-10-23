@@ -11,7 +11,7 @@ const WARNING =
 
 // France's area, answered today and not due again until tomorrow, so the next
 // card is always a new country. A low stability is soon forgotten (a recall
-// chance in 30 days well under 80%); a high one is remembered.
+// chance in 14 days well under 80%); a high one is remembered.
 function saveFranceArea(stability: number) {
   const today = todayString()
   saveProgress({

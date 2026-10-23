@@ -13,7 +13,7 @@ import { PassportView } from './PassportView'
 
 const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
 
-// Answered today with a high stability, so well remembered in 30 days (no
+// Answered today with a high stability, so well remembered in 14 days (no
 // warning before a new country), or a low one, so soon forgotten (a warning).
 function answeredToday(stability: number) {
   const today = todayString()

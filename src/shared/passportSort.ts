@@ -1,5 +1,5 @@
 // How the Passport is sorted: A–Z by common name, in the order the countries
-// were discovered (first one at the top), or by recall chance in 30 days
+// were discovered (first one at the top), or by recall chance in 14 days
 // (least likely to be remembered at the top). The
 // last choice is kept in the browser's localStorage, on this device only.
 export type PassportSort = 'alphabetical' | 'date-discovered' | 'recall'

@@ -1,7 +1,7 @@
 import './RecallCircle.css'
 
 // At or below this recall chance the circle shows its smallest fill, in red.
-// A question just answered wrong is about 47% likely to be remembered in 30
+// A question just answered wrong is about 52% likely to be remembered in 14
 // days (see `countryRecall`), so starting here spreads countries out.
 const LOWEST_RECALL = 0.5
 
@@ -26,7 +26,7 @@ const RADIUS = (SIZE - STROKE_WIDTH) / 2
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 // A small "health" ring showing how likely the user is to remember a country
-// in 30 days: filled clockwise from the top, and coloured, by its recall chance
+// in 14 days: filled clockwise from the top, and coloured, by its recall chance
 // (see `countryRecall`). An empty grey ring when the country has none.
 export function RecallCircle({ recall }: { recall: number | null }) {
   const label =
