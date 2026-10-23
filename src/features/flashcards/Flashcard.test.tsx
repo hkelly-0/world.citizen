@@ -81,7 +81,7 @@ describe('Flashcard', () => {
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
     await answerRangeQuestion('Great - 8')
     await answerCapital('paris')
-    expect(screen.getByText('paris')).toHaveClass('typed-answer__green')
+    expect(screen.getByLabelText('paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({
@@ -216,7 +216,7 @@ describe('Flashcard', () => {
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
-    expect(screen.getByText('Cape Town')).toHaveClass('typed-answer__green')
+    expect(screen.getByLabelText('Cape Town')).toHaveClass('typed-answer__green')
   })
 
   it('asks only the chosen questions, and reports only their results', async () => {

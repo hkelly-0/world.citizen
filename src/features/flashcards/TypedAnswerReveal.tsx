@@ -4,6 +4,9 @@ import './TypedAnswerReveal.css'
 // How long each letter of the correct answer takes to appear.
 export const TYPING_MS_PER_LETTER = 40
 
+// Gap between one letter starting its jump and the next, for a correct answer.
+export const JUMP_MS_PER_LETTER = 60
+
 type TypedAnswerRevealProps = {
   typed: string
   isCorrect: boolean
@@ -12,7 +15,8 @@ type TypedAnswerRevealProps = {
 }
 
 // Replaces a text box once a typed question is answered. A correct answer fades
-// to green with the box highlighted green. A wrong answer fades to red, and
+// to green with the box highlighted green, and its letters jump up and down
+// one after another. A wrong answer fades to red, and
 // the correct answer is then typed out in green beside it.
 export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnswerRevealProps) {
   const [lettersTyped, setLettersTyped] = useState(0)
@@ -30,7 +34,23 @@ export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnsw
 
   return (
     <div className={isCorrect ? 'typed-answer__box typed-answer__box--correct' : 'typed-answer__box'}>
-      <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>{typed}</span>
+      {isCorrect ? (
+        // Each letter is hidden from screen readers; the label reads the whole answer.
+        <span className="typed-answer__green" aria-label={typed}>
+          {[...typed].map((letter, index) => (
+            <span
+              key={index}
+              className="typed-answer__jump-letter"
+              style={{ animationDelay: `${index * JUMP_MS_PER_LETTER}ms` }}
+              aria-hidden="true"
+            >
+              {letter}
+            </span>
+          ))}
+        </span>
+      ) : (
+        <span className="typed-answer__red">{typed}</span>
+      )}
       {!isCorrect && lettersTyped > 0 && (
         <>
           {typed !== '' && ' '}

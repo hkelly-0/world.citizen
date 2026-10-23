@@ -35,6 +35,24 @@
   animation: typed-answer-fade-to-red 600ms ease;
 }
 
+/* A correct answer's letters each hop up and back down, one after another
+   (the delay is set per letter in TypedAnswerReveal.tsx). pre keeps spaces. */
+.typed-answer__jump-letter {
+  display: inline-block;
+  white-space: pre;
+  animation: typed-answer-jump 400ms ease;
+}
+
+@keyframes typed-answer-jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.25em);
+  }
+}
+
 @keyframes typed-answer-fade-to-green {
   to {
     color: #3fb950;

@@ -29,7 +29,7 @@ describe('NameCountryGlobe', () => {
 
     await userEvent.type(screen.getByLabelText('This is'), 'Turkey')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
-    expect(screen.getByText('Turkey')).toHaveClass('typed-answer__green')
+    expect(screen.getByLabelText('Turkey')).toHaveClass('typed-answer__green')
 
     // Nothing happens by itself; the answer waits for Next.
     await act(() => vi.advanceTimersByTimeAsync(5000))
