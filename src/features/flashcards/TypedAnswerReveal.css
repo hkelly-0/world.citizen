@@ -25,12 +25,12 @@
    to green (correct) or red (wrong). Without a "from" keyframe the fade
    starts from the text's normal colour. */
 .typed-answer__box--correct {
-  border-color: #3fb950;
-  background: rgba(63, 185, 80, 0.25);
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
 }
 
 .typed-answer__green {
-  color: #3fb950;
+  color: var(--correct-green);
   animation: typed-answer-fade-to-green 600ms ease;
 }
 
@@ -64,7 +64,7 @@
 
 @keyframes typed-answer-fade-to-green {
   to {
-    color: #3fb950;
+    color: var(--correct-green);
   }
 }
 

@@ -11,7 +11,7 @@
 .new-country-reward__country {
   margin: 0;
   /* The green of a right answer. */
-  color: #3fb950;
+  color: var(--correct-green);
   font-size: 1.4rem;
 }
 

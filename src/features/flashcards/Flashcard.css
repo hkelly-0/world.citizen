@@ -65,8 +65,8 @@
 }
 
 .flashcard__option--correct {
-  border-color: #3fb950;
-  background: rgba(63, 185, 80, 0.25);
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
 }
 
 .flashcard__option--wrong {
