@@ -31,22 +31,34 @@
 }
 
 .main-menu__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   max-width: 280px;
   min-height: 56px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0 16px;
+  border: none;
   border-radius: 12px;
-  background: rgba(15, 20, 35, 0.9);
+  background: none;
   color: inherit;
   font: inherit;
   font-size: 1.2rem;
   text-align: left;
-  padding: 0 16px;
   cursor: pointer;
 }
 
+/* An arrow just after the text of every option. */
+.main-menu__option::after {
+  content: '→';
+}
+
+.main-menu__option--no-arrow::after {
+  content: none;
+}
+
 .main-menu__option:hover {
-  background: rgba(40, 48, 70, 0.95);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* The Passport's "42/195", quieter than the button's title. */
@@ -61,21 +73,30 @@
    the page with the browser's address and tool bars hidden, which can put the
    button out of sight. The menu fills the visible height (see index.css). */
 .main-menu__settings {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   position: absolute;
   bottom: 16px;
   /* The left edge of the column of options above: 280px wide, centred, but
      never closer than the 16px padding. */
   left: max(16px, calc(50% - 140px));
+  width: min(280px, calc(100% - 32px));
   min-height: 40px;
-  padding: 8px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border: none;
   border-radius: 8px;
-  background: rgba(15, 20, 35, 0.9);
+  background: none;
   color: #a9b1c2;
   font: inherit;
+  text-align: left;
   cursor: pointer;
 }
 
+.main-menu__settings::after {
+  content: '→';
+}
+
 .main-menu__settings:hover {
-  background: rgba(40, 48, 70, 0.95);
+  background: rgba(255, 255, 255, 0.08);
 }

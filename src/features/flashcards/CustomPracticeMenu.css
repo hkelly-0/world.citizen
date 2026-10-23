@@ -24,9 +24,6 @@
   gap: 12px;
   min-height: 48px;
   padding: 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  background: rgba(15, 20, 35, 0.9);
   font-size: 1.1rem;
   cursor: pointer;
 }
@@ -44,5 +41,5 @@
 }
 
 .main-menu__option:disabled:hover {
-  background: rgba(15, 20, 35, 0.9);
+  background: none;
 }
