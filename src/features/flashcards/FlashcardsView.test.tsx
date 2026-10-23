@@ -2,34 +2,51 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { State } from 'ts-fsrs'
 import { beforeEach, describe, expect, it } from 'vitest'
+import { saveLearningGroup } from '../../shared/learningGroup'
 import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from './dates'
 import { FlashcardsView } from './FlashcardsView'
 
-const DISCOVERING = 'Discovering a new country...'
+const DISCOVERING = /^Discovering a new country/
 
 const WARNING =
   "It's recommended to become familiar with the countries you've already seen before learning new ones."
 
-// France's area, answered today and not due again until tomorrow, so the next
-// card is always a new country. A low stability is soon forgotten (a recall
-// chance in 14 days well under 80%); a high one is remembered.
-function saveFranceArea(stability: number) {
+// The countries' areas, answered today and not due again until tomorrow, so
+// the next card is always a new country. A low stability is soon forgotten (a
+// recall chance in 14 days well under 80%); a high one is remembered.
+function saveAreas(codes: string[], stability: number) {
   const today = todayString()
-  saveProgress({
-    FRA: {
-      area: {
-        stability,
-        difficulty: 5,
-        reps: 1,
-        lapses: 0,
-        state: State.Review,
-        lastReview: today,
-        dueDate: addDays(today, 1),
-      },
-    },
-  })
+  const area = {
+    stability,
+    difficulty: 5,
+    reps: 1,
+    lapses: 0,
+    state: State.Review,
+    lastReview: today,
+    dueDate: addDays(today, 1),
+  }
+  saveProgress(Object.fromEntries(codes.map((code) => [code, { area }])))
 }
+
+function saveFranceArea(stability: number) {
+  saveAreas(['FRA'], stability)
+}
+
+function renderClassic() {
+  render(
+    <FlashcardsView
+      questionIds={['area']}
+      learnedQuestionIds={['area']}
+      globeKinds={['locate']}
+      canDiscoverCountries={true}
+      onBack={() => {}}
+    />,
+  )
+}
+
+// The Nordic Countries group (countryGroups.json).
+const NORDIC_NAME = /^(Denmark|Norway|Sweden|Finland)$/
 
 async function answerArea() {
   await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² / Immense' }))
@@ -41,6 +58,7 @@ describe('FlashcardsView', () => {
 
   it('warns before a new country while the seen ones are unfamiliar, once per visit', async () => {
     saveFranceArea(0.2)
+    saveLearningGroup('nordic')
     render(
       <FlashcardsView
         questionIds={['area']}
@@ -68,6 +86,7 @@ describe('FlashcardsView', () => {
 
   it('does not warn while the seen countries are familiar', async () => {
     saveFranceArea(10000)
+    saveLearningGroup('nordic')
     render(
       <FlashcardsView
         questionIds={['area']}
@@ -79,9 +98,66 @@ describe('FlashcardsView', () => {
     )
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
-    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+    expect(
+      screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
+    ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
+  })
+
+  it('asks for a group first, then shows its countries', async () => {
+    renderClassic()
+
+    expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
+    const go = screen.getByRole('button', { name: 'Go →' })
+    expect(go).toBeDisabled()
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: 'Group of countries' }),
+      'Nordic Countries (0/4)',
+    )
+    await userEvent.click(go)
+    expect(
+      screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
+    ).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    expect(screen.getByRole('heading', { name: NORDIC_NAME })).toBeInTheDocument()
+  })
+
+  it('keeps the chosen group pending when the screen is opened again', () => {
+    saveAreas(['DNK'], 10000)
+    saveLearningGroup('nordic')
+    renderClassic()
+
+    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
+    expect(
+      screen.getByText('Discovering a new country from Nordic Countries (2 of 4)...'),
+    ).toBeInTheDocument()
+  })
+
+  it("asks for the next group after the group's last country", async () => {
+    saveAreas(['DNK', 'NOR', 'SWE'], 10000)
+    saveLearningGroup('nordic')
+    renderClassic()
+
+    expect(
+      screen.getByText('Discovering a new country from Nordic Countries (4 of 4)...'),
+    ).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await answerArea()
+    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
+    expect(screen.queryByRole('option', { name: /^Nordic Countries/ })).not.toBeInTheDocument()
+  })
+
+  it('warns before asking for a group while the seen countries are unfamiliar', async () => {
+    saveFranceArea(0.2)
+    renderClassic()
+
+    expect(screen.getByText(WARNING)).toBeInTheDocument()
+    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
+    expect(screen.getByRole('combobox', { name: 'Group of countries' })).toBeInTheDocument()
   })
 
   it("shows the Passport count going up after a new country's card, and a seen one's familiarity", async () => {
@@ -100,6 +176,7 @@ describe('FlashcardsView', () => {
         },
       },
     })
+    saveLearningGroup('nordic')
     render(
       <FlashcardsView
         questionIds={['area']}

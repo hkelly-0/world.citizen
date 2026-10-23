@@ -1,18 +1,23 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { loadDiscoveries } from '../../shared/discoveries'
+import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
 import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
+import { GroupChooser } from '../flashcards/GroupChooser'
 import { CountryInfoPanel } from '../globe/CountryInfoPanel'
 import { RecallCircle } from './RecallCircle'
 import {
   countryRecall,
   COUNTRY_COUNT,
+  groupProgressLabel,
   isTooUnfamiliarForNewCountry,
   NEW_COUNTRY_WARNING,
-  randomUnseenCountry,
+  pendingGroupId,
+  randomUnseenCountryInGroup,
   sortedCollectedCountries,
 } from './passport'
 import './PassportView.css'
@@ -32,8 +37,10 @@ type PassportViewProps = {
 // their names and a ring showing how likely the user is to remember each in 14 days,
 // sorted alphabetically, by date discovered or by recall chance (the last choice is
 // remembered). It grows as they study. A "New country" card always comes last
-// (until all 195 are collected) and plays a random unseen country's flashcard;
-// it warns first if the countries already seen aren't familiar enough yet.
+// (until all 195 are collected) and plays a random unseen country's flashcard
+// from the group of countries being learned (shared with Classic), or first
+// asks for the next group if none is pending. It warns first if the countries
+// already seen aren't familiar enough yet.
 export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
@@ -55,6 +62,15 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
   // The same check as before a new country in the flashcards, for the
   // questions chosen in Settings.
   const warnBeforeNewCountry = isTooUnfamiliarForNewCountry(progress, learnedQuestionIds, today)
+  // The group new countries come from, or null when the user must choose one.
+  const groupId = pendingGroupId(loadLearningGroup(), progress)
+  const groupName = COUNTRY_GROUPS.find((group) => group.id === groupId)?.name
+
+  function playNewCountry(fromGroupId: string) {
+    // The group has an unseen country, as it is pending or was just chosen
+    // from those with one, so `!` is safe here.
+    onPlayFlashcard(randomUnseenCountryInGroup(progress, fromGroupId)!)
+  }
 
   // The "New country" card, after every country in the grid whatever the sort.
   const newCountryItem = hasUnseenCountries && (
@@ -65,6 +81,10 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
       </button>
     </li>
   )
+
+  const playButtonClassName = warnBeforeNewCountry
+    ? 'passport__play passport__play--warning'
+    : 'passport__play'
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -169,20 +189,27 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
               <p className="country-info-panel__note">
                 {warnBeforeNewCountry
                   ? NEW_COUNTRY_WARNING
-                  : "Discover a country you haven't seen yet."}
+                  : groupId === null
+                    ? 'Choose a group of countries to learn.'
+                    : `Next: a country from ${groupName} ${groupProgressLabel(groupId, progress)}.`}
               </p>
             </aside>
-            <button
-              className={
-                warnBeforeNewCountry ? 'passport__play passport__play--warning' : 'passport__play'
-              }
-              onClick={() => {
-                // Only shown while some country is unseen, so `!` is safe here.
-                onPlayFlashcard(randomUnseenCountry(progress)!)
-              }}
-            >
-              {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard →'}
-            </button>
+            {groupId === null ? (
+              <GroupChooser
+                progress={progress}
+                buttonLabel={warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard →'}
+                buttonClassName={playButtonClassName}
+                className="passport__group-chooser"
+                onChoose={(chosenId) => {
+                  saveLearningGroup(chosenId)
+                  playNewCountry(chosenId)
+                }}
+              />
+            ) : (
+              <button className={playButtonClassName} onClick={() => playNewCountry(groupId)}>
+                {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard →'}
+              </button>
+            )}
           </div>
         </div>
       )}

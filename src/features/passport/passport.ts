@@ -1,4 +1,9 @@
-import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
+import {
+  COUNTRY_GROUPS,
+  countryFacts,
+  type CountryFacts,
+  type CountryGroup,
+} from '../../shared/countryFacts'
 import type { Discoveries } from '../../shared/discoveries'
 import type { PassportSort } from '../../shared/passportSort'
 import type { CountryProgress, DeckProgress, QuestionId } from '../flashcards/deck'
@@ -12,22 +17,70 @@ export const COUNTRY_COUNT = Object.keys(countryFacts).length
 // answered (in Classic or Custom Practice), in alphabetical order.
 export function collectedCountries(progress: DeckProgress): CountryFacts[] {
   return Object.values(countryFacts)
-    .filter((country) => {
-      const questions = progress[country.isoAlpha3]
-      return questions !== undefined && Object.keys(questions).length > 0
-    })
+    .filter((country) => isCollected(progress, country.isoAlpha3))
     .sort((a, b) => a.commonName.localeCompare(b.commonName))
 }
 
-// A random country not yet in the Passport (no question answered), for the
-// "New country" card, as its ISO alpha-3 code. Null once all 195 are collected.
+// Whether the country is in the Passport: at least one question answered.
+function isCollected(progress: DeckProgress, code: string): boolean {
+  const questions = progress[code]
+  return questions !== undefined && Object.keys(questions).length > 0
+}
+
+function groupById(groupId: string): CountryGroup | undefined {
+  return COUNTRY_GROUPS.find((group) => group.id === groupId)
+}
+
+// The group's countries not yet in the Passport, as ISO alpha-3 codes, in
+// countryGroups.json order.
+export function unseenCountriesInGroup(groupId: string, progress: DeckProgress): string[] {
+  const group = groupById(groupId)
+  if (group === undefined) return []
+  return group.countries.filter((code) => !isCollected(progress, code))
+}
+
+// The group new countries come from: `savedId` (the user's choice, from
+// learningGroup.ts) while it still has countries not in the Passport. Null
+// when there is no choice or the group is finished, so the user chooses again.
+export function pendingGroupId(savedId: string | null, progress: DeckProgress): string | null {
+  if (savedId === null) return null
+  return unseenCountriesInGroup(savedId, progress).length > 0 ? savedId : null
+}
+
+// A group the user can choose to learn, with how many of its countries are
+// already in the Passport.
+export type GroupChoice = { id: string; name: string; seenCount: number; size: number }
+
+// The groups with countries not yet in the Passport, A–Z by name, for the
+// "choose a group" dropdown.
+export function groupsToChoose(progress: DeckProgress): GroupChoice[] {
+  return COUNTRY_GROUPS.map((group) => ({
+    id: group.id,
+    name: group.name,
+    seenCount: group.countries.filter((code) => isCollected(progress, code)).length,
+    size: group.countries.length,
+  }))
+    .filter((choice) => choice.seenCount < choice.size)
+    .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+// Where the next new country of a pending group comes in it, e.g. "(2 of 4)"
+// when 1 of its 4 countries is already in the Passport.
+export function groupProgressLabel(groupId: string, progress: DeckProgress): string {
+  const group = groupById(groupId)!
+  const seenCount = group.countries.length - unseenCountriesInGroup(groupId, progress).length
+  return `(${seenCount + 1} of ${group.countries.length})`
+}
+
+// A random country of the group not yet in the Passport, for the "New
+// country" card, as its ISO alpha-3 code. Null once all of them are collected.
 // `random` is a parameter so tests can make the choice predictable.
-export function randomUnseenCountry(
+export function randomUnseenCountryInGroup(
   progress: DeckProgress,
+  groupId: string,
   random: () => number = Math.random,
 ): string | null {
-  const collectedCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
-  const unseenCodes = Object.keys(countryFacts).filter((code) => !collectedCodes.includes(code))
+  const unseenCodes = unseenCountriesInGroup(groupId, progress)
   if (unseenCodes.length === 0) return null
   return unseenCodes[Math.floor(random() * unseenCodes.length)]
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { clearDiscoveries, recordDiscovery } from '../../shared/discoveries'
+import { clearLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { clearReviewLog } from '../../shared/reviewLog'
 import { todayString } from '../flashcards/dates'
@@ -67,7 +68,8 @@ export function DevTools({ onChange }: DevToolsProps) {
     saveProgress({})
     clearDiscoveries()
     clearReviewLog()
-    finish('Progress, discovery times and review log cleared.')
+    clearLearningGroup()
+    finish('Progress, discovery times, review log and chosen group cleared.')
   }
 
   return (

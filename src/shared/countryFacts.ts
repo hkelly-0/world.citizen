@@ -1,4 +1,5 @@
 import countriesJson from '../data/countries.json'
+import countryGroupsJson from '../data/countryGroups.json'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
 import territorySubtitlesJson from '../data/territorySubtitles.json'
 import type { CountryShape } from './countries'
@@ -27,7 +28,7 @@ export type CountryFacts = {
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
   // The group of 3 to 5 similar neighbouring countries this one belongs to,
-  // hand-written in countryGroups.json. Not yet used anywhere in the app.
+  // hand-written in countryGroups.json.
   groupId: string
   groupName: string
 }
@@ -35,6 +36,18 @@ export type CountryFacts = {
 // All 195 countries (193 UN members + Vatican City and Palestine), keyed by
 // ISO alpha-3 code.
 export const countryFacts: Record<string, CountryFacts> = countriesJson
+
+// A group of 3 to 5 similar neighbouring countries, hand-written in
+// countryGroups.json. New countries are learned one group at a time.
+export type CountryGroup = {
+  id: string
+  name: string
+  // ISO alpha-3 codes.
+  countries: string[]
+}
+
+// Every group; together they hold each of the 195 countries exactly once.
+export const COUNTRY_GROUPS: CountryGroup[] = countryGroupsJson
 
 // The name to show for a country outline on the globe: our common name for the
 // 195 countries, otherwise the map data's name (e.g. Greenland, Kosovo).

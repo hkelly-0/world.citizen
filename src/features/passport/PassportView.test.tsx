@@ -4,11 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
+import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadPassportSort } from '../../shared/passportSort'
-import { loadProgress, saveProgress } from '../../shared/progress'
+import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from '../flashcards/dates'
 import { QUESTION_IDS } from '../flashcards/deck'
-import { NEW_COUNTRY_WARNING, randomUnseenCountry } from './passport'
+import { NEW_COUNTRY_WARNING } from './passport'
 import { PassportView } from './PassportView'
 
 const answered = {
@@ -54,8 +55,8 @@ describe('PassportView', () => {
     expect(names().at(-1)).toBe('New country')
   })
 
-  it("plays an unseen country's flashcard from the enlarged New country card", async () => {
-    saveProgress({ FRA: { globe: answeredToday(10000) } })
+  it('asks for a group on the New country card, then plays one of its unseen countries', async () => {
+    saveProgress({ FRA: { globe: answeredToday(10000) }, NOR: { globe: answeredToday(10000) } })
     vi.spyOn(Math, 'random').mockReturnValue(0)
     const onPlayFlashcard = vi.fn()
     render(
@@ -68,14 +69,42 @@ describe('PassportView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'New country' }))
     expect(screen.getByRole('complementary', { name: 'New country details' })).toBeInTheDocument()
-    expect(screen.getByText("Discover a country you haven't seen yet.")).toBeInTheDocument()
+    expect(screen.getByText('Choose a group of countries to learn.')).toBeInTheDocument()
+    const play = screen.getByRole('button', { name: 'Play flashcard →' })
+    expect(play).toBeDisabled()
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: 'Group of countries' }),
+      'Nordic Countries (1/4)',
+    )
+    await userEvent.click(play)
+    // The first unseen Nordic country in countryGroups.json order (DNK, NOR, SWE, FIN).
+    expect(onPlayFlashcard).toHaveBeenCalledWith('DNK')
+    expect(loadLearningGroup()).toBe('nordic')
+  })
+
+  it('plays a country from the pending group without asking again', async () => {
+    saveProgress({ FRA: { globe: answeredToday(10000) }, DNK: { globe: answeredToday(10000) } })
+    saveLearningGroup('nordic')
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const onPlayFlashcard = vi.fn()
+    render(
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        onBack={vi.fn()}
+        onPlayFlashcard={onPlayFlashcard}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    expect(screen.getByText('Next: a country from Nordic Countries (2 of 4).')).toBeInTheDocument()
+    expect(screen.queryByRole('combobox', { name: 'Group of countries' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
-    expect(onPlayFlashcard).toHaveBeenCalledWith(randomUnseenCountry(loadProgress(), () => 0))
-    expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')
+    expect(onPlayFlashcard).toHaveBeenCalledWith('NOR')
   })
 
   it('warns on the New country card while the seen countries are unfamiliar', async () => {
     saveProgress({ FRA: { globe: answeredToday(0.2) } })
+    saveLearningGroup('nordic')
     const onPlayFlashcard = vi.fn()
     render(
       <PassportView
@@ -87,7 +116,7 @@ describe('PassportView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'New country' }))
     expect(screen.getByText(NEW_COUNTRY_WARNING)).toBeInTheDocument()
-    expect(screen.queryByText("Discover a country you haven't seen yet.")).not.toBeInTheDocument()
+    expect(screen.queryByText(/Next: a country from/)).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go anyway' }))
     expect(onPlayFlashcard).toHaveBeenCalledTimes(1)
     expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')

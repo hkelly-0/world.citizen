@@ -2,13 +2,10 @@ import { neighbors } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import isoCountries from 'i18n-iso-countries'
 import worldAtlas50m from 'world-atlas/countries-50m.json'
-import countryGroupsJson from '../../data/countryGroups.json'
+import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 
 // Colours for the dev option that tints every globe by country group
 // (src/data/countryGroups.json). Not part of the app itself.
-
-type CountryGroup = { id: string; name: string; countries: string[] }
-const COUNTRY_GROUPS: CountryGroup[] = countryGroupsJson
 
 // Whether the globes show the group colours. Kept in memory only, so a reload
 // turns it off. Globes read it when they are created; the dev menu remounts

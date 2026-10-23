@@ -164,3 +164,13 @@
   stroke-linecap: round;
   fill: none;
 }
+
+/* The group dropdown and its Play button on the "New country" card, spaced
+   like the Play button alone. */
+.passport__group-chooser {
+  margin: 0 20px 20px;
+}
+
+.passport__group-chooser .passport__play {
+  margin: 0;
+}

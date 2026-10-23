@@ -2,12 +2,17 @@ import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
+import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
 import {
   collectedCountries,
+  COUNTRY_COUNT,
+  groupProgressLabel,
   isTooUnfamiliarForNewCountry,
   NEW_COUNTRY_WARNING,
+  pendingGroupId,
+  unseenCountriesInGroup,
 } from '../passport/passport'
 import { todayString } from './dates'
 import {
@@ -20,11 +25,10 @@ import {
 } from './deck'
 import { Flashcard } from './Flashcard'
 import { CardReward } from './CardReward'
+import { GroupChooser } from './GroupChooser'
 import type { AnswerResult } from './fsrs'
 import { rewardAfterCard, type CardRewardDetails } from './rewardAfterCard'
 import './FlashcardsView.css'
-
-const ALL_CODES = Object.keys(countryFacts)
 
 type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
@@ -42,7 +46,10 @@ type FlashcardsViewProps = {
 
 // The flashcards screen: shows one country's card at a time, chosen by FSRS,
 // and saves progress after each card. Only the questions in `questionIds` are
-// asked, and only they decide which countries are due. Before a new country,
+// asked, and only they decide which countries are due. In Classic, new
+// countries come from the group of countries the user chose (learningGroup.ts)
+// until all of them are in the Passport; then a dropdown asks for the next
+// group. Before a new country, or before that dropdown,
 // it warns if the countries already seen aren't familiar enough yet, until the
 // user chooses to go on (once per visit to the screen). Otherwise, a country
 // not yet in the Passport is introduced with a "Discovering a new country"
@@ -60,16 +67,24 @@ export function FlashcardsView({
   const [today] = useState(todayString)
   const [progress, setProgress] = useState<DeckProgress>(loadProgress)
 
-  // The countries cards may come from: all 195, or only those in the Passport.
-  // A Passport country can still be asked a question for the first time.
-  function cardCodes(progress: DeckProgress): string[] {
-    if (canDiscoverCountries) return ALL_CODES
-    return collectedCountries(progress).map((country) => country.isoAlpha3)
+  // The group new countries come from, while some of its countries aren't in
+  // the Passport yet. Null in Custom Practice, or when a group must be chosen.
+  const [groupId, setGroupId] = useState<string | null>(() =>
+    canDiscoverCountries ? pendingGroupId(loadLearningGroup(), progress) : null,
+  )
+
+  // The countries cards may come from: those in the Passport, plus in Classic
+  // the chosen group's countries not yet in it. A Passport country can still
+  // be asked a question for the first time.
+  function cardCodes(progress: DeckProgress, groupId: string | null): string[] {
+    const collectedCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
+    if (!canDiscoverCountries || groupId === null) return collectedCodes
+    return [...collectedCodes, ...unseenCountriesInGroup(groupId, progress)]
   }
 
   // The country being shown, or null when there are no cards left today.
   const [currentCode, setCurrentCode] = useState<string | null>(() =>
-    chooseNextCountry(cardCodes(progress), progress, today, questionIds),
+    chooseNextCountry(cardCodes(progress, groupId), progress, today, questionIds),
   )
   // Set by "Discover a new country anyway →"; not shown again until the
   // screen is reopened.
@@ -84,10 +99,18 @@ export function FlashcardsView({
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
     currentCode !== null && countryDueDate(progress[currentCode], questionIds) === null
-  // Only when the card could be a country not yet in the Passport.
+  // In Classic, with nothing due and no group pending, while some country
+  // isn't in the Passport yet: the user chooses the next group.
+  const needsNewGroup =
+    canDiscoverCountries &&
+    currentCode === null &&
+    groupId === null &&
+    collectedCountries(progress).length < COUNTRY_COUNT
+  // Only when the card could be a country not yet in the Passport, or before
+  // choosing the group the next ones come from.
   const showNewCountryWarning =
     canDiscoverCountries &&
-    currentIsNew &&
+    (currentIsNew || needsNewGroup) &&
     !newCountryWarningDismissed &&
     isTooUnfamiliarForNewCountry(progress, questionIds, today)
   // Not yet in the Passport: no question answered, including ones not asked.
@@ -107,7 +130,21 @@ export function FlashcardsView({
     // The country's first card: it has just joined the Passport.
     if (newReward.kind === 'new-country') recordDiscovery(code, new Date())
     setReward(newReward)
-    setCurrentCode(chooseNextCountry(cardCodes(newProgress), newProgress, today, questionIds))
+    // Null once the group's last country is in the Passport, so the user
+    // chooses the next group.
+    const newGroupId = groupId === null ? null : pendingGroupId(groupId, newProgress)
+    setGroupId(newGroupId)
+    setCurrentCode(
+      chooseNextCountry(cardCodes(newProgress, newGroupId), newProgress, today, questionIds),
+    )
+  }
+
+  // Saved straight away, so the group is still pending if the user leaves
+  // before finishing it.
+  function chooseGroup(newGroupId: string) {
+    saveLearningGroup(newGroupId)
+    setGroupId(newGroupId)
+    setCurrentCode(chooseNextCountry(cardCodes(progress, newGroupId), progress, today, questionIds))
   }
 
   return (
@@ -115,12 +152,6 @@ export function FlashcardsView({
       <BackButton onClick={onBack} />
       {reward !== null ? (
         <CardReward reward={reward} continueLabel="Next →" onContinue={() => setReward(null)} />
-      ) : currentCode === null ? (
-        <p className="flashcards-view__done">
-          {canDiscoverCountries
-            ? 'No more cards today. Come back tomorrow!'
-            : 'No more cards today. Discover new countries in Classic Mode.'}
-        </p>
       ) : showNewCountryWarning ? (
         <div className="flashcards-view__warning">
           <p>{NEW_COUNTRY_WARNING}</p>
@@ -129,16 +160,36 @@ export function FlashcardsView({
             className="flashcards-view__discover"
             onClick={() => {
               setNewCountryWarningDismissed(true)
-              // The user has just chosen to discover it, so go straight to its card.
+              // The user has just chosen to discover it, so go straight to its
+              // card (or to the group dropdown, if no group is pending).
               setDiscoveryScreenPassedFor(currentCode)
             }}
           >
             Discover a new country anyway →
           </button>
         </div>
+      ) : needsNewGroup ? (
+        <div className="flashcards-view__choose-group">
+          <p>Choose a group of countries to learn.</p>
+          <GroupChooser
+            progress={progress}
+            buttonLabel="Go →"
+            buttonClassName="flashcards-view__go"
+            onChoose={chooseGroup}
+          />
+        </div>
+      ) : currentCode === null ? (
+        <p className="flashcards-view__done">
+          {canDiscoverCountries
+            ? 'No more cards today. Come back tomorrow!'
+            : 'No more cards today. Discover new countries in Classic Mode.'}
+        </p>
       ) : showDiscoveryScreen ? (
         <div className="flashcards-view__discovering">
-          <p>Discovering a new country...</p>
+          <p>
+            Discovering a new country from {countryFacts[currentCode].groupName}{' '}
+            {groupProgressLabel(countryFacts[currentCode].groupId, progress)}...
+          </p>
           <button
             type="button"
             className="flashcards-view__go"

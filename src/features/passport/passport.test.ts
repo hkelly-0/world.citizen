@@ -1,6 +1,5 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
-import { countryFacts } from '../../shared/countryFacts'
 import { addDays } from '../flashcards/dates'
 import { QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { recallChance } from '../flashcards/fsrs'
@@ -9,9 +8,13 @@ import {
   collectedCountries,
   countryRecall,
   COUNTRY_COUNT,
+  groupProgressLabel,
+  groupsToChoose,
   isTooUnfamiliarForNewCountry,
-  randomUnseenCountry,
+  pendingGroupId,
+  randomUnseenCountryInGroup,
   sortedCollectedCountries,
+  unseenCountriesInGroup,
 } from './passport'
 
 const answered = {
@@ -25,28 +28,71 @@ const answered = {
 }
 const TODAY = '2026-02-01'
 
-describe('randomUnseenCountry', () => {
-  it('picks among the countries with no question answered', () => {
-    // Every country but France and Peru is collected; Peru has an entry but
-    // nothing answered.
-    const progress: DeckProgress = Object.fromEntries(
-      Object.keys(countryFacts)
-        .filter((code) => code !== 'FRA' && code !== 'PER')
-        .map((code) => [code, { globe: answered }]),
-    )
-    progress.PER = {}
-    const unseen = ['FRA', 'PER'].sort(
-      (a, b) => Object.keys(countryFacts).indexOf(a) - Object.keys(countryFacts).indexOf(b),
-    )
-    expect(randomUnseenCountry(progress, () => 0)).toBe(unseen[0])
-    expect(randomUnseenCountry(progress, () => 0.99)).toBe(unseen[1])
+// The Nordic Countries group is DNK, NOR, SWE, FIN (countryGroups.json).
+describe('unseenCountriesInGroup', () => {
+  it("lists the group's countries with no question answered, in file order", () => {
+    // Sweden has an entry but nothing answered, so it is still unseen.
+    const progress: DeckProgress = { NOR: { globe: answered }, SWE: {} }
+    expect(unseenCountriesInGroup('nordic', progress)).toEqual(['DNK', 'SWE', 'FIN'])
   })
 
-  it('is null once every country is collected', () => {
+  it('is empty for an unknown group', () => {
+    expect(unseenCountriesInGroup('atlantis', {})).toEqual([])
+  })
+})
+
+describe('pendingGroupId', () => {
+  it('keeps the saved group while some of its countries are unseen', () => {
+    expect(pendingGroupId('nordic', { NOR: { globe: answered } })).toBe('nordic')
+  })
+
+  it('is null once every country of the group is seen, or with nothing saved', () => {
     const progress = Object.fromEntries(
-      Object.keys(countryFacts).map((code) => [code, { globe: answered }]),
+      ['DNK', 'NOR', 'SWE', 'FIN'].map((code) => [code, { globe: answered }]),
     )
-    expect(randomUnseenCountry(progress)).toBeNull()
+    expect(pendingGroupId('nordic', progress)).toBeNull()
+    expect(pendingGroupId(null, {})).toBeNull()
+  })
+})
+
+describe('groupsToChoose', () => {
+  it('lists the groups with unseen countries A-Z, counting the seen ones', () => {
+    const progress = Object.fromEntries(
+      ['DNK', 'NOR', 'SWE', 'FIN', 'EST'].map((code) => [code, { globe: answered }]),
+    )
+    const choices = groupsToChoose(progress)
+    expect(choices.find((choice) => choice.id === 'nordic')).toBeUndefined()
+    expect(choices.find((choice) => choice.id === 'baltic-states')).toEqual({
+      id: 'baltic-states',
+      name: 'Baltic States',
+      seenCount: 1,
+      size: 3,
+    })
+    const names = choices.map((choice) => choice.name)
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
+    expect(choices.length).toBe(49)
+  })
+})
+
+describe('groupProgressLabel', () => {
+  it('says where the next new country comes in the group', () => {
+    expect(groupProgressLabel('nordic', {})).toBe('(1 of 4)')
+    expect(groupProgressLabel('nordic', { NOR: { globe: answered } })).toBe('(2 of 4)')
+  })
+})
+
+describe('randomUnseenCountryInGroup', () => {
+  it("picks among the group's unseen countries", () => {
+    const progress: DeckProgress = { DNK: { globe: answered }, NOR: { globe: answered } }
+    expect(randomUnseenCountryInGroup(progress, 'nordic', () => 0)).toBe('SWE')
+    expect(randomUnseenCountryInGroup(progress, 'nordic', () => 0.99)).toBe('FIN')
+  })
+
+  it('is null once every country of the group is collected', () => {
+    const progress = Object.fromEntries(
+      ['DNK', 'NOR', 'SWE', 'FIN'].map((code) => [code, { globe: answered }]),
+    )
+    expect(randomUnseenCountryInGroup(progress, 'nordic')).toBeNull()
   })
 })
 

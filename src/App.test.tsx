@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { State } from 'ts-fsrs'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { addDays, todayString } from './features/flashcards/dates'
+import { saveLearningGroup } from './shared/learningGroup'
 import { saveProgress } from './shared/progress'
 
 // The flashcards' globe questions need WebGL too. These stand-ins answer
@@ -22,6 +23,10 @@ vi.mock('./features/globe/NameCountryGlobe', () => ({
 // The globe screen needs WebGL, which the test environment doesn't have, so
 // only the menu and flashcards screens are tested here.
 describe('App', () => {
+  // A group of countries is being learned, so Classic goes straight to a new
+  // country instead of first asking for a group.
+  beforeEach(() => saveLearningGroup('nordic'))
+
   afterEach(() => {
     localStorage.clear()
     // Screens add history entries, so start each test back on the menu's.
