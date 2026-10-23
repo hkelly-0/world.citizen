@@ -14,7 +14,15 @@ import {
   sortedCollectedCountries,
 } from './passport'
 
-const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
+const answered = {
+  stability: 10,
+  difficulty: 5,
+  reps: 1,
+  lapses: 0,
+  state: State.Review,
+  lastReview: '2026-01-01',
+  dueDate: '2026-01-11',
+}
 const TODAY = '2026-02-01'
 
 describe('randomUnseenCountry', () => {
@@ -27,8 +35,8 @@ describe('randomUnseenCountry', () => {
         .map((code) => [code, { globe: answered }]),
     )
     progress.PER = {}
-    const unseen = ['FRA', 'PER'].sort((a, b) =>
-      Object.keys(countryFacts).indexOf(a) - Object.keys(countryFacts).indexOf(b),
+    const unseen = ['FRA', 'PER'].sort(
+      (a, b) => Object.keys(countryFacts).indexOf(a) - Object.keys(countryFacts).indexOf(b),
     )
     expect(randomUnseenCountry(progress, () => 0)).toBe(unseen[0])
     expect(randomUnseenCountry(progress, () => 0.99)).toBe(unseen[1])
@@ -104,7 +112,12 @@ describe('countryRecall', () => {
   })
 
   it('is well below full for a question answered wrong today', () => {
-    const wrongToday = { ...answered, stability: 0.2, lastReview: TODAY, dueDate: addDays(TODAY, 1) }
+    const wrongToday = {
+      ...answered,
+      stability: 0.2,
+      lastReview: TODAY,
+      dueDate: addDays(TODAY, 1),
+    }
     expect(countryRecall({ globe: wrongToday }, ['globe'], TODAY)).toBeLessThan(0.6)
   })
 
@@ -124,7 +137,9 @@ describe('averageRecall', () => {
       AUT: { capital: withStability(1) },
     }
     const expected =
-      (countryRecall(progress.FRA, ['globe'], TODAY)! + countryRecall(progress.PER, ['globe'], TODAY)!) / 2
+      (countryRecall(progress.FRA, ['globe'], TODAY)! +
+        countryRecall(progress.PER, ['globe'], TODAY)!) /
+      2
     expect(averageRecall(progress, ['globe'], TODAY)).toBeCloseTo(expected)
   })
 
@@ -136,11 +151,20 @@ describe('averageRecall', () => {
 
 describe('isTooUnfamiliarForNewCountry', () => {
   // Answered on TODAY: soon forgotten with a low stability, remembered with a high one.
-  const answeredToday = (stability: number) => ({ ...answered, stability, lastReview: TODAY, dueDate: addDays(TODAY, 1) })
+  const answeredToday = (stability: number) => ({
+    ...answered,
+    stability,
+    lastReview: TODAY,
+    dueDate: addDays(TODAY, 1),
+  })
 
   it('is true when the seen countries are on average below 80% in 14 days', () => {
-    expect(isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(0.2) } }, ['globe'], TODAY)).toBe(true)
-    expect(isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(10000) } }, ['globe'], TODAY)).toBe(false)
+    expect(
+      isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(0.2) } }, ['globe'], TODAY),
+    ).toBe(true)
+    expect(
+      isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(10000) } }, ['globe'], TODAY),
+    ).toBe(false)
   })
 
   it('is false when no country has been seen', () => {

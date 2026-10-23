@@ -6,7 +6,15 @@ import type { QuestionProgress } from './fsrs'
 const TODAY = '2026-05-10'
 
 function dueOn(dueDate: string): QuestionProgress {
-  return { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-05-01', dueDate }
+  return {
+    stability: 10,
+    difficulty: 5,
+    reps: 1,
+    lapses: 0,
+    state: State.Review,
+    lastReview: '2026-05-01',
+    dueDate,
+  }
 }
 
 // A country whose questions are all due on the same date.
@@ -22,12 +30,20 @@ function allDueOn(dueDate: string): CountryProgress {
 
 describe('countryDueDate', () => {
   it("is the earliest due date of the country's questions", () => {
-    const progress = { globe: dueOn('2026-06-01'), capital: dueOn('2026-05-12'), area: dueOn('2026-05-20') }
+    const progress = {
+      globe: dueOn('2026-06-01'),
+      capital: dueOn('2026-05-12'),
+      area: dueOn('2026-05-20'),
+    }
     expect(countryDueDate(progress, QUESTION_IDS)).toBe('2026-05-12')
   })
 
   it('only counts the given questions', () => {
-    const progress = { globe: dueOn('2026-06-01'), capital: dueOn('2026-05-12'), area: dueOn('2026-05-20') }
+    const progress = {
+      globe: dueOn('2026-06-01'),
+      capital: dueOn('2026-05-12'),
+      area: dueOn('2026-05-20'),
+    }
     expect(countryDueDate(progress, ['globe', 'area'])).toBe('2026-05-20')
     expect(countryDueDate(progress, ['population'])).toBeNull()
   })
@@ -45,7 +61,9 @@ describe('chooseNextCountry', () => {
       PER: allDueOn('2026-05-01'),
       JPN: allDueOn(TODAY),
     }
-    expect(chooseNextCountry(['FRA', 'PER', 'JPN', 'IND'], progress, TODAY, QUESTION_IDS)).toBe('PER')
+    expect(chooseNextCountry(['FRA', 'PER', 'JPN', 'IND'], progress, TODAY, QUESTION_IDS)).toBe(
+      'PER',
+    )
   })
 
   it('shows a country when only one of its questions is due', () => {

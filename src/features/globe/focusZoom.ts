@@ -46,10 +46,15 @@ export function focusZoomFor(
   if (override !== undefined) return isWideScreen ? override.wideScreen : override.phone
 
   const tinyCountryZoom = isWideScreen ? WIDE_SCREEN_TINY_COUNTRY_ZOOM : PHONE_TINY_COUNTRY_ZOOM
-  const zoomOutPer1000Km = isWideScreen ? WIDE_SCREEN_ZOOM_OUT_PER_1000_KM : PHONE_ZOOM_OUT_PER_1000_KM
+  const zoomOutPer1000Km = isWideScreen
+    ? WIDE_SCREEN_ZOOM_OUT_PER_1000_KM
+    : PHONE_ZOOM_OUT_PER_1000_KM
   const equatorZoom =
     widthKm <= TINY_COUNTRY_KM
       ? tinyCountryZoom
-      : Math.max(MIN_FOCUS_ZOOM, tinyCountryZoom - ((widthKm - TINY_COUNTRY_KM) / 1000) * zoomOutPer1000Km)
+      : Math.max(
+          MIN_FOCUS_ZOOM,
+          tinyCountryZoom - ((widthKm - TINY_COUNTRY_KM) / 1000) * zoomOutPer1000Km,
+        )
   return equatorZoom - latitudeZoomOut(latitude)
 }

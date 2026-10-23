@@ -61,7 +61,9 @@ export type SubtitlePart = { text: string } | { isoAlpha3: string; name: string 
 // Splits a territory's subtitle into text and the countries it names, e.g.
 // [{ text: 'Autonomous territory of ' }, { isoAlpha3: 'DNK', name: 'Denmark' }].
 // Returns undefined for the 195 countries and areas with no subtitle.
-export function territorySubtitle(shape: Pick<CountryShape, 'name' | 'isoAlpha3'>): SubtitlePart[] | undefined {
+export function territorySubtitle(
+  shape: Pick<CountryShape, 'name' | 'isoAlpha3'>,
+): SubtitlePart[] | undefined {
   const subtitle = territorySubtitles[shape.isoAlpha3 ?? shape.name]
   if (subtitle === undefined) return undefined
   // Splitting on a pattern with a capture group keeps the captured codes, so

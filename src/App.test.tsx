@@ -105,7 +105,13 @@ describe('App', () => {
     expect(Object.keys(saved)).toHaveLength(1)
     // Each of the country's 5 questions has its own progress.
     const [countryProgress] = Object.values(saved) as object[]
-    expect(Object.keys(countryProgress).sort()).toEqual(['area', 'capital', 'globe', 'ihdi', 'population'])
+    expect(Object.keys(countryProgress).sort()).toEqual([
+      'area',
+      'capital',
+      'globe',
+      'ihdi',
+      'population',
+    ])
   })
 
   it('practises only the ticked question types, and saves progress for just those', async () => {
@@ -156,7 +162,9 @@ describe('App', () => {
 
     // Save stays on the settings screen, now showing "Saved", and keeps them.
     expect(screen.getByRole('button', { name: 'Saved' })).toBeDisabled()
-    expect(JSON.parse(localStorage.getItem('geography-app/learned-question-ids')!)).toEqual(['capital'])
+    expect(JSON.parse(localStorage.getItem('geography-app/learned-question-ids')!)).toEqual([
+      'capital',
+    ])
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
 

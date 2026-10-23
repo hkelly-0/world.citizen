@@ -31,7 +31,11 @@ describe('PassportFlashcardView', () => {
   it('asks the chosen questions, ends with Done, saves the review and goes back', async () => {
     const onBack = vi.fn()
     render(
-      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe', 'area']} onBack={onBack} />,
+      <PassportFlashcardView
+        isoAlpha3="FRA"
+        learnedQuestionIds={['globe', 'area']}
+        onBack={onBack}
+      />,
     )
 
     await userEvent.click(await screen.findByRole('button', { name: 'Locate: Next' }))
@@ -53,13 +57,17 @@ describe('PassportFlashcardView', () => {
     unmount()
 
     vi.spyOn(Date.prototype, 'toISOString').mockReturnValue('2099-01-01T00:00:00.000Z')
-    render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />)
+    render(
+      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+    )
     await userEvent.click(await screen.findByRole('button', { name: 'Locate: Done' }))
     expect(loadDiscoveries().FRA).toBe(firstSeen)
   })
 
   it("labels the globe's button Done when it is the only question", async () => {
-    render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />)
+    render(
+      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+    )
 
     expect(await screen.findByRole('button', { name: 'Locate: Done' })).toBeInTheDocument()
   })

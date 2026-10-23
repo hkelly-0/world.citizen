@@ -57,7 +57,11 @@ describe('CustomPracticeMenu', () => {
 
   it('offers only the question types learned in Settings', () => {
     render(
-      <CustomPracticeMenu learnedQuestionIds={['globe', 'capital']} onBack={vi.fn()} onGo={vi.fn()} />,
+      <CustomPracticeMenu
+        learnedQuestionIds={['globe', 'capital']}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
     )
 
     expect(screen.getAllByRole('checkbox').map((box) => box.parentElement!.textContent)).toEqual([

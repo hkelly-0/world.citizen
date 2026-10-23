@@ -1,4 +1,4 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
   appId: 'world.citizen',
@@ -8,9 +8,9 @@ const config: CapacitorConfig = {
     // Light status and navigation bar icons, to show on the app's dark background
     // (set as the window background in android/app/src/main/res/values/styles.xml).
     SystemBars: {
-      style: 'DARK'
-    }
-  }
-};
+      style: 'DARK',
+    },
+  },
+}
 
-export default config;
+export default config

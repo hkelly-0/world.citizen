@@ -91,7 +91,10 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
         <>
           <label className="passport__sort">
             Sort by
-            <select value={sort} onChange={(event) => changeSort(event.target.value as PassportSort)}>
+            <select
+              value={sort}
+              onChange={(event) => changeSort(event.target.value as PassportSort)}
+            >
               <option value="alphabetical">Alphabetical</option>
               <option value="date-discovered">Date discovered</option>
               <option value="recall">Familiarity</option>
@@ -164,11 +167,15 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
               </button>
               <h2>New country</h2>
               <p className="country-info-panel__note">
-                {warnBeforeNewCountry ? NEW_COUNTRY_WARNING : "Discover a country you haven't seen yet."}
+                {warnBeforeNewCountry
+                  ? NEW_COUNTRY_WARNING
+                  : "Discover a country you haven't seen yet."}
               </p>
             </aside>
             <button
-              className={warnBeforeNewCountry ? 'passport__play passport__play--warning' : 'passport__play'}
+              className={
+                warnBeforeNewCountry ? 'passport__play passport__play--warning' : 'passport__play'
+              }
               onClick={() => {
                 // Only shown while some country is unseen, so `!` is safe here.
                 onPlayFlashcard(randomUnseenCountry(progress)!)

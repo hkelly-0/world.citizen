@@ -10,7 +10,11 @@ type FlashcardsMenuProps = {
 
 // Shown when Flashcards is chosen on the main menu: full country cards
 // (Classic), or a choice of which question types to practise (Custom Practice).
-export function FlashcardsMenu({ onBack, onOpenClassic, onOpenCustomPractice }: FlashcardsMenuProps) {
+export function FlashcardsMenu({
+  onBack,
+  onOpenClassic,
+  onOpenCustomPractice,
+}: FlashcardsMenuProps) {
   return (
     <main className="main-menu">
       <BackButton onClick={onBack} />

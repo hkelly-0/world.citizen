@@ -94,7 +94,15 @@ function drawPerson(context) {
   context.clip()
   context.fillStyle = PERSON_COLOR
   context.beginPath()
-  context.ellipse(CENTRE, SHOULDERS_CENTRE_Y, SHOULDERS_HALF_WIDTH, SHOULDERS_HALF_HEIGHT, 0, 0, 2 * Math.PI)
+  context.ellipse(
+    CENTRE,
+    SHOULDERS_CENTRE_Y,
+    SHOULDERS_HALF_WIDTH,
+    SHOULDERS_HALF_HEIGHT,
+    0,
+    0,
+    2 * Math.PI,
+  )
   context.fill()
   context.restore()
 

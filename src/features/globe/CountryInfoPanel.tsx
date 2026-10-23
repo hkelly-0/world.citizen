@@ -81,7 +81,11 @@ export function CountryInfoPanel({
               <>
                 <dt>IHDI</dt>
                 <dd>
-                  {ihdi === null ? 'No data' : ihdi.isEstimate ? `${ihdi.title} (est.)` : ihdi.title}
+                  {ihdi === null
+                    ? 'No data'
+                    : ihdi.isEstimate
+                      ? `${ihdi.title} (est.)`
+                      : ihdi.title}
                 </dd>
               </>
             )}

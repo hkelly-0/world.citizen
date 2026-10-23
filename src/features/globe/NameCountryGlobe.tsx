@@ -2,12 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCountryNameCorrect } from '../flashcards/countryNameAnswer'
 import { TYPING_MS_PER_LETTER, TypedAnswerReveal } from '../flashcards/TypedAnswerReveal'
-import {
-  COUNTRY_SHAPES,
-  createCountryMap,
-  flyToCountry,
-  stopHoverHighlight,
-} from './countryMap'
+import { COUNTRY_SHAPES, createCountryMap, flyToCountry, stopHoverHighlight } from './countryMap'
 import './NameCountryGlobe.css'
 
 // Must match the opacity transition in NameCountryGlobe.css.

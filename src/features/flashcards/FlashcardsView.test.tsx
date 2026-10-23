@@ -39,7 +39,14 @@ describe('FlashcardsView', () => {
 
   it('warns before a new country while the seen ones are unfamiliar, once per visit', async () => {
     saveFranceArea(0.2)
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
+    render(
+      <FlashcardsView
+        questionIds={['area']}
+        globeKinds={['locate']}
+        canDiscoverCountries={true}
+        onBack={() => {}}
+      />,
+    )
 
     expect(screen.getByText(WARNING)).toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
@@ -53,14 +60,28 @@ describe('FlashcardsView', () => {
 
   it('does not warn while the seen countries are familiar', () => {
     saveFranceArea(10000)
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
+    render(
+      <FlashcardsView
+        questionIds={['area']}
+        globeKinds={['locate']}
+        canDiscoverCountries={true}
+        onBack={() => {}}
+      />,
+    )
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
   it('does not warn when no country has been seen', () => {
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
+    render(
+      <FlashcardsView
+        questionIds={['area']}
+        globeKinds={['locate']}
+        canDiscoverCountries={true}
+        onBack={() => {}}
+      />,
+    )
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
   })
@@ -68,7 +89,14 @@ describe('FlashcardsView', () => {
   it('counts only the questions being asked', () => {
     // France's area is unfamiliar, but only capitals are being practised.
     saveFranceArea(0.2)
-    render(<FlashcardsView questionIds={['capital']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
+    render(
+      <FlashcardsView
+        questionIds={['capital']}
+        globeKinds={['locate']}
+        canDiscoverCountries={true}
+        onBack={() => {}}
+      />,
+    )
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
   })
@@ -78,7 +106,12 @@ describe('FlashcardsView', () => {
       // France's area is unfamiliar and its capital has never been asked.
       saveFranceArea(0.2)
       render(
-        <FlashcardsView questionIds={['capital']} globeKinds={['locate']} canDiscoverCountries={false} onBack={() => {}} />,
+        <FlashcardsView
+          questionIds={['capital']}
+          globeKinds={['locate']}
+          canDiscoverCountries={false}
+          onBack={() => {}}
+        />,
       )
 
       expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
@@ -95,7 +128,12 @@ describe('FlashcardsView', () => {
 
     it('shows no cards when the Passport is empty', () => {
       render(
-        <FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={false} onBack={() => {}} />,
+        <FlashcardsView
+          questionIds={['area']}
+          globeKinds={['locate']}
+          canDiscoverCountries={false}
+          onBack={() => {}}
+        />,
       )
 
       expect(

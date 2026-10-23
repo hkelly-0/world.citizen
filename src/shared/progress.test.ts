@@ -14,7 +14,17 @@ describe('progress storage', () => {
 
   it('loads what was saved', () => {
     const progress = {
-      FRA: { capital: { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' } },
+      FRA: {
+        capital: {
+          stability: 10,
+          difficulty: 5,
+          reps: 1,
+          lapses: 0,
+          state: State.Review,
+          lastReview: '2026-01-01',
+          dueDate: '2026-01-11',
+        },
+      },
     }
     saveProgress(progress)
     expect(loadProgress()).toEqual(progress)
@@ -26,7 +36,19 @@ describe('progress storage', () => {
   })
 
   it('deletes SM-2 progress and the discovery times with it, keeping FSRS progress', () => {
-    const progress = { FRA: { capital: { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' } } }
+    const progress = {
+      FRA: {
+        capital: {
+          stability: 10,
+          difficulty: 5,
+          reps: 1,
+          lapses: 0,
+          state: State.Review,
+          lastReview: '2026-01-01',
+          dueDate: '2026-01-11',
+        },
+      },
+    }
     saveProgress(progress)
     localStorage.setItem('geography-app/question-progress', '{"PER":{}}')
     recordDiscovery('PER', new Date('2026-10-20T09:00:00Z'))

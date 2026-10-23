@@ -3,7 +3,12 @@ import type { CountryShape } from './countries'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
 import territorySubtitlesJson from '../data/territorySubtitles.json'
 import { loadCountryShapes } from './countries'
-import { alternativeNames, countryDisplayName, countryFacts, territorySubtitle } from './countryFacts'
+import {
+  alternativeNames,
+  countryDisplayName,
+  countryFacts,
+  territorySubtitle,
+} from './countryFacts'
 
 describe('countryFacts', () => {
   const countries = Object.values(countryFacts)

@@ -116,26 +116,22 @@ await readCsv(
 // The UNDP file is Latin-1 encoded, not UTF-8.
 const hdis = {}
 const ihdis = {}
-await readCsv(
-  join(sources, 'hdr-composite.csv'),
-  { gzipped: false, encoding: 'latin1' },
-  (row) => {
-    const latestValue = (prefix) => {
-      // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
-      const yearColumn = new RegExp(`^${prefix}_\\d{4}$`)
-      const years = Object.keys(row)
-        .filter((column) => yearColumn.test(column) && row[column].trim() !== '')
-        .map((column) => Number(column.slice(prefix.length + 1)))
-      if (years.length === 0) return undefined
-      const latestYear = Math.max(...years)
-      return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
-    }
-    const hdi = latestValue('hdi')
-    if (hdi !== undefined) hdis[row.iso3] = hdi
-    const ihdi = latestValue('ihdi')
-    if (ihdi !== undefined) ihdis[row.iso3] = ihdi
-  },
-)
+await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'latin1' }, (row) => {
+  const latestValue = (prefix) => {
+    // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
+    const yearColumn = new RegExp(`^${prefix}_\\d{4}$`)
+    const years = Object.keys(row)
+      .filter((column) => yearColumn.test(column) && row[column].trim() !== '')
+      .map((column) => Number(column.slice(prefix.length + 1)))
+    if (years.length === 0) return undefined
+    const latestYear = Math.max(...years)
+    return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
+  }
+  const hdi = latestValue('hdi')
+  if (hdi !== undefined) hdis[row.iso3] = hdi
+  const ihdi = latestValue('ihdi')
+  if (ihdi !== undefined) ihdis[row.iso3] = ihdi
+})
 
 // --- Estimated IHDI for countries that have an HDI but no IHDI ---
 // IHDI is closely tied to HDI, and lower HDIs lose proportionally more to
@@ -158,7 +154,9 @@ const intercept = meanIhdi - slope * meanHdi
 function estimateIhdi(hdi) {
   return Math.round((slope * hdi + intercept) * 1000) / 1000
 }
-console.log(`IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`)
+console.log(
+  `IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`,
+)
 
 // --- Join on ISO alpha-3, sorted by code so diffs stay stable ---
 const countries = {}
@@ -196,4 +194,6 @@ const missingHdi = Object.values(countries).filter((country) => country.hdi === 
 console.log(`No HDI for ${missingHdi.length}: ${missingHdi.map((c) => c.isoAlpha3).join(', ')}`)
 console.log(`No IHDI for ${missingIhdi.length}: ${missingIhdi.map((c) => c.isoAlpha3).join(', ')}`)
 const estimated = Object.values(countries).filter((country) => country.ihdiEstimate !== null)
-console.log(`Estimated IHDI for ${estimated.length}: ${estimated.map((c) => c.isoAlpha3).join(', ')}`)
+console.log(
+  `Estimated IHDI for ${estimated.length}: ${estimated.map((c) => c.isoAlpha3).join(', ')}`,
+)

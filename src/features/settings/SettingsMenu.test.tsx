@@ -6,7 +6,9 @@ import { SettingsMenu } from './SettingsMenu'
 
 describe('SettingsMenu', () => {
   it('lists the 5 kinds of information, ticked if learned', () => {
-    render(<SettingsMenu learnedQuestionIds={['globe', 'ihdi']} onBack={vi.fn()} onSave={vi.fn()} />)
+    render(
+      <SettingsMenu learnedQuestionIds={['globe', 'ihdi']} onBack={vi.fn()} onSave={vi.fn()} />,
+    )
 
     expect(screen.getByText('Information I want to learn:')).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'Location' })).toBeChecked()

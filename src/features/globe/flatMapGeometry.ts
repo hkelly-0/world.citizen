@@ -46,8 +46,7 @@ function prepareRing(ring: Position[]): Position[] {
   const last = continuous[continuous.length - 1]
   if (Math.abs(last[0] - first[0]) < 180) return continuous
 
-  const averageLatitude =
-    continuous.reduce((sum, point) => sum + point[1], 0) / continuous.length
+  const averageLatitude = continuous.reduce((sum, point) => sum + point[1], 0) / continuous.length
   const poleLatitude = averageLatitude < 0 ? -90 : 90
   return [...continuous, [last[0], poleLatitude], [first[0], poleLatitude], first]
 }

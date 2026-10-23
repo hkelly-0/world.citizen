@@ -19,7 +19,10 @@ export type MainLandmassOverride = {
 // Hand-written exceptions to the automatic rule, keyed by ISO alpha-3.
 // TypeScript reads each JSON box as number[], not four numbers, so the cast
 // goes through unknown.
-export const MAIN_LANDMASS_OVERRIDES = overridesJson as unknown as Record<string, MainLandmassOverride>
+export const MAIN_LANDMASS_OVERRIDES = overridesJson as unknown as Record<
+  string,
+  MainLandmassOverride
+>
 
 // Islands and territories whose nearest coastline is further than this from
 // the centre of the country's largest part are left out (e.g. French Guiana
@@ -63,7 +66,10 @@ function automaticMainLandmass(geometry: Geometry): MultiPolygon {
   const largestRadius = Math.max(
     ...largest.geometry.coordinates[0].map((point) => degreesFrom(centre, point)),
   )
-  const maxDistance = Math.max(NEARBY_PARTS_MIN_DEGREES, largestRadius * NEARBY_PARTS_RADIUS_MULTIPLE)
+  const maxDistance = Math.max(
+    NEARBY_PARTS_MIN_DEGREES,
+    largestRadius * NEARBY_PARTS_RADIUS_MULTIPLE,
+  )
 
   // A part's distance is to its nearest coastline point, not its centre, so
   // big neighbouring islands (e.g. New Zealand's North Island) are kept.
@@ -95,7 +101,9 @@ export function partsInBox(
 // otherwise the automatic rule. isoAlpha3 is null for areas without a code.
 export function mainLandmass(geometry: Geometry, isoAlpha3: string | null): MultiPolygon {
   const override = isoAlpha3 === null ? undefined : MAIN_LANDMASS_OVERRIDES[isoAlpha3]
-  return override === undefined ? automaticMainLandmass(geometry) : partsInBox(geometry, override.box)
+  return override === undefined
+    ? automaticMainLandmass(geometry)
+    : partsInBox(geometry, override.box)
 }
 
 // Antarctica is one shape around the South Pole, so its computed centre and

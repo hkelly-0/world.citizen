@@ -111,7 +111,10 @@ function projectionFor(framed) {
     projection.scale(MAX_SCALE).translate([IMAGE_SIZE / 2, IMAGE_SIZE / 2])
     const [[left, top], [right, bottom]] = geoPath(projection).bounds(framed)
     const [x, y] = projection.translate()
-    projection.translate([x + IMAGE_SIZE / 2 - (left + right) / 2, y + IMAGE_SIZE / 2 - (top + bottom) / 2])
+    projection.translate([
+      x + IMAGE_SIZE / 2 - (left + right) / 2,
+      y + IMAGE_SIZE / 2 - (top + bottom) / 2,
+    ])
   }
   return projection
 }

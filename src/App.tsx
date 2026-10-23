@@ -55,7 +55,9 @@ function passportFlashcardCodeInHistory(): string | null {
 export default function App() {
   // Read from history, so reloading the website stays on the same screen.
   const [screen, setScreen] = useState<Screen>(screenInHistory)
-  const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(customQuestionIdsInHistory)
+  const [customQuestionIds, setCustomQuestionIds] = useState<QuestionId[]>(
+    customQuestionIdsInHistory,
+  )
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
   const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
     passportFlashcardCodeInHistory,

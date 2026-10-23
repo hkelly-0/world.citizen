@@ -29,8 +29,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 // in 14 days: filled clockwise from the top, and coloured, by its recall chance
 // (see `countryRecall`). An empty grey ring when the country has none.
 export function RecallCircle({ recall }: { recall: number | null }) {
-  const label =
-    recall === null ? 'No familiarity yet' : `Familiarity ${Math.round(recall * 100)}%`
+  const label = recall === null ? 'No familiarity yet' : `Familiarity ${Math.round(recall * 100)}%`
   return (
     <svg
       className="recall-circle"
