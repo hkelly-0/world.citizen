@@ -58,6 +58,7 @@ describe('FlashcardsView', () => {
     // warning, introduced by the discovering screen.
     expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
     await answerArea()
+    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
@@ -79,6 +80,45 @@ describe('FlashcardsView', () => {
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
+  })
+
+  it("shows the Passport count going up after a new country's card, but not a seen one's", async () => {
+    // France is due today, so its card comes first, then a new country.
+    const today = todayString()
+    saveProgress({
+      FRA: {
+        area: {
+          stability: 10000,
+          difficulty: 5,
+          reps: 1,
+          lapses: 0,
+          state: State.Review,
+          lastReview: addDays(today, -1),
+          dueDate: today,
+        },
+      },
+    })
+    render(
+      <FlashcardsView
+        questionIds={['area']}
+        globeKinds={['locate']}
+        canDiscoverCountries={true}
+        onBack={() => {}}
+      />,
+    )
+
+    expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await answerArea()
+    expect(screen.getByLabelText('2/195')).toBeInTheDocument()
+    // Moves on (to a new country or the warning, depending on the random
+    // country's answer).
+    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+    expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
   })
 
   it('does not warn when no country has been seen', () => {

@@ -43,8 +43,28 @@ describe('PassportFlashcardView', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' }))
     await userEvent.click(screen.getByRole('button', { name: 'Done' }))
 
+    // France is new, so the Passport count goes up before going back.
+    expect(screen.getByText('France ✓')).toBeInTheDocument()
+    expect(screen.getByLabelText('1/195')).toBeInTheDocument()
+    expect(onBack).not.toHaveBeenCalled()
+    await userEvent.click(screen.getByRole('button', { name: 'Done' }))
+
     expect(onBack).toHaveBeenCalled()
     expect(Object.keys(loadProgress().FRA).sort()).toEqual(['area', 'globe'])
+  })
+
+  it('goes straight back after the card of a country already in the Passport', async () => {
+    const onBack = vi.fn()
+    const { unmount } = render(
+      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+    )
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Done' }))
+    unmount()
+
+    render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={onBack} />)
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Done' }))
+    expect(screen.queryByText('France ✓')).not.toBeInTheDocument()
+    expect(onBack).toHaveBeenCalled()
   })
 
   it('records when a country is first seen, but not again', async () => {

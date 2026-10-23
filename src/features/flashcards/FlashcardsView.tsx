@@ -20,6 +20,7 @@ import {
 } from './deck'
 import { Flashcard } from './Flashcard'
 import type { AnswerResult } from './fsrs'
+import { NewCountryReward } from './NewCountryReward'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -41,7 +42,8 @@ type FlashcardsViewProps = {
 // it warns if the countries already seen aren't familiar enough yet, until the
 // user chooses to go on (once per visit to the screen). Otherwise, a country
 // not yet in the Passport is introduced with a "Discovering a new country"
-// screen before its card.
+// screen before its card, and after its card a reward shows the Passport count
+// going up.
 export function FlashcardsView({
   questionIds,
   globeKinds,
@@ -69,6 +71,8 @@ export function FlashcardsView({
   // The country whose "Discovering a new country" screen has been passed, by
   // "Go →" or by "Discover a new country anyway →".
   const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
+  // Set after a new country's first card, until "Next →" moves on to the next card.
+  const [reward, setReward] = useState<{ code: string; countBefore: number } | null>(null)
 
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
@@ -93,14 +97,24 @@ export function FlashcardsView({
     saveProgress(newProgress)
     logCardReviews(code, questionIds, results, today)
     // The country's first card: it has just joined the Passport.
-    if (Object.keys(progress[code] ?? {}).length === 0) recordDiscovery(code, new Date())
+    if (Object.keys(progress[code] ?? {}).length === 0) {
+      recordDiscovery(code, new Date())
+      setReward({ code, countBefore: collectedCountries(progress).length })
+    }
     setCurrentCode(chooseNextCountry(cardCodes(newProgress), newProgress, today, questionIds))
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
-      {currentCode === null ? (
+      {reward !== null ? (
+        <NewCountryReward
+          countryName={countryFacts[reward.code].commonName}
+          countBefore={reward.countBefore}
+          continueLabel="Next →"
+          onContinue={() => setReward(null)}
+        />
+      ) : currentCode === null ? (
         <p className="flashcards-view__done">
           {canDiscoverCountries
             ? 'No more cards today. Come back tomorrow!'

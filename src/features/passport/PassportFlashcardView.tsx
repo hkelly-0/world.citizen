@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
@@ -7,6 +8,8 @@ import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
+import { NewCountryReward } from '../flashcards/NewCountryReward'
+import { collectedCountries } from './passport'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -22,11 +25,17 @@ type PassportFlashcardViewProps = {
 // "New country", for an unseen one). It asks the questions chosen in Settings,
 // always finding the country on the globe (never naming it). Finishing it
 // reviews each question as Classic does, then "Done" returns to the Passport.
+// A new country's first card is followed by the Passport count going up,
+// with its own "Done".
 export function PassportFlashcardView({
   isoAlpha3,
   learnedQuestionIds,
   onBack,
 }: PassportFlashcardViewProps) {
+  // How many countries were in the Passport before this one joined; null
+  // until a new country's first card is finished.
+  const [rewardCountBefore, setRewardCountBefore] = useState<number | null>(null)
+
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
@@ -35,20 +44,33 @@ export function PassportFlashcardView({
     logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
     // The country's first card (opened from "New country"): it has just
     // joined the Passport.
-    if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) recordDiscovery(isoAlpha3, new Date())
-    onBack()
+    if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) {
+      recordDiscovery(isoAlpha3, new Date())
+      setRewardCountBefore(collectedCountries(progress).length)
+    } else {
+      onBack()
+    }
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} label="← Passport" />
-      <Flashcard
-        country={countryFacts[isoAlpha3]}
-        questionIds={learnedQuestionIds}
-        globeKinds={['locate']}
-        finishLabel="Done"
-        onFinish={finishCard}
-      />
+      {rewardCountBefore !== null ? (
+        <NewCountryReward
+          countryName={countryFacts[isoAlpha3].commonName}
+          countBefore={rewardCountBefore}
+          continueLabel="Done"
+          onContinue={onBack}
+        />
+      ) : (
+        <Flashcard
+          country={countryFacts[isoAlpha3]}
+          questionIds={learnedQuestionIds}
+          globeKinds={['locate']}
+          finishLabel="Done"
+          onFinish={finishCard}
+        />
+      )}
     </div>
   )
 }
