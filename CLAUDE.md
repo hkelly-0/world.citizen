@@ -51,6 +51,7 @@ Features link up via ISO alpha-3 country codes. Scope: the 195 countries (193 UN
    - Familiarity (`countryRecall` in `passport.ts`): the average FSRS chance of remembering the country's answered, learned questions `FAMILIARITY_DAYS_AHEAD` days from now (on the day of a review it is always ~100%). Shown as a ring (`RecallCircle.tsx`), used by the Familiarity sort and by the new-country warning.
    - Sort choice is remembered (`src/shared/passportSort.ts`); discovery times for Date discovered are saved in `src/shared/discoveries.ts`.
 5. **Dev menu** (`src/features/dev/`) – on the dev server only (`import.meta.env.DEV`), a "dev" tab on the right edge of every screen (`DevTools.tsx`, rendered in `App.tsx`) opens buttons that edit saved progress to set up flashcard situations: skip days, add well-known/shaky countries, make everything or nothing due, reset (logic in `devProgress.ts`). After each change the current screen is remounted so it reads the new progress.
+   - "Show country groups on globes" tints every globe by country group (`countryGroupColours.ts`, an extra layer in `countryMap.ts`). Not saved; globes read it when created. Colours are picked per page load, keeping neighbouring groups' hues apart.
 
 ## Architecture decisions
 - **One web codebase**, deployed as the website and packaged as an APK with **Capacitor** (`capacitor.config.ts`, native project in `android/`).

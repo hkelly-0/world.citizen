@@ -13,6 +13,7 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import type { FeatureCollection } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
+import { areCountryGroupsShown, chooseCountryGroupColours } from '../dev/countryGroupColours'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
@@ -44,6 +45,8 @@ const CORRECT_COLOR = '#3fb950'
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
+// The dev option's country group tint, over the satellite imagery.
+const GROUP_OPACITY = 0.45
 
 // NASA Blue Marble satellite imagery, cut into tiles by
 // scripts/make-background-tiles.sh.
@@ -66,16 +69,24 @@ const BORDERS_MAX_DETAIL_ZOOM = 8
 // Full-detail borders: MapLibre simplifies them itself for each zoom level.
 export const COUNTRY_SHAPES = loadCountryShapes()
 
+// Each country's group colour for the dev option (see countryGroupColours.ts),
+// chosen once per page load. Left empty outside the dev server.
+const GROUP_COLOURS: Record<string, string> = import.meta.env.DEV ? chooseCountryGroupColours() : {}
+
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
-// a tapped feature can be turned back into its CountryShape.
+// a tapped feature can be turned back into its CountryShape. Countries in a
+// group carry its colour as "groupColour"; other map areas have none.
 const COUNTRY_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
-  features: COUNTRY_SHAPES.map((shape, index) => ({
-    type: 'Feature',
-    id: index,
-    geometry: prepareGeometryForFlatMap(shape.geometry),
-    properties: {},
-  })),
+  features: COUNTRY_SHAPES.map((shape, index) => {
+    const groupColour = shape.isoAlpha3 === null ? undefined : GROUP_COLOURS[shape.isoAlpha3]
+    return {
+      type: 'Feature',
+      id: index,
+      geometry: prepareGeometryForFlatMap(shape.geometry),
+      properties: groupColour === undefined ? {} : { groupColour },
+    }
+  }),
 }
 
 // Positions in COUNTRY_SHAPES of the countries that get a tap buffer.
@@ -158,6 +169,26 @@ const MAP_STYLE: StyleSpecification = {
   ],
 }
 
+// The same style with each country tinted by its group's colour, between the
+// imagery and the highlights. Used while the dev option is on.
+const MAP_STYLE_WITH_GROUPS: StyleSpecification = {
+  ...MAP_STYLE,
+  layers: MAP_STYLE.layers.flatMap((layer) =>
+    layer.id === 'satellite-imagery'
+      ? [
+          layer,
+          {
+            id: 'country-groups',
+            type: 'fill',
+            source: 'countries',
+            filter: ['has', 'groupColour'],
+            paint: { 'fill-color': ['get', 'groupColour'], 'fill-opacity': GROUP_OPACITY },
+          },
+        ]
+      : [layer],
+  ),
+}
+
 // Returns the position in COUNTRY_SHAPES of the country a tap at `point` (screen
 // pixels) picked, or null for the ocean. Very small countries within
 // TAP_BUFFER_PX of the tap count as tapped (see tapBuffer.ts).
@@ -216,12 +247,13 @@ export function stopHoverHighlight(map: MapLibreMap) {
 }
 
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
-// container, with hover highlighting on devices that can hover. The caller
+// container, with hover highlighting on devices that can hover, and the
+// country group tint if the dev option is on. The caller
 // handles clicks and must call map.remove() when done.
 export function createCountryMap(container: HTMLElement): MapLibreMap {
   const map = new MapLibreMap({
     container,
-    style: MAP_STYLE,
+    style: areCountryGroupsShown() ? MAP_STYLE_WITH_GROUPS : MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
     pixelRatio: Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO),
