@@ -27,6 +27,15 @@ export function loadReviewLog(): ReviewLogEntry[] {
   }
 }
 
+// Forgets every logged answer. Only used by the Developer section of Settings.
+export function clearReviewLog(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+  }
+}
+
 // Adds an entry for each asked question of a finished card.
 export function logCardReviews(
   country: string,
