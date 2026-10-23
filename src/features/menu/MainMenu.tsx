@@ -29,8 +29,8 @@ export function MainMenu({
       <button className="main-menu__option" onClick={onOpenGlobe}>
         Globe
       </button>
-      <button className="main-menu__option" onClick={onOpenPassport}>
-        Passport{' '}
+      <button className="main-menu__option main-menu__option--stacked" onClick={onOpenPassport}>
+        <span>Passport</span>{' '}
         <span className="main-menu__count">
           {passportCount}/{COUNTRY_COUNT}
         </span>

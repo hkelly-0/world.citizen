@@ -66,6 +66,25 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* The title on the first row with the arrow beside it, and a second line
+   (the Passport's count) directly below the title. */
+.main-menu__option--stacked {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: center;
+  justify-items: start;
+  gap: 0 8px;
+}
+
+.main-menu__option--stacked .main-menu__count {
+  grid-column: 1;
+}
+
+.main-menu__option--stacked::after {
+  grid-column: 2;
+  grid-row: 1;
+}
+
 /* The Passport's "42/195", quieter than the button's title. */
 .main-menu__count {
   color: #a9b1c2;
