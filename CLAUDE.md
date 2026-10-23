@@ -6,6 +6,14 @@ This code should be explicit to the reader. Do not use complex engineering patte
 
 While working, do not remove previous comments unless the underlying logic changes and the comment is incorrect.
 
+## Updating CLAUDE.md
+
+CLAUDE.md is for what can't be learned quickly from the code: decisions and why, constraints, gotchas, commands, data sources, and open work. When a change needs it updated:
+- Name the file, function or constant instead of copying its value (e.g. `FAMILIARITY_DAYS_AHEAD`, not "14 days"). Leave out exact numbers, UI wording and step-by-step behaviour; put those details in code comments.
+- Keep each feature to a few sentences: what it does, where it lives, and rules that are easy to break.
+- Don't record finished work; git history covers it. Remove Status items once they're done.
+- Prefer editing or replacing existing text over adding to it.
+
 ## Git
 
 - Make one commit per logical change (e.g. a bug fix and a refactor are separate commits); don't bundle unrelated updates.
