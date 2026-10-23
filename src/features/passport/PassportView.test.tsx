@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { State } from 'ts-fsrs'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { recordDiscovery } from '../../shared/discoveries'
@@ -7,7 +8,7 @@ import { saveProgress } from '../../shared/progress'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { PassportView } from './PassportView'
 
-const answered = { repetitions: 1, intervalDays: 1, easeFactor: 2.5, dueDate: '2026-01-02' }
+const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
 
 describe('PassportView', () => {
   beforeEach(() => localStorage.clear())

@@ -3,6 +3,7 @@ import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { logCardReviews } from '../../shared/reviewLog'
 import { todayString } from './dates'
 import {
   chooseNextCountry,
@@ -12,7 +13,7 @@ import {
   type QuestionId,
 } from './deck'
 import { Flashcard } from './Flashcard'
-import type { AnswerResult } from './sm2'
+import type { AnswerResult } from './fsrs'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -25,7 +26,7 @@ type FlashcardsViewProps = {
   onBack: () => void
 }
 
-// The flashcards screen: shows one country's card at a time, chosen by SM-2,
+// The flashcards screen: shows one country's card at a time, chosen by FSRS,
 // and saves progress after each card. Only the questions in `questionIds` are
 // asked, and only they decide which countries are due.
 export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsViewProps) {
@@ -37,12 +38,13 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
     chooseNextCountry(ALL_CODES, progress, today, questionIds),
   )
 
-  // Each asked question gets its own SM-2 review, even ones that weren't due
+  // Each asked question gets its own FSRS review, even ones that weren't due
   // yet. Questions not asked keep their progress.
   function finishCard(code: string, results: Partial<Record<QuestionId, AnswerResult>>) {
     const newProgress = reviewCountry(progress, code, questionIds, results, today)
     setProgress(newProgress)
     saveProgress(newProgress)
+    logCardReviews(code, questionIds, results, today)
     // The country's first card: it has just joined the Passport.
     if (Object.keys(progress[code] ?? {}).length === 0) recordDiscovery(code, new Date())
     setCurrentCode(chooseNextCountry(ALL_CODES, newProgress, today, questionIds))

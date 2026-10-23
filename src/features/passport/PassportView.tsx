@@ -3,17 +3,18 @@ import { BackButton } from '../../shared/BackButton'
 import { loadDiscoveries } from '../../shared/discoveries'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
+import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
 import { CountryInfoPanel } from '../globe/CountryInfoPanel'
-import { EaseCircle } from './EaseCircle'
-import { countryEase, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
+import { RecallCircle } from './RecallCircle'
+import { countryRecall, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
 import './PassportView.css'
 
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
 type PassportViewProps = {
-  // The information chosen in Settings; only these questions count towards ease.
+  // The information chosen in Settings; only these questions count towards recall.
   learnedQuestionIds: QuestionId[]
   onBack: () => void
   // Opens the full flashcard for the country with this ISO alpha-3 code.
@@ -21,19 +22,21 @@ type PassportViewProps = {
 }
 
 // Every country the user has seen as a flashcard, as a grid of pictures with
-// their names and a ring showing how easy the user finds each, sorted
-// alphabetically, by date discovered or by ease (the last choice is
+// their names and a ring showing how likely the user is to remember each,
+// sorted alphabetically, by date discovered or by recall chance (the last choice is
 // remembered). It grows as they study.
 export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
   const [openCode, setOpenCode] = useState<string | null>(null)
   const progress = loadProgress()
+  const today = todayString()
   const countries = sortedCollectedCountries(
     progress,
     loadDiscoveries(),
     learnedQuestionIds,
     sort,
+    today,
   )
 
   const openCountry = countries.find((country) => country.isoAlpha3 === openCode)
@@ -63,7 +66,7 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
             <select value={sort} onChange={(event) => changeSort(event.target.value as PassportSort)}>
               <option value="alphabetical">Alphabetical</option>
               <option value="date-discovered">Date discovered</option>
-              <option value="ease">Familiarity</option>
+              <option value="recall">Familiarity</option>
             </select>
           </label>
           <ul className="passport__grid">
@@ -80,8 +83,8 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
                   />
                   <span className="passport__name">
                     {country.commonName}
-                    <EaseCircle
-                      ease={countryEase(progress[country.isoAlpha3], learnedQuestionIds)}
+                    <RecallCircle
+                      recall={countryRecall(progress[country.isoAlpha3], learnedQuestionIds, today)}
                     />
                   </span>
                 </button>

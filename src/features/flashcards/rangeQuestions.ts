@@ -1,6 +1,6 @@
 import type { CountryFacts } from '../../shared/countryFacts'
 import { AREA_RANGES, IHDI_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
-import type { AnswerResult } from './sm2'
+import type { AnswerResult } from './fsrs'
 
 // Countries with neither an IHDI nor an HDI to estimate it from have this as
 // their correct IHDI answer.

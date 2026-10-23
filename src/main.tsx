@@ -7,6 +7,10 @@ import '@fontsource/roboto-mono/400.css'
 import '@fontsource/roboto-mono/700.css'
 import './index.css'
 import App from './App.tsx'
+import { removeOldSm2Progress } from './shared/progress'
+
+// Progress saved before the switch to FSRS is deleted, not converted.
+removeOldSm2Progress()
 
 // Android's back button steps back through the app's history entries (see
 // App.tsx), like the browser's back button, and closes the app on the menu.

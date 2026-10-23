@@ -3,7 +3,7 @@ import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
 import type { GlobeKind, QuestionId } from './deck'
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
-import type { AnswerResult } from './sm2'
+import type { AnswerResult } from './fsrs'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
 import './Flashcard.css'
 

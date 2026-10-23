@@ -1,10 +1,11 @@
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { logCardReviews } from '../../shared/reviewLog'
 import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
-import type { AnswerResult } from '../flashcards/sm2'
+import type { AnswerResult } from '../flashcards/fsrs'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -26,8 +27,10 @@ export function PassportFlashcardView({
   onBack,
 }: PassportFlashcardViewProps) {
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
+    const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
-    saveProgress(reviewCountry(loadProgress(), isoAlpha3, learnedQuestionIds, results, todayString()))
+    saveProgress(reviewCountry(loadProgress(), isoAlpha3, learnedQuestionIds, results, today))
+    logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
     onBack()
   }
 

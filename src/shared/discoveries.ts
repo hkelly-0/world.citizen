@@ -18,6 +18,15 @@ export function loadDiscoveries(): Discoveries {
   }
 }
 
+// Forgets every discovery time, when the Passport starts afresh.
+export function clearDiscoveries(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+  }
+}
+
 // Records that the country was first seen at `when`. Does nothing if it
 // already has a time.
 export function recordDiscovery(isoAlpha3: string, when: Date): void {

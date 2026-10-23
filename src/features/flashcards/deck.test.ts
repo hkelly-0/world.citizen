@@ -1,11 +1,12 @@
+import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
 import { chooseNextCountry, countryDueDate, QUESTION_IDS, type CountryProgress } from './deck'
-import type { QuestionProgress } from './sm2'
+import type { QuestionProgress } from './fsrs'
 
 const TODAY = '2026-05-10'
 
 function dueOn(dueDate: string): QuestionProgress {
-  return { repetitions: 1, easeFactor: 2.5, intervalDays: 1, dueDate }
+  return { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-05-01', dueDate }
 }
 
 // A country whose questions are all due on the same date.

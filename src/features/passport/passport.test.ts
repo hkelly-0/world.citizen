@@ -1,13 +1,16 @@
+import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
 import { QUESTION_IDS } from '../flashcards/deck'
+import { recallChance } from '../flashcards/fsrs'
 import {
   collectedCountries,
-  countryEase,
+  countryRecall,
   COUNTRY_COUNT,
   sortedCollectedCountries,
 } from './passport'
 
-const answered = { repetitions: 1, intervalDays: 1, easeFactor: 2.5, dueDate: '2026-01-02' }
+const answered = { stability: 10, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview: '2026-01-01', dueDate: '2026-01-11' }
+const TODAY = '2026-02-01'
 
 describe('collectedCountries', () => {
   it('is empty with no progress', () => {
@@ -45,7 +48,7 @@ describe('sortedCollectedCountries', () => {
     JPN: '2026-10-20T08:00:00.000Z',
   }
   const names = (sort: 'alphabetical' | 'date-discovered') =>
-    sortedCollectedCountries(progress, discoveries, QUESTION_IDS, sort).map(
+    sortedCollectedCountries(progress, discoveries, QUESTION_IDS, sort, TODAY).map(
       (country) => country.commonName,
     )
 
@@ -58,32 +61,34 @@ describe('sortedCollectedCountries', () => {
   })
 })
 
-describe('countryEase', () => {
-  const withEase = (easeFactor: number) => ({ ...answered, easeFactor })
+describe('countryRecall', () => {
+  // A higher stability is remembered for longer, so has a higher recall chance.
+  const withStability = (stability: number) => ({ ...answered, stability })
 
-  it('averages the ease factors of the answered questions given', () => {
-    const country = { globe: withEase(2.0), area: withEase(3.0), capital: withEase(1.3) }
-    expect(countryEase(country, ['globe', 'area', 'population'])).toBe(2.5)
+  it('averages the recall chances of the answered questions given', () => {
+    const country = { globe: withStability(5), area: withStability(50), capital: withStability(1) }
+    const expected = (recallChance(country.globe, TODAY) + recallChance(country.area, TODAY)) / 2
+    expect(countryRecall(country, ['globe', 'area', 'population'], TODAY)).toBeCloseTo(expected)
   })
 
   it('is null when none of the questions given has been answered', () => {
-    expect(countryEase({ capital: withEase(2.0) }, ['globe'])).toBeNull()
-    expect(countryEase(undefined, QUESTION_IDS)).toBeNull()
+    expect(countryRecall({ capital: withStability(5) }, ['globe'], TODAY)).toBeNull()
+    expect(countryRecall(undefined, QUESTION_IDS, TODAY)).toBeNull()
   })
 })
 
-describe('sorting by ease', () => {
-  const withEase = (easeFactor: number) => ({ ...answered, easeFactor })
+describe('sorting by recall', () => {
+  const withStability = (stability: number) => ({ ...answered, stability })
   const progress = {
-    PER: { globe: withEase(2.6) },
-    FRA: { globe: withEase(1.3), area: withEase(2.5) },
-    JPN: { globe: withEase(1.9) },
-    BRA: { globe: withEase(2.6) },
-    CHL: { capital: withEase(1.3) },
+    PER: { globe: withStability(50) },
+    FRA: { globe: withStability(1), area: withStability(20) },
+    JPN: { globe: withStability(10) },
+    BRA: { globe: withStability(50) },
+    CHL: { capital: withStability(1) },
   }
 
-  it('puts the hardest first, ties A-Z, and countries with no learned question answered last', () => {
-    const names = sortedCollectedCountries(progress, {}, ['globe', 'area'], 'ease').map(
+  it('puts the least likely to be remembered first, ties A-Z, and countries with no learned question answered last', () => {
+    const names = sortedCollectedCountries(progress, {}, ['globe', 'area'], 'recall', TODAY).map(
       (country) => country.commonName,
     )
     expect(names).toEqual(['France', 'Japan', 'Brazil', 'Peru', 'Chile'])

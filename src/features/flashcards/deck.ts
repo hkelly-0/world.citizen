@@ -1,6 +1,6 @@
-import { gradeFromAnswer, reviewQuestion, type AnswerResult, type QuestionProgress } from './sm2'
+import { reviewQuestion, type AnswerResult, type QuestionProgress } from './fsrs'
 
-// The questions asked about each country. Each has its own SM-2 schedule, so
+// The questions asked about each country. Each has its own FSRS schedule, so
 // e.g. a country's capital can be well known while its population isn't.
 export type QuestionId = 'globe' | 'area' | 'population' | 'ihdi' | 'capital'
 export const QUESTION_IDS: QuestionId[] = ['globe', 'area', 'population', 'ihdi', 'capital']
@@ -64,7 +64,7 @@ export function chooseNextCountry(
 }
 
 // The progress after finishing a country's card. Each asked question gets its
-// own SM-2 review, even ones that weren't due yet. Questions not asked keep
+// own FSRS review, even ones that weren't due yet. Questions not asked keep
 // their progress.
 export function reviewCountry(
   progress: DeckProgress,
@@ -77,7 +77,7 @@ export function reviewCountry(
   for (const id of questionIds) {
     // Every asked question has a result once the card is finished.
     const result = results[id]!
-    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(result), today)
+    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], result, today)
   }
   return { ...progress, [code]: newCountryProgress }
 }

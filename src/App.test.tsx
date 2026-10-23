@@ -98,7 +98,7 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    const saved = JSON.parse(localStorage.getItem('geography-app/question-progress') ?? '{}')
+    const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')
     expect(Object.keys(saved)).toHaveLength(1)
     // Each of the country's 5 questions has its own progress.
     const [countryProgress] = Object.values(saved) as object[]
@@ -119,7 +119,7 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    const saved = JSON.parse(localStorage.getItem('geography-app/question-progress') ?? '{}')
+    const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')
     const [countryProgress] = Object.values(saved) as object[]
     expect(Object.keys(countryProgress)).toEqual(['capital'])
 
