@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
+import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { todayString } from './dates'
 import {
@@ -48,6 +49,8 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
     const newProgress = { ...progress, [code]: newCountryProgress }
     setProgress(newProgress)
     saveProgress(newProgress)
+    // The country's first card: it has just joined the Passport.
+    if (Object.keys(progress[code] ?? {}).length === 0) recordDiscovery(code, new Date())
     setCurrentCode(chooseNextCountry(ALL_CODES, newProgress, today, questionIds))
   }
 

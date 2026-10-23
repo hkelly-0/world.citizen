@@ -27,6 +27,24 @@
   text-align: center;
 }
 
+.passport__sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a9b1c2;
+}
+
+.passport__sort select {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  cursor: pointer;
+}
+
 /* As many columns of at least 140px as fit: 2 on a phone, more on a laptop. */
 .passport__grid {
   display: grid;

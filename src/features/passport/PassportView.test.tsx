@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { recordDiscovery } from '../../shared/discoveries'
+import { loadPassportSort } from '../../shared/passportSort'
 import { saveProgress } from '../../shared/progress'
 import { PassportView } from './PassportView'
 
@@ -26,5 +29,18 @@ describe('PassportView', () => {
       '/country-images/FRA.webp',
     )
     expect(screen.queryByText('Peru')).not.toBeInTheDocument()
+  })
+
+  it('sorts by date discovered when chosen, and remembers the choice', async () => {
+    saveProgress({ FRA: { globe: answered }, PER: { globe: answered } })
+    recordDiscovery('PER', new Date('2026-10-20T09:00:00Z'))
+    recordDiscovery('FRA', new Date('2026-10-21T09:00:00Z'))
+    render(<PassportView onBack={vi.fn()} />)
+    const names = () => screen.getAllByRole('listitem').map((item) => item.textContent)
+
+    expect(names()).toEqual(['France', 'Peru'])
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'Date discovered')
+    expect(names()).toEqual(['Peru', 'France'])
+    expect(loadPassportSort()).toBe('date-discovered')
   })
 })

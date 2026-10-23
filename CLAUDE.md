@@ -40,7 +40,7 @@ Tap buffer (`tapBuffer.ts`, used by both globes through `findTappedCountryIndex`
 
 3. **Settings** (`src/features/settings/SettingsMenu.tsx`, saved by `src/shared/settings.ts` in localStorage) – the root control for what is learned. Same layout as Custom Practice: "Information I want to learn:" with a checkbox for each of Location, Area, Population, IHDI and Capital (all ticked by default), and a button that reads "Saved" (disabled) until a box is changed, then "Save" (disabled if none is ticked); saving stays on the screen and the button goes back to "Saved". "← Menu" returns to the main menu, discarding unsaved changes. Unticked information isn't shown on the globe's info panel (names are always shown; Location has nothing there), isn't asked in Classic, and isn't offered in Custom Practice (Location off hides both globe options). Their SM-2 schedules are kept.
 
-4. **Passport** (`src/features/passport/`) – a collection of the countries the user has seen as flashcards, growing as they study. A country joins once any of its questions has been answered (Classic or Custom Practice). The main menu's button and the screen's heading read "Passport 42/195". The screen is a grid of the country pictures with their common names, alphabetical; tapping does nothing yet. With none seen it says how countries join.
+4. **Passport** (`src/features/passport/`) – a collection of the countries the user has seen as flashcards, growing as they study. A country joins once any of its questions has been answered (Classic or Custom Practice). The main menu's button and the screen's heading read "Passport 42/195". The screen is a grid of the country pictures with their common names; tapping does nothing yet. A "Sort by" dropdown offers Alphabetical or Date discovered (first discovered at the top), and the last choice is remembered (`src/shared/passportSort.ts`). Discovery times are saved by the flashcards when a country's first card is finished (`src/shared/discoveries.ts`); countries seen before times were recorded have none and come first in Date discovered, A–Z. With none seen it says how countries join.
 
 Features should link up via ISO country codes, e.g. "show on globe" from a flashcard, "add to flashcards" from the globe info panel.
 
@@ -95,6 +95,8 @@ src/
     statRanges.ts   # named ranges for population, area and IHDI
     progress.ts     # flashcard progress (per country, per question) in localStorage
     settings.ts     # which question types are learned (Settings), in localStorage
+    discoveries.ts  # when each country was first seen, for the Passport, in localStorage
+    passportSort.ts # the Passport's last sort choice, in localStorage
     BackButton.tsx  # "← Menu" button used by each screen
 scripts/            # one-off asset generation (background map tiles, country facts, country pictures, app icon)
 android/            # Capacitor's native Android project (mostly generated)

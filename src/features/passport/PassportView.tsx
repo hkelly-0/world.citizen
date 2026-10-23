@@ -1,15 +1,25 @@
+import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { loadDiscoveries } from '../../shared/discoveries'
+import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
-import { collectedCountries, COUNTRY_COUNT } from './passport'
+import { COUNTRY_COUNT, sortedCollectedCountries } from './passport'
 import './PassportView.css'
 
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
 // Every country the user has seen as a flashcard, as a grid of pictures with
-// their names, in alphabetical order. It grows as they study.
+// their names, sorted alphabetically or by date discovered (the last choice is
+// remembered). It grows as they study.
 export function PassportView({ onBack }: { onBack: () => void }) {
-  const countries = collectedCountries(loadProgress())
+  const [sort, setSort] = useState<PassportSort>(loadPassportSort)
+  const countries = sortedCollectedCountries(loadProgress(), loadDiscoveries(), sort)
+
+  function changeSort(next: PassportSort) {
+    setSort(next)
+    savePassportSort(next)
+  }
 
   return (
     <main className="passport">
@@ -25,18 +35,27 @@ export function PassportView({ onBack }: { onBack: () => void }) {
           No countries yet. Countries join your Passport once you've seen them in Flashcards.
         </p>
       ) : (
-        <ul className="passport__grid">
-          {countries.map((country) => (
-            <li key={country.isoAlpha3} className="passport__country">
-              <img
-                className="passport__image"
-                src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
-                alt={`Map of ${country.commonName}`}
-              />
-              <span>{country.commonName}</span>
-            </li>
-          ))}
-        </ul>
+        <>
+          <label className="passport__sort">
+            Sort by
+            <select value={sort} onChange={(event) => changeSort(event.target.value as PassportSort)}>
+              <option value="alphabetical">Alphabetical</option>
+              <option value="date-discovered">Date discovered</option>
+            </select>
+          </label>
+          <ul className="passport__grid">
+            {countries.map((country) => (
+              <li key={country.isoAlpha3} className="passport__country">
+                <img
+                  className="passport__image"
+                  src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
+                  alt={`Map of ${country.commonName}`}
+                />
+                <span>{country.commonName}</span>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </main>
   )
