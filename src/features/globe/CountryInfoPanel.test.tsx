@@ -28,9 +28,9 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
     // Population, area and IHDI show range titles, not exact numbers.
-    expect(screen.getByText('Numerous - ≥ 50M')).toBeInTheDocument()
-    expect(screen.getByText('Medium - ≥ 300K km²')).toBeInTheDocument()
-    expect(screen.getByText('Great - 8')).toBeInTheDocument()
+    expect(screen.getByText('≥ 50M / Numerous')).toBeInTheDocument()
+    expect(screen.getByText('≥ 300K km² / Medium')).toBeInTheDocument()
+    expect(screen.getByText('8 / Great')).toBeInTheDocument()
   })
 
   it('lists every capital for countries with several', () => {
@@ -96,7 +96,7 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
-    expect(screen.getByText('Medium - ≥ 300K km²')).toBeInTheDocument()
+    expect(screen.getByText('≥ 300K km² / Medium')).toBeInTheDocument()
     expect(screen.queryByText('Paris')).not.toBeInTheDocument()
     expect(screen.queryByText('Population')).not.toBeInTheDocument()
     expect(screen.queryByText('IHDI')).not.toBeInTheDocument()

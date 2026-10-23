@@ -37,7 +37,7 @@ vi.mock('../globe/NameCountryGlobe', () => ({
 const LOCATION_QUESTION_RANDOM = 0.9
 const NAME_QUESTION_RANDOM = 0.1
 
-// France: area Medium, population Numerous, IHDI Great - 8, capital Paris.
+// France: area Medium, population Numerous, IHDI 8  /  Great, capital Paris.
 const france = countryFacts['FRA']
 
 async function answerLocation(button: 'Tap right country' | 'Tap wrong country') {
@@ -45,7 +45,7 @@ async function answerLocation(button: 'Tap right country' | 'Tap wrong country')
 }
 
 async function answerRangeQuestion(option: string) {
-  await userEvent.click(screen.getByRole('button', { name: option }))
+  await userEvent.click(screen.getByRole('button', { name: option.replace(/\s+/g, ' ') }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 }
 
@@ -89,11 +89,11 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Select France')).toBeInTheDocument()
     await answerLocation('Tap right country')
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('Medium - ≥ 300K km²')
+    await answerRangeQuestion('≥ 300K km²  /  Medium')
     expect(screen.getByText('Population?')).toBeInTheDocument()
-    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
-    await answerRangeQuestion('Great - 8')
+    await answerRangeQuestion('8  /  Great')
     await answerCapital('paris')
     expect(screen.getByLabelText('paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -123,9 +123,9 @@ describe('Flashcard', () => {
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Type wrong name' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('Medium - ≥ 300K km²')
-    await answerRangeQuestion('Numerous - ≥ 50M')
-    await answerRangeQuestion('Great - 8')
+    await answerRangeQuestion('≥ 300K km²  /  Medium')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
+    await answerRangeQuestion('8  /  Great')
     await answerCapital('paris')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
@@ -150,19 +150,19 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap wrong country')
-    await userEvent.click(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' }))
-    expect(screen.getByRole('button', { name: 'Tiny - ≥ 10K km²' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '≥ 10K km² / Tiny' }))
+    expect(screen.getByRole('button', { name: '≥ 10K km² / Tiny' })).toHaveClass(
       'flashcard__option--wrong',
     )
-    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     // Options can't be changed once answered.
-    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toBeDisabled()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    await answerRangeQuestion('Numerous - ≥ 50M')
-    await answerRangeQuestion('Great - 8')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
+    await answerRangeQuestion('8  /  Great')
     await answerCapital('Lyon')
     expect(screen.getByText('Lyon')).toHaveClass('typed-answer__red')
     // The correct capital is typed out letter by letter.
@@ -189,11 +189,11 @@ describe('Flashcard', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'Small - ≥ 100K km²' }))
-    expect(screen.getByRole('button', { name: 'Small - ≥ 100K km²' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '≥ 100K km² / Small' }))
+    expect(screen.getByRole('button', { name: '≥ 100K km² / Small' })).toHaveClass(
       'flashcard__option--close',
     )
-    expect(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -213,9 +213,9 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Medium - ≥ 300K km²')
-    await answerRangeQuestion('Numerous - ≥ 50M')
-    await answerRangeQuestion('Great - 8')
+    await answerRangeQuestion('≥ 300K km²  /  Medium')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
+    await answerRangeQuestion('8  /  Great')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -240,8 +240,8 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Teensy-weensy - < 10K km²')
-    await answerRangeQuestion('Minute - < 100K')
+    await answerRangeQuestion('< 10K km²  /  Teensy-weensy')
+    await answerRangeQuestion('< 100K  /  Minute')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
     expect(screen.getByRole('button', { name: 'No data' })).toHaveClass(
@@ -260,10 +260,10 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Large - ≥ 1M km²')
-    await answerRangeQuestion('Moderate - ≥ 10M')
+    await answerRangeQuestion('≥ 1M km²  /  Large')
+    await answerRangeQuestion('≥ 10M  /  Moderate')
     expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Great - 8' }))
+    await userEvent.click(screen.getByRole('button', { name: '8 / Great' }))
 
     expect(screen.getByText(/Estimated: UNDP has no IHDI/)).toBeInTheDocument()
   })
@@ -279,9 +279,9 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Large - ≥ 1M km²')
-    await answerRangeQuestion('Numerous - ≥ 50M')
-    await answerRangeQuestion('Very Bad - 4')
+    await answerRangeQuestion('≥ 1M km²  /  Large')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
+    await answerRangeQuestion('4  /  Very Bad')
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
@@ -302,7 +302,7 @@ describe('Flashcard', () => {
     // No globe question, and the card starts at population.
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
-    await answerRangeQuestion('Numerous - ≥ 50M')
+    await answerRangeQuestion('≥ 50M  /  Numerous')
     expect(screen.queryByText('IHDI?')).not.toBeInTheDocument()
     await answerCapital('Lyon')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -322,7 +322,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('Tiny - ≥ 10K km²')
+    await answerRangeQuestion('≥ 10K km²  /  Tiny')
 
     expect(onFinish).toHaveBeenCalledWith({ globe: 'right', area: 'wrong' })
   })

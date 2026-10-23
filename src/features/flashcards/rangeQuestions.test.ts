@@ -5,28 +5,28 @@ import { rangeAnswerResult, rangeQuestions } from './rangeQuestions'
 const france = countryFacts['FRA']
 
 describe('rangeQuestions', () => {
-  it('lists options largest first, without "Fantastic - 10", with "No data" last', () => {
+  it('lists options largest first, without "10  /  Fantastic", with "No data" last', () => {
     const [area, population, ihdi] = rangeQuestions(france)
 
     expect(area.options).toEqual([
-      'Immense - ≥ 5M km²',
-      'Large - ≥ 1M km²',
-      'Medium - ≥ 300K km²',
-      'Small - ≥ 100K km²',
-      'Tiny - ≥ 10K km²',
-      'Teensy-weensy - < 10K km²',
+      '≥ 5M km²  /  Immense',
+      '≥ 1M km²  /  Large',
+      '≥ 300K km²  /  Medium',
+      '≥ 100K km²  /  Small',
+      '≥ 10K km²  /  Tiny',
+      '< 10K km²  /  Teensy-weensy',
     ])
     expect(population.options[0]).toBe('1.4 Billion')
-    expect(population.options.at(-1)).toBe('Minute - < 100K')
+    expect(population.options.at(-1)).toBe('< 100K  /  Minute')
     expect(ihdi.options).toEqual([
-      'Excellent - 9',
-      'Great - 8',
-      'Good - 7',
-      'Ok - 6',
-      'Bad - 5',
-      'Very Bad - 4',
-      'Awful - 3',
-      'Very Awful - 2',
+      '9  /  Excellent',
+      '8  /  Great',
+      '7  /  Good',
+      '6  /  Ok',
+      '5  /  Bad',
+      '4  /  Very Bad',
+      '3  /  Awful',
+      '2  /  Very Awful',
       'No data',
     ])
   })
@@ -46,7 +46,7 @@ describe('rangeQuestions', () => {
     expect(saudiArabia.ihdiEstimate).not.toBeNull()
 
     const ihdi = rangeQuestions(saudiArabia)[2]
-    expect(ihdi.correctAnswer).toBe('Great - 8')
+    expect(ihdi.correctAnswer).toBe('8  /  Great')
     expect(ihdi.isEstimate).toBe(true)
   })
 
@@ -58,22 +58,22 @@ describe('rangeQuestions', () => {
 
 describe('rangeAnswerResult', () => {
   it('counts the correct title as right, a neighbouring one as close and others as wrong', () => {
-    // France's area is "Medium - ≥ 300K km²".
+    // France's area is "≥ 300K km²  /  Medium".
     const area = rangeQuestions(france)[0]
-    expect(rangeAnswerResult(area, 'Medium - ≥ 300K km²')).toBe('right')
-    expect(rangeAnswerResult(area, 'Large - ≥ 1M km²')).toBe('close')
-    expect(rangeAnswerResult(area, 'Small - ≥ 100K km²')).toBe('close')
-    expect(rangeAnswerResult(area, 'Immense - ≥ 5M km²')).toBe('wrong')
-    expect(rangeAnswerResult(area, 'Tiny - ≥ 10K km²')).toBe('wrong')
+    expect(rangeAnswerResult(area, '≥ 300K km²  /  Medium')).toBe('right')
+    expect(rangeAnswerResult(area, '≥ 1M km²  /  Large')).toBe('close')
+    expect(rangeAnswerResult(area, '≥ 100K km²  /  Small')).toBe('close')
+    expect(rangeAnswerResult(area, '≥ 5M km²  /  Immense')).toBe('wrong')
+    expect(rangeAnswerResult(area, '≥ 10K km²  /  Tiny')).toBe('wrong')
   })
 
   it('never counts "No data" as close to the lowest IHDI title', () => {
     // Vatican has no IHDI, so its answer is "No data".
     const vaticanIhdi = rangeQuestions(countryFacts['VAT'])[2]
-    expect(rangeAnswerResult(vaticanIhdi, 'Very Awful - 2')).toBe('wrong')
+    expect(rangeAnswerResult(vaticanIhdi, '2  /  Very Awful')).toBe('wrong')
 
-    const lowIhdi = { ...vaticanIhdi, correctAnswer: 'Very Awful - 2' }
+    const lowIhdi = { ...vaticanIhdi, correctAnswer: '2  /  Very Awful' }
     expect(rangeAnswerResult(lowIhdi, 'No data')).toBe('wrong')
-    expect(rangeAnswerResult(lowIhdi, 'Awful - 3')).toBe('close')
+    expect(rangeAnswerResult(lowIhdi, '3  /  Awful')).toBe('close')
   })
 })

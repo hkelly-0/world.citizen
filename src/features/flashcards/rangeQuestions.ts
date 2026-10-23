@@ -13,7 +13,7 @@ import type { AnswerResult } from './fsrs'
 const NO_DATA = 'No data'
 
 // No country's IHDI is high enough for this range, so it isn't offered.
-const UNUSED_IHDI_TITLE = 'Fantastic - 10'
+const UNUSED_IHDI_TITLE = '10  /  Fantastic'
 
 // Options are listed largest first, so the biggest range is at the top.
 function largestFirst(titles: string[]): string[] {

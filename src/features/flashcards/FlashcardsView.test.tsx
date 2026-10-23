@@ -32,7 +32,7 @@ function saveFranceArea(stability: number) {
 }
 
 async function answerArea() {
-  await userEvent.click(screen.getByRole('button', { name: 'Immense - ≥ 5M km²' }))
+  await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² / Immense' }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 }
 
@@ -111,7 +111,7 @@ describe('FlashcardsView', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' }))
+    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
     expect(screen.getByText('France')).toBeInTheDocument()
