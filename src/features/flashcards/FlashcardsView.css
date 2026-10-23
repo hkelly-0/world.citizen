@@ -8,8 +8,9 @@
   box-sizing: border-box;
 }
 
+/* The auto margins centre it vertically in the screen. */
 .flashcards-view__done {
-  margin: 0;
+  margin: auto 0;
   font-size: 1.2rem;
   text-align: center;
 }

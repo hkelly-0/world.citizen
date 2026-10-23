@@ -4,7 +4,11 @@ import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
-import { isTooUnfamiliarForNewCountry, NEW_COUNTRY_WARNING } from '../passport/passport'
+import {
+  collectedCountries,
+  isTooUnfamiliarForNewCountry,
+  NEW_COUNTRY_WARNING,
+} from '../passport/passport'
 import { todayString } from './dates'
 import {
   chooseNextCountry,
@@ -25,6 +29,9 @@ type FlashcardsViewProps = {
   questionIds: QuestionId[]
   // Which kinds of globe question may be asked, if the globe question is.
   globeKinds: GlobeKind[]
+  // True for Classic. False for Custom Practice, which only shows countries
+  // already in the Passport, so new countries are only discovered in Classic.
+  canDiscoverCountries: boolean
   onBack: () => void
 }
 
@@ -33,13 +40,26 @@ type FlashcardsViewProps = {
 // asked, and only they decide which countries are due. Before a new country,
 // it warns if the countries already seen aren't familiar enough yet, until the
 // user chooses to go on (once per visit to the screen).
-export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsViewProps) {
+export function FlashcardsView({
+  questionIds,
+  globeKinds,
+  canDiscoverCountries,
+  onBack,
+}: FlashcardsViewProps) {
   // Fixed while the screen is open, so a session past midnight stays consistent.
   const [today] = useState(todayString)
   const [progress, setProgress] = useState<DeckProgress>(loadProgress)
+
+  // The countries cards may come from: all 195, or only those in the Passport.
+  // A Passport country can still be asked a question for the first time.
+  function cardCodes(progress: DeckProgress): string[] {
+    if (canDiscoverCountries) return ALL_CODES
+    return collectedCountries(progress).map((country) => country.isoAlpha3)
+  }
+
   // The country being shown, or null when there are no cards left today.
   const [currentCode, setCurrentCode] = useState<string | null>(() =>
-    chooseNextCountry(ALL_CODES, progress, today, questionIds),
+    chooseNextCountry(cardCodes(progress), progress, today, questionIds),
   )
   // Set by "Discover a new country anyway →"; not shown again until the
   // screen is reopened.
@@ -48,7 +68,9 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
     currentCode !== null && countryDueDate(progress[currentCode], questionIds) === null
+  // Only when the card could be a country not yet in the Passport.
   const showNewCountryWarning =
+    canDiscoverCountries &&
     currentIsNew &&
     !newCountryWarningDismissed &&
     isTooUnfamiliarForNewCountry(progress, questionIds, today)
@@ -62,14 +84,18 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
     logCardReviews(code, questionIds, results, today)
     // The country's first card: it has just joined the Passport.
     if (Object.keys(progress[code] ?? {}).length === 0) recordDiscovery(code, new Date())
-    setCurrentCode(chooseNextCountry(ALL_CODES, newProgress, today, questionIds))
+    setCurrentCode(chooseNextCountry(cardCodes(newProgress), newProgress, today, questionIds))
   }
 
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
       {currentCode === null ? (
-        <p className="flashcards-view__done">No more cards today. Come back tomorrow!</p>
+        <p className="flashcards-view__done">
+          {canDiscoverCountries
+            ? 'No more cards today. Come back tomorrow!'
+            : 'No more cards today. Discover new countries in Classic.'}
+        </p>
       ) : showNewCountryWarning ? (
         <div className="flashcards-view__warning">
           <p>{NEW_COUNTRY_WARNING}</p>

@@ -121,7 +121,12 @@ export default function App() {
   }
   if (screen === 'classic-flashcards') {
     return (
-      <FlashcardsView questionIds={learnedQuestionIds} globeKinds={GLOBE_KINDS} onBack={goToMenu} />
+      <FlashcardsView
+        questionIds={learnedQuestionIds}
+        globeKinds={GLOBE_KINDS}
+        canDiscoverCountries={true}
+        onBack={goToMenu}
+      />
     )
   }
   if (screen === 'custom-practice') {
@@ -138,6 +143,7 @@ export default function App() {
       <FlashcardsView
         questionIds={customQuestionIds}
         globeKinds={customGlobeKinds}
+        canDiscoverCountries={false}
         onBack={goToMenu}
       />
     )

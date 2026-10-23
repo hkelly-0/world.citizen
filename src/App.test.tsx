@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { State } from 'ts-fsrs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
+import { addDays, todayString } from './features/flashcards/dates'
+import { saveProgress } from './shared/progress'
 
 // The flashcards' globe questions need WebGL too. These stand-ins answer
 // correctly when their button is clicked.
@@ -106,6 +109,19 @@ describe('App', () => {
   })
 
   it('practises only the ticked question types, and saves progress for just those', async () => {
+    // Custom Practice only shows countries in the Passport, so put France in
+    // it: its area answered today, not due again until tomorrow.
+    const today = todayString()
+    const franceArea = {
+      stability: 10,
+      difficulty: 5,
+      reps: 1,
+      lapses: 0,
+      state: State.Review,
+      lastReview: today,
+      dueDate: addDays(today, 1),
+    }
+    saveProgress({ FRA: { area: franceArea } })
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
@@ -119,9 +135,11 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
+    // France's capital is now saved; its area is untouched.
     const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')
-    const [countryProgress] = Object.values(saved) as object[]
-    expect(Object.keys(countryProgress)).toEqual(['capital'])
+    expect(Object.keys(saved)).toEqual(['FRA'])
+    expect(Object.keys(saved.FRA)).toEqual(['area', 'capital'])
+    expect(saved.FRA.area).toEqual(franceArea)
 
     // Back goes straight to the main menu.
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))

@@ -39,7 +39,7 @@ describe('FlashcardsView', () => {
 
   it('warns before a new country while the seen ones are unfamiliar, once per visit', async () => {
     saveFranceArea(0.2)
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} onBack={() => {}} />)
+    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
 
     expect(screen.getByText(WARNING)).toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
@@ -53,14 +53,14 @@ describe('FlashcardsView', () => {
 
   it('does not warn while the seen countries are familiar', () => {
     saveFranceArea(10000)
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} onBack={() => {}} />)
+    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
   it('does not warn when no country has been seen', () => {
-    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} onBack={() => {}} />)
+    render(<FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
   })
@@ -68,8 +68,39 @@ describe('FlashcardsView', () => {
   it('counts only the questions being asked', () => {
     // France's area is unfamiliar, but only capitals are being practised.
     saveFranceArea(0.2)
-    render(<FlashcardsView questionIds={['capital']} globeKinds={['locate']} onBack={() => {}} />)
+    render(<FlashcardsView questionIds={['capital']} globeKinds={['locate']} canDiscoverCountries={true} onBack={() => {}} />)
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+  })
+
+  describe('in Custom Practice', () => {
+    it('shows countries in the Passport, even with a question never asked, without warning', async () => {
+      // France's area is unfamiliar and its capital has never been asked.
+      saveFranceArea(0.2)
+      render(
+        <FlashcardsView questionIds={['capital']} globeKinds={['locate']} canDiscoverCountries={false} onBack={() => {}} />,
+      )
+
+      expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+      expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+      await screen.findByText('Paris')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      // No other country is in the Passport, so no new one comes next.
+      expect(
+        screen.getByText('No more cards today. Discover new countries in Classic.'),
+      ).toBeInTheDocument()
+    })
+
+    it('shows no cards when the Passport is empty', () => {
+      render(
+        <FlashcardsView questionIds={['area']} globeKinds={['locate']} canDiscoverCountries={false} onBack={() => {}} />,
+      )
+
+      expect(
+        screen.getByText('No more cards today. Discover new countries in Classic.'),
+      ).toBeInTheDocument()
+    })
   })
 })
