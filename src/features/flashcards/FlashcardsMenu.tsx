@@ -16,7 +16,7 @@ export function FlashcardsMenu({ onBack, onOpenClassic, onOpenCustomPractice }: 
       <BackButton onClick={onBack} />
       <h1>Flashcards</h1>
       <button className="main-menu__option" onClick={onOpenClassic}>
-        Classic
+        Classic Mode
       </button>
       <button className="main-menu__option" onClick={onOpenCustomPractice}>
         Custom Practice

@@ -43,7 +43,7 @@ describe('App', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
@@ -54,7 +54,7 @@ describe('App', () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     history.back()
@@ -65,7 +65,7 @@ describe('App', () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    expect(screen.getByRole('button', { name: 'Classic' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeInTheDocument()
 
     history.back()
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
@@ -85,7 +85,7 @@ describe('App', () => {
   it('saves progress after finishing a card', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
 
     // The country and globe question are random, but every card starts with
     // a globe question.
@@ -167,7 +167,7 @@ describe('App', () => {
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     // Straight to the capital: no globe or range questions.
     expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()

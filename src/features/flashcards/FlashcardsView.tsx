@@ -94,7 +94,7 @@ export function FlashcardsView({
         <p className="flashcards-view__done">
           {canDiscoverCountries
             ? 'No more cards today. Come back tomorrow!'
-            : 'No more cards today. Discover new countries in Classic.'}
+            : 'No more cards today. Discover new countries in Classic Mode.'}
         </p>
       ) : showNewCountryWarning ? (
         <div className="flashcards-view__warning">

@@ -89,7 +89,7 @@ describe('FlashcardsView', () => {
 
       // No other country is in the Passport, so no new one comes next.
       expect(
-        screen.getByText('No more cards today. Discover new countries in Classic.'),
+        screen.getByText('No more cards today. Discover new countries in Classic Mode.'),
       ).toBeInTheDocument()
     })
 
@@ -99,7 +99,7 @@ describe('FlashcardsView', () => {
       )
 
       expect(
-        screen.getByText('No more cards today. Discover new countries in Classic.'),
+        screen.getByText('No more cards today. Discover new countries in Classic Mode.'),
       ).toBeInTheDocument()
     })
   })
