@@ -46,3 +46,34 @@
 .flashcards-view__discover:hover {
   background: var(--wrong-red-tint-hover);
 }
+
+/* Shown before a country not yet in the Passport. The auto margins centre it
+   vertically in the screen. */
+.flashcards-view__discovering {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: auto 0;
+  text-align: center;
+}
+
+.flashcards-view__discovering p {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Shaped like the flashcards' Next button. */
+.flashcards-view__go {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.flashcards-view__go:hover {
+  background: rgba(255, 255, 255, 0.14);
+}

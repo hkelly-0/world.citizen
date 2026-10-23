@@ -39,7 +39,9 @@ type FlashcardsViewProps = {
 // and saves progress after each card. Only the questions in `questionIds` are
 // asked, and only they decide which countries are due. Before a new country,
 // it warns if the countries already seen aren't familiar enough yet, until the
-// user chooses to go on (once per visit to the screen).
+// user chooses to go on (once per visit to the screen). Otherwise, a country
+// not yet in the Passport is introduced with a "Discovering a new country"
+// screen before its card.
 export function FlashcardsView({
   questionIds,
   globeKinds,
@@ -64,6 +66,9 @@ export function FlashcardsView({
   // Set by "Discover a new country anyway →"; not shown again until the
   // screen is reopened.
   const [newCountryWarningDismissed, setNewCountryWarningDismissed] = useState(false)
+  // The country whose "Discovering a new country" screen has been passed, by
+  // "Go →" or by "Discover a new country anyway →".
+  const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
 
   // New for the questions being asked: none of them answered yet.
   const currentIsNew =
@@ -74,6 +79,11 @@ export function FlashcardsView({
     currentIsNew &&
     !newCountryWarningDismissed &&
     isTooUnfamiliarForNewCountry(progress, questionIds, today)
+  // Not yet in the Passport: no question answered, including ones not asked.
+  const currentIsUndiscovered =
+    currentCode !== null && Object.keys(progress[currentCode] ?? {}).length === 0
+  const showDiscoveryScreen =
+    canDiscoverCountries && currentIsUndiscovered && discoveryScreenPassedFor !== currentCode
 
   // Each asked question gets its own FSRS review, even ones that weren't due
   // yet. Questions not asked keep their progress.
@@ -102,9 +112,24 @@ export function FlashcardsView({
           <button
             type="button"
             className="flashcards-view__discover"
-            onClick={() => setNewCountryWarningDismissed(true)}
+            onClick={() => {
+              setNewCountryWarningDismissed(true)
+              // The user has just chosen to discover it, so go straight to its card.
+              setDiscoveryScreenPassedFor(currentCode)
+            }}
           >
             Discover a new country anyway →
+          </button>
+        </div>
+      ) : showDiscoveryScreen ? (
+        <div className="flashcards-view__discovering">
+          <p>Discovering a new country...</p>
+          <button
+            type="button"
+            className="flashcards-view__go"
+            onClick={() => setDiscoveryScreenPassedFor(currentCode)}
+          >
+            Go →
           </button>
         </div>
       ) : (

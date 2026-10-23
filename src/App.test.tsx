@@ -44,6 +44,8 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    // A new country is introduced before its card.
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
@@ -55,6 +57,8 @@ describe('App', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    // A new country is introduced before its card.
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
 
     history.back()
@@ -86,6 +90,8 @@ describe('App', () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    // A new country is introduced before its card.
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
 
     // The country and globe question are random, but every card starts with
     // a globe question.
@@ -176,6 +182,8 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    // A new country is introduced before its card.
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     // Straight to the capital: no globe or range questions.
     expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()

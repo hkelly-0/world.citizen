@@ -6,6 +6,8 @@ import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from './dates'
 import { FlashcardsView } from './FlashcardsView'
 
+const DISCOVERING = 'Discovering a new country...'
+
 const WARNING =
   "It's recommended to become familiar with the countries you've already seen before learning new ones."
 
@@ -52,13 +54,17 @@ describe('FlashcardsView', () => {
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
 
-    // The new country's card, then the next new one with no warning.
+    // Straight to the new country's card, then the next new one with no
+    // warning, introduced by the discovering screen.
+    expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
     await answerArea()
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
-  it('does not warn while the seen countries are familiar', () => {
+  it('does not warn while the seen countries are familiar', async () => {
     saveFranceArea(10000)
     render(
       <FlashcardsView
@@ -70,6 +76,8 @@ describe('FlashcardsView', () => {
     )
 
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
@@ -115,6 +123,7 @@ describe('FlashcardsView', () => {
       )
 
       expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+      expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await screen.findByText('Paris')
