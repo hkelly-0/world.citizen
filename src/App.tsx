@@ -135,7 +135,7 @@ export default function App() {
     )
   }
   if (screen === 'passport') {
-    return <PassportView onBack={goToMenu} />
+    return <PassportView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
   }
   return (
     <MainMenu

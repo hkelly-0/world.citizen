@@ -3,18 +3,30 @@ import { BackButton } from '../../shared/BackButton'
 import { loadDiscoveries } from '../../shared/discoveries'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
+import type { QuestionId } from '../flashcards/deck'
 import { COUNTRY_COUNT, sortedCollectedCountries } from './passport'
 import './PassportView.css'
 
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
+type PassportViewProps = {
+  // The information chosen in Settings; only these questions count towards ease.
+  learnedQuestionIds: QuestionId[]
+  onBack: () => void
+}
+
 // Every country the user has seen as a flashcard, as a grid of pictures with
-// their names, sorted alphabetically or by date discovered (the last choice is
-// remembered). It grows as they study.
-export function PassportView({ onBack }: { onBack: () => void }) {
+// their names, sorted alphabetically, by date discovered or by ease (the last
+// choice is remembered). It grows as they study.
+export function PassportView({ learnedQuestionIds, onBack }: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
-  const countries = sortedCollectedCountries(loadProgress(), loadDiscoveries(), sort)
+  const countries = sortedCollectedCountries(
+    loadProgress(),
+    loadDiscoveries(),
+    learnedQuestionIds,
+    sort,
+  )
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -41,6 +53,7 @@ export function PassportView({ onBack }: { onBack: () => void }) {
             <select value={sort} onChange={(event) => changeSort(event.target.value as PassportSort)}>
               <option value="alphabetical">Alphabetical</option>
               <option value="date-discovered">Date discovered</option>
+              <option value="ease">Ease</option>
             </select>
           </label>
           <ul className="passport__grid">

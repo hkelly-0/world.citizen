@@ -1,14 +1,16 @@
-// How the Passport is sorted: A–Z by common name, or in the order the
-// countries were discovered (first one at the top). The last choice is kept in
-// the browser's localStorage, on this device only.
-export type PassportSort = 'alphabetical' | 'date-discovered'
+// How the Passport is sorted: A–Z by common name, in the order the countries
+// were discovered (first one at the top), or by ease (hardest at the top). The
+// last choice is kept in the browser's localStorage, on this device only.
+export type PassportSort = 'alphabetical' | 'date-discovered' | 'ease'
+const PASSPORT_SORTS: PassportSort[] = ['alphabetical', 'date-discovered', 'ease']
 
 const STORAGE_KEY = 'geography-app/passport-sort'
 
 // Alphabetical until the user picks another sort.
 export function loadPassportSort(): PassportSort {
   try {
-    return localStorage.getItem(STORAGE_KEY) === 'date-discovered' ? 'date-discovered' : 'alphabetical'
+    const saved = localStorage.getItem(STORAGE_KEY) as PassportSort
+    return PASSPORT_SORTS.includes(saved) ? saved : 'alphabetical'
   } catch {
     // Storage can be blocked (e.g. some private browsing modes).
     return 'alphabetical'

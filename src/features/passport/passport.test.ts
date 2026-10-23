@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { collectedCountries, COUNTRY_COUNT, sortedCollectedCountries } from './passport'
+import { QUESTION_IDS } from '../flashcards/deck'
+import {
+  collectedCountries,
+  countryEase,
+  COUNTRY_COUNT,
+  sortedCollectedCountries,
+} from './passport'
 
 const answered = { repetitions: 1, intervalDays: 1, easeFactor: 2.5, dueDate: '2026-01-02' }
 
@@ -39,7 +45,9 @@ describe('sortedCollectedCountries', () => {
     JPN: '2026-10-20T08:00:00.000Z',
   }
   const names = (sort: 'alphabetical' | 'date-discovered') =>
-    sortedCollectedCountries(progress, discoveries, sort).map((country) => country.commonName)
+    sortedCollectedCountries(progress, discoveries, QUESTION_IDS, sort).map(
+      (country) => country.commonName,
+    )
 
   it('sorts alphabetically', () => {
     expect(names('alphabetical')).toEqual(['Brazil', 'Chile', 'France', 'Japan', 'Peru'])
@@ -47,6 +55,38 @@ describe('sortedCollectedCountries', () => {
 
   it('sorts by date discovered, first discovered first, with undated countries before, A-Z', () => {
     expect(names('date-discovered')).toEqual(['Brazil', 'Chile', 'Japan', 'Peru', 'France'])
+  })
+})
+
+describe('countryEase', () => {
+  const withEase = (easeFactor: number) => ({ ...answered, easeFactor })
+
+  it('averages the ease factors of the answered questions given', () => {
+    const country = { globe: withEase(2.0), area: withEase(3.0), capital: withEase(1.3) }
+    expect(countryEase(country, ['globe', 'area', 'population'])).toBe(2.5)
+  })
+
+  it('is null when none of the questions given has been answered', () => {
+    expect(countryEase({ capital: withEase(2.0) }, ['globe'])).toBeNull()
+    expect(countryEase(undefined, QUESTION_IDS)).toBeNull()
+  })
+})
+
+describe('sorting by ease', () => {
+  const withEase = (easeFactor: number) => ({ ...answered, easeFactor })
+  const progress = {
+    PER: { globe: withEase(2.6) },
+    FRA: { globe: withEase(1.3), area: withEase(2.5) },
+    JPN: { globe: withEase(1.9) },
+    BRA: { globe: withEase(2.6) },
+    CHL: { capital: withEase(1.3) },
+  }
+
+  it('puts the hardest first, ties A-Z, and countries with no learned question answered last', () => {
+    const names = sortedCollectedCountries(progress, {}, ['globe', 'area'], 'ease').map(
+      (country) => country.commonName,
+    )
+    expect(names).toEqual(['France', 'Japan', 'Brazil', 'Peru', 'Chile'])
   })
 })
 
