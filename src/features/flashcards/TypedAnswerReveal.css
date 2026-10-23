@@ -8,6 +8,8 @@
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
   color: inherit;
+  /* Text fields don't inherit the page font by default. */
+  font-family: inherit;
   /* 16px or more stops phones zooming in when the field is focused. */
   font-size: 1rem;
 }
