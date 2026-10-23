@@ -7,14 +7,14 @@ const PASSPORT_SORTS: PassportSort[] = ['alphabetical', 'date-discovered', 'reca
 
 const STORAGE_KEY = 'geography-app/passport-sort'
 
-// Alphabetical until the user picks another sort.
+// Familiarity until the user picks another sort.
 export function loadPassportSort(): PassportSort {
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as PassportSort
-    return PASSPORT_SORTS.includes(saved) ? saved : 'alphabetical'
+    return PASSPORT_SORTS.includes(saved) ? saved : 'recall'
   } catch {
     // Storage can be blocked (e.g. some private browsing modes).
-    return 'alphabetical'
+    return 'recall'
   }
 }
 

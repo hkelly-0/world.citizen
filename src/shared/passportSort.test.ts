@@ -6,8 +6,8 @@ describe('passport sort storage', () => {
     localStorage.clear()
   })
 
-  it('is alphabetical when nothing is saved', () => {
-    expect(loadPassportSort()).toBe('alphabetical')
+  it('is familiarity when nothing is saved', () => {
+    expect(loadPassportSort()).toBe('recall')
   })
 
   it('loads what was saved', () => {
@@ -15,8 +15,8 @@ describe('passport sort storage', () => {
     expect(loadPassportSort()).toBe('date-discovered')
   })
 
-  it('is alphabetical when the saved value is unknown', () => {
+  it('is familiarity when the saved value is unknown', () => {
     localStorage.setItem('geography-app/passport-sort', 'size')
-    expect(loadPassportSort()).toBe('alphabetical')
+    expect(loadPassportSort()).toBe('recall')
   })
 })
