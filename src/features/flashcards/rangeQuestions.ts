@@ -1,5 +1,6 @@
 import type { CountryFacts } from '../../shared/countryFacts'
 import { AREA_RANGES, IHDI_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import type { AnswerResult } from './sm2'
 
 // Countries with neither an IHDI nor an HDI to estimate it from have this as
 // their correct IHDI answer.
@@ -21,6 +22,18 @@ export type RangeQuestion = {
   correctAnswer: string
   // True when the correct answer comes from our estimate, not UNDP's figure.
   isEstimate?: boolean
+}
+
+// Right if the chosen title is the correct one, close if it is next to it in
+// the list (one range bigger or smaller), otherwise wrong. "No data" is never
+// close: it isn't a range, so it isn't next to the lowest IHDI title.
+export function rangeAnswerResult(question: RangeQuestion, chosen: string): AnswerResult {
+  if (chosen === question.correctAnswer) return 'right'
+  if (chosen === NO_DATA || question.correctAnswer === NO_DATA) return 'wrong'
+  const distance = Math.abs(
+    question.options.indexOf(chosen) - question.options.indexOf(question.correctAnswer),
+  )
+  return distance === 1 ? 'close' : 'wrong'
 }
 
 export function rangeQuestions(country: CountryFacts): RangeQuestion[] {

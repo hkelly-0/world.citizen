@@ -4,6 +4,7 @@ import { loadProgress, saveProgress } from '../../shared/progress'
 import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
+import type { AnswerResult } from '../flashcards/sm2'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -24,7 +25,7 @@ export function PassportFlashcardView({
   learnedQuestionIds,
   onBack,
 }: PassportFlashcardViewProps) {
-  function finishCard(results: Partial<Record<QuestionId, boolean>>) {
+  function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     // Read fresh, as nothing else on this screen changes the progress.
     saveProgress(reviewCountry(loadProgress(), isoAlpha3, learnedQuestionIds, results, todayString()))
     onBack()

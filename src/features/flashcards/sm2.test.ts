@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { gradeFromAnswer, reviewQuestion } from './sm2'
 
 describe('gradeFromAnswer', () => {
-  it('gives a right answer the top SM-2 grade and a wrong one the lowest', () => {
-    expect(gradeFromAnswer(true)).toBe(5)
-    expect(gradeFromAnswer(false)).toBe(0)
+  it('gives a right answer the top SM-2 grade, a close one a fail of 2, and a wrong one the lowest', () => {
+    expect(gradeFromAnswer('right')).toBe(5)
+    expect(gradeFromAnswer('close')).toBe(2)
+    expect(gradeFromAnswer('wrong')).toBe(0)
   })
 })
 

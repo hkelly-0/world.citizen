@@ -85,11 +85,11 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({
-      globe: true,
-      area: true,
-      population: true,
-      ihdi: true,
-      capital: true,
+      globe: 'right',
+      area: 'right',
+      population: 'right',
+      ihdi: 'right',
+      capital: 'right',
     })
   })
 
@@ -109,11 +109,11 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({
-      globe: false,
-      area: true,
-      population: true,
-      ihdi: true,
-      capital: true,
+      globe: 'wrong',
+      area: 'right',
+      population: 'right',
+      ihdi: 'right',
+      capital: 'right',
     })
   })
 
@@ -140,12 +140,22 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({
-      globe: false,
-      area: false,
-      population: true,
-      ihdi: true,
-      capital: false,
+      globe: 'wrong',
+      area: 'wrong',
+      population: 'right',
+      ihdi: 'right',
+      capital: 'wrong',
     })
+  })
+
+  it('counts a pick one title away as close', async () => {
+    const onFinish = vi.fn()
+    render(<Flashcard country={france} questionIds={['area']} globeKinds={GLOBE_KINDS} onFinish={onFinish} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Small - ≥ 100K km²' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(onFinish).toHaveBeenCalledWith({ area: 'close' })
   })
 
   it('reveals the capital without any text typed, counting it as wrong', async () => {
@@ -161,11 +171,11 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(onFinish).toHaveBeenCalledWith({
-      globe: true,
-      area: true,
-      population: true,
-      ihdi: true,
-      capital: false,
+      globe: 'right',
+      area: 'right',
+      population: 'right',
+      ihdi: 'right',
+      capital: 'wrong',
     })
   })
 
@@ -217,7 +227,7 @@ describe('Flashcard', () => {
     await answerCapital('Lyon')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({ population: true, capital: false })
+    expect(onFinish).toHaveBeenCalledWith({ population: 'right', capital: 'wrong' })
   })
 
   it('finishes after the last range question when the capital is not asked', async () => {
@@ -227,7 +237,7 @@ describe('Flashcard', () => {
     await answerLocation('Tap right country')
     await answerRangeQuestion('Tiny - ≥ 10K km²')
 
-    expect(onFinish).toHaveBeenCalledWith({ globe: true, area: false })
+    expect(onFinish).toHaveBeenCalledWith({ globe: 'right', area: 'wrong' })
   })
 
   it('finishes straight after the globe question when it is the only one asked', async () => {
@@ -236,7 +246,7 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap wrong country')
 
-    expect(onFinish).toHaveBeenCalledWith({ globe: false })
+    expect(onFinish).toHaveBeenCalledWith({ globe: 'wrong' })
   })
 
   it('always asks to locate the country when only that kind of globe question is allowed', async () => {

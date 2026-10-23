@@ -2,7 +2,8 @@ import { lazy, Suspense, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { isCapitalCorrect } from './capitalAnswer'
 import type { GlobeKind, QuestionId } from './deck'
-import { rangeQuestions, type RangeQuestion } from './rangeQuestions'
+import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
+import type { AnswerResult } from './sm2'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
 import './Flashcard.css'
 
@@ -21,8 +22,9 @@ type FlashcardProps = {
   // Which kinds of globe question may be asked: both for Classic, where each
   // card picks one at random, or just one for custom practice.
   globeKinds: GlobeKind[]
-  // Called after the last question, with whether each asked question was answered right.
-  onFinish: (results: Partial<Record<QuestionId, boolean>>) => void
+  // Called after the last question, with how each asked question was answered:
+  // right, close (range questions only) or wrong.
+  onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
   // The text of the button after the last question: "Next" when another card
   // follows, or "Done" for the Passport's single card.
   finishLabel?: string
@@ -56,30 +58,34 @@ export function Flashcard({
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
-  // Whether each question answered so far was right.
-  const [results, setResults] = useState<Partial<Record<QuestionId, boolean>>>({})
+  // How each question answered so far went.
+  const [results, setResults] = useState<Partial<Record<QuestionId, AnswerResult>>>({})
   const [typedCapital, setTypedCapital] = useState('')
 
   const isCapitalStep = step === questions.length
   const isLastStep = asksCapital ? isCapitalStep : step === questions.length - 1
 
   function submitGlobeAnswer(isCorrect: boolean) {
-    const newResults = { ...results, globe: isCorrect }
+    const newResults = { ...results, globe: resultFromCorrect(isCorrect) }
     setHasAnsweredGlobe(true)
     setResults(newResults)
     // When only the globe question is asked, the card is finished.
     if (questions.length === 0 && !asksCapital) onFinish(newResults)
   }
 
-  function submitAnswer(id: QuestionId, chosen: string, isCorrect: boolean) {
+  function submitAnswer(id: QuestionId, chosen: string, result: AnswerResult) {
     setAnswer(chosen)
-    setResults((previous) => ({ ...previous, [id]: isCorrect }))
+    setResults((previous) => ({ ...previous, [id]: result }))
   }
 
   function submitCapital(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
     event.preventDefault()
-    submitAnswer('capital', typedCapital, isCapitalCorrect(typedCapital, country.capitals))
+    submitAnswer(
+      'capital',
+      typedCapital,
+      resultFromCorrect(isCapitalCorrect(typedCapital, country.capitals)),
+    )
   }
 
   function goToNext() {
@@ -127,7 +133,7 @@ export function Flashcard({
           question={questions[step]}
           answer={answer}
           onAnswer={(chosen) =>
-            submitAnswer(questions[step].id, chosen, chosen === questions[step].correctAnswer)
+            submitAnswer(questions[step].id, chosen, rangeAnswerResult(questions[step], chosen))
           }
         />
       )}
@@ -148,6 +154,11 @@ export function Flashcard({
       )}
     </article>
   )
+}
+
+// The globe and capital questions are only right or wrong, never close.
+function resultFromCorrect(isCorrect: boolean): AnswerResult {
+  return isCorrect ? 'right' : 'wrong'
 }
 
 type RangeQuestionViewProps = {

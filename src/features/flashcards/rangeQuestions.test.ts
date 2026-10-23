@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
-import { rangeQuestions } from './rangeQuestions'
+import { rangeAnswerResult, rangeQuestions } from './rangeQuestions'
 
 const france = countryFacts['FRA']
 
@@ -46,5 +46,27 @@ describe('rangeQuestions', () => {
   it('does not mark a real IHDI as an estimate, and uses "No data" with neither', () => {
     expect(rangeQuestions(france)[2].isEstimate).toBe(false)
     expect(rangeQuestions(countryFacts['VAT'])[2].correctAnswer).toBe('No data')
+  })
+})
+
+describe('rangeAnswerResult', () => {
+  it('counts the correct title as right, a neighbouring one as close and others as wrong', () => {
+    // France's area is "Medium - ≥ 300K km²".
+    const area = rangeQuestions(france)[0]
+    expect(rangeAnswerResult(area, 'Medium - ≥ 300K km²')).toBe('right')
+    expect(rangeAnswerResult(area, 'Large - ≥ 1M km²')).toBe('close')
+    expect(rangeAnswerResult(area, 'Small - ≥ 100K km²')).toBe('close')
+    expect(rangeAnswerResult(area, 'Immense - ≥ 5M km²')).toBe('wrong')
+    expect(rangeAnswerResult(area, 'Tiny - ≥ 10K km²')).toBe('wrong')
+  })
+
+  it('never counts "No data" as close to the lowest IHDI title', () => {
+    // Vatican has no IHDI, so its answer is "No data".
+    const vaticanIhdi = rangeQuestions(countryFacts['VAT'])[2]
+    expect(rangeAnswerResult(vaticanIhdi, 'Very Awful - 2')).toBe('wrong')
+
+    const lowIhdi = { ...vaticanIhdi, correctAnswer: 'Very Awful - 2' }
+    expect(rangeAnswerResult(lowIhdi, 'No data')).toBe('wrong')
+    expect(rangeAnswerResult(lowIhdi, 'Awful - 3')).toBe('close')
   })
 })

@@ -12,6 +12,7 @@ import {
   type QuestionId,
 } from './deck'
 import { Flashcard } from './Flashcard'
+import type { AnswerResult } from './sm2'
 import './FlashcardsView.css'
 
 const ALL_CODES = Object.keys(countryFacts)
@@ -38,7 +39,7 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
 
   // Each asked question gets its own SM-2 review, even ones that weren't due
   // yet. Questions not asked keep their progress.
-  function finishCard(code: string, results: Partial<Record<QuestionId, boolean>>) {
+  function finishCard(code: string, results: Partial<Record<QuestionId, AnswerResult>>) {
     const newProgress = reviewCountry(progress, code, questionIds, results, today)
     setProgress(newProgress)
     saveProgress(newProgress)

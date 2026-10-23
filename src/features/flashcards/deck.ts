@@ -1,4 +1,4 @@
-import { gradeFromAnswer, reviewQuestion, type QuestionProgress } from './sm2'
+import { gradeFromAnswer, reviewQuestion, type AnswerResult, type QuestionProgress } from './sm2'
 
 // The questions asked about each country. Each has its own SM-2 schedule, so
 // e.g. a country's capital can be well known while its population isn't.
@@ -70,14 +70,14 @@ export function reviewCountry(
   progress: DeckProgress,
   code: string,
   questionIds: QuestionId[],
-  results: Partial<Record<QuestionId, boolean>>,
+  results: Partial<Record<QuestionId, AnswerResult>>,
   today: string,
 ): DeckProgress {
   const newCountryProgress: CountryProgress = { ...progress[code] }
   for (const id of questionIds) {
     // Every asked question has a result once the card is finished.
-    const isCorrect = results[id]!
-    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(isCorrect), today)
+    const result = results[id]!
+    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], gradeFromAnswer(result), today)
   }
   return { ...progress, [code]: newCountryProgress }
 }
