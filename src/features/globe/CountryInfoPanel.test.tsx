@@ -12,9 +12,16 @@ const france: CountryShape = {
   geometry: { type: 'Polygon', coordinates: [] },
 }
 
+// Props most tests don't care about: every fact is learned, and the callbacks do nothing.
+const panelProps = {
+  learnedQuestionIds: QUESTION_IDS,
+  onClose: () => {},
+  onSelectCountry: () => {},
+}
+
 describe('CountryInfoPanel', () => {
   it("shows the country's names and facts", () => {
-    render(<CountryInfoPanel country={france} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    render(<CountryInfoPanel {...panelProps} country={france} />)
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
@@ -28,7 +35,7 @@ describe('CountryInfoPanel', () => {
 
   it('lists every capital for countries with several', () => {
     const southAfrica: CountryShape = { ...france, name: 'South Africa', isoAlpha3: 'ZAF' }
-    render(<CountryInfoPanel country={southAfrica} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    render(<CountryInfoPanel {...panelProps} country={southAfrica} />)
 
     expect(screen.getByText('Capitals')).toBeInTheDocument()
     expect(screen.getByText('Pretoria, Bloemfontein, Cape Town')).toBeInTheDocument()
@@ -36,7 +43,7 @@ describe('CountryInfoPanel', () => {
 
   it('shows "No data" when a country has no IHDI', () => {
     const vatican: CountryShape = { ...france, name: 'Vatican', isoAlpha3: 'VAT' }
-    render(<CountryInfoPanel country={vatican} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    render(<CountryInfoPanel {...panelProps} country={vatican} />)
 
     expect(screen.getByRole('heading', { name: 'Vatican City' })).toBeInTheDocument()
     expect(screen.getByText('No data')).toBeInTheDocument()
@@ -44,35 +51,47 @@ describe('CountryInfoPanel', () => {
 
   it('marks an estimated IHDI with (est.)', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
-    render(<CountryInfoPanel country={saudiArabia} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
     expect(screen.getByText(/\(est\.\)$/)).toBeInTheDocument()
   })
 
   it('says what a territory is, by ISO code or, with no code, by map name', () => {
     const greenland: CountryShape = { ...france, name: 'Greenland', isoAlpha3: 'GRL' }
-    const { unmount } = render(
-      <CountryInfoPanel country={greenland} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />,
-    )
+    const { unmount } = render(<CountryInfoPanel {...panelProps} country={greenland} />)
     expect(screen.getByRole('heading', { name: 'Greenland' })).toBeInTheDocument()
-    expect(screen.getByText('Autonomous territory of Denmark')).toBeInTheDocument()
+    expect(screen.getByText(/^Autonomous territory of/)).toHaveTextContent(
+      'Autonomous territory of Denmark',
+    )
     unmount()
 
     const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
-    render(<CountryInfoPanel country={kosovo} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
-    expect(screen.getByText('Partially recognised state. Claimed by Serbia')).toBeInTheDocument()
+    render(<CountryInfoPanel {...panelProps} country={kosovo} />)
+    expect(screen.getByText(/^Partially recognised state/)).toHaveTextContent(
+      'Partially recognised state. Claimed by Serbia',
+    )
+  })
+
+  it("selects a country when its name in a territory's subtitle is clicked", async () => {
+    const onSelectCountry = vi.fn()
+    const taiwan: CountryShape = { ...france, name: 'Taiwan', isoAlpha3: 'TWN' }
+    render(<CountryInfoPanel {...panelProps} country={taiwan} onSelectCountry={onSelectCountry} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'China' }))
+
+    expect(onSelectCountry).toHaveBeenCalledWith('CHN')
   })
 
   it('shows a note for map areas with no subtitle', () => {
     const unknown: CountryShape = { ...france, name: 'Nowhere', isoNumeric: null, isoAlpha3: null }
-    render(<CountryInfoPanel country={unknown} learnedQuestionIds={QUESTION_IDS} onClose={() => {}} />)
+    render(<CountryInfoPanel {...panelProps} country={unknown} />)
 
     expect(screen.getByText('Not one of the 195 countries in this app.')).toBeInTheDocument()
   })
 
   it('hides facts not learned in Settings, but keeps the names', () => {
     render(
-      <CountryInfoPanel country={france} learnedQuestionIds={['globe', 'area']} onClose={() => {}} />,
+      <CountryInfoPanel {...panelProps} country={france} learnedQuestionIds={['globe', 'area']} />,
     )
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
@@ -85,7 +104,7 @@ describe('CountryInfoPanel', () => {
 
   it('calls onClose when the close button is pressed', async () => {
     const onClose = vi.fn()
-    render(<CountryInfoPanel country={france} learnedQuestionIds={QUESTION_IDS} onClose={onClose} />)
+    render(<CountryInfoPanel {...panelProps} country={france} onClose={onClose} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
 

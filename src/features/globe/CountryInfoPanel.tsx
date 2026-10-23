@@ -11,16 +11,26 @@ type CountryInfoPanelProps = {
   // (Names are always shown, and 'globe' has no fact here.)
   learnedQuestionIds: QuestionId[]
   onClose: () => void
+  // Called with a country's ISO alpha-3 code when its name in a territory's
+  // subtitle is clicked, to select that country instead.
+  onSelectCountry: (isoAlpha3: string) => void
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
 }
 
-export function CountryInfoPanel({ country, learnedQuestionIds, onClose, ref }: CountryInfoPanelProps) {
+export function CountryInfoPanel({
+  country,
+  learnedQuestionIds,
+  onClose,
+  onSelectCountry,
+  ref,
+}: CountryInfoPanelProps) {
   // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = countryDisplayName(country)
   const ihdi = facts === undefined ? null : ihdiRange(facts)
+  const subtitle = territorySubtitle(country)
 
   return (
     <aside ref={ref} className="country-info-panel" aria-label={`${name} details`}>
@@ -30,7 +40,21 @@ export function CountryInfoPanel({ country, learnedQuestionIds, onClose, ref }: 
       <h2>{name}</h2>
       {facts === undefined ? (
         <p className="country-info-panel__note">
-          {territorySubtitle(country) ?? 'Not one of the 195 countries in this app.'}
+          {subtitle === undefined
+            ? 'Not one of the 195 countries in this app.'
+            : subtitle.map((part, i) =>
+                'text' in part ? (
+                  part.text
+                ) : (
+                  <button
+                    key={i}
+                    className="country-info-panel__country-link"
+                    onClick={() => onSelectCountry(part.isoAlpha3)}
+                  >
+                    {part.name}
+                  </button>
+                ),
+              )}
         </p>
       ) : (
         <>

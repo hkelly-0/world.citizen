@@ -48,11 +48,29 @@ export function alternativeNames(isoAlpha3: string): string[] {
   return nameAlternatives[isoAlpha3] ?? []
 }
 
-// What each map area outside the 195 countries is, e.g. "Territory of
-// Denmark" for Greenland, hand-written in territorySubtitles.json. Keyed by ISO
-// alpha-3 code, or by the map data's name for areas with no code (Kosovo, etc.).
+// What each map area outside the 195 countries is, e.g. "Autonomous
+// territory of {DNK}" for Greenland, hand-written in territorySubtitles.json.
+// Keyed by ISO alpha-3 code, or by the map data's name for areas with no code
+// (Kosovo, etc.). A country's ISO code in braces stands for its common name,
+// shown as a link to that country.
 const territorySubtitles: Record<string, string> = territorySubtitlesJson
 
-export function territorySubtitle(shape: CountryShape): string | undefined {
-  return territorySubtitles[shape.isoAlpha3 ?? shape.name]
+// One piece of a subtitle: plain text, or a country named by its ISO code.
+export type SubtitlePart = { text: string } | { isoAlpha3: string; name: string }
+
+// Splits a territory's subtitle into text and the countries it names, e.g.
+// [{ text: 'Autonomous territory of ' }, { isoAlpha3: 'DNK', name: 'Denmark' }].
+// Returns undefined for the 195 countries and areas with no subtitle.
+export function territorySubtitle(shape: CountryShape): SubtitlePart[] | undefined {
+  const subtitle = territorySubtitles[shape.isoAlpha3 ?? shape.name]
+  if (subtitle === undefined) return undefined
+  // Splitting on a pattern with a capture group keeps the captured codes, so
+  // the pieces alternate: text, code, text, code, ..., text.
+  const pieces = subtitle.split(/\{([A-Z]{3})\}/)
+  const parts: SubtitlePart[] = []
+  pieces.forEach((piece, i) => {
+    if (i % 2 === 1) parts.push({ isoAlpha3: piece, name: countryFacts[piece].commonName })
+    else if (piece !== '') parts.push({ text: piece })
+  })
+  return parts
 }

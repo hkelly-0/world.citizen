@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { CountryShape } from './countries'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
+import territorySubtitlesJson from '../data/territorySubtitles.json'
 import { loadCountryShapes } from './countries'
 import { alternativeNames, countryDisplayName, countryFacts, territorySubtitle } from './countryFacts'
 
@@ -98,6 +99,29 @@ describe('territorySubtitle', () => {
       const isCountry = shape.isoAlpha3 !== null && countryFacts[shape.isoAlpha3] !== undefined
       if (isCountry) expect(territorySubtitle(shape), shape.name).toBeUndefined()
       else expect(territorySubtitle(shape), shape.name).toBeTruthy()
+    }
+  })
+
+  it('splits a subtitle into text and the countries it names', () => {
+    const shape: CountryShape = {
+      name: 'N. Cyprus',
+      isoNumeric: null,
+      isoAlpha3: null,
+      geometry: { type: 'Polygon', coordinates: [] },
+    }
+    expect(territorySubtitle(shape)).toEqual([
+      { text: 'Self-declared state. Recognised only by ' },
+      { isoAlpha3: 'TUR', name: 'Türkiye' },
+      { text: ', claimed by ' },
+      { isoAlpha3: 'CYP', name: 'Cyprus' },
+    ])
+  })
+
+  it('names only the 195 countries in subtitles', () => {
+    for (const subtitle of Object.values(territorySubtitlesJson)) {
+      for (const [, code] of subtitle.matchAll(/\{([A-Z]{3})\}/g)) {
+        expect(countryFacts[code], code).toBeDefined()
+      }
     }
   })
 })

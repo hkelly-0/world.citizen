@@ -51,8 +51,9 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
     setSelectedIndex(index)
   }
 
-  // Choosing a country in the search box works like tapping it on the globe.
-  function selectSearchedCountry(isoAlpha3: string) {
+  // Choosing a country in the search box, or clicking a country's name in a
+  // territory's info panel, works like tapping it on the globe.
+  function selectCountryByCode(isoAlpha3: string) {
     const index = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
     if (index !== -1) selectCountry(index)
   }
@@ -139,12 +140,13 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
       <BackButton onClick={goToMenu} />
-      <CountrySearch onSelect={selectSearchedCountry} />
+      <CountrySearch onSelect={selectCountryByCode} />
       {selectedCountry !== null && (
         <CountryInfoPanel
           country={selectedCountry}
           learnedQuestionIds={learnedQuestionIds}
           onClose={closePanel}
+          onSelectCountry={selectCountryByCode}
           ref={panelRef}
         />
       )}
