@@ -25,13 +25,16 @@ type PassportFlashcardViewProps = {
 // "New country", for an unseen one). It asks the questions chosen in Settings,
 // always finding the country on the globe (never naming it). Finishing it
 // reviews each question as Classic does, then "Done" returns to the Passport.
-// A new country's first card is followed by the Passport count going up,
-// with its own "Done".
+// A new country's card instead ends with "Next", leading to the Passport count
+// going up, with its own "Done".
 export function PassportFlashcardView({
   isoAlpha3,
   learnedQuestionIds,
   onBack,
 }: PassportFlashcardViewProps) {
+  // Not yet in the Passport: no question answered. Fixed when the screen
+  // opens, so finishing the card doesn't change it.
+  const [isNewCountry] = useState(() => Object.keys(loadProgress()[isoAlpha3] ?? {}).length === 0)
   // How many countries were in the Passport before this one joined; null
   // until a new country's first card is finished.
   const [rewardCountBefore, setRewardCountBefore] = useState<number | null>(null)
@@ -44,7 +47,7 @@ export function PassportFlashcardView({
     logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
     // The country's first card (opened from "New country"): it has just
     // joined the Passport.
-    if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) {
+    if (isNewCountry) {
       recordDiscovery(isoAlpha3, new Date())
       setRewardCountBefore(collectedCountries(progress).length)
     } else {
@@ -67,7 +70,7 @@ export function PassportFlashcardView({
           country={countryFacts[isoAlpha3]}
           questionIds={learnedQuestionIds}
           globeKinds={['locate']}
-          finishLabel="Done"
+          finishLabel={isNewCountry ? 'Next' : 'Done'}
           onFinish={finishCard}
         />
       )}

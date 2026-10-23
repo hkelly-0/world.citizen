@@ -28,7 +28,7 @@ describe('PassportFlashcardView', () => {
   })
   afterEach(() => vi.restoreAllMocks())
 
-  it('asks the chosen questions, ends with Done, saves the review and goes back', async () => {
+  it('asks the chosen questions, ends with Next, saves the review and goes back', async () => {
     const onBack = vi.fn()
     render(
       <PassportFlashcardView
@@ -41,7 +41,7 @@ describe('PassportFlashcardView', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Locate: Next' }))
     expect(screen.queryByText('Name globe')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Medium - ≥ 300K km²' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Done' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     // France is new, so the Passport count goes up before going back.
     expect(screen.getByText('France ✓')).toBeInTheDocument()
@@ -58,7 +58,7 @@ describe('PassportFlashcardView', () => {
     const { unmount } = render(
       <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
     )
-    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Done' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Next' }))
     unmount()
 
     render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={onBack} />)
@@ -71,7 +71,7 @@ describe('PassportFlashcardView', () => {
     const { unmount } = render(
       <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
     )
-    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Done' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Next' }))
     const firstSeen = loadDiscoveries().FRA
     expect(firstSeen).toBeDefined()
     unmount()
@@ -84,11 +84,24 @@ describe('PassportFlashcardView', () => {
     expect(loadDiscoveries().FRA).toBe(firstSeen)
   })
 
-  it("labels the globe's button Done when it is the only question", async () => {
+  it("labels a new country's globe button Next when it is the only question", async () => {
     render(
       <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
     )
 
+    expect(await screen.findByRole('button', { name: 'Locate: Next' })).toBeInTheDocument()
+  })
+
+  it("labels a seen country's globe button Done when it is the only question", async () => {
+    const { unmount } = render(
+      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+    )
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate: Next' }))
+    unmount()
+
+    render(
+      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+    )
     expect(await screen.findByRole('button', { name: 'Locate: Done' })).toBeInTheDocument()
   })
 
