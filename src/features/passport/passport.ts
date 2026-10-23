@@ -2,6 +2,7 @@ import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import type { Discoveries } from '../../shared/discoveries'
 import type { PassportSort } from '../../shared/passportSort'
 import type { CountryProgress, DeckProgress, QuestionId } from '../flashcards/deck'
+import { addDays } from '../flashcards/dates'
 import { recallChance } from '../flashcards/fsrs'
 
 // How many countries there are to collect: the 195.
@@ -18,9 +19,15 @@ export function collectedCountries(progress: DeckProgress): CountryFacts[] {
     .sort((a, b) => a.commonName.localeCompare(b.commonName))
 }
 
-// How well the user knows a country on `today`: the average FSRS recall chance
-// (0 to 1) of its answered questions among `questionIds` (those learned in
-// Settings). Null if none of them has been answered.
+// How far ahead familiarity looks. The chance of remembering on the day of a
+// review is always about 100%, however it went, so it is measured this many
+// days later instead, which tells a well-learned country from a shaky one.
+const FAMILIARITY_DAYS_AHEAD = 30
+
+// How well the user knows a country: the average FSRS chance (0 to 1) that
+// they would still remember its answered questions among `questionIds` (those
+// learned in Settings) 30 days after `today`. Null if none of them has been
+// answered.
 export function countryRecall(
   country: CountryProgress | undefined,
   questionIds: QuestionId[],
@@ -29,7 +36,7 @@ export function countryRecall(
   const chances = questionIds
     .map((id) => country?.[id])
     .filter((question) => question !== undefined)
-    .map((question) => recallChance(question, today))
+    .map((question) => recallChance(question, addDays(today, FAMILIARITY_DAYS_AHEAD)))
   if (chances.length === 0) return null
   return chances.reduce((sum, chance) => sum + chance, 0) / chances.length
 }
@@ -38,7 +45,7 @@ export function countryRecall(
 // - 'date-discovered' puts the first discovered at the top. Countries with no
 //   discovery time (seen before times were recorded) count as discovered
 //   together before all the others, so they come first.
-// - 'recall' puts the least likely to be remembered on `today` at the top,
+// - 'recall' puts the least likely to be remembered 30 days after `today` at the top,
 //   using only `learnedQuestionIds`. Countries with none of those answered
 //   have no recall chance and come last.
 export function sortedCollectedCountries(

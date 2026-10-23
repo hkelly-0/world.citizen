@@ -1,5 +1,6 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
+import { addDays } from '../flashcards/dates'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { recallChance } from '../flashcards/fsrs'
 import {
@@ -65,10 +66,17 @@ describe('countryRecall', () => {
   // A higher stability is remembered for longer, so has a higher recall chance.
   const withStability = (stability: number) => ({ ...answered, stability })
 
-  it('averages the recall chances of the answered questions given', () => {
+  it('averages the recall chances in 30 days of the answered questions given', () => {
     const country = { globe: withStability(5), area: withStability(50), capital: withStability(1) }
-    const expected = (recallChance(country.globe, TODAY) + recallChance(country.area, TODAY)) / 2
+    const inThirtyDays = addDays(TODAY, 30)
+    const expected =
+      (recallChance(country.globe, inThirtyDays) + recallChance(country.area, inThirtyDays)) / 2
     expect(countryRecall(country, ['globe', 'area', 'population'], TODAY)).toBeCloseTo(expected)
+  })
+
+  it('is well below full for a question answered wrong today', () => {
+    const wrongToday = { ...answered, stability: 0.2, lastReview: TODAY, dueDate: addDays(TODAY, 1) }
+    expect(countryRecall({ globe: wrongToday }, ['globe'], TODAY)).toBeLessThan(0.6)
   })
 
   it('is null when none of the questions given has been answered', () => {
