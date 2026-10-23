@@ -43,7 +43,7 @@ describe('FlashcardsView', () => {
 
     expect(screen.getByText(WARNING)).toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyways →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
 
     // The new country's card, then the next new one with no warning.
     await answerArea()

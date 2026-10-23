@@ -76,7 +76,7 @@ describe('PassportView', () => {
     await userEvent.click(screen.getByRole('button', { name: 'New country' }))
     expect(screen.getByText(NEW_COUNTRY_WARNING)).toBeInTheDocument()
     expect(screen.queryByText("Discover a country you haven't seen yet.")).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go anyways' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go anyway' }))
     expect(onPlayFlashcard).toHaveBeenCalledTimes(1)
     expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')
   })

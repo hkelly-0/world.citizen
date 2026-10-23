@@ -41,7 +41,7 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
   const [currentCode, setCurrentCode] = useState<string | null>(() =>
     chooseNextCountry(ALL_CODES, progress, today, questionIds),
   )
-  // Set by "Discover a new country anyways →"; not shown again until the
+  // Set by "Discover a new country anyway →"; not shown again until the
   // screen is reopened.
   const [newCountryWarningDismissed, setNewCountryWarningDismissed] = useState(false)
 
@@ -78,7 +78,7 @@ export function FlashcardsView({ questionIds, globeKinds, onBack }: FlashcardsVi
             className="flashcards-view__discover"
             onClick={() => setNewCountryWarningDismissed(true)}
           >
-            Discover a new country anyways →
+            Discover a new country anyway →
           </button>
         </div>
       ) : (

@@ -146,8 +146,8 @@
   background: rgba(255, 255, 255, 0.14);
 }
 
-/* "Go anyways", when the seen countries aren't familiar enough yet: in the red
-   of a wrong pick, like the flashcards' "Discover a new country anyways →". */
+/* "Go anyway", when the seen countries aren't familiar enough yet: in the red
+   of a wrong pick, like the flashcards' "Discover a new country anyway →". */
 .passport__play--warning {
   border-color: var(--wrong-red);
   background: var(--wrong-red-tint);

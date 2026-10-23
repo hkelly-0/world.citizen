@@ -174,7 +174,7 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
                 onPlayFlashcard(randomUnseenCountry(progress)!)
               }}
             >
-              {warnBeforeNewCountry ? 'Go anyways' : 'Play flashcard →'}
+              {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard →'}
             </button>
           </div>
         </div>
