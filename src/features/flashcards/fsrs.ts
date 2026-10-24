@@ -20,6 +20,12 @@ export type QuestionProgress = {
   state: State
   // "YYYY-MM-DD" of the last review.
   lastReview: string
+  // The latest answer after the review on `lastReview`, given that same day
+  // (the second answer of the day or later), which FSRS doesn't count. Not part
+  // of FSRS: it gives familiarity a bonus for the rest of the day
+  // (`questionFamiliarity` in familiarity.ts). Missing until such an answer,
+  // and cleared by the next review.
+  latestRepeatAnswer?: { date: string; result: AnswerResult }
 }
 
 // How one answer went. "close" is only given to range questions (area,
@@ -87,14 +93,16 @@ function newCard(today: string): Card {
 // actually passed since the last review. Only the first answer of a day is an
 // FSRS review: FSRS gains nothing from a right answer on the same day but
 // loses from a wrong one, so extra practice on a day could only hurt. Later
-// answers that day leave the progress unchanged (they are still logged in
+// answers that day only change `latestRepeatAnswer` (they are still logged in
 // reviewLog.ts).
 export function reviewQuestion(
   previous: QuestionProgress | undefined,
   result: AnswerResult,
   today: string,
 ): QuestionProgress {
-  if (previous !== undefined && previous.lastReview === today) return previous
+  if (previous !== undefined && previous.lastReview === today) {
+    return { ...previous, latestRepeatAnswer: { date: today, result } }
+  }
   const card = previous === undefined ? newCard(today) : toCard(previous)
   const next = scheduler.next(card, dateToTime(today), ratingFromAnswer(result)).card
   return {

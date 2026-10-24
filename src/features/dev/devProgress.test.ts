@@ -17,21 +17,23 @@ import {
 
 const TODAY = '2026-10-23'
 
-// France's capital answered right on 2026-10-20, Japan's area wrong today.
+// France's capital answered right on 2026-10-20, Japan's area wrong today and
+// then right again today.
 function sampleProgress(): DeckProgress {
   return {
     FRA: { capital: reviewQuestion(undefined, 'right', '2026-10-20') },
-    JPN: { area: reviewQuestion(undefined, 'wrong', TODAY) },
+    JPN: { area: reviewQuestion(reviewQuestion(undefined, 'wrong', TODAY), 'right', TODAY) },
   }
 }
 
 describe('skipAheadDays', () => {
-  it('moves every review date back by the days skipped', () => {
+  it('moves every review and repeat answer date back by the days skipped', () => {
     const progress = sampleProgress()
     const skipped = skipAheadDays(progress, 7)
 
     expect(skipped.FRA.capital!.lastReview).toBe('2026-10-13')
     expect(skipped.JPN.area!.lastReview).toBe('2026-10-16')
+    expect(skipped.JPN.area!.latestRepeatAnswer).toEqual({ date: '2026-10-16', result: 'right' })
     // The original is unchanged.
     expect(progress.JPN.area!.lastReview).toBe(TODAY)
   })

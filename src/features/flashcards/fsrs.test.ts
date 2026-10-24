@@ -76,8 +76,19 @@ describe('reviewQuestion', () => {
 
   it('only counts the first answer of a day', () => {
     const first = reviewQuestion(undefined, 'right', TODAY)
-    expect(reviewQuestion(first, 'right', TODAY)).toEqual(first)
-    expect(reviewQuestion(first, 'wrong', TODAY)).toEqual(first)
+    const latestRepeatAnswer = { date: TODAY, result: 'wrong' }
+    expect(reviewQuestion(first, 'wrong', TODAY)).toEqual({ ...first, latestRepeatAnswer })
+  })
+
+  it('remembers the latest repeat answer of the day, cleared by the next review', () => {
+    const first = reviewQuestion(undefined, 'right', TODAY)
+    expect(first.latestRepeatAnswer).toBeUndefined()
+    const second = reviewQuestion(first, 'right', TODAY)
+    const third = reviewQuestion(second, 'close', TODAY)
+    expect(second.latestRepeatAnswer).toEqual({ date: TODAY, result: 'right' })
+    expect(third.latestRepeatAnswer).toEqual({ date: TODAY, result: 'close' })
+    const nextDay = reviewQuestion(third, 'right', addDays(TODAY, 1))
+    expect(nextDay.latestRepeatAnswer).toBeUndefined()
   })
 })
 

@@ -2,8 +2,8 @@ import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
 import { addDays } from './dates'
 import { QUESTION_IDS } from './deck'
-import { countryRecall } from './familiarity'
-import { recallChance } from './fsrs'
+import { countryRecall, questionFamiliarity } from './familiarity'
+import { recallChance, type AnswerResult } from './fsrs'
 
 const answered = {
   stability: 10,
@@ -14,6 +14,33 @@ const answered = {
   lastReview: '2026-01-01',
 }
 const TODAY = '2026-02-01'
+
+describe('questionFamiliarity', () => {
+  const inFourteenDays = addDays(TODAY, 14)
+  const withLatestAnswer = (date: string, result: AnswerResult) => ({
+    ...answered,
+    latestRepeatAnswer: { date, result },
+  })
+
+  it('is the recall chance in 14 days', () => {
+    expect(questionFamiliarity(answered, TODAY)).toBeCloseTo(recallChance(answered, inFourteenDays))
+  })
+
+  it('closes 40% of the gap to 100% while the latest repeat answer is right and given today', () => {
+    const chance = recallChance(answered, inFourteenDays)
+    expect(questionFamiliarity(withLatestAnswer(TODAY, 'right'), TODAY)).toBeCloseTo(
+      chance + (1 - chance) * 0.4,
+    )
+  })
+
+  it('gives no bonus for a right answer on an earlier day, or a close or wrong one today', () => {
+    const chance = recallChance(answered, inFourteenDays)
+    const yesterday = addDays(TODAY, -1)
+    expect(questionFamiliarity(withLatestAnswer(yesterday, 'right'), TODAY)).toBeCloseTo(chance)
+    expect(questionFamiliarity(withLatestAnswer(TODAY, 'close'), TODAY)).toBeCloseTo(chance)
+    expect(questionFamiliarity(withLatestAnswer(TODAY, 'wrong'), TODAY)).toBeCloseTo(chance)
+  })
+})
 
 describe('countryRecall', () => {
   // A higher stability is remembered for longer, so has a higher recall chance.

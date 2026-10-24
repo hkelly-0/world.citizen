@@ -25,12 +25,19 @@ function mapQuestions(
   return result
 }
 
-// As if `days` days had passed: every review date moves that many days into
-// the past, so familiarity drops.
+// As if `days` days had passed: every review and repeat answer date moves that
+// many days into the past, so familiarity drops.
 export function skipAheadDays(progress: DeckProgress, days: number): DeckProgress {
   return mapQuestions(progress, (question) => ({
     ...question,
     lastReview: addDays(question.lastReview, -days),
+    latestRepeatAnswer:
+      question.latestRepeatAnswer === undefined
+        ? undefined
+        : {
+            ...question.latestRepeatAnswer,
+            date: addDays(question.latestRepeatAnswer.date, -days),
+          },
   }))
 }
 
