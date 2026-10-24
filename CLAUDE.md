@@ -63,6 +63,7 @@ Features link up via ISO alpha-3 country codes. Scope: the 195 countries (193 UN
 - **Styling:** plain CSS files, one per component, imported directly. Colours shared across components are CSS variables on `:root` in `src/index.css`. The whole app uses Roboto Mono (`@fontsource/roboto-mono`); it lacks ← and ≥, which fall back to the system's monospace font.
 - **Formatting and linting:** Prettier (`npm run format`, config in `.prettierrc.json`) and oxlint (`npm run lint`). A pre-commit hook (husky + lint-staged, `.husky/pre-commit`) formats staged files; `npm install` sets it up.
 - **Tests:** Vitest + Testing Library (`npm test`). The WebGL map itself is not unit-tested.
+- **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, format check, `npm run build` and tests on every push and pull request.
 - **Globe:** MapLibre GL JS (`src/features/globe/countryMap.ts` creates the map for every globe). A globe projection when zoomed out, blending into flat Mercator between zoom 4 and 5. Borders are a GeoJSON source that MapLibre tiles and simplifies per zoom; taps use `queryRenderedFeatures`, highlights use feature state (no data rebuilds).
   - MapLibre's worker script is copied by Vite (`?url` import) and passed to `setWorkerUrl`, because MapLibre can't find it after bundling.
   - Alternatives considered: `globe.gl` (tried first; too slow on phones because every country is a separate 3D mesh, and blurry/blocky when zoomed in), CesiumJS (too heavy), raw three.js (too much work).
@@ -97,6 +98,5 @@ Generated files are committed; each script lists its download links.
 ## Status
 - Not yet checked on a real phone: the location and name globe questions (in particular how the name question's bottom panel sits above the on-screen keyboard).
 - Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it).
-- Todo: when the repo is on GitHub, add `.github/workflows/ci.yml` running `npm run lint`, `npx tsc -b`, `npm run format:check` and `npm test` on every push and pull request.
 - Possible later: more facts (flag, region, languages, etc.).
 - Todo: check the estimated IHDIs (`ihdiEstimate`) that may be wrong, then either hand-enter real values from other sources or skip their IHDI flashcard question. Likely too low: Turkmenistan, Uzbekistan (post-Soviet states come in above the line). Likely too high: Caribbean countries (Dominica, Grenada, St Vincent, St Kitts, Antigua, Cuba, Guyana, Suriname, Trinidad, Belize) and Equatorial Guinea. Within 0.01 of a title boundary: Guyana, Micronesia, Liechtenstein, Kuwait, Antigua. Least doubtful: Qatar, Bahrain, Saudi Arabia, Eritrea, San Marino.
