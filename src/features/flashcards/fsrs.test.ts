@@ -74,10 +74,10 @@ describe('reviewQuestion', () => {
     expect(sooner.stability).toBeLessThan(later.stability)
   })
 
-  it('gains nothing from a right answer on the same day', () => {
+  it('only counts the first answer of a day', () => {
     const first = reviewQuestion(undefined, 'right', TODAY)
-    const again = reviewQuestion(first, 'right', TODAY)
-    expect(again.stability).toBeCloseTo(first.stability)
+    expect(reviewQuestion(first, 'right', TODAY)).toEqual(first)
+    expect(reviewQuestion(first, 'wrong', TODAY)).toEqual(first)
   })
 })
 

@@ -84,12 +84,17 @@ function newCard(today: string): Card {
 // Returns the question's progress after a review with the given result.
 // `previous` is undefined for a question that has never been reviewed. A
 // review soon after the last one counts for less, as FSRS uses the days
-// actually passed since the last review (none on the same day).
+// actually passed since the last review. Only the first answer of a day is an
+// FSRS review: FSRS gains nothing from a right answer on the same day but
+// loses from a wrong one, so extra practice on a day could only hurt. Later
+// answers that day leave the progress unchanged (they are still logged in
+// reviewLog.ts).
 export function reviewQuestion(
   previous: QuestionProgress | undefined,
   result: AnswerResult,
   today: string,
 ): QuestionProgress {
+  if (previous !== undefined && previous.lastReview === today) return previous
   const card = previous === undefined ? newCard(today) : toCard(previous)
   const next = scheduler.next(card, dateToTime(today), ratingFromAnswer(result)).card
   return {
