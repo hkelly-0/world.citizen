@@ -15,38 +15,6 @@
   text-align: center;
 }
 
-/* Shown instead of a new country's card while the seen ones aren't familiar
-   enough yet. The auto margins centre it vertically in the screen. */
-.flashcards-view__warning {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 420px;
-  margin: auto 0;
-  text-align: center;
-}
-
-.flashcards-view__warning p {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-/* Shaped like the flashcards' Next button, in the red of a wrong pick. */
-.flashcards-view__discover {
-  min-height: 44px;
-  padding: 8px 16px;
-  border: 1px solid var(--wrong-red);
-  border-radius: 8px;
-  background: var(--wrong-red-tint);
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.flashcards-view__discover:hover {
-  background: var(--wrong-red-tint-hover);
-}
-
 /* Shown before a country not yet in the Passport. The auto margins centre it
    vertically in the screen. */
 .flashcards-view__discovering {

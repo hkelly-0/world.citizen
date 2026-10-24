@@ -22,7 +22,6 @@ describe('progress storage', () => {
           lapses: 0,
           state: State.Review,
           lastReview: '2026-01-01',
-          dueDate: '2026-01-11',
         },
       },
     }
@@ -45,7 +44,6 @@ describe('progress storage', () => {
           lapses: 0,
           state: State.Review,
           lastReview: '2026-01-01',
-          dueDate: '2026-01-11',
         },
       },
     }

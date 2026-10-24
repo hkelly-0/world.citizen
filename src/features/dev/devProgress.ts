@@ -2,7 +2,7 @@ import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { unseenCountriesInGroup } from '../passport/passport'
 import { addDays } from '../flashcards/dates'
 import { QUESTION_IDS, type CountryProgress, type DeckProgress } from '../flashcards/deck'
-import { reviewQuestion, type QuestionProgress } from '../flashcards/fsrs'
+import { recallChance, reviewQuestion, type QuestionProgress } from '../flashcards/fsrs'
 
 // Changes to saved flashcard progress for testing different situations, used
 // by the dev menu (`DevTools.tsx`, dev server only). Each returns new
@@ -25,51 +25,40 @@ function mapQuestions(
   return result
 }
 
-// As if `days` days had passed: every review and due date moves that many days
-// into the past, so reviews come due and familiarity drops.
+// As if `days` days had passed: every review date moves that many days into
+// the past, so familiarity drops.
 export function skipAheadDays(progress: DeckProgress, days: number): DeckProgress {
   return mapQuestions(progress, (question) => ({
     ...question,
     lastReview: addDays(question.lastReview, -days),
-    dueDate: addDays(question.dueDate, -days),
   }))
-}
-
-// Every answered question becomes due today. Review dates are kept.
-export function makeAllDueToday(progress: DeckProgress, today: string): DeckProgress {
-  return mapQuestions(progress, (question) => ({ ...question, dueDate: today }))
-}
-
-// Every question due today or earlier becomes due tomorrow, so no seen country
-// is due. Unseen countries are still offered in Classic.
-export function makeNothingDueToday(progress: DeckProgress, today: string): DeckProgress {
-  const tomorrow = addDays(today, 1)
-  return mapQuestions(progress, (question) =>
-    question.dueDate <= today ? { ...question, dueDate: tomorrow } : question,
-  )
 }
 
 // How long ago a well-known country was first answered.
 const WELL_KNOWN_FIRST_REVIEW_DAYS_AGO = 180
 // How long ago a shaky country was answered wrongly.
 const SHAKY_REVIEW_DAYS_AGO = 7
+// A well-known question is answered again each time its chance of being
+// remembered drops below this.
+const WELL_KNOWN_REVIEW_RECALL = 0.9
 
-// A question answered right on every due date since
-// WELL_KNOWN_FIRST_REVIEW_DAYS_AGO, so it is next due after today.
+// A question first answered right WELL_KNOWN_FIRST_REVIEW_DAYS_AGO, then
+// answered right again each day its chance of being remembered had dropped
+// below WELL_KNOWN_REVIEW_RECALL, up to today.
 function wellKnownQuestion(today: string): QuestionProgress {
-  let question = reviewQuestion(
-    undefined,
-    'right',
-    addDays(today, -WELL_KNOWN_FIRST_REVIEW_DAYS_AGO),
-  )
-  while (question.dueDate <= today) {
-    question = reviewQuestion(question, 'right', question.dueDate)
+  let day = addDays(today, -WELL_KNOWN_FIRST_REVIEW_DAYS_AGO)
+  let question = reviewQuestion(undefined, 'right', day)
+  while (day < today) {
+    day = addDays(day, 1)
+    if (recallChance(question, day) < WELL_KNOWN_REVIEW_RECALL) {
+      question = reviewQuestion(question, 'right', day)
+    }
   }
   return question
 }
 
 // A question answered once, wrongly, SHAKY_REVIEW_DAYS_AGO days ago, so it is
-// overdue and barely remembered.
+// barely remembered.
 function shakyQuestion(today: string): QuestionProgress {
   return reviewQuestion(undefined, 'wrong', addDays(today, -SHAKY_REVIEW_DAYS_AGO))
 }
@@ -95,8 +84,8 @@ export function unseenCountriesInRandomGroups(
 }
 
 // Adds the countries to the Passport with all 5 questions answered: 'well-known'
-// ones have high familiarity and aren't due; 'shaky' ones have low familiarity
-// (enough of them bring up the new-country warning) and are overdue.
+// ones have high familiarity; 'shaky' ones have low familiarity (enough of
+// them stop Classic from showing new countries).
 export function addCountries(
   progress: DeckProgress,
   codes: string[],

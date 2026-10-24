@@ -11,7 +11,6 @@ const answered = {
   lapses: 0,
   state: State.Review,
   lastReview: '2026-01-01',
-  dueDate: '2026-01-11',
 }
 const TODAY = '2026-02-01'
 

@@ -7,7 +7,7 @@ import { recordDiscovery } from '../../shared/discoveries'
 import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadPassportSort } from '../../shared/passportSort'
 import { saveProgress } from '../../shared/progress'
-import { addDays, todayString } from '../flashcards/dates'
+import { todayString } from '../flashcards/dates'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { NEW_COUNTRY_WARNING } from './passport'
 import type { DeckProgress } from '../flashcards/deck'
@@ -43,14 +43,13 @@ const answered = {
   lapses: 0,
   state: State.Review,
   lastReview: '2026-01-01',
-  dueDate: '2026-01-11',
 }
 
 // Answered today with a high stability, so well remembered in 14 days (no
 // warning before a new country), or a low one, so soon forgotten (a warning).
 function answeredToday(stability: number) {
   const today = todayString()
-  return { ...answered, stability, lastReview: today, dueDate: addDays(today, 1) }
+  return { ...answered, stability, lastReview: today }
 }
 
 describe('PassportView', () => {

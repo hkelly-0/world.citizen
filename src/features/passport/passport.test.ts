@@ -25,7 +25,6 @@ const answered = {
   lapses: 0,
   state: State.Review,
   lastReview: '2026-01-01',
-  dueDate: '2026-01-11',
 }
 const TODAY = '2026-02-01'
 
@@ -163,7 +162,6 @@ describe('countryRecall', () => {
       ...answered,
       stability: 0.2,
       lastReview: TODAY,
-      dueDate: addDays(TODAY, 1),
     }
     expect(countryRecall({ globe: wrongToday }, ['globe'], TODAY)).toBeLessThan(0.6)
   })
@@ -202,7 +200,6 @@ describe('isTooUnfamiliarForNewCountry', () => {
     ...answered,
     stability,
     lastReview: TODAY,
-    dueDate: addDays(TODAY, 1),
   })
 
   // The first `count` countries, each with the globe question answered today.

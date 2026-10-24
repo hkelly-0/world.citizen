@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { saveProgress } from '../../shared/progress'
-import { addDays, todayString } from './dates'
-import type { DeckProgress } from './deck'
+import { todayString } from './dates'
+import type { DeckProgress, QuestionId } from './deck'
 import { FlashcardsView } from './FlashcardsView'
 
 // The region globe needs WebGL, which the test environment doesn't have. This
@@ -34,49 +34,62 @@ vi.mock('../globe/RegionGlobe', async () => {
 
 const DISCOVERING = /^Discovering a new country/
 
-const WARNING =
-  "It's recommended to become more familiar with the countries you've already seen before learning new ones."
-
-// The countries' areas, answered today and not due again until tomorrow, so
-// the next card is always a new country. A low stability is soon forgotten (a
+// The countries' areas, answered today. A low stability is soon forgotten (a
 // recall chance in 14 days well under 80%); a high one is remembered.
 function saveAreas(codes: string[], stability: number) {
-  const today = todayString()
   const area = {
     stability,
     difficulty: 5,
     reps: 1,
     lapses: 0,
     state: State.Review,
-    lastReview: today,
-    dueDate: addDays(today, 1),
+    lastReview: todayString(),
   }
   saveProgress(Object.fromEntries(codes.map((code) => [code, { area }])))
 }
 
-// France and eleven others: the warning only applies from 12 countries in the Passport.
-function saveFranceArea(stability: number) {
+// The codes of France and eleven others outside the Nordic Countries: from 12
+// countries in the Passport, new ones only come while the seen ones are
+// familiar.
+function franceAndOthers(): string[] {
   const others = Object.values(countryFacts)
     .filter((country) => country.isoAlpha3 !== 'FRA' && country.groupId !== 'nordic')
     .slice(0, 11)
     .map((country) => country.isoAlpha3)
-  saveAreas(['FRA', ...others], stability)
+  return ['FRA', ...others]
 }
 
-function renderClassic() {
+function saveFranceArea(stability: number) {
+  saveAreas(franceAndOthers(), stability)
+}
+
+function renderFlashcards(questionIds: QuestionId[], canDiscoverCountries: boolean) {
   render(
     <FlashcardsView
-      questionIds={['area']}
-      learnedQuestionIds={['area']}
+      questionIds={questionIds}
+      learnedQuestionIds={questionIds}
       globeKinds={['locate']}
-      canDiscoverCountries={true}
+      canDiscoverCountries={canDiscoverCountries}
       onBack={() => {}}
     />,
   )
 }
 
+function renderClassic() {
+  renderFlashcards(['area'], true)
+}
+
 // The Nordic Countries group (countryGroups.json).
 const NORDIC_NAME = /^(Denmark|Norway|Sweden|Finland)$/
+
+// The name of the country whose card is shown.
+function shownCountryName(): string {
+  return screen.getByRole('heading', { level: 2 }).textContent!
+}
+
+function nameOf(code: string): string {
+  return countryFacts[code].commonName
+}
 
 async function answerArea() {
   await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² / Immense' }))
@@ -86,54 +99,33 @@ async function answerArea() {
 describe('FlashcardsView', () => {
   beforeEach(() => localStorage.clear())
 
-  it('warns before a new country while the seen ones are unfamiliar, once per visit', async () => {
+  it('plays countries from the Passport while the seen ones are unfamiliar', () => {
     saveFranceArea(0.2)
     saveLearningGroup('nordic')
-    render(
-      <FlashcardsView
-        questionIds={['area']}
-        learnedQuestionIds={['area']}
-        globeKinds={['locate']}
-        canDiscoverCountries={true}
-        onBack={() => {}}
-      />,
-    )
+    renderClassic()
 
-    expect(screen.getByText(WARNING)).toBeInTheDocument()
-    expect(screen.queryByText('Area?')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway' }))
-
-    // The discovering screen still comes before the new country's card, then
-    // again for the next new one, with no warning.
-    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    await answerArea()
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
-    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    expect(screen.getByText('Area?')).toBeInTheDocument()
+    expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+    expect(franceAndOthers().map(nameOf)).toContain(shownCountryName())
   })
 
-  it('does not warn while the seen countries are familiar', async () => {
+  it('shows a new country while the seen ones are familiar', async () => {
     saveFranceArea(10000)
     saveLearningGroup('nordic')
-    render(
-      <FlashcardsView
-        questionIds={['area']}
-        learnedQuestionIds={['area']}
-        globeKinds={['locate']}
-        canDiscoverCountries={true}
-        onBack={() => {}}
-      />,
-    )
+    renderClassic()
 
-    expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
     ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
+  })
+
+  it('shows new countries while fewer than 12 are in the Passport, however unfamiliar', () => {
+    saveAreas(['FRA'], 0.2)
+    saveLearningGroup('nordic')
+    renderClassic()
+
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
   })
 
   it('asks for a region on the globe first, then shows its countries', async () => {
@@ -178,109 +170,51 @@ describe('FlashcardsView', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('warns before the region globe while the seen countries are unfamiliar', async () => {
+  it('does not ask for a region while the seen countries are unfamiliar', () => {
     saveFranceArea(0.2)
     renderClassic()
 
-    expect(screen.getByText(WARNING)).toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Discover Nordic Countries' }),
-    ).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway' }))
-    expect(
-      await screen.findByRole('button', { name: 'Discover Nordic Countries' }),
-    ).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Discover / })).not.toBeInTheDocument()
+    expect(franceAndOthers().map(nameOf)).toContain(shownCountryName())
   })
 
-  it("shows the Passport count going up after a new country's card, and a seen one's familiarity", async () => {
-    // France is due today, so its card comes first, then a new country.
-    const today = todayString()
-    saveProgress({
-      FRA: {
-        area: {
-          stability: 10000,
-          difficulty: 5,
-          reps: 1,
-          lapses: 0,
-          state: State.Review,
-          lastReview: addDays(today, -1),
-          dueDate: today,
-        },
-      },
-    })
+  it("shows the Passport count going up after a new country's card", async () => {
     saveLearningGroup('nordic')
-    render(
-      <FlashcardsView
-        questionIds={['area']}
-        learnedQuestionIds={['area']}
-        globeKinds={['locate']}
-        canDiscoverCountries={true}
-        onBack={() => {}}
-      />,
-    )
+    renderClassic()
 
-    expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
-    expect(screen.getByText('France')).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
-
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
-    expect(screen.getByLabelText('2/195')).toBeInTheDocument()
-    // Moves on (to a new country or the warning, depending on the random
-    // country's answer).
+    expect(screen.getByLabelText('1/195')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('1/195')).not.toBeInTheDocument()
   })
 
-  it('does not warn when no country has been seen', () => {
-    render(
-      <FlashcardsView
-        questionIds={['area']}
-        learnedQuestionIds={['area']}
-        globeKinds={['locate']}
-        canDiscoverCountries={true}
-        onBack={() => {}}
-      />,
-    )
+  it("shows a seen country's familiarity after its card", async () => {
+    saveFranceArea(0.2)
+    renderClassic()
 
-    expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+    const name = shownCountryName()
+    await answerArea()
+    expect(screen.getByText(name)).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
   })
 
   it('counts only the questions being asked', () => {
-    // France's area is unfamiliar, but only capitals are being practised.
+    // The areas are unfamiliar, but only capitals are being practised, and
+    // none has been answered, so a new country comes.
     saveFranceArea(0.2)
-    render(
-      <FlashcardsView
-        questionIds={['capital']}
-        learnedQuestionIds={['capital']}
-        globeKinds={['locate']}
-        canDiscoverCountries={true}
-        onBack={() => {}}
-      />,
-    )
+    saveLearningGroup('nordic')
+    renderFlashcards(['capital'], true)
 
-    expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
   })
 
   describe('in Custom Practice', () => {
-    it('shows countries in the Passport, even with a question never asked, without warning', async () => {
+    it('shows countries in the Passport, even with a question never asked', async () => {
       // France's area is unfamiliar and its capital has never been asked.
       saveAreas(['FRA'], 0.2)
-      render(
-        <FlashcardsView
-          questionIds={['capital']}
-          learnedQuestionIds={['capital']}
-          globeKinds={['locate']}
-          canDiscoverCountries={false}
-          onBack={() => {}}
-        />,
-      )
+      renderFlashcards(['capital'], false)
 
-      expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
       expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
@@ -288,25 +222,29 @@ describe('FlashcardsView', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-      // No other country is in the Passport, so no new one comes next.
-      expect(
-        screen.getByText('No more cards today. Discover new countries in Classic Mode.'),
-      ).toBeInTheDocument()
+      // France is the only country in the Passport, so it comes again rather
+      // than a new one.
+      expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    })
+
+    it('never shows the same country twice in a row', async () => {
+      saveAreas(['FRA', 'DEU'], 0.2)
+      renderFlashcards(['area'], false)
+
+      const first = shownCountryName()
+      await answerArea()
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      const second = shownCountryName()
+      expect([first, second].sort()).toEqual(['France', 'Germany'])
     })
 
     it('shows no cards when the Passport is empty', () => {
-      render(
-        <FlashcardsView
-          questionIds={['area']}
-          learnedQuestionIds={['area']}
-          globeKinds={['locate']}
-          canDiscoverCountries={false}
-          onBack={() => {}}
-        />,
-      )
+      renderFlashcards(['area'], false)
 
       expect(
-        screen.getByText('No more cards today. Discover new countries in Classic Mode.'),
+        screen.getByText(
+          'No countries in your Passport yet. Discover new countries in Classic Mode.',
+        ),
       ).toBeInTheDocument()
     })
   })

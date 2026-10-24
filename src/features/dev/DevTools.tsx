@@ -8,13 +8,7 @@ import type { DeckProgress } from '../flashcards/deck'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { COUNTRY_COUNT } from '../passport/passport'
 import { areCountryGroupsShown, setCountryGroupsShown } from './showCountryGroups'
-import {
-  addCountries,
-  makeAllDueToday,
-  makeNothingDueToday,
-  skipAheadDays,
-  unseenCountriesInRandomGroups,
-} from './devProgress'
+import { addCountries, skipAheadDays, unseenCountriesInRandomGroups } from './devProgress'
 import './DevTools.css'
 
 const SKIP_DAYS = [1, 7, 30]
@@ -115,20 +109,6 @@ export function DevTools({ onChange }: DevToolsProps) {
             onClick={() => add(COUNTRY_GROUPS.length, 'well-known')}
           >
             Collect all {COUNTRY_COUNT} (well known)
-          </button>
-          <button
-            type="button"
-            className="dev-tools__button"
-            onClick={() => change(makeAllDueToday, 'Every seen country is due today.')}
-          >
-            Make all seen due today
-          </button>
-          <button
-            type="button"
-            className="dev-tools__button"
-            onClick={() => change(makeNothingDueToday, 'Nothing seen is due today.')}
-          >
-            Nothing due today
           </button>
           <button
             type="button"

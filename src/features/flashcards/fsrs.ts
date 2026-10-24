@@ -1,9 +1,12 @@
 import { fsrs, Rating, State, type Card, type Grade } from 'ts-fsrs'
-import { addDays } from './dates'
 
 // How well the user knows the answer to one question about one country (e.g.
 // France's capital), as tracked by FSRS (the algorithm Anki uses by default):
 // https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm
+// Only FSRS's memory model is used, for familiarity: there are no due dates,
+// as flashcards pick countries at random, weighted by how unfamiliar they are.
+// Progress saved before due dates were removed still has a `dueDate`, which is
+// ignored.
 export type QuestionProgress = {
   // Days until the chance of remembering the answer drops to 90%; grows with
   // each successful review.
@@ -17,8 +20,6 @@ export type QuestionProgress = {
   state: State
   // "YYYY-MM-DD" of the last review.
   lastReview: string
-  // "YYYY-MM-DD"; the question is due again on or after this date.
-  dueDate: string
 }
 
 // How one answer went. "close" is only given to range questions (area,
@@ -26,7 +27,7 @@ export type QuestionProgress = {
 export type AnswerResult = 'right' | 'close' | 'wrong'
 
 // FSRS rates each review Again, Hard, Good or Easy. A right answer is Good, a
-// close one Hard (a weak pass: due sooner than Good, and marked more
+// close one Hard (a weak pass: less stable than Good, and marked more
 // difficult), and a wrong one Again (a fail). Easy isn't used.
 export function ratingFromAnswer(result: AnswerResult): Grade {
   if (result === 'right') return Rating.Good
@@ -35,11 +36,6 @@ export function ratingFromAnswer(result: AnswerResult): Grade {
 }
 
 const scheduler = fsrs({
-  // Each review is due when the chance of remembering drops to 90%.
-  request_retention: 0.9,
-  // Spread intervals a little at random (e.g. 20 days becomes 19–22), so
-  // countries learned together don't all come due on the same day.
-  enable_fuzz: true,
   // Whole days only: no same-day learning steps.
   enable_short_term: false,
 })
@@ -50,23 +46,17 @@ function dateToTime(date: string): Date {
   return new Date(`${date}T00:00:00Z`)
 }
 
-function timeToDate(time: Date): string {
-  return time.toISOString().slice(0, 10)
-}
-
-function daysBetween(from: string, to: string): number {
-  return Math.round((dateToTime(to).getTime() - dateToTime(from).getTime()) / 86_400_000)
-}
-
-// The card ts-fsrs expects, rebuilt from the saved progress.
+// The card ts-fsrs expects, rebuilt from the saved progress. ts-fsrs works out
+// stability and the chance of remembering from last_review alone, so the due
+// date and interval, which the app doesn't use, are left at the last review.
 function toCard(progress: QuestionProgress): Card {
   return {
-    due: dateToTime(progress.dueDate),
+    due: dateToTime(progress.lastReview),
     stability: progress.stability,
     difficulty: progress.difficulty,
     // Worked out by ts-fsrs from last_review.
     elapsed_days: 0,
-    scheduled_days: daysBetween(progress.lastReview, progress.dueDate),
+    scheduled_days: 0,
     // Unused with whole-day scheduling.
     learning_steps: 0,
     reps: progress.reps,
@@ -91,18 +81,10 @@ function newCard(today: string): Card {
   }
 }
 
-// A wrong answer is always due tomorrow. FSRS on its own may wait a few days
-// after failing a well-learned question, but the app re-asks failed questions
-// the next day. Otherwise FSRS's due date, but never the day it was answered.
-function dueDateAfter(result: AnswerResult, fsrsDue: Date, today: string): string {
-  if (result === 'wrong' || fsrsDue <= dateToTime(today)) return addDays(today, 1)
-  return timeToDate(fsrsDue)
-}
-
 // Returns the question's progress after a review with the given result.
 // `previous` is undefined for a question that has never been reviewed. A
-// review before the due date counts for less, as FSRS uses the days actually
-// passed since the last review.
+// review soon after the last one counts for less, as FSRS uses the days
+// actually passed since the last review (none on the same day).
 export function reviewQuestion(
   previous: QuestionProgress | undefined,
   result: AnswerResult,
@@ -117,7 +99,6 @@ export function reviewQuestion(
     lapses: next.lapses,
     state: next.state,
     lastReview: today,
-    dueDate: dueDateAfter(result, next.due, today),
   }
 }
 

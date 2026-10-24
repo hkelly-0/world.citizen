@@ -107,9 +107,28 @@ export function countryRecall(
   return chances.reduce((sum, chance) => sum + chance, 0) / chances.length
 }
 
+// How well the user knows a country, for picking which country's flashcard
+// comes next: like `countryRecall`, but every question in `questionIds` (those
+// being practised) counts, with 0 for one never answered, so a country with a
+// practised question still to learn comes up more often.
+export function pickingFamiliarity(
+  country: CountryProgress | undefined,
+  questionIds: QuestionId[],
+  today: string,
+): number {
+  if (questionIds.length === 0) return 0
+  const chances = questionIds.map((id) => {
+    const question = country?.[id]
+    if (question === undefined) return 0
+    return recallChance(question, addDays(today, FAMILIARITY_DAYS_AHEAD))
+  })
+  return chances.reduce((sum, chance) => sum + chance, 0) / chances.length
+}
+
 // How well the user knows the countries they have seen: the average of
 // `countryRecall` over every country with any of `questionIds` answered. Null
-// if there are none. Used to warn before a new country (`isTooUnfamiliarForNewCountry`).
+// if there are none. Used to decide when to show a new country
+// (`isTooUnfamiliarForNewCountry`).
 export function averageRecall(
   progress: DeckProgress,
   questionIds: QuestionId[],
@@ -122,23 +141,24 @@ export function averageRecall(
   return recalls.reduce((sum, recall) => sum + recall, 0) / recalls.length
 }
 
-// Before a new country, the user is warned if the average chance of still
-// remembering the countries already seen 14 days from now (`averageRecall`) is
-// below this.
+// A new country comes only once the average chance of still remembering the
+// countries already seen 14 days from now (`averageRecall`) is at least this.
 const NEW_COUNTRY_WARNING_RECALL = 0.8
 
-// The warning shown before a new country, in the flashcards and on the
-// Passport's "New country" card.
+// The warning shown on the Passport's "New country" card when
+// `isTooUnfamiliarForNewCountry`.
 export const NEW_COUNTRY_WARNING =
   "It's recommended to become more familiar with the countries you've already seen before learning new ones."
 
-// The warning only starts once this many countries are in the Passport, so
-// beginners aren't warned while there is little to be familiar with.
+// Below this many countries in the Passport, a new country always comes, so
+// beginners aren't held back while there is little to be familiar with.
 const NEW_COUNTRY_WARNING_MIN_COUNTRIES = 12
 
-// Whether to warn before a new country: at least NEW_COUNTRY_WARNING_MIN_COUNTRIES
-// countries are in the Passport, and those seen, for `questionIds`, are less
-// familiar than NEW_COUNTRY_WARNING_RECALL.
+// Whether the user should get more familiar with the countries already seen
+// before a new one: at least NEW_COUNTRY_WARNING_MIN_COUNTRIES countries are in
+// the Passport, and those seen, for `questionIds`, are less familiar than
+// NEW_COUNTRY_WARNING_RECALL. In Classic flashcards a new country comes only
+// when this is false; the Passport's "New country" card warns when it is true.
 export function isTooUnfamiliarForNewCountry(
   progress: DeckProgress,
   questionIds: QuestionId[],

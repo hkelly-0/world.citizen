@@ -1,99 +1,86 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
-import { chooseNextCountry, countryDueDate, QUESTION_IDS, type CountryProgress } from './deck'
+import { pickingFamiliarity } from '../passport/passport'
+import { chooseRandomCountry, QUESTION_IDS, type CountryProgress } from './deck'
 import type { QuestionProgress } from './fsrs'
 
 const TODAY = '2026-05-10'
 
-function dueOn(dueDate: string): QuestionProgress {
+// A question answered on `lastReview`, with the given stability.
+function answered(lastReview: string, stability: number): QuestionProgress {
+  return { stability, difficulty: 5, reps: 1, lapses: 0, state: State.Review, lastReview }
+}
+
+// A country with all 5 questions answered alike.
+function allAnswered(lastReview: string, stability: number): CountryProgress {
   return {
-    stability: 10,
-    difficulty: 5,
-    reps: 1,
-    lapses: 0,
-    state: State.Review,
-    lastReview: '2026-05-01',
-    dueDate,
+    globe: answered(lastReview, stability),
+    area: answered(lastReview, stability),
+    population: answered(lastReview, stability),
+    ihdi: answered(lastReview, stability),
+    capital: answered(lastReview, stability),
   }
 }
 
-// A country whose questions are all due on the same date.
-function allDueOn(dueDate: string): CountryProgress {
-  return {
-    globe: dueOn(dueDate),
-    area: dueOn(dueDate),
-    population: dueOn(dueDate),
-    ihdi: dueOn(dueDate),
-    capital: dueOn(dueDate),
+describe('chooseRandomCountry', () => {
+  // FRA is well known, PER barely, and JPN has nothing answered (weight 1).
+  const progress: Record<string, CountryProgress> = {
+    FRA: allAnswered(TODAY, 1000),
+    PER: allAnswered('2026-04-01', 1),
   }
-}
+  const codes = ['FRA', 'PER', 'JPN']
 
-describe('countryDueDate', () => {
-  it("is the earliest due date of the country's questions", () => {
-    const progress = {
-      globe: dueOn('2026-06-01'),
-      capital: dueOn('2026-05-12'),
-      area: dueOn('2026-05-20'),
-    }
-    expect(countryDueDate(progress, QUESTION_IDS)).toBe('2026-05-12')
+  it('picks by 1 − familiarity, walking along the weights', () => {
+    const weights = codes.map((code) => 1 - pickingFamiliarity(progress[code], QUESTION_IDS, TODAY))
+    const total = weights[0] + weights[1] + weights[2]
+    // Just inside each country's share of the total.
+    const pickAt = (share: number) =>
+      chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, null, () => share / total)
+    expect(pickAt(weights[0] * 0.5)).toBe('FRA')
+    expect(pickAt(weights[0] + weights[1] * 0.5)).toBe('PER')
+    expect(pickAt(weights[0] + weights[1] + weights[2] * 0.5)).toBe('JPN')
   })
 
-  it('only counts the given questions', () => {
-    const progress = {
-      globe: dueOn('2026-06-01'),
-      capital: dueOn('2026-05-12'),
-      area: dueOn('2026-05-20'),
+  it('picks less familiar countries more often', () => {
+    const counts: Record<string, number> = { FRA: 0, PER: 0, JPN: 0 }
+    for (let i = 0; i < 1000; i++) {
+      const random = () => i / 1000
+      counts[chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, null, random)!]++
     }
-    expect(countryDueDate(progress, ['globe', 'area'])).toBe('2026-05-20')
-    expect(countryDueDate(progress, ['population'])).toBeNull()
+    expect(counts.PER).toBeGreaterThan(counts.FRA)
+    expect(counts.JPN).toBeGreaterThan(counts.FRA)
   })
 
-  it('is null when none of the questions has been answered', () => {
-    expect(countryDueDate(undefined, QUESTION_IDS)).toBeNull()
-    expect(countryDueDate({}, QUESTION_IDS)).toBeNull()
-  })
-})
-
-describe('chooseNextCountry', () => {
-  it('shows the most overdue review first', () => {
-    const progress = {
-      FRA: allDueOn('2026-05-09'),
-      PER: allDueOn('2026-05-01'),
-      JPN: allDueOn(TODAY),
+  it('only counts the questions being practised', () => {
+    // PER's capital is well known and its area unanswered; FRA's the other way.
+    const mixed = {
+      FRA: { area: answered(TODAY, 1000) },
+      PER: { capital: answered(TODAY, 1000) },
     }
-    expect(chooseNextCountry(['FRA', 'PER', 'JPN', 'IND'], progress, TODAY, QUESTION_IDS)).toBe(
+    // Practising areas, FRA's weight is almost 0 and PER's 1, so a point
+    // halfway along the total lands on PER.
+    expect(chooseRandomCountry(['FRA', 'PER'], mixed, TODAY, ['area'], null, () => 0.5)).toBe('PER')
+  })
+
+  it('never picks the country just shown, unless it is the only one', () => {
+    for (const share of [0, 0.5, 0.999]) {
+      expect(
+        chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, 'JPN', () => share),
+      ).not.toBe('JPN')
+    }
+    expect(chooseRandomCountry(['JPN'], progress, TODAY, QUESTION_IDS, 'JPN')).toBe('JPN')
+  })
+
+  it('picks evenly when every country is perfectly familiar', () => {
+    // With a huge stability, ts-fsrs rounds the chance of remembering to
+    // exactly 1, so every weight is 0.
+    const known = { FRA: allAnswered(TODAY, 1e12), PER: allAnswered(TODAY, 1e12) }
+    expect(chooseRandomCountry(['FRA', 'PER'], known, TODAY, QUESTION_IDS, null, () => 0.9)).toBe(
       'PER',
     )
   })
 
-  it('shows a country when only one of its questions is due', () => {
-    const progress = {
-      FRA: { ...allDueOn('2026-06-01'), capital: dueOn('2026-05-09') },
-      PER: allDueOn('2026-05-11'),
-    }
-    expect(chooseNextCountry(['FRA', 'PER'], progress, TODAY, QUESTION_IDS)).toBe('FRA')
-  })
-
-  it('ignores questions not being practised', () => {
-    const progress = {
-      // Only FRA's capital is due, but capitals aren't being practised.
-      FRA: { ...allDueOn('2026-06-01'), capital: dueOn('2026-05-09') },
-      // PER has had its capital asked but not its area, so it's new for areas.
-      PER: { capital: dueOn('2026-06-01') },
-    }
-    expect(chooseNextCountry(['FRA', 'PER'], progress, TODAY, ['area'])).toBe('PER')
-  })
-
-  it('shows a random unseen country once no reviews are due', () => {
-    const progress = { FRA: allDueOn('2026-05-11') }
-    const codes = ['FRA', 'PER', 'JPN']
-    // Unseen countries are PER and JPN; a random value of 0.9 picks the second.
-    expect(chooseNextCountry(codes, progress, TODAY, QUESTION_IDS, () => 0.9)).toBe('JPN')
-    expect(chooseNextCountry(codes, progress, TODAY, QUESTION_IDS, () => 0)).toBe('PER')
-  })
-
-  it('returns null when every country is seen and none are due', () => {
-    const progress = { FRA: allDueOn('2026-05-11'), PER: allDueOn('2026-06-01') }
-    expect(chooseNextCountry(['FRA', 'PER'], progress, TODAY, QUESTION_IDS)).toBeNull()
+  it('returns null when there are no countries', () => {
+    expect(chooseRandomCountry([], progress, TODAY, QUESTION_IDS, null)).toBeNull()
   })
 })

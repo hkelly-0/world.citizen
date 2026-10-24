@@ -1,6 +1,6 @@
 // Dates are stored as "YYYY-MM-DD" strings in the user's local time zone, so a
-// card due "tomorrow" becomes due at local midnight. Strings in this format
-// also sort in date order, so they can be compared with < and >.
+// new day starts at local midnight. Strings in this format also sort in date
+// order, so they can be compared with < and >.
 
 export function todayString(): string {
   const now = new Date()
