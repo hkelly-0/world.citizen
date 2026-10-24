@@ -28,6 +28,10 @@ const RegionGlobe = lazy(() => import('../globe/RegionGlobe'))
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
+// Shown by the "?" beside the sort box when sorting by Familiarity.
+const FAMILIARITY_HELP =
+  "A Familiarity score is shown by the coloured ring beside each country's name. It's a statistical estimate of the likelihood that you could correctly remember all of the facts about that country, 2 weeks from now. Familiarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
+
 type PassportViewProps = {
   // The information chosen in Settings; only these questions count towards recall.
   learnedQuestionIds: QuestionId[]
@@ -53,6 +57,8 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
   const [newCountryOpen, setNewCountryOpen] = useState(false)
   // Whether the region globe is open, from the "New country" card.
   const [isChoosingRegion, setIsChoosingRegion] = useState(false)
+  // Whether the explanation of the Familiarity sort is showing.
+  const [familiarityHelpOpen, setFamiliarityHelpOpen] = useState(false)
   const progress = loadProgress()
   const today = todayString()
   const countries = sortedCollectedCountries(
@@ -132,17 +138,32 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
         </>
       ) : (
         <>
-          <label className="passport__sort">
-            Sort by
-            <select
-              value={sort}
-              onChange={(event) => changeSort(event.target.value as PassportSort)}
-            >
-              <option value="alphabetical">Alphabetical</option>
-              <option value="date-discovered">Date discovered</option>
-              <option value="recall">Familiarity</option>
-            </select>
-          </label>
+          <div className="passport__sort">
+            <label>
+              Sort by
+              <select
+                value={sort}
+                onChange={(event) => changeSort(event.target.value as PassportSort)}
+              >
+                <option value="alphabetical">Alphabetical</option>
+                <option value="date-discovered">Date discovered</option>
+                <option value="recall">Familiarity</option>
+              </select>
+            </label>
+            {sort === 'recall' && (
+              <button
+                className="passport__help"
+                onClick={() => setFamiliarityHelpOpen(!familiarityHelpOpen)}
+                aria-label="What is Familiarity?"
+                aria-expanded={familiarityHelpOpen}
+              >
+                ?
+              </button>
+            )}
+          </div>
+          {sort === 'recall' && familiarityHelpOpen && (
+            <p className="passport__help-panel">{FAMILIARITY_HELP}</p>
+          )}
           <ul className="passport__grid">
             {countries.map((country) => (
               <li key={country.isoAlpha3}>

@@ -34,6 +34,42 @@
   color: #a9b1c2;
 }
 
+.passport__sort label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The small "?" in a circle beside the sort box. */
+.passport__help {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  background: transparent;
+  color: #a9b1c2;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.passport__help:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.passport__help-panel {
+  max-width: 320px;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #a9b1c2;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 .passport__sort select {
   min-height: 40px;
   padding: 0 12px;
