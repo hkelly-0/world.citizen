@@ -132,14 +132,19 @@ const NEW_COUNTRY_WARNING_RECALL = 0.8
 export const NEW_COUNTRY_WARNING =
   "It's recommended to become more familiar with the countries you've already seen before learning new ones."
 
-// Whether to warn before a new country: the countries already seen, for
-// `questionIds`, are less familiar than NEW_COUNTRY_WARNING_RECALL. Never when
-// none has been seen.
+// The warning only starts once this many countries are in the Passport, so
+// beginners aren't warned while there is little to be familiar with.
+const NEW_COUNTRY_WARNING_MIN_COUNTRIES = 12
+
+// Whether to warn before a new country: at least NEW_COUNTRY_WARNING_MIN_COUNTRIES
+// countries are in the Passport, and those seen, for `questionIds`, are less
+// familiar than NEW_COUNTRY_WARNING_RECALL.
 export function isTooUnfamiliarForNewCountry(
   progress: DeckProgress,
   questionIds: QuestionId[],
   today: string,
 ): boolean {
+  if (collectedCountries(progress).length < NEW_COUNTRY_WARNING_MIN_COUNTRIES) return false
   const recall = averageRecall(progress, questionIds, today)
   return recall !== null && recall < NEW_COUNTRY_WARNING_RECALL
 }

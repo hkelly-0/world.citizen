@@ -1,3 +1,4 @@
+import { countryFacts } from '../../shared/countryFacts'
 import { describe, expect, it } from 'vitest'
 import { COUNTRY_COUNT, countryRecall, isTooUnfamiliarForNewCountry } from '../passport/passport'
 import { countryDueDate, QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
@@ -82,9 +83,11 @@ describe('addCountries', () => {
   })
 
   it('adds shaky countries that are overdue and bring up the new-country warning', () => {
-    const progress = addCountries({}, ['DEU'], 'shaky', TODAY)
+    // Enough countries (12) for the warning to apply.
+    const codes = Object.keys(countryFacts).slice(0, 12)
+    const progress = addCountries({}, codes, 'shaky', TODAY)
 
-    expect(countryDueDate(progress.DEU, QUESTION_IDS)! < TODAY).toBe(true)
+    expect(countryDueDate(progress[codes[0]], QUESTION_IDS)! < TODAY).toBe(true)
     expect(isTooUnfamiliarForNewCountry(progress, QUESTION_IDS, TODAY)).toBe(true)
   })
 

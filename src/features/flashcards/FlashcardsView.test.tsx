@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { State } from 'ts-fsrs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { saveProgress } from '../../shared/progress'
 import { addDays, todayString } from './dates'
@@ -53,8 +54,13 @@ function saveAreas(codes: string[], stability: number) {
   saveProgress(Object.fromEntries(codes.map((code) => [code, { area }])))
 }
 
+// France and eleven others: the warning only applies from 12 countries in the Passport.
 function saveFranceArea(stability: number) {
-  saveAreas(['FRA'], stability)
+  const others = Object.values(countryFacts)
+    .filter((country) => country.isoAlpha3 !== 'FRA' && country.groupId !== 'nordic')
+    .slice(0, 11)
+    .map((country) => country.isoAlpha3)
+  saveAreas(['FRA', ...others], stability)
 }
 
 function renderClassic() {
@@ -263,7 +269,7 @@ describe('FlashcardsView', () => {
   describe('in Custom Practice', () => {
     it('shows countries in the Passport, even with a question never asked, without warning', async () => {
       // France's area is unfamiliar and its capital has never been asked.
-      saveFranceArea(0.2)
+      saveAreas(['FRA'], 0.2)
       render(
         <FlashcardsView
           questionIds={['capital']}

@@ -135,7 +135,13 @@ describe('PassportView', () => {
   })
 
   it('warns on the New country card while the seen countries are unfamiliar', async () => {
-    saveProgress({ FRA: { globe: answeredToday(0.2) } })
+    // The warning only applies from 12 countries in the Passport.
+    const seen = Object.values(countryFacts)
+      .filter((country) => country.groupId !== 'nordic')
+      .slice(0, 12)
+    saveProgress(
+      Object.fromEntries(seen.map((country) => [country.isoAlpha3, { globe: answeredToday(0.2) }])),
+    )
     saveLearningGroup('nordic')
     const onPlayFlashcard = vi.fn()
     render(
@@ -151,7 +157,7 @@ describe('PassportView', () => {
     expect(screen.queryByText(/Next: a country from/)).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go anyway' }))
     expect(onPlayFlashcard).toHaveBeenCalledTimes(1)
-    expect(onPlayFlashcard).not.toHaveBeenCalledWith('FRA')
+    expect(onPlayFlashcard).not.toHaveBeenCalledWith(seen[0].isoAlpha3)
   })
 
   it('closes the enlarged New country card', async () => {

@@ -1,5 +1,6 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
+import { countryFacts } from '../../shared/countryFacts'
 import { addDays } from '../flashcards/dates'
 import { QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { recallChance } from '../flashcards/fsrs'
@@ -204,13 +205,21 @@ describe('isTooUnfamiliarForNewCountry', () => {
     dueDate: addDays(TODAY, 1),
   })
 
+  // The first `count` countries, each with the globe question answered today.
+  const seenCountries = (count: number, stability: number): DeckProgress =>
+    Object.fromEntries(
+      Object.keys(countryFacts)
+        .slice(0, count)
+        .map((code) => [code, { globe: answeredToday(stability) }]),
+    )
+
   it('is true when the seen countries are on average below 80% in 14 days', () => {
-    expect(
-      isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(0.2) } }, ['globe'], TODAY),
-    ).toBe(true)
-    expect(
-      isTooUnfamiliarForNewCountry({ FRA: { globe: answeredToday(10000) } }, ['globe'], TODAY),
-    ).toBe(false)
+    expect(isTooUnfamiliarForNewCountry(seenCountries(12, 0.2), ['globe'], TODAY)).toBe(true)
+    expect(isTooUnfamiliarForNewCountry(seenCountries(12, 10000), ['globe'], TODAY)).toBe(false)
+  })
+
+  it('is false until 12 countries are in the Passport', () => {
+    expect(isTooUnfamiliarForNewCountry(seenCountries(11, 0.2), ['globe'], TODAY)).toBe(false)
   })
 
   it('is false when no country has been seen', () => {
