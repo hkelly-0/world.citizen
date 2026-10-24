@@ -8,7 +8,12 @@ import {
 import { countryRecall } from '../flashcards/familiarity'
 import { QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { reviewQuestion } from '../flashcards/fsrs'
-import { addCountries, skipAheadDays, unseenCountriesInRandomGroups } from './devProgress'
+import {
+  addCountries,
+  makeAllSeenToday,
+  skipAheadDays,
+  unseenCountriesInRandomGroups,
+} from './devProgress'
 
 const TODAY = '2026-10-23'
 
@@ -29,6 +34,19 @@ describe('skipAheadDays', () => {
     expect(skipped.JPN.area!.lastReview).toBe('2026-10-16')
     // The original is unchanged.
     expect(progress.JPN.area!.lastReview).toBe(TODAY)
+  })
+})
+
+describe('makeAllSeenToday', () => {
+  it('sets every review date to today, keeping stability', () => {
+    const progress = sampleProgress()
+    const seenToday = makeAllSeenToday(progress, TODAY)
+
+    expect(seenToday.FRA.capital!.lastReview).toBe(TODAY)
+    expect(seenToday.FRA.capital!.stability).toBe(progress.FRA.capital!.stability)
+    expect(seenToday.JPN.area!.lastReview).toBe(TODAY)
+    // The original is unchanged.
+    expect(progress.FRA.capital!.lastReview).toBe('2026-10-20')
   })
 })
 

@@ -34,6 +34,13 @@ export function skipAheadDays(progress: DeckProgress, days: number): DeckProgres
   }))
 }
 
+// As if every answered question had last been reviewed today, with its
+// stability kept, so the next answers count as same-day reviews. Familiarity
+// of countries last seen earlier goes up, as it is measured from today.
+export function makeAllSeenToday(progress: DeckProgress, today: string): DeckProgress {
+  return mapQuestions(progress, (question) => ({ ...question, lastReview: today }))
+}
+
 // How long ago a well-known country was first answered.
 const WELL_KNOWN_FIRST_REVIEW_DAYS_AGO = 180
 // How long ago a shaky country was answered wrongly.
