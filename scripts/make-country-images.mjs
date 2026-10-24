@@ -6,8 +6,8 @@
 // orthographic projection, so nothing is stretched). The country is filled
 // with the satellite imagery from public/tiles/satellite/ and its longest side
 // takes up two thirds of the picture (a bit less for smaller countries, so
-// more of their surroundings show). Everything outside it is transparent,
-// with the borders of all countries drawn on top as lines.
+// more of their surroundings show). Everything outside it is transparent: no
+// other countries are drawn, only this country's outline as a thick line.
 //
 // Usage: node scripts/make-country-images.mjs [ISO alpha-3 codes...]
 //   With no codes, draws all 195 countries.
@@ -15,7 +15,6 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { geoCentroid, geoOrthographic, geoPath } from 'd3-geo'
-import { feature, mesh } from 'topojson-client'
 // Shared with the globe, so pictures and the globe frame the same parts.
 // Hand-picked exceptions are in src/data/mainLandmassOverrides.json.
 import { mainLandmass } from '../src/features/globe/mainLandmass.ts'
@@ -32,11 +31,10 @@ const LARGE_COUNTRY_KM = 1000
 const LARGE_COUNTRY_FRACTION = 2 / 3
 const SMALL_COUNTRY_KM = 100
 const SMALL_COUNTRY_FRACTION = 1 / 2
-// Same as the globe's border lines (BORDER_COLOR in GlobeView.tsx).
+// Same colour as the globe's border lines (BORDER_COLOR in GlobeView.tsx), but
+// thicker. The line is centred on the border, so half of it covers the country.
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
-const BORDER_WIDTH = 1.5
-// A faint fill on the other countries, so land stands out from the ocean.
-const OTHER_LAND_COLOR = 'rgba(255, 255, 255, 0.08)'
+const BORDER_WIDTH = 5
 const WEBP_QUALITY = 80
 
 // The most detailed satellite tiles are at zoom level 6. Each tile pixel there
@@ -54,19 +52,7 @@ const MAX_KM_PER_TILE_PIXEL = EARTH_CIRCUMFERENCE_KM / (TILE_SIZE * 2 ** MAX_TIL
 // In d3's orthographic projection, the scale is the Earth's radius in pixels.
 const MAX_SCALE = (EARTH_RADIUS_KM / MAX_KM_PER_TILE_PIXEL) * MAX_MAGNIFICATION
 
-// Countries whose longest side is shorter than this in the picture are hard
-// to spot, so a yellow ring is drawn around them.
-const RING_BELOW_PIXELS = 20
-const RING_RADIUS = 24
-const RING_COLOR = '#ffd400'
-const RING_WIDTH = 3
-
 // --- Country outlines (same data as the globe) ---
-const topology = JSON.parse(readFileSync('node_modules/world-atlas/countries-50m.json', 'utf8'))
-const countries = feature(topology, topology.objects.countries).features
-// Every border line once, so shared borders aren't drawn twice.
-const allBorders = mesh(topology, topology.objects.countries)
-const allCountries = { type: 'FeatureCollection', features: countries }
 const countryShapes = loadCountryShapes()
 
 // --- Choosing what to frame ---
@@ -216,34 +202,14 @@ async function drawCountry(shape) {
   }
   context.putImageData(picture, 0, 0)
 
-  // 4. A faint fill on all land, drawn behind the country so only the other
-  //    countries show it.
-  context.globalCompositeOperation = 'destination-over'
+  // 4. This country's outline on top.
   context.beginPath()
-  path.context(context)(allCountries)
-  context.fillStyle = OTHER_LAND_COLOR
-  context.fill()
-  context.globalCompositeOperation = 'source-over'
-
-  // 5. Border lines of every country on top, including this one's.
-  context.beginPath()
-  path.context(context)(allBorders)
+  path.context(context)(shape.geometry)
   context.strokeStyle = BORDER_COLOR
   context.lineWidth = BORDER_WIDTH
   context.stroke()
 
-  // 6. A ring around countries too small to spot, centred on the framed area.
-  const [[left, top], [right, bottom]] = geoPath(projection).bounds(framed)
-  const hasRing = Math.max(right - left, bottom - top) < RING_BELOW_PIXELS
-  if (hasRing) {
-    context.beginPath()
-    context.arc((left + right) / 2, (top + bottom) / 2, RING_RADIUS, 0, 2 * Math.PI)
-    context.strokeStyle = RING_COLOR
-    context.lineWidth = RING_WIDTH
-    context.stroke()
-  }
-
-  return { image: await canvas.encode('webp', WEBP_QUALITY), hasRing }
+  return canvas.encode('webp', WEBP_QUALITY)
 }
 
 // The tile holding a world-map pixel, as "x/y". x wraps around the 180°
@@ -297,7 +263,7 @@ for (const code of codes) {
     console.log(`${code}: no outline, skipped`)
     continue
   }
-  const { image, hasRing } = await drawCountry(shape)
+  const image = await drawCountry(shape)
   writeFileSync(join(OUTPUT, `${code}.webp`), image)
-  console.log(`${code}: ${Math.round(image.length / 1024)} KB${hasRing ? ', ringed' : ''}`)
+  console.log(`${code}: ${Math.round(image.length / 1024)} KB`)
 }
