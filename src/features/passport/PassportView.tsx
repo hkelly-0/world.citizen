@@ -7,10 +7,10 @@ import { loadPassportSort, savePassportSort, type PassportSort } from '../../sha
 import { loadProgress } from '../../shared/progress'
 import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
+import { countryRecall } from '../flashcards/familiarity'
 import { CountryInfoPanel } from '../globe/CountryInfoPanel'
 import { RecallCircle } from './RecallCircle'
 import {
-  countryRecall,
   COUNTRY_COUNT,
   groupProgressLabel,
   isTooUnfamiliarForNewCountry,

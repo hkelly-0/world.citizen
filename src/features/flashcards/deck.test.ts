@@ -1,7 +1,7 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
-import { pickingFamiliarity } from '../passport/passport'
 import { chooseRandomCountry, QUESTION_IDS, type CountryProgress } from './deck'
+import { pickingFamiliarity } from './familiarity'
 import type { QuestionProgress } from './fsrs'
 
 const TODAY = '2026-05-10'

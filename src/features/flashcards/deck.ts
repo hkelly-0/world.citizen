@@ -1,5 +1,5 @@
-import { pickingFamiliarity } from '../passport/passport'
 import { reviewQuestion, type AnswerResult, type QuestionProgress } from './fsrs'
+import { pickingFamiliarity } from './familiarity'
 
 // The questions asked about each country. Each has its own FSRS progress, so
 // e.g. a country's capital can be well known while its population isn't.

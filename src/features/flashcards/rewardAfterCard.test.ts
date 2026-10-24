@@ -1,6 +1,6 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
-import { countryRecall } from '../passport/passport'
+import { countryRecall } from './familiarity'
 import type { DeckProgress } from './deck'
 import { rewardAfterCard } from './rewardAfterCard'
 

@@ -2,10 +2,10 @@ import { countryFacts } from '../../shared/countryFacts'
 import { describe, expect, it } from 'vitest'
 import {
   COUNTRY_COUNT,
-  countryRecall,
   isTooUnfamiliarForNewCountry,
   unseenCountriesInGroup,
 } from '../passport/passport'
+import { countryRecall } from '../flashcards/familiarity'
 import { QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { reviewQuestion } from '../flashcards/fsrs'
 import { addCountries, skipAheadDays, unseenCountriesInRandomGroups } from './devProgress'

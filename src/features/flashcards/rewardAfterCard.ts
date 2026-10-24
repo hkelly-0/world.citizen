@@ -1,4 +1,5 @@
-import { collectedCountries, countryRecall } from '../passport/passport'
+import { collectedCountries } from '../passport/passport'
+import { countryRecall } from './familiarity'
 import type { DeckProgress, QuestionId } from './deck'
 
 // The reward shown after every finished card (see `CardReward`).
