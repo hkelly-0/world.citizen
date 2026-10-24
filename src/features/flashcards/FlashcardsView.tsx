@@ -154,13 +154,18 @@ export function FlashcardsView({
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
       {reward !== null ? (
-        <CardReward reward={reward} continueLabel="Next →" onContinue={() => setReward(null)} />
+        <CardReward
+          reward={reward}
+          continueLabel="Next"
+          continueHasArrow={true}
+          onContinue={() => setReward(null)}
+        />
       ) : showNewCountryWarning ? (
         <div className="flashcards-view__warning">
           <p>{NEW_COUNTRY_WARNING}</p>
           <button
             type="button"
-            className="flashcards-view__discover"
+            className="flashcards-view__discover arrow-button"
             onClick={() => {
               setNewCountryWarningDismissed(true)
               // The user has just chosen to discover it, so go straight to its
@@ -168,7 +173,7 @@ export function FlashcardsView({
               setDiscoveryScreenPassedFor(currentCode)
             }}
           >
-            Discover a new country anyway →
+            Discover a new country anyway
           </button>
         </div>
       ) : needsNewGroup ? (
@@ -189,10 +194,10 @@ export function FlashcardsView({
           </p>
           <button
             type="button"
-            className="flashcards-view__go"
+            className="flashcards-view__go arrow-button"
             onClick={() => setDiscoveryScreenPassedFor(currentCode)}
           >
-            Go →
+            Go
           </button>
         </div>
       ) : (

@@ -23,19 +23,22 @@ export function MainMenu({
     <main className="main-menu">
       <h1>world.citizen</h1>
       <p className="main-menu__subtitle">learn every country</p>
-      <button className="main-menu__option" onClick={onOpenFlashcards}>
+      <button className="main-menu__option arrow-button" onClick={onOpenFlashcards}>
         Flashcards
       </button>
-      <button className="main-menu__option" onClick={onOpenGlobe}>
+      <button className="main-menu__option arrow-button" onClick={onOpenGlobe}>
         Globe
       </button>
-      <button className="main-menu__option main-menu__option--stacked" onClick={onOpenPassport}>
+      <button
+        className="main-menu__option main-menu__option--stacked arrow-button"
+        onClick={onOpenPassport}
+      >
         <span>Passport</span>{' '}
         <span className="main-menu__count">
           {passportCount}/{COUNTRY_COUNT}
         </span>
       </button>
-      <button className="main-menu__settings" onClick={onOpenSettings}>
+      <button className="main-menu__settings arrow-button" onClick={onOpenSettings}>
         Settings
       </button>
     </main>

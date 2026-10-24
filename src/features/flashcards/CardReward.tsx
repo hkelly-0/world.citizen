@@ -10,8 +10,10 @@ const RING_SIZE = 120
 
 type CardRewardProps = {
   reward: CardRewardDetails
-  // The continue button's text, e.g. "Next →" in Classic, "Done" in the Passport.
+  // The continue button's text, e.g. "Next" in Classic, "Done" in the Passport.
   continueLabel: string
+  // Whether the button gets an arrow: it does when it moves on to another card.
+  continueHasArrow: boolean
   onContinue: () => void
 }
 
@@ -20,7 +22,12 @@ type CardRewardProps = {
 // rolls down to the new count. Otherwise, the country's familiarity ring fills
 // clockwise from empty. Both wait a moment first (the timing is in
 // CardReward.css and RecallCircle.css).
-export function CardReward({ reward, continueLabel, onContinue }: CardRewardProps) {
+export function CardReward({
+  reward,
+  continueLabel,
+  continueHasArrow,
+  onContinue,
+}: CardRewardProps) {
   const countryName = countryFacts[reward.code].commonName
   return (
     <div className="card-reward">
@@ -35,7 +42,13 @@ export function CardReward({ reward, continueLabel, onContinue }: CardRewardProp
           <RecallCircle recall={reward.recall} size={RING_SIZE} isAnimated={true} />
         </>
       )}
-      <button type="button" className="card-reward__continue" onClick={onContinue}>
+      <button
+        type="button"
+        className={
+          continueHasArrow ? 'card-reward__continue arrow-button' : 'card-reward__continue'
+        }
+        onClick={onContinue}
+      >
         {continueLabel}
       </button>
     </div>

@@ -95,8 +95,8 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
   )
 
   const playButtonClassName = warnBeforeNewCountry
-    ? 'passport__play passport__play--warning'
-    : 'passport__play'
+    ? 'passport__play passport__play--warning arrow-button'
+    : 'passport__play arrow-button'
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -205,10 +205,10 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
               onClose={() => setOpenCode(null)}
             />
             <button
-              className="passport__play"
+              className="passport__play arrow-button"
               onClick={() => onPlayFlashcard(openCountry.isoAlpha3)}
             >
-              Play flashcard →
+              Play flashcard
             </button>
           </div>
         </div>
@@ -240,11 +240,11 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
             </aside>
             {groupId === null ? (
               <button className={playButtonClassName} onClick={() => setIsChoosingRegion(true)}>
-                {warnBeforeNewCountry ? 'Go anyway' : 'Choose a region →'}
+                {warnBeforeNewCountry ? 'Go anyway' : 'Choose a region'}
               </button>
             ) : (
               <button className={playButtonClassName} onClick={() => playNewCountry(groupId)}>
-                {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard →'}
+                {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard'}
               </button>
             )}
           </div>

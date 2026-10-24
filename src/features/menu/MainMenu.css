@@ -48,18 +48,9 @@
   cursor: pointer;
 }
 
-/* An arrow just after the text of every option. */
-.main-menu__option::after {
-  content: '→';
-}
-
 /* Go and Save: centred in the column rather than starting at its left edge. */
 .main-menu__option--centered {
   justify-content: center;
-}
-
-.main-menu__option--no-arrow::after {
-  content: none;
 }
 
 .main-menu__option:hover {
@@ -115,10 +106,6 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
-}
-
-.main-menu__settings::after {
-  content: '→';
 }
 
 .main-menu__settings:hover {

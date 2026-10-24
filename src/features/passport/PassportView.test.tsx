@@ -94,7 +94,7 @@ describe('PassportView', () => {
     await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     expect(screen.getByRole('complementary', { name: 'New country details' })).toBeInTheDocument()
     expect(screen.getByText('Choose a region of countries to discover.')).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Choose a region' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Discover Nordic Countries' }))
     // The first unseen Nordic country in countryGroups.json order (DNK, NOR, SWE, FIN).
     expect(onPlayFlashcard).toHaveBeenCalledWith('DNK')
@@ -107,7 +107,7 @@ describe('PassportView', () => {
     )
 
     await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Choose a region' }))
     await screen.findByRole('button', { name: 'Discover Nordic Countries' })
     await userEvent.click(screen.getByRole('button', { name: '← Passport' }))
     expect(screen.getByRole('heading', { name: /^Passport/ })).toBeInTheDocument()
@@ -129,8 +129,8 @@ describe('PassportView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     expect(screen.getByText('Next: a country from Nordic Countries (2 of 4).')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Choose a region →' })).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
+    expect(screen.queryByRole('button', { name: 'Choose a region' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Play flashcard' }))
     expect(onPlayFlashcard).toHaveBeenCalledWith('NOR')
   })
 
@@ -218,7 +218,7 @@ describe('PassportView', () => {
     )
 
     await userEvent.click(screen.getByRole('button', { name: /France/ }))
-    await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Play flashcard' }))
     expect(onPlayFlashcard).toHaveBeenCalledWith('FRA')
   })
 

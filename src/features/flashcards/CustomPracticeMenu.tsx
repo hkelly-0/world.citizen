@@ -65,7 +65,7 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
         ))}
       </fieldset>
       <button
-        className="main-menu__option main-menu__option--centered"
+        className="main-menu__option main-menu__option--centered arrow-button"
         onClick={go}
         disabled={chosen.length === 0}
       >

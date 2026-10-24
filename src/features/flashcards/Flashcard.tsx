@@ -138,7 +138,7 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
       )}
 
       {answer !== null && (
-        <button className="flashcard__next" onClick={goToNext} autoFocus>
+        <button className="flashcard__next arrow-button" onClick={goToNext} autoFocus>
           Next
         </button>
       )}

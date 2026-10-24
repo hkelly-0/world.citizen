@@ -19,10 +19,10 @@ export function FlashcardsMenu({
     <main className="main-menu">
       <BackButton onClick={onBack} />
       <h1>Flashcards</h1>
-      <button className="main-menu__option" onClick={onOpenClassic}>
+      <button className="main-menu__option arrow-button" onClick={onOpenClassic}>
         Classic Mode
       </button>
-      <button className="main-menu__option" onClick={onOpenCustomPractice}>
+      <button className="main-menu__option arrow-button" onClick={onOpenCustomPractice}>
         Custom Practice
       </button>
     </main>

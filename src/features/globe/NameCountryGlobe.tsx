@@ -114,7 +114,12 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
           />
         )}
         {isNextShown && (
-          <button type="button" className="name-globe__next" onClick={goToNext} autoFocus>
+          <button
+            type="button"
+            className="name-globe__next arrow-button"
+            onClick={goToNext}
+            autoFocus
+          >
             Next
           </button>
         )}

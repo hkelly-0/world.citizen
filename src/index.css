@@ -39,6 +39,12 @@ body {
   font-family: 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 
+/* An arrow after the text of every button that moves on to something else
+   (not, e.g., Reveal, Done or Saved). */
+.arrow-button::after {
+  content: ' →';
+}
+
 .loading {
   margin: 0;
   padding: 24px;

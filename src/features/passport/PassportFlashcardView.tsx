@@ -54,7 +54,12 @@ export function PassportFlashcardView({
     <div className="flashcards-view">
       <BackButton onClick={onBack} label="← Passport" />
       {reward !== null ? (
-        <CardReward reward={reward} continueLabel="Done" onContinue={onBack} />
+        <CardReward
+          reward={reward}
+          continueLabel="Done"
+          continueHasArrow={false}
+          onContinue={onBack}
+        />
       ) : (
         <Flashcard
           country={countryFacts[isoAlpha3]}

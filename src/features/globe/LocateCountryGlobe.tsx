@@ -172,7 +172,7 @@ export default function LocateCountryGlobe({
         </p>
       )}
       {isNextShown && (
-        <button className="locate-globe__next" onClick={goToNext} autoFocus>
+        <button className="locate-globe__next arrow-button" onClick={goToNext} autoFocus>
           Next
         </button>
       )}

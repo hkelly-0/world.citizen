@@ -95,16 +95,16 @@ describe('FlashcardsView', () => {
 
     expect(screen.getByText(WARNING)).toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway' }))
 
     // Straight to the new country's card, then the next new one with no
     // warning, introduced by the discovering screen.
     expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
     await answerArea()
-    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
@@ -125,7 +125,7 @@ describe('FlashcardsView', () => {
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
     ).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
@@ -137,7 +137,7 @@ describe('FlashcardsView', () => {
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
     ).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByRole('heading', { name: NORDIC_NAME })).toBeInTheDocument()
   })
 
@@ -160,9 +160,9 @@ describe('FlashcardsView', () => {
     expect(
       screen.getByText('Discovering a new country from Nordic Countries (4 of 4)...'),
     ).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
-    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(
       await screen.findByRole('button', { name: 'Discover Baltic States' }),
     ).toBeInTheDocument()
@@ -179,7 +179,7 @@ describe('FlashcardsView', () => {
     expect(
       screen.queryByRole('button', { name: 'Discover Nordic Countries' }),
     ).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway' }))
     expect(
       await screen.findByRole('button', { name: 'Discover Nordic Countries' }),
     ).toBeInTheDocument()
@@ -219,13 +219,13 @@ describe('FlashcardsView', () => {
     expect(screen.getByText('France')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
 
-    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Go →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
     expect(screen.getByLabelText('2/195')).toBeInTheDocument()
     // Moves on (to a new country or the warning, depending on the random
     // country's answer).
-    await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.queryByLabelText('2/195')).not.toBeInTheDocument()
   })
 
@@ -279,7 +279,7 @@ describe('FlashcardsView', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await screen.findByText('Paris')
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-      await userEvent.click(screen.getByRole('button', { name: 'Next →' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
       // No other country is in the Passport, so no new one comes next.
       expect(
