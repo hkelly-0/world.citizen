@@ -34,7 +34,7 @@ vi.mock('../globe/RegionGlobe', async () => {
 const DISCOVERING = /^Discovering a new country/
 
 const WARNING =
-  "It's recommended to become familiar with the countries you've already seen before learning new ones."
+  "It's recommended to become more familiar with the countries you've already seen before learning new ones."
 
 // The countries' areas, answered today and not due again until tomorrow, so
 // the next card is always a new country. A low stability is soon forgotten (a

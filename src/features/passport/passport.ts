@@ -130,7 +130,7 @@ const NEW_COUNTRY_WARNING_RECALL = 0.8
 // The warning shown before a new country, in the flashcards and on the
 // Passport's "New country" card.
 export const NEW_COUNTRY_WARNING =
-  "It's recommended to become familiar with the countries you've already seen before learning new ones."
+  "It's recommended to become more familiar with the countries you've already seen before learning new ones."
 
 // Whether to warn before a new country: the countries already seen, for
 // `questionIds`, are less familiar than NEW_COUNTRY_WARNING_RECALL. Never when
