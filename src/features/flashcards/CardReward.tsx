@@ -55,20 +55,32 @@ export function CardReward({
   )
 }
 
-// "X/195", with X rolling down to X + 1.
+// "X/195", with X rolling down to X + 1. Only the digits that change roll; the
+// others stay still (12 → 13 rolls only the 2 to a 3).
 function PassportCount({ countBefore }: { countBefore: number }) {
   const countAfter = countBefore + 1
+  const afterDigits = String(countAfter)
+  // Padded on the left so the digits line up, e.g. 9 → 10 compares " 9" with "10".
+  const beforeDigits = String(countBefore).padStart(afterDigits.length, ' ')
   return (
     <p className="card-reward__count" aria-label={`${countAfter}/${COUNTRY_TOTAL}`}>
-      {/* Wide enough for the longer of the two numbers; the font is monospace. */}
-      <span
-        className="card-reward__window"
-        style={{ width: `${String(countAfter).length}ch` }}
-        aria-hidden="true"
-      >
-        <span className="card-reward__old">{countBefore}</span>
-        <span className="card-reward__new">{countAfter}</span>
-      </span>
+      {afterDigits.split('').map((afterDigit, position) => {
+        const beforeDigit = beforeDigits[position]
+        if (beforeDigit === afterDigit) {
+          return (
+            <span key={position} aria-hidden="true">
+              {afterDigit}
+            </span>
+          )
+        }
+        // One digit wide; the font is monospace. A padded space rolls out as blank.
+        return (
+          <span key={position} className="card-reward__window" aria-hidden="true">
+            <span className="card-reward__old">{beforeDigit}</span>
+            <span className="card-reward__new">{afterDigit}</span>
+          </span>
+        )
+      })}
       <span aria-hidden="true">/{COUNTRY_TOTAL}</span>
     </p>
   )

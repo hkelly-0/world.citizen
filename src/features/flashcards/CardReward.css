@@ -22,9 +22,10 @@
   line-height: 1.2;
 }
 
-/* Shows one number at a time; the other is clipped above or below. */
+/* Shows one digit at a time; the other is clipped above or below. */
 .card-reward__window {
   position: relative;
+  width: 1ch;
   height: 1.2em;
   overflow: hidden;
 }
