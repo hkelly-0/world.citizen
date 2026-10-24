@@ -157,9 +157,29 @@ describe('isTooUnfamiliarForNewCountry', () => {
         .map((code) => [code, { globe: answeredToday(stability) }]),
     )
 
-  it('is true when the seen countries are on average below 80% in 14 days', () => {
-    expect(isTooUnfamiliarForNewCountry(seenCountries(12, 0.2), ['globe'], TODAY)).toBe(true)
-    expect(isTooUnfamiliarForNewCountry(seenCountries(12, 10000), ['globe'], TODAY)).toBe(false)
+  // The first 12 countries, the first `unfamiliarCount` soon forgotten and the
+  // rest remembered.
+  const mixedCountries = (unfamiliarCount: number): DeckProgress =>
+    Object.fromEntries(
+      Object.keys(countryFacts)
+        .slice(0, 12)
+        .map((code, i) => [code, { globe: answeredToday(i < unfamiliarCount ? 0.2 : 10000) }]),
+    )
+
+  it('is true when more than 3 Passport countries are below 75% in 14 days', () => {
+    expect(isTooUnfamiliarForNewCountry(mixedCountries(4), ['globe'], TODAY)).toBe(true)
+    expect(isTooUnfamiliarForNewCountry(mixedCountries(3), ['globe'], TODAY)).toBe(false)
+    expect(isTooUnfamiliarForNewCountry(mixedCountries(0), ['globe'], TODAY)).toBe(false)
+  })
+
+  it('counts a country with none of the questions given answered as unfamiliar', () => {
+    // Only capitals answered, but the globe question is being asked.
+    const progress = Object.fromEntries(
+      Object.keys(countryFacts)
+        .slice(0, 12)
+        .map((code) => [code, { capital: answeredToday(10000) }]),
+    )
+    expect(isTooUnfamiliarForNewCountry(progress, ['globe'], TODAY)).toBe(true)
   })
 
   it('is false until 12 countries are in the Passport', () => {

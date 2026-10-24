@@ -1,5 +1,5 @@
 import { addDays } from './dates'
-import type { CountryProgress, DeckProgress, QuestionId } from './deck'
+import type { CountryProgress, QuestionId } from './deck'
 import { recallChance } from './fsrs'
 
 // How far ahead familiarity looks. The chance of remembering on the day of a
@@ -40,20 +40,4 @@ export function pickingFamiliarity(
     return recallChance(question, addDays(today, FAMILIARITY_DAYS_AHEAD))
   })
   return chances.reduce((sum, chance) => sum + chance, 0) / chances.length
-}
-
-// How well the user knows the countries they have seen: the average of
-// `countryRecall` over every country with any of `questionIds` answered. Null
-// if there are none. Used to decide when to show a new country
-// (`isTooUnfamiliarForNewCountry`).
-export function averageRecall(
-  progress: DeckProgress,
-  questionIds: QuestionId[],
-  today: string,
-): number | null {
-  const recalls = Object.values(progress)
-    .map((country) => countryRecall(country, questionIds, today))
-    .filter((recall) => recall !== null)
-  if (recalls.length === 0) return null
-  return recalls.reduce((sum, recall) => sum + recall, 0) / recalls.length
 }

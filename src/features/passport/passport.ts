@@ -7,7 +7,7 @@ import {
 import type { Discoveries } from '../../shared/discoveries'
 import type { PassportSort } from '../../shared/passportSort'
 import type { DeckProgress, QuestionId } from '../flashcards/deck'
-import { averageRecall, countryRecall } from '../flashcards/familiarity'
+import { countryRecall } from '../flashcards/familiarity'
 
 // How many countries there are to collect: the 195.
 export const COUNTRY_COUNT = Object.keys(countryFacts).length
@@ -84,9 +84,13 @@ export function randomUnseenCountryInGroup(
   return unseenCodes[Math.floor(random() * unseenCodes.length)]
 }
 
-// A new country comes only once the average chance of still remembering the
-// countries already seen 14 days from now (`averageRecall`) is at least this.
-const NEW_COUNTRY_WARNING_RECALL = 0.8
+// A Passport country counts as unfamiliar when its familiarity (`countryRecall`)
+// is below this.
+const UNFAMILIAR_RECALL = 0.75
+
+// A new country comes only while at most this many Passport countries are
+// unfamiliar.
+const MAX_UNFAMILIAR_COUNTRIES = 3
 
 // The warning shown on the Passport's "New country" card when
 // `isTooUnfamiliarForNewCountry`.
@@ -99,17 +103,23 @@ const NEW_COUNTRY_WARNING_MIN_COUNTRIES = 12
 
 // Whether the user should get more familiar with the countries already seen
 // before a new one: at least NEW_COUNTRY_WARNING_MIN_COUNTRIES countries are in
-// the Passport, and those seen, for `questionIds`, are less familiar than
-// NEW_COUNTRY_WARNING_RECALL. In Classic flashcards a new country comes only
-// when this is false; the Passport's "New country" card warns when it is true.
+// the Passport, and more than MAX_UNFAMILIAR_COUNTRIES of them are below
+// UNFAMILIAR_RECALL for `questionIds`. A country with none of `questionIds`
+// answered has no familiarity and counts as unfamiliar. In Classic flashcards a
+// new country comes only when this is false; the Passport's "New country" card
+// warns when it is true.
 export function isTooUnfamiliarForNewCountry(
   progress: DeckProgress,
   questionIds: QuestionId[],
   today: string,
 ): boolean {
-  if (collectedCountries(progress).length < NEW_COUNTRY_WARNING_MIN_COUNTRIES) return false
-  const recall = averageRecall(progress, questionIds, today)
-  return recall !== null && recall < NEW_COUNTRY_WARNING_RECALL
+  const collected = collectedCountries(progress)
+  if (collected.length < NEW_COUNTRY_WARNING_MIN_COUNTRIES) return false
+  const unfamiliarCount = collected.filter((country) => {
+    const recall = countryRecall(progress[country.isoAlpha3], questionIds, today)
+    return recall === null || recall < UNFAMILIAR_RECALL
+  }).length
+  return unfamiliarCount > MAX_UNFAMILIAR_COUNTRIES
 }
 
 // The countries in the Passport, sorted as chosen, with ties kept A–Z.

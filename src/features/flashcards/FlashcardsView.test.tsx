@@ -35,7 +35,7 @@ vi.mock('../globe/RegionGlobe', async () => {
 const DISCOVERING = /^Discovering a new country/
 
 // The countries' areas, answered today. A low stability is soon forgotten (a
-// recall chance in 14 days well under 80%); a high one is remembered.
+// recall chance in 14 days well under 75%); a high one is remembered.
 function saveAreas(codes: string[], stability: number) {
   const area = {
     stability,
@@ -201,8 +201,23 @@ describe('FlashcardsView', () => {
 
   it('counts only the questions being asked', () => {
     // The areas are unfamiliar, but only capitals are being practised, and
-    // none has been answered, so a new country comes.
-    saveFranceArea(0.2)
+    // they are familiar, so a new country comes.
+    const answeredToday = (stability: number) => ({
+      stability,
+      difficulty: 5,
+      reps: 1,
+      lapses: 0,
+      state: State.Review,
+      lastReview: todayString(),
+    })
+    saveProgress(
+      Object.fromEntries(
+        franceAndOthers().map((code) => [
+          code,
+          { area: answeredToday(0.2), capital: answeredToday(10000) },
+        ]),
+      ),
+    )
     saveLearningGroup('nordic')
     renderFlashcards(['capital'], true)
 
