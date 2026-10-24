@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
+import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCapitalCorrect } from './capitalAnswer'
 import type { GlobeKind, QuestionId } from './deck'
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
@@ -87,6 +88,9 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
       setAnswer(null)
     }
   }
+
+  // A click anywhere presses Next while it is showing.
+  useClickAnywhereToContinue(answer !== null, goToNext)
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>

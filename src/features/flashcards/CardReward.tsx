@@ -1,4 +1,5 @@
 import { countryFacts } from '../../shared/countryFacts'
+import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { RecallCircle } from '../passport/RecallCircle'
 import type { CardRewardDetails } from './rewardAfterCard'
 import './CardReward.css'
@@ -28,6 +29,7 @@ export function CardReward({
   continueHasArrow,
   onContinue,
 }: CardRewardProps) {
+  useClickAnywhereToContinue(true, onContinue)
   const countryName = countryFacts[reward.code].commonName
   return (
     <div className="card-reward">

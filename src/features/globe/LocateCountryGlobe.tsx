@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryDisplayName } from '../../shared/countryFacts'
+import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import {
   COUNTRY_SHAPES,
   createCountryMap,
@@ -155,6 +156,9 @@ export default function LocateCountryGlobe({
       window.setTimeout(() => onAnswerRef.current(isCorrectRef.current), FADE_MS),
     )
   }
+
+  // A click anywhere presses Next once it is showing (not again while fading).
+  useClickAnywhereToContinue(isNextShown && !isFading, goToNext)
 
   return (
     <div className={isFading ? 'locate-globe locate-globe--fading' : 'locate-globe'}>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
+import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCountryNameCorrect } from '../flashcards/countryNameAnswer'
 import { TYPING_MS_PER_LETTER, TypedAnswerReveal } from '../flashcards/TypedAnswerReveal'
 import { COUNTRY_SHAPES, createCountryMap, flyToCountry, stopHoverHighlight } from './countryMap'
@@ -93,6 +94,9 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
     setIsFading(true)
     timeoutsRef.current.push(window.setTimeout(() => onAnswer(isCorrect), FADE_MS))
   }
+
+  // A click anywhere presses Next once it is enabled (not again while fading).
+  useClickAnywhereToContinue(isNextEnabled && !isFading, goToNext)
 
   return (
     <div className={isFading ? 'name-globe name-globe--fading' : 'name-globe'}>
