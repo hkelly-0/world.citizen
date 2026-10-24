@@ -1,14 +1,19 @@
 import { countryFacts } from '../../shared/countryFacts'
 import { describe, expect, it } from 'vitest'
-import { COUNTRY_COUNT, countryRecall, isTooUnfamiliarForNewCountry } from '../passport/passport'
+import {
+  COUNTRY_COUNT,
+  countryRecall,
+  isTooUnfamiliarForNewCountry,
+  unseenCountriesInGroup,
+} from '../passport/passport'
 import { countryDueDate, QUESTION_IDS, type DeckProgress } from '../flashcards/deck'
 import { reviewQuestion } from '../flashcards/fsrs'
 import {
   addCountries,
   makeAllDueToday,
   makeNothingDueToday,
-  randomUnseenCountries,
   skipAheadDays,
+  unseenCountriesInRandomGroups,
 } from './devProgress'
 
 const TODAY = '2026-10-23'
@@ -55,18 +60,23 @@ describe('makeNothingDueToday', () => {
   })
 })
 
-describe('randomUnseenCountries', () => {
-  it('picks different countries not yet in the Passport', () => {
-    const codes = randomUnseenCountries(sampleProgress(), 10)
+describe('unseenCountriesInRandomGroups', () => {
+  it('picks every unseen country of 3 different unfinished groups', () => {
+    const progress = sampleProgress()
+    const codes = unseenCountriesInRandomGroups(progress, 3)
 
-    expect(codes).toHaveLength(10)
-    expect(new Set(codes).size).toBe(10)
+    expect(new Set(codes).size).toBe(codes.length)
     expect(codes).not.toContain('FRA')
     expect(codes).not.toContain('JPN')
+    const groupIds = new Set(codes.map((code) => countryFacts[code].groupId))
+    expect(groupIds.size).toBe(3)
+    for (const groupId of groupIds) {
+      expect(codes).toEqual(expect.arrayContaining(unseenCountriesInGroup(groupId, progress)))
+    }
   })
 
-  it('picks only as many as are left', () => {
-    expect(randomUnseenCountries(sampleProgress(), 1000)).toHaveLength(COUNTRY_COUNT - 2)
+  it('picks only as many groups as are left', () => {
+    expect(unseenCountriesInRandomGroups(sampleProgress(), 1000)).toHaveLength(COUNTRY_COUNT - 2)
   })
 })
 

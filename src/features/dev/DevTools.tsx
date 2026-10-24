@@ -5,20 +5,21 @@ import { loadProgress, saveProgress } from '../../shared/progress'
 import { clearReviewLog } from '../../shared/reviewLog'
 import { todayString } from '../flashcards/dates'
 import type { DeckProgress } from '../flashcards/deck'
+import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { COUNTRY_COUNT } from '../passport/passport'
 import { areCountryGroupsShown, setCountryGroupsShown } from './showCountryGroups'
 import {
   addCountries,
   makeAllDueToday,
   makeNothingDueToday,
-  randomUnseenCountries,
   skipAheadDays,
+  unseenCountriesInRandomGroups,
 } from './devProgress'
 import './DevTools.css'
 
 const SKIP_DAYS = [1, 7, 30]
-// How many countries each "Add" button puts in the Passport.
-const ADD_COUNT = 10
+// How many country groups each "Add" button puts in the Passport.
+const ADD_GROUP_COUNT = 3
 
 type DevToolsProps = {
   // Called after each change, so the current screen can be rebuilt with the
@@ -49,9 +50,9 @@ export function DevTools({ onChange }: DevToolsProps) {
     finish(done)
   }
 
-  function add(count: number, kind: 'well-known' | 'shaky') {
+  function add(groupCount: number, kind: 'well-known' | 'shaky') {
     const progress = loadProgress()
-    const codes = randomUnseenCountries(progress, count)
+    const codes = unseenCountriesInRandomGroups(progress, groupCount)
     saveProgress(addCountries(progress, codes, kind, todayString()))
     // So they sort by Date discovered like countries found in the flashcards.
     for (const code of codes) recordDiscovery(code, new Date())
@@ -97,21 +98,21 @@ export function DevTools({ onChange }: DevToolsProps) {
           <button
             type="button"
             className="dev-tools__button"
-            onClick={() => add(ADD_COUNT, 'well-known')}
+            onClick={() => add(ADD_GROUP_COUNT, 'well-known')}
           >
-            Add {ADD_COUNT} well-known countries
+            Add {ADD_GROUP_COUNT} well-known regions
           </button>
           <button
             type="button"
             className="dev-tools__button"
-            onClick={() => add(ADD_COUNT, 'shaky')}
+            onClick={() => add(ADD_GROUP_COUNT, 'shaky')}
           >
-            Add {ADD_COUNT} shaky countries
+            Add {ADD_GROUP_COUNT} shaky regions
           </button>
           <button
             type="button"
             className="dev-tools__button"
-            onClick={() => add(COUNTRY_COUNT, 'well-known')}
+            onClick={() => add(COUNTRY_GROUPS.length, 'well-known')}
           >
             Collect all {COUNTRY_COUNT} (well known)
           </button>

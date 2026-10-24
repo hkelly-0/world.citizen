@@ -1,5 +1,5 @@
-import { countryFacts } from '../../shared/countryFacts'
-import { collectedCountries } from '../passport/passport'
+import { COUNTRY_GROUPS } from '../../shared/countryFacts'
+import { unseenCountriesInGroup } from '../passport/passport'
 import { addDays } from '../flashcards/dates'
 import { QUESTION_IDS, type CountryProgress, type DeckProgress } from '../flashcards/deck'
 import { reviewQuestion, type QuestionProgress } from '../flashcards/fsrs'
@@ -74,20 +74,22 @@ function shakyQuestion(today: string): QuestionProgress {
   return reviewQuestion(undefined, 'wrong', addDays(today, -SHAKY_REVIEW_DAYS_AGO))
 }
 
-// The codes of `count` random countries not yet in the Passport (fewer if
-// fewer are left). `random` is a parameter so tests can make the choice
-// predictable.
-export function randomUnseenCountries(
+// The codes of the countries not yet in the Passport in `count` random groups
+// that still have some (fewer groups if fewer are left). `random` is a
+// parameter so tests can make the choice predictable.
+export function unseenCountriesInRandomGroups(
   progress: DeckProgress,
   count: number,
   random: () => number = Math.random,
 ): string[] {
-  const collectedCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
-  const unseenCodes = Object.keys(countryFacts).filter((code) => !collectedCodes.includes(code))
+  const unfinishedGroupIds = COUNTRY_GROUPS.map((group) => group.id).filter(
+    (id) => unseenCountriesInGroup(id, progress).length > 0,
+  )
   const chosen: string[] = []
-  while (chosen.length < count && unseenCodes.length > 0) {
-    const index = Math.floor(random() * unseenCodes.length)
-    chosen.push(unseenCodes.splice(index, 1)[0])
+  for (let i = 0; i < count && unfinishedGroupIds.length > 0; i++) {
+    const index = Math.floor(random() * unfinishedGroupIds.length)
+    const groupId = unfinishedGroupIds.splice(index, 1)[0]
+    chosen.push(...unseenCountriesInGroup(groupId, progress))
   }
   return chosen
 }
