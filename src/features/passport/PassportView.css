@@ -85,13 +85,10 @@
   gap: 6px;
 }
 
-/* Faded at the edge in a circle, as on the flashcards. */
 .passport__image {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
 }
 
 /* The enlarged card: a dark background over the whole screen. */

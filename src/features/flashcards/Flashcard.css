@@ -15,10 +15,6 @@
   max-width: 240px;
   aspect-ratio: 1;
   margin: 0 auto 8px;
-  /* Fully visible out to 60% of the way to the edge, then fading to
-     transparent in a circle (the picture's corners are fully transparent). */
-  mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 60%, transparent 100%);
 }
 
 .flashcard h2 {
