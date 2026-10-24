@@ -193,7 +193,7 @@
 /* The "New country" card's plus, drawn in the grey of the quieter text. */
 .passport__plus {
   stroke: #a9b1c2;
-  stroke-width: 8;
-  stroke-linecap: round;
+  stroke-width: 11;
+  stroke-linecap: butt;
   fill: none;
 }
