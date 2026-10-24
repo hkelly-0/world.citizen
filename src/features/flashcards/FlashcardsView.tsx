@@ -93,7 +93,7 @@ export function FlashcardsView({
   // screen is reopened.
   const [newCountryWarningDismissed, setNewCountryWarningDismissed] = useState(false)
   // The country whose "Discovering a new country" screen has been passed, by
-  // "Go →" or by "Discover a new country anyway →".
+  // "Go →".
   const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
   // Set after each card, until "Next →" moves on to the next card: the
   // Passport count for a new country's first card, otherwise its familiarity.
@@ -168,9 +168,6 @@ export function FlashcardsView({
             className="flashcards-view__discover arrow-button"
             onClick={() => {
               setNewCountryWarningDismissed(true)
-              // The user has just chosen to discover it, so go straight to its
-              // card (or to the region globe, if no group is pending).
-              setDiscoveryScreenPassedFor(currentCode)
             }}
           >
             Discover a new country anyway

@@ -97,9 +97,10 @@ describe('FlashcardsView', () => {
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Discover a new country anyway' }))
 
-    // Straight to the new country's card, then the next new one with no
-    // warning, introduced by the discovering screen.
-    expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+    // The discovering screen still comes before the new country's card, then
+    // again for the next new one, with no warning.
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(screen.queryByText(WARNING)).not.toBeInTheDocument()
