@@ -64,7 +64,7 @@ describe('PassportView', () => {
 
     expect(screen.getByRole('heading', { name: 'Passport 0/195' })).toBeInTheDocument()
     expect(screen.getByText(/No countries yet/)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'New country' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'New Country' })).toBeInTheDocument()
   })
 
   it('puts the New country card last whatever the sort', async () => {
@@ -74,9 +74,9 @@ describe('PassportView', () => {
     )
     const names = () => screen.getAllByRole('listitem').map((item) => item.textContent)
 
-    expect(names()).toEqual(['France', 'Peru', 'New country'])
+    expect(names()).toEqual(['France', 'Peru', 'New Country'])
     await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'Familiarity')
-    expect(names().at(-1)).toBe('New country')
+    expect(names().at(-1)).toBe('New Country')
   })
 
   it('opens the region globe from the New country card, then plays a country of the chosen region', async () => {
@@ -91,7 +91,7 @@ describe('PassportView', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     expect(screen.getByRole('complementary', { name: 'New country details' })).toBeInTheDocument()
     expect(screen.getByText('Choose a region of countries to discover.')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
@@ -106,7 +106,7 @@ describe('PassportView', () => {
       <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     await userEvent.click(screen.getByRole('button', { name: 'Choose a region →' }))
     await screen.findByRole('button', { name: 'Discover Nordic Countries' })
     await userEvent.click(screen.getByRole('button', { name: '← Passport' }))
@@ -127,7 +127,7 @@ describe('PassportView', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     expect(screen.getByText('Next: a country from Nordic Countries (2 of 4).')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Choose a region →' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Play flashcard →' }))
@@ -146,7 +146,7 @@ describe('PassportView', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     expect(screen.getByText(NEW_COUNTRY_WARNING)).toBeInTheDocument()
     expect(screen.queryByText(/Next: a country from/)).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go anyway' }))
@@ -159,7 +159,7 @@ describe('PassportView', () => {
       <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: 'New country' }))
+    await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('complementary')).not.toBeInTheDocument()
   })
@@ -173,7 +173,7 @@ describe('PassportView', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Passport 195/195' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'New country' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'New Country' })).not.toBeInTheDocument()
   })
 
   it("shows each seen country's picture and name", () => {
@@ -231,12 +231,12 @@ describe('PassportView', () => {
     )
     const names = () => screen.getAllByRole('listitem').map((item) => item.textContent)
 
-    expect(names()).toEqual(['France', 'Peru', 'New country'])
+    expect(names()).toEqual(['France', 'Peru', 'New Country'])
     await userEvent.selectOptions(
       screen.getByRole('combobox', { name: 'Sort by' }),
       'Date discovered',
     )
-    expect(names()).toEqual(['Peru', 'France', 'New country'])
+    expect(names()).toEqual(['Peru', 'France', 'New Country'])
     expect(loadPassportSort()).toBe('date-discovered')
   })
 })

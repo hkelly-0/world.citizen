@@ -89,7 +89,7 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
     <li>
       <button className="passport__country" onClick={() => setNewCountryOpen(true)}>
         <PlusSymbol />
-        <span className="passport__name">New country</span>
+        <span className="passport__name">New Country</span>
       </button>
     </li>
   )
@@ -229,7 +229,7 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
               >
                 ×
               </button>
-              <h2>New country</h2>
+              <h2>New Country</h2>
               <p className="country-info-panel__note">
                 {warnBeforeNewCountry
                   ? NEW_COUNTRY_WARNING
