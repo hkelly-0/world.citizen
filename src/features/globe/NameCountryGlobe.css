@@ -54,6 +54,12 @@
 }
 
 .name-globe__reveal:hover,
-.name-globe__next:hover {
+.name-globe__next:hover:enabled {
   background: rgba(255, 255, 255, 0.14);
+}
+
+/* Shown right after Reveal, but can't be pressed until the answer is fully revealed. */
+.name-globe__next:disabled {
+  opacity: 0.4;
+  cursor: default;
 }

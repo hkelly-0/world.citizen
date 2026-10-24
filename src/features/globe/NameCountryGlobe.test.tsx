@@ -40,18 +40,19 @@ describe('NameCountryGlobe', () => {
     expect(onAnswer).toHaveBeenCalledWith(true)
   })
 
-  it('turns a wrong name red, types out the correct one, then shows Next', async () => {
+  it('turns a wrong name red, types out the correct one, then enables Next', async () => {
     const onAnswer = vi.fn()
     render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'Greece')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     expect(screen.getByText('Greece')).toHaveClass('typed-answer__red')
-    // Next waits for the correct name to finish typing out.
-    expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument()
+    // Next is shown but disabled until the correct name has finished typing out.
+    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
 
     await act(() => vi.advanceTimersByTimeAsync(3000))
     expect(screen.getByText('Türkiye')).toHaveClass('typed-answer__green')
+    expect(screen.getByRole('button', { name: 'Next' })).toBeEnabled()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     await act(() => vi.advanceTimersByTimeAsync(600))
     expect(onAnswer).toHaveBeenCalledWith(false)

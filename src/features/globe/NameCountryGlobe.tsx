@@ -35,8 +35,10 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
   const [answer, setAnswer] = useState<string | null>(null)
   const [isFading, setIsFading] = useState(false)
   // Whether the answer has been revealed in full (a wrong answer's correct name
-  // has finished typing out), so the Next button is shown.
-  const [isNextShown, setIsNextShown] = useState(false)
+  // has finished typing out), so the Next button, shown right after Reveal, can
+  // be pressed.
+  const [isNextEnabled, setIsNextEnabled] = useState(false)
+  const nextButtonRef = useRef<HTMLButtonElement>(null)
   const timeoutsRef = useRef<number[]>([])
 
   useEffect(() => {
@@ -65,6 +67,11 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
     }
   }, [country.isoAlpha3])
 
+  // A disabled button can't take focus, so Next is focused once it is enabled.
+  useEffect(() => {
+    if (isNextEnabled) nextButtonRef.current?.focus()
+  }, [isNextEnabled])
+
   function submitName(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
     event.preventDefault()
@@ -73,7 +80,7 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
 
     // A wrong answer waits for the correct name to finish typing out.
     const typingMs = isCorrect ? 0 : country.commonName.length * TYPING_MS_PER_LETTER
-    timeoutsRef.current.push(window.setTimeout(() => setIsNextShown(true), typingMs))
+    timeoutsRef.current.push(window.setTimeout(() => setIsNextEnabled(true), typingMs))
   }
 
   // Fades the globe away to reveal the card (if it fades), then reports the answer.
@@ -113,12 +120,13 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
             correctAnswer={country.commonName}
           />
         )}
-        {isNextShown && (
+        {answer !== null && (
           <button
             type="button"
             className="name-globe__next arrow-button"
             onClick={goToNext}
-            autoFocus
+            disabled={!isNextEnabled}
+            ref={nextButtonRef}
           >
             Next
           </button>
