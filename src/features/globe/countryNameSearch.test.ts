@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { searchCountries } from './countryNameSearch'
+import { countryFacts } from '../../shared/countryFacts'
+import { matchesCountrySearch, searchCountries } from './countryNameSearch'
 
 function namesFound(typed: string): string[] {
   return searchCountries(typed).map((country) => country.commonName)
@@ -46,5 +47,19 @@ describe('searchCountries', () => {
     const found = namesFound('and')
     expect(found).toHaveLength(6)
     expect(found[0]).toBe('Andorra')
+  })
+})
+
+describe('matchesCountrySearch', () => {
+  it('matches every country when nothing is typed', () => {
+    expect(matchesCountrySearch(countryFacts.FRA, '')).toBe(true)
+    expect(matchesCountrySearch(countryFacts.FRA, '  ')).toBe(true)
+  })
+
+  it('matches the start of any word of a name or alternative, from the first letter', () => {
+    expect(matchesCountrySearch(countryFacts.FRA, 'f')).toBe(true)
+    expect(matchesCountrySearch(countryFacts.KOR, 'kor')).toBe(true)
+    expect(matchesCountrySearch(countryFacts.TUR, 'turkey')).toBe(true)
+    expect(matchesCountrySearch(countryFacts.FRA, 'ance')).toBe(false)
   })
 })
