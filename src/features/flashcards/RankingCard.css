@@ -1,18 +1,55 @@
-/* "Highest" above the tiles and "Lowest" below them. */
-.ranking__end {
-  margin: 0;
-  color: #a9b1c2;
-  font-size: 0.85rem;
-  text-align: center;
+/* The tiles, with the arrow and its labels in a column on their right. The
+   tiles take 4 of the 6 shares of the width the arrow leaves (so 2/3 of it),
+   with a share of empty space either side, keeping the two centred. */
+.ranking__body {
+  display: grid;
+  grid-template-columns: 1fr 4fr auto 1fr;
 }
 
 .ranking__list {
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 8px 0;
+  margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* "Highest" at the top, the arrow stretching between, "Lowest" at the bottom. */
+.ranking__scale {
+  grid-column: 3;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ranking__end {
+  color: #a9b1c2;
+  font-size: 0.85rem;
+}
+
+/* A line with a triangle on top for the arrowhead. */
+.ranking__arrow {
+  position: relative;
+  flex: 1;
+  width: 2px;
+  /* Leaves room above the line for the arrowhead. */
+  margin-top: 10px;
+  background: #a9b1c2;
+}
+
+.ranking__arrow::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-right: 7px solid transparent;
+  border-bottom: 10px solid #a9b1c2;
+  border-left: 7px solid transparent;
 }
 
 /* Turned green or red on Reveal by --correct and --wrong below. */

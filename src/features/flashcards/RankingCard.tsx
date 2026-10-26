@@ -40,7 +40,7 @@ type Drag = {
 type Phase = 'ranking' | 'sliding' | 'revealed'
 
 // One ranking question: the countries as tiles in a column, in a random
-// order, between "Highest" and "Lowest". A tile is moved by dragging it to
+// order, beside an arrow pointing up from "Lowest" to "Highest". A tile is moved by dragging it to
 // another place (the tiles between move along), or by tapping it then
 // another tile to swap them. Reveal can be pressed at any time: the tiles
 // slide into the right order, then each turns green if the user had it in
@@ -152,42 +152,49 @@ export function RankingCard({ stat, codes, onFinish }: RankingCardProps) {
   return (
     <article className="flashcard" aria-label="Ranking">
       <p className="flashcard__question">Drag to order these countries by {STAT_NAMES[stat]}</p>
-      <p className="ranking__end">Highest</p>
-      <ol className="ranking__list">
-        {order.map((code, index) => {
-          const isDragged = drag?.code === code && drag.isDragging
-          const title = rankingTitle(stat, code)!
-          return (
-            <li key={code}>
-              <button
-                type="button"
-                ref={(element) => {
-                  if (element === null) tileElements.current.delete(code)
-                  else tileElements.current.set(code, element)
-                }}
-                className={tileClassName(code, index)}
-                style={isDragged ? { transform: `translateY(${drag.dy}px)` } : undefined}
-                disabled={phase !== 'ranking'}
-                aria-pressed={selected === code}
-                onPointerDown={(event) => startDrag(event, code)}
-                onPointerMove={moveDrag}
-                onPointerUp={endDrag}
-                onPointerCancel={() => setDrag(null)}
-                onClick={() => tapTile(code)}
-              >
-                <span>{countryFacts[code].commonName}</span>
-                {phase === 'revealed' && (
-                  <span className="ranking__title">
-                    {title.title}
-                    {title.isEstimate && ' (estimated)'}
-                  </span>
-                )}
-              </button>
-            </li>
-          )
-        })}
-      </ol>
-      <p className="ranking__end">Lowest</p>
+      <div className="ranking__body">
+        <ol className="ranking__list">
+          {order.map((code, index) => {
+            const isDragged = drag?.code === code && drag.isDragging
+            const title = rankingTitle(stat, code)!
+            return (
+              <li key={code}>
+                <button
+                  type="button"
+                  ref={(element) => {
+                    if (element === null) tileElements.current.delete(code)
+                    else tileElements.current.set(code, element)
+                  }}
+                  className={tileClassName(code, index)}
+                  style={isDragged ? { transform: `translateY(${drag.dy}px)` } : undefined}
+                  disabled={phase !== 'ranking'}
+                  aria-pressed={selected === code}
+                  onPointerDown={(event) => startDrag(event, code)}
+                  onPointerMove={moveDrag}
+                  onPointerUp={endDrag}
+                  onPointerCancel={() => setDrag(null)}
+                  onClick={() => tapTile(code)}
+                >
+                  <span>{countryFacts[code].commonName}</span>
+                  {phase === 'revealed' && (
+                    <span className="ranking__title">
+                      {title.title}
+                      {title.isEstimate && ' (estimated)'}
+                    </span>
+                  )}
+                </button>
+              </li>
+            )
+          })}
+        </ol>
+        {/* To the right of the tiles: an arrow pointing up, from "Lowest" at
+            the bottom to "Highest" at the top. */}
+        <div className="ranking__scale">
+          <span className="ranking__end">Highest</span>
+          <div className="ranking__arrow" />
+          <span className="ranking__end">Lowest</span>
+        </div>
+      </div>
       {phase === 'revealed' && (
         <button className="flashcard__next arrow-button" onClick={onFinish} autoFocus>
           Next
