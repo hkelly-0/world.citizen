@@ -31,27 +31,47 @@ function focusZoomOf(isoAlpha3: string, isWideScreen = false) {
 }
 
 describe('focusZoomFor on phones', () => {
-  it('goes near the hand-picked zoom levels', () => {
-    expect(equatorFocusZoomOf('CIV')).toBeCloseTo(3.9, 1)
-    expect(equatorFocusZoomOf('IND')).toBeCloseTo(2.6, 1)
-    expect(focusZoomOf('CHN')).toBeCloseTo(1.9, 1)
+  it('goes near the hand-picked zoom levels it was fitted to', () => {
+    expect(focusZoomOf('MCO')).toBeCloseTo(5.8, 1)
+    expect(focusZoomOf('SLV')).toBeCloseTo(4.6, 1)
+    expect(focusZoomOf('NIC')).toBeCloseTo(4.1, 1)
+    expect(focusZoomOf('MEX')).toBeCloseTo(2.8, 1)
+    for (const [isoAlpha3, zoom] of [
+      ['COL', 3.2],
+      ['BRA', 2.5],
+      ['USA', 2.4],
+    ] as const) {
+      expect(Math.abs(focusZoomOf(isoAlpha3) - zoom)).toBeLessThan(0.2)
+    }
   })
 
-  it('uses the hand-picked zooms for Russia and Canada', () => {
+  it('uses the hand-picked zoom for Russia', () => {
     expect(focusZoomOf('RUS')).toBe(1.0)
-    expect(focusZoomOf('CAN')).toBe(1.4)
   })
 
-  it('goes to 4.1 for countries as small as São Tomé and Príncipe or smaller', () => {
-    expect(equatorFocusZoomOf('STP')).toBe(4.1)
-    expect(equatorFocusZoomOf('BEL')).toBe(4.1)
-    expect(focusZoomFor(null, 1, false, 0)).toBe(4.1)
+  it('uses the formula for Canada', () => {
+    expect(focusZoomOf('CAN')).toBeCloseTo(1.45, 1)
   })
 
-  it('zooms out further the wider the country, down to 1.25', () => {
-    expect(focusZoomFor(null, 1000, false, 0)).toBeGreaterThan(focusZoomFor(null, 2000, false, 0))
-    expect(focusZoomFor(null, 2000, false, 0)).toBeGreaterThan(focusZoomFor(null, 4000, false, 0))
-    expect(focusZoomFor(null, 10000, false, 0)).toBe(1.25)
+  it('goes to 3.7944 for a country 1000 km across at the equator', () => {
+    expect(focusZoomFor(null, 1000, false, 0)).toBeCloseTo(3.7944)
+  })
+
+  it('zooms out further the wider the country', () => {
+    for (const [narrowerKm, widerKm] of [
+      [1, 10],
+      [10, 300],
+      [300, 2000],
+      [2000, 9000],
+    ]) {
+      expect(focusZoomFor(null, narrowerKm, false, 0)).toBeGreaterThan(
+        focusZoomFor(null, widerKm, false, 0),
+      )
+    }
+  })
+
+  it('stays finite for a width of zero', () => {
+    expect(Number.isFinite(focusZoomFor(null, 0, false, 0))).toBe(true)
   })
 })
 
@@ -76,23 +96,21 @@ describe('focusZoomFor away from the equator', () => {
 })
 
 describe('focusZoomFor on wide screens', () => {
-  it('goes near the hand-picked zoom levels', () => {
-    expect(focusZoomOf('USA', true)).toBeCloseTo(2.6, 1)
-    expect(focusZoomOf('CHN', true)).toBeCloseTo(2.6, 1)
+  it('goes a fixed amount closer than on phones', () => {
+    for (const widthKm of [1, 300, 1000, 5000]) {
+      expect(
+        focusZoomFor(null, widthKm, true, 40) - focusZoomFor(null, widthKm, false, 40),
+      ).toBeCloseTo(0.2)
+    }
   })
 
   it('uses the hand-picked zooms for Russia and Canada', () => {
     expect(focusZoomOf('RUS', true)).toBe(1.45)
-    expect(focusZoomOf('CAN', true)).toBe(2.2)
-  })
-
-  it('goes to 4.3 for countries as small as São Tomé and Príncipe or smaller', () => {
-    expect(equatorFocusZoomOf('STP', true)).toBe(4.3)
-    expect(focusZoomFor(null, 1, true, 0)).toBe(4.3)
+    expect(focusZoomOf('CAN', true)).toBe(2.0)
   })
 
   it('zooms in further than on phones', () => {
-    for (const isoAlpha3 of ['STP', 'CIV', 'IND', 'CHN', 'CAN', 'RUS']) {
+    for (const isoAlpha3 of ['MCO', 'SLV', 'NIC', 'COL', 'USA', 'CAN', 'RUS']) {
       expect(focusZoomOf(isoAlpha3, true)).toBeGreaterThan(focusZoomOf(isoAlpha3))
     }
   })
