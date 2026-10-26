@@ -1,4 +1,6 @@
-.custom-practice__title {
+/* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css, which sets
+   the main menu's larger title. */
+.main-menu .custom-practice__title {
   width: 100%;
   max-width: 280px;
   text-align: left;
