@@ -116,13 +116,12 @@ describe('flagSimilarity', () => {
 describe('saved flag similarity', () => {
   const codes = Object.keys(savedSimilarity)
 
-  it('lists the closest other countries for each country, most similar first', () => {
+  it('lists every other country for each country, most similar first', () => {
     expect(codes).toHaveLength(195)
     for (const code of codes) {
       const matches = Object.keys(savedSimilarity[code])
       const similarities = Object.values(savedSimilarity[code])
-      // SIMILAR_FLAGS_KEPT in scripts/make-flag-similarity.mjs.
-      expect(matches).toHaveLength(15)
+      expect(matches).toHaveLength(codes.length - 1)
       expect(matches).not.toContain(code)
       for (const match of matches) expect(codes).toContain(match)
       expect(similarities).toEqual([...similarities].sort((a, b) => b - a))

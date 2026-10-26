@@ -1,10 +1,10 @@
-// Compares every pair of flags in public/flags, saves each flag's closest
-// matches to src/data/flagSimilarity.json, and draws docs/flag-similarity.png (each flag
+// Compares every pair of flags in public/flags, saves each flag's similarity to
+// every other flag to src/data/flagSimilarity.json, and draws docs/flag-similarity.png (each flag
 // with its closest matches) for checking the result by eye. The comparison is
 // in src/features/flashcards/flagSimilarity.ts.
 //
-// The JSON has every country, each with its SIMILAR_FLAGS_KEPT most similar
-// others and their similarity (0 to 1), most similar first:
+// The JSON has every country, each with all the other countries and their
+// similarity (0 to 1), most similar first:
 // { "TCD": { "ROU": 0.96, ... }, ... }.
 //
 // Rerun after changing the flags or the comparison.
@@ -21,9 +21,6 @@ import {
 
 const OUTPUT = 'src/data/flagSimilarity.json'
 const SHEET_OUTPUT = 'docs/flag-similarity.png'
-
-// How many of each flag's closest matches are saved.
-const SIMILAR_FLAGS_KEPT = 15
 
 // Contact sheet layout: each row is a flag then its closest matches, with the
 // rows split into columns side by side.
@@ -62,9 +59,7 @@ for (let i = 0; i < codes.length; i++) {
 
 // One country per line, so the file stays a readable size.
 const lines = codes.map((code) => {
-  const sorted = Object.entries(similarities[code])
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, SIMILAR_FLAGS_KEPT)
+  const sorted = Object.entries(similarities[code]).sort(([, a], [, b]) => b - a)
   return `  ${JSON.stringify(code)}: ${JSON.stringify(Object.fromEntries(sorted))}`
 })
 writeFileSync(OUTPUT, `{\n${lines.join(',\n')}\n}\n`)
