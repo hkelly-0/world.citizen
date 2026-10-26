@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import flagSimilarityJson from '../../data/flagSimilarity.json'
 import { countryFacts } from '../../shared/countryFacts'
 import { FLAG_OPTION_COUNT, flagOptions } from './flagQuestion'
 
@@ -11,6 +12,17 @@ describe('flagOptions', () => {
       expect(options).toContain(code)
       expect(new Set(options).size).toBe(FLAG_OPTION_COUNT)
       for (const option of options) expect(countryFacts[option]).toBeDefined()
+    }
+  })
+
+  it('picks the wrong flags from the most similar-looking ones', () => {
+    const similarToFrance = Object.keys(
+      (flagSimilarityJson as Record<string, Record<string, number>>).FRA,
+    )
+    for (let i = 0; i < 20; i++) {
+      for (const option of flagOptions('FRA')) {
+        if (option !== 'FRA') expect(similarToFrance).toContain(option)
+      }
     }
   })
 
