@@ -6,7 +6,8 @@ import '../menu/MainMenu.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
-type Choice = GlobeKind | Exclude<QuestionId, 'globe'>
+// Borders isn't a question type: it has no FSRS progress and isn't in Settings.
+type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | 'borders'
 const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'locate', label: 'Locate country on globe' },
   { choice: 'name', label: 'Name country from globe' },
@@ -15,25 +16,27 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'population', label: 'Population' },
   { choice: 'ihdi', label: 'IHDI' },
   { choice: 'capital', label: 'Capital' },
+  { choice: 'borders', label: 'Borders' },
 ]
 
 type CustomPracticeMenuProps = {
   // The question types chosen in Settings; only these are offered (both globe
-  // options if 'globe' is one of them).
+  // options if 'globe' is one of them), plus Borders, which is always offered.
   learnedQuestionIds: QuestionId[]
   onBack: () => void
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
-  // question were ticked (in the order of GLOBE_KINDS).
-  onGo: (questionIds: QuestionId[], globeKinds: GlobeKind[]) => void
+  // question were ticked (in the order of GLOBE_KINDS), and whether Borders was.
+  onGo: (questionIds: QuestionId[], globeKinds: GlobeKind[], asksBorders: boolean) => void
 }
 
 // Lets the user tick which questions to practise. "Go" needs at least one.
 export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
   const [chosen, setChosen] = useState<Choice[]>([])
-  const offered = CHOICES.filter(({ choice }) =>
-    learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice),
-  )
+  const offered = CHOICES.filter(({ choice }) => {
+    if (choice === 'borders') return true
+    return learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice)
+  })
 
   function toggle(choice: Choice) {
     setChosen(
@@ -46,7 +49,7 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
     const questionIds = QUESTION_IDS.filter((id) =>
       id === 'globe' ? globeKinds.length > 0 : chosen.includes(id),
     )
-    onGo(questionIds, globeKinds)
+    onGo(questionIds, globeKinds, chosen.includes('borders'))
   }
 
   return (

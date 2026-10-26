@@ -14,6 +14,7 @@ import {
   pendingGroupId,
   randomUnseenCountryInGroup,
 } from '../passport/passport'
+import { borderingCountries } from './bordersQuestion'
 import { todayString } from './dates'
 import {
   chooseRandomCountry,
@@ -40,6 +41,9 @@ type FlashcardsViewProps = {
   learnedQuestionIds: QuestionId[]
   // Which kinds of globe question may be asked, if the globe question is.
   globeKinds: GlobeKind[]
+  // Whether each card ends with the borders question (Custom Practice only).
+  // It has no FSRS progress, so it doesn't affect which country comes next.
+  asksBorders: boolean
   // True for Classic. False for Custom Practice, which only shows countries
   // already in the Passport, so new countries are only discovered in Classic.
   canDiscoverCountries: boolean
@@ -64,6 +68,7 @@ export function FlashcardsView({
   questionIds,
   learnedQuestionIds,
   globeKinds,
+  asksBorders,
   canDiscoverCountries,
   countryIcon,
   onBack,
@@ -92,7 +97,8 @@ export function FlashcardsView({
   // `wantsNewCountry`, otherwise a random one from the Passport other than
   // `previousCode`. A Passport country can still be asked a question for the
   // first time. Null when a new group must be chosen first, or in Custom
-  // Practice when the Passport is empty.
+  // Practice when the Passport is empty (or, practising only borders, has no
+  // country with land neighbours).
   function nextCard(
     progress: DeckProgress,
     groupId: string | null,
@@ -102,7 +108,13 @@ export function FlashcardsView({
       return groupId === null ? null : randomUnseenCountryInGroup(progress, groupId)
     }
     const collectedCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
-    return chooseRandomCountry(collectedCodes, progress, today, questionIds, previousCode)
+    // With only the borders question, a country without land neighbours would
+    // have nothing to ask.
+    const codes =
+      questionIds.length === 0
+        ? collectedCodes.filter((code) => borderingCountries(code).length > 0)
+        : collectedCodes
+    return chooseRandomCountry(codes, progress, today, questionIds, previousCode)
   }
 
   // The country being shown, or null when there is no card to show.
@@ -166,9 +178,12 @@ export function FlashcardsView({
           <RegionGlobe progress={progress} onDiscover={chooseGroup} />
         </Suspense>
       ) : currentCode === null ? (
-        // Only in Custom Practice, with the Passport empty.
+        // Only in Custom Practice, with the Passport empty, or practising only
+        // borders with no country in it that has land neighbours.
         <p className="flashcards-view__done">
-          No countries in your Passport yet. Discover new countries in Classic Mode.
+          {collectedCountries(progress).length === 0
+            ? 'No countries in your Passport yet. Discover new countries in Classic Mode.'
+            : 'No countries with land borders in your Passport yet. Discover new countries in Classic Mode.'}
         </p>
       ) : showDiscoveryScreen ? (
         <div className="flashcards-view__discovering">
@@ -191,6 +206,7 @@ export function FlashcardsView({
           country={countryFacts[currentCode]}
           questionIds={questionIds}
           globeKinds={globeKinds}
+          asksBorders={asksBorders}
           countryIcon={countryIcon}
           onFinish={(results) => finishCard(currentCode, results)}
         />

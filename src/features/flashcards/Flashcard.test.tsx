@@ -480,4 +480,102 @@ describe('Flashcard', () => {
     expect(await screen.findByText('This is')).toBeInTheDocument()
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
   })
+
+  describe('borders question', () => {
+    function renderBorders(country = france, onFinish = vi.fn()) {
+      render(
+        <Flashcard
+          countryIcon="outline"
+          country={country}
+          questionIds={['capital']}
+          globeKinds={GLOBE_KINDS}
+          asksBorders={true}
+          onFinish={onFinish}
+        />,
+      )
+    }
+
+    async function typeBorder(box: number, typed: string) {
+      await userEvent.type(screen.getByLabelText(`Bordering country ${box}`), typed)
+    }
+
+    it('comes after the capital, marks each box, lists every neighbour, and adds no result', async () => {
+      const onFinish = vi.fn()
+      renderBorders(france, onFinish)
+
+      await answerCapital('Paris')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByText('Name up to 4 countries which border France')).toBeInTheDocument()
+
+      // A right one, a wrong one, a repeat, and one left blank.
+      await typeBorder(1, 'spain')
+      await typeBorder(2, 'Portugal')
+      await typeBorder(3, 'Spain')
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+
+      expect(screen.getByLabelText('Bordering country 1')).toHaveClass('typed-answer__box--correct')
+      // Portugal doesn't border France, and Spain was already named.
+      expect(screen.getByLabelText('Bordering country 2')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      expect(screen.getByLabelText('Bordering country 3')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      // France has more neighbours to name, so the blank box was a miss.
+      expect(screen.getByLabelText('Bordering country 4')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      const list = screen.getByRole('list', { name: 'Countries bordering France' })
+      // Spain, the one named, comes first.
+      expect([...list.querySelectorAll('li')].map((item) => item.textContent)).toEqual([
+        'Spain',
+        'Andorra',
+        'Belgium',
+        'Germany',
+        'Italy',
+        'Luxembourg',
+        'Monaco',
+        'Switzerland',
+      ])
+      expect(screen.getByText('Spain', { selector: 'li' })).toHaveClass('flashcard__border--named')
+      expect(screen.getByText('Italy', { selector: 'li' })).not.toHaveClass(
+        'flashcard__border--named',
+      )
+
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(onFinish).toHaveBeenCalledWith({ capital: 'right' })
+    })
+
+    it('moves to the next box on Enter, and reveals on Enter in the last box', async () => {
+      renderBorders()
+      await answerCapital('Paris')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      await userEvent.keyboard('Spain{Enter}')
+      expect(screen.getByLabelText('Bordering country 2')).toHaveFocus()
+      await userEvent.keyboard('{Enter}{Enter}')
+      expect(screen.getByLabelText('Bordering country 4')).toHaveFocus()
+      expect(screen.queryByRole('list')).not.toBeInTheDocument()
+
+      await userEvent.keyboard('Italy{Enter}')
+      // The named ones come first, in the order typed.
+      const list = screen.getByRole('list', { name: 'Countries bordering France' })
+      expect([...list.querySelectorAll('li')].slice(0, 3).map((item) => item.textContent)).toEqual([
+        'Spain',
+        'Italy',
+        'Andorra',
+      ])
+      expect(screen.getByLabelText('Bordering country 4')).toHaveClass('typed-answer__box--correct')
+    })
+
+    it('is skipped for countries without land neighbours', async () => {
+      const onFinish = vi.fn()
+      renderBorders(countryFacts['ISL'], onFinish)
+
+      await answerCapital('Reykjavik')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      expect(onFinish).toHaveBeenCalledWith({ capital: 'right' })
+    })
+  })
 })

@@ -63,13 +63,18 @@ function saveFranceArea(stability: number) {
   saveAreas(franceAndOthers(), stability)
 }
 
-function renderFlashcards(questionIds: QuestionId[], canDiscoverCountries: boolean) {
+function renderFlashcards(
+  questionIds: QuestionId[],
+  canDiscoverCountries: boolean,
+  asksBorders: boolean = false,
+) {
   render(
     <FlashcardsView
       countryIcon="outline"
       questionIds={questionIds}
       learnedQuestionIds={questionIds}
       globeKinds={['locate']}
+      asksBorders={asksBorders}
       canDiscoverCountries={canDiscoverCountries}
       onBack={() => {}}
     />,
@@ -252,6 +257,30 @@ describe('FlashcardsView', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       const second = shownCountryName()
       expect([first, second].sort()).toEqual(['France', 'Germany'])
+    })
+
+    it('with only the borders question, shows only countries with land neighbours', async () => {
+      // Iceland is an island, so only France can be asked.
+      saveAreas(['FRA', 'ISL'], 0.2)
+      renderFlashcards([], false, true)
+
+      expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+      await userEvent.type(screen.getByLabelText('Bordering country 1'), 'Spain')
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+    })
+
+    it('with only the borders question, says when no Passport country has land neighbours', () => {
+      saveAreas(['ISL'], 0.2)
+      renderFlashcards([], false, true)
+
+      expect(
+        screen.getByText(
+          'No countries with land borders in your Passport yet. Discover new countries in Classic Mode.',
+        ),
+      ).toBeInTheDocument()
     })
 
     it('shows no cards when the Passport is empty', () => {

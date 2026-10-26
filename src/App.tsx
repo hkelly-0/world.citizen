@@ -54,6 +54,9 @@ function customQuestionIdsInHistory(): QuestionId[] {
 function customGlobeKindsInHistory(): GlobeKind[] {
   return history.state?.globeKinds ?? []
 }
+function customAsksBordersInHistory(): boolean {
+  return history.state?.asksBorders ?? false
+}
 // The country whose card is played from the Passport, kept the same way.
 function passportFlashcardCodeInHistory(): string | null {
   return history.state?.isoAlpha3 ?? null
@@ -66,6 +69,7 @@ export default function App() {
     customQuestionIdsInHistory,
   )
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
+  const [customAsksBorders, setCustomAsksBorders] = useState<boolean>(customAsksBordersInHistory)
   const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
     passportFlashcardCodeInHistory,
   )
@@ -95,10 +99,15 @@ export default function App() {
   }
   // Leaves the custom practice choice the same way, so back goes straight to
   // the main menu.
-  function startCustomPractice(questionIds: QuestionId[], globeKinds: GlobeKind[]) {
-    history.replaceState({ screen: 'custom-flashcards', questionIds, globeKinds }, '')
+  function startCustomPractice(
+    questionIds: QuestionId[],
+    globeKinds: GlobeKind[],
+    asksBorders: boolean,
+  ) {
+    history.replaceState({ screen: 'custom-flashcards', questionIds, globeKinds, asksBorders }, '')
     setCustomQuestionIds(questionIds)
     setCustomGlobeKinds(globeKinds)
+    setCustomAsksBorders(asksBorders)
     setScreen('custom-flashcards')
   }
   // Opens a country's card from the Passport, with its own history entry, so
@@ -144,6 +153,7 @@ export default function App() {
           questionIds={learnedQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={GLOBE_KINDS}
+          asksBorders={false}
           canDiscoverCountries={true}
           countryIcon={countryIcon}
           onBack={goToMenu}
@@ -165,6 +175,7 @@ export default function App() {
           questionIds={customQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={customGlobeKinds}
+          asksBorders={customAsksBorders}
           canDiscoverCountries={false}
           countryIcon={countryIcon}
           onBack={goToMenu}

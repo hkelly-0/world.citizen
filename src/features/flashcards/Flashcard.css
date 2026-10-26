@@ -126,7 +126,8 @@
   font-size: 0.85rem;
 }
 
-.flashcard__capital-form {
+.flashcard__capital-form,
+.flashcard__borders-form {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -154,4 +155,35 @@
   margin: 8px 0 0;
   color: #a9b1c2;
   font-size: 0.9rem;
+}
+
+/* Every country bordering the card's country, shown once the borders
+   question is answered. */
+.flashcard__borders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #a9b1c2;
+}
+
+/* Commas between the names, always grey, even after a named one. Added in CSS
+   so each list item is still just the country's name. */
+.flashcard__border:not(:last-child)::after {
+  content: ',';
+  color: #a9b1c2;
+}
+
+/* A borders box with a wrong answer, or left blank although a bordering
+   country could have gone in it, highlighted like a wrong pick. */
+.flashcard__border-box--wrong {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
+}
+
+/* A bordering country the user named. */
+.flashcard__border--named {
+  color: var(--correct-green);
 }

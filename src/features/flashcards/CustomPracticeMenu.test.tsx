@@ -5,7 +5,7 @@ import { CustomPracticeMenu } from './CustomPracticeMenu'
 import { QUESTION_IDS } from './deck'
 
 describe('CustomPracticeMenu', () => {
-  it('lists the 7 options, all unticked, with Go disabled', () => {
+  it('lists the 8 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
 
     for (const label of [
@@ -16,6 +16,7 @@ describe('CustomPracticeMenu', () => {
       'Population',
       'IHDI',
       'Capital',
+      'Borders',
     ]) {
       expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     }
@@ -33,7 +34,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'])
+    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'], false)
   })
 
   it('treats both globe options as the one globe question type', async () => {
@@ -44,7 +45,17 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Locate country on globe' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'])
+    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'], false)
+  })
+
+  it('passes Borders separately, as it is not a question type', async () => {
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+
+    expect(onGo).toHaveBeenCalledWith([], [], true)
   })
 
   it('disables Go again when every box is unticked', async () => {
@@ -56,7 +67,7 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
-  it('offers only the question types learned in Settings', () => {
+  it('offers only the question types learned in Settings, plus Borders', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={['globe', 'capital']}
@@ -69,6 +80,7 @@ describe('CustomPracticeMenu', () => {
       'Locate country on globe',
       'Name country from globe',
       'Capital',
+      'Borders',
     ])
   })
 })

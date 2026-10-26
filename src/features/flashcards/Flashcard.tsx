@@ -1,8 +1,14 @@
-import { lazy, Suspense, useState, type FormEvent } from 'react'
+import { lazy, Suspense, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
+import {
+  BORDER_ANSWER_BOXES,
+  borderingCountries,
+  markBorderAnswers,
+  missedBorderBoxes,
+} from './bordersQuestion'
 import { isCapitalCorrect } from './capitalAnswer'
 import { QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
 import { flagOptions } from './flagQuestion'
@@ -29,6 +35,9 @@ type FlashcardProps = {
   globeKinds: GlobeKind[]
   // Whether the picture at the top is the country's outline or its flag, chosen in Settings.
   countryIcon: CountryIcon
+  // Whether to ask the borders question last (only chosen in Custom Practice).
+  // It has no FSRS progress, so it never appears in `onFinish`'s results.
+  asksBorders?: boolean
   // Called after the last question, with how each asked question was answered:
   // right, close (range questions only) or wrong.
   onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
@@ -36,23 +45,31 @@ type FlashcardProps = {
 
 // One country's card: first a globe question, then the flag (picked from four),
 // then area, population and IHDI (picked from range titles), then the capital
-// (typed), skipping any not in `questionIds`. The globe question is, at random half the time each, either
-// finding the country (tapped on the globe) or naming the country shown on the
-// globe (typed). Each answer is revealed before moving on.
+// (typed), skipping any not in `questionIds`, then, if `asksBorders` and the
+// country has any land neighbours, its borders (up to four typed). The globe
+// question is, at random half the time each, either finding the country
+// (tapped on the globe) or naming the country shown on the globe (typed).
+// Each answer is revealed before moving on.
 export function Flashcard({
   country,
   questionIds,
   globeKinds,
   countryIcon,
+  asksBorders = false,
   onFinish,
 }: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
+  const questions = rangeQuestions(country)
+  const borderCodes = borderingCountries(country.isoAlpha3)
+  // The questions asked after the globe one, in the order of QUESTION_IDS,
+  // then the borders question.
+  const steps: (QuestionId | 'borders')[] = QUESTION_IDS.filter(
+    (id) => id !== 'globe' && questionIds.includes(id),
+  )
+  if (asksBorders && borderCodes.length > 0) steps.push('borders')
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
-  const isGlobeOnly = questionIds.length === 1 && asksGlobe
-  const questions = rangeQuestions(country)
-  // The questions asked after the globe one, in the order of QUESTION_IDS.
-  const steps = QUESTION_IDS.filter((id) => id !== 'globe' && questionIds.includes(id))
+  const isGlobeOnly = asksGlobe && steps.length === 0
   // Chosen once, when the card is first shown: at random if both kinds are allowed.
   const [isNameQuestion] = useState(() =>
     globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
@@ -68,6 +85,9 @@ export function Flashcard({
   // How each question answered so far went.
   const [results, setResults] = useState<Partial<Record<QuestionId, AnswerResult>>>({})
   const [typedCapital, setTypedCapital] = useState('')
+  const [typedBorders, setTypedBorders] = useState<string[]>(() =>
+    Array(BORDER_ANSWER_BOXES).fill(''),
+  )
 
   const stepId = steps[step]
   const rangeQuestion = questions.find((question) => question.id === stepId)
@@ -97,6 +117,13 @@ export function Flashcard({
       typedCapital,
       resultFromCorrect(isCapitalCorrect(typedCapital, country.capitals)),
     )
+  }
+
+  // The borders question has no FSRS progress, so it adds no result.
+  function submitBorders(event: FormEvent) {
+    event.preventDefault()
+    // Marks the question answered; the boxes' text stays in `typedBorders`.
+    setAnswer(typedBorders.join(', '))
   }
 
   function goToNext() {
@@ -183,6 +210,16 @@ export function Flashcard({
           onTypedCapitalChange={setTypedCapital}
           onSubmit={submitCapital}
           answer={answer}
+        />
+      )}
+      {stepId === 'borders' && (
+        <BordersQuestion
+          country={country}
+          borderCodes={borderCodes}
+          typedBorders={typedBorders}
+          onTypedBordersChange={setTypedBorders}
+          onSubmit={submitBorders}
+          isAnswered={answer !== null}
         />
       )}
 
@@ -343,5 +380,103 @@ function CapitalQuestion({
         {!isAnswered && <button className="flashcard__check">Reveal</button>}
       </form>
     </>
+  )
+}
+
+type BordersQuestionProps = {
+  country: CountryFacts
+  // The countries bordering `country`, in the order to list them on reveal.
+  borderCodes: string[]
+  typedBorders: string[]
+  onTypedBordersChange: (typed: string[]) => void
+  onSubmit: (event: FormEvent) => void
+  isAnswered: boolean
+}
+
+// Four text boxes for naming countries that border this one; boxes may be left
+// blank, which is right for a country with fewer than four neighbours. Enter
+// moves to the next box, and in the last box reveals the answers. On reveal
+// each filled box turns green if it names a bordering country (not already
+// named in an earlier box) or red otherwise. A blank box also turns red if a
+// bordering country could have gone in it (`missedBorderBoxes`). Every
+// bordering country is listed below: those named first, in green and in the
+// order typed, then the rest in `borderCodes` order.
+function BordersQuestion({
+  country,
+  borderCodes,
+  typedBorders,
+  onTypedBordersChange,
+  onSubmit,
+  isAnswered,
+}: BordersQuestionProps) {
+  const marks = markBorderAnswers(typedBorders, borderCodes)
+  const missed = missedBorderBoxes(typedBorders, borderCodes)
+  const namedCodes = marks.filter((code) => code !== null)
+  const unnamedCodes = borderCodes.filter((code) => !namedCodes.includes(code))
+
+  function changeBox(index: number, typed: string) {
+    onTypedBordersChange(typedBorders.map((other, i) => (i === index ? typed : other)))
+  }
+
+  // Enter in any box but the last moves to the next one instead of submitting.
+  function moveToNextBox(event: KeyboardEvent<HTMLInputElement>, index: number) {
+    if (event.key !== 'Enter' || index === typedBorders.length - 1) return
+    event.preventDefault()
+    document.getElementById(`border-answer-${index + 1}`)?.focus()
+  }
+
+  return (
+    <form className="flashcard__borders-form" onSubmit={onSubmit}>
+      <p className="flashcard__question">
+        Name up to {BORDER_ANSWER_BOXES} countries which border {country.commonName}
+      </p>
+      {typedBorders.map((typed, index) => {
+        const label = `Bordering country ${index + 1}`
+        if (!isAnswered) {
+          return (
+            <input
+              key={index}
+              id={`border-answer-${index}`}
+              className="typed-answer__box"
+              value={typed}
+              onChange={(event) => changeBox(index, event.target.value)}
+              onKeyDown={(event) => moveToNextBox(event, index)}
+              aria-label={label}
+              autoComplete="off"
+              autoFocus={index === 0}
+              // Labels the phone keyboard's Enter key to match.
+              enterKeyHint={index === typedBorders.length - 1 ? 'done' : 'next'}
+            />
+          )
+        }
+        const isCorrect = marks[index] !== null
+        const isWrong = (typed.trim() !== '' && !isCorrect) || missed[index]
+        const answered = 'typed-answer__box typed-answer__box--answered'
+        let className = answered
+        if (isCorrect) className = `${answered} typed-answer__box--correct`
+        if (isWrong) className = `${answered} flashcard__border-box--wrong`
+        return (
+          <div key={index} className={className} aria-label={label}>
+            <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>{typed}</span>
+          </div>
+        )
+      })}
+      {isAnswered ? (
+        <ul className="flashcard__borders" aria-label={`Countries bordering ${country.commonName}`}>
+          {namedCodes.map((code) => (
+            <li key={code} className="flashcard__border flashcard__border--named">
+              {countryFacts[code].commonName}
+            </li>
+          ))}
+          {unnamedCodes.map((code) => (
+            <li key={code} className="flashcard__border">
+              {countryFacts[code].commonName}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <button className="flashcard__check">Reveal</button>
+      )}
+    </form>
   )
 }
