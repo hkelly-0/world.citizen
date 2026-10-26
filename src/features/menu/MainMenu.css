@@ -23,8 +23,17 @@
   width: 100%;
   max-width: 280px;
   margin: 0;
-  font-size: 2rem;
+  /* The starting size, the same as in MainMenu.tsx, which then fits the
+     title to the column. */
+  font-size: 32px;
   text-align: left;
+}
+
+/* Kept on one line so its width can be measured against the column.
+   inline-block because ResizeObserver doesn't report plain inline elements. */
+.main-menu__title-text {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .main-menu__subtitle {
