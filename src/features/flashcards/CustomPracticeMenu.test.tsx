@@ -5,12 +5,13 @@ import { CustomPracticeMenu } from './CustomPracticeMenu'
 import { QUESTION_IDS } from './deck'
 
 describe('CustomPracticeMenu', () => {
-  it('lists the 6 options, all unticked, with Go disabled', () => {
+  it('lists the 7 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
 
     for (const label of [
       'Locate country on globe',
       'Name country from globe',
+      'Flag',
       'Area',
       'Population',
       'IHDI',

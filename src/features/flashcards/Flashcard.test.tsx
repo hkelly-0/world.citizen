@@ -44,6 +44,15 @@ async function answerLocation(button: 'Tap right country' | 'Tap wrong country')
   await userEvent.click(await screen.findByRole('button', { name: button }))
 }
 
+// Picks the country's own flag, or else any other offered flag, then goes on.
+async function answerFlag(isoAlpha3: string, isCorrect: boolean) {
+  const flags = screen.getAllByRole('button', { name: /^Flag \d$/ })
+  const isOwnFlag = (button: HTMLElement) =>
+    button.querySelector('img')!.getAttribute('src') === `/flags/${isoAlpha3}.svg`
+  await userEvent.click(flags.find((button) => isOwnFlag(button) === isCorrect)!)
+  await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+}
+
 async function answerRangeQuestion(option: string) {
   await userEvent.click(screen.getByRole('button', { name: option.replace(/\s+/g, ' ') }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -75,7 +84,7 @@ describe('Flashcard', () => {
     )
   })
 
-  it('asks location, area, population, IHDI, then capital, and reports all right', async () => {
+  it('asks location, flag, area, population, IHDI, then capital, and reports all right', async () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
@@ -88,6 +97,8 @@ describe('Flashcard', () => {
 
     expect(await screen.findByText('Select France')).toBeInTheDocument()
     await answerLocation('Tap right country')
+    expect(screen.getByText('Flag?')).toBeInTheDocument()
+    await answerFlag('FRA', true)
     expect(screen.getByText('Area?')).toBeInTheDocument()
     await answerRangeQuestion('≥ 300K km²  /  Medium')
     expect(screen.getByText('Population?')).toBeInTheDocument()
@@ -100,6 +111,7 @@ describe('Flashcard', () => {
 
     expect(onFinish).toHaveBeenCalledWith({
       globe: 'right',
+      flag: 'right',
       area: 'right',
       population: 'right',
       ihdi: 'right',
@@ -122,6 +134,8 @@ describe('Flashcard', () => {
     expect(await screen.findByText('This is')).toBeInTheDocument()
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Type wrong name' }))
+    expect(screen.getByText('Flag?')).toBeInTheDocument()
+    await answerFlag('FRA', true)
     expect(screen.getByText('Area?')).toBeInTheDocument()
     await answerRangeQuestion('≥ 300K km²  /  Medium')
     await answerRangeQuestion('≥ 50M  /  Numerous')
@@ -131,6 +145,7 @@ describe('Flashcard', () => {
 
     expect(onFinish).toHaveBeenCalledWith({
       globe: 'wrong',
+      flag: 'right',
       area: 'right',
       population: 'right',
       ihdi: 'right',
@@ -150,6 +165,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap wrong country')
+    await answerFlag('FRA', false)
     await userEvent.click(screen.getByRole('button', { name: '≥ 10K km² / Tiny' }))
     expect(screen.getByRole('button', { name: '≥ 10K km² / Tiny' })).toHaveClass(
       'flashcard__option--wrong',
@@ -171,11 +187,42 @@ describe('Flashcard', () => {
 
     expect(onFinish).toHaveBeenCalledWith({
       globe: 'wrong',
+      flag: 'wrong',
       area: 'wrong',
       population: 'right',
       ihdi: 'right',
       capital: 'wrong',
     })
+  })
+
+  it('offers four flags, names them once answered, and counts a wrong pick as wrong', async () => {
+    const onFinish = vi.fn()
+    render(
+      <Flashcard
+        country={france}
+        questionIds={['flag']}
+        globeKinds={GLOBE_KINDS}
+        onFinish={onFinish}
+      />,
+    )
+
+    const flags = screen.getAllByRole('button', { name: /^Flag \d$/ })
+    expect(flags).toHaveLength(4)
+    const wrongFlag = flags.find(
+      (button) => button.querySelector('img')!.getAttribute('src') !== '/flags/FRA.svg',
+    )!
+    await userEvent.click(wrongFlag)
+
+    // Once answered, each flag is labelled with its country.
+    expect(wrongFlag).toHaveClass('flashcard__option--wrong')
+    expect(wrongFlag).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Flag of France' })).toHaveClass(
+      'flashcard__option--correct',
+    )
+    expect(screen.getByText('France', { selector: '.flashcard__flag-name' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(onFinish).toHaveBeenCalledWith({ flag: 'wrong' })
   })
 
   it('colours a pick one title away orange and counts it as close', async () => {
@@ -213,6 +260,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
+    await answerFlag('FRA', true)
     await answerRangeQuestion('≥ 300K km²  /  Medium')
     await answerRangeQuestion('≥ 50M  /  Numerous')
     await answerRangeQuestion('8  /  Great')
@@ -222,6 +270,7 @@ describe('Flashcard', () => {
 
     expect(onFinish).toHaveBeenCalledWith({
       globe: 'right',
+      flag: 'right',
       area: 'right',
       population: 'right',
       ihdi: 'right',
@@ -240,6 +289,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
+    await answerFlag('VAT', true)
     await answerRangeQuestion('< 10K km²  /  Teensy-weensy')
     await answerRangeQuestion('< 100K  /  Minute')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
@@ -260,6 +310,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
+    await answerFlag('SAU', true)
     await answerRangeQuestion('≥ 1M km²  /  Large')
     await answerRangeQuestion('≥ 10M  /  Moderate')
     expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
@@ -279,6 +330,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
+    await answerFlag('ZAF', true)
     await answerRangeQuestion('≥ 1M km²  /  Large')
     await answerRangeQuestion('≥ 50M  /  Numerous')
     await answerRangeQuestion('4  /  Very Bad')

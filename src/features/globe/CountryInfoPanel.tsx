@@ -1,6 +1,7 @@
 import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
+import { flagImageSrc } from '../../shared/flags'
 import type { QuestionId } from '../flashcards/deck'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import './CountryInfoPanel.css'
@@ -63,6 +64,13 @@ export function CountryInfoPanel({
           {/* Skip the official name when it's the same, e.g. "Japan". */}
           {facts.officialName !== facts.commonName && (
             <p className="country-info-panel__official-name">{facts.officialName}</p>
+          )}
+          {learnedQuestionIds.includes('flag') && (
+            <img
+              className="country-info-panel__flag"
+              src={flagImageSrc(facts.isoAlpha3)}
+              alt={`Flag of ${facts.commonName}`}
+            />
           )}
           <dl>
             {learnedQuestionIds.includes('area') && (

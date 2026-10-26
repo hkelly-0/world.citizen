@@ -5,13 +5,14 @@ import { QUESTION_IDS } from '../flashcards/deck'
 import { SettingsMenu } from './SettingsMenu'
 
 describe('SettingsMenu', () => {
-  it('lists the 5 kinds of information, ticked if learned', () => {
+  it('lists the 6 kinds of information, ticked if learned', () => {
     render(
       <SettingsMenu learnedQuestionIds={['globe', 'ihdi']} onBack={vi.fn()} onSave={vi.fn()} />,
     )
 
     expect(screen.getByText('Information I want to learn:')).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'Location' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Flag' })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Area' })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Population' })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'IHDI' })).toBeChecked()
@@ -26,7 +27,7 @@ describe('SettingsMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'IHDI' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
-    expect(onSave).toHaveBeenCalledWith(['area', 'population', 'capital'])
+    expect(onSave).toHaveBeenCalledWith(['flag', 'area', 'population', 'capital'])
   })
 
   it('starts as a disabled "Saved", becomes "Save" when changed, and is "Saved" again if changed back', async () => {

@@ -10,6 +10,7 @@ type Choice = GlobeKind | Exclude<QuestionId, 'globe'>
 const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'locate', label: 'Locate country on globe' },
   { choice: 'name', label: 'Name country from globe' },
+  { choice: 'flag', label: 'Flag' },
   { choice: 'area', label: 'Area' },
   { choice: 'population', label: 'Population' },
   { choice: 'ihdi', label: 'IHDI' },

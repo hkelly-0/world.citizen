@@ -25,6 +25,10 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Flag of France' })).toHaveAttribute(
+      'src',
+      '/flags/FRA.svg',
+    )
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
     // Population, area and IHDI show range titles, not exact numbers.
@@ -98,6 +102,7 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('French Republic')).toBeInTheDocument()
     expect(screen.getByText('≥ 300K km² / Medium')).toBeInTheDocument()
     expect(screen.queryByText('Paris')).not.toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'Flag of France' })).not.toBeInTheDocument()
     expect(screen.queryByText('Population')).not.toBeInTheDocument()
     expect(screen.queryByText('IHDI')).not.toBeInTheDocument()
   })

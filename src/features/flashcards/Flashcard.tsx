@@ -1,8 +1,10 @@
 import { lazy, Suspense, useState, type FormEvent } from 'react'
-import type { CountryFacts } from '../../shared/countryFacts'
+import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
+import { flagImageSrc } from '../../shared/flags'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCapitalCorrect } from './capitalAnswer'
-import type { GlobeKind, QuestionId } from './deck'
+import { QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
+import { flagOptions } from './flagQuestion'
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import type { AnswerResult } from './fsrs'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
@@ -18,7 +20,8 @@ const COUNTRY_IMAGES = '/country-images'
 
 type FlashcardProps = {
   country: CountryFacts
-  // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
+  // Which questions to ask: those learned in Settings for Classic, or those
+  // ticked for custom practice.
   questionIds: QuestionId[]
   // Which kinds of globe question may be asked: both for Classic, where each
   // card picks one at random, or just one for custom practice.
@@ -28,25 +31,28 @@ type FlashcardProps = {
   onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
 }
 
-// One country's card: first a globe question, then area, population and IHDI
-// (picked from range titles), then the capital (typed), skipping any not in
-// `questionIds`. The globe question is, at random half the time each, either
+// One country's card: first a globe question, then the flag (picked from four),
+// then area, population and IHDI (picked from range titles), then the capital
+// (typed), skipping any not in `questionIds`. The globe question is, at random half the time each, either
 // finding the country (tapped on the globe) or naming the country shown on the
 // globe (typed). Each answer is revealed before moving on.
 export function Flashcard({ country, questionIds, globeKinds, onFinish }: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
-  const asksCapital = questionIds.includes('capital')
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
   const isGlobeOnly = questionIds.length === 1 && asksGlobe
-  const questions = rangeQuestions(country).filter((question) => questionIds.includes(question.id))
+  const questions = rangeQuestions(country)
+  // The questions asked after the globe one, in the order of QUESTION_IDS.
+  const steps = QUESTION_IDS.filter((id) => id !== 'globe' && questionIds.includes(id))
   // Chosen once, when the card is first shown: at random if both kinds are allowed.
   const [isNameQuestion] = useState(() =>
     globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
   )
   // Whether the user has answered the globe question yet (or it isn't asked).
   const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(!asksGlobe)
-  // Counts through the range questions being asked; the step after them is the capital.
+  // Chosen once, when the card is first shown.
+  const [offeredFlags] = useState(() => flagOptions(country.isoAlpha3))
+  // Counts through `steps`.
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
@@ -54,15 +60,16 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
   const [results, setResults] = useState<Partial<Record<QuestionId, AnswerResult>>>({})
   const [typedCapital, setTypedCapital] = useState('')
 
-  const isCapitalStep = step === questions.length
-  const isLastStep = asksCapital ? isCapitalStep : step === questions.length - 1
+  const stepId = steps[step]
+  const rangeQuestion = questions.find((question) => question.id === stepId)
+  const isLastStep = step === steps.length - 1
 
   function submitGlobeAnswer(isCorrect: boolean) {
     const newResults = { ...results, globe: resultFromCorrect(isCorrect) }
     setHasAnsweredGlobe(true)
     setResults(newResults)
     // When only the globe question is asked, the card is finished.
-    if (questions.length === 0 && !asksCapital) onFinish(newResults)
+    if (steps.length === 0) onFinish(newResults)
   }
 
   function submitAnswer(id: QuestionId, chosen: string, result: AnswerResult) {
@@ -122,16 +129,26 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
       />
       <h2>{country.commonName}</h2>
 
-      {!isCapitalStep && (
-        <RangeQuestionView
-          question={questions[step]}
+      {stepId === 'flag' && (
+        <FlagQuestion
+          correctCode={country.isoAlpha3}
+          offeredCodes={offeredFlags}
           answer={answer}
           onAnswer={(chosen) =>
-            submitAnswer(questions[step].id, chosen, rangeAnswerResult(questions[step], chosen))
+            submitAnswer('flag', chosen, resultFromCorrect(chosen === country.isoAlpha3))
           }
         />
       )}
-      {isCapitalStep && asksCapital && (
+      {rangeQuestion !== undefined && (
+        <RangeQuestionView
+          question={rangeQuestion}
+          answer={answer}
+          onAnswer={(chosen) =>
+            submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
+          }
+        />
+      )}
+      {stepId === 'capital' && (
         <CapitalQuestion
           country={country}
           typedCapital={typedCapital}
@@ -150,9 +167,55 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
   )
 }
 
-// The globe and capital questions are only right or wrong, never close.
+// The globe, flag and capital questions are only right or wrong, never close.
 function resultFromCorrect(isCorrect: boolean): AnswerResult {
   return isCorrect ? 'right' : 'wrong'
+}
+
+type FlagQuestionProps = {
+  correctCode: string
+  // The ISO alpha-3 codes of the flags to pick from, in the order shown.
+  offeredCodes: string[]
+  // The code of the picked flag, or null until one is picked.
+  answer: string | null
+  onAnswer: (chosen: string) => void
+}
+
+// Four flags in a 2 × 2 grid. Before answering they are labelled only by
+// position, so the names don't give the answer away; after answering, each
+// is named and coloured like the range options.
+function FlagQuestion({ correctCode, offeredCodes, answer, onAnswer }: FlagQuestionProps) {
+  const isAnswered = answer !== null
+
+  function optionClassName(code: string): string {
+    if (isAnswered && code === correctCode) {
+      return 'flashcard__flag-option flashcard__option--correct'
+    }
+    if (code === answer) return 'flashcard__flag-option flashcard__option--wrong'
+    return 'flashcard__flag-option'
+  }
+
+  return (
+    <>
+      <p className="flashcard__question">Flag?</p>
+      <div className="flashcard__flag-options">
+        {offeredCodes.map((code, i) => (
+          <button
+            key={code}
+            className={optionClassName(code)}
+            onClick={() => onAnswer(code)}
+            disabled={isAnswered}
+            aria-label={isAnswered ? `Flag of ${countryFacts[code].commonName}` : `Flag ${i + 1}`}
+          >
+            <img className="flashcard__flag" src={flagImageSrc(code)} alt="" />
+            {isAnswered && (
+              <span className="flashcard__flag-name">{countryFacts[code].commonName}</span>
+            )}
+          </button>
+        ))}
+      </div>
+    </>
+  )
 }
 
 type RangeQuestionViewProps = {

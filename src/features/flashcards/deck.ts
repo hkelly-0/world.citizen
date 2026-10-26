@@ -3,8 +3,8 @@ import { pickingFamiliarity } from './familiarity'
 
 // The questions asked about each country. Each has its own FSRS progress, so
 // e.g. a country's capital can be well known while its population isn't.
-export type QuestionId = 'globe' | 'area' | 'population' | 'ihdi' | 'capital'
-export const QUESTION_IDS: QuestionId[] = ['globe', 'area', 'population', 'ihdi', 'capital']
+export type QuestionId = 'globe' | 'flag' | 'area' | 'population' | 'ihdi' | 'capital'
+export const QUESTION_IDS: QuestionId[] = ['globe', 'flag', 'area', 'population', 'ihdi', 'capital']
 
 // The two ways the 'globe' question can be asked: tap the country on the globe,
 // or type the name of the country shown on it. Both share the 'globe' progress.

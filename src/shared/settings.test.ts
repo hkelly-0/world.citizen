@@ -7,7 +7,14 @@ describe('settings storage', () => {
   })
 
   it('learns everything when nothing is saved', () => {
-    expect(loadLearnedQuestionIds()).toEqual(['globe', 'area', 'population', 'ihdi', 'capital'])
+    expect(loadLearnedQuestionIds()).toEqual([
+      'globe',
+      'flag',
+      'area',
+      'population',
+      'ihdi',
+      'capital',
+    ])
   })
 
   it('loads what was saved', () => {
@@ -17,8 +24,8 @@ describe('settings storage', () => {
 
   it('learns everything when the saved data is unreadable or empty', () => {
     localStorage.setItem('geography-app/learned-question-ids', 'not json')
-    expect(loadLearnedQuestionIds()).toHaveLength(5)
+    expect(loadLearnedQuestionIds()).toHaveLength(6)
     saveLearnedQuestionIds([])
-    expect(loadLearnedQuestionIds()).toHaveLength(5)
+    expect(loadLearnedQuestionIds()).toHaveLength(6)
   })
 })

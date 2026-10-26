@@ -18,6 +18,14 @@
   color: #a9b1c2;
 }
 
+/* A fixed height, so the panel is its final size before the image loads (the
+   globe measures it). The width follows the flag's real proportions. */
+.country-info-panel__flag {
+  display: block;
+  height: 48px;
+  margin: 0 0 12px;
+}
+
 .country-info-panel__note {
   margin: 0;
   color: #a9b1c2;

@@ -51,7 +51,7 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    expect(screen.getByText('Area?')).toBeInTheDocument()
+    expect(screen.getByText('Flag?')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
@@ -64,7 +64,7 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    expect(screen.getByText('Area?')).toBeInTheDocument()
+    expect(screen.getByText('Flag?')).toBeInTheDocument()
 
     history.back()
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
@@ -102,9 +102,10 @@ describe('App', () => {
     // a globe question.
     await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
 
-    // Pick the first option each time (button 0 is "← Menu"), then type a
-    // capital. Right or wrong, the card gets saved.
-    for (let i = 0; i < 3; i++) {
+    // Pick the first option each time (button 0 is "← Menu") for the flag and
+    // the three range questions, then type a capital. Right or wrong, the card
+    // gets saved.
+    for (let i = 0; i < 4; i++) {
       await userEvent.click(screen.getAllByRole('button', { name: /./ })[1])
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     }
@@ -114,11 +115,12 @@ describe('App', () => {
 
     const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')
     expect(Object.keys(saved)).toHaveLength(1)
-    // Each of the country's 5 questions has its own progress.
+    // Each of the country's 6 questions has its own progress.
     const [countryProgress] = Object.values(saved) as object[]
     expect(Object.keys(countryProgress).sort()).toEqual([
       'area',
       'capital',
+      'flag',
       'globe',
       'ihdi',
       'population',
@@ -165,7 +167,7 @@ describe('App', () => {
   it('saves settings, then asks only the learned questions in Classic and offers only them in Custom Practice', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
-    for (const label of ['Location', 'Area', 'Population', 'IHDI']) {
+    for (const label of ['Location', 'Flag', 'Area', 'Population', 'IHDI']) {
       await userEvent.click(screen.getByRole('checkbox', { name: label }))
     }
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
@@ -188,8 +190,9 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    // Straight to the capital: no globe or range questions.
+    // Straight to the capital: no globe, flag or range questions.
     expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
+    expect(screen.queryByText('Flag?')).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Reveal' })).toBeInTheDocument()
   })

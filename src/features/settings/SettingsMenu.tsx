@@ -7,6 +7,7 @@ import '../flashcards/CustomPracticeMenu.css'
 
 const LABELS: Record<QuestionId, string> = {
   globe: 'Location',
+  flag: 'Flag',
   area: 'Area',
   population: 'Population',
   ihdi: 'IHDI',
