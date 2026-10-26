@@ -1,7 +1,19 @@
 import { describe, expect, it } from 'vitest'
+import countryNeighboursJson from '../../data/countryNeighbours.json'
 import flagSimilarityJson from '../../data/flagSimilarity.json'
 import { countryFacts } from '../../shared/countryFacts'
-import { FLAG_OPTION_COUNT, flagOptions } from './flagQuestion'
+import { FLAG_OPTION_COUNT, NEIGHBOUR_FLAGS_FROM, flagOptions } from './flagQuestion'
+
+// Random numbers starting with `first` (which decides where the wrong flags
+// come from), then Math.random.
+function randomStartingWith(first: number): () => number {
+  let isFirst = true
+  return () => {
+    if (!isFirst) return Math.random()
+    isFirst = false
+    return first
+  }
+}
 
 describe('flagOptions', () => {
   it('offers the correct flag and different wrong ones, for every country', () => {
@@ -20,8 +32,19 @@ describe('flagOptions', () => {
       (flagSimilarityJson as Record<string, Record<string, number>>).FRA,
     )
     for (let i = 0; i < 20; i++) {
-      for (const option of flagOptions('FRA')) {
+      for (const option of flagOptions('FRA', randomStartingWith(0.99))) {
         if (option !== 'FRA') expect(similarToFrance).toContain(option)
+      }
+    }
+  })
+
+  it('otherwise picks the wrong flags from the nearest countries', () => {
+    const nearFrance = Object.keys(
+      (countryNeighboursJson as Record<string, Record<string, number>>).FRA,
+    ).slice(0, NEIGHBOUR_FLAGS_FROM)
+    for (let i = 0; i < 20; i++) {
+      for (const option of flagOptions('FRA', randomStartingWith(0))) {
+        if (option !== 'FRA') expect(nearFrance).toContain(option)
       }
     }
   })
