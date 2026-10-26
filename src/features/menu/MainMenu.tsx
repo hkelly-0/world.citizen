@@ -21,6 +21,9 @@ export function MainMenu({
 }: MainMenuProps) {
   return (
     <main className="main-menu">
+      {/* The app icon, drawn by scripts/make-app-icon.mjs. Decorative, as the
+          title below names the app. */}
+      <img className="main-menu__logo" src="/favicon.svg" alt="" />
       <h1>world.citizen</h1>
       <p className="main-menu__subtitle">learn every country</p>
       <button className="main-menu__option arrow-button" onClick={onOpenFlashcards}>

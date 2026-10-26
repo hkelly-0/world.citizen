@@ -11,6 +11,12 @@
   position: relative;
 }
 
+/* Centred above the title, unlike the left-aligned column below it. */
+.main-menu__logo {
+  width: 96px;
+  height: 96px;
+}
+
 /* The title, subtitle and buttons form one column as wide as the buttons,
    centred on the screen, with their text aligned to its left edge. */
 .main-menu h1 {
