@@ -27,7 +27,7 @@ export function saveLearningGroup(groupId: string): void {
   }
 }
 
-// Used by the dev menu's reset.
+// Used by the dev menu's reset and by saving an edited Passport.
 export function clearLearningGroup(): void {
   try {
     localStorage.removeItem(STORAGE_KEY)

@@ -1,4 +1,5 @@
 import { recordDiscovery, removeDiscoveries } from '../../shared/discoveries'
+import { clearLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { removeCountriesFromReviewLog } from '../../shared/reviewLog'
 import type { CountryProgress, DeckProgress, QuestionId } from '../flashcards/deck'
@@ -41,7 +42,8 @@ export function editedProgress(
 // Saves the Passport as holding exactly `codes`, as `editedProgress` does.
 // Removed countries also lose their discovery times and logged answers; added
 // ones are discovered now. Their made-up answers aren't logged, as the review
-// log is for real answers.
+// log is for real answers. The chosen learning group is cleared, so the user
+// chooses a group again before the next new country.
 export function savePassport(codes: string[], learnedQuestionIds: QuestionId[], today: string) {
   const progress = loadProgress()
   const oldCodes = passportCodes(progress)
@@ -52,4 +54,5 @@ export function savePassport(codes: string[], learnedQuestionIds: QuestionId[], 
   removeDiscoveries(removedCodes)
   removeCountriesFromReviewLog(removedCodes)
   for (const code of addedCodes) recordDiscovery(code, new Date())
+  clearLearningGroup()
 }

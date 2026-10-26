@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { loadDiscoveries, recordDiscovery } from '../../shared/discoveries'
+import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { loadReviewLog, logCardReviews } from '../../shared/reviewLog'
 import type { DeckProgress } from '../flashcards/deck'
@@ -56,5 +57,13 @@ describe('savePassport', () => {
     expect(Object.keys(loadProgress())).toEqual(['JPN'])
     expect(Object.keys(loadDiscoveries())).toEqual(['JPN'])
     expect(loadReviewLog()).toEqual([])
+  })
+
+  it('clears the chosen learning group', () => {
+    saveLearningGroup('north-america')
+
+    savePassport(['JPN'], ['globe'], TODAY)
+
+    expect(loadLearningGroup()).toBeNull()
   })
 })
