@@ -10,6 +10,7 @@ import {
 } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
 import { CountrySearch } from './CountrySearch'
+import { searchPlacesFromShapes } from './countryNameSearch'
 import './GlobeView.css'
 
 // The open info panel has its own browser history entry (on top of the globe
@@ -26,6 +27,9 @@ const FOCUS_TOP_PADDING = 72
 const FOCUS_DURATION_MS = 1200
 // The panel's bottom margin, plus a gap above it.
 const PANEL_BOTTOM_MARGIN = 16
+
+// Every country and territory on the map, for the search box.
+const SEARCH_PLACES = searchPlacesFromShapes(COUNTRY_SHAPES)
 
 type GlobeViewProps = {
   // The information chosen in Settings, shown on the info panel.
@@ -51,8 +55,8 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
     setSelectedIndex(index)
   }
 
-  // Choosing a country in the search box, or clicking a country's name in a
-  // territory's info panel, works like tapping it on the globe.
+  // Clicking a country's name in a territory's info panel works like tapping
+  // it on the globe, as does choosing a place in the search box.
   function selectCountryByCode(isoAlpha3: string) {
     const index = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
     if (index !== -1) selectCountry(index)
@@ -146,7 +150,7 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
       <BackButton onClick={goToMenu} />
-      <CountrySearch onSelect={selectCountryByCode} />
+      <CountrySearch places={SEARCH_PLACES} onSelect={selectCountry} />
       {selectedCountry !== null && (
         <CountryInfoPanel
           country={selectedCountry}

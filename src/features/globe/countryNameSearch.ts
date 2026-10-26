@@ -1,30 +1,48 @@
-import { alternativeNames, countryFacts, type CountryFacts } from '../../shared/countryFacts'
+import { alternativeNames, countryDisplayName, type CountryFacts } from '../../shared/countryFacts'
+import type { CountryShape } from '../../shared/countries'
 import { normalise } from '../../shared/normalise'
 
 // Suggestions appear once this many letters are typed.
 export const MIN_SEARCH_LENGTH = 3
 const MAX_SUGGESTIONS = 6
 
-// The 195 countries in alphabetical order, so suggestions are listed that way.
-const COUNTRIES_BY_NAME = Object.values(countryFacts).sort((a, b) =>
-  a.commonName.localeCompare(b.commonName),
-)
+// One area on the globe that the search box can find: one of the 195
+// countries or a territory (e.g. Greenland, Kosovo).
+export type SearchPlace = {
+  name: string
+  // Alternatives that also match, e.g. "Turkey" for Türkiye. Territories have none.
+  otherNames: string[]
+  // Index into the shapes the places were made from.
+  shapeIndex: number
+}
 
-// The countries whose common name, or one of its alternatives (e.g. "Turkey"
-// for Türkiye), has a word starting with the typed text, ignoring case and
+// Every area on the map as a search place, in alphabetical order so
+// suggestions are listed that way. Takes the shapes as an argument so this
+// file doesn't load the map data itself (the Passport editor imports it too).
+export function searchPlacesFromShapes(shapes: CountryShape[]): SearchPlace[] {
+  const places = shapes.map((shape, shapeIndex) => ({
+    name: countryDisplayName(shape),
+    otherNames: shape.isoAlpha3 === null ? [] : alternativeNames(shape.isoAlpha3),
+    shapeIndex,
+  }))
+  return places.sort((a, b) => a.name.localeCompare(b.name))
+}
+
+// The places whose name, or one of its alternatives (e.g. "Turkey" for
+// Türkiye), has a word starting with the typed text, ignoring case and
 // accents, e.g. "kor" finds North Korea and South Korea, and "leste" finds
 // Timor-Leste. Names that start with the text come first.
 // Returns nothing until MIN_SEARCH_LENGTH letters are typed.
-export function searchCountries(typed: string): CountryFacts[] {
+export function searchPlaces(places: SearchPlace[], typed: string): SearchPlace[] {
   const query = normalise(typed)
   if (query.length < MIN_SEARCH_LENGTH) return []
 
-  const nameStartMatches: CountryFacts[] = []
-  const wordStartMatches: CountryFacts[] = []
-  for (const country of COUNTRIES_BY_NAME) {
-    const match = nameMatch(country, query)
-    if (match === 'name-start') nameStartMatches.push(country)
-    else if (match === 'word-start') wordStartMatches.push(country)
+  const nameStartMatches: SearchPlace[] = []
+  const wordStartMatches: SearchPlace[] = []
+  for (const place of places) {
+    const match = nameMatch([place.name, ...place.otherNames], query)
+    if (match === 'name-start') nameStartMatches.push(place)
+    else if (match === 'word-start') wordStartMatches.push(place)
   }
   return [...nameStartMatches, ...wordStartMatches].slice(0, MAX_SUGGESTIONS)
 }
@@ -35,14 +53,15 @@ export function searchCountries(typed: string): CountryFacts[] {
 // editor's checklist.
 export function matchesCountrySearch(country: CountryFacts, typed: string): boolean {
   const query = normalise(typed)
-  return query === '' || nameMatch(country, query) !== null
+  const names = [country.commonName, ...alternativeNames(country.isoAlpha3)]
+  return query === '' || nameMatch(names, query) !== null
 }
 
-// How the country's names match `query` (already normalised): 'name-start' if
+// How a place's names match `query` (already normalised): 'name-start' if
 // one starts with it, 'word-start' if a later word in one does (after a space
 // or hyphen), or null if neither.
-function nameMatch(country: CountryFacts, query: string): 'name-start' | 'word-start' | null {
-  const names = [country.commonName, ...alternativeNames(country.isoAlpha3)].map(normalise)
+function nameMatch(unnormalisedNames: string[], query: string): 'name-start' | 'word-start' | null {
+  const names = unnormalisedNames.map(normalise)
   if (names.some((name) => name.startsWith(query))) return 'name-start'
   if (names.some((name) => name.includes(` ${query}`) || name.includes(`-${query}`))) {
     return 'word-start'

@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest'
+import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
-import { matchesCountrySearch, searchCountries } from './countryNameSearch'
+import { matchesCountrySearch, searchPlaces, searchPlacesFromShapes } from './countryNameSearch'
+
+const SHAPES = loadCountryShapes()
+const PLACES = searchPlacesFromShapes(SHAPES)
 
 function namesFound(typed: string): string[] {
-  return searchCountries(typed).map((country) => country.commonName)
+  return searchPlaces(PLACES, typed).map((place) => place.name)
 }
 
-describe('searchCountries', () => {
+describe('searchPlaces', () => {
   it('finds nothing until 3 letters are typed', () => {
     expect(namesFound('fr')).toEqual([])
     expect(namesFound('  fr ')).toEqual([])
@@ -14,7 +18,7 @@ describe('searchCountries', () => {
   })
 
   it('ignores case and accents', () => {
-    expect(namesFound('TURK')).toEqual(['Türkiye', 'Turkmenistan'])
+    expect(namesFound('TURK')).toEqual(['Türkiye', 'Turkmenistan', 'Turks and Caicos Islands'])
     expect(namesFound('sao')).toEqual(['São Tomé and Príncipe'])
   })
 
@@ -29,8 +33,20 @@ describe('searchCountries', () => {
     expect(namesFound('britain')).toEqual(['United Kingdom'])
   })
 
+  it('finds territories, mixed in alphabetically with countries', () => {
+    expect(namesFound('greenl')).toEqual(['Greenland'])
+    expect(namesFound('kosovo')).toEqual(['Kosovo'])
+    expect(namesFound('cyprus')).toEqual(['Cyprus', 'North Cyprus'])
+    expect(namesFound('virgin')).toEqual(['British Virgin Islands', 'U.S. Virgin Islands'])
+  })
+
+  it("gives each place's shape index", () => {
+    const [greenland] = searchPlaces(PLACES, 'greenland')
+    expect(SHAPES[greenland.shapeIndex].isoAlpha3).toBe('GRL')
+  })
+
   it('does not match the middle of a word', () => {
-    expect(namesFound('land')).toEqual([])
+    expect(namesFound('stan')).toEqual([])
   })
 
   it('lists names starting with the text before other word matches', () => {
@@ -43,7 +59,7 @@ describe('searchCountries', () => {
   })
 
   it('lists at most 6 suggestions', () => {
-    // Andorra, plus every name with the word "and" (7 in all).
+    // Andorra, plus every name with the word "and" (many more).
     const found = namesFound('and')
     expect(found).toHaveLength(6)
     expect(found[0]).toBe('Andorra')

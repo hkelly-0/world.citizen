@@ -1,19 +1,20 @@
 import { useRef, useState, type KeyboardEvent } from 'react'
-import type { CountryFacts } from '../../shared/countryFacts'
-import { searchCountries } from './countryNameSearch'
+import { searchPlaces, type SearchPlace } from './countryNameSearch'
 import './CountrySearch.css'
 
 const SUGGESTIONS_ID = 'country-search-suggestions'
 
 type CountrySearchProps = {
-  // Called with the chosen country's ISO alpha-3 code, e.g. "FIN".
-  onSelect: (isoAlpha3: string) => void
+  // The countries and territories that can be found, from searchPlacesFromShapes.
+  places: SearchPlace[]
+  // Called with the chosen place's shape index.
+  onSelect: (shapeIndex: number) => void
 }
 
 // A search box for the globe screen. Suggestions appear once 3 letters are
 // typed; tapping one, or pressing Enter for the top (or arrow-key highlighted)
-// one, chooses that country.
-export function CountrySearch({ onSelect }: CountrySearchProps) {
+// one, chooses that country or territory.
+export function CountrySearch({ places, onSelect }: CountrySearchProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [typed, setTyped] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -21,16 +22,16 @@ export function CountrySearch({ onSelect }: CountrySearchProps) {
   // top suggestion; the arrow keys move it.
   const [highlightedIndex, setHighlightedIndex] = useState(0)
 
-  const suggestions = searchCountries(typed)
+  const suggestions = searchPlaces(places, typed)
   const isListOpen = isFocused && suggestions.length > 0
 
   // Clears the box and unfocuses it, which closes the phone keyboard so the
   // info panel can be seen.
-  function choose(country: CountryFacts) {
+  function choose(place: SearchPlace) {
     setTyped('')
     setHighlightedIndex(0)
     inputRef.current?.blur()
-    onSelect(country.isoAlpha3)
+    onSelect(place.shapeIndex)
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -84,9 +85,9 @@ export function CountrySearch({ onSelect }: CountrySearchProps) {
       />
       {isListOpen && (
         <ul className="country-search__suggestions" id={SUGGESTIONS_ID} role="listbox">
-          {suggestions.map((country, index) => (
+          {suggestions.map((place, index) => (
             <li
-              key={country.isoAlpha3}
+              key={place.shapeIndex}
               id={`${SUGGESTIONS_ID}-${index}`}
               className={
                 index === highlightedIndex
@@ -99,9 +100,9 @@ export function CountrySearch({ onSelect }: CountrySearchProps) {
               // close the list before the click arrives.
               onMouseDown={(event) => event.preventDefault()}
               onMouseEnter={() => setHighlightedIndex(index)}
-              onClick={() => choose(country)}
+              onClick={() => choose(place)}
             >
-              {country.commonName}
+              {place.name}
             </li>
           ))}
         </ul>
