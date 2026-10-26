@@ -84,4 +84,28 @@ describe('prepareGeometryForFlatMap', () => {
       ],
     })
   })
+
+  it('drops a pole ring that stops just short of the pole', () => {
+    // world-atlas stores Antarctica's pole ring at -89.999, not -90.
+    const continent: Polygon = {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [-180, -89.999],
+          [0, -89.999],
+          [180, -89.999],
+          [-180, -89.999],
+        ],
+        [
+          [-180, -70],
+          [60, -65],
+          [179, -70],
+          [-180, -70],
+        ],
+      ],
+    }
+    const prepared = prepareGeometryForFlatMap(continent) as Polygon
+    expect(prepared.coordinates).toHaveLength(1)
+    expect(prepared.coordinates[0][0]).toEqual([-180, -70])
+  })
 })

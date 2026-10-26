@@ -14,6 +14,11 @@ export function prepareGeometryForFlatMap(geometry: Geometry): Geometry {
   return geometry
 }
 
+// A ring whose every point is at least this far north or south is treated as
+// running along a pole. world-atlas stores Antarctica's pole ring at -89.999,
+// not exactly -90; no real coastline comes this close to a pole.
+const POLE_RING_MIN_LATITUDE = 89.9
+
 // A polygon is a list of rings: the outline first, then any holes.
 function preparePolygon(rings: Position[][]): Position[][] {
   // Antarctica's first ring is just the South Pole (every point at latitude
@@ -23,7 +28,7 @@ function preparePolygon(rings: Position[][]): Position[][] {
 }
 
 function isPoleRing(ring: Position[]): boolean {
-  return ring.every((point) => Math.abs(point[1]) === 90)
+  return ring.every((point) => Math.abs(point[1]) >= POLE_RING_MIN_LATITUDE)
 }
 
 function prepareRing(ring: Position[]): Position[] {
