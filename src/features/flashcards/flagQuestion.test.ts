@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest'
 import countryNeighboursJson from '../../data/countryNeighbours.json'
 import flagSimilarityJson from '../../data/flagSimilarity.json'
 import { countryFacts } from '../../shared/countryFacts'
-import { FLAG_OPTION_COUNT, NEIGHBOUR_FLAGS_FROM, flagOptions } from './flagQuestion'
+import {
+  FLAG_OPTION_COUNT,
+  NEIGHBOUR_FLAGS_FROM,
+  SIMILAR_FLAGS_FROM,
+  flagOptions,
+} from './flagQuestion'
 
 // Random numbers starting with `first` (which decides where the wrong flags
 // come from), then Math.random.
@@ -30,7 +35,7 @@ describe('flagOptions', () => {
   it('picks the wrong flags from the most similar-looking ones', () => {
     const similarToFrance = Object.keys(
       (flagSimilarityJson as Record<string, Record<string, number>>).FRA,
-    )
+    ).slice(0, SIMILAR_FLAGS_FROM)
     for (let i = 0; i < 20; i++) {
       for (const option of flagOptions('FRA', randomStartingWith(0.99))) {
         if (option !== 'FRA') expect(similarToFrance).toContain(option)
