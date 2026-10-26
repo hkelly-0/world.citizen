@@ -1,27 +1,27 @@
 import { describe, expect, it } from 'vitest'
-import { moveItem, rankingCountries, rankingTitle, swapItems } from './rankingQuestion'
+import { moveItem, orderingCountries, orderingTitle, swapItems } from './orderingQuestion'
 
-describe('rankingTitle', () => {
-  it("gives a country's range title, ranked among the stat's ranges", () => {
-    expect(rankingTitle('population', 'CHN')).toEqual({
+describe('orderingTitle', () => {
+  it("gives a country's range title, and its place among the stat's ranges", () => {
+    expect(orderingTitle('population', 'CHN')).toEqual({
       title: '1.4 Billion',
-      rank: 6,
+      rangeIndex: 6,
       isEstimate: false,
     })
-    expect(rankingTitle('area', 'VAT')?.rank).toBe(0)
+    expect(orderingTitle('area', 'VAT')?.rangeIndex).toBe(0)
   })
 
   it('marks an estimated IHDI, and is null with no IHDI at all', () => {
-    expect(rankingTitle('ihdi', 'DMA')?.isEstimate).toBe(true)
-    expect(rankingTitle('ihdi', 'PRK')).toBeNull()
+    expect(orderingTitle('ihdi', 'DMA')?.isEstimate).toBe(true)
+    expect(orderingTitle('ihdi', 'PRK')).toBeNull()
   })
 })
 
-describe('rankingCountries', () => {
+describe('orderingCountries', () => {
   it('takes countries with different titles, highest first', () => {
     // Germany and France are both "≥ 50M  /  Numerous"; with random() always
     // 0 the Passport is gone through in order, so Germany is taken.
-    expect(rankingCountries('population', ['DEU', 'FRA', 'CAN', 'USA', 'ISL'], () => 0)).toEqual([
+    expect(orderingCountries('population', ['DEU', 'FRA', 'CAN', 'USA', 'ISL'], () => 0)).toEqual([
       'USA',
       'DEU',
       'CAN',
@@ -30,18 +30,18 @@ describe('rankingCountries', () => {
   })
 
   it('is null without 4 different titles in the Passport', () => {
-    expect(rankingCountries('population', ['DEU', 'FRA', 'CAN', 'USA'])).toBeNull()
+    expect(orderingCountries('population', ['DEU', 'FRA', 'CAN', 'USA'])).toBeNull()
   })
 
   it('leaves out countries with no IHDI, but not estimated ones', () => {
     // North Korea has no IHDI; Dominica's is estimated.
-    expect(rankingCountries('ihdi', ['PRK', 'SOM', 'DMA', 'CHN', 'USA'])).toEqual([
+    expect(orderingCountries('ihdi', ['PRK', 'SOM', 'DMA', 'CHN', 'USA'])).toEqual([
       'USA',
       'CHN',
       'DMA',
       'SOM',
     ])
-    expect(rankingCountries('ihdi', ['PRK', 'SOM', 'DMA', 'CHN'])).toBeNull()
+    expect(orderingCountries('ihdi', ['PRK', 'SOM', 'DMA', 'CHN'])).toBeNull()
   })
 })
 

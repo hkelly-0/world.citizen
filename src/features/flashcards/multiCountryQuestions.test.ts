@@ -9,11 +9,11 @@ describe('nextMultiCountryQuestion', () => {
     const previous = { id: 'flag-matching' as const, codes: PASSPORT }
     for (let i = 0; i < 10; i++) {
       const question = nextMultiCountryQuestion(
-        ['flag-matching', 'population-ranking'],
+        ['flag-matching', 'population-ordering'],
         PASSPORT,
         previous,
       )
-      expect(question?.id).toBe('population-ranking')
+      expect(question?.id).toBe('population-ordering')
     }
   })
 
@@ -22,7 +22,7 @@ describe('nextMultiCountryQuestion', () => {
     // North Korea has no IHDI, so there are only 3 IHDI titles.
     const passport = ['PRK', 'SOM', 'DMA', 'CHN']
     expect(
-      nextMultiCountryQuestion(['flag-matching', 'ihdi-ranking'], passport, previous)?.id,
+      nextMultiCountryQuestion(['flag-matching', 'ihdi-ordering'], passport, previous)?.id,
     ).toBe('flag-matching')
   })
 

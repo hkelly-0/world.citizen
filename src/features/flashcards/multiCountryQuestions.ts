@@ -1,7 +1,7 @@
 import { capitalMatchingCountries } from './capitalMatchingQuestion'
 import type { QuestionId } from './deck'
 import { flagMatchingCountries } from './flagMatchingQuestion'
-import { rankingCountries, type RankingStat } from './rankingQuestion'
+import { orderingCountries, type OrderingStat } from './orderingQuestion'
 
 // The Custom Practice questions about several Passport countries at once,
 // rather than one country's card. Like Borders they aren't QuestionIds: no
@@ -10,9 +10,9 @@ import { rankingCountries, type RankingStat } from './rankingQuestion'
 export const MULTI_COUNTRY_QUESTION_IDS = [
   'flag-matching',
   'capital-matching',
-  'population-ranking',
-  'area-ranking',
-  'ihdi-ranking',
+  'population-ordering',
+  'area-ordering',
+  'ihdi-ordering',
 ] as const
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
@@ -21,22 +21,22 @@ export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId> = {
   'flag-matching': 'flag',
   'capital-matching': 'capital',
-  'population-ranking': 'population',
-  'area-ranking': 'area',
-  'ihdi-ranking': 'ihdi',
+  'population-ordering': 'population',
+  'area-ordering': 'area',
+  'ihdi-ordering': 'ihdi',
 }
 
-// The statistic each ranking question is about.
-export const RANKING_STATS: Record<
+// The statistic each ordering question is about.
+export const ORDERING_STATS: Record<
   Exclude<MultiCountryQuestionId, 'flag-matching' | 'capital-matching'>,
-  RankingStat
+  OrderingStat
 > = {
-  'population-ranking': 'population',
-  'area-ranking': 'area',
-  'ihdi-ranking': 'ihdi',
+  'population-ordering': 'population',
+  'area-ordering': 'area',
+  'ihdi-ordering': 'ihdi',
 }
 
-// One question: which kind, and its countries (for a ranking, highest first).
+// One question: which kind, and its countries (for an ordering, highest first).
 export type MultiCountryQuestion = { id: MultiCountryQuestionId; codes: string[] }
 
 // The countries for a question of kind `id`, or null if the Passport can't
@@ -55,7 +55,7 @@ function questionCountries(
   if (id === 'capital-matching') {
     return capitalMatchingCountries(passportCodes, previousFirstCode, random)
   }
-  return rankingCountries(RANKING_STATS[id], passportCodes, random)
+  return orderingCountries(ORDERING_STATS[id], passportCodes, random)
 }
 
 // The next question: one of the kinds in `ids` that the Passport can make, at

@@ -6,11 +6,11 @@ import { MatchingCard } from './MatchingCard'
 import { MATCHING_COUNT } from './matchingQuestion'
 import {
   nextMultiCountryQuestion,
-  RANKING_STATS,
+  ORDERING_STATS,
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
-import { RankingCard } from './RankingCard'
-import { RANKING_COUNT } from './rankingQuestion'
+import { OrderingCard } from './OrderingCard'
+import { ORDERING_COUNT } from './orderingQuestion'
 import './FlashcardsView.css'
 
 type MultiCountryPracticeViewProps = {
@@ -19,7 +19,7 @@ type MultiCountryPracticeViewProps = {
   onBack: () => void
 }
 
-// Custom Practice with Matching and Ranking questions ticked: one
+// Custom Practice with Matching and Ordering questions ticked: one
 // question after another, endlessly, each a random ticked kind
 // (`nextMultiCountryQuestion`). They have no FSRS progress, so nothing is
 // saved and there is no reward between questions.
@@ -46,8 +46,9 @@ export function MultiCountryPracticeView({ questionIds, onBack }: MultiCountryPr
       <BackButton onClick={onBack} />
       {question === null ? (
         <p className="flashcards-view__done">
-          Not enough countries in your Passport yet. Matching needs {MATCHING_COUNT}, and a ranking
-          needs {RANKING_COUNT} with different titles. Discover new countries in Classic Mode.
+          Not enough countries in your Passport yet. Matching needs {MATCHING_COUNT}, and an
+          ordering needs {ORDERING_COUNT} with different titles. Discover new countries in Classic
+          Mode.
         </p>
       ) : question.id === 'flag-matching' ? (
         <MatchingCard key={questionNumber} kind="flag" codes={question.codes} onFinish={goToNext} />
@@ -59,9 +60,9 @@ export function MultiCountryPracticeView({ questionIds, onBack }: MultiCountryPr
           onFinish={goToNext}
         />
       ) : (
-        <RankingCard
+        <OrderingCard
           key={questionNumber}
-          stat={RANKING_STATS[question.id]}
+          stat={ORDERING_STATS[question.id]}
           codes={question.codes}
           onFinish={goToNext}
         />

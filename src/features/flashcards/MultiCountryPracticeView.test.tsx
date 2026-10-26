@@ -38,9 +38,9 @@ describe('MultiCountryPracticeView', () => {
       expect(screen.getByRole('button', { name })).toBeInTheDocument()
     }
   })
-  it('ranks Passport countries', () => {
+  it('orders Passport countries', () => {
     savePassport(['USA', 'DEU', 'CAN', 'ISL'])
-    render(<MultiCountryPracticeView questionIds={['population-ranking']} onBack={vi.fn()} />)
+    render(<MultiCountryPracticeView questionIds={['population-ordering']} onBack={vi.fn()} />)
 
     expect(screen.getByText('Drag to order these countries by population')).toBeInTheDocument()
   })

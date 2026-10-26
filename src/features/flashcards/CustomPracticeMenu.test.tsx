@@ -19,9 +19,9 @@ describe('CustomPracticeMenu', () => {
       'Borders',
       'Flag Matching',
       'Capital Matching',
-      'Ranking - Population',
-      'Ranking - Area',
-      'Ranking - IHDI',
+      'Ordering - Population',
+      'Ordering - Area',
+      'Ordering - IHDI',
     ]) {
       expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     }
@@ -72,21 +72,21 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
-  it('practises Flag Matching and the Rankings apart from the rest', async () => {
+  it('practises Flag Matching and the Orderings apart from the rest', async () => {
     const onGo = vi.fn()
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     expect(screen.getByRole('checkbox', { name: 'Flag Matching' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Ranking - IHDI' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Ordering - IHDI' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Flag Matching' }))
     expect(screen.getByRole('checkbox', { name: 'Area' })).toBeDisabled()
     expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
-    expect(screen.getByRole('checkbox', { name: 'Ranking - Area' })).toBeEnabled()
+    expect(screen.getByRole('checkbox', { name: 'Ordering - Area' })).toBeEnabled()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith([], [], false, ['flag-matching', 'ihdi-ranking'])
+    expect(onGo).toHaveBeenCalledWith([], [], false, ['flag-matching', 'ihdi-ordering'])
   })
 
   it('offers only the question types learned in Settings, plus Borders', () => {
@@ -108,13 +108,13 @@ describe('CustomPracticeMenu', () => {
       'Capital Matching',
     ])
   })
-  it("offers each Ranking only if its stat's question type is learned", () => {
+  it("offers each Ordering only if its stat's question type is learned", () => {
     render(<CustomPracticeMenu learnedQuestionIds={['area']} onBack={vi.fn()} onGo={vi.fn()} />)
 
     expect(screen.getAllByRole('checkbox').map((box) => box.parentElement!.textContent)).toEqual([
       'Area',
       'Borders',
-      'Ranking - Area',
+      'Ordering - Area',
     ])
   })
 })

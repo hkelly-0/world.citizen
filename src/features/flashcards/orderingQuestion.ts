@@ -9,55 +9,59 @@ import {
   type StatRange,
 } from '../../shared/statRanges'
 
-// The statistics a ranking question can be about.
-export type RankingStat = 'population' | 'area' | 'ihdi'
+// The statistics an ordering question can be about.
+export type OrderingStat = 'population' | 'area' | 'ihdi'
 
-// How many countries each ranking question shows.
-export const RANKING_COUNT = 4
+// How many countries each ordering question shows.
+export const ORDERING_COUNT = 4
 
 // A country's range title for the stat, and its place in the stat's ranges
 // (higher is bigger). True `isEstimate` for an IHDI from our estimate.
-export type RankingTitle = { title: string; rank: number; isEstimate: boolean }
+export type OrderingTitle = { title: string; rangeIndex: number; isEstimate: boolean }
 
 // Null for an IHDI with neither data nor an estimate.
-export function rankingTitle(stat: RankingStat, code: string): RankingTitle | null {
+export function orderingTitle(stat: OrderingStat, code: string): OrderingTitle | null {
   const country = countryFacts[code]
   if (stat === 'ihdi') {
     const ihdi = ihdiRange(country)
     if (ihdi === null) return null
-    return { title: ihdi.title, rank: rankOf(IHDI_RANGES, ihdi.title), isEstimate: ihdi.isEstimate }
+    return {
+      title: ihdi.title,
+      rangeIndex: rangeIndexOf(IHDI_RANGES, ihdi.title),
+      isEstimate: ihdi.isEstimate,
+    }
   }
   const ranges = stat === 'population' ? POPULATION_RANGES : AREA_RANGES
   const value = stat === 'population' ? country.population : country.areaKm2
   const title = rangeTitle(ranges, value)
-  return { title, rank: rankOf(ranges, title), isEstimate: false }
+  return { title, rangeIndex: rangeIndexOf(ranges, title), isEstimate: false }
 }
 
 // Ranges are listed smallest first, so a later one is bigger.
-function rankOf(ranges: StatRange[], title: string): number {
+function rangeIndexOf(ranges: StatRange[], title: string): number {
   return ranges.findIndex((range) => range.title === title)
 }
 
-// The countries for one ranking question, highest first: RANKING_COUNT
+// The countries for one ordering question, highest first: ORDERING_COUNT
 // Passport countries, each with a different range title for the stat, so
 // there are no ties. They are picked by going through the Passport in a
 // random order, taking each country whose title isn't taken yet. Null when
-// the Passport doesn't have RANKING_COUNT different titles. `random` is a
+// the Passport doesn't have ORDERING_COUNT different titles. `random` is a
 // parameter so tests can make the choice predictable.
-export function rankingCountries(
-  stat: RankingStat,
+export function orderingCountries(
+  stat: OrderingStat,
   passportCodes: string[],
   random: () => number = Math.random,
 ): string[] | null {
-  const picked: { code: string; rank: number }[] = []
+  const picked: { code: string; rangeIndex: number }[] = []
   for (const code of shuffled(passportCodes, random)) {
-    const title = rankingTitle(stat, code)
-    if (title === null || picked.some((other) => other.rank === title.rank)) continue
-    picked.push({ code, rank: title.rank })
-    if (picked.length === RANKING_COUNT) break
+    const title = orderingTitle(stat, code)
+    if (title === null || picked.some((other) => other.rangeIndex === title.rangeIndex)) continue
+    picked.push({ code, rangeIndex: title.rangeIndex })
+    if (picked.length === ORDERING_COUNT) break
   }
-  if (picked.length < RANKING_COUNT) return null
-  return picked.sort((a, b) => b.rank - a.rank).map((country) => country.code)
+  if (picked.length < ORDERING_COUNT) return null
+  return picked.sort((a, b) => b.rangeIndex - a.rangeIndex).map((country) => country.code)
 }
 
 // `order` after the item at `fromIndex` is taken out and put back at `toIndex`,

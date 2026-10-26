@@ -11,7 +11,7 @@ import '../menu/MainMenu.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
-// Borders and the multi-country questions (Matching and Ranking)
+// Borders and the multi-country questions (Matching and Ordering)
 // aren't question types: they have no FSRS progress and aren't in Settings.
 type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | 'borders' | MultiCountryQuestionId
 const CHOICES: { choice: Choice; label: string }[] = [
@@ -25,9 +25,9 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'borders', label: 'Borders' },
   { choice: 'flag-matching', label: 'Flag Matching' },
   { choice: 'capital-matching', label: 'Capital Matching' },
-  { choice: 'population-ranking', label: 'Ranking - Population' },
-  { choice: 'area-ranking', label: 'Ranking - Area' },
-  { choice: 'ihdi-ranking', label: 'Ranking - IHDI' },
+  { choice: 'population-ordering', label: 'Ordering - Population' },
+  { choice: 'area-ordering', label: 'Ordering - Area' },
+  { choice: 'ihdi-ordering', label: 'Ordering - IHDI' },
 ]
 
 function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {

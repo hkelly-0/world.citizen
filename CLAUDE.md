@@ -41,8 +41,8 @@ Main menu: Flashcards, Globe, Passport, Settings. Screens are switched with Reac
      - **Matching** (`MatchingCard.tsx`, its `kind` choosing which): labels dragged or tapped onto targets. Each starts from a random Passport country.
        - Flag Matching (`flagMatchingQuestion.ts`): names onto flags, with the Passport countries with the most similar flags. Relies on `flagSimilarity.json` listing every pair, not just the closest.
        - Capital Matching (`capitalMatchingQuestion.ts`): capitals onto country names, with Passport countries from the nearest neighbours first (`CAPITAL_NEIGHBOURS_FIRST`, then `CAPITAL_NEIGHBOURS_LATER`), then any. Relies on `countryNeighbours.json` keeping at least `CAPITAL_NEIGHBOURS_LATER`.
-     - **Ranking** by population, area or IHDI (`rankingQuestion.ts`, `RankingCard.tsx`): Passport countries with different range titles (so no ties; estimated IHDIs count, no-data ones don't), dragged or tapped into order.
-   - Card CSS that colours a reveal must not rely on load order against `Flashcard.css` or `TypedAnswerReveal.css`: Matching and Ranking load `Flashcard.css` before the regular card does, so same-specificity rules in those files can flip.
+     - **Ordering** by population, area or IHDI (`orderingQuestion.ts`, `OrderingCard.tsx`): Passport countries with different range titles (so no ties; estimated IHDIs count, no-data ones don't), dragged or tapped into order.
+   - Card CSS that colours a reveal must not rely on load order against `Flashcard.css` or `TypedAnswerReveal.css`: Matching and Ordering load `Flashcard.css` before the regular card does, so same-specificity rules in those files can flip.
    - New countries come one country group at a time, chosen on `RegionGlobe.tsx` (shared by Classic and the Passport) and saved in `src/shared/learningGroup.ts`. `pendingGroupId` in `passport.ts` works out from progress whether it is finished, so a group finished anywhere is done.
    - Card choice: no due dates, endless sessions. FSRS (`fsrs.ts`, `ts-fsrs`, whole days, default parameters) only measures familiarity. Only a question's first answer of a day is an FSRS review (`reviewQuestion`); later ones only update `latestRepeatAnswer`. A range pick one title off counts as Hard (`rangeAnswerResult`). Countries are picked weighted by unfamiliarity (`chooseRandomCountry` in `deck.ts`), and Classic brings a new country whenever `isTooUnfamiliarForNewCountry` is false.
    - Each finished card is followed by `CardReward.tsx` (`rewardAfterCard`). Its familiarity ring always covers the questions learned in Settings, so it matches the Passport even in Custom Practice.
@@ -100,7 +100,7 @@ Generated files are committed; each script lists its download links.
 - `src/data/territorySubtitles.json` – hand-written description of each map area outside the 195, keyed by ISO code or map name (after `FULL_MAP_NAMES` in `countries.ts` writes out Natural Earth's abbreviations); `{ISO}` links to that country. Contested areas get neutral wording.
 
 ## Status
-- Not yet checked on a real phone: the location and name globe questions (especially the name question's bottom panel above the on-screen keyboard), and dragging in Matching and Ranking.
+- Not yet checked on a real phone: the location and name globe questions (especially the name question's bottom panel above the on-screen keyboard), and dragging in Matching and Ordering.
 - Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it).
 - Possible later: more facts (region, languages, etc.); ship the website as a PWA.
 - Owner to review `territorySubtitles.json`.
