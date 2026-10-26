@@ -12,6 +12,7 @@ describe('SettingsMenu', () => {
         countryIcon="outline"
         onBack={vi.fn()}
         onSave={vi.fn()}
+        onEditPassport={vi.fn()}
       />,
     )
 
@@ -32,6 +33,7 @@ describe('SettingsMenu', () => {
         countryIcon="outline"
         onBack={vi.fn()}
         onSave={onSave}
+        onEditPassport={vi.fn()}
       />,
     )
 
@@ -49,6 +51,7 @@ describe('SettingsMenu', () => {
         countryIcon="outline"
         onBack={vi.fn()}
         onSave={vi.fn()}
+        onEditPassport={vi.fn()}
       />,
     )
 
@@ -66,6 +69,7 @@ describe('SettingsMenu', () => {
         countryIcon="outline"
         onBack={vi.fn()}
         onSave={vi.fn()}
+        onEditPassport={vi.fn()}
       />,
     )
 
@@ -83,6 +87,7 @@ describe('SettingsMenu', () => {
         countryIcon="outline"
         onBack={vi.fn()}
         onSave={onSave}
+        onEditPassport={vi.fn()}
       />,
     )
 
@@ -94,5 +99,28 @@ describe('SettingsMenu', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
     expect(onSave).toHaveBeenCalledWith(QUESTION_IDS, 'flag')
+  })
+
+  it('asks "Are you sure?" before opening the Passport editor, and can be cancelled', async () => {
+    const onEditPassport = vi.fn()
+    render(
+      <SettingsMenu
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={vi.fn()}
+        onEditPassport={onEditPassport}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'Manually edit Passport' }))
+    expect(screen.getByText(/Are you sure\?/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.queryByText(/Are you sure\?/)).not.toBeInTheDocument()
+    expect(onEditPassport).not.toHaveBeenCalled()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Manually edit Passport' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(onEditPassport).toHaveBeenCalled()
   })
 })

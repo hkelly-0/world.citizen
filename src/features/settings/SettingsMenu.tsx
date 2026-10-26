@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import type { CountryIcon } from '../../shared/settings'
 import { QUESTION_IDS, type QuestionId } from '../flashcards/deck'
+import { ConfirmMessage } from './ConfirmMessage'
 // Same layout, buttons and checkboxes as the custom practice menu.
 import '../menu/MainMenu.css'
 import '../flashcards/CustomPracticeMenu.css'
@@ -30,20 +31,26 @@ type SettingsMenuProps = {
   // Called with the ticked question types, in the order of QUESTION_IDS, and
   // the chosen country icon.
   onSave: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
+  // Opens the Passport editor, once the user has confirmed.
+  onEditPassport: () => void
 }
 
 // Lets the user choose which information to learn, and whether the Passport
 // shows each country's outline or flag. Nothing changes until
 // "Save" is pressed, which needs at least one ticked. Once saved (or before
-// anything is changed) the button reads "Saved" and is disabled.
+// anything is changed) the button reads "Saved" and is disabled. Below it,
+// "Manually edit Passport" asks "Are you sure?" before opening the Passport
+// editor.
 export function SettingsMenu({
   learnedQuestionIds,
   countryIcon,
   onBack,
   onSave,
+  onEditPassport,
 }: SettingsMenuProps) {
   const [chosen, setChosen] = useState<QuestionId[]>(learnedQuestionIds)
   const [chosenIcon, setChosenIcon] = useState<CountryIcon>(countryIcon)
+  const [isConfirmingEdit, setIsConfirmingEdit] = useState(false)
 
   function toggle(id: QuestionId) {
     setChosen(chosen.includes(id) ? chosen.filter((other) => other !== id) : [...chosen, id])
@@ -99,6 +106,21 @@ export function SettingsMenu({
       >
         {isSaved ? 'Saved' : 'Save'}
       </button>
+      {isConfirmingEdit ? (
+        <ConfirmMessage
+          message="Are you sure? Removing a country from your Passport deletes all its progress."
+          confirmLabel="Continue"
+          onConfirm={onEditPassport}
+          onCancel={() => setIsConfirmingEdit(false)}
+        />
+      ) : (
+        <button
+          className="main-menu__option main-menu__option--centered arrow-button"
+          onClick={() => setIsConfirmingEdit(true)}
+        >
+          Manually edit Passport
+        </button>
+      )}
     </main>
   )
 }

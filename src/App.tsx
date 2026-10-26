@@ -8,6 +8,7 @@ import { collectedCountries } from './features/passport/passport'
 import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
 import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
+import { PassportEditor } from './features/settings/PassportEditor'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
 import {
@@ -25,12 +26,14 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
 // cards, 'custom-practice' the choice of question types to practise, and
 // 'custom-flashcards' the cards asking only those question types.
-// 'settings' chooses which information is learned at all. 'passport' lists
-// the countries seen as flashcards, and 'passport-flashcard' plays one of
-// their cards.
+// 'settings' chooses which information is learned at all, and
+// 'passport-editor' (opened from it) adds or removes Passport countries by
+// hand. 'passport' lists the countries seen as flashcards, and
+// 'passport-flashcard' plays one of their cards.
 type Screen =
   | 'menu'
   | 'settings'
+  | 'passport-editor'
   | 'passport'
   | 'passport-flashcard'
   | 'globe'
@@ -189,6 +192,16 @@ export default function App() {
           countryIcon={countryIcon}
           onBack={goToMenu}
           onSave={saveSettings}
+          onEditPassport={() => openScreen('passport-editor')}
+        />
+      )
+    }
+    if (screen === 'passport-editor') {
+      return (
+        <PassportEditor
+          learnedQuestionIds={learnedQuestionIds}
+          // Back to the Settings history entry.
+          onBack={() => history.back()}
         />
       )
     }

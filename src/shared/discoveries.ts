@@ -40,3 +40,15 @@ export function recordDiscovery(isoAlpha3: string, when: Date): void {
     // those that have none.
   }
 }
+
+// Forgets the discovery times of these countries (ISO alpha-3 codes), when
+// they are removed from the Passport in Settings.
+export function removeDiscoveries(isoAlpha3Codes: string[]): void {
+  const discoveries = loadDiscoveries()
+  for (const code of isoAlpha3Codes) delete discoveries[code]
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(discoveries))
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+  }
+}

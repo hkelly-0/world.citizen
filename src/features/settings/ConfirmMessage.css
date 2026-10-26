@@ -1,0 +1,50 @@
+/* As wide as the menu's buttons. */
+.confirm-message {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.95);
+}
+
+.confirm-message__text {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.confirm-message__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.confirm-message__button {
+  flex: 1;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.confirm-message__button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Goes ahead with something that deletes progress: in the red of a wrong
+   answer, like the Passport's "Go anyway". */
+.confirm-message__button--confirm {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
+}
+
+.confirm-message__button--confirm:hover {
+  background: var(--wrong-red-tint-hover);
+}

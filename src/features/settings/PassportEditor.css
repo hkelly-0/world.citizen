@@ -1,0 +1,48 @@
+/* The list is longer than the screen, so it starts at the top (below the
+   back button) rather than being centred, and leaves no gap below the
+   footer. */
+.passport-editor {
+  justify-content: flex-start;
+  padding-top: 72px;
+  padding-bottom: 0;
+}
+
+/* The "42/195", quieter than the title, like the Passport's count. */
+.passport-editor__count {
+  color: #a9b1c2;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+/* As wide as the checkbox rows, like the globe's search box. */
+.passport-editor__search {
+  width: 100%;
+  max-width: 280px;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  /* 16px or more stops iPhones zooming in when the box is tapped. */
+  font: inherit;
+}
+
+.passport-editor__empty {
+  margin: 0;
+  color: #a9b1c2;
+}
+
+/* Sticks to the bottom of the scrolling screen, over the list, in the page's
+   background colour so the list doesn't show through. */
+.passport-editor__footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  padding: 8px 0 16px;
+  background: #000010;
+}

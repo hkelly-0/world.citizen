@@ -36,6 +36,17 @@ export function clearReviewLog(): void {
   }
 }
 
+// Forgets every logged answer about these countries (ISO alpha-3 codes), when
+// they are removed from the Passport in Settings.
+export function removeCountriesFromReviewLog(isoAlpha3Codes: string[]): void {
+  const log = loadReviewLog().filter((entry) => !isoAlpha3Codes.includes(entry.country))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(log))
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+  }
+}
+
 // Adds an entry for each asked question of a finished card.
 export function logCardReviews(
   country: string,

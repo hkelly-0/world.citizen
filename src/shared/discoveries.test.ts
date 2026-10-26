@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { loadDiscoveries, recordDiscovery } from './discoveries'
+import { loadDiscoveries, recordDiscovery, removeDiscoveries } from './discoveries'
 
 describe('discovery times', () => {
   afterEach(() => {
@@ -23,5 +23,13 @@ describe('discovery times', () => {
   it('starts empty when the saved data is unreadable', () => {
     localStorage.setItem('geography-app/discovered-at', 'not json')
     expect(loadDiscoveries()).toEqual({})
+  })
+
+  it('forgets the times of removed countries only', () => {
+    recordDiscovery('FRA', new Date('2026-10-20T09:00:00Z'))
+    recordDiscovery('PER', new Date('2026-10-21T09:00:00Z'))
+    recordDiscovery('JPN', new Date('2026-10-22T09:00:00Z'))
+    removeDiscoveries(['FRA', 'JPN'])
+    expect(loadDiscoveries()).toEqual({ PER: '2026-10-21T09:00:00.000Z' })
   })
 })
