@@ -1,0 +1,96 @@
+/* Two flags per row, like the flag question, so all four fit on a phone. */
+.flag-matching__flags {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* A flag with the space for its name below. Coloured green or red on Reveal
+   by the shared .flashcard__option--correct and --wrong. */
+.flag-matching__slot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.flag-matching__flag {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.flag-matching__flag:disabled {
+  cursor: default;
+}
+
+/* The empty space below a flag, the same height as a name in it, so the card
+   doesn't move when one is put there. */
+.flag-matching__space {
+  min-height: 40px;
+  box-sizing: border-box;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* The right country, under a flag given the wrong name. */
+.flag-matching__answer {
+  color: var(--correct-green);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* The names not yet on a flag. Kept at least one name tall, so the card
+   doesn't move when the last one is put on a flag. */
+.flag-matching__names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 16px;
+}
+
+.flag-matching__name {
+  min-height: 40px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: grab;
+  /* Dragging a name mustn't scroll the page or select its text. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.flag-matching__name:disabled {
+  cursor: default;
+}
+
+/* Tapped, waiting for a flag to be tapped. */
+.flag-matching__name--selected {
+  border-color: #f2f4f8;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Follows the pointer above everything else on the card. */
+.flag-matching__name--dragged {
+  position: relative;
+  z-index: 10;
+  cursor: grabbing;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.flag-matching__reveal {
+  width: 100%;
+  margin-top: 16px;
+}

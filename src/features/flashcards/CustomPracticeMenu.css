@@ -43,3 +43,13 @@
 .main-menu__option:disabled:hover {
   background: none;
 }
+
+/* Can't be ticked alongside Flag Matching (or Flag Matching alongside it). */
+.custom-practice__choice:has(input:disabled) {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.custom-practice__choice input:disabled {
+  cursor: default;
+}

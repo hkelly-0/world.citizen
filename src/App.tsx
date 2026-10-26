@@ -2,6 +2,7 @@ import { Fragment, lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
 import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
+import { FlagMatchingView } from './features/flashcards/FlagMatchingView'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
 import { MainMenu } from './features/menu/MainMenu'
 import { collectedCountries } from './features/passport/passport'
@@ -60,6 +61,9 @@ function customGlobeKindsInHistory(): GlobeKind[] {
 function customAsksBordersInHistory(): boolean {
   return history.state?.asksBorders ?? false
 }
+function customAsksFlagMatchingInHistory(): boolean {
+  return history.state?.asksFlagMatching ?? false
+}
 // The country whose card is played from the Passport, kept the same way.
 function passportFlashcardCodeInHistory(): string | null {
   return history.state?.isoAlpha3 ?? null
@@ -73,6 +77,9 @@ export default function App() {
   )
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
   const [customAsksBorders, setCustomAsksBorders] = useState<boolean>(customAsksBordersInHistory)
+  const [customAsksFlagMatching, setCustomAsksFlagMatching] = useState<boolean>(
+    customAsksFlagMatchingInHistory,
+  )
   const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
     passportFlashcardCodeInHistory,
   )
@@ -106,11 +113,16 @@ export default function App() {
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
     asksBorders: boolean,
+    asksFlagMatching: boolean,
   ) {
-    history.replaceState({ screen: 'custom-flashcards', questionIds, globeKinds, asksBorders }, '')
+    history.replaceState(
+      { screen: 'custom-flashcards', questionIds, globeKinds, asksBorders, asksFlagMatching },
+      '',
+    )
     setCustomQuestionIds(questionIds)
     setCustomGlobeKinds(globeKinds)
     setCustomAsksBorders(asksBorders)
+    setCustomAsksFlagMatching(asksFlagMatching)
     setScreen('custom-flashcards')
   }
   // Opens a country's card from the Passport, with its own history entry, so
@@ -171,6 +183,10 @@ export default function App() {
           onGo={startCustomPractice}
         />
       )
+    }
+    // Flag Matching is only ever practised alone.
+    if (screen === 'custom-flashcards' && customAsksFlagMatching) {
+      return <FlagMatchingView onBack={goToMenu} />
     }
     if (screen === 'custom-flashcards') {
       return (

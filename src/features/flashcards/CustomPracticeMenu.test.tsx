@@ -5,7 +5,7 @@ import { CustomPracticeMenu } from './CustomPracticeMenu'
 import { QUESTION_IDS } from './deck'
 
 describe('CustomPracticeMenu', () => {
-  it('lists the 8 options, all unticked, with Go disabled', () => {
+  it('lists the 9 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
 
     for (const label of [
@@ -17,6 +17,7 @@ describe('CustomPracticeMenu', () => {
       'IHDI',
       'Capital',
       'Borders',
+      'Flag Matching',
     ]) {
       expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     }
@@ -34,7 +35,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'], false)
+    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'], false, false)
   })
 
   it('treats both globe options as the one globe question type', async () => {
@@ -45,7 +46,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Locate country on globe' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'], false)
+    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'], false, false)
   })
 
   it('passes Borders separately, as it is not a question type', async () => {
@@ -55,7 +56,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith([], [], true)
+    expect(onGo).toHaveBeenCalledWith([], [], true, false)
   })
 
   it('disables Go again when every box is unticked', async () => {
@@ -67,7 +68,23 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
+  it('practises Flag Matching alone', async () => {
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
+    expect(screen.getByRole('checkbox', { name: 'Flag Matching' })).toBeDisabled()
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Flag Matching' }))
+    expect(screen.getByRole('checkbox', { name: 'Area' })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+
+    expect(onGo).toHaveBeenCalledWith([], [], false, true)
+  })
+
   it('offers only the question types learned in Settings, plus Borders', () => {
+    // Flag Matching isn't offered, as the flag question isn't learned.
     render(
       <CustomPracticeMenu
         learnedQuestionIds={['globe', 'capital']}
