@@ -5,8 +5,8 @@
   gap: 8px;
 }
 
-/* A flag with the space for its name below. Coloured green or red on Reveal
-   by the shared .flashcard__option--correct and --wrong. */
+/* A flag with the space for its name below. Turned green or red on Reveal by
+   --correct and --wrong below. */
 .flag-matching__slot {
   display: flex;
   flex-direction: column;
@@ -15,6 +15,19 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
+}
+
+/* Coloured here, after .flag-matching__slot, rather than with the shared
+   .flashcard__option--correct and --wrong, which are only as specific as
+   .flag-matching__slot, so would lose to it if Flashcard.css loaded first. */
+.flag-matching__slot--correct {
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
+}
+
+.flag-matching__slot--wrong {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
 }
 
 .flag-matching__flag {

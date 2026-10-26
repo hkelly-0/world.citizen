@@ -30,8 +30,8 @@ describe('FlagMatchingCard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
     const slots = container.querySelectorAll<HTMLElement>('.flag-matching__slot')
-    expect(slots[0]).toHaveClass('flashcard__option--correct')
-    expect(slots[1]).toHaveClass('flashcard__option--wrong')
+    expect(slots[0]).toHaveClass('flag-matching__slot--correct')
+    expect(slots[1]).toHaveClass('flag-matching__slot--wrong')
     expect(slots[1]).toHaveTextContent('Romania')
   })
 
@@ -60,11 +60,11 @@ describe('FlagMatchingCard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 
     const slots = container.querySelectorAll<HTMLElement>('.flag-matching__slot')
-    expect(slots[0]).toHaveClass('flashcard__option--wrong')
+    expect(slots[0]).toHaveClass('flag-matching__slot--wrong')
     expect(slots[0]).toHaveTextContent('RomaniaChad')
-    expect(slots[1]).toHaveClass('flashcard__option--wrong')
-    expect(slots[2]).toHaveClass('flashcard__option--correct')
-    expect(slots[3]).toHaveClass('flashcard__option--correct')
+    expect(slots[1]).toHaveClass('flag-matching__slot--wrong')
+    expect(slots[2]).toHaveClass('flag-matching__slot--correct')
+    expect(slots[3]).toHaveClass('flag-matching__slot--correct')
     expect(screen.getByRole('button', { name: 'Flag of Chad' })).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))

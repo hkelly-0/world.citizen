@@ -138,7 +138,7 @@ export function FlagMatchingCard({ codes, onFinish }: FlagMatchingCardProps) {
   function slotClassName(flagIndex: number): string {
     if (!isRevealed) return 'flag-matching__slot'
     const isCorrect = placed[flagIndex] === flagCodes[flagIndex]
-    return `flag-matching__slot ${isCorrect ? 'flashcard__option--correct' : 'flashcard__option--wrong'}`
+    return `flag-matching__slot ${isCorrect ? 'flag-matching__slot--correct' : 'flag-matching__slot--wrong'}`
   }
 
   return (
