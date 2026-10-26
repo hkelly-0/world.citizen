@@ -1,5 +1,6 @@
 {
   "USA": { "box": [-125, 24, -66, 50], "note": "Contiguous states only: leave out Alaska and Hawaii" },
   "IDN": { "box": [94, -12, 142, 7], "note": "Include every island" },
-  "NOR": { "box": [4, 57, 32, 72], "note": "Mainland and coastal islands only: leave out Svalbard" }
+  "NOR": { "box": [4, 57, 32, 72], "note": "Mainland and coastal islands only: leave out Svalbard" },
+  "MYS": { "box": [99, 0, 120, 8], "note": "Both the peninsula and the Borneo part, not just the larger Borneo part" }
 }
