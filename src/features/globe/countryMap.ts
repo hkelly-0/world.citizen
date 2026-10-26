@@ -11,7 +11,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 // script next to its own file, which doesn't exist once Vite has bundled the
 // app, so Vite copies the script and we tell MapLibre where it is.
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
-import type { FeatureCollection } from 'geojson'
+import type { FeatureCollection, Position } from 'geojson'
 import { loadCountryShapes } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import groupColoursJson from '../../data/countryGroupColours.json'
@@ -20,7 +20,13 @@ import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import { regionBounds } from './regionBounds'
-import { chooseTappedIndex, TAP_BUFFER_PX, VERY_SMALL_AREA_KM2 } from './tapBuffer'
+import {
+  chooseTappedIndex,
+  distanceToOutlinePx,
+  tapBufferPxFor,
+  VERY_SMALL_AREA_KM2,
+  type ScreenPoint,
+} from './tapBuffer'
 import { zoomLimitsFor } from './zoomLimits'
 
 setWorkerUrl(maplibreWorkerUrl)
@@ -263,23 +269,54 @@ export function flyToGroup(
 }
 
 // Returns the position in COUNTRY_SHAPES of the country a tap at `point` (screen
-// pixels) picked, or null for the ocean. Very small countries within
-// TAP_BUFFER_PX of the tap count as tapped (see tapBuffer.ts).
+// pixels) picked, or null for the ocean. Shapes within the tap buffer
+// (tapBufferPxFor) can count as tapped (see tapBuffer.ts for which one wins).
 export function findTappedCountryIndex(map: MapLibreMap, point: PointLike): number | null {
   const [exact] = map.queryRenderedFeatures(point, { layers: ['country-fills'] })
-  const { x, y } = Point.convert(point)
+  const tap = Point.convert(point)
+  const bufferPx = tapBufferPxFor(map.getContainer().clientWidth)
   const nearby = map.queryRenderedFeatures(
     [
-      [x - TAP_BUFFER_PX, y - TAP_BUFFER_PX],
-      [x + TAP_BUFFER_PX, y + TAP_BUFFER_PX],
+      [tap.x - bufferPx, tap.y - bufferPx],
+      [tap.x + bufferPx, tap.y + bufferPx],
     ],
     { layers: ['country-fills'] },
   )
+
+  // A shape can come back as several features, one per map tile it crosses,
+  // each holding only that tile's part of the outline, so all are measured.
+  function distanceToPx(index: number): number {
+    let nearestPx = Infinity
+    for (const feature of nearby) {
+      if (Number(feature.id) !== index) continue
+      const { geometry } = feature
+      const polygons =
+        geometry.type === 'Polygon'
+          ? [geometry.coordinates]
+          : geometry.type === 'MultiPolygon'
+            ? geometry.coordinates
+            : []
+      const screenRings = polygons
+        .flat()
+        .map((ring) => ring.map((position) => toScreen(map, position)))
+      nearestPx = Math.min(nearestPx, distanceToOutlinePx(tap, screenRings))
+    }
+    return nearestPx
+  }
+
   return chooseTappedIndex(
     exact === undefined ? null : Number(exact.id),
     nearby.map((feature) => Number(feature.id)),
     VERY_SMALL_INDICES,
+    bufferPx,
+    distanceToPx,
   )
+}
+
+// Screen pixel position of a [longitude, latitude] position.
+function toScreen(map: MapLibreMap, [longitude, latitude]: Position): ScreenPoint {
+  const { x, y } = map.project([longitude, latitude])
+  return { x, y }
 }
 
 // Turns the globe to centre the country's main landmass in the space between
@@ -366,7 +403,7 @@ export function createCountryMap(container: HTMLElement, tintedGroupIds?: string
     }
 
     // Uses the same lookup as a click, so the pointer cursor and highlight also
-    // show within the tap buffer of a very small country.
+    // show within the tap buffer.
     map.on('mousemove', (event) => {
       if (isHoverStopped) return
       const index = findTappedCountryIndex(map, event.point)
