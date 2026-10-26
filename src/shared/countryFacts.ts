@@ -56,6 +56,13 @@ export function countryDisplayName(shape: Pick<CountryShape, 'name' | 'isoAlpha3
   return facts?.commonName ?? shape.name
 }
 
+// For sorting names A–Z, ignoring a leading "The", so The Bahamas sorts under B
+// and The Gambia under G.
+export function compareNames(a: string, b: string): number {
+  const withoutThe = (name: string) => name.replace(/^The /, '')
+  return withoutThe(a).localeCompare(withoutThe(b))
+}
+
 // Other names people often use for a country, e.g. "Turkey" for Türkiye,
 // hand-written in countryNameAlternatives.json and keyed by ISO alpha-3 code.
 // Most countries have none.

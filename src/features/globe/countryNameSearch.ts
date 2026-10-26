@@ -1,4 +1,9 @@
-import { alternativeNames, countryDisplayName, type CountryFacts } from '../../shared/countryFacts'
+import {
+  alternativeNames,
+  compareNames,
+  countryDisplayName,
+  type CountryFacts,
+} from '../../shared/countryFacts'
 import type { CountryShape } from '../../shared/countries'
 import { normalise } from '../../shared/normalise'
 
@@ -25,7 +30,7 @@ export function searchPlacesFromShapes(shapes: CountryShape[]): SearchPlace[] {
     otherNames: shape.isoAlpha3 === null ? [] : alternativeNames(shape.isoAlpha3),
     shapeIndex,
   }))
-  return places.sort((a, b) => a.name.localeCompare(b.name))
+  return places.sort((a, b) => compareNames(a.name, b.name))
 }
 
 // The places whose name, or one of its alternatives (e.g. "Turkey" for

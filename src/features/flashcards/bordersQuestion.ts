@@ -1,5 +1,5 @@
 import countryBordersJson from '../../data/countryBorders.json'
-import { countryFacts } from '../../shared/countryFacts'
+import { compareNames, countryFacts } from '../../shared/countryFacts'
 import { isCountryNameCorrect } from './countryNameAnswer'
 
 // How many text boxes the borders question offers. Countries with fewer
@@ -13,7 +13,7 @@ const COUNTRY_BORDERS: Record<string, string[]> = countryBordersJson
 // The countries sharing a land border with `code`, by common name A–Z.
 export function borderingCountries(code: string): string[] {
   return [...COUNTRY_BORDERS[code]].sort((a, b) =>
-    countryFacts[a].commonName.localeCompare(countryFacts[b].commonName),
+    compareNames(countryFacts[a].commonName, countryFacts[b].commonName),
   )
 }
 

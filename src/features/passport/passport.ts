@@ -1,5 +1,6 @@
 import {
   COUNTRY_GROUPS,
+  compareNames,
   countryFacts,
   type CountryFacts,
   type CountryGroup,
@@ -17,7 +18,7 @@ export const COUNTRY_COUNT = Object.keys(countryFacts).length
 export function collectedCountries(progress: DeckProgress): CountryFacts[] {
   return Object.values(countryFacts)
     .filter((country) => isCollected(progress, country.isoAlpha3))
-    .sort((a, b) => a.commonName.localeCompare(b.commonName))
+    .sort((a, b) => compareNames(a.commonName, b.commonName))
 }
 
 // Whether the country is in the Passport: at least one question answered.

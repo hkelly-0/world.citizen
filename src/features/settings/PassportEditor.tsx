@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
-import { countryFacts } from '../../shared/countryFacts'
+import { compareNames, countryFacts } from '../../shared/countryFacts'
 import { loadProgress } from '../../shared/progress'
 import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
@@ -15,7 +15,7 @@ import './PassportEditor.css'
 
 // All 195 countries, A–Z by name.
 const COUNTRIES_BY_NAME = Object.values(countryFacts).sort((a, b) =>
-  a.commonName.localeCompare(b.commonName),
+  compareNames(a.commonName, b.commonName),
 )
 
 type PassportEditorProps = {

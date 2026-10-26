@@ -5,6 +5,7 @@ import territorySubtitlesJson from '../data/territorySubtitles.json'
 import { loadCountryShapes } from './countries'
 import {
   alternativeNames,
+  compareNames,
   countryDisplayName,
   countryFacts,
   territorySubtitle,
@@ -97,6 +98,19 @@ describe('countryDisplayName', () => {
   it("falls back to the map data's name for other areas", () => {
     expect(countryDisplayName(shape('Kosovo', null))).toBe('Kosovo')
     expect(countryDisplayName(shape('Greenland', 'GRL'))).toBe('Greenland')
+  })
+})
+
+describe('compareNames', () => {
+  it('sorts A–Z ignoring a leading "The"', () => {
+    const names = ['Thailand', 'The Gambia', 'Germany', 'The Bahamas', 'Bahrain']
+    expect(names.sort(compareNames)).toEqual([
+      'The Bahamas',
+      'Bahrain',
+      'The Gambia',
+      'Germany',
+      'Thailand',
+    ])
   })
 })
 
