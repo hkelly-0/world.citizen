@@ -28,3 +28,30 @@ export function saveLearnedQuestionIds(questionIds: QuestionId[]): void {
     // If storage is unavailable, the settings last only until the page closes.
   }
 }
+
+// The picture shown for each country in the Passport: its outline (the
+// satellite picture from scripts/make-country-images.mjs) or its flag. Chosen
+// in Settings, whether or not the flag is learned.
+export type CountryIcon = 'outline' | 'flag'
+const COUNTRY_ICONS: CountryIcon[] = ['outline', 'flag']
+
+const COUNTRY_ICON_STORAGE_KEY = 'geography-app/country-icon'
+
+// The outline until the user changes it.
+export function loadCountryIcon(): CountryIcon {
+  try {
+    const saved = localStorage.getItem(COUNTRY_ICON_STORAGE_KEY) as CountryIcon
+    return COUNTRY_ICONS.includes(saved) ? saved : 'outline'
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+    return 'outline'
+  }
+}
+
+export function saveCountryIcon(icon: CountryIcon): void {
+  try {
+    localStorage.setItem(COUNTRY_ICON_STORAGE_KEY, icon)
+  } catch {
+    // If storage is unavailable, the choice lasts only until the page closes.
+  }
+}

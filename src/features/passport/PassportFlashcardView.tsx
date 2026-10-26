@@ -4,6 +4,7 @@ import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
+import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
 import { reviewCountry, type QuestionId } from '../flashcards/deck'
 import { Flashcard } from '../flashcards/Flashcard'
@@ -17,6 +18,8 @@ type PassportFlashcardViewProps = {
   isoAlpha3: string
   // The information chosen in Settings; only these questions are asked.
   learnedQuestionIds: QuestionId[]
+  // Whether the card shows the country's outline or flag, chosen in Settings.
+  countryIcon: CountryIcon
   // Returns to the Passport, after the reward's "Done" or "← Passport".
   onBack: () => void
 }
@@ -30,6 +33,7 @@ type PassportFlashcardViewProps = {
 export function PassportFlashcardView({
   isoAlpha3,
   learnedQuestionIds,
+  countryIcon,
   onBack,
 }: PassportFlashcardViewProps) {
   // Set once the card is finished: the Passport count for a new country's
@@ -65,6 +69,7 @@ export function PassportFlashcardView({
           country={countryFacts[isoAlpha3]}
           questionIds={learnedQuestionIds}
           globeKinds={['locate']}
+          countryIcon={countryIcon}
           onFinish={finishCard}
         />
       )}

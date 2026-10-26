@@ -1,0 +1,43 @@
+/* Same width and side padding as the checkbox rows above it. */
+.settings__icon-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  font-size: 1.1rem;
+}
+
+/* Two buttons joined into one rounded box. */
+.settings__toggle {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.settings__toggle-option {
+  flex: 1;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.settings__toggle-option + .settings__toggle-option {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.settings__toggle-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.settings__toggle-option--chosen,
+.settings__toggle-option--chosen:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

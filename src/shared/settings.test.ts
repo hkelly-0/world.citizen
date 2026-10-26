@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './settings'
+import {
+  loadCountryIcon,
+  loadLearnedQuestionIds,
+  saveCountryIcon,
+  saveLearnedQuestionIds,
+} from './settings'
 
 describe('settings storage', () => {
   afterEach(() => {
@@ -27,5 +32,13 @@ describe('settings storage', () => {
     expect(loadLearnedQuestionIds()).toHaveLength(6)
     saveLearnedQuestionIds([])
     expect(loadLearnedQuestionIds()).toHaveLength(6)
+  })
+
+  it('shows outlines until another country icon is saved', () => {
+    expect(loadCountryIcon()).toBe('outline')
+    saveCountryIcon('flag')
+    expect(loadCountryIcon()).toBe('flag')
+    localStorage.setItem('geography-app/country-icon', 'not an icon')
+    expect(loadCountryIcon()).toBe('outline')
   })
 })

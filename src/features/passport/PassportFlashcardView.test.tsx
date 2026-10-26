@@ -28,6 +28,7 @@ describe('PassportFlashcardView', () => {
     const onBack = vi.fn()
     render(
       <PassportFlashcardView
+        countryIcon="outline"
         isoAlpha3="FRA"
         learnedQuestionIds={['globe', 'area']}
         onBack={onBack}
@@ -52,12 +53,24 @@ describe('PassportFlashcardView', () => {
   it('shows the familiarity of a country already in the Passport before going back', async () => {
     const onBack = vi.fn()
     const { unmount } = render(
-      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['globe']}
+        onBack={vi.fn()}
+      />,
     )
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
     unmount()
 
-    render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={onBack} />)
+    render(
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['globe']}
+        onBack={onBack}
+      />,
+    )
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
     expect(screen.queryByText('France ✓')).not.toBeInTheDocument()
     expect(screen.getByText('France')).toBeInTheDocument()
@@ -69,7 +82,12 @@ describe('PassportFlashcardView', () => {
 
   it('records when a country is first seen, but not again', async () => {
     const { unmount } = render(
-      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['globe']}
+        onBack={vi.fn()}
+      />,
     )
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
     const firstSeen = loadDiscoveries().FRA
@@ -78,7 +96,12 @@ describe('PassportFlashcardView', () => {
 
     vi.spyOn(Date.prototype, 'toISOString').mockReturnValue('2099-01-01T00:00:00.000Z')
     render(
-      <PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['globe']} onBack={vi.fn()} />,
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['globe']}
+        onBack={vi.fn()}
+      />,
     )
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
     expect(loadDiscoveries().FRA).toBe(firstSeen)
@@ -86,7 +109,14 @@ describe('PassportFlashcardView', () => {
 
   it('returns to the Passport from its back button', async () => {
     const onBack = vi.fn()
-    render(<PassportFlashcardView isoAlpha3="FRA" learnedQuestionIds={['area']} onBack={onBack} />)
+    render(
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['area']}
+        onBack={onBack}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('button', { name: '← Passport' }))
     expect(onBack).toHaveBeenCalled()

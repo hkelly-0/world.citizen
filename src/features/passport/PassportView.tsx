@@ -5,6 +5,8 @@ import { loadDiscoveries } from '../../shared/discoveries'
 import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadPassportSort, savePassportSort, type PassportSort } from '../../shared/passportSort'
 import { loadProgress } from '../../shared/progress'
+import { flagImageSrc } from '../../shared/flags'
+import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
 import type { QuestionId } from '../flashcards/deck'
 import { countryRecall } from '../flashcards/familiarity'
@@ -35,6 +37,8 @@ const FAMILIARITY_HELP =
 type PassportViewProps = {
   // The information chosen in Settings; only these questions count towards recall.
   learnedQuestionIds: QuestionId[]
+  // Whether each country is shown by its outline picture or its flag, chosen in Settings.
+  countryIcon: CountryIcon
   onBack: () => void
   // Opens the full flashcard for the country with this ISO alpha-3 code.
   onPlayFlashcard: (isoAlpha3: string) => void
@@ -49,7 +53,12 @@ type PassportViewProps = {
 // opens a globe of the regions (country groups) to choose the next one if none
 // is pending. It warns first if the countries already seen aren't familiar
 // enough yet.
-export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: PassportViewProps) {
+export function PassportView({
+  learnedQuestionIds,
+  countryIcon,
+  onBack,
+  onPlayFlashcard,
+}: PassportViewProps) {
   const [sort, setSort] = useState<PassportSort>(loadPassportSort)
   // The country whose enlarged card is open, if any.
   const [openCode, setOpenCode] = useState<string | null>(null)
@@ -171,10 +180,10 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
                   className="passport__country"
                   onClick={() => setOpenCode(country.isoAlpha3)}
                 >
-                  <img
-                    className="passport__image"
-                    src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
-                    alt={`Map of ${country.commonName}`}
+                  <CountryPicture
+                    isoAlpha3={country.isoAlpha3}
+                    name={country.commonName}
+                    icon={countryIcon}
                   />
                   <span className="passport__name">
                     {country.commonName}
@@ -193,10 +202,10 @@ export function PassportView({ learnedQuestionIds, onBack, onPlayFlashcard }: Pa
         // Clicking the dark background closes the enlarged card.
         <div className="passport__overlay" onClick={() => setOpenCode(null)}>
           <div className="passport__enlarged" onClick={(event) => event.stopPropagation()}>
-            <img
-              className="passport__image"
-              src={`${COUNTRY_IMAGES}/${openCountry.isoAlpha3}.webp`}
-              alt={`Map of ${openCountry.commonName}`}
+            <CountryPicture
+              isoAlpha3={openCountry.isoAlpha3}
+              name={openCountry.commonName}
+              icon={countryIcon}
             />
             <CountryInfoPanel
               country={{ name: openCountry.commonName, isoAlpha3: openCountry.isoAlpha3 }}
@@ -260,5 +269,29 @@ function PlusSymbol() {
     <svg className="passport__image passport__plus" viewBox="0 0 100 100" aria-hidden="true">
       <path d="M50 20 V80 M20 50 H80" />
     </svg>
+  )
+}
+
+type CountryPictureProps = {
+  isoAlpha3: string
+  name: string
+  icon: CountryIcon
+}
+
+// A country's picture in the Passport: its outline or its flag, as chosen in
+// Settings. Both fill the same square, the flag kept in its real proportions.
+function CountryPicture({ isoAlpha3, name, icon }: CountryPictureProps) {
+  return icon === 'flag' ? (
+    <img
+      className="passport__image passport__flag"
+      src={flagImageSrc(isoAlpha3)}
+      alt={`Flag of ${name}`}
+    />
+  ) : (
+    <img
+      className="passport__image"
+      src={`${COUNTRY_IMAGES}/${isoAlpha3}.webp`}
+      alt={`Map of ${name}`}
+    />
   )
 }

@@ -17,6 +17,29 @@
   margin: 0 auto 8px;
 }
 
+/* With the flag chosen in Settings: the flag in its real proportions, filling
+   a square a little narrower than the outline picture's (the flag is about
+   1.25× the size of an outline, which fills two thirds of its picture). */
+.flashcard__flag-image,
+.flashcard__hidden-flag {
+  max-width: 210px;
+}
+
+.flashcard__flag-image {
+  object-fit: contain;
+}
+
+/* Stands in for the flag until the flag question is answered, the same size
+   so the card doesn't move when the flag appears. */
+.flashcard__hidden-flag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9ced8;
+  font-size: 8rem;
+  line-height: 1;
+}
+
 .flashcard h2 {
   margin: 0 0 16px;
   font-size: 1.6rem;

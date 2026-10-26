@@ -58,7 +58,12 @@ describe('PassportView', () => {
 
   it('says how countries join when none have been seen', () => {
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     expect(screen.getByRole('heading', { name: 'Passport 0/195' })).toBeInTheDocument()
@@ -69,7 +74,12 @@ describe('PassportView', () => {
   it('puts the New country card last whatever the sort', async () => {
     saveProgress({ FRA: { globe: answered }, PER: { globe: answered } })
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
     const names = () => screen.getAllByRole('listitem').map((item) => item.textContent)
 
@@ -85,6 +95,7 @@ describe('PassportView', () => {
     render(
       <PassportView
         learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
         onBack={vi.fn()}
         onPlayFlashcard={onPlayFlashcard}
       />,
@@ -102,7 +113,12 @@ describe('PassportView', () => {
 
   it('goes back from the region globe to the Passport', async () => {
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
@@ -121,6 +137,7 @@ describe('PassportView', () => {
     render(
       <PassportView
         learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
         onBack={vi.fn()}
         onPlayFlashcard={onPlayFlashcard}
       />,
@@ -146,6 +163,7 @@ describe('PassportView', () => {
     render(
       <PassportView
         learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
         onBack={vi.fn()}
         onPlayFlashcard={onPlayFlashcard}
       />,
@@ -161,7 +179,12 @@ describe('PassportView', () => {
 
   it('closes the enlarged New country card', async () => {
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     await userEvent.click(screen.getByRole('button', { name: 'New Country' }))
@@ -174,7 +197,12 @@ describe('PassportView', () => {
       Object.fromEntries(Object.keys(countryFacts).map((code) => [code, { globe: answered }])),
     )
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     expect(screen.getByRole('heading', { name: 'Passport 195/195' })).toBeInTheDocument()
@@ -184,7 +212,12 @@ describe('PassportView', () => {
   it("shows each seen country's picture and name", () => {
     saveProgress({ FRA: { globe: answered } })
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     expect(screen.getByRole('heading', { name: 'Passport 1/195' })).toBeInTheDocument()
@@ -196,10 +229,36 @@ describe('PassportView', () => {
     expect(screen.queryByText('Peru')).not.toBeInTheDocument()
   })
 
+  it('shows flags instead, in the grid and the enlarged card, when chosen in Settings', async () => {
+    saveProgress({ FRA: { globe: answered } })
+    render(
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="flag"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByRole('img', { name: 'Flag of France' })).toHaveAttribute(
+      'src',
+      '/flags/FRA.svg',
+    )
+    expect(screen.queryByRole('img', { name: 'Map of France' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: /France/ }))
+    // One in the grid, one on the enlarged card.
+    expect(screen.getAllByRole('img', { name: 'Flag of France' })).toHaveLength(2)
+  })
+
   it('enlarges a country with its names but no facts when clicked, and closes it', async () => {
     saveProgress({ FRA: { globe: answered } })
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
 
     await userEvent.click(screen.getByRole('button', { name: /France/ }))
@@ -217,6 +276,7 @@ describe('PassportView', () => {
     render(
       <PassportView
         learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
         onBack={vi.fn()}
         onPlayFlashcard={onPlayFlashcard}
       />,
@@ -232,7 +292,12 @@ describe('PassportView', () => {
     recordDiscovery('PER', new Date('2026-10-20T09:00:00Z'))
     recordDiscovery('FRA', new Date('2026-10-21T09:00:00Z'))
     render(
-      <PassportView learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onPlayFlashcard={vi.fn()} />,
+      <PassportView
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onPlayFlashcard={vi.fn()}
+      />,
     )
     const names = () => screen.getAllByRole('listitem').map((item) => item.textContent)
 

@@ -127,6 +127,14 @@
   aspect-ratio: 1;
 }
 
+/* Flags keep their real proportions inside the square, with a margin so they
+   are about as big as the outlines, which fill two thirds of their pictures. */
+.passport__flag {
+  box-sizing: border-box;
+  padding: 15%;
+  object-fit: contain;
+}
+
 /* The enlarged card: a dark background over the whole screen. */
 .passport__overlay {
   position: fixed;

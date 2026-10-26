@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, type FormEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
+import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCapitalCorrect } from './capitalAnswer'
 import { QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
@@ -26,6 +27,8 @@ type FlashcardProps = {
   // Which kinds of globe question may be asked: both for Classic, where each
   // card picks one at random, or just one for custom practice.
   globeKinds: GlobeKind[]
+  // Whether the picture at the top is the country's outline or its flag, chosen in Settings.
+  countryIcon: CountryIcon
   // Called after the last question, with how each asked question was answered:
   // right, close (range questions only) or wrong.
   onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
@@ -36,7 +39,13 @@ type FlashcardProps = {
 // (typed), skipping any not in `questionIds`. The globe question is, at random half the time each, either
 // finding the country (tapped on the globe) or naming the country shown on the
 // globe (typed). Each answer is revealed before moving on.
-export function Flashcard({ country, questionIds, globeKinds, onFinish }: FlashcardProps) {
+export function Flashcard({
+  country,
+  questionIds,
+  globeKinds,
+  countryIcon,
+  onFinish,
+}: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
@@ -63,6 +72,9 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
   const stepId = steps[step]
   const rangeQuestion = questions.find((question) => question.id === stepId)
   const isLastStep = step === steps.length - 1
+  // Showing the flag before the flag question is answered would give it away,
+  // so a question mark stands in for it until then.
+  const hidesFlag = steps.includes('flag') && results.flag === undefined
 
   function submitGlobeAnswer(isCorrect: boolean) {
     const newResults = { ...results, globe: resultFromCorrect(isCorrect) }
@@ -122,11 +134,25 @@ export function Flashcard({ country, questionIds, globeKinds, onFinish }: Flashc
           )}
         </Suspense>
       )}
-      <img
-        className="flashcard__image"
-        src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
-        alt={`Map of ${country.commonName}`}
-      />
+      {countryIcon === 'outline' && (
+        <img
+          className="flashcard__image"
+          src={`${COUNTRY_IMAGES}/${country.isoAlpha3}.webp`}
+          alt={`Map of ${country.commonName}`}
+        />
+      )}
+      {countryIcon === 'flag' && hidesFlag && (
+        <div className="flashcard__image flashcard__hidden-flag" aria-hidden="true">
+          ?
+        </div>
+      )}
+      {countryIcon === 'flag' && !hidesFlag && (
+        <img
+          className="flashcard__image flashcard__flag-image"
+          src={flagImageSrc(country.isoAlpha3)}
+          alt={`Flag of ${country.commonName}`}
+        />
+      )}
       <h2>{country.commonName}</h2>
 
       {stepId === 'flag' && (

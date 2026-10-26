@@ -10,7 +10,13 @@ import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
-import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
+import {
+  loadCountryIcon,
+  loadLearnedQuestionIds,
+  saveCountryIcon,
+  saveLearnedQuestionIds,
+  type CountryIcon,
+} from './shared/settings'
 
 // The map (MapLibre + border data) is large, so it is loaded only when shown.
 // This keeps other screens, like the flashcards, fast to open.
@@ -66,6 +72,8 @@ export default function App() {
   // The information chosen in Settings. Everything else in the app (info
   // panel, Classic and Custom Practice) shows or asks only these.
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
+  // The picture shown for each country in the Passport, chosen in Settings.
+  const [countryIcon, setCountryIcon] = useState<CountryIcon>(loadCountryIcon)
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -100,9 +108,11 @@ export default function App() {
     setPassportFlashcardCode(isoAlpha3)
     setScreen('passport-flashcard')
   }
-  function saveSettings(questionIds: QuestionId[]) {
+  function saveSettings(questionIds: QuestionId[], icon: CountryIcon) {
     saveLearnedQuestionIds(questionIds)
     setLearnedQuestionIds(questionIds)
+    saveCountryIcon(icon)
+    setCountryIcon(icon)
   }
   const goToMenu = () => history.back()
 
@@ -135,6 +145,7 @@ export default function App() {
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={GLOBE_KINDS}
           canDiscoverCountries={true}
+          countryIcon={countryIcon}
           onBack={goToMenu}
         />
       )
@@ -155,6 +166,7 @@ export default function App() {
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={customGlobeKinds}
           canDiscoverCountries={false}
+          countryIcon={countryIcon}
           onBack={goToMenu}
         />
       )
@@ -163,6 +175,7 @@ export default function App() {
       return (
         <SettingsMenu
           learnedQuestionIds={learnedQuestionIds}
+          countryIcon={countryIcon}
           onBack={goToMenu}
           onSave={saveSettings}
         />
@@ -172,6 +185,7 @@ export default function App() {
       return (
         <PassportView
           learnedQuestionIds={learnedQuestionIds}
+          countryIcon={countryIcon}
           onBack={goToMenu}
           onPlayFlashcard={playPassportFlashcard}
         />
@@ -184,6 +198,7 @@ export default function App() {
           key={passportFlashcardCode}
           isoAlpha3={passportFlashcardCode}
           learnedQuestionIds={learnedQuestionIds}
+          countryIcon={countryIcon}
           // Back to the Passport's history entry.
           onBack={() => history.back()}
         />

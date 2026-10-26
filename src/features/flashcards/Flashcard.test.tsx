@@ -71,6 +71,7 @@ describe('Flashcard', () => {
   it("shows the country's picture", () => {
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -84,10 +85,49 @@ describe('Flashcard', () => {
     )
   })
 
+  it('shows a question mark instead of the flag until the flag question is answered', async () => {
+    render(
+      <Flashcard
+        countryIcon="flag"
+        country={france}
+        questionIds={['flag', 'area']}
+        globeKinds={GLOBE_KINDS}
+        onFinish={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByText('?')).toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'Flag of France' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'Map of France' })).not.toBeInTheDocument()
+    await answerFlag('FRA', true)
+
+    expect(screen.queryByText('?')).not.toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Flag of France' })).toHaveAttribute(
+      'src',
+      '/flags/FRA.svg',
+    )
+  })
+
+  it('shows the flag straight away when the flag question is not asked', () => {
+    render(
+      <Flashcard
+        countryIcon="flag"
+        country={france}
+        questionIds={['area']}
+        globeKinds={GLOBE_KINDS}
+        onFinish={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByRole('img', { name: 'Flag of France' })).toBeInTheDocument()
+    expect(screen.queryByText('?')).not.toBeInTheDocument()
+  })
+
   it('asks location, flag, area, population, IHDI, then capital, and reports all right', async () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -124,6 +164,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -157,6 +198,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -199,6 +241,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['flag']}
         globeKinds={GLOBE_KINDS}
@@ -229,6 +272,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['area']}
         globeKinds={GLOBE_KINDS}
@@ -252,6 +296,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -281,6 +326,7 @@ describe('Flashcard', () => {
   it('offers "No data" for IHDI, which is correct for countries without one', async () => {
     render(
       <Flashcard
+        countryIcon="outline"
         country={countryFacts['VAT']}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -302,6 +348,7 @@ describe('Flashcard', () => {
   it('says the IHDI is estimated when the correct answer is our estimate', async () => {
     render(
       <Flashcard
+        countryIcon="outline"
         country={countryFacts['SAU']}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -322,6 +369,7 @@ describe('Flashcard', () => {
   it('accepts any one capital for countries with several', async () => {
     render(
       <Flashcard
+        countryIcon="outline"
         country={countryFacts['ZAF']}
         questionIds={QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
@@ -344,6 +392,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['population', 'capital']}
         globeKinds={GLOBE_KINDS}
@@ -366,6 +415,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['globe', 'area']}
         globeKinds={GLOBE_KINDS}
@@ -383,6 +433,7 @@ describe('Flashcard', () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['globe']}
         globeKinds={GLOBE_KINDS}
@@ -400,6 +451,7 @@ describe('Flashcard', () => {
     vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['globe']}
         globeKinds={['locate']}
@@ -416,6 +468,7 @@ describe('Flashcard', () => {
     vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
     render(
       <Flashcard
+        countryIcon="outline"
         country={france}
         questionIds={['globe']}
         globeKinds={['name']}

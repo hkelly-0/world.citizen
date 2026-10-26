@@ -7,7 +7,12 @@ import { SettingsMenu } from './SettingsMenu'
 describe('SettingsMenu', () => {
   it('lists the 6 kinds of information, ticked if learned', () => {
     render(
-      <SettingsMenu learnedQuestionIds={['globe', 'ihdi']} onBack={vi.fn()} onSave={vi.fn()} />,
+      <SettingsMenu
+        learnedQuestionIds={['globe', 'ihdi']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={vi.fn()}
+      />,
     )
 
     expect(screen.getByText('Information I want to learn:')).toBeInTheDocument()
@@ -21,17 +26,31 @@ describe('SettingsMenu', () => {
 
   it('passes the ticked question types to onSave, in the usual question order', async () => {
     const onSave = vi.fn()
-    render(<SettingsMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onSave={onSave} />)
+    render(
+      <SettingsMenu
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={onSave}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Location' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'IHDI' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
-    expect(onSave).toHaveBeenCalledWith(['flag', 'area', 'population', 'capital'])
+    expect(onSave).toHaveBeenCalledWith(['flag', 'area', 'population', 'capital'], 'outline')
   })
 
   it('starts as a disabled "Saved", becomes "Save" when changed, and is "Saved" again if changed back', async () => {
-    render(<SettingsMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onSave={vi.fn()} />)
+    render(
+      <SettingsMenu
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={vi.fn()}
+      />,
+    )
 
     expect(screen.getByRole('button', { name: 'Saved' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
@@ -41,11 +60,39 @@ describe('SettingsMenu', () => {
   })
 
   it('disables Save when every box is unticked', async () => {
-    render(<SettingsMenu learnedQuestionIds={['area']} onBack={vi.fn()} onSave={vi.fn()} />)
+    render(
+      <SettingsMenu
+        learnedQuestionIds={['area']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={vi.fn()}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled()
+  })
+
+  it('switches the main icon for countries, saved with Save', async () => {
+    const onSave = vi.fn()
+    render(
+      <SettingsMenu
+        learnedQuestionIds={QUESTION_IDS}
+        countryIcon="outline"
+        onBack={vi.fn()}
+        onSave={onSave}
+      />,
+    )
+
+    expect(screen.getByRole('group', { name: 'Main icon for countries' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Outline' })).toHaveAttribute('aria-pressed', 'true')
+    await userEvent.click(screen.getByRole('button', { name: 'Flag' }))
+    expect(screen.getByRole('button', { name: 'Flag' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Outline' })).toHaveAttribute('aria-pressed', 'false')
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+
+    expect(onSave).toHaveBeenCalledWith(QUESTION_IDS, 'flag')
   })
 })

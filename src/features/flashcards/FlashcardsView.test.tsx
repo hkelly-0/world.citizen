@@ -66,6 +66,7 @@ function saveFranceArea(stability: number) {
 function renderFlashcards(questionIds: QuestionId[], canDiscoverCountries: boolean) {
   render(
     <FlashcardsView
+      countryIcon="outline"
       questionIds={questionIds}
       learnedQuestionIds={questionIds}
       globeKinds={['locate']}

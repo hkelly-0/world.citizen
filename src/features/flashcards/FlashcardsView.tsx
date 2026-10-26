@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
+import type { CountryIcon } from '../../shared/settings'
 import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { logCardReviews } from '../../shared/reviewLog'
@@ -42,6 +43,8 @@ type FlashcardsViewProps = {
   // True for Classic. False for Custom Practice, which only shows countries
   // already in the Passport, so new countries are only discovered in Classic.
   canDiscoverCountries: boolean
+  // Whether each card shows the country's outline or flag, chosen in Settings.
+  countryIcon: CountryIcon
   onBack: () => void
 }
 
@@ -62,6 +65,7 @@ export function FlashcardsView({
   learnedQuestionIds,
   globeKinds,
   canDiscoverCountries,
+  countryIcon,
   onBack,
 }: FlashcardsViewProps) {
   // Fixed while the screen is open, so a session past midnight stays consistent.
@@ -187,6 +191,7 @@ export function FlashcardsView({
           country={countryFacts[currentCode]}
           questionIds={questionIds}
           globeKinds={globeKinds}
+          countryIcon={countryIcon}
           onFinish={(results) => finishCard(currentCode, results)}
         />
       )}
