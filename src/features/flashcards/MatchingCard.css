@@ -1,13 +1,14 @@
-/* Two flags per row, like the flag question, so all four fit on a phone. */
-.flag-matching__flags {
+/* Two targets (flags, or country names) per row, like the flag question, so
+   all four fit on a phone. */
+.matching__targets {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-/* A flag with the space for its name below. Turned green or red on Reveal by
+/* A target with the space for its label below. Turned green or red on Reveal by
    --correct and --wrong below. */
-.flag-matching__slot {
+.matching__slot {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -17,33 +18,45 @@
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* Coloured here, after .flag-matching__slot, rather than with the shared
+/* Coloured here, after .matching__slot, rather than with the shared
    .flashcard__option--correct and --wrong, which are only as specific as
-   .flag-matching__slot, so would lose to it if Flashcard.css loaded first. */
-.flag-matching__slot--correct {
+   .matching__slot, so would lose to it if Flashcard.css loaded first. */
+.matching__slot--correct {
   border-color: var(--correct-green);
   background: var(--correct-green-tint);
 }
 
-.flag-matching__slot--wrong {
+.matching__slot--wrong {
   border-color: var(--wrong-red);
   background: var(--wrong-red-tint);
 }
 
-.flag-matching__flag {
+.matching__target {
   padding: 0;
   border: none;
   background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
 }
 
-.flag-matching__flag:disabled {
+.matching__target:disabled {
   cursor: default;
 }
 
-/* The empty space below a flag, the same height as a name in it, so the card
-   doesn't move when one is put there. */
-.flag-matching__space {
+/* A country name as a target in Capital Matching. */
+.matching__country {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* The empty space below a target, the same height as a label in it, so the
+   card doesn't move when one is put there. */
+.matching__space {
   min-height: 40px;
   box-sizing: border-box;
   border: 1px dashed rgba(255, 255, 255, 0.3);
@@ -51,16 +64,16 @@
   cursor: pointer;
 }
 
-/* The right country, under a flag given the wrong name. */
-.flag-matching__answer {
+/* The right label, under a target given the wrong one. */
+.matching__answer {
   color: var(--correct-green);
   font-size: 0.85rem;
   text-align: center;
 }
 
-/* The names not yet on a flag. Kept at least one name tall, so the card
-   doesn't move when the last one is put on a flag. */
-.flag-matching__names {
+/* The labels not yet on a target. Kept at least one label tall, so the card
+   doesn't move when the last one is put on a target. */
+.matching__labels {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -69,7 +82,7 @@
   margin-top: 16px;
 }
 
-.flag-matching__name {
+.matching__label {
   min-height: 40px;
   padding: 4px 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -79,31 +92,31 @@
   font: inherit;
   font-size: 0.85rem;
   cursor: grab;
-  /* Dragging a name mustn't scroll the page or select its text. */
+  /* Dragging a label mustn't scroll the page or select its text. */
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
 }
 
-.flag-matching__name:disabled {
+.matching__label:disabled {
   cursor: default;
 }
 
-/* Tapped, waiting for a flag to be tapped. */
-.flag-matching__name--selected {
+/* Tapped, waiting for a target to be tapped. */
+.matching__label--selected {
   border-color: #f2f4f8;
   background: rgba(255, 255, 255, 0.25);
 }
 
 /* Follows the pointer above everything else on the card. */
-.flag-matching__name--dragged {
+.matching__label--dragged {
   position: relative;
   z-index: 10;
   cursor: grabbing;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-.flag-matching__reveal {
+.matching__reveal {
   width: 100%;
   margin-top: 16px;
 }

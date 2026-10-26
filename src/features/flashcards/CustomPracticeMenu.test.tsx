@@ -5,7 +5,7 @@ import { CustomPracticeMenu } from './CustomPracticeMenu'
 import { QUESTION_IDS } from './deck'
 
 describe('CustomPracticeMenu', () => {
-  it('lists the 12 options, all unticked, with Go disabled', () => {
+  it('lists the 13 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
 
     for (const label of [
@@ -18,6 +18,7 @@ describe('CustomPracticeMenu', () => {
       'Capital',
       'Borders',
       'Flag Matching',
+      'Capital Matching',
       'Ranking - Population',
       'Ranking - Area',
       'Ranking - IHDI',
@@ -89,7 +90,8 @@ describe('CustomPracticeMenu', () => {
   })
 
   it('offers only the question types learned in Settings, plus Borders', () => {
-    // Flag Matching isn't offered, as the flag question isn't learned.
+    // Flag Matching isn't offered, as the flag question isn't learned, but
+    // Capital Matching is.
     render(
       <CustomPracticeMenu
         learnedQuestionIds={['globe', 'capital']}
@@ -103,6 +105,7 @@ describe('CustomPracticeMenu', () => {
       'Name country from globe',
       'Capital',
       'Borders',
+      'Capital Matching',
     ])
   })
   it("offers each Ranking only if its stat's question type is learned", () => {

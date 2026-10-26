@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { loadProgress } from '../../shared/progress'
 import { collectedCountries } from '../passport/passport'
-import { FlagMatchingCard } from './FlagMatchingCard'
-import { FLAG_MATCHING_COUNT } from './flagMatchingQuestion'
+import { MatchingCard } from './MatchingCard'
+import { MATCHING_COUNT } from './matchingQuestion'
 import {
   nextMultiCountryQuestion,
   RANKING_STATS,
@@ -19,7 +19,7 @@ type MultiCountryPracticeViewProps = {
   onBack: () => void
 }
 
-// Custom Practice with Flag Matching and Ranking questions ticked: one
+// Custom Practice with Matching and Ranking questions ticked: one
 // question after another, endlessly, each a random ticked kind
 // (`nextMultiCountryQuestion`). They have no FSRS progress, so nothing is
 // saved and there is no reward between questions.
@@ -46,12 +46,18 @@ export function MultiCountryPracticeView({ questionIds, onBack }: MultiCountryPr
       <BackButton onClick={onBack} />
       {question === null ? (
         <p className="flashcards-view__done">
-          Not enough countries in your Passport yet. Flag Matching needs {FLAG_MATCHING_COUNT}, and
-          a ranking needs {RANKING_COUNT} with different titles. Discover new countries in Classic
-          Mode.
+          Not enough countries in your Passport yet. Matching needs {MATCHING_COUNT}, and a ranking
+          needs {RANKING_COUNT} with different titles. Discover new countries in Classic Mode.
         </p>
       ) : question.id === 'flag-matching' ? (
-        <FlagMatchingCard key={questionNumber} codes={question.codes} onFinish={goToNext} />
+        <MatchingCard key={questionNumber} kind="flag" codes={question.codes} onFinish={goToNext} />
+      ) : question.id === 'capital-matching' ? (
+        <MatchingCard
+          key={questionNumber}
+          kind="capital"
+          codes={question.codes}
+          onFinish={goToNext}
+        />
       ) : (
         <RankingCard
           key={questionNumber}

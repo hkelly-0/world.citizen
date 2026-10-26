@@ -1,3 +1,5 @@
+import { capitalMatchingCountries } from './capitalMatchingQuestion'
+import type { QuestionId } from './deck'
 import { flagMatchingCountries } from './flagMatchingQuestion'
 import { rankingCountries, type RankingStat } from './rankingQuestion'
 
@@ -7,15 +9,26 @@ import { rankingCountries, type RankingStat } from './rankingQuestion'
 // but not alongside the country card questions.
 export const MULTI_COUNTRY_QUESTION_IDS = [
   'flag-matching',
+  'capital-matching',
   'population-ranking',
   'area-ranking',
   'ihdi-ranking',
 ] as const
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
+// Each is only offered in Custom Practice when this question type is learned
+// in Settings.
+export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId> = {
+  'flag-matching': 'flag',
+  'capital-matching': 'capital',
+  'population-ranking': 'population',
+  'area-ranking': 'area',
+  'ihdi-ranking': 'ihdi',
+}
+
 // The statistic each ranking question is about.
 export const RANKING_STATS: Record<
-  Exclude<MultiCountryQuestionId, 'flag-matching'>,
+  Exclude<MultiCountryQuestionId, 'flag-matching' | 'capital-matching'>,
   RankingStat
 > = {
   'population-ranking': 'population',
@@ -27,17 +40,20 @@ export const RANKING_STATS: Record<
 export type MultiCountryQuestion = { id: MultiCountryQuestionId; codes: string[] }
 
 // The countries for a question of kind `id`, or null if the Passport can't
-// make one. Flag Matching never starts from `previous`'s first country, if
-// that was Flag Matching too.
+// make one. A matching question never starts from `previous`'s first country,
+// if that was the same kind of question.
 function questionCountries(
   id: MultiCountryQuestionId,
   passportCodes: string[],
   previous: MultiCountryQuestion | null,
   random: () => number,
 ): string[] | null {
+  const previousFirstCode = previous?.id === id ? previous.codes[0] : null
   if (id === 'flag-matching') {
-    const previousFirstCode = previous?.id === 'flag-matching' ? previous.codes[0] : null
     return flagMatchingCountries(passportCodes, previousFirstCode, random)
+  }
+  if (id === 'capital-matching') {
+    return capitalMatchingCountries(passportCodes, previousFirstCode, random)
   }
   return rankingCountries(RANKING_STATS[id], passportCodes, random)
 }

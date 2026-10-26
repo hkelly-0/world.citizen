@@ -44,4 +44,11 @@ describe('MultiCountryPracticeView', () => {
 
     expect(screen.getByText('Drag to order these countries by population')).toBeInTheDocument()
   })
+  it('matches capitals to Passport countries', () => {
+    savePassport(['FRA', 'ESP', 'ITA', 'DEU'])
+    render(<MultiCountryPracticeView questionIds={['capital-matching']} onBack={vi.fn()} />)
+
+    expect(screen.getByText('Match each capital to its country')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Madrid' })).toBeInTheDocument()
+  })
 })

@@ -29,4 +29,11 @@ describe('nextMultiCountryQuestion', () => {
   it('is null when the Passport can make none of the kinds', () => {
     expect(nextMultiCountryQuestion(['flag-matching'], ['USA', 'DEU', 'CAN'], null)).toBeNull()
   })
+  it('never starts a matching question from the previous one of its kind', () => {
+    const previous = { id: 'capital-matching' as const, codes: PASSPORT }
+    for (let i = 0; i < 10; i++) {
+      const question = nextMultiCountryQuestion(['capital-matching'], PASSPORT, previous)
+      expect(question?.codes[0]).not.toBe('USA')
+    }
+  })
 })

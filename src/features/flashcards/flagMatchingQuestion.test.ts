@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { flagMatchingCountries, placeName } from './flagMatchingQuestion'
+import { flagMatchingCountries } from './flagMatchingQuestion'
 
 describe('flagMatchingCountries', () => {
   // Chad's most similar flags are Romania, Moldova, Belgium, Andorra, Guinea, Mali.
@@ -16,27 +16,5 @@ describe('flagMatchingCountries', () => {
 
   it('is null with fewer than 4 countries in the Passport', () => {
     expect(flagMatchingCountries(['TCD', 'ROU', 'BEL'], null)).toBeNull()
-  })
-})
-
-describe('placeName', () => {
-  it('puts a name on an empty flag', () => {
-    expect(placeName([null, null], 'FRA', 1)).toEqual([null, 'FRA'])
-  })
-
-  it('moves a name from one flag to an empty one', () => {
-    expect(placeName(['FRA', null], 'FRA', 1)).toEqual([null, 'FRA'])
-  })
-
-  it('swaps two names on flags', () => {
-    expect(placeName(['FRA', 'ITA'], 'FRA', 1)).toEqual(['ITA', 'FRA'])
-  })
-
-  it("takes a flag's name off when another name not on a flag is put there", () => {
-    expect(placeName(['FRA', null], 'ITA', 0)).toEqual(['ITA', null])
-  })
-
-  it('takes a name off its flag when moved to no flag', () => {
-    expect(placeName(['FRA', 'ITA'], 'ITA', null)).toEqual(['FRA', null])
   })
 })

@@ -182,10 +182,12 @@ describe('App', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
-    // Borders isn't in Settings, so it is always offered.
-    expect(screen.getAllByRole('checkbox')).toHaveLength(2)
+    // Borders isn't in Settings, so it is always offered; Capital Matching is
+    // offered as Capital is learned.
+    expect(screen.getAllByRole('checkbox')).toHaveLength(3)
     expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: 'Capital Matching' })).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
