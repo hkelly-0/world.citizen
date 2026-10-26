@@ -91,7 +91,7 @@ Generated files are committed; each script lists its download links.
   - `groupId` / `groupName` come from the hand-written `src/data/countryGroups.json`, a partition of the 195 into small groups of neighbours (the script validates it). A group's `id` must never change (it is saved as the user's chosen group); rename by `name`.
 - Group colours: `src/data/countryGroupColours.json` from `node scripts/make-country-group-colours.mjs` (rule in `countryGroupColours.ts`). Rerun after editing groups: existing colours are kept (`--all` repicks), and they can be hand-edited as `hsl(...)`. A test fails if a group lacks a colour or bordering groups' hues are too close. `node scripts/make-country-groups-map.mjs` redraws `docs/country-groups.png`.
 - `src/data/countryNameAlternatives.json` – hand-written other names (read with `alternativeNames`), used by the name question and the search.
-- `src/data/territorySubtitles.json` – hand-written description of each map area outside the 195, keyed by ISO code or map name; `{ISO}` links to that country. Contested areas get neutral wording.
+- `src/data/territorySubtitles.json` – hand-written description of each map area outside the 195, keyed by ISO code or map name (after `FULL_MAP_NAMES` in `countries.ts` writes out Natural Earth's abbreviations); `{ISO}` links to that country. Contested areas get neutral wording.
 
 ## Status
 - Not yet checked on a real phone: the location and name globe questions (especially the name question's bottom panel above the on-screen keyboard).

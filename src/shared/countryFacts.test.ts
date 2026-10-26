@@ -124,7 +124,7 @@ describe('territorySubtitle', () => {
 
   it('splits a subtitle into text and the countries it names', () => {
     const shape: CountryShape = {
-      name: 'N. Cyprus',
+      name: 'North Cyprus',
       isoNumeric: null,
       isoAlpha3: null,
       geometry: { type: 'Polygon', coordinates: [] },

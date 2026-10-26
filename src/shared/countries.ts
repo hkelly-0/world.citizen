@@ -19,6 +19,33 @@ export type CountryShape = {
   geometry: Geometry
 }
 
+// Natural Earth abbreviates some map names, e.g. "Falkland Is."; these are
+// shown in full instead. Only areas outside the 195 countries need this, as
+// the 195 show their name from the country facts.
+const FULL_MAP_NAMES: Record<string, string> = {
+  'N. Mariana Is.': 'Northern Mariana Islands',
+  'U.S. Virgin Is.': 'U.S. Virgin Islands',
+  'S. Geo. and the Is.': 'South Georgia and the South Sandwich Islands',
+  'Br. Indian Ocean Ter.': 'British Indian Ocean Territory',
+  'Pitcairn Is.': 'Pitcairn Islands',
+  'Falkland Is.': 'Falkland Islands',
+  'Cayman Is.': 'Cayman Islands',
+  'British Virgin Is.': 'British Virgin Islands',
+  'Turks and Caicos Is.': 'Turks and Caicos Islands',
+  'Cook Is.': 'Cook Islands',
+  'W. Sahara': 'Western Sahara',
+  'St. Pierre and Miquelon': 'Saint Pierre and Miquelon',
+  'Wallis and Futuna Is.': 'Wallis and Futuna Islands',
+  'St-Martin': 'Saint Martin',
+  'St-Barthélemy': 'Saint Barthélemy',
+  'Fr. Polynesia': 'French Polynesia',
+  'Fr. S. Antarctic Lands': 'French Southern and Antarctic Lands',
+  'Faeroe Is.': 'Faroe Islands',
+  'N. Cyprus': 'North Cyprus',
+  'Indian Ocean Ter.': 'Australian Indian Ocean Territories',
+  'Heard I. and McDonald Is.': 'Heard Island and McDonald Islands',
+}
+
 type WorldAtlasTopology = Topology<{
   countries: GeometryCollection<{ name: string }>
 }>
@@ -38,7 +65,7 @@ export function loadCountryShapes(): CountryShape[] {
       isoNumeric === null ? null : (isoCountries.numericToAlpha3(isoNumeric) ?? null)
 
     return {
-      name: country.properties.name,
+      name: FULL_MAP_NAMES[country.properties.name] ?? country.properties.name,
       isoNumeric,
       isoAlpha3,
       geometry: country.geometry,
