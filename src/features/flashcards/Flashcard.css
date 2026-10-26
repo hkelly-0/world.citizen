@@ -177,8 +177,10 @@
 }
 
 /* A borders box with a wrong answer, or left blank although a bordering
-   country could have gone in it, highlighted like a wrong pick. */
-.flashcard__border-box--wrong {
+   country could have gone in it, highlighted like a wrong pick. Both classes
+   are named so this beats .typed-answer__box in TypedAnswerReveal.css whatever
+   order the two files are loaded in. */
+.typed-answer__box.flashcard__border-box--wrong {
   border-color: var(--wrong-red);
   background: var(--wrong-red-tint);
 }
