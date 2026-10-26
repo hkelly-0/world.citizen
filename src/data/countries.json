@@ -326,7 +326,7 @@
   },
   "BHS": {
     "isoAlpha3": "BHS",
-    "commonName": "Bahamas",
+    "commonName": "The Bahamas",
     "officialName": "Commonwealth of the Bahamas",
     "capitals": [
       "Nassau"
@@ -597,7 +597,7 @@
   },
   "CIV": {
     "isoAlpha3": "CIV",
-    "commonName": "Ivory Coast",
+    "commonName": "Côte d'Ivoire",
     "officialName": "Republic of Côte d'Ivoire",
     "capitals": [
       "Yamoussoukro",
@@ -706,7 +706,7 @@
   },
   "CPV": {
     "isoAlpha3": "CPV",
-    "commonName": "Cape Verde",
+    "commonName": "Cabo Verde",
     "officialName": "Republic of Cabo Verde",
     "capitals": [
       "Praia"
@@ -1174,7 +1174,7 @@
   },
   "GMB": {
     "isoAlpha3": "GMB",
-    "commonName": "Gambia",
+    "commonName": "The Gambia",
     "officialName": "Republic of the Gambia",
     "capitals": [
       "Banjul"
@@ -1409,7 +1409,7 @@
   "IRL": {
     "isoAlpha3": "IRL",
     "commonName": "Ireland",
-    "officialName": "Republic of Ireland",
+    "officialName": "Ireland",
     "capitals": [
       "Dublin"
     ],

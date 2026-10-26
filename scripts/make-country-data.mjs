@@ -40,6 +40,21 @@ const EXTRA_CAPITALS = {
   SWZ: ['Mbabane', 'Lobamba'],
 }
 
+// Our choice of common name where it differs from mledoze's. The names
+// replaced are kept as alternatives in src/data/countryNameAlternatives.json.
+const COMMON_NAMES = {
+  BHS: 'The Bahamas',
+  CIV: "Côte d'Ivoire",
+  CPV: 'Cabo Verde',
+  GMB: 'The Gambia',
+}
+
+// mledoze gives Ireland's description ("Republic of Ireland") rather than its
+// name, which under the constitution is just "Ireland".
+const OFFICIAL_NAMES = {
+  IRL: 'Ireland',
+}
+
 const sources = process.argv[2]
 if (!sources) {
   console.error('Usage: node scripts/make-country-data.mjs <source-folder>')
@@ -194,8 +209,8 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
 
   countries[code] = {
     isoAlpha3: code,
-    commonName: country.name.common,
-    officialName: country.name.official,
+    commonName: COMMON_NAMES[code] ?? country.name.common,
+    officialName: OFFICIAL_NAMES[code] ?? country.name.official,
     capitals: EXTRA_CAPITALS[code] ?? country.capital,
     areaKm2: country.area,
     population: populations[code],
