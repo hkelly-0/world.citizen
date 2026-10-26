@@ -125,7 +125,13 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
     if (selectedIndex === null || map === null) return
 
     const mapHeight = map.getContainer().clientHeight
-    const panelHeight = panelRef.current?.offsetHeight ?? 0
+    const panel = panelRef.current
+    let panelHeight = panel?.offsetHeight ?? 0
+    // The flag sits just above the panel, outside it, so add the space it takes.
+    const flag = panel?.querySelector('.country-info-panel__flag')
+    if (panel && flag) {
+      panelHeight += panel.getBoundingClientRect().top - flag.getBoundingClientRect().top
+    }
     // On a short screen the panel could leave no room, so it gets at most 40%.
     const bottomPadding = Math.min(
       panelHeight + PANEL_BOTTOM_MARGIN + FOCUS_PADDING,

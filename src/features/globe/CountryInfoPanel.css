@@ -18,12 +18,15 @@
   color: #a9b1c2;
 }
 
-/* A fixed height, so the panel is its final size before the image loads (the
-   globe measures it). The width follows the flag's real proportions. */
+/* Sits just above the panel, lined up with its text (the panel's left
+   padding), so it needs the screen to position the panel, as the × does. A
+   fixed height, so the globe can measure it before the image loads. The width
+   follows the flag's real proportions. */
 .country-info-panel__flag {
-  display: block;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 20px;
   height: 48px;
-  margin: 0 0 12px;
 }
 
 .country-info-panel__note {
