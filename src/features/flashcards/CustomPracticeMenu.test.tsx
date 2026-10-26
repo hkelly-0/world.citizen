@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { CustomPracticeMenu } from './CustomPracticeMenu'
@@ -26,6 +26,39 @@ describe('CustomPracticeMenu', () => {
       expect(screen.getByRole('checkbox', { name: label })).not.toBeChecked()
     }
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
+  })
+
+  it('splits the options into Country Fundamentals and Multi-Country Questions', () => {
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+
+    const labelsIn = (heading: string) =>
+      within(screen.getByRole('group', { name: heading }))
+        .getAllByRole('checkbox')
+        .map((box) => box.parentElement!.textContent)
+    expect(labelsIn('Country Fundamentals')).toEqual([
+      'Locate country on globe',
+      'Name country from globe',
+      'Flag',
+      'Area',
+      'Population',
+      'IHDI',
+      'Capital',
+      'Borders',
+    ])
+    expect(labelsIn('Multi-Country Questions')).toEqual([
+      'Flag Matching',
+      'Capital Matching',
+      'Ordering - Population',
+      'Ordering - Area',
+      'Ordering - IHDI',
+    ])
+  })
+
+  it('leaves out Multi-Country Questions when none of them is offered', () => {
+    render(<CustomPracticeMenu learnedQuestionIds={['globe']} onBack={vi.fn()} onGo={vi.fn()} />)
+
+    expect(screen.getByRole('group', { name: 'Country Fundamentals' })).toBeInTheDocument()
+    expect(screen.queryByRole('group', { name: 'Multi-Country Questions' })).toBeNull()
   })
 
   it('passes the ticked question types to onGo, in the usual question order', async () => {

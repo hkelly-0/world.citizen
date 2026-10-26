@@ -30,6 +30,13 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'ihdi-ordering', label: 'Ordering - IHDI' },
 ]
 
+// The choices are shown in two sections: the questions on one country's card,
+// then the multi-country questions.
+const SECTIONS = [
+  { heading: 'Country Fundamentals', isMultiCountrySection: false },
+  { heading: 'Multi-Country Questions', isMultiCountrySection: true },
+]
+
 function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {
   return (MULTI_COUNTRY_QUESTION_IDS as readonly Choice[]).includes(choice)
 }
@@ -89,19 +96,29 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
     <main className="main-menu">
       <BackButton onClick={onBack} />
       <h1 className="custom-practice__title">Select which question types to see today</h1>
-      <fieldset className="custom-practice__choices">
-        {offered.map(({ choice, label }) => (
-          <label key={choice} className="custom-practice__choice">
-            {label}
-            <input
-              type="checkbox"
-              checked={chosen.includes(choice)}
-              disabled={isDisabled(choice)}
-              onChange={() => toggle(choice)}
-            />
-          </label>
-        ))}
-      </fieldset>
+      {SECTIONS.map(({ heading, isMultiCountrySection }) => {
+        const sectionChoices = offered.filter(
+          ({ choice }) => isMultiCountry(choice) === isMultiCountrySection,
+        )
+        // A section with nothing offered (nothing it needs is learned) is left out.
+        if (sectionChoices.length === 0) return null
+        return (
+          <fieldset key={heading} className="custom-practice__choices">
+            <legend className="custom-practice__heading">{heading}</legend>
+            {sectionChoices.map(({ choice, label }) => (
+              <label key={choice} className="custom-practice__choice">
+                {label}
+                <input
+                  type="checkbox"
+                  checked={chosen.includes(choice)}
+                  disabled={isDisabled(choice)}
+                  onChange={() => toggle(choice)}
+                />
+              </label>
+            ))}
+          </fieldset>
+        )
+      })}
       <button
         className="main-menu__option main-menu__option--centered arrow-button"
         onClick={go}
