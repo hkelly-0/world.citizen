@@ -17,8 +17,8 @@ describe('CustomPracticeMenu', () => {
       'IHDI',
       'Capital',
       'Borders',
-      'Flag Matching',
-      'Capital Matching',
+      'Matching - Flags',
+      'Matching - Capitals',
       'Ordering - Population',
       'Ordering - Area',
       'Ordering - IHDI',
@@ -46,8 +46,8 @@ describe('CustomPracticeMenu', () => {
       'Borders',
     ])
     expect(labelsIn('Multi-Country Questions')).toEqual([
-      'Flag Matching',
-      'Capital Matching',
+      'Matching - Flags',
+      'Matching - Capitals',
       'Ordering - Population',
       'Ordering - Area',
       'Ordering - IHDI',
@@ -110,10 +110,10 @@ describe('CustomPracticeMenu', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
-    expect(screen.getByRole('checkbox', { name: 'Flag Matching' })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: 'Matching - Flags' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Ordering - IHDI' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Flag Matching' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Matching - Flags' }))
     expect(screen.getByRole('checkbox', { name: 'Area' })).toBeDisabled()
     expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
     expect(screen.getByRole('checkbox', { name: 'Ordering - Area' })).toBeEnabled()
@@ -138,7 +138,7 @@ describe('CustomPracticeMenu', () => {
       'Name country from globe',
       'Capital',
       'Borders',
-      'Capital Matching',
+      'Matching - Capitals',
     ])
   })
   it("offers each Ordering only if its stat's question type is learned", () => {

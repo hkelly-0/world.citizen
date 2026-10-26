@@ -187,7 +187,7 @@ describe('App', () => {
     expect(screen.getAllByRole('checkbox')).toHaveLength(3)
     expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeInTheDocument()
-    expect(screen.getByRole('checkbox', { name: 'Capital Matching' })).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: 'Matching - Capitals' })).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
