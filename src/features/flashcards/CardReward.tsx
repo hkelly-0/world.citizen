@@ -50,6 +50,8 @@ export function CardReward({
           continueHasArrow ? 'card-reward__continue arrow-button' : 'card-reward__continue'
         }
         onClick={onContinue}
+        // Focused so Enter presses it.
+        autoFocus
       >
         {continueLabel}
       </button>

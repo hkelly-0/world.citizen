@@ -259,6 +259,16 @@ describe('FlashcardsView', () => {
       expect([first, second].sort()).toEqual(['France', 'Germany'])
     })
 
+    it('moves on from the reward when Enter is pressed', async () => {
+      saveAreas(['FRA', 'DEU'], 0.2)
+      renderFlashcards(['area'], false)
+
+      const first = shownCountryName()
+      await answerArea()
+      await userEvent.keyboard('{Enter}')
+      expect(shownCountryName()).not.toBe(first)
+    })
+
     it('with only the borders question, shows only countries with land neighbours', async () => {
       // Iceland is an island, so only France can be asked.
       saveAreas(['FRA', 'ISL'], 0.2)
