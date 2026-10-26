@@ -144,7 +144,7 @@ export function FlagMatchingCard({ codes, onFinish }: FlagMatchingCardProps) {
 
   return (
     <article className="flashcard" aria-label="Flag matching">
-      <p className="flashcard__question">Match each name to its flag</p>
+      <p className="flashcard__question">Match each country to its flag</p>
       <div className="flag-matching__flags">
         {flagCodes.map((flagCode, flagIndex) => {
           const placedCode = placed[flagIndex]
