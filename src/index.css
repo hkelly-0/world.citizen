@@ -35,8 +35,27 @@ body {
 body {
   background: #000010;
   color: #f2f4f8;
-  /* Roboto Mono has no ← or ≥, which fall back to the system's monospace font. */
-  font-family: 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace;
+  /* Roboto Mono has no ←, →, ≥ or ✓, so they come from the symbol fonts below. */
+  font-family:
+    'Roboto Mono', 'Roboto Mono Symbols', 'JetBrains Mono Symbols', ui-monospace, Menlo, Consolas,
+    monospace;
+}
+
+/* Tiny fonts holding only symbols Roboto Mono lacks, from
+   scripts/make-symbol-fonts.mjs. unicode-range keeps them to these characters;
+   add a symbol here as well as in the script. */
+@font-face {
+  font-family: 'Roboto Mono Symbols';
+  font-display: swap;
+  src: url('./assets/fonts/roboto-mono-symbols.woff2') format('woff2');
+  unicode-range: U+2265;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Symbols';
+  font-display: swap;
+  src: url('./assets/fonts/jetbrains-mono-symbols.woff2') format('woff2');
+  unicode-range: U+2190, U+2192, U+2713;
 }
 
 /* An arrow after the text of every button that moves on to something else

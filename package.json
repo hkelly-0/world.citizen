@@ -54,6 +54,7 @@
     "lint-staged": "17.6.0",
     "oxlint": "^1.88.0",
     "prettier": "3.9.10",
+    "subset-font": "^2.9.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
