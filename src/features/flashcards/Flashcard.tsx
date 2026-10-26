@@ -163,6 +163,7 @@ export function Flashcard({
           onAnswer={(chosen) =>
             submitAnswer('flag', chosen, resultFromCorrect(chosen === country.isoAlpha3))
           }
+          onContinue={goToNext}
         />
       )}
       {rangeQuestion !== undefined && (
@@ -172,6 +173,7 @@ export function Flashcard({
           onAnswer={(chosen) =>
             submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
           }
+          onContinue={goToNext}
         />
       )}
       {stepId === 'capital' && (
@@ -205,20 +207,29 @@ type FlagQuestionProps = {
   // The code of the picked flag, or null until one is picked.
   answer: string | null
   onAnswer: (chosen: string) => void
+  // Called when a flag is clicked after answering, like pressing Next.
+  onContinue: () => void
 }
 
 // Four flags in a 2 × 2 grid. Before answering they are labelled only by
 // position, so the names don't give the answer away; after answering, each
-// is named and coloured like the range options.
-function FlagQuestion({ correctCode, offeredCodes, answer, onAnswer }: FlagQuestionProps) {
+// is named and coloured like the range options, and clicking any of them
+// goes on, like Next.
+function FlagQuestion({
+  correctCode,
+  offeredCodes,
+  answer,
+  onAnswer,
+  onContinue,
+}: FlagQuestionProps) {
   const isAnswered = answer !== null
 
   function optionClassName(code: string): string {
-    if (isAnswered && code === correctCode) {
-      return 'flashcard__flag-option flashcard__option--correct'
-    }
-    if (code === answer) return 'flashcard__flag-option flashcard__option--wrong'
-    return 'flashcard__flag-option'
+    if (!isAnswered) return 'flashcard__flag-option'
+    const answered = 'flashcard__flag-option flashcard__option--answered'
+    if (code === correctCode) return `${answered} flashcard__option--correct`
+    if (code === answer) return `${answered} flashcard__option--wrong`
+    return answered
   }
 
   return (
@@ -229,8 +240,7 @@ function FlagQuestion({ correctCode, offeredCodes, answer, onAnswer }: FlagQuest
           <button
             key={code}
             className={optionClassName(code)}
-            onClick={() => onAnswer(code)}
-            disabled={isAnswered}
+            onClick={() => (isAnswered ? onContinue() : onAnswer(code))}
             aria-label={isAnswered ? `Flag of ${countryFacts[code].commonName}` : `Flag ${i + 1}`}
           >
             <img className="flashcard__flag" src={flagImageSrc(code)} alt="" />
@@ -248,21 +258,25 @@ type RangeQuestionViewProps = {
   question: RangeQuestion
   answer: string | null
   onAnswer: (chosen: string) => void
+  // Called when an option is clicked after answering, like pressing Next.
+  onContinue: () => void
 }
 
-function RangeQuestionView({ question, answer, onAnswer }: RangeQuestionViewProps) {
+// After answering, clicking any option goes on, like Next.
+function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQuestionViewProps) {
   const isAnswered = answer !== null
 
   // After answering, the correct option turns green and a wrong pick turns red,
   // or orange if it was one title away.
   function optionClassName(option: string): string {
     if (!isAnswered) return 'flashcard__option'
-    if (option === question.correctAnswer) return 'flashcard__option flashcard__option--correct'
+    const answered = 'flashcard__option flashcard__option--answered'
+    if (option === question.correctAnswer) return `${answered} flashcard__option--correct`
     if (option === answer && rangeAnswerResult(question, answer) === 'close') {
-      return 'flashcard__option flashcard__option--close'
+      return `${answered} flashcard__option--close`
     }
-    if (option === answer) return 'flashcard__option flashcard__option--wrong'
-    return 'flashcard__option'
+    if (option === answer) return `${answered} flashcard__option--wrong`
+    return answered
   }
 
   return (
@@ -273,8 +287,7 @@ function RangeQuestionView({ question, answer, onAnswer }: RangeQuestionViewProp
           <button
             key={option}
             className={optionClassName(option)}
-            onClick={() => onAnswer(option)}
-            disabled={isAnswered}
+            onClick={() => (isAnswered ? onContinue() : onAnswer(option))}
           >
             {option}
           </button>

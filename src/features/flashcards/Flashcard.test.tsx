@@ -215,9 +215,9 @@ describe('Flashcard', () => {
     expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
-    // Options can't be changed once answered.
-    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toBeDisabled()
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    // Once answered, clicking any option goes on, like Next, without changing the answer.
+    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
+    expect(screen.getByText('Population?')).toBeInTheDocument()
 
     await answerRangeQuestion('≥ 50M  /  Numerous')
     await answerRangeQuestion('8  /  Great')
@@ -237,7 +237,7 @@ describe('Flashcard', () => {
     })
   })
 
-  it('offers four flags, names them once answered, and counts a wrong pick as wrong', async () => {
+  it('offers four flags, names them once answered, counts a wrong pick as wrong, then goes on when one is clicked', async () => {
     const onFinish = vi.fn()
     render(
       <Flashcard
@@ -258,13 +258,14 @@ describe('Flashcard', () => {
 
     // Once answered, each flag is labelled with its country.
     expect(wrongFlag).toHaveClass('flashcard__option--wrong')
-    expect(wrongFlag).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Flag of France' })).toHaveClass(
       'flashcard__option--correct',
     )
     expect(screen.getByText('France', { selector: '.flashcard__flag-name' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    // Clicking a flag now goes on, like Next, and doesn't change the answer.
+    await userEvent.click(screen.getByRole('button', { name: 'Flag of France' }))
 
+    expect(onFinish).toHaveBeenCalledTimes(1)
     expect(onFinish).toHaveBeenCalledWith({ flag: 'wrong' })
   })
 

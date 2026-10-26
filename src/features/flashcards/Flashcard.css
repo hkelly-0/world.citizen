@@ -74,16 +74,13 @@
   cursor: pointer;
 }
 
-.flashcard__option:hover:not(:disabled),
-.flashcard__flag-option:hover:not(:disabled),
+/* Once answered, the options keep their colours on hover. They are still
+   clickable: a click goes on, like Next. */
+.flashcard__option:not(.flashcard__option--answered):hover,
+.flashcard__flag-option:not(.flashcard__option--answered):hover,
 .flashcard__check:hover,
 .flashcard__next:hover {
   background: rgba(255, 255, 255, 0.14);
-}
-
-.flashcard__option:disabled,
-.flashcard__flag-option:disabled {
-  cursor: default;
 }
 
 .flashcard__option--correct {
