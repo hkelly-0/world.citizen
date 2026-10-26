@@ -25,7 +25,7 @@ import { loadCountryShapes } from '../src/shared/countries.ts'
 const OUTPUT = 'src/data/countryNeighbours.json'
 
 // How many of each country's nearest others are saved.
-const NEIGHBOURS_KEPT = 10
+const NEIGHBOURS_KEPT = 15
 
 const EARTH_RADIUS_KM = 6371
 const DEGREES_TO_RADIANS = Math.PI / 180
