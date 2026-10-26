@@ -13,7 +13,7 @@ import { latitudeZoomOut } from './latitudeZoom'
 
 const PHONE_MIN_ZOOM_AT_EQUATOR = 1.3
 const WIDE_SCREEN_MIN_ZOOM_AT_EQUATOR = 1.8
-const MAX_ZOOM_AT_EQUATOR = 6
+const MAX_ZOOM_AT_EQUATOR = 7
 
 // latitude is the centre of the map, in degrees; mapWidthPx is the map's width.
 export function zoomLimitsFor(

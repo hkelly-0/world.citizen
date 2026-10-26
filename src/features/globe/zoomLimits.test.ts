@@ -3,7 +3,7 @@ import { zoomLimitsFor } from './zoomLimits'
 
 describe('zoomLimitsFor', () => {
   it('uses the phone minimum at the equator on a narrow map', () => {
-    expect(zoomLimitsFor(0, 400)).toEqual({ minZoom: 1.3, maxZoom: 6 })
+    expect(zoomLimitsFor(0, 400)).toEqual({ minZoom: 1.3, maxZoom: 7 })
   })
 
   it('uses the laptop minimum at the equator on a wide map', () => {
@@ -14,7 +14,7 @@ describe('zoomLimitsFor', () => {
     // MapLibre's globe adjusts the minimum for latitude itself.
     const { minZoom, maxZoom } = zoomLimitsFor(60, 400)
     expect(minZoom).toBe(1.3)
-    expect(maxZoom).toBeCloseTo(5)
+    expect(maxZoom).toBeCloseTo(6)
   })
 
   it('is the same in both hemispheres and stops changing past 85.05°, like MapLibre', () => {
