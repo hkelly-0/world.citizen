@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { GLOBE_KINDS, QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
+import {
+  MULTI_COUNTRY_QUESTION_IDS,
+  RANKING_STATS,
+  type MultiCountryQuestionId,
+} from './multiCountryQuestions'
 // Same layout and buttons as the main menu.
 import '../menu/MainMenu.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
-// Borders and Flag Matching aren't question types: they have no FSRS progress
-// and aren't in Settings.
-type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | 'borders' | 'flag-matching'
+// Borders and the multi-country questions (Flag Matching and the Rankings)
+// aren't question types: they have no FSRS progress and aren't in Settings.
+type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | 'borders' | MultiCountryQuestionId
 const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'locate', label: 'Locate country on globe' },
   { choice: 'name', label: 'Name country from globe' },
@@ -19,41 +24,51 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'capital', label: 'Capital' },
   { choice: 'borders', label: 'Borders' },
   { choice: 'flag-matching', label: 'Flag Matching' },
+  { choice: 'population-ranking', label: 'Ranking - Population' },
+  { choice: 'area-ranking', label: 'Ranking - Area' },
+  { choice: 'ihdi-ranking', label: 'Ranking - IHDI' },
 ]
+
+function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {
+  return (MULTI_COUNTRY_QUESTION_IDS as readonly Choice[]).includes(choice)
+}
 
 type CustomPracticeMenuProps = {
   // The question types chosen in Settings; only these are offered (both globe
   // options if 'globe' is one of them), plus Borders, which is always offered,
-  // and Flag Matching, offered if 'flag' is one of them.
+  // Flag Matching, offered if 'flag' is one of them, and each Ranking, offered
+  // if its stat's question type is one of them.
   learnedQuestionIds: QuestionId[]
   onBack: () => void
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
   // question were ticked (in the order of GLOBE_KINDS), whether Borders was,
-  // and whether Flag Matching was (in which case nothing else was).
+  // and which multi-country questions were (in the order of
+  // MULTI_COUNTRY_QUESTION_IDS; if any were, nothing else was).
   onGo: (
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
     asksBorders: boolean,
-    asksFlagMatching: boolean,
+    multiCountryQuestionIds: MultiCountryQuestionId[],
   ) => void
 }
 
 // Lets the user tick which questions to practise. "Go" needs at least one.
-// Flag Matching is practised alone: while it is ticked the other boxes are
-// disabled, and while any other is ticked it is.
+// The multi-country questions are practised apart from the rest: while any of
+// them is ticked the other boxes are disabled, and the other way round.
 export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
   const [chosen, setChosen] = useState<Choice[]>([])
   const offered = CHOICES.filter(({ choice }) => {
     if (choice === 'borders') return true
     if (choice === 'flag-matching') return learnedQuestionIds.includes('flag')
+    if (isMultiCountry(choice)) return learnedQuestionIds.includes(RANKING_STATS[choice])
     return learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice)
   })
 
-  const isFlagMatchingChosen = chosen.includes('flag-matching')
+  const isMultiCountryChosen = chosen.some(isMultiCountry)
   function isDisabled(choice: Choice): boolean {
-    if (choice === 'flag-matching') return chosen.length > 0 && !isFlagMatchingChosen
-    return isFlagMatchingChosen
+    if (chosen.length === 0) return false
+    return isMultiCountry(choice) !== isMultiCountryChosen
   }
 
   function toggle(choice: Choice) {
@@ -67,7 +82,8 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
     const questionIds = QUESTION_IDS.filter((id) =>
       id === 'globe' ? globeKinds.length > 0 : chosen.includes(id),
     )
-    onGo(questionIds, globeKinds, chosen.includes('borders'), isFlagMatchingChosen)
+    const multiCountryQuestionIds = MULTI_COUNTRY_QUESTION_IDS.filter((id) => chosen.includes(id))
+    onGo(questionIds, globeKinds, chosen.includes('borders'), multiCountryQuestionIds)
   }
 
   return (

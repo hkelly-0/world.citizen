@@ -3,7 +3,7 @@ import { State } from 'ts-fsrs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { saveProgress } from '../../shared/progress'
 import { todayString } from './dates'
-import { FlagMatchingView } from './FlagMatchingView'
+import { MultiCountryPracticeView } from './MultiCountryPracticeView'
 
 // Puts the countries in the Passport, each with its flag answered today.
 function savePassport(codes: string[]) {
@@ -18,24 +18,30 @@ function savePassport(codes: string[]) {
   saveProgress(Object.fromEntries(codes.map((code) => [code, { flag }])))
 }
 
-describe('FlagMatchingView', () => {
+describe('MultiCountryPracticeView', () => {
   beforeEach(() => {
     localStorage.clear()
   })
 
-  it('asks for more countries with fewer than 4 in the Passport', () => {
+  it('asks for more countries when the Passport can make no question', () => {
     savePassport(['TCD', 'ROU', 'BEL'])
-    render(<FlagMatchingView onBack={vi.fn()} />)
+    render(<MultiCountryPracticeView questionIds={['flag-matching']} onBack={vi.fn()} />)
 
-    expect(screen.getByText(/needs at least 4 countries in your Passport/)).toBeInTheDocument()
+    expect(screen.getByText(/Not enough countries in your Passport yet/)).toBeInTheDocument()
   })
 
   it('matches Passport countries', () => {
     savePassport(['TCD', 'ROU', 'BEL', 'GIN'])
-    render(<FlagMatchingView onBack={vi.fn()} />)
+    render(<MultiCountryPracticeView questionIds={['flag-matching']} onBack={vi.fn()} />)
 
     for (const name of ['Chad', 'Romania', 'Belgium', 'Guinea']) {
       expect(screen.getByRole('button', { name })).toBeInTheDocument()
     }
+  })
+  it('ranks Passport countries', () => {
+    savePassport(['USA', 'DEU', 'CAN', 'ISL'])
+    render(<MultiCountryPracticeView questionIds={['population-ranking']} onBack={vi.fn()} />)
+
+    expect(screen.getByText('Drag to order these countries by population')).toBeInTheDocument()
   })
 })

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { flagMatchingCountries, placeName, shuffled } from './flagMatchingQuestion'
+import { flagMatchingCountries, placeName } from './flagMatchingQuestion'
 
 describe('flagMatchingCountries', () => {
   // Chad's most similar flags are Romania, Moldova, Belgium, Andorra, Guinea, Mali.
@@ -16,13 +16,6 @@ describe('flagMatchingCountries', () => {
 
   it('is null with fewer than 4 countries in the Passport', () => {
     expect(flagMatchingCountries(['TCD', 'ROU', 'BEL'], null)).toBeNull()
-  })
-})
-
-describe('shuffled', () => {
-  it('keeps every item, in an order chosen by `random`', () => {
-    expect(shuffled(['a', 'b', 'c'], () => 0)).toEqual(['a', 'b', 'c'])
-    expect(shuffled(['a', 'b', 'c'], () => 0.99)).toEqual(['c', 'b', 'a'])
   })
 })
 

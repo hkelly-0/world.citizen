@@ -27,18 +27,6 @@ export function flagMatchingCountries(
   return [firstCode, ...mostSimilar]
 }
 
-// A copy of `items` in a random order. `random` is a parameter so tests can
-// make the order predictable.
-export function shuffled<T>(items: T[], random: () => number = Math.random): T[] {
-  const remaining = [...items]
-  const result: T[] = []
-  while (remaining.length > 0) {
-    const index = Math.floor(random() * remaining.length)
-    result.push(remaining.splice(index, 1)[0])
-  }
-  return result
-}
-
 // The name placed on each flag: `placed[i]` is the country code whose name is
 // on the i-th flag shown, or null if that flag has no name on it yet.
 export type FlagPlacements = (string | null)[]

@@ -1,0 +1,80 @@
+/* "Highest" above the tiles and "Lowest" below them. */
+.ranking__end {
+  margin: 0;
+  color: #a9b1c2;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.ranking__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Turned green or red on Reveal by --correct and --wrong below. */
+.ranking__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font: inherit;
+  cursor: grab;
+  /* Dragging a tile mustn't scroll the page or select its text. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ranking__tile:disabled {
+  cursor: default;
+}
+
+/* Tapped, waiting for another tile to be tapped. */
+.ranking__tile--selected {
+  border-color: #f2f4f8;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Follows the pointer above the other tiles. */
+.ranking__tile--dragged {
+  position: relative;
+  z-index: 10;
+  cursor: grabbing;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Coloured here, after .ranking__tile, rather than with the shared
+   .flashcard__option--correct and --wrong, which are only as specific as
+   .ranking__tile, so would lose to it if Flashcard.css loaded first. */
+.ranking__tile--correct {
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
+}
+
+.ranking__tile--wrong {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
+}
+
+/* The country's range title, shown on Reveal. */
+.ranking__title {
+  color: #a9b1c2;
+  font-size: 0.85rem;
+}
+
+.ranking__reveal {
+  width: 100%;
+  margin-top: 16px;
+}

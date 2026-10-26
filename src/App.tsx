@@ -2,8 +2,9 @@ import { Fragment, lazy, Suspense, useEffect, useState } from 'react'
 import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
 import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
-import { FlagMatchingView } from './features/flashcards/FlagMatchingView'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
+import type { MultiCountryQuestionId } from './features/flashcards/multiCountryQuestions'
+import { MultiCountryPracticeView } from './features/flashcards/MultiCountryPracticeView'
 import { MainMenu } from './features/menu/MainMenu'
 import { collectedCountries } from './features/passport/passport'
 import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
@@ -61,8 +62,8 @@ function customGlobeKindsInHistory(): GlobeKind[] {
 function customAsksBordersInHistory(): boolean {
   return history.state?.asksBorders ?? false
 }
-function customAsksFlagMatchingInHistory(): boolean {
-  return history.state?.asksFlagMatching ?? false
+function customMultiCountryQuestionIdsInHistory(): MultiCountryQuestionId[] {
+  return history.state?.multiCountryQuestionIds ?? []
 }
 // The country whose card is played from the Passport, kept the same way.
 function passportFlashcardCodeInHistory(): string | null {
@@ -77,9 +78,9 @@ export default function App() {
   )
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
   const [customAsksBorders, setCustomAsksBorders] = useState<boolean>(customAsksBordersInHistory)
-  const [customAsksFlagMatching, setCustomAsksFlagMatching] = useState<boolean>(
-    customAsksFlagMatchingInHistory,
-  )
+  const [customMultiCountryQuestionIds, setCustomMultiCountryQuestionIds] = useState<
+    MultiCountryQuestionId[]
+  >(customMultiCountryQuestionIdsInHistory)
   const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
     passportFlashcardCodeInHistory,
   )
@@ -113,16 +114,22 @@ export default function App() {
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
     asksBorders: boolean,
-    asksFlagMatching: boolean,
+    multiCountryQuestionIds: MultiCountryQuestionId[],
   ) {
     history.replaceState(
-      { screen: 'custom-flashcards', questionIds, globeKinds, asksBorders, asksFlagMatching },
+      {
+        screen: 'custom-flashcards',
+        questionIds,
+        globeKinds,
+        asksBorders,
+        multiCountryQuestionIds,
+      },
       '',
     )
     setCustomQuestionIds(questionIds)
     setCustomGlobeKinds(globeKinds)
     setCustomAsksBorders(asksBorders)
-    setCustomAsksFlagMatching(asksFlagMatching)
+    setCustomMultiCountryQuestionIds(multiCountryQuestionIds)
     setScreen('custom-flashcards')
   }
   // Opens a country's card from the Passport, with its own history entry, so
@@ -184,9 +191,11 @@ export default function App() {
         />
       )
     }
-    // Flag Matching is only ever practised alone.
-    if (screen === 'custom-flashcards' && customAsksFlagMatching) {
-      return <FlagMatchingView onBack={goToMenu} />
+    // The multi-country questions are never practised alongside the others.
+    if (screen === 'custom-flashcards' && customMultiCountryQuestionIds.length > 0) {
+      return (
+        <MultiCountryPracticeView questionIds={customMultiCountryQuestionIds} onBack={goToMenu} />
+      )
     }
     if (screen === 'custom-flashcards') {
       return (

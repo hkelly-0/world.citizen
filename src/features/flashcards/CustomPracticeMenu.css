@@ -44,7 +44,8 @@
   background: none;
 }
 
-/* Can't be ticked alongside Flag Matching (or Flag Matching alongside it). */
+/* Can't be ticked alongside the boxes already ticked: the multi-country
+   questions and the rest are practised apart. */
 .custom-practice__choice:has(input:disabled) {
   opacity: 0.4;
   cursor: default;

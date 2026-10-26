@@ -1,8 +1,9 @@
 import { useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
+import { shuffled } from '../../shared/shuffled'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
-import { placeName, shuffled, type FlagPlacements } from './flagMatchingQuestion'
+import { placeName, type FlagPlacements } from './flagMatchingQuestion'
 import './Flashcard.css'
 import './FlagMatchingCard.css'
 
