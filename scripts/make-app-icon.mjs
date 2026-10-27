@@ -1,5 +1,5 @@
-// Draws the app icon: a light blue person outline (ring and shoulders) on
-// black, whose head is a globe facing the Americas (light blue sea, green land).
+// Draws the app icon: a white person outline (ring and shoulders) on
+// black, whose head is a globe facing the Americas (white sea, green land).
 // The land is Natural Earth 1:110m from world-atlas, simple enough to read at
 // launcher size. Run from the project root; the icons are committed.
 // The main menu draws a spinning copy of this design in
@@ -31,22 +31,22 @@ const DESIGN_SIZE = 1024
 const CENTRE = DESIGN_SIZE / 2
 
 const BACKGROUND_COLOR = '#000010'
-const PERSON_COLOR = '#99ddff'
-// The same light blue as the ring and shoulders.
+const PERSON_COLOR = '#ffffff'
+// The same white as the ring and shoulders.
 const SEA_COLOR = PERSON_COLOR
 const LAND_COLOR = '#009900'
 
 // The ring around the person.
 const RING_RADIUS = 440
-const RING_WIDTH = 34
+const RING_WIDTH = 28
 const RING_OUTER_RADIUS = RING_RADIUS + RING_WIDTH / 2
 // The globe head.
-const HEAD_CENTRE_Y = 415
-const HEAD_RADIUS = 225
+const HEAD_CENTRE_Y = 445
+const HEAD_RADIUS = 240
 // The shoulders are the top of a large oval, wider than it is tall, cut off by
 // the ring.
-const SHOULDERS_CENTRE_Y = 965
-const SHOULDERS_HALF_WIDTH = 370
+const SHOULDERS_CENTRE_Y = 1010
+const SHOULDERS_HALF_WIDTH = 310
 const SHOULDERS_HALF_HEIGHT = 280
 
 // The point on the globe facing the viewer: between North and South America.

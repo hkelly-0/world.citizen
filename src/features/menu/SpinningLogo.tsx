@@ -11,19 +11,19 @@ import logoLand from '../../data/logoLand.json' with { type: 'json' }
 // icons; change both together.
 
 const BACKGROUND_COLOR = '#000010'
-const PERSON_COLOR = '#99ddff'
+const PERSON_COLOR = '#ffffff'
 const SEA_COLOR = PERSON_COLOR
 const LAND_COLOR = '#009900'
 
 // Design coordinates, on a 1024 square.
 const CENTRE = 512
 const RING_RADIUS = 440
-const RING_WIDTH = 34
+const RING_WIDTH = 28
 const RING_OUTER_RADIUS = RING_RADIUS + RING_WIDTH / 2
-const HEAD_CENTRE_Y = 415
-const HEAD_RADIUS = 225
-const SHOULDERS_CENTRE_Y = 965
-const SHOULDERS_HALF_WIDTH = 370
+const HEAD_CENTRE_Y = 445
+const HEAD_RADIUS = 240
+const SHOULDERS_CENTRE_Y = 1010
+const SHOULDERS_HALF_WIDTH = 310
 const SHOULDERS_HALF_HEIGHT = 280
 
 // Where the globe faces when the menu opens (and stays, unless swiped, if the
