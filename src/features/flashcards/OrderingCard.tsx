@@ -151,48 +151,51 @@ export function OrderingCard({ stat, codes, onFinish }: OrderingCardProps) {
 
   return (
     <article className="flashcard" aria-label="Ordering">
-      <p className="flashcard__question">Drag to order these countries by {STAT_NAMES[stat]}</p>
-      <div className="ordering__body">
-        <ol className="ordering__list">
-          {order.map((code, index) => {
-            const isDragged = drag?.code === code && drag.isDragging
-            const title = orderingTitle(stat, code)!
-            return (
-              <li key={code}>
-                <button
-                  type="button"
-                  ref={(element) => {
-                    if (element === null) tileElements.current.delete(code)
-                    else tileElements.current.set(code, element)
-                  }}
-                  className={tileClassName(code, index)}
-                  style={isDragged ? { transform: `translateY(${drag.dy}px)` } : undefined}
-                  disabled={phase !== 'ordering'}
-                  aria-pressed={selected === code}
-                  onPointerDown={(event) => startDrag(event, code)}
-                  onPointerMove={moveDrag}
-                  onPointerUp={endDrag}
-                  onPointerCancel={() => setDrag(null)}
-                  onClick={() => tapTile(code)}
-                >
-                  <span>{countryFacts[code].commonName}</span>
-                  {phase === 'revealed' && (
-                    <span className="ordering__title">
-                      {title.title}
-                      {title.isEstimate && ' (estimated)'}
-                    </span>
-                  )}
-                </button>
-              </li>
-            )
-          })}
-        </ol>
-        {/* To the right of the tiles: an arrow pointing up, from "Lowest" at
+      {/* Centred in the space above the bottom button. */}
+      <div className="flashcard__body">
+        <p className="flashcard__question">Drag to order these countries by {STAT_NAMES[stat]}</p>
+        <div className="ordering__body">
+          <ol className="ordering__list">
+            {order.map((code, index) => {
+              const isDragged = drag?.code === code && drag.isDragging
+              const title = orderingTitle(stat, code)!
+              return (
+                <li key={code}>
+                  <button
+                    type="button"
+                    ref={(element) => {
+                      if (element === null) tileElements.current.delete(code)
+                      else tileElements.current.set(code, element)
+                    }}
+                    className={tileClassName(code, index)}
+                    style={isDragged ? { transform: `translateY(${drag.dy}px)` } : undefined}
+                    disabled={phase !== 'ordering'}
+                    aria-pressed={selected === code}
+                    onPointerDown={(event) => startDrag(event, code)}
+                    onPointerMove={moveDrag}
+                    onPointerUp={endDrag}
+                    onPointerCancel={() => setDrag(null)}
+                    onClick={() => tapTile(code)}
+                  >
+                    <span>{countryFacts[code].commonName}</span>
+                    {phase === 'revealed' && (
+                      <span className="ordering__title">
+                        {title.title}
+                        {title.isEstimate && ' (estimated)'}
+                      </span>
+                    )}
+                  </button>
+                </li>
+              )
+            })}
+          </ol>
+          {/* To the right of the tiles: an arrow pointing up, from "Lowest" at
             the bottom to "Highest" at the top. */}
-        <div className="ordering__scale">
-          <span className="ordering__end">Highest</span>
-          <div className="ordering__arrow" />
-          <span className="ordering__end">Lowest</span>
+          <div className="ordering__scale">
+            <span className="ordering__end">Highest</span>
+            <div className="ordering__arrow" />
+            <span className="ordering__end">Lowest</span>
+          </div>
         </div>
       </div>
       {phase === 'revealed' && (

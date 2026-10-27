@@ -1,11 +1,26 @@
 .flashcard {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 420px;
+  /* Every card is at least this tall (chosen by eye), so most cards don't
+     change size from one question to the next. A taller card grows downward
+     and the screen scrolls. */
+  min-height: 620px;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 12px;
   background: rgba(15, 20, 35, 0.9);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* The question, centred in whatever height the card has spare. The picture
+   and name above it stay at the top and the Next button at the bottom. */
+.flashcard__body {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Square picture of the country, kept small so the options fit on a phone. */
@@ -135,6 +150,13 @@
 
 .flashcard__next {
   width: 100%;
+  margin-top: 16px;
+}
+
+/* Keeps the Next button's spot until it appears. */
+.flashcard__next-space {
+  flex-shrink: 0;
+  height: 44px;
   margin-top: 16px;
 }
 

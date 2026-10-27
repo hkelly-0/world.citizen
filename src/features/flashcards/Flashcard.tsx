@@ -182,51 +182,58 @@ export function Flashcard({
       )}
       <h2>{country.commonName}</h2>
 
-      {stepId === 'flag' && (
-        <FlagQuestion
-          correctCode={country.isoAlpha3}
-          offeredCodes={offeredFlags}
-          answer={answer}
-          onAnswer={(chosen) =>
-            submitAnswer('flag', chosen, resultFromCorrect(chosen === country.isoAlpha3))
-          }
-          onContinue={goToNext}
-        />
-      )}
-      {rangeQuestion !== undefined && (
-        <RangeQuestionView
-          question={rangeQuestion}
-          answer={answer}
-          onAnswer={(chosen) =>
-            submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
-          }
-          onContinue={goToNext}
-        />
-      )}
-      {stepId === 'capital' && (
-        <CapitalQuestion
-          country={country}
-          typedCapital={typedCapital}
-          onTypedCapitalChange={setTypedCapital}
-          onSubmit={submitCapital}
-          answer={answer}
-        />
-      )}
-      {stepId === 'borders' && (
-        <BordersQuestion
-          country={country}
-          borderCodes={borderCodes}
-          typedBorders={typedBorders}
-          onTypedBordersChange={setTypedBorders}
-          onSubmit={submitBorders}
-          isAnswered={answer !== null}
-        />
-      )}
+      {/* Centred in the space between the name and the Next button. */}
+      <div className="flashcard__body">
+        {stepId === 'flag' && (
+          <FlagQuestion
+            correctCode={country.isoAlpha3}
+            offeredCodes={offeredFlags}
+            answer={answer}
+            onAnswer={(chosen) =>
+              submitAnswer('flag', chosen, resultFromCorrect(chosen === country.isoAlpha3))
+            }
+            onContinue={goToNext}
+          />
+        )}
+        {rangeQuestion !== undefined && (
+          <RangeQuestionView
+            question={rangeQuestion}
+            answer={answer}
+            onAnswer={(chosen) =>
+              submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
+            }
+            onContinue={goToNext}
+          />
+        )}
+        {stepId === 'capital' && (
+          <CapitalQuestion
+            country={country}
+            typedCapital={typedCapital}
+            onTypedCapitalChange={setTypedCapital}
+            onSubmit={submitCapital}
+            answer={answer}
+          />
+        )}
+        {stepId === 'borders' && (
+          <BordersQuestion
+            country={country}
+            borderCodes={borderCodes}
+            typedBorders={typedBorders}
+            onTypedBordersChange={setTypedBorders}
+            onSubmit={submitBorders}
+            isAnswered={answer !== null}
+          />
+        )}
+      </div>
 
-      {answer !== null && (
+      {/* Until answered, an empty space keeps Next's spot so the question
+          doesn't move when Next appears. */}
+      {answer !== null ? (
         <button className="flashcard__next arrow-button" onClick={goToNext} autoFocus>
           Next
         </button>
+      ) : (
+        <div className="flashcard__next-space" aria-hidden="true" />
       )}
     </article>
   )

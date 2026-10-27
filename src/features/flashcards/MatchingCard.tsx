@@ -172,47 +172,50 @@ export function MatchingCard({ kind, codes, onFinish }: MatchingCardProps) {
       className="flashcard"
       aria-label={kind === 'flag' ? 'Flag matching' : 'Capital matching'}
     >
-      <p className="flashcard__question">{QUESTIONS[kind]}</p>
-      <div className="matching__targets">
-        {targetCodes.map((targetCode, targetIndex) => {
-          const placedCode = placed[targetIndex]
-          return (
-            <div
-              key={targetCode}
-              className={slotClassName(targetIndex)}
-              data-target-index={targetIndex}
-            >
-              <button
-                type="button"
-                className="matching__target"
-                disabled={isRevealed}
-                onClick={() => tapTarget(targetIndex)}
-                aria-label={targetLabel(targetCode, targetIndex)}
+      {/* Centred in the space above the bottom button. */}
+      <div className="flashcard__body">
+        <p className="flashcard__question">{QUESTIONS[kind]}</p>
+        <div className="matching__targets">
+          {targetCodes.map((targetCode, targetIndex) => {
+            const placedCode = placed[targetIndex]
+            return (
+              <div
+                key={targetCode}
+                className={slotClassName(targetIndex)}
+                data-target-index={targetIndex}
               >
-                {kind === 'flag' ? (
-                  <img className="flashcard__flag" src={flagImageSrc(targetCode)} alt="" />
+                <button
+                  type="button"
+                  className="matching__target"
+                  disabled={isRevealed}
+                  onClick={() => tapTarget(targetIndex)}
+                  aria-label={targetLabel(targetCode, targetIndex)}
+                >
+                  {kind === 'flag' ? (
+                    <img className="flashcard__flag" src={flagImageSrc(targetCode)} alt="" />
+                  ) : (
+                    <span className="matching__country">{countryFacts[targetCode].commonName}</span>
+                  )}
+                </button>
+                {placedCode === null ? (
+                  // Tapping the empty space works like tapping the target.
+                  <div className="matching__space" onClick={() => tapTarget(targetIndex)} />
                 ) : (
-                  <span className="matching__country">{countryFacts[targetCode].commonName}</span>
+                  labelButton(placedCode)
                 )}
-              </button>
-              {placedCode === null ? (
-                // Tapping the empty space works like tapping the target.
-                <div className="matching__space" onClick={() => tapTarget(targetIndex)} />
-              ) : (
-                labelButton(placedCode)
-              )}
-              {isRevealed && placedCode !== targetCode && (
-                <span className="matching__answer">{labelText(kind, targetCode)}</span>
-              )}
-            </div>
-          )
-        })}
-      </div>
-      {!isRevealed && (
-        <div className="matching__labels" onClick={tapLabelsArea}>
-          {unplacedCodes.map(labelButton)}
+                {isRevealed && placedCode !== targetCode && (
+                  <span className="matching__answer">{labelText(kind, targetCode)}</span>
+                )}
+              </div>
+            )
+          })}
         </div>
-      )}
+        {!isRevealed && (
+          <div className="matching__labels" onClick={tapLabelsArea}>
+            {unplacedCodes.map(labelButton)}
+          </div>
+        )}
+      </div>
       {isRevealed ? (
         <button className="flashcard__next arrow-button" onClick={onFinish} autoFocus>
           Next
