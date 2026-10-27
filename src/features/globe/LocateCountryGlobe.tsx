@@ -10,8 +10,8 @@ import {
 } from './countryMap'
 import './LocateCountryGlobe.css'
 
-// The globe flies to the correct country, then a Next button appears and the
-// globe stays until it is pressed. A wrong answer first shows the tapped
+// The globe flies to the correct country, with a Next button shown straight
+// away; the globe stays until it is pressed. A wrong answer first shows the tapped
 // country's name in red for a moment; the name fades out as the globe starts
 // to fly.
 const WRONG_NAME_MS = 1200
@@ -50,8 +50,8 @@ export default function LocateCountryGlobe({
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isFading, setIsFading] = useState(false)
-  // Whether the globe has finished flying to the correct country, so the Next
-  // button is shown.
+  // Whether a country has been tapped, so the Next button is shown (even while
+  // the globe is still flying to the correct country).
   const [isNextShown, setIsNextShown] = useState(false)
   // Whether the user tapped the right country; read when Next is pressed.
   const isCorrectRef = useRef(false)
@@ -131,10 +131,7 @@ export default function LocateCountryGlobe({
         )
       }
 
-      const flyStart = isCorrect ? 0 : WRONG_NAME_MS
-      timeoutsRef.current.push(
-        window.setTimeout(() => setIsNextShown(true), flyStart + FLY_TO_ANSWER_MS),
-      )
+      setIsNextShown(true)
     })
 
     return () => {
