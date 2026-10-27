@@ -18,6 +18,12 @@
   /* Extra space on top of the column's gap, lifting the logo away from the
      title. */
   margin-bottom: 16px;
+  /* The globe can be swiped left and right (SpinningLogo.tsx); vertical
+     swipes still scroll the page. */
+  touch-action: pan-y;
+  /* Dragging it with a mouse would otherwise select the text around it. */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* The title, subtitle and buttons form one column as wide as the buttons,

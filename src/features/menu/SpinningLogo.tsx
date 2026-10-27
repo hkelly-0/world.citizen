@@ -4,7 +4,9 @@ import { useEffect, useRef } from 'react'
 import logoLand from '../../data/logoLand.json' with { type: 'json' }
 
 // The app icon (see scripts/make-app-icon.mjs) with its globe head spinning:
-// the land is redrawn every frame as the globe turns west to east. The shapes,
+// the land is redrawn every frame as the globe turns west to east. It can be
+// swiped left or right: it turns with the finger, then coasts at the speed it
+// was let go, slowing (and if need be reversing) back to its normal spin. The shapes,
 // sizes and colours are the same as in that script, which draws the still
 // icons; change both together.
 
@@ -24,9 +26,9 @@ const SHOULDERS_CENTRE_Y = 965
 const SHOULDERS_HALF_WIDTH = 370
 const SHOULDERS_HALF_HEIGHT = 280
 
-// Where the globe faces when the menu opens (and stays, if the device asks for
-// reduced motion): between North and South America, a little east of the still
-// icon's view.
+// Where the globe faces when the menu opens (and stays, unless swiped, if the
+// device asks for reduced motion): between North and South America, a little
+// east of the still icon's view.
 const GLOBE_FACING = { longitude: -60, latitude: 8 }
 // How long one full turn of the globe takes.
 const SECONDS_PER_TURN = 25
@@ -36,6 +38,25 @@ const SECONDS_PER_TURN = 25
 const MAX_REDRAWS_PER_SECOND = 30
 // Decimal places for coordinates in the land's SVG path, to keep it short.
 const PATH_DIGITS = 1
+
+// The normal spin, in degrees of longitude a second. Turning west to east
+// moves the land rightwards, bringing in land from further west, so the
+// longitude facing the viewer decreases.
+const NORMAL_SPIN_SPEED = -360 / SECONDS_PER_TURN
+// After a swipe, the difference between the globe's speed and the normal spin
+// shrinks to about a third every SLOW_DOWN_SECONDS, so it has nearly settled
+// after three of them.
+const SLOW_DOWN_SECONDS = 1
+// The fastest a swipe can spin the globe, in degrees a second. Much faster and
+// the land jumps too far between redraws to look like it is turning.
+const MAX_SWIPE_SPEED = 720
+// A swipe's speed is measured over the last moments of the drag, so a finger
+// that stops before lifting lets the globe go still, easing back into its
+// normal spin, rather than flinging it.
+const SWIPE_SPEED_WINDOW_MS = 100
+
+const VIEW_BOX_START = CENTRE - RING_OUTER_RADIUS
+const VIEW_BOX_SIZE = 2 * RING_OUTER_RADIUS
 
 // Natural Earth 1:110m land, simplified by scripts/make-logo-land.mjs so
 // each redraw has fewer points to project.
@@ -62,50 +83,151 @@ function prefersReducedMotion(): boolean {
     : false
 }
 
+// Where the globe faced at a moment during a drag.
+type DragSample = {
+  time: number
+  facingLongitude: number
+}
+
+// The globe's speed when let go, in degrees a second, from the drag's samples
+// within SWIPE_SPEED_WINDOW_MS of the release.
+export function swipeSpeed(samples: DragSample[], releaseTime: number): number {
+  const recent = samples.filter((sample) => releaseTime - sample.time <= SWIPE_SPEED_WINDOW_MS)
+  if (recent.length < 2) {
+    return 0
+  }
+  const first = recent[0]
+  const last = recent[recent.length - 1]
+  if (releaseTime === first.time) {
+    return 0
+  }
+  // Divided by the time up to the release, not to the last sample: a finger
+  // sends no samples while it rests, so a pause before lifting slows the swipe.
+  const speed = ((last.facingLongitude - first.facingLongitude) / (releaseTime - first.time)) * 1000
+  return Math.max(-MAX_SWIPE_SPEED, Math.min(MAX_SWIPE_SPEED, speed))
+}
+
 type SpinningLogoProps = {
   className?: string
 }
 
 export function SpinningLogo({ className }: SpinningLogoProps) {
+  const svgRef = useRef<SVGSVGElement>(null)
   const landRef = useRef<SVGPathElement>(null)
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
+    const svg = svgRef.current
+    if (svg === null) {
       return
     }
-    let frame = 0
-    let startTime: number | null = null
-    let lastDrawTime = -Infinity
+    // With reduced motion the globe only moves while dragged: it has no
+    // normal spin and doesn't coast after a swipe.
+    const reducedMotion = prefersReducedMotion()
+    const normalSpeed = reducedMotion ? 0 : NORMAL_SPIN_SPEED
 
-    function drawFrame(time: number) {
-      frame = requestAnimationFrame(drawFrame)
-      if (startTime === null) {
-        startTime = time
-      }
-      if (time - lastDrawTime < 1000 / MAX_REDRAWS_PER_SECOND) {
-        return
-      }
-      lastDrawTime = time
-      // Worked out from the time since the start rather than added per frame,
-      // so the speed is the same however often frames come. Turning west to
-      // east moves the land rightwards, bringing in land from further west, so
-      // the longitude facing the viewer decreases.
-      const turns = (time - startTime) / 1000 / SECONDS_PER_TURN
-      const facingLongitude = GLOBE_FACING.longitude - (turns % 1) * 360
+    let facingLongitude = GLOBE_FACING.longitude
+    // Degrees of longitude a second, negative when turning west to east.
+    let speed = normalSpeed
+    // The finger (or mouse) dragging the globe, if any. Other fingers are
+    // ignored until it lifts.
+    let drag: { pointerId: number; lastX: number; samples: DragSample[] } | null = null
+
+    function draw() {
       landRef.current?.setAttribute('d', landPath(facingLongitude))
     }
 
-    frame = requestAnimationFrame(drawFrame)
-    return () => cancelAnimationFrame(frame)
+    function startDrag(event: PointerEvent) {
+      if (drag !== null || svg === null) {
+        return
+      }
+      drag = {
+        pointerId: event.pointerId,
+        lastX: event.clientX,
+        samples: [{ time: event.timeStamp, facingLongitude }],
+      }
+      // Keeps the drag going if the finger slides off the small logo.
+      svg.setPointerCapture(event.pointerId)
+    }
+
+    function moveDrag(event: PointerEvent) {
+      if (drag === null || event.pointerId !== drag.pointerId || svg === null) {
+        return
+      }
+      const headRadiusOnScreen = (HEAD_RADIUS * svg.getBoundingClientRect().width) / VIEW_BOX_SIZE
+      // Turns the globe so the land at its centre stays under the finger: it
+      // moves one radius on screen per radian turned. Dragging right moves the
+      // land right, so the longitude facing the viewer decreases.
+      const movedRadians = (event.clientX - drag.lastX) / headRadiusOnScreen
+      facingLongitude -= movedRadians * (180 / Math.PI)
+      drag.lastX = event.clientX
+      drag.samples.push({ time: event.timeStamp, facingLongitude })
+      draw()
+    }
+
+    function endDrag(event: PointerEvent) {
+      if (drag === null || event.pointerId !== drag.pointerId) {
+        return
+      }
+      speed = reducedMotion ? 0 : swipeSpeed(drag.samples, event.timeStamp)
+      drag = null
+    }
+
+    // E.g. the browser taking over a mostly vertical swipe to scroll the page.
+    // The globe goes back to its normal spin rather than coasting, as the
+    // finger's small moves before the scroll began weren't meant as a swipe.
+    function cancelDrag(event: PointerEvent) {
+      if (drag === null || event.pointerId !== drag.pointerId) {
+        return
+      }
+      speed = normalSpeed
+      drag = null
+    }
+
+    svg.addEventListener('pointerdown', startDrag)
+    svg.addEventListener('pointermove', moveDrag)
+    svg.addEventListener('pointerup', endDrag)
+    svg.addEventListener('pointercancel', cancelDrag)
+
+    let frame = 0
+    let lastDrawTime: number | null = null
+
+    function drawFrame(time: number) {
+      frame = requestAnimationFrame(drawFrame)
+      if (lastDrawTime !== null && time - lastDrawTime < 1000 / MAX_REDRAWS_PER_SECOND) {
+        return
+      }
+      const seconds = lastDrawTime === null ? 0 : (time - lastDrawTime) / 1000
+      lastDrawTime = time
+      // While dragged, the globe moves only with the finger.
+      if (drag !== null) {
+        return
+      }
+      // Eases the speed towards the normal spin, passing through zero (so
+      // reversing) if a swipe sent the globe the other way. Worked out from the
+      // time since the last redraw, so it is the same however often frames come.
+      speed = normalSpeed + (speed - normalSpeed) * Math.exp(-seconds / SLOW_DOWN_SECONDS)
+      facingLongitude += speed * seconds
+      draw()
+    }
+
+    if (!reducedMotion) {
+      frame = requestAnimationFrame(drawFrame)
+    }
+    return () => {
+      cancelAnimationFrame(frame)
+      svg.removeEventListener('pointerdown', startDrag)
+      svg.removeEventListener('pointermove', moveDrag)
+      svg.removeEventListener('pointerup', endDrag)
+      svg.removeEventListener('pointercancel', cancelDrag)
+    }
   }, [])
 
-  const viewBoxStart = CENTRE - RING_OUTER_RADIUS
-  const viewBoxSize = 2 * RING_OUTER_RADIUS
   return (
     // Decorative, as the title below it names the app.
     <svg
+      ref={svgRef}
       className={className}
-      viewBox={`${viewBoxStart} ${viewBoxStart} ${viewBoxSize} ${viewBoxSize}`}
+      viewBox={`${VIEW_BOX_START} ${VIEW_BOX_START} ${VIEW_BOX_SIZE} ${VIEW_BOX_SIZE}`}
       aria-hidden="true"
     >
       <clipPath id="spinning-logo-inside-ring">
