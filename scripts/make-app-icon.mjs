@@ -53,8 +53,9 @@ const SHOULDERS_HALF_HEIGHT = 280
 const GLOBE_FACING = { longitude: -80, latitude: 8 }
 
 // Icon sizes in pixels per screen density. Adaptive icon layers are 108 dp
-// square; launchers may crop anything outside the middle 66 dp circle, so the
-// ring is fitted inside that. Android 7 icons are 48 dp square.
+// square, and launchers show only the middle 72 dp through their mask (a
+// circle, or a shape that contains that circle), so the ring's outer edge is
+// that circle. Android 7 icons are 48 dp square.
 const DENSITIES = [
   { folder: 'mipmap-mdpi', scale: 1 },
   { folder: 'mipmap-hdpi', scale: 1.5 },
@@ -63,7 +64,7 @@ const DENSITIES = [
   { folder: 'mipmap-xxxhdpi', scale: 4 },
 ]
 const ADAPTIVE_LAYER_DP = 108
-const ADAPTIVE_SAFE_DIAMETER_DP = 66
+const ADAPTIVE_MASK_DIAMETER_DP = 72
 const LEGACY_ICON_DP = 48
 // On Android 7 icons, the ring's outer edge as a fraction of the icon's width.
 const LEGACY_RING_FRACTION = 0.96
@@ -176,7 +177,7 @@ function makeSvgIcon() {
 
 for (const { folder, scale } of DENSITIES) {
   const adaptiveSize = Math.round(ADAPTIVE_LAYER_DP * scale)
-  const foreground = await makeIcon(adaptiveSize, ADAPTIVE_SAFE_DIAMETER_DP * scale, 'none')
+  const foreground = await makeIcon(adaptiveSize, ADAPTIVE_MASK_DIAMETER_DP * scale, 'none')
   writeFileSync(`${RESOURCES}/${folder}/ic_launcher_foreground.png`, foreground)
 
   const legacySize = Math.round(LEGACY_ICON_DP * scale)
