@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react'
 import { COUNTRY_COUNT } from '../passport/passport'
 import './MainMenu.css'
+import { SpinningLogo } from './SpinningLogo'
 
 type MainMenuProps = {
   // How many countries are in the Passport, shown as e.g. "42/195".
@@ -72,9 +73,7 @@ export function MainMenu({
 
   return (
     <main className="main-menu">
-      {/* The app icon, drawn by scripts/make-app-icon.mjs. Decorative, as the
-          title below names the app. */}
-      <img className="main-menu__logo" src="/favicon.svg" alt="" />
+      <SpinningLogo className="main-menu__logo" />
       <h1 ref={titleRef}>
         <span className="main-menu__title-text" ref={titleTextRef}>
           world.citizen

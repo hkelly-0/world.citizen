@@ -2,6 +2,8 @@
 // black, whose head is a globe facing the Americas (light blue sea, green land).
 // The land is Natural Earth 1:110m from world-atlas, simple enough to read at
 // launcher size. Run from the project root; the icons are committed.
+// The main menu draws a spinning copy of this design in
+// src/features/menu/SpinningLogo.tsx; change both together.
 //
 // Writes, for each screen density, into android/app/src/main/res/mipmap-*/:
 // - ic_launcher_foreground.png: the person on a transparent background, for
