@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { borderingCountries, markBorderAnswers, missedBorderBoxes } from './bordersQuestion'
+import { borderBoxResults, borderingCountries, markBorderAnswers } from './bordersQuestion'
 
 describe('borderingCountries', () => {
   it("lists a country's land neighbours by name", () => {
@@ -48,38 +48,73 @@ describe('markBorderAnswers', () => {
   })
 })
 
-describe('missedBorderBoxes', () => {
-  it('marks blank boxes while unnamed neighbours are left, from the first', () => {
+describe('borderBoxResults', () => {
+  const andorraBorders = borderingCountries('AND')
+
+  it('marks filled boxes right only if they name a new bordering country', () => {
+    expect(borderBoxResults(['France', 'Portugal', 'france', 'Spain'], andorraBorders)).toEqual([
+      true,
+      false,
+      false,
+      true,
+    ])
+  })
+
+  it('marks blank boxes wrong while unnamed neighbours are left, from the first', () => {
     // Andorra borders France and Spain: one blank box could have held France.
-    expect(missedBorderBoxes(['Spain', '', '', ''], borderingCountries('AND'))).toEqual([
+    expect(borderBoxResults(['Spain', '', '', ''], andorraBorders)).toEqual([
+      true,
       false,
       true,
+      true,
+    ])
+  })
+
+  it('counts wrong answers as guesses, so they leave fewer blanks wrong', () => {
+    expect(borderBoxResults(['Portugal', '', '', ''], andorraBorders)).toEqual([
+      false,
+      false,
+      true,
+      true,
+    ])
+    expect(borderBoxResults(['Portugal', 'Spain', '', ''], andorraBorders)).toEqual([
+      false,
+      true,
+      true,
+      true,
+    ])
+  })
+
+  it('marks blanks right when there were more guesses than neighbours', () => {
+    expect(borderBoxResults(['Portugal', 'Italy', 'Germany', ''], andorraBorders)).toEqual([
+      false,
+      false,
+      false,
+      true,
+    ])
+  })
+
+  it('marks every blank wrong when the country has more neighbours than boxes', () => {
+    expect(borderBoxResults(['', '', '', ''], borderingCountries('FRA'))).toEqual([
+      false,
+      false,
       false,
       false,
     ])
   })
 
-  it('does not count wrong answers as naming a neighbour', () => {
-    expect(missedBorderBoxes(['Portugal', '', '', ''], borderingCountries('AND'))).toEqual([
-      false,
+  it('marks every blank right once every neighbour is named', () => {
+    expect(borderBoxResults(['france', 'Spain', '', ''], andorraBorders)).toEqual([
       true,
       true,
-      false,
-    ])
-  })
-
-  it('marks no box once every neighbour is named', () => {
-    expect(missedBorderBoxes(['france', 'Spain', '', ''], borderingCountries('AND'))).toEqual([
-      false,
-      false,
-      false,
-      false,
+      true,
+      true,
     ])
   })
 
   it('counts a box of only spaces as blank', () => {
     expect(
-      missedBorderBoxes(['  ', 'Spain', 'France', 'Italy'], borderingCountries('FRA')),
-    ).toEqual([true, false, false, false])
+      borderBoxResults(['  ', 'Spain', 'Germany', 'Italy'], borderingCountries('FRA')),
+    ).toEqual([false, true, true, true])
   })
 })

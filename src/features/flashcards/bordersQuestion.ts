@@ -30,15 +30,19 @@ export function markBorderAnswers(typed: string[], borderCodes: string[]): (stri
   })
 }
 
-// For each typed box, whether it was left blank although a bordering country
-// could have gone in it. Each bordering country not named in any box fills one
-// blank box, from the first; blank boxes beyond those are right to leave blank.
-export function missedBorderBoxes(typed: string[], borderCodes: string[]): boolean[] {
-  const named = markBorderAnswers(typed, borderCodes).filter((code) => code !== null)
-  let unnamedLeft = borderCodes.length - named.length
-  return typed.map((text) => {
-    if (text.trim() !== '' || unnamedLeft === 0) return false
-    unnamedLeft--
-    return true
+// For each typed box, whether it is right. A filled box is right if
+// `markBorderAnswers` finds a bordering country in it. A blank box is wrong if
+// fewer boxes were filled than the country has neighbours, as one could have
+// gone in it; the first such blanks are wrong, the rest right.
+export function borderBoxResults(typed: string[], borderCodes: string[]): boolean[] {
+  const marks = markBorderAnswers(typed, borderCodes)
+  const isBlank = typed.map((text) => text.trim() === '')
+  const guessCount = isBlank.filter((blank) => !blank).length
+  let missedLeft = Math.max(borderCodes.length - guessCount, 0)
+  return typed.map((_, index) => {
+    if (!isBlank[index]) return marks[index] !== null
+    if (missedLeft === 0) return true
+    missedLeft--
+    return false
   })
 }

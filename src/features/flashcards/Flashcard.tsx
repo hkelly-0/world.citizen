@@ -6,8 +6,8 @@ import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToConti
 import {
   BORDER_ANSWER_BOXES,
   borderingCountries,
+  borderBoxResults,
   markBorderAnswers,
-  missedBorderBoxes,
 } from './bordersQuestion'
 import { isCapitalCorrect } from './capitalAnswer'
 import { QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
@@ -400,14 +400,16 @@ type BordersQuestionProps = {
   isAnswered: boolean
 }
 
+// What a box left blank shows once the borders question is revealed.
+const BLANK_BORDER_BOX_TEXT = 'x'
+
 // Four text boxes for naming countries that border this one; boxes may be left
 // blank, which is right for a country with fewer than four neighbours. Enter
 // moves to the next box, and in the last box reveals the answers. On reveal
-// each filled box turns green if it names a bordering country (not already
-// named in an earlier box) or red otherwise. A blank box also turns red if a
-// bordering country could have gone in it (`missedBorderBoxes`). Every
-// bordering country is listed below: those named first, in green and in the
-// order typed, then the rest in `borderCodes` order.
+// each box turns green or red as `borderBoxResults` marks it, and a blank box
+// shows `BLANK_BORDER_BOX_TEXT`. Every bordering country is listed below: those
+// named first, in green and in the order typed, then the rest in `borderCodes`
+// order.
 function BordersQuestion({
   country,
   borderCodes,
@@ -417,7 +419,7 @@ function BordersQuestion({
   isAnswered,
 }: BordersQuestionProps) {
   const marks = markBorderAnswers(typedBorders, borderCodes)
-  const missed = missedBorderBoxes(typedBorders, borderCodes)
+  const boxResults = borderBoxResults(typedBorders, borderCodes)
   const namedCodes = marks.filter((code) => code !== null)
   const unnamedCodes = borderCodes.filter((code) => !namedCodes.includes(code))
 
@@ -456,15 +458,16 @@ function BordersQuestion({
             />
           )
         }
-        const isCorrect = marks[index] !== null
-        const isWrong = (typed.trim() !== '' && !isCorrect) || missed[index]
+        const isCorrect = boxResults[index]
         const answered = 'typed-answer__box typed-answer__box--answered'
-        let className = answered
-        if (isCorrect) className = `${answered} typed-answer__box--correct`
-        if (isWrong) className = `${answered} flashcard__border-box--wrong`
+        const className = isCorrect
+          ? `${answered} typed-answer__box--correct`
+          : `${answered} flashcard__border-box--wrong`
         return (
           <div key={index} className={className} aria-label={label}>
-            <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>{typed}</span>
+            <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>
+              {typed.trim() === '' ? BLANK_BORDER_BOX_TEXT : typed}
+            </span>
           </div>
         )
       })}

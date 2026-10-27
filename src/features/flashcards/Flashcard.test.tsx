@@ -568,6 +568,50 @@ describe('Flashcard', () => {
       expect(screen.getByLabelText('Bordering country 4')).toHaveClass('typed-answer__box--correct')
     })
 
+    it('fills blank boxes with x, red for each missed neighbour and green for the rest', async () => {
+      renderBorders(countryFacts['USA'])
+      await answerCapital('Washington, D.C.')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      // The USA borders Canada and Mexico; only Canada is named. Box 3 holds only
+      // spaces, which counts as blank.
+      await typeBorder(1, 'Canada')
+      await typeBorder(3, '  ')
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+
+      expect(screen.getByLabelText('Bordering country 1')).toHaveClass('typed-answer__box--correct')
+      expect(screen.getByLabelText('Bordering country 2')).toHaveTextContent('x')
+      expect(screen.getByLabelText('Bordering country 2')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      for (const box of [3, 4]) {
+        expect(screen.getByLabelText(`Bordering country ${box}`)).toHaveTextContent('x')
+        expect(screen.getByLabelText(`Bordering country ${box}`)).toHaveClass(
+          'typed-answer__box--correct',
+        )
+      }
+    })
+
+    it('counts a wrong answer as a guess, so no blank box is a miss', async () => {
+      renderBorders(countryFacts['USA'])
+      await answerCapital('Washington, D.C.')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      // Two guesses for the USA's two neighbours, one of them wrong.
+      await typeBorder(1, 'ABC')
+      await typeBorder(2, 'Mexico')
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+
+      expect(screen.getByLabelText('Bordering country 1')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      for (const box of [2, 3, 4]) {
+        expect(screen.getByLabelText(`Bordering country ${box}`)).toHaveClass(
+          'typed-answer__box--correct',
+        )
+      }
+    })
+
     it('is skipped for countries without land neighbours', async () => {
       const onFinish = vi.fn()
       renderBorders(countryFacts['ISL'], onFinish)
