@@ -11,7 +11,7 @@ import logoLand from '../../data/logoLand.json' with { type: 'json' }
 // icons; change both together.
 
 const BACKGROUND_COLOR = '#000010'
-const PERSON_COLOR = '#88ddff'
+const PERSON_COLOR = '#99ddff'
 const SEA_COLOR = PERSON_COLOR
 const LAND_COLOR = '#009900'
 

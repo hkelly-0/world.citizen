@@ -31,7 +31,7 @@ const DESIGN_SIZE = 1024
 const CENTRE = DESIGN_SIZE / 2
 
 const BACKGROUND_COLOR = '#000010'
-const PERSON_COLOR = '#88ddff'
+const PERSON_COLOR = '#99ddff'
 // The same light blue as the ring and shoulders.
 const SEA_COLOR = PERSON_COLOR
 const LAND_COLOR = '#009900'
