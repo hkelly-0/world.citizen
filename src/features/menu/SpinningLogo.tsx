@@ -1,8 +1,7 @@
 import { geoOrthographic, geoPath } from 'd3-geo'
+import type { MultiPolygon } from 'geojson'
 import { useEffect, useRef } from 'react'
-import { feature } from 'topojson-client'
-import type { GeometryCollection, Topology } from 'topojson-specification'
-import land110m from 'world-atlas/land-110m.json' with { type: 'json' }
+import logoLand from '../../data/logoLand.json' with { type: 'json' }
 
 // The app icon (see scripts/make-app-icon.mjs) with its globe head spinning:
 // the land is redrawn every frame as the globe turns west to east. The shapes,
@@ -38,8 +37,9 @@ const MAX_REDRAWS_PER_SECOND = 30
 // Decimal places for coordinates in the land's SVG path, to keep it short.
 const PATH_DIGITS = 1
 
-const landTopology = land110m as unknown as Topology<{ land: GeometryCollection }>
-const land = feature(landTopology, landTopology.objects.land)
+// Natural Earth 1:110m land, simplified by scripts/make-logo-land.mjs so
+// each redraw has fewer points to project.
+const land = logoLand as MultiPolygon
 
 // The SVG path of the land with the globe facing the given longitude.
 function landPath(facingLongitude: number): string {
@@ -48,6 +48,10 @@ function landPath(facingLongitude: number): string {
     .scale(HEAD_RADIUS)
     .translate([CENTRE, HEAD_CENTRE_Y])
     .clipAngle(90)
+    // Joins the points with straight lines rather than adding more along each
+    // edge to follow the globe's curve, which is too slight to see at the
+    // logo's size.
+    .precision(0)
   return geoPath(projection).digits(PATH_DIGITS)(land) ?? ''
 }
 

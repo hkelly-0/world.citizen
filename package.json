@@ -48,6 +48,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/topojson-client": "^3.1.5",
+    "@types/topojson-simplify": "^3.0.3",
     "@vitejs/plugin-react": "^6.1.2",
     "husky": "9.1.7",
     "jsdom": "^27.0.1",
@@ -55,6 +56,7 @@
     "oxlint": "^1.88.0",
     "prettier": "3.9.10",
     "subset-font": "^2.9.0",
+    "topojson-simplify": "^3.0.3",
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
