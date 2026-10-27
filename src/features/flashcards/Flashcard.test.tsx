@@ -531,10 +531,12 @@ describe('Flashcard', () => {
         'Spain',
         'Andorra',
         'Belgium',
+        'Brazil',
         'Germany',
         'Italy',
         'Luxembourg',
         'Monaco',
+        'Suriname',
         'Switzerland',
       ])
       expect(screen.getByText('Spain', { selector: 'li' })).toHaveClass('flashcard__border--named')

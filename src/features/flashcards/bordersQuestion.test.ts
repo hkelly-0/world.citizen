@@ -3,15 +3,18 @@ import { borderBoxResults, borderingCountries, markBorderAnswers } from './borde
 
 describe('borderingCountries', () => {
   it("lists a country's land neighbours by name", () => {
-    // Andorra, Belgium, Germany, Italy, Luxembourg, Monaco, Spain, Switzerland.
+    // Andorra, Belgium, Brazil, Germany, Italy, Luxembourg, Monaco, Spain,
+    // Suriname, Switzerland.
     expect(borderingCountries('FRA')).toEqual([
       'AND',
       'BEL',
+      'BRA',
       'DEU',
       'ITA',
       'LUX',
       'MCO',
       'ESP',
+      'SUR',
       'CHE',
     ])
   })
