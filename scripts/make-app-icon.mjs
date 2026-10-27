@@ -1,17 +1,17 @@
-// Draws the app icon: a dark blue person outline (ring and shoulders) on
-// white, whose head is a globe facing the Americas (navy sea, green land).
+// Draws the app icon: a light blue person outline (ring and shoulders) on
+// black, whose head is a globe facing the Americas (light blue sea, green land).
 // The land is Natural Earth 1:110m from world-atlas, simple enough to read at
 // launcher size. Run from the project root; the icons are committed.
 //
 // Writes, for each screen density, into android/app/src/main/res/mipmap-*/:
 // - ic_launcher_foreground.png: the person on a transparent background, for
-//   Android 8+ adaptive icons. The white background behind it is the colour
+//   Android 8+ adaptive icons. The black background behind it is the colour
 //   ic_launcher_background in res/values/ic_launcher_background.xml.
-// - ic_launcher.png and ic_launcher_round.png: the person on a white disc, for
+// - ic_launcher.png and ic_launcher_round.png: the person on a black disc, for
 //   Android 7 (the app supports Android 7 and up).
 // And for the website, into public/:
-// - favicon.svg: the person on a white disc, for the browser tab.
-// - apple-touch-icon.png: the person on a white square, used when the site is
+// - favicon.svg: the person on a black disc, for the browser tab.
+// - apple-touch-icon.png: the person on a black square, used when the site is
 //   added to an iPhone or iPad home screen (iOS rounds the corners itself and
 //   would turn transparent parts black).
 //
@@ -28,24 +28,24 @@ const WEBSITE = 'public'
 const DESIGN_SIZE = 1024
 const CENTRE = DESIGN_SIZE / 2
 
-const BACKGROUND_COLOR = '#ffffff'
-const PERSON_COLOR = '#1b2f5c'
-// The same navy as the ring and shoulders.
+const BACKGROUND_COLOR = '#000010'
+const PERSON_COLOR = '#44ddff'
+// The same light blue as the ring and shoulders.
 const SEA_COLOR = PERSON_COLOR
-const LAND_COLOR = '#3fae4a'
+const LAND_COLOR = '#009900'
 
 // The ring around the person.
 const RING_RADIUS = 440
 const RING_WIDTH = 34
 const RING_OUTER_RADIUS = RING_RADIUS + RING_WIDTH / 2
 // The globe head.
-const HEAD_CENTRE_Y = 375
-const HEAD_RADIUS = 195
+const HEAD_CENTRE_Y = 415
+const HEAD_RADIUS = 225
 // The shoulders are the top of a large oval, wider than it is tall, cut off by
 // the ring.
-const SHOULDERS_CENTRE_Y = 905
-const SHOULDERS_HALF_WIDTH = 345
-const SHOULDERS_HALF_HEIGHT = 300
+const SHOULDERS_CENTRE_Y = 965
+const SHOULDERS_HALF_WIDTH = 370
+const SHOULDERS_HALF_HEIGHT = 280
 
 // The point on the globe facing the viewer: between North and South America.
 const GLOBE_FACING = { longitude: -80, latitude: 8 }
@@ -66,7 +66,7 @@ const LEGACY_ICON_DP = 48
 // On Android 7 icons, the ring's outer edge as a fraction of the icon's width.
 const LEGACY_RING_FRACTION = 0.96
 // The iOS home screen icon, with the ring's outer edge as a fraction of its
-// width (leaving a white margin inside iOS's rounded corners).
+// width (leaving a black margin inside iOS's rounded corners).
 const APPLE_TOUCH_ICON_SIZE = 180
 const APPLE_TOUCH_RING_FRACTION = 0.88
 // Decimal places for coordinates in favicon.svg, to keep the file small.
@@ -129,8 +129,8 @@ function drawPerson(context) {
 
 // Draws the person centred on a square canvas of the given size, with the
 // ring's outer edge at ringDiameter pixels across, as a PNG. background is
-// 'none' (transparent), 'disc' (white inside the ring, transparent outside)
-// or 'square' (white everywhere).
+// 'none' (transparent), 'disc' (black inside the ring, transparent outside)
+// or 'square' (black everywhere).
 async function makeIcon(size, ringDiameter, background) {
   const canvas = createCanvas(size, size)
   const context = canvas.getContext('2d')
@@ -155,7 +155,7 @@ async function makeIcon(size, ringDiameter, background) {
   return canvas.encode('png')
 }
 
-// The person on a white disc as an SVG, the same shapes as drawPerson. The
+// The person on a black disc as an SVG, the same shapes as drawPerson. The
 // view box is cropped to the ring's outer edge.
 function makeSvgIcon() {
   const path = geoPath(headProjection()).digits(SVG_DIGITS)
