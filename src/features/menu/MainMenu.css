@@ -13,8 +13,11 @@
 
 /* Centred above the title, unlike the left-aligned column below it. */
 .main-menu__logo {
-  width: 96px;
-  height: 96px;
+  width: 120px;
+  height: 120px;
+  /* Extra space on top of the column's gap, lifting the logo away from the
+     title. */
+  margin-bottom: 16px;
 }
 
 /* The title, subtitle and buttons form one column as wide as the buttons,
