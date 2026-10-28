@@ -4,7 +4,7 @@ North America is home to hundreds of Indigenous nations, whose populations and c
 
 ## People
 
-Canada is highly multicultural, with 40% of people being immigrants or children of immigrants, primarily from Asia. The official languages are English and French. The population is concentrated along the southern border where winters are milder.
+Canada is highly multicultural, with 40% of people being immigrants or children of immigrants, notably from India, China, and the Philippines. The official languages are English and French. The population is concentrated along the southern border where winters are milder.
 
 ## Economy
 
