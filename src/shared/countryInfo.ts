@@ -68,3 +68,8 @@ export function parseCountryInfo(markdown: string): CountryInfo {
     internationalRelations: texts[3],
   }
 }
+
+// Whether a country has a file yet, known without loading it.
+export function hasCountryInfo(isoAlpha3: string): boolean {
+  return infoFiles[`/src/data/countryInfo/${isoAlpha3}.md`] !== undefined
+}

@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CountryShape } from '../../shared/countries'
+import { countryFacts } from '../../shared/countryFacts'
+import { hasCountryInfo } from '../../shared/countryInfo'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { CountryInfoPanel } from './CountryInfoPanel'
 
@@ -114,5 +116,71 @@ describe('CountryInfoPanel', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
 
     expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  describe('paragraphs about the country', () => {
+    const canada: CountryShape = { ...france, name: 'Canada', isoAlpha3: 'CAN' }
+    const heading = (name: string) => screen.getByRole('button', { name })
+    // The paragraph a heading opens and closes.
+    const paragraph = (name: string) =>
+      document.getElementById(heading(name).getAttribute('aria-controls')!)
+
+    it('are only shown when asked for', () => {
+      render(<CountryInfoPanel {...panelProps} country={canada} />)
+
+      expect(screen.queryByRole('button', { name: 'History' })).not.toBeInTheDocument()
+    })
+
+    it('start with every paragraph closed, showing just the headings', () => {
+      render(<CountryInfoPanel {...panelProps} country={canada} showCountryInfo />)
+
+      for (const name of ['History', 'People', 'Economy', 'Int. Relations']) {
+        expect(heading(name)).toHaveAttribute('aria-expanded', 'false')
+        expect(paragraph(name)).not.toBeVisible()
+      }
+    })
+
+    it('open one paragraph at a time, and close it when its heading is pressed again', async () => {
+      render(<CountryInfoPanel {...panelProps} country={canada} showCountryInfo />)
+
+      await userEvent.click(heading('History'))
+      expect(await screen.findByText(/Indigenous nations/)).toBeVisible()
+
+      await userEvent.click(heading('Economy'))
+      expect(heading('History')).toHaveAttribute('aria-expanded', 'false')
+      expect(paragraph('History')).not.toBeVisible()
+      expect(heading('Economy')).toHaveAttribute('aria-expanded', 'true')
+      expect(screen.getByText(/advanced economy/)).toBeVisible()
+
+      await userEvent.click(heading('Economy'))
+      expect(heading('Economy')).toHaveAttribute('aria-expanded', 'false')
+      expect(paragraph('Economy')).not.toBeVisible()
+    })
+
+    it('close again when another country is selected', async () => {
+      const { rerender } = render(
+        <CountryInfoPanel {...panelProps} country={canada} showCountryInfo />,
+      )
+      await userEvent.click(heading('History'))
+
+      rerender(<CountryInfoPanel {...panelProps} country={france} showCountryInfo />)
+      rerender(<CountryInfoPanel {...panelProps} country={canada} showCountryInfo />)
+
+      expect(heading('History')).toHaveAttribute('aria-expanded', 'false')
+    })
+
+    it('show a note for a country without a description yet', () => {
+      // Any country not written yet. Once all 195 are, this note can go.
+      const code = Object.keys(countryFacts).find((code) => !hasCountryInfo(code))!
+      render(
+        <CountryInfoPanel
+          {...panelProps}
+          country={{ ...france, isoAlpha3: code }}
+          showCountryInfo
+        />,
+      )
+
+      expect(screen.getByText('No description yet.')).toBeInTheDocument()
+    })
   })
 })

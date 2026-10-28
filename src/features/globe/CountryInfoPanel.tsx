@@ -4,6 +4,7 @@ import { countryDisplayName, countryFacts, territorySubtitle } from '../../share
 import { flagImageSrc } from '../../shared/flags'
 import type { QuestionId } from '../flashcards/deck'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
@@ -17,6 +18,9 @@ type CountryInfoPanelProps = {
   // subtitle is clicked, to select that country instead. Only the globe shows
   // territories, so only it passes this.
   onSelectCountry?: (isoAlpha3: string) => void
+  // Whether to show the paragraphs about the country (History, People, etc.)
+  // below the facts. Only the globe shows them.
+  showCountryInfo?: boolean
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
 }
@@ -26,6 +30,7 @@ export function CountryInfoPanel({
   learnedQuestionIds,
   onClose,
   onSelectCountry,
+  showCountryInfo = false,
   ref,
 }: CountryInfoPanelProps) {
   // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
@@ -104,6 +109,9 @@ export function CountryInfoPanel({
               </>
             )}
           </dl>
+          {showCountryInfo && (
+            <CountryInfoSections key={facts.isoAlpha3} isoAlpha3={facts.isoAlpha3} />
+          )}
         </>
       )}
     </aside>

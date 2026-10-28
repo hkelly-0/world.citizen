@@ -157,6 +157,7 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
           learnedQuestionIds={learnedQuestionIds}
           onClose={closePanel}
           onSelectCountry={selectCountryByCode}
+          showCountryInfo
           ref={panelRef}
         />
       )}

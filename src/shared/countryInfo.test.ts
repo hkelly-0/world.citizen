@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { countriesWithInfo, loadCountryInfo, parseCountryInfo } from './countryInfo'
+import { countriesWithInfo, hasCountryInfo, loadCountryInfo, parseCountryInfo } from './countryInfo'
 import { countryFacts } from './countryFacts'
 
 describe('country info files', () => {
@@ -25,6 +25,13 @@ describe('loadCountryInfo', () => {
 
   it('gives undefined for a country with no file', async () => {
     expect(await loadCountryInfo('XXX')).toBeUndefined()
+  })
+})
+
+describe('hasCountryInfo', () => {
+  it('says whether a country has a file', () => {
+    expect(hasCountryInfo('CAN')).toBe(true)
+    expect(hasCountryInfo('XXX')).toBe(false)
   })
 })
 

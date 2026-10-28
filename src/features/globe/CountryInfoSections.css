@@ -1,0 +1,59 @@
+.country-info-sections {
+  margin-top: 12px;
+}
+
+.country-info-sections h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.country-info-sections__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 6px 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.country-info-sections__heading:hover {
+  color: #6cb4ff;
+}
+
+/* A chevron drawn from two borders of a rotated square, pointing down when
+   closed and up when open. Drawn rather than typed, as Roboto Mono has no
+   arrow symbols. */
+.country-info-sections__heading::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin: 0 4px 4px 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.country-info-sections__heading[aria-expanded='true']::after {
+  margin-bottom: -4px;
+  transform: rotate(-135deg);
+}
+
+/* The panel floats over the globe, so a long paragraph scrolls inside itself
+   rather than growing the panel over the selected country. */
+.country-info-sections__paragraph {
+  max-height: 30vh;
+  margin: 0 0 6px;
+  overflow-y: auto;
+  color: #c9cfdb;
+  line-height: 1.5;
+}
+
+.country-info-sections__note {
+  margin: 12px 0 0;
+  color: #a9b1c2;
+}
