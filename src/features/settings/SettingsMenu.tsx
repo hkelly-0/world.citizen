@@ -15,6 +15,11 @@ const LABELS: Record<QuestionId, string> = {
   population: 'Population',
   ihdi: 'IHDI',
   capital: 'Capital',
+  history: 'History',
+  people: 'People',
+  economy: 'Economy',
+  // Shortened to fit on one line beside its checkbox.
+  internationalRelations: 'Int. Relations',
 }
 
 const ICON_LABELS: { icon: CountryIcon; label: string }[] = [

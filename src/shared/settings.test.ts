@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
+import { QUESTION_IDS } from '../features/flashcards/deck'
 import {
   loadCountryIcon,
   loadLearnedQuestionIds,
@@ -19,6 +20,10 @@ describe('settings storage', () => {
       'population',
       'ihdi',
       'capital',
+      'history',
+      'people',
+      'economy',
+      'internationalRelations',
     ])
   })
 
@@ -29,9 +34,9 @@ describe('settings storage', () => {
 
   it('learns everything when the saved data is unreadable or empty', () => {
     localStorage.setItem('geography-app/learned-question-ids', 'not json')
-    expect(loadLearnedQuestionIds()).toHaveLength(6)
+    expect(loadLearnedQuestionIds()).toHaveLength(QUESTION_IDS.length)
     saveLearnedQuestionIds([])
-    expect(loadLearnedQuestionIds()).toHaveLength(6)
+    expect(loadLearnedQuestionIds()).toHaveLength(QUESTION_IDS.length)
   })
 
   it('shows outlines until another country icon is saved', () => {

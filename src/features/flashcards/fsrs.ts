@@ -29,7 +29,8 @@ export type QuestionProgress = {
 }
 
 // How one answer went. "close" is only given to range questions (area,
-// population, IHDI) when the pick is one title away from the correct one.
+// population, IHDI) when the pick is one title away from the correct one, and
+// to info questions rated "Partly".
 export type AnswerResult = 'right' | 'close' | 'wrong'
 
 // FSRS rates each review Again, Hard, Good or Easy. A right answer is Good, a

@@ -44,6 +44,10 @@ describe('CustomPracticeMenu', () => {
       'IHDI',
       'Capital',
       'Borders',
+      'History',
+      'People',
+      'Economy',
+      'Int. Relations',
     ])
     expect(labelsIn('Multi-Country Questions')).toEqual([
       'Matching - Flags',

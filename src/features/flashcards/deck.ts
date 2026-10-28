@@ -1,10 +1,36 @@
 import { reviewQuestion, type AnswerResult, type QuestionProgress } from './fsrs'
 import { pickingFamiliarity } from './familiarity'
+import type { CountryInfo } from '../../shared/countryInfo'
 
-// The questions asked about each country. Each has its own FSRS progress, so
-// e.g. a country's capital can be well known while its population isn't.
-export type QuestionId = 'globe' | 'flag' | 'area' | 'population' | 'ihdi' | 'capital'
-export const QUESTION_IDS: QuestionId[] = ['globe', 'flag', 'area', 'population', 'ihdi', 'capital']
+// The info questions: one per paragraph in src/data/countryInfo/{ISO}.md,
+// named like the sections of CountryInfo. The user reads the paragraph and
+// rates how well they remembered it.
+export type InfoQuestionId = keyof CountryInfo
+export const INFO_QUESTION_IDS: InfoQuestionId[] = [
+  'history',
+  'people',
+  'economy',
+  'internationalRelations',
+]
+
+// The questions asked about each country, in the order they're asked: the
+// facts, then the info questions. Each has its own FSRS progress, so e.g. a
+// country's capital can be well known while its population isn't.
+export type QuestionId =
+  'globe' | 'flag' | 'area' | 'population' | 'ihdi' | 'capital' | InfoQuestionId
+export const QUESTION_IDS: QuestionId[] = [
+  'globe',
+  'flag',
+  'area',
+  'population',
+  'ihdi',
+  'capital',
+  ...INFO_QUESTION_IDS,
+]
+
+export function isInfoQuestion(id: QuestionId): id is InfoQuestionId {
+  return (INFO_QUESTION_IDS as QuestionId[]).includes(id)
+}
 
 // The two ways the 'globe' question can be asked: tap the country on the globe,
 // or type the name of the country shown on it. Both share the 'globe' progress.

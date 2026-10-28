@@ -112,17 +112,29 @@ describe('App', () => {
     await userEvent.type(screen.getByRole('textbox'), 'Nowhere')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    // Then the four info questions, each revealed (once the country's info
+    // file has loaded) and rated.
+    for (let i = 0; i < 4; i++) {
+      const reveal = screen.getByRole('button', { name: 'Reveal' })
+      await vi.waitFor(() => expect(reveal).toBeEnabled())
+      await userEvent.click(reveal)
+      await userEvent.click(screen.getByRole('button', { name: 'Remembered' }))
+    }
 
     const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')
     expect(Object.keys(saved)).toHaveLength(1)
-    // Each of the country's 6 questions has its own progress.
+    // Each of the country's 10 questions has its own progress.
     const [countryProgress] = Object.values(saved) as object[]
     expect(Object.keys(countryProgress).sort()).toEqual([
       'area',
       'capital',
+      'economy',
       'flag',
       'globe',
+      'history',
       'ihdi',
+      'internationalRelations',
+      'people',
       'population',
     ])
   })
@@ -167,7 +179,9 @@ describe('App', () => {
   it('saves settings, then asks only the learned questions in Classic and offers only them in Custom Practice', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
-    for (const label of ['Location', 'Flag', 'Area', 'Population', 'IHDI']) {
+    const unticked = ['Location', 'Flag', 'Area', 'Population', 'IHDI']
+    unticked.push('History', 'People', 'Economy', 'Int. Relations')
+    for (const label of unticked) {
       await userEvent.click(screen.getByRole('checkbox', { name: label }))
     }
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))

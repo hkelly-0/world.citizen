@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
-import { GLOBE_KINDS, QUESTION_IDS } from './deck'
+import { GLOBE_KINDS, isInfoQuestion, QUESTION_IDS } from './deck'
 import { Flashcard } from './Flashcard'
 
 // The real globes need WebGL, which jsdom doesn't have. These stand-ins have
@@ -37,6 +37,9 @@ vi.mock('../globe/NameCountryGlobe', () => ({
 const LOCATION_QUESTION_RANDOM = 0.9
 const NAME_QUESTION_RANDOM = 0.1
 
+// Every question but the info questions, which have their own tests.
+const FACT_QUESTION_IDS = QUESTION_IDS.filter((id) => !isInfoQuestion(id))
+
 // France: area Medium, population Numerous, IHDI 8  /  Great, capital Paris.
 const france = countryFacts['FRA']
 
@@ -63,6 +66,13 @@ async function answerCapital(typed: string) {
   await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 }
 
+// Reveal waits for the country's info file to load.
+async function revealInfo() {
+  const reveal = screen.getByRole('button', { name: 'Reveal' })
+  await vi.waitFor(() => expect(reveal).toBeEnabled())
+  await userEvent.click(reveal)
+}
+
 describe('Flashcard', () => {
   beforeEach(() => {
     vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
@@ -73,7 +83,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={vi.fn()}
       />,
@@ -129,7 +139,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={onFinish}
       />,
@@ -166,7 +176,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={onFinish}
       />,
@@ -200,7 +210,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={onFinish}
       />,
@@ -299,7 +309,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={onFinish}
       />,
@@ -329,7 +339,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={countryFacts['VAT']}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={() => {}}
       />,
@@ -351,7 +361,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={countryFacts['SAU']}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={() => {}}
       />,
@@ -372,7 +382,7 @@ describe('Flashcard', () => {
       <Flashcard
         countryIcon="outline"
         country={countryFacts['ZAF']}
-        questionIds={QUESTION_IDS}
+        questionIds={FACT_QUESTION_IDS}
         globeKinds={GLOBE_KINDS}
         onFinish={() => {}}
       />,
@@ -479,6 +489,67 @@ describe('Flashcard', () => {
 
     expect(await screen.findByText('This is')).toBeInTheDocument()
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
+  })
+
+  describe('info questions', () => {
+    it('come after the capital, each revealed then rated, and the rating goes on', async () => {
+      const onFinish = vi.fn()
+      render(
+        <Flashcard
+          countryIcon="outline"
+          country={france}
+          questionIds={['capital', 'history', 'internationalRelations']}
+          globeKinds={GLOBE_KINDS}
+          onFinish={onFinish}
+        />,
+      )
+
+      await answerCapital('Paris')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      // The topic only, until revealed.
+      expect(screen.getByText('History')).toBeInTheDocument()
+      expect(screen.queryByText(/^France was one of Europe's great powers/)).toBeNull()
+      expect(screen.queryByRole('button', { name: 'Remembered' })).toBeNull()
+      await revealInfo()
+      expect(screen.getByText(/^France was one of Europe's great powers/)).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Next' })).toBeNull()
+      await userEvent.click(screen.getByRole('button', { name: 'Partly' }))
+
+      // People and Economy aren't asked; the next topic starts hidden again.
+      expect(screen.getByText('International Relations')).toBeInTheDocument()
+      await revealInfo()
+      await userEvent.click(screen.getByRole('button', { name: 'Forgot' }))
+
+      expect(onFinish).toHaveBeenCalledWith({
+        capital: 'right',
+        history: 'close',
+        internationalRelations: 'wrong',
+      })
+    })
+
+    it('come after the borders question', async () => {
+      const onFinish = vi.fn()
+      render(
+        <Flashcard
+          countryIcon="outline"
+          country={france}
+          questionIds={['economy']}
+          globeKinds={GLOBE_KINDS}
+          asksBorders={true}
+          onFinish={onFinish}
+        />,
+      )
+
+      expect(screen.getByText('Name up to 4 countries which border France')).toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByText('Economy')).toBeInTheDocument()
+      await revealInfo()
+      await userEvent.click(screen.getByRole('button', { name: 'Remembered' }))
+
+      expect(onFinish).toHaveBeenCalledWith({ economy: 'right' })
+    })
   })
 
   describe('borders question', () => {

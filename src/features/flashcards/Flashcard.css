@@ -113,6 +113,32 @@
   background: rgba(240, 136, 62, 0.25);
 }
 
+/* An info question's paragraph, once revealed. */
+.flashcard__info-text {
+  margin: 0 0 16px;
+  line-height: 1.4;
+}
+
+/* An info question's self-ratings, edged in the colour of the answer each
+   counts as. */
+.flashcard__rating--wrong {
+  border-color: var(--wrong-red);
+}
+
+.flashcard__rating--close {
+  border-color: #f0883e;
+}
+
+.flashcard__rating--right {
+  border-color: var(--correct-green);
+}
+
+/* Reveal waits for an info paragraph to load. */
+.flashcard__check:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 /* Two flags per row, so all four fit on a phone below the country picture. */
 .flashcard__flag-options {
   display: grid;

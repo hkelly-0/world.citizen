@@ -41,7 +41,19 @@ describe('SettingsMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'IHDI' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
-    expect(onSave).toHaveBeenCalledWith(['flag', 'area', 'population', 'capital'], 'outline')
+    expect(onSave).toHaveBeenCalledWith(
+      [
+        'flag',
+        'area',
+        'population',
+        'capital',
+        'history',
+        'people',
+        'economy',
+        'internationalRelations',
+      ],
+      'outline',
+    )
   })
 
   it('starts as a disabled "Saved", becomes "Save" when changed, and is "Saved" again if changed back', async () => {

@@ -2,7 +2,7 @@ import type { Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
-import type { QuestionId } from '../flashcards/deck'
+import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
@@ -19,7 +19,7 @@ type CountryInfoPanelProps = {
   // territories, so only it passes this.
   onSelectCountry?: (isoAlpha3: string) => void
   // Whether to show the paragraphs about the country (History, People, etc.)
-  // below the facts. Only the globe shows them.
+  // below the facts, those learned in Settings. Only the globe shows them.
   showCountryInfo?: boolean
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
@@ -109,8 +109,12 @@ export function CountryInfoPanel({
               </>
             )}
           </dl>
-          {showCountryInfo && (
-            <CountryInfoSections key={facts.isoAlpha3} isoAlpha3={facts.isoAlpha3} />
+          {showCountryInfo && INFO_QUESTION_IDS.some((id) => learnedQuestionIds.includes(id)) && (
+            <CountryInfoSections
+              key={facts.isoAlpha3}
+              isoAlpha3={facts.isoAlpha3}
+              learnedQuestionIds={learnedQuestionIds}
+            />
           )}
         </>
       )}

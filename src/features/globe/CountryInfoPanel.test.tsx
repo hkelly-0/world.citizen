@@ -129,6 +129,22 @@ describe('CountryInfoPanel', () => {
       expect(screen.queryByRole('button', { name: 'History' })).not.toBeInTheDocument()
     })
 
+    it('hide paragraphs not learned in Settings', () => {
+      render(
+        <CountryInfoPanel
+          {...panelProps}
+          learnedQuestionIds={['capital', 'history', 'economy']}
+          country={canada}
+          showCountryInfo
+        />,
+      )
+
+      expect(heading('History')).toBeInTheDocument()
+      expect(heading('Economy')).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'People' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Int. Relations' })).not.toBeInTheDocument()
+    })
+
     it('start with every paragraph closed, showing just the headings', () => {
       render(<CountryInfoPanel {...panelProps} country={canada} showCountryInfo />)
 

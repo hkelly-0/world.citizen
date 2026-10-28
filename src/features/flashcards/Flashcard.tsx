@@ -1,5 +1,6 @@
-import { lazy, Suspense, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { lazy, Suspense, useEffect, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
+import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
@@ -10,7 +11,14 @@ import {
   markBorderAnswers,
 } from './bordersQuestion'
 import { isCapitalCorrect } from './capitalAnswer'
-import { QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
+import {
+  INFO_QUESTION_IDS,
+  isInfoQuestion,
+  QUESTION_IDS,
+  type GlobeKind,
+  type InfoQuestionId,
+  type QuestionId,
+} from './deck'
 import { flagOptions } from './flagQuestion'
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import type { AnswerResult } from './fsrs'
@@ -46,7 +54,8 @@ type FlashcardProps = {
 // One country's card: first a globe question, then the flag (picked from four),
 // then area, population and IHDI (picked from range titles), then the capital
 // (typed), skipping any not in `questionIds`, then, if `asksBorders` and the
-// country has any land neighbours, its borders (up to four typed). The globe
+// country has any land neighbours, its borders (up to four typed), then the
+// info questions in `questionIds` (a paragraph revealed and self-rated). The globe
 // question is, at random half the time each, either finding the country
 // (tapped on the globe) or naming the country shown on the globe (typed).
 // Each answer is revealed before moving on.
@@ -61,12 +70,14 @@ export function Flashcard({
   const asksGlobe = questionIds.includes('globe')
   const questions = rangeQuestions(country)
   const borderCodes = borderingCountries(country.isoAlpha3)
-  // The questions asked after the globe one, in the order of QUESTION_IDS,
-  // then the borders question.
+  // The questions asked after the globe one: the facts in the order of
+  // QUESTION_IDS, then the borders question, then the info questions.
   const steps: (QuestionId | 'borders')[] = QUESTION_IDS.filter(
-    (id) => id !== 'globe' && questionIds.includes(id),
+    (id) => id !== 'globe' && !isInfoQuestion(id) && questionIds.includes(id),
   )
   if (asksBorders && borderCodes.length > 0) steps.push('borders')
+  steps.push(...INFO_QUESTION_IDS.filter((id) => questionIds.includes(id)))
+  const asksInfo = steps.some((id) => id !== 'borders' && isInfoQuestion(id))
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
   const isGlobeOnly = asksGlobe && steps.length === 0
@@ -88,6 +99,22 @@ export function Flashcard({
   const [typedBorders, setTypedBorders] = useState<string[]>(() =>
     Array(BORDER_ANSWER_BOXES).fill(''),
   )
+  // The country's paragraphs, undefined until its file has loaded (only
+  // loaded if an info question is asked).
+  const [info, setInfo] = useState<CountryInfo | undefined>(undefined)
+
+  // Starts loading straight away, so the text has usually arrived by the time
+  // the info questions are reached.
+  useEffect(() => {
+    if (!asksInfo) return
+    let cancelled = false
+    loadCountryInfo(country.isoAlpha3).then((loaded) => {
+      if (!cancelled) setInfo(loaded)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [asksInfo, country.isoAlpha3])
 
   const stepId = steps[step]
   const rangeQuestion = questions.find((question) => question.id === stepId)
@@ -132,6 +159,19 @@ export function Flashcard({
     } else {
       setStep(step + 1)
       setAnswer(null)
+    }
+  }
+
+  // An info question's rating acts as its answer and Next together. The new
+  // results are passed on directly, as `results` doesn't update until the
+  // next render.
+  function rateInfo(id: InfoQuestionId, result: AnswerResult) {
+    const newResults = { ...results, [id]: result }
+    setResults(newResults)
+    if (isLastStep) {
+      onFinish(newResults)
+    } else {
+      setStep(step + 1)
     }
   }
 
@@ -224,10 +264,20 @@ export function Flashcard({
             isAnswered={answer !== null}
           />
         )}
+        {stepId !== undefined && stepId !== 'borders' && isInfoQuestion(stepId) && (
+          <InfoQuestion
+            // Keyed so the next info question starts hidden again.
+            key={stepId}
+            heading={COUNTRY_INFO_HEADINGS[stepId]}
+            text={info?.[stepId]}
+            onRate={(result) => rateInfo(stepId, result)}
+          />
+        )}
       </div>
 
       {/* Until answered, an empty space keeps Next's spot so the question
-          doesn't move when Next appears. */}
+          doesn't move when Next appears. Info questions never show Next: their
+          rating goes on instead. */}
       {answer !== null ? (
         <button className="flashcard__next arrow-button" onClick={goToNext} autoFocus>
           Next
@@ -488,5 +538,57 @@ function BordersQuestion({
         <button className="flashcard__check">Reveal</button>
       )}
     </form>
+  )
+}
+
+// The self-ratings offered once an info paragraph is revealed, each scored
+// like a question's answer.
+const INFO_RATINGS: { result: AnswerResult; label: string }[] = [
+  { result: 'wrong', label: 'Forgot' },
+  { result: 'close', label: 'Partly' },
+  { result: 'right', label: 'Remembered' },
+]
+
+type InfoQuestionProps = {
+  heading: string
+  // The paragraph, or undefined while the country's file is loading.
+  text: string | undefined
+  onRate: (result: AnswerResult) => void
+}
+
+// An info question: the topic's heading with a Reveal button. Revealing shows
+// the paragraph and the ratings; picking one goes on.
+function InfoQuestion({ heading, text, onRate }: InfoQuestionProps) {
+  const [isRevealed, setIsRevealed] = useState(false)
+
+  return (
+    <>
+      <p className="flashcard__question">{heading}</p>
+      {isRevealed ? (
+        <>
+          <p className="flashcard__info-text">{text}</p>
+          <div className="flashcard__options" role="group" aria-label="How well did you remember?">
+            {INFO_RATINGS.map(({ result, label }) => (
+              <button
+                key={result}
+                className={`flashcard__option flashcard__rating--${result}`}
+                onClick={() => onRate(result)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <button
+          className="flashcard__check"
+          onClick={() => setIsRevealed(true)}
+          disabled={text === undefined}
+          autoFocus
+        >
+          Reveal
+        </button>
+      )}
+    </>
   )
 }

@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { type CountryInfo, loadCountryInfo } from '../../shared/countryInfo'
+import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import './CountryInfoSections.css'
 
 // The headings shown in the panel, in order. Shorter than the files' headings
@@ -13,13 +14,15 @@ const SECTION_LABELS: Record<keyof CountryInfo, string> = {
 
 type CountryInfoSectionsProps = {
   isoAlpha3: string
+  // The information chosen in Settings; paragraphs left out there aren't shown.
+  learnedQuestionIds: QuestionId[]
 }
 
 // The hand-written paragraphs about a country (History, People, etc.), each
 // under a heading that opens and closes it. All start closed, and opening one
 // closes any other. The parent should key this by country, so a newly
 // selected country starts closed again.
-export function CountryInfoSections({ isoAlpha3 }: CountryInfoSectionsProps) {
+export function CountryInfoSections({ isoAlpha3, learnedQuestionIds }: CountryInfoSectionsProps) {
   // Undefined until the country's file has loaded.
   const [info, setInfo] = useState<CountryInfo | undefined>(undefined)
   const [openSection, setOpenSection] = useState<keyof CountryInfo | null>(null)
@@ -37,7 +40,7 @@ export function CountryInfoSections({ isoAlpha3 }: CountryInfoSectionsProps) {
     }
   }, [isoAlpha3])
 
-  const sections = Object.keys(SECTION_LABELS) as (keyof CountryInfo)[]
+  const sections = INFO_QUESTION_IDS.filter((id) => learnedQuestionIds.includes(id))
   return (
     <div className="country-info-sections">
       {sections.map((section) => {
