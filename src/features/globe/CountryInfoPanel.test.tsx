@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CountryShape } from '../../shared/countries'
-import { countryFacts } from '../../shared/countryFacts'
-import { hasCountryInfo } from '../../shared/countryInfo'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { CountryInfoPanel } from './CountryInfoPanel'
 
@@ -167,20 +165,6 @@ describe('CountryInfoPanel', () => {
       rerender(<CountryInfoPanel {...panelProps} country={canada} showCountryInfo />)
 
       expect(heading('History')).toHaveAttribute('aria-expanded', 'false')
-    })
-
-    it('show a note for a country without a description yet', () => {
-      // Any country not written yet. Once all 195 are, this note can go.
-      const code = Object.keys(countryFacts).find((code) => !hasCountryInfo(code))!
-      render(
-        <CountryInfoPanel
-          {...panelProps}
-          country={{ ...france, isoAlpha3: code }}
-          showCountryInfo
-        />,
-      )
-
-      expect(screen.getByText('No description yet.')).toBeInTheDocument()
     })
   })
 })

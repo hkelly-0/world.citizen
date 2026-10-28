@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from 'react'
-import { type CountryInfo, hasCountryInfo, loadCountryInfo } from '../../shared/countryInfo'
+import { type CountryInfo, loadCountryInfo } from '../../shared/countryInfo'
 import './CountryInfoSections.css'
 
 // The headings shown in the panel, in order. Shorter than the files' headings
@@ -36,10 +36,6 @@ export function CountryInfoSections({ isoAlpha3 }: CountryInfoSectionsProps) {
       cancelled = true
     }
   }, [isoAlpha3])
-
-  if (!hasCountryInfo(isoAlpha3)) {
-    return <p className="country-info-sections__note">No description yet.</p>
-  }
 
   const sections = Object.keys(SECTION_LABELS) as (keyof CountryInfo)[]
   return (

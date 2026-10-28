@@ -7,7 +7,9 @@ export type CountryInfo = {
   internationalRelations: string
 }
 
-// The headings every file must have, exactly and in this order.
+// The headings every file must have, exactly and in this order. Each section
+// is a short paragraph: History at most about 60 words, the others at most
+// about 40.
 export const COUNTRY_INFO_HEADINGS: Record<keyof CountryInfo, string> = {
   history: 'History',
   people: 'People',
@@ -23,15 +25,14 @@ const infoFiles = import.meta.glob<string>('/src/data/countryInfo/*.md', {
   import: 'default',
 })
 
-// The ISO alpha-3 codes of the countries that have a file. Not every country
-// has one yet.
+// The ISO alpha-3 codes of the countries that have a file.
 export function countriesWithInfo(): string[] {
   return Object.keys(infoFiles).map((path) =>
     path.replace('/src/data/countryInfo/', '').replace('.md', ''),
   )
 }
 
-// Loads a country's paragraphs, or undefined if it has no file yet.
+// Loads a country's paragraphs, or undefined if it has no file.
 export async function loadCountryInfo(isoAlpha3: string): Promise<CountryInfo | undefined> {
   const loadFile = infoFiles[`/src/data/countryInfo/${isoAlpha3}.md`]
   if (loadFile === undefined) return undefined
@@ -67,9 +68,4 @@ export function parseCountryInfo(markdown: string): CountryInfo {
     economy: texts[2],
     internationalRelations: texts[3],
   }
-}
-
-// Whether a country has a file yet, known without loading it.
-export function hasCountryInfo(isoAlpha3: string): boolean {
-  return infoFiles[`/src/data/countryInfo/${isoAlpha3}.md`] !== undefined
 }
