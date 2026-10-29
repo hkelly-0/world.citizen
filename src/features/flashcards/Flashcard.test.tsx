@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { GLOBE_KINDS, isInfoQuestion, QUESTION_IDS } from './deck'
 import { Flashcard } from './Flashcard'
+import { reviewQuestion } from './fsrs'
 
 // The real globes need WebGL, which jsdom doesn't have. These stand-ins have
 // a button for each kind of answer.
@@ -500,6 +501,8 @@ describe('Flashcard', () => {
           country={france}
           questionIds={['capital', 'history', 'internationalRelations']}
           globeKinds={GLOBE_KINDS}
+          // History has been answered before; International Relations hasn't.
+          progress={{ history: reviewQuestion(undefined, 'right', '2026-10-01') }}
           onFinish={onFinish}
         />,
       )
@@ -517,9 +520,11 @@ describe('Flashcard', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Partly' }))
 
       // People and Economy aren't asked; the next topic starts hidden again.
+      // Never answered before, its ratings ask how much was new instead.
       expect(screen.getByText('International Relations')).toBeInTheDocument()
       await revealInfo()
-      await userEvent.click(screen.getByRole('button', { name: 'Forgot' }))
+      expect(screen.queryByRole('button', { name: 'Forgot' })).toBeNull()
+      await userEvent.click(screen.getByRole('button', { name: 'New info' }))
 
       expect(onFinish).toHaveBeenCalledWith({
         capital: 'right',
@@ -546,7 +551,7 @@ describe('Flashcard', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       expect(screen.getByText('Economy')).toBeInTheDocument()
       await revealInfo()
-      await userEvent.click(screen.getByRole('button', { name: 'Remembered' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Already known' }))
 
       expect(onFinish).toHaveBeenCalledWith({ economy: 'right' })
     })

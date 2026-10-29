@@ -15,6 +15,7 @@ import {
   INFO_QUESTION_IDS,
   isInfoQuestion,
   QUESTION_IDS,
+  type CountryProgress,
   type GlobeKind,
   type InfoQuestionId,
   type QuestionId,
@@ -46,6 +47,10 @@ type FlashcardProps = {
   // Whether to ask the borders question last (only chosen in Custom Practice).
   // It has no FSRS progress, so it never appears in `onFinish`'s results.
   asksBorders?: boolean
+  // The country's saved progress before this card, used to tell whether an
+  // info question is being seen for the first time. Missing for a country
+  // never answered.
+  progress?: CountryProgress
   // Called after the last question, with how each asked question was answered:
   // right, close (range questions only) or wrong.
   onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
@@ -65,6 +70,7 @@ export function Flashcard({
   globeKinds,
   countryIcon,
   asksBorders = false,
+  progress = {},
   onFinish,
 }: FlashcardProps) {
   const asksGlobe = questionIds.includes('globe')
@@ -270,6 +276,7 @@ export function Flashcard({
             key={stepId}
             heading={COUNTRY_INFO_HEADINGS[stepId]}
             text={info?.[stepId]}
+            isFirstTime={progress[stepId] === undefined}
             onRate={(result) => rateInfo(stepId, result)}
           />
         )}
@@ -549,17 +556,29 @@ const INFO_RATINGS: { result: AnswerResult; label: string }[] = [
   { result: 'right', label: 'Remembered' },
 ]
 
+// The same ratings, worded for an info question never answered before, as
+// there is nothing to remember yet. Scored the same as `INFO_RATINGS`.
+const FIRST_TIME_INFO_RATINGS: { result: AnswerResult; label: string }[] = [
+  { result: 'wrong', label: 'New info' },
+  { result: 'close', label: 'Partly new' },
+  { result: 'right', label: 'Already known' },
+]
+
 type InfoQuestionProps = {
   heading: string
   // The paragraph, or undefined while the country's file is loading.
   text: string | undefined
+  // Whether the question has never been answered before, which changes the
+  // ratings' wording.
+  isFirstTime: boolean
   onRate: (result: AnswerResult) => void
 }
 
 // An info question: the topic's heading with a Reveal button. Revealing shows
 // the paragraph and the ratings; picking one goes on.
-function InfoQuestion({ heading, text, onRate }: InfoQuestionProps) {
+function InfoQuestion({ heading, text, isFirstTime, onRate }: InfoQuestionProps) {
   const [isRevealed, setIsRevealed] = useState(false)
+  const ratings = isFirstTime ? FIRST_TIME_INFO_RATINGS : INFO_RATINGS
 
   return (
     <>
@@ -567,11 +586,15 @@ function InfoQuestion({ heading, text, onRate }: InfoQuestionProps) {
       {isRevealed ? (
         <>
           <p className="flashcard__info-text">{text}</p>
-          <div className="flashcard__options" role="group" aria-label="How well did you remember?">
-            {INFO_RATINGS.map(({ result, label }) => (
+          <div
+            className="flashcard__options"
+            role="group"
+            aria-label={isFirstTime ? 'How much was new?' : 'How well did you remember?'}
+          >
+            {ratings.map(({ result, label }) => (
               <button
                 key={result}
-                className={`flashcard__option flashcard__rating--${result}`}
+                className={`flashcard__option flashcard__rating--${isFirstTime ? 'first-' : ''}${result}`}
                 onClick={() => onRate(result)}
               >
                 {label}

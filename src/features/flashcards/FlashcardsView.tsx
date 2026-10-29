@@ -208,6 +208,7 @@ export function FlashcardsView({
           globeKinds={globeKinds}
           asksBorders={asksBorders}
           countryIcon={countryIcon}
+          progress={progress[currentCode]}
           onFinish={(results) => finishCard(currentCode, results)}
         />
       )}

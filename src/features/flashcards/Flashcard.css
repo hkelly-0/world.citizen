@@ -133,6 +133,20 @@
   border-color: var(--correct-green);
 }
 
+/* The ratings of an info question seen for the first time: blue for new info
+   and turquoise for partly new, as nothing was forgotten. */
+.flashcard__rating--first-wrong {
+  border-color: #58a6ff;
+}
+
+.flashcard__rating--first-close {
+  border-color: #39c5cf;
+}
+
+.flashcard__rating--first-right {
+  border-color: var(--correct-green);
+}
+
 /* Reveal waits for an info paragraph to load. */
 .flashcard__check:disabled {
   opacity: 0.4;

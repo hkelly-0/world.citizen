@@ -113,12 +113,12 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     // Then the four info questions, each revealed (once the country's info
-    // file has loaded) and rated.
+    // file has loaded) and rated, worded for a first viewing.
     for (let i = 0; i < 4; i++) {
       const reveal = screen.getByRole('button', { name: 'Reveal' })
       await vi.waitFor(() => expect(reveal).toBeEnabled())
       await userEvent.click(reveal)
-      await userEvent.click(screen.getByRole('button', { name: 'Remembered' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Already known' }))
     }
 
     const saved = JSON.parse(localStorage.getItem('geography-app/fsrs-progress') ?? '{}')

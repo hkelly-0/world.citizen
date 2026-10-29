@@ -39,6 +39,8 @@ export function PassportFlashcardView({
   // Set once the card is finished: the Passport count for a new country's
   // first card, otherwise its familiarity.
   const [reward, setReward] = useState<CardRewardDetails | null>(null)
+  // The country's progress before this card, read once when it opens.
+  const [countryProgress] = useState(() => loadProgress()[isoAlpha3])
 
   function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
     const today = todayString()
@@ -70,6 +72,7 @@ export function PassportFlashcardView({
           questionIds={learnedQuestionIds}
           globeKinds={['locate']}
           countryIcon={countryIcon}
+          progress={countryProgress}
           onFinish={finishCard}
         />
       )}
