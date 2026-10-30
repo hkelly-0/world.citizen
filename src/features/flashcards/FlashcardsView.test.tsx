@@ -344,7 +344,38 @@ describe('FlashcardsView', () => {
       expect(screen.getByText(BORDERS)).toBeInTheDocument()
     })
 
+    it('in Classic, asks a due one first when left on the reward before it', async () => {
+      saveFranceArea(0.2)
+      const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
+      await answerArea()
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      await answerArea()
+      unmount()
+
+      renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
+      expect(screen.getByText(BORDERS)).toBeInTheDocument()
+    })
+
+    it('in Classic, asks a due one again when left before it is answered', async () => {
+      saveFranceArea(0.2)
+      const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
+      for (let card = 0; card < 2; card++) {
+        await answerArea()
+        await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      }
+      expect(screen.getByText(BORDERS)).toBeInTheDocument()
+      unmount()
+
+      renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
+      expect(screen.getByText(BORDERS)).toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByText('Area?')).toBeInTheDocument()
+    })
+
     it('skips one the Passport cannot make, and waits another two cards', async () => {
+      // Classic's case (the Custom Practice menu disables such questions),
+      // tested in Custom Practice so no new countries are discovered.
       // Islands only, so Borders can't be asked.
       saveAreas(['ISL', 'JAM'], 0.2)
       renderFlashcards(['area'], 'custom', ['locate'], ['borders'])

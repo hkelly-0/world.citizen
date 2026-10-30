@@ -1,7 +1,8 @@
 // How many cards Classic has finished since its last multi-country question
-// (or since one was due but the Passport couldn't make any). Saved like the
-// unfinished card, so leaving and coming back the same day carries on the
-// count (`FlashcardsView`). Kept in the browser's localStorage, on this device
+// was answered (or since one was due but the Passport couldn't make any).
+// Saved like the unfinished card, so leaving and coming back the same day
+// carries on the count, and asks a question that was due but not answered
+// (`FlashcardsView`). Kept in the browser's localStorage, on this device
 // only.
 type ClassicCardCount = {
   // "YYYY-MM-DD": the day it was counted on. Only carried on that day.

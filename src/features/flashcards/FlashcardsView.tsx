@@ -91,7 +91,8 @@ type FlashcardsViewProps = {
 // kind the Passport can make, but not the same kind as the one before unless
 // it is the only one (`nextMultiCountryQuestion`). If the Passport can make
 // none, it is skipped until another CARDS_PER_MULTI_COUNTRY_QUESTION cards are
-// finished.
+// finished. Classic left before a due one is answered asks it first when
+// opened again the same day.
 export function FlashcardsView({
   questionIds,
   learnedQuestionIds,
@@ -186,7 +187,26 @@ export function FlashcardsView({
   // Passport count for a new country's first card, otherwise its familiarity.
   const [reward, setReward] = useState<CardRewardDetails | null>(null)
 
-  // Cards finished since the last multi-country question was due.
+  // Whether a multi-country question is due after `cardCount` finished cards.
+  function isMultiCountryQuestionDue(cardCount: number): boolean {
+    return multiCountryQuestionIds.length > 0 && cardCount >= CARDS_PER_MULTI_COUNTRY_QUESTION
+  }
+
+  // A multi-country question that the Passport in `progress` can make, not
+  // the same kind as `previous` unless it is the only one. Null if it can make
+  // none.
+  function newMultiCountryQuestion(
+    progress: DeckProgress,
+    previous: MultiCountryQuestion | null,
+  ): MultiCountryQuestion | null {
+    const passportCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
+    return nextMultiCountryQuestion(multiCountryQuestionIds, passportCodes, previous)
+  }
+
+  // Cards finished since the last multi-country question was answered (or
+  // was due but the Passport couldn't make any). Stays at its due value until
+  // the question is answered, so a Classic screen left before then asks it
+  // when opened again.
   const [cardsSinceMultiCountryQuestion, setCardsSinceMultiCountryQuestion] = useState(() =>
     mode === 'classic' ? loadClassicCardCount(today) : 0,
   )
@@ -194,11 +214,17 @@ export function FlashcardsView({
     if (mode === 'classic') saveClassicCardCount(cardsSinceMultiCountryQuestion, today)
   }, [cardsSinceMultiCountryQuestion, mode, today])
   // The last multi-country question asked, kept after it is answered so the
-  // next one isn't the same kind.
+  // next one isn't the same kind. Chosen on opening if one was already due.
   const [multiCountryQuestion, setMultiCountryQuestion] = useState<MultiCountryQuestion | null>(
-    null,
+    () =>
+      isMultiCountryQuestionDue(cardsSinceMultiCountryQuestion)
+        ? newMultiCountryQuestion(progress, null)
+        : null,
   )
-  const [isMultiCountryQuestionShown, setIsMultiCountryQuestionShown] = useState(false)
+  // Shown once any reward before it is dismissed.
+  const [isMultiCountryQuestionShown, setIsMultiCountryQuestionShown] = useState(
+    multiCountryQuestion !== null,
+  )
 
   // In Classic, when a new country should come but no group is pending: the
   // user chooses the next group. A resumed card is finished first, even if
@@ -237,7 +263,21 @@ export function FlashcardsView({
   function finishCard(card: UnfinishedCard, newProgress: DeckProgress) {
     const code = card.country
     setReward(rewardAfterCard(code, card.isNewCountry, newProgress, learnedQuestionIds, today))
-    setCardsSinceMultiCountryQuestion(cardsSinceMultiCountryQuestion + 1)
+    const cardCount = cardsSinceMultiCountryQuestion + 1
+    if (isMultiCountryQuestionDue(cardCount)) {
+      const question = newMultiCountryQuestion(newProgress, multiCountryQuestion)
+      if (question === null) {
+        // Counted again from here, so the next try is another
+        // CARDS_PER_MULTI_COUNTRY_QUESTION cards away.
+        setCardsSinceMultiCountryQuestion(0)
+      } else {
+        setCardsSinceMultiCountryQuestion(cardCount)
+        setMultiCountryQuestion(question)
+        setIsMultiCountryQuestionShown(true)
+      }
+    } else {
+      setCardsSinceMultiCountryQuestion(cardCount)
+    }
     // Null once the group's last country is in the Passport, so the user
     // chooses the next group.
     const newGroupId = groupId === null ? null : pendingGroupId(groupId, newProgress)
@@ -245,26 +285,9 @@ export function FlashcardsView({
     setCard(newCard(nextCountry(newProgress, newGroupId, code), newProgress))
   }
 
-  // Leaves the reward: for a multi-country question if one is due, otherwise
-  // for the next card.
-  function continueAfterReward() {
-    setReward(null)
-    const isDue =
-      multiCountryQuestionIds.length > 0 &&
-      cardsSinceMultiCountryQuestion >= CARDS_PER_MULTI_COUNTRY_QUESTION
-    if (!isDue) return
-    // Counted again from here even if the Passport can make none, so the next
-    // try is another CARDS_PER_MULTI_COUNTRY_QUESTION cards away.
+  function finishMultiCountryQuestion() {
+    setIsMultiCountryQuestionShown(false)
     setCardsSinceMultiCountryQuestion(0)
-    const passportCodes = collectedCountries(progress).map((country) => country.isoAlpha3)
-    const question = nextMultiCountryQuestion(
-      multiCountryQuestionIds,
-      passportCodes,
-      multiCountryQuestion,
-    )
-    if (question === null) return
-    setMultiCountryQuestion(question)
-    setIsMultiCountryQuestionShown(true)
   }
 
   // Saved straight away, so the group is still pending if the user leaves
@@ -283,13 +306,13 @@ export function FlashcardsView({
           reward={reward}
           continueLabel="Next"
           continueHasArrow={true}
-          onContinue={continueAfterReward}
+          onContinue={() => setReward(null)}
         />
       ) : isMultiCountryQuestionShown && multiCountryQuestion !== null ? (
         <MultiCountryCard
           question={multiCountryQuestion}
           countryIcon={countryIcon}
-          onFinish={() => setIsMultiCountryQuestionShown(false)}
+          onFinish={finishMultiCountryQuestion}
         />
       ) : needsNewGroup ? (
         <Suspense fallback={<p className="flashcards-view__done">Loading globe…</p>}>
