@@ -1,3 +1,4 @@
+import capitalNativeNamesJson from '../data/capitalNativeNames.json'
 import countriesJson from '../data/countries.json'
 import countryGroupsJson from '../data/countryGroups.json'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
@@ -73,6 +74,16 @@ const nameAlternatives: Record<string, string[]> = nameAlternativesJson
 
 export function alternativeNames(isoAlpha3: string): string[] {
   return nameAlternatives[isoAlpha3] ?? []
+}
+
+// Capitals' names in the country's own languages and scripts where they differ
+// from the English name by more than accents, e.g. "Warszawa" for Warsaw,
+// hand-written in capitalNativeNames.json and keyed by ISO alpha-3 code.
+// Accepted as typed answers. Countries with several capitals have one list.
+const capitalNativeNames: Record<string, string[]> = capitalNativeNamesJson
+
+export function nativeCapitalNames(isoAlpha3: string): string[] {
+  return capitalNativeNames[isoAlpha3] ?? []
 }
 
 // What each map area outside the 195 countries is, e.g. "Autonomous

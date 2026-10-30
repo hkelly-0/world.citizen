@@ -144,7 +144,7 @@ export function Flashcard({
     submitAnswer(
       'capital',
       typedCapital,
-      resultFromCorrect(isCapitalCorrect(typedCapital, country.capitals)),
+      resultFromCorrect(isCapitalCorrect(typedCapital, country)),
     )
   }
 
@@ -400,7 +400,7 @@ function CapitalQuestion({
         {isAnswered ? (
           <TypedAnswerReveal
             typed={answer}
-            isCorrect={isCapitalCorrect(answer, country.capitals)}
+            isCorrect={isCapitalCorrect(answer, country)}
             correctAnswer={country.capitals.join(', ')}
           />
         ) : (

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { CountryShape } from './countries'
+import capitalNativeNamesJson from '../data/capitalNativeNames.json'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
 import territorySubtitlesJson from '../data/territorySubtitles.json'
 import { loadCountryShapes } from './countries'
@@ -8,6 +9,7 @@ import {
   compareNames,
   countryDisplayName,
   countryFacts,
+  nativeCapitalNames,
   territorySubtitle,
 } from './countryFacts'
 
@@ -128,6 +130,19 @@ describe('alternativeNames', () => {
 
   it('only lists alternatives for the 195 countries', () => {
     for (const code of Object.keys(nameAlternativesJson)) {
+      expect(countryFacts[code]).toBeDefined()
+    }
+  })
+})
+
+describe('nativeCapitalNames', () => {
+  it("gives a country's native capital names, or none", () => {
+    expect(nativeCapitalNames('POL')).toEqual(['Warszawa'])
+    expect(nativeCapitalNames('FRA')).toEqual([])
+  })
+
+  it('only lists native capital names for the 195 countries', () => {
+    for (const code of Object.keys(capitalNativeNamesJson)) {
       expect(countryFacts[code]).toBeDefined()
     }
   })
