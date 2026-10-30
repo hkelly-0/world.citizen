@@ -3,6 +3,13 @@
     "isoAlpha3": "AFG",
     "commonName": "Afghanistan",
     "officialName": "Islamic Republic of Afghanistan",
+    "nativeNames": [
+      "افغانستان",
+      "جمهوری اسلامی افغانستان",
+      "د افغانستان اسلامي جمهوریت",
+      "Owganystan",
+      "Owganystan Yslam Respublikasy"
+    ],
     "capitals": [
       "Kabul"
     ],
@@ -21,6 +28,10 @@
     "isoAlpha3": "AGO",
     "commonName": "Angola",
     "officialName": "Republic of Angola",
+    "nativeNames": [
+      "Angola",
+      "República de Angola"
+    ],
     "capitals": [
       "Luanda"
     ],
@@ -39,6 +50,10 @@
     "isoAlpha3": "ALB",
     "commonName": "Albania",
     "officialName": "Republic of Albania",
+    "nativeNames": [
+      "Shqipëria",
+      "Republika e Shqipërisë"
+    ],
     "capitals": [
       "Tirana"
     ],
@@ -57,6 +72,10 @@
     "isoAlpha3": "AND",
     "commonName": "Andorra",
     "officialName": "Principality of Andorra",
+    "nativeNames": [
+      "Andorra",
+      "Principat d'Andorra"
+    ],
     "capitals": [
       "Andorra la Vella"
     ],
@@ -75,6 +94,10 @@
     "isoAlpha3": "ARE",
     "commonName": "United Arab Emirates",
     "officialName": "United Arab Emirates",
+    "nativeNames": [
+      "الإمارات",
+      "الإمارات العربية المتحدة"
+    ],
     "capitals": [
       "Abu Dhabi"
     ],
@@ -93,6 +116,11 @@
     "isoAlpha3": "ARG",
     "commonName": "Argentina",
     "officialName": "Argentine Republic",
+    "nativeNames": [
+      "Argentina",
+      "Argentine Republic",
+      "República Argentina"
+    ],
     "capitals": [
       "Buenos Aires"
     ],
@@ -111,6 +139,10 @@
     "isoAlpha3": "ARM",
     "commonName": "Armenia",
     "officialName": "Republic of Armenia",
+    "nativeNames": [
+      "Հայաստան",
+      "Հայաստանի Հանրապետություն"
+    ],
     "capitals": [
       "Yerevan"
     ],
@@ -129,6 +161,9 @@
     "isoAlpha3": "ATG",
     "commonName": "Antigua and Barbuda",
     "officialName": "Antigua and Barbuda",
+    "nativeNames": [
+      "Antigua and Barbuda"
+    ],
     "capitals": [
       "Saint John's"
     ],
@@ -147,6 +182,10 @@
     "isoAlpha3": "AUS",
     "commonName": "Australia",
     "officialName": "Commonwealth of Australia",
+    "nativeNames": [
+      "Australia",
+      "Commonwealth of Australia"
+    ],
     "capitals": [
       "Canberra"
     ],
@@ -165,6 +204,10 @@
     "isoAlpha3": "AUT",
     "commonName": "Austria",
     "officialName": "Republic of Austria",
+    "nativeNames": [
+      "Österreich",
+      "Republik Österreich"
+    ],
     "capitals": [
       "Vienna"
     ],
@@ -183,6 +226,12 @@
     "isoAlpha3": "AZE",
     "commonName": "Azerbaijan",
     "officialName": "Republic of Azerbaijan",
+    "nativeNames": [
+      "Azərbaycan",
+      "Azərbaycan Respublikası",
+      "Азербайджан",
+      "Азербайджанская Республика"
+    ],
     "capitals": [
       "Baku"
     ],
@@ -201,6 +250,12 @@
     "isoAlpha3": "BDI",
     "commonName": "Burundi",
     "officialName": "Republic of Burundi",
+    "nativeNames": [
+      "Burundi",
+      "République du Burundi",
+      "Uburundi",
+      "Republika y'Uburundi "
+    ],
     "capitals": [
       "Gitega"
     ],
@@ -219,6 +274,14 @@
     "isoAlpha3": "BEL",
     "commonName": "Belgium",
     "officialName": "Kingdom of Belgium",
+    "nativeNames": [
+      "Belgien",
+      "Königreich Belgien",
+      "Belgique",
+      "Royaume de Belgique",
+      "België",
+      "Koninkrijk België"
+    ],
     "capitals": [
       "Brussels"
     ],
@@ -237,6 +300,10 @@
     "isoAlpha3": "BEN",
     "commonName": "Benin",
     "officialName": "Republic of Benin",
+    "nativeNames": [
+      "Bénin",
+      "République du Bénin"
+    ],
     "capitals": [
       "Porto-Novo",
       "Cotonou"
@@ -256,6 +323,10 @@
     "isoAlpha3": "BFA",
     "commonName": "Burkina Faso",
     "officialName": "Burkina Faso",
+    "nativeNames": [
+      "Burkina Faso",
+      "République du Burkina"
+    ],
     "capitals": [
       "Ouagadougou"
     ],
@@ -274,6 +345,10 @@
     "isoAlpha3": "BGD",
     "commonName": "Bangladesh",
     "officialName": "People's Republic of Bangladesh",
+    "nativeNames": [
+      "বাংলাদেশ",
+      "বাংলাদেশ গণপ্রজাতন্ত্রী"
+    ],
     "capitals": [
       "Dhaka"
     ],
@@ -292,6 +367,10 @@
     "isoAlpha3": "BGR",
     "commonName": "Bulgaria",
     "officialName": "Republic of Bulgaria",
+    "nativeNames": [
+      "България",
+      "Република България"
+    ],
     "capitals": [
       "Sofia"
     ],
@@ -310,6 +389,10 @@
     "isoAlpha3": "BHR",
     "commonName": "Bahrain",
     "officialName": "Kingdom of Bahrain",
+    "nativeNames": [
+      "البحرين",
+      "مملكة البحرين"
+    ],
     "capitals": [
       "Manama"
     ],
@@ -328,6 +411,10 @@
     "isoAlpha3": "BHS",
     "commonName": "The Bahamas",
     "officialName": "Commonwealth of the Bahamas",
+    "nativeNames": [
+      "Bahamas",
+      "Commonwealth of the Bahamas"
+    ],
     "capitals": [
       "Nassau"
     ],
@@ -346,6 +433,10 @@
     "isoAlpha3": "BIH",
     "commonName": "Bosnia and Herzegovina",
     "officialName": "Bosnia and Herzegovina",
+    "nativeNames": [
+      "Bosna i Hercegovina",
+      "Боснa и Херцеговина"
+    ],
     "capitals": [
       "Sarajevo"
     ],
@@ -364,6 +455,12 @@
     "isoAlpha3": "BLR",
     "commonName": "Belarus",
     "officialName": "Republic of Belarus",
+    "nativeNames": [
+      "Белару́сь",
+      "Рэспубліка Беларусь",
+      "Беларусь",
+      "Республика Беларусь"
+    ],
     "capitals": [
       "Minsk"
     ],
@@ -382,6 +479,10 @@
     "isoAlpha3": "BLZ",
     "commonName": "Belize",
     "officialName": "Belize",
+    "nativeNames": [
+      "Belize",
+      "Belice"
+    ],
     "capitals": [
       "Belmopan"
     ],
@@ -400,6 +501,16 @@
     "isoAlpha3": "BOL",
     "commonName": "Bolivia",
     "officialName": "Plurinational State of Bolivia",
+    "nativeNames": [
+      "Wuliwya",
+      "Wuliwya Suyu",
+      "Volívia",
+      "Tetã Volívia",
+      "Buliwya",
+      "Buliwya Mamallaqta",
+      "Bolivia",
+      "Estado Plurinacional de Bolivia"
+    ],
     "capitals": [
       "Sucre",
       "La Paz"
@@ -419,6 +530,10 @@
     "isoAlpha3": "BRA",
     "commonName": "Brazil",
     "officialName": "Federative Republic of Brazil",
+    "nativeNames": [
+      "Brasil",
+      "República Federativa do Brasil"
+    ],
     "capitals": [
       "Brasília"
     ],
@@ -437,6 +552,9 @@
     "isoAlpha3": "BRB",
     "commonName": "Barbados",
     "officialName": "Barbados",
+    "nativeNames": [
+      "Barbados"
+    ],
     "capitals": [
       "Bridgetown"
     ],
@@ -455,6 +573,10 @@
     "isoAlpha3": "BRN",
     "commonName": "Brunei",
     "officialName": "Nation of Brunei, Abode of Peace",
+    "nativeNames": [
+      "Negara Brunei Darussalam",
+      "Nation of Brunei, Abode Damai"
+    ],
     "capitals": [
       "Bandar Seri Begawan"
     ],
@@ -473,6 +595,10 @@
     "isoAlpha3": "BTN",
     "commonName": "Bhutan",
     "officialName": "Kingdom of Bhutan",
+    "nativeNames": [
+      "འབྲུག་ཡུལ་",
+      "འབྲུག་རྒྱལ་ཁབ་"
+    ],
     "capitals": [
       "Thimphu"
     ],
@@ -491,6 +617,11 @@
     "isoAlpha3": "BWA",
     "commonName": "Botswana",
     "officialName": "Republic of Botswana",
+    "nativeNames": [
+      "Botswana",
+      "Republic of Botswana",
+      "Lefatshe la Botswana"
+    ],
     "capitals": [
       "Gaborone"
     ],
@@ -509,6 +640,11 @@
     "isoAlpha3": "CAF",
     "commonName": "Central African Republic",
     "officialName": "Central African Republic",
+    "nativeNames": [
+      "République centrafricaine",
+      "Bêafrîka",
+      "Ködörösêse tî Bêafrîka"
+    ],
     "capitals": [
       "Bangui"
     ],
@@ -527,6 +663,9 @@
     "isoAlpha3": "CAN",
     "commonName": "Canada",
     "officialName": "Canada",
+    "nativeNames": [
+      "Canada"
+    ],
     "capitals": [
       "Ottawa"
     ],
@@ -545,6 +684,16 @@
     "isoAlpha3": "CHE",
     "commonName": "Switzerland",
     "officialName": "Swiss Confederation",
+    "nativeNames": [
+      "Suisse",
+      "Confédération suisse",
+      "Schweiz",
+      "Schweizerische Eidgenossenschaft",
+      "Svizzera",
+      "Confederazione Svizzera",
+      "Svizra",
+      "Confederaziun svizra"
+    ],
     "capitals": [
       "Bern"
     ],
@@ -563,6 +712,10 @@
     "isoAlpha3": "CHL",
     "commonName": "Chile",
     "officialName": "Republic of Chile",
+    "nativeNames": [
+      "Chile",
+      "República de Chile"
+    ],
     "capitals": [
       "Santiago"
     ],
@@ -581,6 +734,10 @@
     "isoAlpha3": "CHN",
     "commonName": "China",
     "officialName": "People's Republic of China",
+    "nativeNames": [
+      "中国",
+      "中华人民共和国"
+    ],
     "capitals": [
       "Beijing"
     ],
@@ -599,6 +756,10 @@
     "isoAlpha3": "CIV",
     "commonName": "Côte d'Ivoire",
     "officialName": "Republic of Côte d'Ivoire",
+    "nativeNames": [
+      "Côte d'Ivoire",
+      "République de Côte d'Ivoire"
+    ],
     "capitals": [
       "Yamoussoukro",
       "Abidjan"
@@ -618,6 +779,12 @@
     "isoAlpha3": "CMR",
     "commonName": "Cameroon",
     "officialName": "Republic of Cameroon",
+    "nativeNames": [
+      "Cameroon",
+      "Republic of Cameroon",
+      "Cameroun",
+      "République du Cameroun"
+    ],
     "capitals": [
       "Yaoundé"
     ],
@@ -636,6 +803,14 @@
     "isoAlpha3": "COD",
     "commonName": "DR Congo",
     "officialName": "Democratic Republic of the Congo",
+    "nativeNames": [
+      "RD Congo",
+      "République démocratique du Congo",
+      "Repubilika ya Kongo Demokratiki",
+      "Republiki ya Kongó Demokratiki",
+      "Ditunga dia Kongu wa Mungalaata",
+      "Jamhuri ya Kidemokrasia ya Kongo"
+    ],
     "capitals": [
       "Kinshasa"
     ],
@@ -654,6 +829,11 @@
     "isoAlpha3": "COG",
     "commonName": "Congo",
     "officialName": "Republic of the Congo",
+    "nativeNames": [
+      "République du Congo",
+      "Repubilika ya Kongo",
+      "Republíki ya Kongó"
+    ],
     "capitals": [
       "Brazzaville"
     ],
@@ -672,6 +852,10 @@
     "isoAlpha3": "COL",
     "commonName": "Colombia",
     "officialName": "Republic of Colombia",
+    "nativeNames": [
+      "Colombia",
+      "República de Colombia"
+    ],
     "capitals": [
       "Bogotá"
     ],
@@ -690,6 +874,14 @@
     "isoAlpha3": "COM",
     "commonName": "Comoros",
     "officialName": "Union of the Comoros",
+    "nativeNames": [
+      "جزر القمر",
+      "الاتحاد القمري",
+      "Comores",
+      "Union des Comores",
+      "Komori",
+      "Udzima wa Komori"
+    ],
     "capitals": [
       "Moroni"
     ],
@@ -708,6 +900,10 @@
     "isoAlpha3": "CPV",
     "commonName": "Cabo Verde",
     "officialName": "Republic of Cabo Verde",
+    "nativeNames": [
+      "Cabo Verde",
+      "República de Cabo Verde"
+    ],
     "capitals": [
       "Praia"
     ],
@@ -726,6 +922,10 @@
     "isoAlpha3": "CRI",
     "commonName": "Costa Rica",
     "officialName": "Republic of Costa Rica",
+    "nativeNames": [
+      "Costa Rica",
+      "República de Costa Rica"
+    ],
     "capitals": [
       "San José"
     ],
@@ -744,6 +944,10 @@
     "isoAlpha3": "CUB",
     "commonName": "Cuba",
     "officialName": "Republic of Cuba",
+    "nativeNames": [
+      "Cuba",
+      "República de Cuba"
+    ],
     "capitals": [
       "Havana"
     ],
@@ -762,6 +966,12 @@
     "isoAlpha3": "CYP",
     "commonName": "Cyprus",
     "officialName": "Republic of Cyprus",
+    "nativeNames": [
+      "Κύπρος",
+      "Δημοκρατία της Κύπρος",
+      "Kıbrıs",
+      "Kıbrıs Cumhuriyeti"
+    ],
     "capitals": [
       "Nicosia"
     ],
@@ -780,6 +990,10 @@
     "isoAlpha3": "CZE",
     "commonName": "Czechia",
     "officialName": "Czech Republic",
+    "nativeNames": [
+      "Česko",
+      "Česká republika"
+    ],
     "capitals": [
       "Prague"
     ],
@@ -798,6 +1012,10 @@
     "isoAlpha3": "DEU",
     "commonName": "Germany",
     "officialName": "Federal Republic of Germany",
+    "nativeNames": [
+      "Deutschland",
+      "Bundesrepublik Deutschland"
+    ],
     "capitals": [
       "Berlin"
     ],
@@ -816,6 +1034,12 @@
     "isoAlpha3": "DJI",
     "commonName": "Djibouti",
     "officialName": "Republic of Djibouti",
+    "nativeNames": [
+      "جيبوتي",
+      "جمهورية جيبوتي",
+      "Djibouti",
+      "République de Djibouti"
+    ],
     "capitals": [
       "Djibouti"
     ],
@@ -834,6 +1058,10 @@
     "isoAlpha3": "DMA",
     "commonName": "Dominica",
     "officialName": "Commonwealth of Dominica",
+    "nativeNames": [
+      "Dominica",
+      "Commonwealth of Dominica"
+    ],
     "capitals": [
       "Roseau"
     ],
@@ -852,6 +1080,10 @@
     "isoAlpha3": "DNK",
     "commonName": "Denmark",
     "officialName": "Kingdom of Denmark",
+    "nativeNames": [
+      "Danmark",
+      "Kongeriget Danmark"
+    ],
     "capitals": [
       "Copenhagen"
     ],
@@ -870,6 +1102,9 @@
     "isoAlpha3": "DOM",
     "commonName": "Dominican Republic",
     "officialName": "Dominican Republic",
+    "nativeNames": [
+      "República Dominicana"
+    ],
     "capitals": [
       "Santo Domingo"
     ],
@@ -888,6 +1123,10 @@
     "isoAlpha3": "DZA",
     "commonName": "Algeria",
     "officialName": "People's Democratic Republic of Algeria",
+    "nativeNames": [
+      "الجزائر",
+      "الجمهورية الديمقراطية الشعبية الجزائرية"
+    ],
     "capitals": [
       "Algiers"
     ],
@@ -906,6 +1145,10 @@
     "isoAlpha3": "ECU",
     "commonName": "Ecuador",
     "officialName": "Republic of Ecuador",
+    "nativeNames": [
+      "Ecuador",
+      "República del Ecuador"
+    ],
     "capitals": [
       "Quito"
     ],
@@ -924,6 +1167,10 @@
     "isoAlpha3": "EGY",
     "commonName": "Egypt",
     "officialName": "Arab Republic of Egypt",
+    "nativeNames": [
+      "مصر",
+      "جمهورية مصر العربية"
+    ],
     "capitals": [
       "Cairo"
     ],
@@ -942,6 +1189,14 @@
     "isoAlpha3": "ERI",
     "commonName": "Eritrea",
     "officialName": "State of Eritrea",
+    "nativeNames": [
+      "إريتريا",
+      "دولة إريتريا",
+      "Eritrea",
+      "State of Eritrea",
+      "ኤርትራ",
+      "ሃገረ ኤርትራ"
+    ],
     "capitals": [
       "Asmara"
     ],
@@ -960,6 +1215,10 @@
     "isoAlpha3": "ESP",
     "commonName": "Spain",
     "officialName": "Kingdom of Spain",
+    "nativeNames": [
+      "España",
+      "Reino de España"
+    ],
     "capitals": [
       "Madrid"
     ],
@@ -978,6 +1237,10 @@
     "isoAlpha3": "EST",
     "commonName": "Estonia",
     "officialName": "Republic of Estonia",
+    "nativeNames": [
+      "Eesti",
+      "Eesti Vabariik"
+    ],
     "capitals": [
       "Tallinn"
     ],
@@ -996,6 +1259,10 @@
     "isoAlpha3": "ETH",
     "commonName": "Ethiopia",
     "officialName": "Federal Democratic Republic of Ethiopia",
+    "nativeNames": [
+      "ኢትዮጵያ",
+      "የኢትዮጵያ ፌዴራላዊ ዲሞክራሲያዊ ሪፐብሊክ"
+    ],
     "capitals": [
       "Addis Ababa"
     ],
@@ -1014,6 +1281,12 @@
     "isoAlpha3": "FIN",
     "commonName": "Finland",
     "officialName": "Republic of Finland",
+    "nativeNames": [
+      "Suomi",
+      "Suomen tasavalta",
+      "Finland",
+      "Republiken Finland"
+    ],
     "capitals": [
       "Helsinki"
     ],
@@ -1032,6 +1305,14 @@
     "isoAlpha3": "FJI",
     "commonName": "Fiji",
     "officialName": "Republic of Fiji",
+    "nativeNames": [
+      "Fiji",
+      "Republic of Fiji",
+      "Viti",
+      "Matanitu Tugalala o Viti",
+      "फिजी",
+      "रिपब्लिक ऑफ फीजी"
+    ],
     "capitals": [
       "Suva"
     ],
@@ -1050,6 +1331,10 @@
     "isoAlpha3": "FRA",
     "commonName": "France",
     "officialName": "French Republic",
+    "nativeNames": [
+      "France",
+      "République française"
+    ],
     "capitals": [
       "Paris"
     ],
@@ -1068,6 +1353,10 @@
     "isoAlpha3": "FSM",
     "commonName": "Micronesia",
     "officialName": "Federated States of Micronesia",
+    "nativeNames": [
+      "Micronesia",
+      "Federated States of Micronesia"
+    ],
     "capitals": [
       "Palikir"
     ],
@@ -1086,6 +1375,10 @@
     "isoAlpha3": "GAB",
     "commonName": "Gabon",
     "officialName": "Gabonese Republic",
+    "nativeNames": [
+      "Gabon",
+      "République gabonaise"
+    ],
     "capitals": [
       "Libreville"
     ],
@@ -1104,6 +1397,10 @@
     "isoAlpha3": "GBR",
     "commonName": "United Kingdom",
     "officialName": "United Kingdom of Great Britain and Northern Ireland",
+    "nativeNames": [
+      "United Kingdom",
+      "United Kingdom of Great Britain and Northern Ireland"
+    ],
     "capitals": [
       "London"
     ],
@@ -1122,6 +1419,9 @@
     "isoAlpha3": "GEO",
     "commonName": "Georgia",
     "officialName": "Georgia",
+    "nativeNames": [
+      "საქართველო"
+    ],
     "capitals": [
       "Tbilisi"
     ],
@@ -1140,6 +1440,10 @@
     "isoAlpha3": "GHA",
     "commonName": "Ghana",
     "officialName": "Republic of Ghana",
+    "nativeNames": [
+      "Ghana",
+      "Republic of Ghana"
+    ],
     "capitals": [
       "Accra"
     ],
@@ -1158,6 +1462,10 @@
     "isoAlpha3": "GIN",
     "commonName": "Guinea",
     "officialName": "Republic of Guinea",
+    "nativeNames": [
+      "Guinée",
+      "République de Guinée"
+    ],
     "capitals": [
       "Conakry"
     ],
@@ -1176,6 +1484,10 @@
     "isoAlpha3": "GMB",
     "commonName": "The Gambia",
     "officialName": "Republic of the Gambia",
+    "nativeNames": [
+      "Gambia",
+      "Republic of the Gambia"
+    ],
     "capitals": [
       "Banjul"
     ],
@@ -1194,6 +1506,10 @@
     "isoAlpha3": "GNB",
     "commonName": "Guinea-Bissau",
     "officialName": "Republic of Guinea-Bissau",
+    "nativeNames": [
+      "Guiné-Bissau",
+      "República da Guiné-Bissau"
+    ],
     "capitals": [
       "Bissau"
     ],
@@ -1212,6 +1528,14 @@
     "isoAlpha3": "GNQ",
     "commonName": "Equatorial Guinea",
     "officialName": "Republic of Equatorial Guinea",
+    "nativeNames": [
+      "Guinée équatoriale",
+      "République de la Guinée Équatoriale",
+      "Guiné Equatorial",
+      "República da Guiné Equatorial",
+      "Guinea Ecuatorial",
+      "República de Guinea Ecuatorial"
+    ],
     "capitals": [
       "Ciudad de la Paz"
     ],
@@ -1230,6 +1554,10 @@
     "isoAlpha3": "GRC",
     "commonName": "Greece",
     "officialName": "Hellenic Republic",
+    "nativeNames": [
+      "Ελλάδα",
+      "Ελληνική Δημοκρατία"
+    ],
     "capitals": [
       "Athens"
     ],
@@ -1248,6 +1576,9 @@
     "isoAlpha3": "GRD",
     "commonName": "Grenada",
     "officialName": "Grenada",
+    "nativeNames": [
+      "Grenada"
+    ],
     "capitals": [
       "St. George's"
     ],
@@ -1266,6 +1597,10 @@
     "isoAlpha3": "GTM",
     "commonName": "Guatemala",
     "officialName": "Republic of Guatemala",
+    "nativeNames": [
+      "Guatemala",
+      "República de Guatemala"
+    ],
     "capitals": [
       "Guatemala City"
     ],
@@ -1284,6 +1619,10 @@
     "isoAlpha3": "GUY",
     "commonName": "Guyana",
     "officialName": "Co-operative Republic of Guyana",
+    "nativeNames": [
+      "Guyana",
+      "Co-operative Republic of Guyana"
+    ],
     "capitals": [
       "Georgetown"
     ],
@@ -1302,6 +1641,10 @@
     "isoAlpha3": "HND",
     "commonName": "Honduras",
     "officialName": "Republic of Honduras",
+    "nativeNames": [
+      "Honduras",
+      "República de Honduras"
+    ],
     "capitals": [
       "Tegucigalpa"
     ],
@@ -1320,6 +1663,10 @@
     "isoAlpha3": "HRV",
     "commonName": "Croatia",
     "officialName": "Republic of Croatia",
+    "nativeNames": [
+      "Hrvatska",
+      "Republika Hrvatska"
+    ],
     "capitals": [
       "Zagreb"
     ],
@@ -1338,6 +1685,12 @@
     "isoAlpha3": "HTI",
     "commonName": "Haiti",
     "officialName": "Republic of Haiti",
+    "nativeNames": [
+      "Haïti",
+      "République d'Haïti",
+      "Ayiti",
+      "Repiblik Ayiti"
+    ],
     "capitals": [
       "Port-au-Prince"
     ],
@@ -1356,6 +1709,9 @@
     "isoAlpha3": "HUN",
     "commonName": "Hungary",
     "officialName": "Hungary",
+    "nativeNames": [
+      "Magyarország"
+    ],
     "capitals": [
       "Budapest"
     ],
@@ -1374,6 +1730,10 @@
     "isoAlpha3": "IDN",
     "commonName": "Indonesia",
     "officialName": "Republic of Indonesia",
+    "nativeNames": [
+      "Indonesia",
+      "Republik Indonesia"
+    ],
     "capitals": [
       "Jakarta"
     ],
@@ -1392,6 +1752,14 @@
     "isoAlpha3": "IND",
     "commonName": "India",
     "officialName": "Republic of India",
+    "nativeNames": [
+      "India",
+      "Republic of India",
+      "भारत",
+      "भारत गणराज्य",
+      "இந்தியா",
+      "இந்தியக் குடியரசு"
+    ],
     "capitals": [
       "New Delhi"
     ],
@@ -1410,6 +1778,12 @@
     "isoAlpha3": "IRL",
     "commonName": "Ireland",
     "officialName": "Ireland",
+    "nativeNames": [
+      "Ireland",
+      "Republic of Ireland",
+      "Éire",
+      "Poblacht na hÉireann"
+    ],
     "capitals": [
       "Dublin"
     ],
@@ -1428,6 +1802,10 @@
     "isoAlpha3": "IRN",
     "commonName": "Iran",
     "officialName": "Islamic Republic of Iran",
+    "nativeNames": [
+      "ایران",
+      "جمهوری اسلامی ایران"
+    ],
     "capitals": [
       "Tehran"
     ],
@@ -1446,6 +1824,14 @@
     "isoAlpha3": "IRQ",
     "commonName": "Iraq",
     "officialName": "Republic of Iraq",
+    "nativeNames": [
+      "العراق",
+      "جمهورية العراق",
+      "ܩܘܼܛܢܵܐ",
+      "ܩܘܼܛܢܵܐ ܐܝܼܪܲܩ",
+      "کۆماری",
+      "کۆماری عێراق"
+    ],
     "capitals": [
       "Baghdad"
     ],
@@ -1464,6 +1850,9 @@
     "isoAlpha3": "ISL",
     "commonName": "Iceland",
     "officialName": "Iceland",
+    "nativeNames": [
+      "Ísland"
+    ],
     "capitals": [
       "Reykjavik"
     ],
@@ -1482,6 +1871,12 @@
     "isoAlpha3": "ISR",
     "commonName": "Israel",
     "officialName": "State of Israel",
+    "nativeNames": [
+      "إسرائيل",
+      "دولة إسرائيل",
+      "ישראל",
+      "מדינת ישראל"
+    ],
     "capitals": [
       "Jerusalem"
     ],
@@ -1500,6 +1895,10 @@
     "isoAlpha3": "ITA",
     "commonName": "Italy",
     "officialName": "Italian Republic",
+    "nativeNames": [
+      "Italia",
+      "Repubblica italiana"
+    ],
     "capitals": [
       "Rome"
     ],
@@ -1518,6 +1917,9 @@
     "isoAlpha3": "JAM",
     "commonName": "Jamaica",
     "officialName": "Jamaica",
+    "nativeNames": [
+      "Jamaica"
+    ],
     "capitals": [
       "Kingston"
     ],
@@ -1536,6 +1938,10 @@
     "isoAlpha3": "JOR",
     "commonName": "Jordan",
     "officialName": "Hashemite Kingdom of Jordan",
+    "nativeNames": [
+      "الأردن",
+      "المملكة الأردنية الهاشمية"
+    ],
     "capitals": [
       "Amman"
     ],
@@ -1554,6 +1960,9 @@
     "isoAlpha3": "JPN",
     "commonName": "Japan",
     "officialName": "Japan",
+    "nativeNames": [
+      "日本"
+    ],
     "capitals": [
       "Tokyo"
     ],
@@ -1572,6 +1981,12 @@
     "isoAlpha3": "KAZ",
     "commonName": "Kazakhstan",
     "officialName": "Republic of Kazakhstan",
+    "nativeNames": [
+      "Қазақстан",
+      "Қазақстан Республикасы",
+      "Казахстан",
+      "Республика Казахстан"
+    ],
     "capitals": [
       "Astana"
     ],
@@ -1590,6 +2005,10 @@
     "isoAlpha3": "KEN",
     "commonName": "Kenya",
     "officialName": "Republic of Kenya",
+    "nativeNames": [
+      "Kenya",
+      "Republic of Kenya"
+    ],
     "capitals": [
       "Nairobi"
     ],
@@ -1608,6 +2027,12 @@
     "isoAlpha3": "KGZ",
     "commonName": "Kyrgyzstan",
     "officialName": "Kyrgyz Republic",
+    "nativeNames": [
+      "Кыргызстан",
+      "Кыргыз Республикасы",
+      "Киргизия",
+      "Кыргызская Республика"
+    ],
     "capitals": [
       "Bishkek"
     ],
@@ -1626,6 +2051,10 @@
     "isoAlpha3": "KHM",
     "commonName": "Cambodia",
     "officialName": "Kingdom of Cambodia",
+    "nativeNames": [
+      "Kâmpŭchéa",
+      "ព្រះរាជាណាចក្រកម្ពុជា"
+    ],
     "capitals": [
       "Phnom Penh"
     ],
@@ -1644,6 +2073,11 @@
     "isoAlpha3": "KIR",
     "commonName": "Kiribati",
     "officialName": "Independent and Sovereign Republic of Kiribati",
+    "nativeNames": [
+      "Kiribati",
+      "Independent and Sovereign Republic of Kiribati",
+      "Ribaberiki Kiribati"
+    ],
     "capitals": [
       "South Tarawa"
     ],
@@ -1662,6 +2096,10 @@
     "isoAlpha3": "KNA",
     "commonName": "Saint Kitts and Nevis",
     "officialName": "Federation of Saint Christopher and Nevis",
+    "nativeNames": [
+      "Saint Kitts and Nevis",
+      "Federation of Saint Christopher and Nevis"
+    ],
     "capitals": [
       "Basseterre"
     ],
@@ -1680,6 +2118,10 @@
     "isoAlpha3": "KOR",
     "commonName": "South Korea",
     "officialName": "Republic of Korea",
+    "nativeNames": [
+      "한국",
+      "대한민국"
+    ],
     "capitals": [
       "Seoul"
     ],
@@ -1698,6 +2140,10 @@
     "isoAlpha3": "KWT",
     "commonName": "Kuwait",
     "officialName": "State of Kuwait",
+    "nativeNames": [
+      "الكويت",
+      "دولة الكويت"
+    ],
     "capitals": [
       "Kuwait City"
     ],
@@ -1716,6 +2162,10 @@
     "isoAlpha3": "LAO",
     "commonName": "Laos",
     "officialName": "Lao People's Democratic Republic",
+    "nativeNames": [
+      "ສປປລາວ",
+      "ສາທາລະນະ ຊາທິປະໄຕ ຄົນລາວ ຂອງ"
+    ],
     "capitals": [
       "Vientiane"
     ],
@@ -1734,6 +2184,12 @@
     "isoAlpha3": "LBN",
     "commonName": "Lebanon",
     "officialName": "Lebanese Republic",
+    "nativeNames": [
+      "لبنان",
+      "الجمهورية اللبنانية",
+      "Liban",
+      "République libanaise"
+    ],
     "capitals": [
       "Beirut"
     ],
@@ -1752,6 +2208,10 @@
     "isoAlpha3": "LBR",
     "commonName": "Liberia",
     "officialName": "Republic of Liberia",
+    "nativeNames": [
+      "Liberia",
+      "Republic of Liberia"
+    ],
     "capitals": [
       "Monrovia"
     ],
@@ -1770,6 +2230,10 @@
     "isoAlpha3": "LBY",
     "commonName": "Libya",
     "officialName": "State of Libya",
+    "nativeNames": [
+      "ليبيا",
+      "دولة ليبيا"
+    ],
     "capitals": [
       "Tripoli"
     ],
@@ -1788,6 +2252,9 @@
     "isoAlpha3": "LCA",
     "commonName": "Saint Lucia",
     "officialName": "Saint Lucia",
+    "nativeNames": [
+      "Saint Lucia"
+    ],
     "capitals": [
       "Castries"
     ],
@@ -1806,6 +2273,10 @@
     "isoAlpha3": "LIE",
     "commonName": "Liechtenstein",
     "officialName": "Principality of Liechtenstein",
+    "nativeNames": [
+      "Liechtenstein",
+      "Fürstentum Liechtenstein"
+    ],
     "capitals": [
       "Vaduz"
     ],
@@ -1824,6 +2295,12 @@
     "isoAlpha3": "LKA",
     "commonName": "Sri Lanka",
     "officialName": "Democratic Socialist Republic of Sri Lanka",
+    "nativeNames": [
+      "ශ්‍රී ලංකාව",
+      "ශ්‍රී ලංකා ප්‍රජාතාන්ත්‍රික සමාජවාදී ජනරජය",
+      "இலங்கை",
+      "இலங்கை சனநாயக சோசலிசக் குடியரசு"
+    ],
     "capitals": [
       "Sri Jayawardenepura Kotte",
       "Colombo"
@@ -1843,6 +2320,10 @@
     "isoAlpha3": "LSO",
     "commonName": "Lesotho",
     "officialName": "Kingdom of Lesotho",
+    "nativeNames": [
+      "Lesotho",
+      "Kingdom of Lesotho"
+    ],
     "capitals": [
       "Maseru"
     ],
@@ -1861,6 +2342,10 @@
     "isoAlpha3": "LTU",
     "commonName": "Lithuania",
     "officialName": "Republic of Lithuania",
+    "nativeNames": [
+      "Lietuva",
+      "Lietuvos Respublikos"
+    ],
     "capitals": [
       "Vilnius"
     ],
@@ -1879,6 +2364,14 @@
     "isoAlpha3": "LUX",
     "commonName": "Luxembourg",
     "officialName": "Grand Duchy of Luxembourg",
+    "nativeNames": [
+      "Luxemburg",
+      "Großherzogtum Luxemburg",
+      "Luxembourg",
+      "Grand-Duché de Luxembourg",
+      "Lëtzebuerg",
+      "Groussherzogtum Lëtzebuerg"
+    ],
     "capitals": [
       "Luxembourg"
     ],
@@ -1897,6 +2390,10 @@
     "isoAlpha3": "LVA",
     "commonName": "Latvia",
     "officialName": "Republic of Latvia",
+    "nativeNames": [
+      "Latvija",
+      "Latvijas Republikas"
+    ],
     "capitals": [
       "Riga"
     ],
@@ -1915,6 +2412,12 @@
     "isoAlpha3": "MAR",
     "commonName": "Morocco",
     "officialName": "Kingdom of Morocco",
+    "nativeNames": [
+      "المغرب",
+      "المملكة المغربية",
+      "ⵍⵎⴰⵖⵔⵉⴱ",
+      "ⵜⴰⴳⵍⴷⵉⵜ ⵏ ⵍⵎⵖⵔⵉⴱ"
+    ],
     "capitals": [
       "Rabat"
     ],
@@ -1933,6 +2436,10 @@
     "isoAlpha3": "MCO",
     "commonName": "Monaco",
     "officialName": "Principality of Monaco",
+    "nativeNames": [
+      "Monaco",
+      "Principauté de Monaco"
+    ],
     "capitals": [
       "Monaco"
     ],
@@ -1951,6 +2458,10 @@
     "isoAlpha3": "MDA",
     "commonName": "Moldova",
     "officialName": "Republic of Moldova",
+    "nativeNames": [
+      "Moldova",
+      "Republica Moldova"
+    ],
     "capitals": [
       "Chișinău"
     ],
@@ -1969,6 +2480,12 @@
     "isoAlpha3": "MDG",
     "commonName": "Madagascar",
     "officialName": "Republic of Madagascar",
+    "nativeNames": [
+      "Madagascar",
+      "République de Madagascar",
+      "Madagasikara",
+      "Repoblikan'i Madagasikara"
+    ],
     "capitals": [
       "Antananarivo"
     ],
@@ -1987,6 +2504,10 @@
     "isoAlpha3": "MDV",
     "commonName": "Maldives",
     "officialName": "Republic of the Maldives",
+    "nativeNames": [
+      "ދިވެހިރާއްޖޭގެ",
+      "ދިވެހިރާއްޖޭގެ ޖުމްހޫރިއްޔާ"
+    ],
     "capitals": [
       "Malé"
     ],
@@ -2005,6 +2526,10 @@
     "isoAlpha3": "MEX",
     "commonName": "Mexico",
     "officialName": "United Mexican States",
+    "nativeNames": [
+      "México",
+      "Estados Unidos Mexicanos"
+    ],
     "capitals": [
       "Mexico City"
     ],
@@ -2023,6 +2548,11 @@
     "isoAlpha3": "MHL",
     "commonName": "Marshall Islands",
     "officialName": "Republic of the Marshall Islands",
+    "nativeNames": [
+      "Marshall Islands",
+      "Republic of the Marshall Islands",
+      "M̧ajeļ"
+    ],
     "capitals": [
       "Majuro"
     ],
@@ -2041,6 +2571,10 @@
     "isoAlpha3": "MKD",
     "commonName": "North Macedonia",
     "officialName": "Republic of North Macedonia",
+    "nativeNames": [
+      "Македонија",
+      "Република Северна Македонија"
+    ],
     "capitals": [
       "Skopje"
     ],
@@ -2059,6 +2593,10 @@
     "isoAlpha3": "MLI",
     "commonName": "Mali",
     "officialName": "Republic of Mali",
+    "nativeNames": [
+      "Mali",
+      "République du Mali"
+    ],
     "capitals": [
       "Bamako"
     ],
@@ -2077,6 +2615,11 @@
     "isoAlpha3": "MLT",
     "commonName": "Malta",
     "officialName": "Republic of Malta",
+    "nativeNames": [
+      "Malta",
+      "Republic of Malta",
+      "Repubblika ta ' Malta"
+    ],
     "capitals": [
       "Valletta"
     ],
@@ -2095,6 +2638,10 @@
     "isoAlpha3": "MMR",
     "commonName": "Myanmar",
     "officialName": "Republic of the Union of Myanmar",
+    "nativeNames": [
+      "မြန်မာ",
+      "ပြည်ထောင်စု သမ္မတ မြန်မာနိုင်ငံတော်"
+    ],
     "capitals": [
       "Naypyidaw"
     ],
@@ -2113,6 +2660,9 @@
     "isoAlpha3": "MNE",
     "commonName": "Montenegro",
     "officialName": "Montenegro",
+    "nativeNames": [
+      "Црна Гора"
+    ],
     "capitals": [
       "Podgorica"
     ],
@@ -2131,6 +2681,9 @@
     "isoAlpha3": "MNG",
     "commonName": "Mongolia",
     "officialName": "Mongolia",
+    "nativeNames": [
+      "Монгол улс"
+    ],
     "capitals": [
       "Ulan Bator"
     ],
@@ -2149,6 +2702,10 @@
     "isoAlpha3": "MOZ",
     "commonName": "Mozambique",
     "officialName": "Republic of Mozambique",
+    "nativeNames": [
+      "Moçambique",
+      "República de Moçambique"
+    ],
     "capitals": [
       "Maputo"
     ],
@@ -2167,6 +2724,10 @@
     "isoAlpha3": "MRT",
     "commonName": "Mauritania",
     "officialName": "Islamic Republic of Mauritania",
+    "nativeNames": [
+      "موريتانيا",
+      "الجمهورية الإسلامية الموريتانية"
+    ],
     "capitals": [
       "Nouakchott"
     ],
@@ -2185,6 +2746,14 @@
     "isoAlpha3": "MUS",
     "commonName": "Mauritius",
     "officialName": "Republic of Mauritius",
+    "nativeNames": [
+      "Mauritius",
+      "Republic of Mauritius",
+      "Maurice",
+      "République de Maurice",
+      "Moris",
+      "Republik Moris"
+    ],
     "capitals": [
       "Port Louis"
     ],
@@ -2203,6 +2772,12 @@
     "isoAlpha3": "MWI",
     "commonName": "Malawi",
     "officialName": "Republic of Malawi",
+    "nativeNames": [
+      "Malawi",
+      "Republic of Malawi",
+      "Malaŵi",
+      "Chalo cha Malawi, Dziko la Malaŵi"
+    ],
     "capitals": [
       "Lilongwe"
     ],
@@ -2221,6 +2796,10 @@
     "isoAlpha3": "MYS",
     "commonName": "Malaysia",
     "officialName": "Malaysia",
+    "nativeNames": [
+      "Malaysia",
+      "مليسيا"
+    ],
     "capitals": [
       "Kuala Lumpur",
       "Putrajaya"
@@ -2240,6 +2819,14 @@
     "isoAlpha3": "NAM",
     "commonName": "Namibia",
     "officialName": "Republic of Namibia",
+    "nativeNames": [
+      "Namibië",
+      "Republiek van Namibië",
+      "Namibia",
+      "Republik Namibia",
+      "Republic of Namibia",
+      "Lefatshe la Namibia"
+    ],
     "capitals": [
       "Windhoek"
     ],
@@ -2258,6 +2845,10 @@
     "isoAlpha3": "NER",
     "commonName": "Niger",
     "officialName": "Republic of Niger",
+    "nativeNames": [
+      "Niger",
+      "République du Niger"
+    ],
     "capitals": [
       "Niamey"
     ],
@@ -2276,6 +2867,10 @@
     "isoAlpha3": "NGA",
     "commonName": "Nigeria",
     "officialName": "Federal Republic of Nigeria",
+    "nativeNames": [
+      "Nigeria",
+      "Federal Republic of Nigeria"
+    ],
     "capitals": [
       "Abuja"
     ],
@@ -2294,6 +2889,10 @@
     "isoAlpha3": "NIC",
     "commonName": "Nicaragua",
     "officialName": "Republic of Nicaragua",
+    "nativeNames": [
+      "Nicaragua",
+      "República de Nicaragua"
+    ],
     "capitals": [
       "Managua"
     ],
@@ -2312,6 +2911,10 @@
     "isoAlpha3": "NLD",
     "commonName": "Netherlands",
     "officialName": "Kingdom of the Netherlands",
+    "nativeNames": [
+      "Nederland",
+      "Koninkrijk der Nederlanden"
+    ],
     "capitals": [
       "Amsterdam",
       "The Hague"
@@ -2331,6 +2934,14 @@
     "isoAlpha3": "NOR",
     "commonName": "Norway",
     "officialName": "Kingdom of Norway",
+    "nativeNames": [
+      "Noreg",
+      "Kongeriket Noreg",
+      "Norge",
+      "Kongeriket Norge",
+      "Norgga",
+      "Norgga gonagasriika"
+    ],
     "capitals": [
       "Oslo"
     ],
@@ -2349,6 +2960,10 @@
     "isoAlpha3": "NPL",
     "commonName": "Nepal",
     "officialName": "Federal Democratic Republic of Nepal",
+    "nativeNames": [
+      "नेपाल",
+      "नेपाल संघीय लोकतान्त्रिक गणतन्त्र"
+    ],
     "capitals": [
       "Kathmandu"
     ],
@@ -2367,6 +2982,10 @@
     "isoAlpha3": "NRU",
     "commonName": "Nauru",
     "officialName": "Republic of Nauru",
+    "nativeNames": [
+      "Nauru",
+      "Republic of Nauru"
+    ],
     "capitals": [
       "Yaren"
     ],
@@ -2385,6 +3004,10 @@
     "isoAlpha3": "NZL",
     "commonName": "New Zealand",
     "officialName": "New Zealand",
+    "nativeNames": [
+      "New Zealand",
+      "Aotearoa"
+    ],
     "capitals": [
       "Wellington"
     ],
@@ -2403,6 +3026,10 @@
     "isoAlpha3": "OMN",
     "commonName": "Oman",
     "officialName": "Sultanate of Oman",
+    "nativeNames": [
+      "عمان",
+      "سلطنة عمان"
+    ],
     "capitals": [
       "Muscat"
     ],
@@ -2421,6 +3048,12 @@
     "isoAlpha3": "PAK",
     "commonName": "Pakistan",
     "officialName": "Islamic Republic of Pakistan",
+    "nativeNames": [
+      "Pakistan",
+      "Islamic Republic of Pakistan",
+      "پاكستان",
+      "اسلامی جمہوریۂ پاكستان"
+    ],
     "capitals": [
       "Islamabad"
     ],
@@ -2439,6 +3072,10 @@
     "isoAlpha3": "PAN",
     "commonName": "Panama",
     "officialName": "Republic of Panama",
+    "nativeNames": [
+      "Panamá",
+      "República de Panamá"
+    ],
     "capitals": [
       "Panama City"
     ],
@@ -2457,6 +3094,13 @@
     "isoAlpha3": "PER",
     "commonName": "Peru",
     "officialName": "Republic of Peru",
+    "nativeNames": [
+      "Piruw",
+      "Piruw Suyu",
+      "Piruw Ripuwlika",
+      "Perú",
+      "República del Perú"
+    ],
     "capitals": [
       "Lima"
     ],
@@ -2475,6 +3119,12 @@
     "isoAlpha3": "PHL",
     "commonName": "Philippines",
     "officialName": "Republic of the Philippines",
+    "nativeNames": [
+      "Philippines",
+      "Republic of the Philippines",
+      "Pilipinas",
+      "Republika ng Pilipinas"
+    ],
     "capitals": [
       "Manila"
     ],
@@ -2493,6 +3143,12 @@
     "isoAlpha3": "PLW",
     "commonName": "Palau",
     "officialName": "Republic of Palau",
+    "nativeNames": [
+      "Palau",
+      "Republic of Palau",
+      "Belau",
+      "Beluu er a Belau"
+    ],
     "capitals": [
       "Ngerulmud"
     ],
@@ -2511,6 +3167,13 @@
     "isoAlpha3": "PNG",
     "commonName": "Papua New Guinea",
     "officialName": "Independent State of Papua New Guinea",
+    "nativeNames": [
+      "Papua New Guinea",
+      "Independent State of Papua New Guinea",
+      "Papua Niu Gini",
+      "Independen Stet bilong Papua Niugini",
+      "Papua Niugini"
+    ],
     "capitals": [
       "Port Moresby"
     ],
@@ -2529,6 +3192,10 @@
     "isoAlpha3": "POL",
     "commonName": "Poland",
     "officialName": "Republic of Poland",
+    "nativeNames": [
+      "Polska",
+      "Rzeczpospolita Polska"
+    ],
     "capitals": [
       "Warsaw"
     ],
@@ -2547,6 +3214,10 @@
     "isoAlpha3": "PRK",
     "commonName": "North Korea",
     "officialName": "Democratic People's Republic of Korea",
+    "nativeNames": [
+      "조선",
+      "조선민주주의인민공화국"
+    ],
     "capitals": [
       "Pyongyang"
     ],
@@ -2565,6 +3236,10 @@
     "isoAlpha3": "PRT",
     "commonName": "Portugal",
     "officialName": "Portuguese Republic",
+    "nativeNames": [
+      "Portugal",
+      "República português"
+    ],
     "capitals": [
       "Lisbon"
     ],
@@ -2583,6 +3258,12 @@
     "isoAlpha3": "PRY",
     "commonName": "Paraguay",
     "officialName": "Republic of Paraguay",
+    "nativeNames": [
+      "Paraguái",
+      "Tetã Paraguái",
+      "Paraguay",
+      "República de Paraguay"
+    ],
     "capitals": [
       "Asunción"
     ],
@@ -2601,6 +3282,10 @@
     "isoAlpha3": "PSE",
     "commonName": "Palestine",
     "officialName": "State of Palestine",
+    "nativeNames": [
+      "فلسطين",
+      "دولة فلسطين"
+    ],
     "capitals": [
       "Ramallah"
     ],
@@ -2619,6 +3304,10 @@
     "isoAlpha3": "QAT",
     "commonName": "Qatar",
     "officialName": "State of Qatar",
+    "nativeNames": [
+      "قطر",
+      "دولة قطر"
+    ],
     "capitals": [
       "Doha"
     ],
@@ -2637,6 +3326,9 @@
     "isoAlpha3": "ROU",
     "commonName": "Romania",
     "officialName": "Romania",
+    "nativeNames": [
+      "România"
+    ],
     "capitals": [
       "Bucharest"
     ],
@@ -2655,6 +3347,10 @@
     "isoAlpha3": "RUS",
     "commonName": "Russia",
     "officialName": "Russian Federation",
+    "nativeNames": [
+      "Россия",
+      "Российская Федерация"
+    ],
     "capitals": [
       "Moscow"
     ],
@@ -2673,6 +3369,12 @@
     "isoAlpha3": "RWA",
     "commonName": "Rwanda",
     "officialName": "Republic of Rwanda",
+    "nativeNames": [
+      "Rwanda",
+      "Republic of Rwanda",
+      "République rwandaise",
+      "Repubulika y'u Rwanda"
+    ],
     "capitals": [
       "Kigali"
     ],
@@ -2691,6 +3393,10 @@
     "isoAlpha3": "SAU",
     "commonName": "Saudi Arabia",
     "officialName": "Kingdom of Saudi Arabia",
+    "nativeNames": [
+      "السعودية",
+      "المملكة العربية السعودية"
+    ],
     "capitals": [
       "Riyadh"
     ],
@@ -2709,6 +3415,12 @@
     "isoAlpha3": "SDN",
     "commonName": "Sudan",
     "officialName": "Republic of the Sudan",
+    "nativeNames": [
+      "السودان",
+      "جمهورية السودان",
+      "Sudan",
+      "Republic of the Sudan"
+    ],
     "capitals": [
       "Khartoum"
     ],
@@ -2727,6 +3439,10 @@
     "isoAlpha3": "SEN",
     "commonName": "Senegal",
     "officialName": "Republic of Senegal",
+    "nativeNames": [
+      "Sénégal",
+      "République du Sénégal"
+    ],
     "capitals": [
       "Dakar"
     ],
@@ -2745,6 +3461,16 @@
     "isoAlpha3": "SGP",
     "commonName": "Singapore",
     "officialName": "Republic of Singapore",
+    "nativeNames": [
+      "Singapore",
+      "Republic of Singapore",
+      "Singapura",
+      "Republik Singapura",
+      "சிங்கப்பூர்",
+      "சிங்கப்பூர் குடியரசு",
+      "新加坡",
+      "新加坡共和国"
+    ],
     "capitals": [
       "Singapore"
     ],
@@ -2763,6 +3489,9 @@
     "isoAlpha3": "SLB",
     "commonName": "Solomon Islands",
     "officialName": "Solomon Islands",
+    "nativeNames": [
+      "Solomon Islands"
+    ],
     "capitals": [
       "Honiara"
     ],
@@ -2781,6 +3510,10 @@
     "isoAlpha3": "SLE",
     "commonName": "Sierra Leone",
     "officialName": "Republic of Sierra Leone",
+    "nativeNames": [
+      "Sierra Leone",
+      "Republic of Sierra Leone"
+    ],
     "capitals": [
       "Freetown"
     ],
@@ -2799,6 +3532,10 @@
     "isoAlpha3": "SLV",
     "commonName": "El Salvador",
     "officialName": "Republic of El Salvador",
+    "nativeNames": [
+      "El Salvador",
+      "República de El Salvador"
+    ],
     "capitals": [
       "San Salvador"
     ],
@@ -2817,6 +3554,10 @@
     "isoAlpha3": "SMR",
     "commonName": "San Marino",
     "officialName": "Most Serene Republic of San Marino",
+    "nativeNames": [
+      "San Marino",
+      "Serenissima Repubblica di San Marino"
+    ],
     "capitals": [
       "City of San Marino"
     ],
@@ -2835,6 +3576,12 @@
     "isoAlpha3": "SOM",
     "commonName": "Somalia",
     "officialName": "Federal Republic of Somalia",
+    "nativeNames": [
+      "الصومال",
+      "جمهورية الصومال الفيدرالية",
+      "Soomaaliya",
+      "Jamhuuriyadda Federaalka Soomaaliya"
+    ],
     "capitals": [
       "Mogadishu"
     ],
@@ -2853,6 +3600,10 @@
     "isoAlpha3": "SRB",
     "commonName": "Serbia",
     "officialName": "Republic of Serbia",
+    "nativeNames": [
+      "Србија",
+      "Република Србија"
+    ],
     "capitals": [
       "Belgrade"
     ],
@@ -2871,6 +3622,10 @@
     "isoAlpha3": "SSD",
     "commonName": "South Sudan",
     "officialName": "Republic of South Sudan",
+    "nativeNames": [
+      "South Sudan",
+      "Republic of South Sudan"
+    ],
     "capitals": [
       "Juba"
     ],
@@ -2889,6 +3644,10 @@
     "isoAlpha3": "STP",
     "commonName": "São Tomé and Príncipe",
     "officialName": "Democratic Republic of São Tomé and Príncipe",
+    "nativeNames": [
+      "São Tomé e Príncipe",
+      "República Democrática do São Tomé e Príncipe"
+    ],
     "capitals": [
       "São Tomé"
     ],
@@ -2907,6 +3666,10 @@
     "isoAlpha3": "SUR",
     "commonName": "Suriname",
     "officialName": "Republic of Suriname",
+    "nativeNames": [
+      "Suriname",
+      "Republiek Suriname"
+    ],
     "capitals": [
       "Paramaribo"
     ],
@@ -2925,6 +3688,10 @@
     "isoAlpha3": "SVK",
     "commonName": "Slovakia",
     "officialName": "Slovak Republic",
+    "nativeNames": [
+      "Slovensko",
+      "Slovenská republika"
+    ],
     "capitals": [
       "Bratislava"
     ],
@@ -2943,6 +3710,10 @@
     "isoAlpha3": "SVN",
     "commonName": "Slovenia",
     "officialName": "Republic of Slovenia",
+    "nativeNames": [
+      "Slovenija",
+      "Republika Slovenija"
+    ],
     "capitals": [
       "Ljubljana"
     ],
@@ -2961,6 +3732,10 @@
     "isoAlpha3": "SWE",
     "commonName": "Sweden",
     "officialName": "Kingdom of Sweden",
+    "nativeNames": [
+      "Sverige",
+      "Konungariket Sverige"
+    ],
     "capitals": [
       "Stockholm"
     ],
@@ -2979,6 +3754,12 @@
     "isoAlpha3": "SWZ",
     "commonName": "Eswatini",
     "officialName": "Kingdom of Eswatini",
+    "nativeNames": [
+      "Eswatini",
+      "Kingdom of Eswatini",
+      "eSwatini",
+      "Umbuso weSwatini"
+    ],
     "capitals": [
       "Mbabane",
       "Lobamba"
@@ -2998,6 +3779,13 @@
     "isoAlpha3": "SYC",
     "commonName": "Seychelles",
     "officialName": "Republic of Seychelles",
+    "nativeNames": [
+      "Sesel",
+      "Repiblik Sesel",
+      "Seychelles",
+      "Republic of Seychelles",
+      "République des Seychelles"
+    ],
     "capitals": [
       "Victoria"
     ],
@@ -3016,6 +3804,10 @@
     "isoAlpha3": "SYR",
     "commonName": "Syria",
     "officialName": "Syrian Arab Republic",
+    "nativeNames": [
+      "سوريا",
+      "الجمهورية العربية السورية"
+    ],
     "capitals": [
       "Damascus"
     ],
@@ -3034,6 +3826,12 @@
     "isoAlpha3": "TCD",
     "commonName": "Chad",
     "officialName": "Republic of Chad",
+    "nativeNames": [
+      "تشاد",
+      "جمهورية تشاد",
+      "Tchad",
+      "République du Tchad"
+    ],
     "capitals": [
       "N'Djamena"
     ],
@@ -3052,6 +3850,10 @@
     "isoAlpha3": "TGO",
     "commonName": "Togo",
     "officialName": "Togolese Republic",
+    "nativeNames": [
+      "Togo",
+      "République togolaise"
+    ],
     "capitals": [
       "Lomé"
     ],
@@ -3070,6 +3872,10 @@
     "isoAlpha3": "THA",
     "commonName": "Thailand",
     "officialName": "Kingdom of Thailand",
+    "nativeNames": [
+      "ประเทศไทย",
+      "ราชอาณาจักรไทย"
+    ],
     "capitals": [
       "Bangkok"
     ],
@@ -3088,6 +3894,12 @@
     "isoAlpha3": "TJK",
     "commonName": "Tajikistan",
     "officialName": "Republic of Tajikistan",
+    "nativeNames": [
+      "Таджикистан",
+      "Республика Таджикистан",
+      "Тоҷикистон",
+      "Ҷумҳурии Тоҷикистон"
+    ],
     "capitals": [
       "Dushanbe"
     ],
@@ -3106,6 +3918,11 @@
     "isoAlpha3": "TKM",
     "commonName": "Turkmenistan",
     "officialName": "Turkmenistan",
+    "nativeNames": [
+      "Туркмения",
+      "Туркменистан",
+      "Türkmenistan"
+    ],
     "capitals": [
       "Ashgabat"
     ],
@@ -3124,6 +3941,12 @@
     "isoAlpha3": "TLS",
     "commonName": "Timor-Leste",
     "officialName": "Democratic Republic of Timor-Leste",
+    "nativeNames": [
+      "Timor-Leste",
+      "República Democrática de Timor-Leste",
+      "Timór-Leste",
+      "Repúblika Demokrátika Timór-Leste"
+    ],
     "capitals": [
       "Dili"
     ],
@@ -3142,6 +3965,10 @@
     "isoAlpha3": "TON",
     "commonName": "Tonga",
     "officialName": "Kingdom of Tonga",
+    "nativeNames": [
+      "Tonga",
+      "Kingdom of Tonga"
+    ],
     "capitals": [
       "Nuku'alofa"
     ],
@@ -3160,6 +3987,10 @@
     "isoAlpha3": "TTO",
     "commonName": "Trinidad and Tobago",
     "officialName": "Republic of Trinidad and Tobago",
+    "nativeNames": [
+      "Trinidad and Tobago",
+      "Republic of Trinidad and Tobago"
+    ],
     "capitals": [
       "Port of Spain"
     ],
@@ -3178,6 +4009,10 @@
     "isoAlpha3": "TUN",
     "commonName": "Tunisia",
     "officialName": "Tunisian Republic",
+    "nativeNames": [
+      "تونس",
+      "الجمهورية التونسية"
+    ],
     "capitals": [
       "Tunis"
     ],
@@ -3196,6 +4031,10 @@
     "isoAlpha3": "TUR",
     "commonName": "Türkiye",
     "officialName": "Republic of Türkiye",
+    "nativeNames": [
+      "Türkiye",
+      "Türkiye Cumhuriyeti"
+    ],
     "capitals": [
       "Ankara"
     ],
@@ -3214,6 +4053,9 @@
     "isoAlpha3": "TUV",
     "commonName": "Tuvalu",
     "officialName": "Tuvalu",
+    "nativeNames": [
+      "Tuvalu"
+    ],
     "capitals": [
       "Funafuti"
     ],
@@ -3232,6 +4074,11 @@
     "isoAlpha3": "TZA",
     "commonName": "Tanzania",
     "officialName": "United Republic of Tanzania",
+    "nativeNames": [
+      "Tanzania",
+      "United Republic of Tanzania",
+      "Jamhuri ya Muungano wa Tanzania"
+    ],
     "capitals": [
       "Dodoma"
     ],
@@ -3250,6 +4097,10 @@
     "isoAlpha3": "UGA",
     "commonName": "Uganda",
     "officialName": "Republic of Uganda",
+    "nativeNames": [
+      "Uganda",
+      "Republic of Uganda"
+    ],
     "capitals": [
       "Kampala"
     ],
@@ -3268,6 +4119,9 @@
     "isoAlpha3": "UKR",
     "commonName": "Ukraine",
     "officialName": "Ukraine",
+    "nativeNames": [
+      "Україна"
+    ],
     "capitals": [
       "Kyiv"
     ],
@@ -3286,6 +4140,10 @@
     "isoAlpha3": "URY",
     "commonName": "Uruguay",
     "officialName": "Oriental Republic of Uruguay",
+    "nativeNames": [
+      "Uruguay",
+      "República Oriental del Uruguay"
+    ],
     "capitals": [
       "Montevideo"
     ],
@@ -3304,6 +4162,10 @@
     "isoAlpha3": "USA",
     "commonName": "United States",
     "officialName": "United States of America",
+    "nativeNames": [
+      "United States",
+      "United States of America"
+    ],
     "capitals": [
       "Washington D.C."
     ],
@@ -3322,6 +4184,12 @@
     "isoAlpha3": "UZB",
     "commonName": "Uzbekistan",
     "officialName": "Republic of Uzbekistan",
+    "nativeNames": [
+      "Узбекистан",
+      "Республика Узбекистан",
+      "O‘zbekiston",
+      "O'zbekiston Respublikasi"
+    ],
     "capitals": [
       "Tashkent"
     ],
@@ -3340,6 +4208,12 @@
     "isoAlpha3": "VAT",
     "commonName": "Vatican City",
     "officialName": "Vatican City State",
+    "nativeNames": [
+      "Vaticano",
+      "Stato della Città del Vaticano",
+      "Vaticanæ",
+      "Status Civitatis Vaticanæ"
+    ],
     "capitals": [
       "Vatican City"
     ],
@@ -3358,6 +4232,9 @@
     "isoAlpha3": "VCT",
     "commonName": "Saint Vincent and the Grenadines",
     "officialName": "Saint Vincent and the Grenadines",
+    "nativeNames": [
+      "Saint Vincent and the Grenadines"
+    ],
     "capitals": [
       "Kingstown"
     ],
@@ -3376,6 +4253,10 @@
     "isoAlpha3": "VEN",
     "commonName": "Venezuela",
     "officialName": "Bolivarian Republic of Venezuela",
+    "nativeNames": [
+      "Venezuela",
+      "República Bolivariana de Venezuela"
+    ],
     "capitals": [
       "Caracas"
     ],
@@ -3394,6 +4275,10 @@
     "isoAlpha3": "VNM",
     "commonName": "Vietnam",
     "officialName": "Socialist Republic of Vietnam",
+    "nativeNames": [
+      "Việt Nam",
+      "Cộng hòa xã hội chủ nghĩa Việt Nam"
+    ],
     "capitals": [
       "Hanoi"
     ],
@@ -3412,6 +4297,12 @@
     "isoAlpha3": "VUT",
     "commonName": "Vanuatu",
     "officialName": "Republic of Vanuatu",
+    "nativeNames": [
+      "Vanuatu",
+      "Ripablik blong Vanuatu",
+      "Republic of Vanuatu",
+      "République de Vanuatu"
+    ],
     "capitals": [
       "Port Vila"
     ],
@@ -3430,6 +4321,12 @@
     "isoAlpha3": "WSM",
     "commonName": "Samoa",
     "officialName": "Independent State of Samoa",
+    "nativeNames": [
+      "Samoa",
+      "Independent State of Samoa",
+      "Sāmoa",
+      "Malo Saʻoloto Tutoʻatasi o Sāmoa"
+    ],
     "capitals": [
       "Apia"
     ],
@@ -3448,6 +4345,10 @@
     "isoAlpha3": "YEM",
     "commonName": "Yemen",
     "officialName": "Republic of Yemen",
+    "nativeNames": [
+      "اليمن",
+      "الجمهورية اليمنية"
+    ],
     "capitals": [
       "Sana'a"
     ],
@@ -3466,6 +4367,28 @@
     "isoAlpha3": "ZAF",
     "commonName": "South Africa",
     "officialName": "Republic of South Africa",
+    "nativeNames": [
+      "South Africa",
+      "Republiek van Suid-Afrika",
+      "Republic of South Africa",
+      "Sewula Afrika",
+      "IRiphabliki yeSewula Afrika",
+      "Afrika-Borwa",
+      "Rephaboliki ya Afrika-Borwa ",
+      "Afrika Borwa",
+      "Rephaboliki ya Afrika Borwa",
+      "Ningizimu Afrika",
+      "IRiphabhulikhi yeNingizimu Afrika",
+      "Aforika Borwa",
+      "Rephaboliki ya Aforika Borwa",
+      "Afrika Dzonga",
+      "Riphabliki ra Afrika Dzonga",
+      "Afurika Tshipembe",
+      "Riphabuḽiki ya Afurika Tshipembe",
+      "Mzantsi Afrika",
+      "IRiphabliki yaseMzantsi Afrika",
+      "IRiphabliki yaseNingizimu Afrika"
+    ],
     "capitals": [
       "Pretoria",
       "Bloemfontein",
@@ -3486,6 +4409,10 @@
     "isoAlpha3": "ZMB",
     "commonName": "Zambia",
     "officialName": "Republic of Zambia",
+    "nativeNames": [
+      "Zambia",
+      "Republic of Zambia"
+    ],
     "capitals": [
       "Lusaka"
     ],
@@ -3504,6 +4431,10 @@
     "isoAlpha3": "ZWE",
     "commonName": "Zimbabwe",
     "officialName": "Republic of Zimbabwe",
+    "nativeNames": [
+      "Zimbabwe",
+      "Republic of Zimbabwe"
+    ],
     "capitals": [
       "Harare"
     ],

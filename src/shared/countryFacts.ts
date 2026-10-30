@@ -10,6 +10,9 @@ export type CountryFacts = {
   isoAlpha3: string
   commonName: string
   officialName: string
+  // Common and official names in each official language, in its own script,
+  // e.g. "Italia" and "Repubblica italiana". Accepted as typed answers.
+  nativeNames: string[]
   // Most countries have one capital; a few have several (e.g. South Africa).
   capitals: string[]
   // Total area including inland water, in square kilometres.

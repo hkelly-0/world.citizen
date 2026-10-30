@@ -194,6 +194,16 @@ for (const group of groups) {
   }
 }
 
+// --- Native names: every language's common and official name, once each ---
+// mledoze keys them by language code, e.g. { ita: { common: "Italia", ... } }.
+function nativeNamesOf(country) {
+  const names = Object.values(country.name.native ?? {}).flatMap((name) => [
+    name.common.trim(),
+    name.official.trim(),
+  ])
+  return [...new Set(names)]
+}
+
 // --- Join on ISO alpha-3, sorted by code so diffs stay stable ---
 const countries = {}
 for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
@@ -211,6 +221,9 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     isoAlpha3: code,
     commonName: COMMON_NAMES[code] ?? country.name.common,
     officialName: OFFICIAL_NAMES[code] ?? country.name.official,
+    // Common and official names in each official language, in its own script
+    // (e.g. "Italia", "Repubblica italiana", "Россия"). Accepted as answers.
+    nativeNames: nativeNamesOf(country),
     capitals: EXTRA_CAPITALS[code] ?? country.capital,
     areaKm2: country.area,
     population: populations[code],
