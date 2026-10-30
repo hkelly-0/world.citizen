@@ -330,6 +330,36 @@ describe('FlashcardsView', () => {
     })
   })
 
+  describe('multi-country questions', () => {
+    const BORDERS = /^Name up to 4 countries which border/
+
+    it('in Classic, carries on the count of cards when opened again the same day', async () => {
+      saveFranceArea(0.2)
+      const { unmount } = renderFlashcards(['area'], true, ['locate'], ['borders'])
+      await answerArea()
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      unmount()
+
+      renderFlashcards(['area'], true, ['locate'], ['borders'])
+      await answerArea()
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByText(BORDERS)).toBeInTheDocument()
+    })
+
+    it('skips one the Passport cannot make, and waits another two cards', async () => {
+      // Islands only, so Borders can't be asked.
+      saveAreas(['ISL', 'JAM'], 0.2)
+      renderFlashcards(['area'], false, ['locate'], ['borders'])
+
+      for (let card = 0; card < 4; card++) {
+        await answerArea()
+        await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+        expect(screen.queryByText(BORDERS)).not.toBeInTheDocument()
+        expect(screen.getByText('Area?')).toBeInTheDocument()
+      }
+    })
+  })
+
   describe('in Custom Practice', () => {
     it('does not resume an unfinished card', async () => {
       saveAreas(['FRA'], 0.2)

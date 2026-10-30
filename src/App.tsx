@@ -3,7 +3,10 @@ import { CustomPracticeMenu } from './features/flashcards/CustomPracticeMenu'
 import { GLOBE_KINDS, type GlobeKind, type QuestionId } from './features/flashcards/deck'
 import { FlashcardsMenu } from './features/flashcards/FlashcardsMenu'
 import { FlashcardsView } from './features/flashcards/FlashcardsView'
-import type { MultiCountryQuestionId } from './features/flashcards/multiCountryQuestions'
+import {
+  offeredMultiCountryQuestionIds,
+  type MultiCountryQuestionId,
+} from './features/flashcards/multiCountryQuestions'
 import { MultiCountryPracticeView } from './features/flashcards/MultiCountryPracticeView'
 import { MainMenu } from './features/menu/MainMenu'
 import { collectedCountries } from './features/passport/passport'
@@ -187,6 +190,7 @@ export default function App() {
           questionIds={learnedQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={GLOBE_KINDS}
+          multiCountryQuestionIds={offeredMultiCountryQuestionIds(learnedQuestionIds)}
           canDiscoverCountries={true}
           resumesUnfinishedCard={true}
           countryIcon={countryIcon}
