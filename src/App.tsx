@@ -59,9 +59,6 @@ function customQuestionIdsInHistory(): QuestionId[] {
 function customGlobeKindsInHistory(): GlobeKind[] {
   return history.state?.globeKinds ?? []
 }
-function customAsksBordersInHistory(): boolean {
-  return history.state?.asksBorders ?? false
-}
 function customMultiCountryQuestionIdsInHistory(): MultiCountryQuestionId[] {
   return history.state?.multiCountryQuestionIds ?? []
 }
@@ -77,7 +74,6 @@ export default function App() {
     customQuestionIdsInHistory,
   )
   const [customGlobeKinds, setCustomGlobeKinds] = useState<GlobeKind[]>(customGlobeKindsInHistory)
-  const [customAsksBorders, setCustomAsksBorders] = useState<boolean>(customAsksBordersInHistory)
   const [customMultiCountryQuestionIds, setCustomMultiCountryQuestionIds] = useState<
     MultiCountryQuestionId[]
   >(customMultiCountryQuestionIdsInHistory)
@@ -113,7 +109,6 @@ export default function App() {
   function startCustomPractice(
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
-    asksBorders: boolean,
     multiCountryQuestionIds: MultiCountryQuestionId[],
   ) {
     history.replaceState(
@@ -121,14 +116,12 @@ export default function App() {
         screen: 'custom-flashcards',
         questionIds,
         globeKinds,
-        asksBorders,
         multiCountryQuestionIds,
       },
       '',
     )
     setCustomQuestionIds(questionIds)
     setCustomGlobeKinds(globeKinds)
-    setCustomAsksBorders(asksBorders)
     setCustomMultiCountryQuestionIds(multiCountryQuestionIds)
     setScreen('custom-flashcards')
   }
@@ -175,7 +168,6 @@ export default function App() {
           questionIds={learnedQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={GLOBE_KINDS}
-          asksBorders={false}
           canDiscoverCountries={true}
           resumesUnfinishedCard={true}
           countryIcon={countryIcon}
@@ -195,7 +187,11 @@ export default function App() {
     // The multi-country questions are never practised alongside the others.
     if (screen === 'custom-flashcards' && customMultiCountryQuestionIds.length > 0) {
       return (
-        <MultiCountryPracticeView questionIds={customMultiCountryQuestionIds} onBack={goToMenu} />
+        <MultiCountryPracticeView
+          questionIds={customMultiCountryQuestionIds}
+          countryIcon={countryIcon}
+          onBack={goToMenu}
+        />
       )
     }
     if (screen === 'custom-flashcards') {
@@ -204,7 +200,6 @@ export default function App() {
           questionIds={customQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={customGlobeKinds}
-          asksBorders={customAsksBorders}
           canDiscoverCountries={false}
           resumesUnfinishedCard={false}
           countryIcon={countryIcon}

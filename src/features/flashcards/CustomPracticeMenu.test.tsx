@@ -45,13 +45,13 @@ describe('CustomPracticeMenu', () => {
       'Population',
       'IHDI',
       'Capital',
-      'Borders',
       'History',
       'People',
       'Economy',
       'Int. Relations',
     ])
     expect(labelsIn('Multi-Country Questions')).toEqual([
+      'Borders',
       'Matching - Flags',
       'Matching - Capitals',
       'Ordering - Population',
@@ -60,11 +60,11 @@ describe('CustomPracticeMenu', () => {
     ])
   })
 
-  it('leaves out Multi-Country Questions when none of them is offered', () => {
-    render(<CustomPracticeMenu learnedQuestionIds={['globe']} onBack={vi.fn()} onGo={vi.fn()} />)
+  it('leaves out Country Fundamentals when none of them is offered', () => {
+    render(<CustomPracticeMenu learnedQuestionIds={[]} onBack={vi.fn()} onGo={vi.fn()} />)
 
-    expect(screen.getByRole('group', { name: 'Country Fundamentals' })).toBeInTheDocument()
-    expect(screen.queryByRole('group', { name: 'Multi-Country Questions' })).toBeNull()
+    expect(screen.queryByRole('group', { name: 'Country Fundamentals' })).toBeNull()
+    expect(screen.getByRole('group', { name: 'Multi-Country Questions' })).toBeInTheDocument()
   })
 
   it('passes the ticked question types to onGo, in the usual question order', async () => {
@@ -78,7 +78,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'], false, [])
+    expect(onGo).toHaveBeenCalledWith(['globe', 'capital'], ['name'], [])
   })
 
   it('treats both globe options as the one globe question type', async () => {
@@ -89,17 +89,7 @@ describe('CustomPracticeMenu', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Locate country on globe' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'], false, [])
-  })
-
-  it('passes Borders separately, as it is not a question type', async () => {
-    const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
-
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-
-    expect(onGo).toHaveBeenCalledWith([], [], true, [])
+    expect(onGo).toHaveBeenCalledWith(['globe'], ['locate', 'name'], [])
   })
 
   it('disables Go again when every box is unticked', async () => {
@@ -111,21 +101,22 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
-  it('practises Flag Matching and the Orderings apart from the rest', async () => {
+  it('practises Borders, Flag Matching and the Orderings apart from the rest', async () => {
     const onGo = vi.fn()
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     expect(screen.getByRole('checkbox', { name: 'Matching - Flags' })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Ordering - IHDI' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Matching - Flags' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
     expect(screen.getByRole('checkbox', { name: 'Area' })).toBeDisabled()
-    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
     expect(screen.getByRole('checkbox', { name: 'Ordering - Area' })).toBeEnabled()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
-    expect(onGo).toHaveBeenCalledWith([], [], false, ['flag-matching', 'ihdi-ordering'])
+    expect(onGo).toHaveBeenCalledWith([], [], ['borders', 'flag-matching', 'ihdi-ordering'])
   })
 
   it('offers only the question types learned in Settings, plus Borders', () => {
@@ -162,17 +153,17 @@ describe('CustomPracticeMenu', () => {
       <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     unmount()
 
     const onGo = vi.fn()
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
     expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeChecked()
-    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeChecked()
-    expect(screen.getByRole('checkbox', { name: 'Area' })).not.toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Area' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Flag' })).not.toBeChecked()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    expect(onGo).toHaveBeenCalledWith(['capital'], [], true, [])
+    expect(onGo).toHaveBeenCalledWith(['area', 'capital'], [], [])
   })
 
   it('remembers nothing ticked without pressing Go', async () => {
@@ -199,6 +190,20 @@ describe('CustomPracticeMenu', () => {
     const onGo = vi.fn()
     render(<CustomPracticeMenu learnedQuestionIds={['capital']} onBack={vi.fn()} onGo={onGo} />)
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    expect(onGo).toHaveBeenCalledWith(['capital'], [], false, [])
+    expect(onGo).toHaveBeenCalledWith(['capital'], [], [])
+  })
+
+  it('leaves out remembered multi-country boxes ticked alongside the others', async () => {
+    // Saved before Borders moved to Multi-Country Questions.
+    localStorage.setItem(
+      'geography-app/custom-practice-choices',
+      JSON.stringify(['capital', 'borders']),
+    )
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).not.toBeChecked()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(onGo).toHaveBeenCalledWith(['capital'], [], [])
   })
 })

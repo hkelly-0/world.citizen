@@ -36,4 +36,20 @@ describe('nextMultiCountryQuestion', () => {
       expect(question?.codes[0]).not.toBe('USA')
     }
   })
+  it('asks Borders about a country with land neighbours, not the previous one', () => {
+    const previous = { id: 'borders' as const, codes: ['FRA'] }
+    for (let i = 0; i < 10; i++) {
+      const question = nextMultiCountryQuestion(['borders'], ['FRA', 'ISL', 'DEU'], previous)
+      expect(question).toEqual({ id: 'borders', codes: ['DEU'] })
+    }
+  })
+
+  it('repeats the previous Borders country when it is the only one with land neighbours', () => {
+    const previous = { id: 'borders' as const, codes: ['FRA'] }
+    expect(nextMultiCountryQuestion(['borders'], ['FRA', 'ISL'], previous)).toEqual({
+      id: 'borders',
+      codes: ['FRA'],
+    })
+    expect(nextMultiCountryQuestion(['borders'], ['ISL'], null)).toBeNull()
+  })
 })

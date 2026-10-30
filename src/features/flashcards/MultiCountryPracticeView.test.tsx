@@ -25,14 +25,26 @@ describe('MultiCountryPracticeView', () => {
 
   it('asks for more countries when the Passport can make no question', () => {
     savePassport(['TCD', 'ROU', 'BEL'])
-    render(<MultiCountryPracticeView questionIds={['flag-matching']} onBack={vi.fn()} />)
+    render(
+      <MultiCountryPracticeView
+        questionIds={['flag-matching']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+      />,
+    )
 
     expect(screen.getByText(/Not enough countries in your Passport yet/)).toBeInTheDocument()
   })
 
   it('matches Passport countries', () => {
     savePassport(['TCD', 'ROU', 'BEL', 'GIN'])
-    render(<MultiCountryPracticeView questionIds={['flag-matching']} onBack={vi.fn()} />)
+    render(
+      <MultiCountryPracticeView
+        questionIds={['flag-matching']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+      />,
+    )
 
     for (const name of ['Chad', 'Romania', 'Belgium', 'Guinea']) {
       expect(screen.getByRole('button', { name })).toBeInTheDocument()
@@ -40,15 +52,36 @@ describe('MultiCountryPracticeView', () => {
   })
   it('orders Passport countries', () => {
     savePassport(['USA', 'DEU', 'CAN', 'ISL'])
-    render(<MultiCountryPracticeView questionIds={['population-ordering']} onBack={vi.fn()} />)
+    render(
+      <MultiCountryPracticeView
+        questionIds={['population-ordering']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+      />,
+    )
 
     expect(screen.getByText('Drag to order these countries by population')).toBeInTheDocument()
   })
   it('matches capitals to Passport countries', () => {
     savePassport(['FRA', 'ESP', 'ITA', 'DEU'])
-    render(<MultiCountryPracticeView questionIds={['capital-matching']} onBack={vi.fn()} />)
+    render(
+      <MultiCountryPracticeView
+        questionIds={['capital-matching']}
+        countryIcon="outline"
+        onBack={vi.fn()}
+      />,
+    )
 
     expect(screen.getByText('Match each capital to its country')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Madrid' })).toBeInTheDocument()
+  })
+  it('asks the borders of a Passport country with land neighbours', () => {
+    // Iceland is an island, so only France can be asked.
+    savePassport(['ISL', 'FRA'])
+    render(
+      <MultiCountryPracticeView questionIds={['borders']} countryIcon="outline" onBack={vi.fn()} />,
+    )
+
+    expect(screen.getByText('Name up to 4 countries which border France')).toBeInTheDocument()
   })
 })

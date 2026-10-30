@@ -15,9 +15,9 @@ import '../menu/MainMenu.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
-// Borders and the multi-country questions (Matching and Ordering)
-// aren't question types: they have no FSRS progress and aren't in Settings.
-type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | 'borders' | MultiCountryQuestionId
+// The multi-country questions (Borders, Matching and Ordering) aren't question
+// types: they have no FSRS progress and aren't in Settings.
+type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | MultiCountryQuestionId
 const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'locate', label: 'Locate country on globe' },
   { choice: 'name', label: 'Name country from globe' },
@@ -26,11 +26,11 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'population', label: 'Population' },
   { choice: 'ihdi', label: 'IHDI' },
   { choice: 'capital', label: 'Capital' },
-  { choice: 'borders', label: 'Borders' },
   { choice: 'history', label: 'History' },
   { choice: 'people', label: 'People' },
   { choice: 'economy', label: 'Economy' },
   { choice: 'internationalRelations', label: 'Int. Relations' },
+  { choice: 'borders', label: 'Borders' },
   { choice: 'flag-matching', label: 'Matching - Flags' },
   { choice: 'capital-matching', label: 'Matching - Capitals' },
   { choice: 'population-ordering', label: 'Ordering - Population' },
@@ -39,7 +39,8 @@ const CHOICES: { choice: Choice; label: string }[] = [
 ]
 
 // The choices are shown in two sections: the questions on one country's card,
-// then the multi-country questions.
+// then the multi-country questions (with Borders, though it is about one
+// country).
 const SECTIONS = [
   { heading: 'Country Fundamentals', isMultiCountrySection: false },
   { heading: 'Multi-Country Questions', isMultiCountrySection: true },
@@ -52,18 +53,18 @@ function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {
 type CustomPracticeMenuProps = {
   // The question types chosen in Settings; only these are offered (both globe
   // options if 'globe' is one of them), plus Borders, which is always offered,
-  // and each multi-country question whose LEARNED_QUESTION_NEEDED is one of them.
+  // and each other multi-country question whose LEARNED_QUESTION_NEEDED is one
+  // of them.
   learnedQuestionIds: QuestionId[]
   onBack: () => void
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
-  // question were ticked (in the order of GLOBE_KINDS), whether Borders was,
-  // and which multi-country questions were (in the order of
-  // MULTI_COUNTRY_QUESTION_IDS; if any were, nothing else was).
+  // question were ticked (in the order of GLOBE_KINDS), and which multi-country
+  // questions were (in the order of MULTI_COUNTRY_QUESTION_IDS; if any were,
+  // nothing else was).
   onGo: (
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
-    asksBorders: boolean,
     multiCountryQuestionIds: MultiCountryQuestionId[],
   ) => void
 }
@@ -72,7 +73,9 @@ type CustomPracticeMenuProps = {
 // The multi-country questions are practised apart from the rest: while any of
 // them is ticked the other boxes are disabled, and the other way round. Opens
 // with the boxes ticked when "Go" was last pressed, leaving out any no longer
-// offered (e.g. a question type unticked in Settings since).
+// offered (e.g. a question type unticked in Settings since), and any
+// multi-country ones ticked alongside the others (possible when saved before
+// Borders became a multi-country question).
 export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
   const offered = CHOICES.filter(({ choice }) => {
     if (choice === 'borders') return true
@@ -81,7 +84,12 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
   })
   const [chosen, setChosen] = useState<Choice[]>(() => {
     const saved = loadCustomPracticeChoices()
-    return offered.map(({ choice }) => choice).filter((choice) => saved.includes(choice))
+    const savedOffered = offered
+      .map(({ choice }) => choice)
+      .filter((choice) => saved.includes(choice))
+    const isMixed =
+      savedOffered.some(isMultiCountry) && savedOffered.some((choice) => !isMultiCountry(choice))
+    return isMixed ? savedOffered.filter((choice) => !isMultiCountry(choice)) : savedOffered
   })
 
   const isMultiCountryChosen = chosen.some(isMultiCountry)
@@ -103,7 +111,7 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
     )
     const multiCountryQuestionIds = MULTI_COUNTRY_QUESTION_IDS.filter((id) => chosen.includes(id))
     saveCustomPracticeChoices(chosen)
-    onGo(questionIds, globeKinds, chosen.includes('borders'), multiCountryQuestionIds)
+    onGo(questionIds, globeKinds, multiCountryQuestionIds)
   }
 
   return (

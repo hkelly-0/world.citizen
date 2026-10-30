@@ -1,13 +1,16 @@
+import { bordersQuestionCountry } from './bordersQuestion'
 import { capitalMatchingCountries } from './capitalMatchingQuestion'
 import type { QuestionId } from './deck'
 import { flagMatchingCountries } from './flagMatchingQuestion'
 import { orderingCountries, type OrderingStat } from './orderingQuestion'
 
 // The Custom Practice questions about several Passport countries at once,
-// rather than one country's card. Like Borders they aren't QuestionIds: no
-// FSRS progress, review log or Settings tick. They can be practised together,
-// but not alongside the country card questions.
+// rather than one country's card, plus Borders, which is about one country but
+// is practised with them. They aren't QuestionIds: no FSRS progress, review
+// log or Settings tick. They can be practised together, but not alongside the
+// country card questions.
 export const MULTI_COUNTRY_QUESTION_IDS = [
+  'borders',
   'flag-matching',
   'capital-matching',
   'population-ordering',
@@ -17,8 +20,11 @@ export const MULTI_COUNTRY_QUESTION_IDS = [
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
 // Each is only offered in Custom Practice when this question type is learned
-// in Settings.
-export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId> = {
+// in Settings. Borders needs none, so it is always offered.
+export const LEARNED_QUESTION_NEEDED: Record<
+  Exclude<MultiCountryQuestionId, 'borders'>,
+  QuestionId
+> = {
   'flag-matching': 'flag',
   'capital-matching': 'capital',
   'population-ordering': 'population',
@@ -28,7 +34,7 @@ export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId>
 
 // The statistic each ordering question is about.
 export const ORDERING_STATS: Record<
-  Exclude<MultiCountryQuestionId, 'flag-matching' | 'capital-matching'>,
+  Exclude<MultiCountryQuestionId, 'borders' | 'flag-matching' | 'capital-matching'>,
   OrderingStat
 > = {
   'population-ordering': 'population',
@@ -36,12 +42,14 @@ export const ORDERING_STATS: Record<
   'ihdi-ordering': 'ihdi',
 }
 
-// One question: which kind, and its countries (for an ordering, highest first).
+// One question: which kind, and its countries (for an ordering, highest
+// first; for Borders, just the one).
 export type MultiCountryQuestion = { id: MultiCountryQuestionId; codes: string[] }
 
 // The countries for a question of kind `id`, or null if the Passport can't
 // make one. A matching question never starts from `previous`'s first country,
-// if that was the same kind of question.
+// and a borders question never asks about it, if that was the same kind of
+// question (unless, for Borders, it is the only one possible).
 function questionCountries(
   id: MultiCountryQuestionId,
   passportCodes: string[],
@@ -49,6 +57,10 @@ function questionCountries(
   random: () => number,
 ): string[] | null {
   const previousFirstCode = previous?.id === id ? previous.codes[0] : null
+  if (id === 'borders') {
+    const code = bordersQuestionCountry(passportCodes, previousFirstCode, random)
+    return code === null ? null : [code]
+  }
   if (id === 'flag-matching') {
     return flagMatchingCountries(passportCodes, previousFirstCode, random)
   }

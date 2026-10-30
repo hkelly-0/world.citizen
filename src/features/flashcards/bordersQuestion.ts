@@ -46,3 +46,19 @@ export function borderBoxResults(typed: string[], borderCodes: string[]): boolea
     return false
   })
 }
+
+// The country for a borders question: a random Passport country with land
+// neighbours, other than `previousCode` unless it is the only one. Null if no
+// Passport country has land neighbours. `random` is a parameter so tests can
+// make the choice predictable.
+export function bordersQuestionCountry(
+  passportCodes: string[],
+  previousCode: string | null,
+  random: () => number,
+): string | null {
+  const withNeighbours = passportCodes.filter((code) => COUNTRY_BORDERS[code].length > 0)
+  const notRepeated = withNeighbours.filter((code) => code !== previousCode)
+  const choices = notRepeated.length > 0 ? notRepeated : withNeighbours
+  if (choices.length === 0) return null
+  return choices[Math.floor(random() * choices.length)]
+}
