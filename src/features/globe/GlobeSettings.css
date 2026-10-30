@@ -1,0 +1,89 @@
+/* Below the back button (top 16px, 40px tall), with the panel opening
+   underneath the gear. */
+.globe-settings {
+  position: absolute;
+  top: 64px;
+  left: 16px;
+  /* Above the map canvas, like the back button. */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Styled like the back button. */
+.globe-settings__gear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  cursor: pointer;
+}
+
+.globe-settings__gear:hover {
+  background: rgba(40, 48, 70, 0.95);
+}
+
+.globe-settings__gear-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #f2f4f8;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.globe-settings__panel {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+}
+
+.globe-settings__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+/* A sliding switch: the knob sits on the left when off, on the right when on. */
+.globe-settings__switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: #4a5266;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.globe-settings__switch[aria-checked='true'] {
+  background: #3fb950;
+}
+
+.globe-settings__switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f2f4f8;
+  transition: transform 0.15s;
+}
+
+.globe-settings__switch[aria-checked='true'] .globe-settings__switch-knob {
+  transform: translateX(20px);
+}

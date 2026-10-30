@@ -54,8 +54,8 @@ const CORRECT_COLOR = '#3fb950'
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
-// The country group tint over the satellite imagery (the region globe, and
-// the dev option), stronger for the region under the pointer and the one
+// The country group tint over the satellite imagery (the region globe, the
+// globe screen's Show Regions setting, and the dev option), stronger for the region under the pointer and the one
 // selected.
 const GROUP_OPACITY = 0.45
 const GROUP_HOVERED_OPACITY = 0.65
@@ -113,6 +113,14 @@ COUNTRY_SHAPES.forEach((shape, index) => {
   if (facts === undefined) return
   GROUP_INDICES.set(facts.groupId, [...(GROUP_INDICES.get(facts.groupId) ?? []), index])
 })
+
+// Every group's id, for tinting all of them.
+export const ALL_GROUP_IDS = [...GROUP_INDICES.keys()]
+
+// The positions in COUNTRY_SHAPES of the group's countries.
+export function countryIndicesInGroup(groupId: string): number[] {
+  return GROUP_INDICES.get(groupId) ?? []
+}
 
 // The group id of the country at this position in COUNTRY_SHAPES, or null
 // for map areas outside the 195 countries.
@@ -205,11 +213,16 @@ const MAP_STYLE: StyleSpecification = {
 // imagery and the highlights: only the groups in `tintedGroupIds`, or every
 // group if it is null. The feature states "groupHovered" and "groupSelected"
 // (set on all of a group's countries by setGroupFeatureState) strengthen it.
-function styleWithGroups(tintedGroupIds: string[] | null): StyleSpecification {
+// The tint can start hidden and be shown later with setGroupTintShown.
+function styleWithGroups(
+  tintedGroupIds: string[] | null,
+  isTintShown: boolean,
+): StyleSpecification {
   const groupsLayer: LayerSpecification = {
     id: 'country-groups',
     type: 'fill',
     source: 'countries',
+    layout: { visibility: isTintShown ? 'visible' : 'none' },
     filter:
       tintedGroupIds === null
         ? ['has', 'groupId']
@@ -232,6 +245,11 @@ function styleWithGroups(tintedGroupIds: string[] | null): StyleSpecification {
       layer.id === 'satellite-imagery' ? [layer, groupsLayer] : [layer],
     ),
   }
+}
+
+// Shows or hides the group tint of a map created with tintedGroupIds.
+export function setGroupTintShown(map: MapLibreMap, shown: boolean) {
+  map.setLayoutProperty('country-groups', 'visibility', shown ? 'visible' : 'none')
 }
 
 // Sets a feature state (e.g. { groupHovered: true }) on every country of the
@@ -260,7 +278,7 @@ export function flyToGroup(
   sidePadding: number,
   durationMs: number,
 ) {
-  const shapes = (GROUP_INDICES.get(groupId) ?? []).map((index) => COUNTRY_SHAPES[index])
+  const shapes = countryIndicesInGroup(groupId).map((index) => COUNTRY_SHAPES[index])
   map.fitBounds(regionBounds(shapes), {
     padding: { top: topPadding, bottom: bottomPadding, left: sidePadding, right: sidePadding },
     maxZoom: GROUP_MAX_ZOOM,
@@ -347,28 +365,38 @@ export function flyToCountry(
   })
 }
 
-// For each map with hover highlighting, a function that clears the highlight
-// and stops it coming back. See stopHoverHighlight.
-const hoverStoppers = new WeakMap<MapLibreMap, () => void>()
+// For each map with hover highlighting, a function that stops it (clearing
+// the highlight) or lets it come back. See stopHoverHighlight.
+const hoverStoppers = new WeakMap<MapLibreMap, (stopped: boolean) => void>()
 
 // Removes the hover highlight from the map and stops it appearing again.
 export function stopHoverHighlight(map: MapLibreMap) {
-  hoverStoppers.get(map)?.()
+  hoverStoppers.get(map)?.(true)
+}
+
+// Lets the hover highlight appear again after stopHoverHighlight.
+export function resumeHoverHighlight(map: MapLibreMap) {
+  hoverStoppers.get(map)?.(false)
 }
 
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
 // container, with hover highlighting on devices that can hover. The groups in
-// `tintedGroupIds` are tinted in their colours (the region globe); without it,
-// every group is tinted while the dev option is on. The caller
+// `tintedGroupIds` are tinted in their colours (the region globe, and the
+// globe screen, which starts with the tint hidden by `isTintShown`); without
+// it, every group is tinted while the dev option is on. The caller
 // handles clicks and must call map.remove() when done.
-export function createCountryMap(container: HTMLElement, tintedGroupIds?: string[]): MapLibreMap {
+export function createCountryMap(
+  container: HTMLElement,
+  tintedGroupIds?: string[],
+  isTintShown = true,
+): MapLibreMap {
   const map = new MapLibreMap({
     container,
     style:
       tintedGroupIds !== undefined
-        ? styleWithGroups(tintedGroupIds)
+        ? styleWithGroups(tintedGroupIds, isTintShown)
         : areCountryGroupsShown()
-          ? styleWithGroups(null)
+          ? styleWithGroups(null, true)
           : MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
@@ -410,9 +438,9 @@ export function createCountryMap(container: HTMLElement, tintedGroupIds?: string
       if (index !== hoveredIndex) setHovered(index)
     })
     map.on('mouseout', () => setHovered(null))
-    hoverStoppers.set(map, () => {
-      isHoverStopped = true
-      setHovered(null)
+    hoverStoppers.set(map, (stopped) => {
+      isHoverStopped = stopped
+      if (stopped) setHovered(null)
     })
   }
 
