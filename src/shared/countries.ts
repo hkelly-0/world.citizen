@@ -7,7 +7,7 @@ import isoCountries from 'i18n-iso-countries'
 import worldAtlas50m from 'world-atlas/countries-50m.json' with { type: 'json' }
 import tuvaluOutline from '../data/tuvaluOutline.json' with { type: 'json' }
 import farOffPartsJson from '../data/farOffParts.json' with { type: 'json' }
-import { isPolygonInBox, type MainLandmassOverride } from '../features/globe/mainLandmass.ts'
+import { isPolygonInBox, type GeoBox } from './geoBox.ts'
 
 // One country outline on the globe, identified by its ISO 3166-1 codes.
 export type CountryShape = {
@@ -55,8 +55,8 @@ export function wholeCountryGeometry(shapes: CountryShape[], isoAlpha3: string):
 // Parts of a country far from its mainland, hand-written in farOffParts.json:
 // every part of the `partOf` country's outline whose centre is inside the box
 // becomes a shape of its own, called `name`. The box is [west, south, east,
-// north] in degrees, as in mainLandmassOverrides.json.
-type FarOffPart = { name: string; partOf: string; box: MainLandmassOverride['box'] }
+// north] in degrees (see GeoBox).
+type FarOffPart = { name: string; partOf: string; box: GeoBox }
 const FAR_OFF_PARTS = farOffPartsJson as unknown as FarOffPart[]
 
 // Natural Earth abbreviates some map names, e.g. "Falkland Is."; these are

@@ -6,12 +6,12 @@
 import { geoArea, geoCentroid, geoDistance } from 'd3-geo'
 import type { Feature, Geometry, MultiPolygon, Polygon, Position } from 'geojson'
 import overridesJson from '../../data/mainLandmassOverrides.json' with { type: 'json' }
+import { isPolygonInBox, type GeoBox } from '../../shared/geoBox.ts'
 
 // A hand-picked main landmass: every part whose centre falls inside the box
-// counts. The box is [west, south, east, north] in degrees; for a country
-// across the 180° meridian, east can go above 180 (e.g. 190 for 170°W).
+// counts (see GeoBox).
 export type MainLandmassOverride = {
-  box: [number, number, number, number]
+  box: GeoBox
   // Why the automatic rule isn't right for this country.
   note: string
 }
@@ -82,21 +82,8 @@ function automaticMainLandmass(geometry: Geometry): MultiPolygon {
   return toMultiPolygon(nearbyParts)
 }
 
-// Whether the polygon's centre falls inside the box (see MainLandmassOverride).
-// Also used to split far-off parts from their country (countries.ts).
-export function isPolygonInBox(
-  coordinates: Polygon['coordinates'],
-  [west, south, east, north]: MainLandmassOverride['box'],
-): boolean {
-  const [longitude, latitude] = geoCentroid({ type: 'Polygon', coordinates })
-  // Try the longitude both as it is and one turn east, so a box whose east
-  // edge is above 180 also catches parts just west of 180°W.
-  const isInLongitude = [longitude, longitude + 360].some((lng) => lng >= west && lng <= east)
-  return isInLongitude && latitude >= south && latitude <= north
-}
-
 // The parts whose centre falls inside the box (see MainLandmassOverride).
-export function partsInBox(geometry: Geometry, box: MainLandmassOverride['box']): MultiPolygon {
+export function partsInBox(geometry: Geometry, box: GeoBox): MultiPolygon {
   const inside = partsOf(geometry).filter((part) => isPolygonInBox(part.geometry.coordinates, box))
   return toMultiPolygon(inside)
 }
