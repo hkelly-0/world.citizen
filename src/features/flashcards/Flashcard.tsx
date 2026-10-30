@@ -16,11 +16,9 @@ import {
   isInfoQuestion,
   QUESTION_IDS,
   type CountryProgress,
-  type GlobeKind,
   type InfoQuestionId,
   type QuestionId,
 } from './deck'
-import { flagOptions } from './flagQuestion'
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import type { AnswerResult } from './fsrs'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
@@ -39,21 +37,32 @@ type FlashcardProps = {
   // Which questions to ask: those learned in Settings for Classic, or those
   // ticked for custom practice.
   questionIds: QuestionId[]
-  // Which kinds of globe question may be asked: both for Classic, where each
-  // card picks one at random, or just one for custom practice.
-  globeKinds: GlobeKind[]
+  // Whether the globe question names the country (true) or finds it (false).
+  // Chosen by the screen showing the card, so a resumed card keeps it.
+  isNameQuestion: boolean
+  // The ISO alpha-3 codes of the flags offered in the flag question, in the
+  // order shown (`flagOptions`). Chosen by the screen too, for the same reason.
+  offeredFlags: string[]
   // Whether the picture at the top is the country's outline or its flag, chosen in Settings.
   countryIcon: CountryIcon
   // Whether to ask the borders question last (only chosen in Custom Practice).
-  // It has no FSRS progress, so it never appears in `onFinish`'s results.
+  // It has no FSRS progress, so it is never passed to `onAnswer`.
   asksBorders?: boolean
-  // The country's saved progress before this card, used to tell whether an
-  // info question is being seen for the first time. Missing for a country
-  // never answered.
+  // The questions already answered on this card, when it is resumed: they are
+  // skipped. Only read when the card is first shown.
+  answeredIds?: QuestionId[]
+  // The country's saved progress, used to tell whether an info question is
+  // being seen for the first time. Missing for a country never answered.
   progress?: CountryProgress
-  // Called after the last question, with how each asked question was answered:
-  // right, close (range questions only) or wrong.
-  onFinish: (results: Partial<Record<QuestionId, AnswerResult>>) => void
+  // Called as soon as each question is answered, so the answer can be saved
+  // straight away: right, close (range questions only) or wrong.
+  // `isCardFinished` is true when that answer ends the card (an info rating
+  // on the last question, or the globe answer of a card asking only that);
+  // then `onFinish` isn't called.
+  onAnswer: (id: QuestionId, result: AnswerResult, isCardFinished: boolean) => void
+  // Called when Next is pressed after the last question's answer, which ends
+  // the card without a new answer.
+  onFinish: () => void
 }
 
 // One country's card: first a globe question, then the flag (picked from four),
@@ -61,46 +70,49 @@ type FlashcardProps = {
 // (typed), skipping any not in `questionIds`, then, if `asksBorders` and the
 // country has any land neighbours, its borders (up to four typed), then the
 // info questions in `questionIds` (a paragraph revealed and self-rated). The globe
-// question is, at random half the time each, either finding the country
-// (tapped on the globe) or naming the country shown on the globe (typed).
-// Each answer is revealed before moving on.
+// question is either finding the country (tapped on the globe) or naming the
+// country shown on the globe (typed), as `isNameQuestion` says.
+// Each answer is revealed before moving on. A resumed card skips the
+// questions in `answeredIds`.
 export function Flashcard({
   country,
   questionIds,
-  globeKinds,
+  isNameQuestion,
+  offeredFlags,
   countryIcon,
   asksBorders = false,
+  answeredIds = [],
   progress = {},
+  onAnswer,
   onFinish,
 }: FlashcardProps) {
-  const asksGlobe = questionIds.includes('globe')
+  // Kept from when the card is first shown, as the screen updates
+  // `answeredIds` with each answer.
+  const [answeredAtStart] = useState(answeredIds)
+  const asksGlobe = questionIds.includes('globe') && !answeredAtStart.includes('globe')
   const questions = rangeQuestions(country)
   const borderCodes = borderingCountries(country.isoAlpha3)
   // The questions asked after the globe one: the facts in the order of
-  // QUESTION_IDS, then the borders question, then the info questions.
-  const steps: (QuestionId | 'borders')[] = QUESTION_IDS.filter(
+  // QUESTION_IDS, then the borders question, then the info questions, leaving
+  // out any answered before the card was resumed.
+  const allSteps: (QuestionId | 'borders')[] = QUESTION_IDS.filter(
     (id) => id !== 'globe' && !isInfoQuestion(id) && questionIds.includes(id),
   )
-  if (asksBorders && borderCodes.length > 0) steps.push('borders')
-  steps.push(...INFO_QUESTION_IDS.filter((id) => questionIds.includes(id)))
+  if (asksBorders && borderCodes.length > 0) allSteps.push('borders')
+  allSteps.push(...INFO_QUESTION_IDS.filter((id) => questionIds.includes(id)))
+  const steps = allSteps.filter((id) => id === 'borders' || !answeredAtStart.includes(id))
   const asksInfo = steps.some((id) => id !== 'borders' && isInfoQuestion(id))
   // With only the globe question, the globe doesn't fade to reveal the card,
   // which would flash up for a moment before the next card's globe.
   const isGlobeOnly = asksGlobe && steps.length === 0
-  // Chosen once, when the card is first shown: at random if both kinds are allowed.
-  const [isNameQuestion] = useState(() =>
-    globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
-  )
   // Whether the user has answered the globe question yet (or it isn't asked).
   const [hasAnsweredGlobe, setHasAnsweredGlobe] = useState(!asksGlobe)
-  // Chosen once, when the card is first shown.
-  const [offeredFlags] = useState(() => flagOptions(country.isoAlpha3))
   // Counts through `steps`.
   const [step, setStep] = useState(0)
   // The user's answer to the current question, or null until they answer.
   const [answer, setAnswer] = useState<string | null>(null)
-  // How each question answered so far went.
-  const [results, setResults] = useState<Partial<Record<QuestionId, AnswerResult>>>({})
+  // Whether the flag question has been answered on this screen.
+  const [hasAnsweredFlag, setHasAnsweredFlag] = useState(false)
   const [typedCapital, setTypedCapital] = useState('')
   const [typedBorders, setTypedBorders] = useState<string[]>(() =>
     Array(BORDER_ANSWER_BOXES).fill(''),
@@ -126,20 +138,20 @@ export function Flashcard({
   const rangeQuestion = questions.find((question) => question.id === stepId)
   const isLastStep = step === steps.length - 1
   // Showing the flag before the flag question is answered would give it away,
-  // so a question mark stands in for it until then.
-  const hidesFlag = steps.includes('flag') && results.flag === undefined
+  // so a question mark stands in for it until then. On a resumed card already
+  // past it, `steps` no longer has it.
+  const hidesFlag = steps.includes('flag') && !hasAnsweredFlag
 
   function submitGlobeAnswer(result: AnswerResult) {
-    const newResults = { ...results, globe: result }
     setHasAnsweredGlobe(true)
-    setResults(newResults)
     // When only the globe question is asked, the card is finished.
-    if (steps.length === 0) onFinish(newResults)
+    onAnswer('globe', result, steps.length === 0)
   }
 
   function submitAnswer(id: QuestionId, chosen: string, result: AnswerResult) {
     setAnswer(chosen)
-    setResults((previous) => ({ ...previous, [id]: result }))
+    if (id === 'flag') setHasAnsweredFlag(true)
+    onAnswer(id, result, false)
   }
 
   function submitCapital(event: FormEvent) {
@@ -161,24 +173,17 @@ export function Flashcard({
 
   function goToNext() {
     if (isLastStep) {
-      onFinish(results)
+      onFinish()
     } else {
       setStep(step + 1)
       setAnswer(null)
     }
   }
 
-  // An info question's rating acts as its answer and Next together. The new
-  // results are passed on directly, as `results` doesn't update until the
-  // next render.
+  // An info question's rating acts as its answer and Next together.
   function rateInfo(id: InfoQuestionId, result: AnswerResult) {
-    const newResults = { ...results, [id]: result }
-    setResults(newResults)
-    if (isLastStep) {
-      onFinish(newResults)
-    } else {
-      setStep(step + 1)
-    }
+    onAnswer(id, result, isLastStep)
+    if (!isLastStep) setStep(step + 1)
   }
 
   // A click anywhere presses Next while it is showing.

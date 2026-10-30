@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { loadDiscoveries, recordDiscovery } from '../../shared/discoveries'
 import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
-import { loadReviewLog, logCardReviews } from '../../shared/reviewLog'
+import { loadReviewLog, logReview } from '../../shared/reviewLog'
 import type { DeckProgress } from '../flashcards/deck'
 import { reviewQuestion } from '../flashcards/fsrs'
 import { editedProgress, passportCodes, savePassport } from './passportEdit'
@@ -41,8 +41,8 @@ describe('savePassport', () => {
     saveProgress({ FRA: { globe: answered }, PER: { capital: answered } })
     recordDiscovery('FRA', new Date('2026-10-01T09:00:00Z'))
     recordDiscovery('PER', new Date('2026-10-01T09:00:00Z'))
-    logCardReviews('FRA', ['globe'], { globe: 'wrong' }, '2026-10-01')
-    logCardReviews('PER', ['capital'], { capital: 'wrong' }, '2026-10-01')
+    logReview('FRA', 'globe', 'wrong', '2026-10-01')
+    logReview('PER', 'capital', 'wrong', '2026-10-01')
 
     savePassport(['FRA'], ['globe'], TODAY)
 

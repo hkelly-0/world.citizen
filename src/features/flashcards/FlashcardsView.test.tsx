@@ -4,9 +4,12 @@ import { State } from 'ts-fsrs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
-import { saveProgress } from '../../shared/progress'
+import { loadProgress, saveProgress } from '../../shared/progress'
+import { loadReviewLog } from '../../shared/reviewLog'
+import { loadUnfinishedCard, saveUnfinishedCard } from '../../shared/unfinishedCard'
 import { todayString } from './dates'
-import type { DeckProgress, QuestionId } from './deck'
+import type { DeckProgress, GlobeKind, QuestionId } from './deck'
+import type { AnswerResult } from './fsrs'
 import { FlashcardsView } from './FlashcardsView'
 
 // The region globe needs WebGL, which the test environment doesn't have. This
@@ -31,6 +34,18 @@ vi.mock('../globe/RegionGlobe', async () => {
     ),
   }
 })
+
+// The real globes need WebGL too. These stand-ins answer right.
+vi.mock('../globe/LocateCountryGlobe', () => ({
+  default: ({ onAnswer }: { onAnswer: (result: AnswerResult) => void }) => (
+    <button onClick={() => onAnswer('right')}>Locate</button>
+  ),
+}))
+vi.mock('../globe/NameCountryGlobe', () => ({
+  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
+    <button onClick={() => onAnswer(true)}>Name</button>
+  ),
+}))
 
 const DISCOVERING = /^Discovering a new country/
 
@@ -67,15 +82,18 @@ function renderFlashcards(
   questionIds: QuestionId[],
   canDiscoverCountries: boolean,
   asksBorders: boolean = false,
+  globeKinds: GlobeKind[] = ['locate'],
 ) {
-  render(
+  // As in App.tsx, only Classic resumes its unfinished card.
+  return render(
     <FlashcardsView
       countryIcon="outline"
       questionIds={questionIds}
       learnedQuestionIds={questionIds}
-      globeKinds={['locate']}
+      globeKinds={globeKinds}
       asksBorders={asksBorders}
       canDiscoverCountries={canDiscoverCountries}
+      resumesUnfinishedCard={canDiscoverCountries}
       onBack={() => {}}
     />,
   )
@@ -230,7 +248,98 @@ describe('FlashcardsView', () => {
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
   })
 
+  it('saves each answer straight away, before the card is finished', async () => {
+    saveFranceArea(0.2)
+    renderFlashcards(['area', 'capital'], true)
+
+    const code = franceAndOthers().find((code) => nameOf(code) === shownCountryName())!
+    await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² / Immense' }))
+
+    // The area was already reviewed today, so this is saved as a repeat.
+    expect(loadProgress()[code].area!.latestRepeatAnswer).toEqual({
+      date: todayString(),
+      result: expect.any(String),
+    })
+    expect(loadReviewLog()).toEqual([
+      { country: code, question: 'area', date: todayString(), result: expect.any(String) },
+    ])
+  })
+
+  it('picks the kind of globe question at random when both are allowed', async () => {
+    saveFranceArea(0.2)
+    vi.spyOn(Math, 'random').mockReturnValue(0.1)
+    renderFlashcards(['globe'], true, false, ['locate', 'name'])
+    expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
+    vi.restoreAllMocks()
+  })
+
+  it('always asks the one kind of globe question allowed', async () => {
+    saveFranceArea(0.2)
+    // A random value that would otherwise pick the location question.
+    vi.spyOn(Math, 'random').mockReturnValue(0.9)
+    renderFlashcards(['globe'], false, false, ['name'])
+    expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
+    vi.restoreAllMocks()
+  })
+
+  describe('an unfinished card in Classic', () => {
+    it('is resumed the same day at its next question', async () => {
+      saveFranceArea(0.2)
+      const { unmount } = renderFlashcards(['area', 'capital'], true)
+      const name = shownCountryName()
+      await answerArea()
+      unmount()
+
+      renderFlashcards(['area', 'capital'], true)
+      expect(shownCountryName()).toBe(name)
+      expect(screen.queryByText('Area?')).not.toBeInTheDocument()
+      expect(screen.getByLabelText('Capital?')).toBeInTheDocument()
+    })
+
+    it("still ends with a new country's Passport count when resumed", async () => {
+      saveLearningGroup('nordic')
+      const { unmount } = renderFlashcards(['area', 'capital'], true)
+      await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+      await answerArea()
+      unmount()
+
+      // Already in the Passport, so no "Discovering" screen again.
+      renderFlashcards(['area', 'capital'], true)
+      expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.getByLabelText('1/195')).toBeInTheDocument()
+    })
+
+    it('is not resumed on a later day', () => {
+      saveFranceArea(0.2)
+      saveUnfinishedCard({
+        date: '2000-01-01',
+        country: 'FRA',
+        isNewCountry: false,
+        isNameQuestion: false,
+        offeredFlags: ['FRA'],
+        answeredIds: ['area'],
+      })
+      renderClassic()
+
+      // Resumed, France would have no question left; a new card asks the area.
+      expect(screen.getByText('Area?')).toBeInTheDocument()
+      expect(loadUnfinishedCard()!.date).toBe(todayString())
+    })
+  })
+
   describe('in Custom Practice', () => {
+    it('does not resume an unfinished card', async () => {
+      saveAreas(['FRA'], 0.2)
+      const { unmount } = renderFlashcards(['area', 'capital'], false)
+      await answerArea()
+      unmount()
+
+      renderFlashcards(['area', 'capital'], false)
+      expect(screen.getByText('Area?')).toBeInTheDocument()
+    })
+
     it('shows countries in the Passport, even with a question never asked', async () => {
       // France's area is unfamiliar and its capital has never been asked.
       saveAreas(['FRA'], 0.2)

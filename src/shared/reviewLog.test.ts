@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { loadReviewLog, logCardReviews, removeCountriesFromReviewLog } from './reviewLog'
+import { loadReviewLog, logReview, removeCountriesFromReviewLog } from './reviewLog'
 
 describe('review log', () => {
   afterEach(() => {
@@ -10,9 +10,10 @@ describe('review log', () => {
     expect(loadReviewLog()).toEqual([])
   })
 
-  it("adds an entry for each asked question, after earlier cards' entries", () => {
-    logCardReviews('FRA', ['globe', 'area'], { globe: 'right', area: 'close' }, '2026-01-01')
-    logCardReviews('PER', ['capital'], { capital: 'wrong' }, '2026-01-02')
+  it('adds an entry for each answer, after earlier entries', () => {
+    logReview('FRA', 'globe', 'right', '2026-01-01')
+    logReview('FRA', 'area', 'close', '2026-01-01')
+    logReview('PER', 'capital', 'wrong', '2026-01-02')
 
     expect(loadReviewLog()).toEqual([
       { country: 'FRA', question: 'globe', date: '2026-01-01', result: 'right' },
@@ -27,9 +28,9 @@ describe('review log', () => {
   })
 
   it('forgets the answers about removed countries only', () => {
-    logCardReviews('FRA', ['globe'], { globe: 'right' }, '2026-01-01')
-    logCardReviews('PER', ['capital'], { capital: 'wrong' }, '2026-01-02')
-    logCardReviews('FRA', ['area'], { area: 'close' }, '2026-01-03')
+    logReview('FRA', 'globe', 'right', '2026-01-01')
+    logReview('PER', 'capital', 'wrong', '2026-01-02')
+    logReview('FRA', 'area', 'close', '2026-01-03')
     removeCountriesFromReviewLog(['FRA'])
 
     expect(loadReviewLog()).toEqual([

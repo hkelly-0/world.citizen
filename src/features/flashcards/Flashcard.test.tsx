@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
-import { GLOBE_KINDS, isInfoQuestion, QUESTION_IDS } from './deck'
+import { isInfoQuestion, QUESTION_IDS, type QuestionId } from './deck'
+import { flagOptions } from './flagQuestion'
 import { Flashcard } from './Flashcard'
 import { reviewQuestion, type AnswerResult } from './fsrs'
 
@@ -34,9 +35,8 @@ vi.mock('../globe/NameCountryGlobe', () => ({
   ),
 }))
 
-// The card asks the name question when Math.random() is below 0.5.
-const LOCATION_QUESTION_RANDOM = 0.9
-const NAME_QUESTION_RANDOM = 0.1
+// Keeps the flag options' order the same in every test.
+const RANDOM = 0.9
 
 // Every question but the info questions, which have their own tests.
 const FACT_QUESTION_IDS = QUESTION_IDS.filter((id) => !isInfoQuestion(id))
@@ -67,6 +67,11 @@ async function answerCapital(typed: string) {
   await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
 }
 
+// How each question was answered, from the calls to `onAnswer`.
+function answersGiven(onAnswer: Mock): Partial<Record<QuestionId, AnswerResult>> {
+  return Object.fromEntries(onAnswer.mock.calls.map(([id, result]) => [id, result]))
+}
+
 // Reveal waits for the country's info file to load.
 async function revealInfo() {
   const reveal = screen.getByRole('button', { name: 'Reveal' })
@@ -76,7 +81,7 @@ async function revealInfo() {
 
 describe('Flashcard', () => {
   beforeEach(() => {
-    vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
+    vi.spyOn(Math, 'random').mockReturnValue(RANDOM)
   })
 
   it("shows the country's picture", () => {
@@ -85,7 +90,9 @@ describe('Flashcard', () => {
         countryIcon="outline"
         country={france}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={vi.fn()}
         onFinish={vi.fn()}
       />,
     )
@@ -102,7 +109,9 @@ describe('Flashcard', () => {
         countryIcon="flag"
         country={france}
         questionIds={['flag', 'area']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={vi.fn()}
         onFinish={vi.fn()}
       />,
     )
@@ -125,7 +134,9 @@ describe('Flashcard', () => {
         countryIcon="flag"
         country={france}
         questionIds={['area']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={vi.fn()}
         onFinish={vi.fn()}
       />,
     )
@@ -135,13 +146,16 @@ describe('Flashcard', () => {
   })
 
   it('asks location, flag, area, population, IHDI, then capital, and reports all right', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -160,7 +174,8 @@ describe('Flashcard', () => {
     expect(screen.getByLabelText('paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({
       globe: 'right',
       flag: 'right',
       area: 'right',
@@ -170,15 +185,17 @@ describe('Flashcard', () => {
     })
   })
 
-  it('asks to name the country on the globe instead, half the time', async () => {
-    vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
+  it('asks to name the country on the globe instead, with isNameQuestion', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={true}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -195,7 +212,8 @@ describe('Flashcard', () => {
     await answerCapital('paris')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({
       globe: 'wrong',
       flag: 'right',
       area: 'right',
@@ -206,13 +224,16 @@ describe('Flashcard', () => {
   })
 
   it('reveals the correct answer after a wrong pick and counts it as wrong', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -238,7 +259,8 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({
       globe: 'wrong',
       flag: 'wrong',
       area: 'wrong',
@@ -249,13 +271,16 @@ describe('Flashcard', () => {
   })
 
   it('offers four flags, names them once answered, counts a wrong pick as wrong, then goes on when one is clicked', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={['flag']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -277,17 +302,20 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Flag of France' }))
 
     expect(onFinish).toHaveBeenCalledTimes(1)
-    expect(onFinish).toHaveBeenCalledWith({ flag: 'wrong' })
+    expect(answersGiven(onAnswer)).toEqual({ flag: 'wrong' })
   })
 
   it('colours a pick one title away orange and counts it as close', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={['area']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -301,17 +329,21 @@ describe('Flashcard', () => {
     )
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({ area: 'close' })
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({ area: 'close' })
   })
 
   it('reveals the capital without any text typed, counting it as wrong', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -325,7 +357,8 @@ describe('Flashcard', () => {
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({
       globe: 'right',
       flag: 'right',
       area: 'right',
@@ -341,7 +374,9 @@ describe('Flashcard', () => {
         countryIcon="outline"
         country={countryFacts['VAT']}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('VAT')}
+        onAnswer={vi.fn()}
         onFinish={() => {}}
       />,
     )
@@ -363,7 +398,9 @@ describe('Flashcard', () => {
         countryIcon="outline"
         country={countryFacts['SAU']}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('SAU')}
+        onAnswer={vi.fn()}
         onFinish={() => {}}
       />,
     )
@@ -384,7 +421,9 @@ describe('Flashcard', () => {
         countryIcon="outline"
         country={countryFacts['ZAF']}
         questionIds={FACT_QUESTION_IDS}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('ZAF')}
+        onAnswer={vi.fn()}
         onFinish={() => {}}
       />,
     )
@@ -401,13 +440,16 @@ describe('Flashcard', () => {
   })
 
   it('asks only the chosen questions, and reports only their results', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={['population', 'capital']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -420,17 +462,21 @@ describe('Flashcard', () => {
     await answerCapital('Lyon')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    expect(onFinish).toHaveBeenCalledWith({ population: 'right', capital: 'wrong' })
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({ population: 'right', capital: 'wrong' })
   })
 
   it('finishes after the last range question when the capital is not asked', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={['globe', 'area']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
@@ -438,71 +484,116 @@ describe('Flashcard', () => {
     await answerLocation('Tap right country')
     await answerRangeQuestion('≥ 10K km²  /  Tiny')
 
-    expect(onFinish).toHaveBeenCalledWith({ globe: 'right', area: 'wrong' })
+    expect(onFinish).toHaveBeenCalled()
+    expect(answersGiven(onAnswer)).toEqual({ globe: 'right', area: 'wrong' })
   })
 
   it('finishes straight after the globe question when it is the only one asked', async () => {
+    const onAnswer = vi.fn()
     const onFinish = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
         questionIds={['globe']}
-        globeKinds={GLOBE_KINDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={onFinish}
       />,
     )
 
     await answerLocation('Tap wrong country')
 
-    expect(onFinish).toHaveBeenCalledWith({ globe: 'wrong' })
+    // The answer itself ends the card, so there is no Next.
+    expect(onAnswer).toHaveBeenCalledWith('globe', 'wrong', true)
+    expect(onFinish).not.toHaveBeenCalled()
   })
 
-  it('always asks to locate the country when only that kind of globe question is allowed', async () => {
-    // A random value that would otherwise pick the name question.
-    vi.spyOn(Math, 'random').mockReturnValue(NAME_QUESTION_RANDOM)
+  it('reports each answer as soon as it is given', async () => {
+    const onAnswer = vi.fn()
     render(
       <Flashcard
         countryIcon="outline"
         country={france}
-        questionIds={['globe']}
-        globeKinds={['locate']}
+        questionIds={['area', 'capital']}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={onAnswer}
         onFinish={vi.fn()}
       />,
     )
 
-    expect(await screen.findByText('Select France')).toBeInTheDocument()
-    expect(screen.queryByText('This is')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
+    // Before Next is pressed.
+    expect(onAnswer).toHaveBeenCalledWith('area', 'right', false)
   })
 
-  it('always asks to name the country when only that kind of globe question is allowed', async () => {
-    // A random value that would otherwise pick the location question.
-    vi.spyOn(Math, 'random').mockReturnValue(LOCATION_QUESTION_RANDOM)
-    render(
-      <Flashcard
-        countryIcon="outline"
-        country={france}
-        questionIds={['globe']}
-        globeKinds={['name']}
-        onFinish={vi.fn()}
-      />,
-    )
+  describe('when resumed', () => {
+    it('skips the questions already answered', async () => {
+      const onAnswer = vi.fn()
+      const onFinish = vi.fn()
+      render(
+        <Flashcard
+          countryIcon="outline"
+          country={france}
+          questionIds={FACT_QUESTION_IDS}
+          isNameQuestion={false}
+          offeredFlags={flagOptions('FRA')}
+          answeredIds={['globe', 'flag', 'area']}
+          onAnswer={onAnswer}
+          onFinish={onFinish}
+        />,
+      )
 
-    expect(await screen.findByText('This is')).toBeInTheDocument()
-    expect(screen.queryByText('Select France')).not.toBeInTheDocument()
+      expect(screen.queryByText('Select France')).not.toBeInTheDocument()
+      expect(screen.getByText('Population?')).toBeInTheDocument()
+      await answerRangeQuestion('≥ 50M  /  Numerous')
+      await answerRangeQuestion('8  /  Great')
+      await answerCapital('Paris')
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+      expect(onFinish).toHaveBeenCalled()
+      expect(answersGiven(onAnswer)).toEqual({
+        population: 'right',
+        ihdi: 'right',
+        capital: 'right',
+      })
+    })
+
+    it('shows the flag once past the flag question', () => {
+      render(
+        <Flashcard
+          countryIcon="flag"
+          country={france}
+          questionIds={['flag', 'area']}
+          isNameQuestion={false}
+          offeredFlags={flagOptions('FRA')}
+          answeredIds={['flag']}
+          onAnswer={vi.fn()}
+          onFinish={vi.fn()}
+        />,
+      )
+
+      expect(screen.getByRole('img', { name: 'Flag of France' })).toBeInTheDocument()
+      expect(screen.queryByText('?')).not.toBeInTheDocument()
+    })
   })
 
   describe('info questions', () => {
     it('come after the capital, each revealed then rated, and the rating goes on', async () => {
+      const onAnswer = vi.fn()
       const onFinish = vi.fn()
       render(
         <Flashcard
           countryIcon="outline"
           country={france}
           questionIds={['capital', 'history', 'internationalRelations']}
-          globeKinds={GLOBE_KINDS}
+          isNameQuestion={false}
+          offeredFlags={flagOptions('FRA')}
           // History has been answered before; International Relations hasn't.
           progress={{ history: reviewQuestion(undefined, 'right', '2026-10-01') }}
+          onAnswer={onAnswer}
           onFinish={onFinish}
         />,
       )
@@ -526,7 +617,10 @@ describe('Flashcard', () => {
       expect(screen.queryByRole('button', { name: 'Forgot' })).toBeNull()
       await userEvent.click(screen.getByRole('button', { name: 'New info' }))
 
-      expect(onFinish).toHaveBeenCalledWith({
+      // The last rating ends the card, so there is no Next.
+      expect(onAnswer).toHaveBeenLastCalledWith('internationalRelations', 'wrong', true)
+      expect(onFinish).not.toHaveBeenCalled()
+      expect(answersGiven(onAnswer)).toEqual({
         capital: 'right',
         history: 'close',
         internationalRelations: 'wrong',
@@ -534,14 +628,17 @@ describe('Flashcard', () => {
     })
 
     it('come after the borders question', async () => {
+      const onAnswer = vi.fn()
       const onFinish = vi.fn()
       render(
         <Flashcard
           countryIcon="outline"
           country={france}
           questionIds={['economy']}
-          globeKinds={GLOBE_KINDS}
+          isNameQuestion={false}
+          offeredFlags={flagOptions('FRA')}
           asksBorders={true}
+          onAnswer={onAnswer}
           onFinish={onFinish}
         />,
       )
@@ -553,19 +650,23 @@ describe('Flashcard', () => {
       await revealInfo()
       await userEvent.click(screen.getByRole('button', { name: 'Already known' }))
 
-      expect(onFinish).toHaveBeenCalledWith({ economy: 'right' })
+      expect(onAnswer).toHaveBeenLastCalledWith('economy', 'right', true)
+      expect(onFinish).not.toHaveBeenCalled()
+      expect(answersGiven(onAnswer)).toEqual({ economy: 'right' })
     })
   })
 
   describe('borders question', () => {
-    function renderBorders(country = france, onFinish = vi.fn()) {
+    function renderBorders(country = france, onAnswer = vi.fn(), onFinish = vi.fn()) {
       render(
         <Flashcard
           countryIcon="outline"
           country={country}
           questionIds={['capital']}
-          globeKinds={GLOBE_KINDS}
+          isNameQuestion={false}
+          offeredFlags={flagOptions(country.isoAlpha3)}
           asksBorders={true}
+          onAnswer={onAnswer}
           onFinish={onFinish}
         />,
       )
@@ -576,8 +677,9 @@ describe('Flashcard', () => {
     }
 
     it('comes after the capital, marks each box, lists every neighbour, and adds no result', async () => {
+      const onAnswer = vi.fn()
       const onFinish = vi.fn()
-      renderBorders(france, onFinish)
+      renderBorders(france, onAnswer, onFinish)
 
       await answerCapital('Paris')
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -621,7 +723,8 @@ describe('Flashcard', () => {
       )
 
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-      expect(onFinish).toHaveBeenCalledWith({ capital: 'right' })
+      expect(onFinish).toHaveBeenCalled()
+      expect(answersGiven(onAnswer)).toEqual({ capital: 'right' })
     })
 
     it('moves to the next box on Enter, and reveals on Enter in the last box', async () => {
@@ -691,13 +794,15 @@ describe('Flashcard', () => {
     })
 
     it('is skipped for countries without land neighbours', async () => {
+      const onAnswer = vi.fn()
       const onFinish = vi.fn()
-      renderBorders(countryFacts['ISL'], onFinish)
+      renderBorders(countryFacts['ISL'], onAnswer, onFinish)
 
       await answerCapital('Reykjavik')
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-      expect(onFinish).toHaveBeenCalledWith({ capital: 'right' })
+      expect(onFinish).toHaveBeenCalled()
+      expect(answersGiven(onAnswer)).toEqual({ capital: 'right' })
     })
   })
 })

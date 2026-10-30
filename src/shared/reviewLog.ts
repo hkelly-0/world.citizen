@@ -47,21 +47,18 @@ export function removeCountriesFromReviewLog(isoAlpha3Codes: string[]): void {
   }
 }
 
-// Adds an entry for each asked question of a finished card.
-export function logCardReviews(
+// Adds an entry for one answer, as soon as it is given.
+export function logReview(
   country: string,
-  questionIds: QuestionId[],
-  results: Partial<Record<QuestionId, AnswerResult>>,
+  question: QuestionId,
+  result: AnswerResult,
   date: string,
 ): void {
   const log = loadReviewLog()
-  for (const question of questionIds) {
-    // Every asked question has a result once the card is finished.
-    log.push({ country, question, date, result: results[question]! })
-  }
+  log.push({ country, question, date, result })
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(log))
   } catch {
-    // If storage is unavailable or full, these answers go unlogged.
+    // If storage is unavailable or full, this answer goes unlogged.
   }
 }

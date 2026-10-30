@@ -78,20 +78,18 @@ export function chooseRandomCountry(
   return choices[choices.length - 1]
 }
 
-// The progress after finishing a country's card. Each asked question gets its
-// own FSRS review. Questions not asked keep their progress.
-export function reviewCountry(
+// The progress after answering one of a country's questions: that question
+// gets its FSRS review. The country's other questions keep their progress.
+export function reviewAnswer(
   progress: DeckProgress,
   code: string,
-  questionIds: QuestionId[],
-  results: Partial<Record<QuestionId, AnswerResult>>,
+  id: QuestionId,
+  result: AnswerResult,
   today: string,
 ): DeckProgress {
-  const newCountryProgress: CountryProgress = { ...progress[code] }
-  for (const id of questionIds) {
-    // Every asked question has a result once the card is finished.
-    const result = results[id]!
-    newCountryProgress[id] = reviewQuestion(progress[code]?.[id], result, today)
+  const newCountryProgress: CountryProgress = {
+    ...progress[code],
+    [id]: reviewQuestion(progress[code]?.[id], result, today),
   }
   return { ...progress, [code]: newCountryProgress }
 }

@@ -11,18 +11,19 @@ export type CardRewardDetails =
   | { kind: 'familiarity'; code: string; recall: number | null }
 
 // Which reward follows the card of `code`. A country is new when it had no
-// question answered before this card, including ones not asked. The
+// question answered before this card, including ones not asked; it joined the
+// Passport at the card's first answer, so is counted in `progressAfter`. The
 // familiarity always covers the questions learned in Settings, even in Custom
 // Practice, so it matches the country's ring on the Passport.
 export function rewardAfterCard(
   code: string,
-  progressBefore: DeckProgress,
+  isNewCountry: boolean,
   progressAfter: DeckProgress,
   learnedQuestionIds: QuestionId[],
   today: string,
 ): CardRewardDetails {
-  if (Object.keys(progressBefore[code] ?? {}).length === 0) {
-    return { kind: 'new-country', code, countBefore: collectedCountries(progressBefore).length }
+  if (isNewCountry) {
+    return { kind: 'new-country', code, countBefore: collectedCountries(progressAfter).length - 1 }
   }
   return {
     kind: 'familiarity',

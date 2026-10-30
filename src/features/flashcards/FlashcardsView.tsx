@@ -1,11 +1,17 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import type { CountryIcon } from '../../shared/settings'
 import { loadLearningGroup, saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
-import { logCardReviews } from '../../shared/reviewLog'
+import { logReview } from '../../shared/reviewLog'
+import {
+  clearUnfinishedCard,
+  loadUnfinishedCard,
+  saveUnfinishedCard,
+  type UnfinishedCard,
+} from '../../shared/unfinishedCard'
 import {
   collectedCountries,
   COUNTRY_COUNT,
@@ -18,11 +24,12 @@ import { borderingCountries } from './bordersQuestion'
 import { todayString } from './dates'
 import {
   chooseRandomCountry,
-  reviewCountry,
+  reviewAnswer,
   type DeckProgress,
   type GlobeKind,
   type QuestionId,
 } from './deck'
+import { flagOptions } from './flagQuestion'
 import { Flashcard } from './Flashcard'
 import { CardReward } from './CardReward'
 import type { AnswerResult } from './fsrs'
@@ -47,13 +54,16 @@ type FlashcardsViewProps = {
   // True for Classic. False for Custom Practice, which only shows countries
   // already in the Passport, so new countries are only discovered in Classic.
   canDiscoverCountries: boolean
+  // True for Classic: its card is saved as it changes, and resumed when the
+  // screen is opened again the same day (unfinishedCard.ts).
+  resumesUnfinishedCard: boolean
   // Whether each card shows the country's outline or flag, chosen in Settings.
   countryIcon: CountryIcon
   onBack: () => void
 }
 
 // The flashcards screen: shows one country's card at a time, endlessly, and
-// saves progress after each card. Only the questions in `questionIds` are
+// saves progress after each answer. Only the questions in `questionIds` are
 // asked. Each card is a random country from the Passport, the less familiar
 // with the questions asked the likelier (`chooseRandomCountry`), never the
 // same one twice in a row. In Classic, once the countries already seen are
@@ -64,12 +74,15 @@ type FlashcardsViewProps = {
 // introduced with a "Discovering a new country" screen before its card, and
 // after its card a reward shows the Passport count going up. After the card of
 // a country already in the Passport, a reward shows its familiarity instead.
+// With `resumesUnfinishedCard`, a card left part-way is resumed the same day;
+// on a later day, a new card is chosen as usual.
 export function FlashcardsView({
   questionIds,
   learnedQuestionIds,
   globeKinds,
   asksBorders,
   canDiscoverCountries,
+  resumesUnfinishedCard,
   countryIcon,
   onBack,
 }: FlashcardsViewProps) {
@@ -93,13 +106,13 @@ export function FlashcardsView({
     )
   }
 
-  // The next card's country: a new one from the pending group when
+  // The next country: a new one from the pending group when
   // `wantsNewCountry`, otherwise a random one from the Passport other than
   // `previousCode`. A Passport country can still be asked a question for the
   // first time. Null when a new group must be chosen first, or in Custom
   // Practice when the Passport is empty (or, practising only borders, has no
   // country with land neighbours).
-  function nextCard(
+  function nextCountry(
     progress: DeckProgress,
     groupId: string | null,
     previousCode: string | null,
@@ -117,10 +130,46 @@ export function FlashcardsView({
     return chooseRandomCountry(codes, progress, today, questionIds, previousCode)
   }
 
-  // The country being shown, or null when there is no card to show.
-  const [currentCode, setCurrentCode] = useState<string | null>(() =>
-    nextCard(progress, groupId, null),
-  )
+  // A new card for `code`, with its globe kind (at random if both kinds are
+  // allowed) and flag options chosen now. Null when `code` is.
+  function newCard(code: string | null, progress: DeckProgress): UnfinishedCard | null {
+    if (code === null) return null
+    return {
+      date: today,
+      country: code,
+      isNewCountry: Object.keys(progress[code] ?? {}).length === 0,
+      isNameQuestion: globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
+      offeredFlags: flagOptions(code),
+      answeredIds: [],
+    }
+  }
+
+  // Whether a saved card can carry on: it is from today, has a question left
+  // to ask, and its country is still in the Passport unless it was new.
+  function canResume(saved: UnfinishedCard): boolean {
+    return (
+      saved.date === today &&
+      questionIds.some((id) => !saved.answeredIds.includes(id)) &&
+      (saved.isNewCountry || Object.keys(progress[saved.country] ?? {}).length > 0)
+    )
+  }
+
+  // The card being shown, or null when there is no card to show.
+  const [card, setCard] = useState<UnfinishedCard | null>(() => {
+    const saved = resumesUnfinishedCard ? loadUnfinishedCard() : null
+    if (saved !== null && canResume(saved)) return saved
+    return newCard(nextCountry(progress, groupId, null), progress)
+  })
+  const currentCode = card?.country ?? null
+
+  // Keeps the saved card in step with the one shown, so leaving at any point
+  // resumes it.
+  useEffect(() => {
+    if (!resumesUnfinishedCard) return
+    if (card === null) clearUnfinishedCard()
+    else saveUnfinishedCard(card)
+  }, [card, resumesUnfinishedCard])
+
   // The country whose "Discovering a new country" screen has been passed, by
   // "Go →".
   const [discoveryScreenPassedFor, setDiscoveryScreenPassedFor] = useState<string | null>(null)
@@ -129,30 +178,47 @@ export function FlashcardsView({
   const [reward, setReward] = useState<CardRewardDetails | null>(null)
 
   // In Classic, when a new country should come but no group is pending: the
-  // user chooses the next group.
-  const needsNewGroup = wantsNewCountry(progress) && groupId === null
+  // user chooses the next group. A resumed card is finished first, even if
+  // its group has since been completed.
+  const needsNewGroup = card === null && wantsNewCountry(progress) && groupId === null
   // Not yet in the Passport: no question answered, including ones not asked.
   const currentIsUndiscovered =
     currentCode !== null && Object.keys(progress[currentCode] ?? {}).length === 0
   const showDiscoveryScreen =
     canDiscoverCountries && currentIsUndiscovered && discoveryScreenPassedFor !== currentCode
 
-  // Each asked question gets its own FSRS review. Questions not asked keep
-  // their progress.
-  function finishCard(code: string, results: Partial<Record<QuestionId, AnswerResult>>) {
-    const newProgress = reviewCountry(progress, code, questionIds, results, today)
+  // Saved straight away: the question's FSRS review and the review log
+  // entry. A new country joins the Passport, and is discovered, at its first
+  // answer.
+  function answerQuestion(
+    card: UnfinishedCard,
+    id: QuestionId,
+    result: AnswerResult,
+    isCardFinished: boolean,
+  ) {
+    const code = card.country
+    if (Object.keys(progress[code] ?? {}).length === 0) recordDiscovery(code, new Date())
+    const newProgress = reviewAnswer(progress, code, id, result, today)
     setProgress(newProgress)
     saveProgress(newProgress)
-    logCardReviews(code, questionIds, results, today)
-    const newReward = rewardAfterCard(code, progress, newProgress, learnedQuestionIds, today)
-    // The country's first card: it has just joined the Passport.
-    if (newReward.kind === 'new-country') recordDiscovery(code, new Date())
-    setReward(newReward)
+    logReview(code, id, result, today)
+    if (isCardFinished) {
+      // Passed the new progress, as `progress` doesn't update until the next render.
+      finishCard(card, newProgress)
+    } else {
+      setCard({ ...card, answeredIds: [...card.answeredIds, id] })
+    }
+  }
+
+  // The answers are already saved; this shows the reward and picks the next card.
+  function finishCard(card: UnfinishedCard, newProgress: DeckProgress) {
+    const code = card.country
+    setReward(rewardAfterCard(code, card.isNewCountry, newProgress, learnedQuestionIds, today))
     // Null once the group's last country is in the Passport, so the user
     // chooses the next group.
     const newGroupId = groupId === null ? null : pendingGroupId(groupId, newProgress)
     setGroupId(newGroupId)
-    setCurrentCode(nextCard(newProgress, newGroupId, code))
+    setCard(newCard(nextCountry(newProgress, newGroupId, code), newProgress))
   }
 
   // Saved straight away, so the group is still pending if the user leaves
@@ -160,7 +226,7 @@ export function FlashcardsView({
   function chooseGroup(newGroupId: string) {
     saveLearningGroup(newGroupId)
     setGroupId(newGroupId)
-    setCurrentCode(nextCard(progress, newGroupId, null))
+    setCard(newCard(nextCountry(progress, newGroupId, null), progress))
   }
 
   return (
@@ -177,7 +243,7 @@ export function FlashcardsView({
         <Suspense fallback={<p className="flashcards-view__done">Loading globe…</p>}>
           <RegionGlobe progress={progress} onDiscover={chooseGroup} />
         </Suspense>
-      ) : currentCode === null ? (
+      ) : card === null ? (
         // Only in Custom Practice, with the Passport empty, or practising only
         // borders with no country in it that has land neighbours.
         <p className="flashcards-view__done">
@@ -188,13 +254,13 @@ export function FlashcardsView({
       ) : showDiscoveryScreen ? (
         <div className="flashcards-view__discovering">
           <p>
-            Discovering a new country from {countryFacts[currentCode].groupName}{' '}
-            {groupProgressLabel(countryFacts[currentCode].groupId, progress)}...
+            Discovering a new country from {countryFacts[card.country].groupName}{' '}
+            {groupProgressLabel(countryFacts[card.country].groupId, progress)}...
           </p>
           <button
             type="button"
             className="flashcards-view__go arrow-button"
-            onClick={() => setDiscoveryScreenPassedFor(currentCode)}
+            onClick={() => setDiscoveryScreenPassedFor(card.country)}
           >
             Go
           </button>
@@ -202,14 +268,19 @@ export function FlashcardsView({
       ) : (
         // The key gives each country a fresh card, resetting its answers.
         <Flashcard
-          key={currentCode}
-          country={countryFacts[currentCode]}
+          key={card.country}
+          country={countryFacts[card.country]}
           questionIds={questionIds}
-          globeKinds={globeKinds}
+          isNameQuestion={card.isNameQuestion}
+          offeredFlags={card.offeredFlags}
           asksBorders={asksBorders}
+          answeredIds={card.answeredIds}
           countryIcon={countryIcon}
-          progress={progress[currentCode]}
-          onFinish={(results) => finishCard(currentCode, results)}
+          progress={progress[card.country]}
+          onAnswer={(id, result, isCardFinished) =>
+            answerQuestion(card, id, result, isCardFinished)
+          }
+          onFinish={() => finishCard(card, progress)}
         />
       )}
     </div>

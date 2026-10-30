@@ -177,6 +177,7 @@ export default function App() {
           globeKinds={GLOBE_KINDS}
           asksBorders={false}
           canDiscoverCountries={true}
+          resumesUnfinishedCard={true}
           countryIcon={countryIcon}
           onBack={goToMenu}
         />
@@ -205,6 +206,7 @@ export default function App() {
           globeKinds={customGlobeKinds}
           asksBorders={customAsksBorders}
           canDiscoverCountries={false}
+          resumesUnfinishedCard={false}
           countryIcon={countryIcon}
           onBack={goToMenu}
         />

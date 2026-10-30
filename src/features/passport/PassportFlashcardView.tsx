@@ -3,10 +3,11 @@ import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
-import { logCardReviews } from '../../shared/reviewLog'
+import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
-import { reviewCountry, type QuestionId } from '../flashcards/deck'
+import { reviewAnswer, type DeckProgress, type QuestionId } from '../flashcards/deck'
+import { flagOptions } from '../flashcards/flagQuestion'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
 import { CardReward } from '../flashcards/CardReward'
@@ -26,8 +27,8 @@ type PassportFlashcardViewProps = {
 
 // One country's full flashcard, opened from its card in the Passport (or from
 // "New country", for an unseen one). It asks the questions chosen in Settings,
-// always finding the country on the globe (never naming it). Finishing it
-// reviews each question as Classic does, then its last "Next" leads to a
+// always finding the country on the globe (never naming it). Each answer is
+// reviewed and saved straight away, as in Classic. Its last "Next" leads to a
 // reward: the Passport count going up for a new country, otherwise the
 // country's familiarity. The reward's "Done" returns to the Passport.
 export function PassportFlashcardView({
@@ -41,19 +42,29 @@ export function PassportFlashcardView({
   const [reward, setReward] = useState<CardRewardDetails | null>(null)
   // The country's progress before this card, read once when it opens.
   const [countryProgress] = useState(() => loadProgress()[isoAlpha3])
+  // Chosen once, when the card is first shown.
+  const [offeredFlags] = useState(() => flagOptions(isoAlpha3))
+  // Opened from "New country": no question answered yet.
+  const isNewCountry = Object.keys(countryProgress ?? {}).length === 0
 
-  function finishCard(results: Partial<Record<QuestionId, AnswerResult>>) {
+  // Saved straight away. The country joins the Passport, and is discovered,
+  // at its first answer.
+  function answerQuestion(id: QuestionId, result: AnswerResult, isCardFinished: boolean) {
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
     const progress = loadProgress()
-    const newProgress = reviewCountry(progress, isoAlpha3, learnedQuestionIds, results, today)
+    if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) {
+      recordDiscovery(isoAlpha3, new Date())
+    }
+    const newProgress = reviewAnswer(progress, isoAlpha3, id, result, today)
     saveProgress(newProgress)
-    logCardReviews(isoAlpha3, learnedQuestionIds, results, today)
-    const newReward = rewardAfterCard(isoAlpha3, progress, newProgress, learnedQuestionIds, today)
-    // The country's first card (opened from "New country"): it has just
-    // joined the Passport.
-    if (newReward.kind === 'new-country') recordDiscovery(isoAlpha3, new Date())
-    setReward(newReward)
+    logReview(isoAlpha3, id, result, today)
+    if (isCardFinished) finishCard(newProgress, today)
+  }
+
+  // The answers are already saved; this shows the reward.
+  function finishCard(newProgress: DeckProgress, today: string) {
+    setReward(rewardAfterCard(isoAlpha3, isNewCountry, newProgress, learnedQuestionIds, today))
   }
 
   return (
@@ -70,10 +81,12 @@ export function PassportFlashcardView({
         <Flashcard
           country={countryFacts[isoAlpha3]}
           questionIds={learnedQuestionIds}
-          globeKinds={['locate']}
+          isNameQuestion={false}
+          offeredFlags={offeredFlags}
           countryIcon={countryIcon}
           progress={countryProgress}
-          onFinish={finishCard}
+          onAnswer={answerQuestion}
+          onFinish={() => finishCard(loadProgress(), todayString())}
         />
       )}
     </div>
