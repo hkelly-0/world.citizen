@@ -4,11 +4,12 @@ import type { QuestionId } from './deck'
 import { flagMatchingCountries } from './flagMatchingQuestion'
 import { orderingCountries, type OrderingStat } from './orderingQuestion'
 
-// The Custom Practice questions about several Passport countries at once,
-// rather than one country's card, plus Borders, which is about one country but
-// is practised with them. They aren't QuestionIds: no FSRS progress, review
-// log or Settings tick. In Custom Practice they are asked one after another,
-// or, with country card questions ticked too, mixed in between the cards.
+// The questions about several Passport countries at once, rather than one
+// country's card, plus Borders, which is about one country but is practised
+// with them. They aren't QuestionIds: no FSRS progress, review log or Settings
+// tick. Classic mixes them in between the cards; Custom Practice asks the
+// ticked ones one after another, or, with country card questions ticked too,
+// mixed in between the cards.
 export const MULTI_COUNTRY_QUESTION_IDS = [
   'borders',
   'flag-matching',
@@ -19,8 +20,8 @@ export const MULTI_COUNTRY_QUESTION_IDS = [
 ] as const
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
-// Each is only offered in Custom Practice when this question type is learned
-// in Settings. Borders needs none, so it is always offered.
+// Each is only offered (asked in Classic, tickable in Custom Practice) when
+// this question type is learned in Settings. Borders needs none, so it is always offered.
 export const LEARNED_QUESTION_NEEDED: Record<
   Exclude<MultiCountryQuestionId, 'borders'>,
   QuestionId

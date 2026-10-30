@@ -11,9 +11,9 @@ type MultiCountryCardProps = {
   onFinish: () => void
 }
 
-// One multi-country question, shown with the card for its kind. Used by
-// Custom Practice both on its own (MultiCountryPracticeView) and between the
-// country cards (FlashcardsView).
+// One multi-country question, shown with the card for its kind. Used both on
+// its own in Custom Practice (MultiCountryPracticeView) and between the country
+// cards in Classic and Custom Practice (FlashcardsView).
 export function MultiCountryCard({ question, countryIcon, onFinish }: MultiCountryCardProps) {
   if (question.id === 'borders') {
     return <BordersCard code={question.codes[0]} countryIcon={countryIcon} onFinish={onFinish} />
