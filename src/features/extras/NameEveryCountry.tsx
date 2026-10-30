@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
-import { countryFacts } from '../../shared/countryFacts'
 import {
   createCountryMap,
   hideBorders,
   shapeIndicesOfCountry,
   stopHoverHighlight,
 } from '../globe/countryMap'
-import { COUNTRY_COUNT } from '../passport/passport'
-import { formatElapsedTime, namedCountry, remainingCountryNames } from './namingGame'
+import {
+  formatElapsedTime,
+  namedCountry,
+  remainingCountryNames,
+  type NamingArea,
+} from './namingGame'
 // The text box's styles (.typed-answer__box), shared with the name question.
 import '../flashcards/TypedAnswerReveal.css'
 import './NameEveryCountry.css'
@@ -21,6 +24,8 @@ function isExitGuardInHistory(): boolean {
 }
 
 type NameEveryCountryProps = {
+  // The world or the continent whose countries are to be named.
+  area: NamingArea
   // Goes back to the Extras menu from the game screen's own history entry.
   onBack: () => void
 }
@@ -29,9 +34,10 @@ type NameEveryCountryProps = {
 // Android back, 'end-game' for Give up.
 type Confirming = 'exit' | 'end-game' | null
 
-// A game under Extras: every country starts highlighted in yellow on a
-// full-screen globe, and the user types country names into the box at the
-// bottom. A right name unhighlights its country (and its far-off parts, e.g.
+// A game under Extras: every country of the chosen area (the world or one
+// continent) starts highlighted in yellow on a full-screen globe, turned
+// towards the area, and the user types country names into the box at the
+// bottom. A country outside the area counts as a wrong name. A right name unhighlights its country (and its far-off parts, e.g.
 // French Guiana for France) and clears the box; a wrong one, or one already
 // named, shakes the box and stays, and one already named also floats up
 // "Already named". The user can spin and zoom the globe, but
@@ -42,7 +48,7 @@ type Confirming = 'exit' | 'end-game' | null
 // "Exit?" or "End game?" is open, and its time is shown at the end. Once
 // started, Give up and back both ask first, until the game is over. Before
 // the start and after the end, back leaves straight away.
-export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
+export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
@@ -67,7 +73,8 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
   const [hasStarted, setHasStarted] = useState(false)
   const [hasGivenUp, setHasGivenUp] = useState(false)
   const [confirming, setConfirming] = useState<Confirming>(null)
-  const hasWon = namedCodes.length === COUNTRY_COUNT
+  const countryCount = area.countries.length
+  const hasWon = namedCodes.length === countryCount
   const isGameOver = hasWon || hasGivenUp
   // The stopwatch's time so far. stopwatchBankedMsRef holds the time from
   // before its latest pause, as each run of the effect below starts afresh.
@@ -144,6 +151,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
     if (container === null) return
 
     const map = createCountryMap(container)
+    map.jumpTo({ center: area.centre })
     mapRef.current = map
     // Taps don't do anything in this game, so there is no hover highlight or
     // pointer cursor.
@@ -152,7 +160,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
     map.once('load', () => {
       // This game shows no white borders between countries.
       hideBorders(map)
-      for (const isoAlpha3 of Object.keys(countryFacts)) {
+      for (const isoAlpha3 of area.countries) {
         for (const index of shapeIndicesOfCountry(isoAlpha3)) {
           map.setFeatureState({ source: 'countries', id: index }, { selected: true })
         }
@@ -164,7 +172,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
       mapRef.current = null
       map.remove()
     }
-  }, [])
+  }, [area])
 
   function submitName(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
@@ -173,7 +181,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
     if (typedName.trim() === '') return
 
     const isoAlpha3 = namedCountry(typedName)
-    if (isoAlpha3 === null) {
+    if (isoAlpha3 === null || !area.countries.includes(isoAlpha3)) {
       setIsShaking(true)
       return
     }
@@ -213,7 +221,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
           </p>
         )}
         <p className="name-every-country__corner-box">
-          {namedCodes.length}/{COUNTRY_COUNT}
+          {namedCodes.length}/{countryCount}
         </p>
       </div>
       {/* Gone once the game is over, behind "You win" or the remaining
@@ -293,7 +301,7 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
       )}
       {hasWon && (
         <Popup
-          title={`${COUNTRY_COUNT}/${COUNTRY_COUNT}! You win`}
+          title={`${countryCount}/${countryCount}! You win`}
           isScoreTitle
           buttons={[{ label: 'Done', onClick: leave }]}
         >
@@ -302,14 +310,14 @@ export default function NameEveryCountry({ onBack }: NameEveryCountryProps) {
       )}
       {hasGivenUp && (
         <Popup
-          title={`Score: ${namedCodes.length}/${COUNTRY_COUNT}`}
+          title={`Score: ${namedCodes.length}/${countryCount}`}
           isScoreTitle
           buttons={[{ label: 'Done', onClick: leave }]}
         >
           {isShowingStopwatch && <ElapsedTime elapsedMs={elapsedMs} />}
           <h3 className="name-every-country__remaining-heading">Remaining Countries</h3>
           <ul className="name-every-country__remaining">
-            {remainingCountryNames(namedCodes).map((name) => (
+            {remainingCountryNames(area, namedCodes).map((name) => (
               <li key={name}>{name}</li>
             ))}
           </ul>

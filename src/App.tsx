@@ -11,6 +11,7 @@ import { PassportFlashcardView } from './features/passport/PassportFlashcardView
 import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
 import { ExtrasMenu } from './features/extras/ExtrasMenu'
+import { NAMING_AREAS } from './features/extras/namingGame'
 import { PassportEditor } from './features/settings/PassportEditor'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
@@ -34,7 +35,8 @@ const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry')
 // 'passport-editor' (opened from it) adds or removes Passport countries by
 // hand. 'passport' lists the countries seen as flashcards, and
 // 'passport-flashcard' plays one of their cards. 'extras' lists the games
-// outside the flashcards, such as 'name-every-country'.
+// outside the flashcards, such as 'name-every-country' (for the world or one
+// continent).
 type Screen =
   | 'menu'
   | 'settings'
@@ -71,6 +73,10 @@ function customMultiCountryQuestionIdsInHistory(): MultiCountryQuestionId[] {
 function passportFlashcardCodeInHistory(): string | null {
   return history.state?.isoAlpha3 ?? null
 }
+// The area whose countries Name every country asks for, kept the same way.
+function namingAreaIdInHistory(): string {
+  return history.state?.namingAreaId ?? 'world'
+}
 
 export default function App() {
   // Read from history, so reloading the website stays on the same screen.
@@ -85,6 +91,7 @@ export default function App() {
   const [passportFlashcardCode, setPassportFlashcardCode] = useState<string | null>(
     passportFlashcardCodeInHistory,
   )
+  const [namingAreaId, setNamingAreaId] = useState<string>(namingAreaIdInHistory)
   // The information chosen in Settings. Everything else in the app (info
   // panel, Classic and Custom Practice) shows or asks only these.
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
@@ -136,6 +143,13 @@ export default function App() {
     history.pushState({ screen: 'passport-flashcard', isoAlpha3 }, '')
     setPassportFlashcardCode(isoAlpha3)
     setScreen('passport-flashcard')
+  }
+  // Opens Name every country for one area, with its own history entry, so
+  // back returns to the Extras menu.
+  function playNameEveryCountry(areaId: string) {
+    history.pushState({ screen: 'name-every-country', namingAreaId: areaId }, '')
+    setNamingAreaId(areaId)
+    setScreen('name-every-country')
   }
   function saveSettings(questionIds: QuestionId[], icon: CountryIcon) {
     saveLearnedQuestionIds(questionIds)
@@ -213,18 +227,19 @@ export default function App() {
       )
     }
     if (screen === 'extras') {
-      return (
-        <ExtrasMenu
-          onBack={goToMenu}
-          onOpenNameEveryCountry={() => openScreen('name-every-country')}
-        />
-      )
+      return <ExtrasMenu onBack={goToMenu} onOpenNameEveryCountry={playNameEveryCountry} />
     }
     if (screen === 'name-every-country') {
+      const area = NAMING_AREAS.find((namingArea) => namingArea.id === namingAreaId)
       return (
         <Suspense fallback={<p className="loading">Loading globe…</p>}>
-          {/* Back to the Extras menu's history entry. */}
-          <NameEveryCountry onBack={() => history.back()} />
+          {/* Back to the Extras menu's history entry. Keyed by area so that
+              each area starts a fresh game. */}
+          <NameEveryCountry
+            key={namingAreaId}
+            area={area ?? NAMING_AREAS[0]}
+            onBack={() => history.back()}
+          />
         </Suspense>
       )
     }

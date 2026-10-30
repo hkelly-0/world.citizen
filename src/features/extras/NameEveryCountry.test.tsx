@@ -3,14 +3,17 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import NameEveryCountry from './NameEveryCountry'
+import { NAMING_AREAS } from './namingGame'
 
 // The real map needs WebGL, which jsdom doesn't have. This one loads straight
 // away and gives each country one shape, numbered by its ISO code.
 const setFeatureState = vi.fn()
+const jumpTo = vi.fn()
 vi.mock('../globe/countryMap', () => ({
   createCountryMap: () => ({
     once: (_event: string, onLoad: () => void) => onLoad(),
     setFeatureState,
+    jumpTo,
     remove: vi.fn(),
   }),
   hideBorders: vi.fn(),
@@ -20,9 +23,12 @@ vi.mock('../globe/countryMap', () => ({
 
 const box = () => screen.getByLabelText('Country name')
 
+const world = NAMING_AREAS[0]
+const europe = NAMING_AREAS.find((area) => area.id === 'europe')!
+
 // Opens the game, says No to the stopwatch and presses Go on "Ready?".
-async function startGame(onBack: () => void) {
-  render(<NameEveryCountry onBack={onBack} />)
+async function startGame(onBack: () => void, area = world) {
+  render(<NameEveryCountry area={area} onBack={onBack} />)
   await userEvent.click(screen.getByRole('button', { name: 'No' }))
   await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 }
@@ -39,7 +45,7 @@ describe('NameEveryCountry', () => {
 
   it('asks "Show stopwatch?" then "Ready?", with a Menu button, and Go starts the game', async () => {
     const go = vi.spyOn(history, 'go').mockImplementation(() => {})
-    render(<NameEveryCountry onBack={vi.fn()} />)
+    render(<NameEveryCountry area={world} onBack={vi.fn()} />)
     expect(screen.getByRole('dialog', { name: 'Show stopwatch?' })).toBeInTheDocument()
     expect(box()).toBeDisabled()
     expect(screen.queryByRole('button', { name: 'Give up' })).not.toBeInTheDocument()
@@ -60,7 +66,7 @@ describe('NameEveryCountry', () => {
 
   it('runs the stopwatch from Go, pausing on "End game?", and shows its time at the end', () => {
     vi.useFakeTimers()
-    render(<NameEveryCountry onBack={vi.fn()} />)
+    render(<NameEveryCountry area={world} onBack={vi.fn()} />)
     fireEvent.click(screen.getByRole('button', { name: 'Yes' }))
     act(() => vi.advanceTimersByTime(5000))
     expect(screen.getByLabelText('Stopwatch')).toHaveTextContent('0:00')
@@ -83,7 +89,7 @@ describe('NameEveryCountry', () => {
 
   it('leaves straight away on back before Go', async () => {
     const onBack = vi.fn()
-    render(<NameEveryCountry onBack={onBack} />)
+    render(<NameEveryCountry area={world} onBack={onBack} />)
 
     history.back()
     await waitFor(() => expect(onBack).toHaveBeenCalled())
@@ -209,6 +215,38 @@ describe('NameEveryCountry', () => {
     history.back()
     await waitFor(() => expect(onBack).toHaveBeenCalled())
     expect(screen.queryByRole('dialog', { name: 'Exit?' })).not.toBeInTheDocument()
+  })
+
+  it('turns the globe to a continent, and highlights and counts only its countries', async () => {
+    setFeatureState.mockClear()
+    await startGame(vi.fn(), europe)
+
+    expect(jumpTo).toHaveBeenLastCalledWith({ center: europe.centre })
+    const highlighted = setFeatureState.mock.calls.map(([feature]) => feature.id)
+    expect(highlighted.sort()).toEqual([...europe.countries].sort())
+    expect(screen.getByText(`0/${europe.countries.length}`)).toBeInTheDocument()
+  })
+
+  it('shakes and keeps a country from another continent, without floating anything up', async () => {
+    await startGame(vi.fn(), europe)
+
+    await userEvent.type(box(), 'Japan{Enter}')
+    expect(box()).toHaveValue('Japan')
+    expect(box()).toHaveClass('name-every-country__box--shaking')
+    expect(screen.queryByText('Already named')).not.toBeInTheDocument()
+    expect(screen.getByText(`0/${europe.countries.length}`)).toBeInTheDocument()
+  })
+
+  it("says the user wins once every one of a continent's countries is named", async () => {
+    await startGame(vi.fn(), europe)
+
+    for (const isoAlpha3 of europe.countries) {
+      fireEvent.change(box(), { target: { value: countryFacts[isoAlpha3].commonName } })
+      fireEvent.submit(box())
+    }
+
+    const count = europe.countries.length
+    expect(screen.getByRole('dialog', { name: `${count}/${count}! You win` })).toBeInTheDocument()
   })
 
   it('says the user wins once every country is named', async () => {

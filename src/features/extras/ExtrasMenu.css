@@ -1,0 +1,10 @@
+/* Left-aligned with the title and buttons, in the main menu's column. */
+.extras-menu__heading {
+  width: 100%;
+  max-width: 280px;
+  margin: 0;
+  text-align: left;
+  color: #a9b1c2;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
