@@ -275,6 +275,16 @@ export function setGroupTintShown(map: MapLibreMap, shown: boolean) {
   map.setLayoutProperty('country-groups', 'visibility', shown ? 'visible' : 'none')
 }
 
+// Hides the white country borders (Name every country), so neighbouring
+// highlights join seamlessly. Call once the map has loaded.
+export function hideBorders(map: MapLibreMap) {
+  map.setLayoutProperty('country-borders', 'visibility', 'none')
+  // Antialiasing softens each fill's edge, so where two see-through
+  // highlights meet, their soft edges overlap into a brighter line. Without
+  // it they meet exactly, at the cost of slightly jagged coastlines.
+  map.setPaintProperty('country-fills', 'fill-antialias', false)
+}
+
 // Sets a feature state (e.g. { groupHovered: true }) on every country of the
 // group, so the whole region is highlighted together.
 export function setGroupFeatureState(

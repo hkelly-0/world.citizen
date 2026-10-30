@@ -21,6 +21,10 @@ vi.mock('./features/globe/NameCountryGlobe', () => ({
   ),
 }))
 
+vi.mock('./features/extras/NameEveryCountry', () => ({
+  default: ({ onBack }: { onBack: () => void }) => <button onClick={onBack}>Finish game</button>,
+}))
+
 // The globe screen needs WebGL, which the test environment doesn't have, so
 // only the menu and flashcards screens are tested here.
 describe('App', () => {
@@ -43,6 +47,16 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Extras' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
+  })
+
+  it('opens Name every country from the Extras menu, and its Done goes back to the Extras menu', async () => {
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Name every country' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Finish game' }))
+
+    expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
   })
 
   it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {

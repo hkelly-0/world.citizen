@@ -1,0 +1,216 @@
+.name-every-country {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.name-every-country__canvas {
+  width: 100%;
+  height: 100%;
+  /* Touches on the globe move the globe, never the page. */
+  touch-action: none;
+}
+
+/* The top-right corner: the stopwatch, if shown, above "12/195". */
+.name-every-country__corner {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Each in the same box as the back button opposite. */
+.name-every-country__corner-box {
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The text box along the bottom of the screen, as in the flashcards' name
+   question (.name-globe__panel). */
+.name-every-country__panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px max(16px, calc((100% - 420px) / 2));
+  background: rgba(15, 20, 35, 0.9);
+}
+
+.name-every-country__box--shaking {
+  animation: name-every-country-shake 400ms ease;
+}
+
+@keyframes name-every-country-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* A right name, floating up from just above the box and fading away. It
+   doesn't block taps on the globe behind it. It starts where the text in the
+   box does: the panel's side padding, plus the box's border (1px) and padding
+   (12px) from .typed-answer__box, at the box's font size. */
+.name-every-country__floating-name {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  margin-bottom: 8px;
+  padding: 0 calc(max(16px, calc((100% - 420px) / 2)) + 13px);
+  box-sizing: border-box;
+  font-size: 1rem;
+  color: var(--correct-green);
+  font-weight: bold;
+  pointer-events: none;
+  animation: name-every-country-float 1s ease-out forwards;
+}
+
+/* "Already named", in place of a right name, when a country is named again. */
+.name-every-country__floating-name--already-named {
+  color: var(--wrong-red);
+}
+
+@keyframes name-every-country-float {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* While "Ready?" shows, the Menu button sits above its overlay (z-index 3),
+   so it can still be pressed. */
+.name-every-country--ready .back-button {
+  z-index: 4;
+}
+
+/* Dims the globe behind the popup, and sits above the back button (z-index 2)
+   so the game can't go on behind it. */
+.name-every-country__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 16, 0.6);
+}
+
+/* Same look as the "Are you sure?" message (ConfirmMessage.css). */
+.name-every-country__popup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  /* Leaves room for the overlay's padding; the Remaining list scrolls. */
+  max-height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.95);
+}
+
+.name-every-country__popup-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* The score ("You win", or after Give up), larger than the other titles
+   (1.3rem). */
+.name-every-country__popup-title--score {
+  color: var(--correct-green);
+  font-size: 1.7rem;
+}
+
+.name-every-country__popup--confirmation .name-every-country__popup-title {
+  text-align: center;
+}
+
+/* "Time: 12:45" on "You win" and the score after Give up. */
+.name-every-country__time {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Above the list after Give up; stays put while the list scrolls. */
+.name-every-country__remaining-heading {
+  flex-shrink: 0;
+  margin: 4px 0 0;
+  font-size: 1rem;
+}
+
+.name-every-country__remaining {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  color: #a9b1c2;
+  line-height: 1.6;
+}
+
+.name-every-country__popup-buttons {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.name-every-country__popup-button {
+  flex: 1;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.name-every-country__popup-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Yes on a confirmation, which ends the game. */
+.name-every-country__popup-button--red {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
+}
+
+.name-every-country__popup-button--red:hover {
+  background: var(--wrong-red-tint-hover);
+}
+
+/* Go on "Ready?". */
+.name-every-country__popup-button--green {
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
+}
+
+.name-every-country__popup-button--green:hover {
+  background: var(--correct-green-tint-hover);
+}

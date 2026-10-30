@@ -9,6 +9,7 @@ type MainMenuProps = {
   onOpenGlobe: () => void
   onOpenFlashcards: () => void
   onOpenPassport: () => void
+  onOpenExtras: () => void
   onOpenSettings: () => void
 }
 
@@ -19,6 +20,7 @@ export function MainMenu({
   onOpenGlobe,
   onOpenFlashcards,
   onOpenPassport,
+  onOpenExtras,
   onOpenSettings,
 }: MainMenuProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -96,8 +98,9 @@ export function MainMenu({
             {passportCount}/{COUNTRY_COUNT}
           </span>
         </button>
-        {/* Leads nowhere yet. */}
-        <button className="main-menu__option arrow-button">Extras</button>
+        <button className="main-menu__option arrow-button" onClick={onOpenExtras}>
+          Extras
+        </button>
       </div>
       <button className="main-menu__settings arrow-button" onClick={onOpenSettings}>
         Settings

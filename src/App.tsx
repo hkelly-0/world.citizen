@@ -10,6 +10,7 @@ import { collectedCountries } from './features/passport/passport'
 import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
 import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
+import { ExtrasMenu } from './features/extras/ExtrasMenu'
 import { PassportEditor } from './features/settings/PassportEditor'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { loadProgress } from './shared/progress'
@@ -24,6 +25,7 @@ import {
 // The map (MapLibre + border data) is large, so it is loaded only when shown.
 // This keeps other screens, like the flashcards, fast to open.
 const GlobeView = lazy(() => import('./features/globe/GlobeView'))
+const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry'))
 
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
 // cards, 'custom-practice' the choice of question types to practise, and
@@ -31,7 +33,8 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 // 'settings' chooses which information is learned at all, and
 // 'passport-editor' (opened from it) adds or removes Passport countries by
 // hand. 'passport' lists the countries seen as flashcards, and
-// 'passport-flashcard' plays one of their cards.
+// 'passport-flashcard' plays one of their cards. 'extras' lists the games
+// outside the flashcards, such as 'name-every-country'.
 type Screen =
   | 'menu'
   | 'settings'
@@ -43,6 +46,8 @@ type Screen =
   | 'classic-flashcards'
   | 'custom-practice'
   | 'custom-flashcards'
+  | 'extras'
+  | 'name-every-country'
 
 // Opening a screen adds a browser history entry (the URL stays the same), so
 // the browser's back button, and Android's, return to the main menu. The main
@@ -207,6 +212,22 @@ export default function App() {
         />
       )
     }
+    if (screen === 'extras') {
+      return (
+        <ExtrasMenu
+          onBack={goToMenu}
+          onOpenNameEveryCountry={() => openScreen('name-every-country')}
+        />
+      )
+    }
+    if (screen === 'name-every-country') {
+      return (
+        <Suspense fallback={<p className="loading">Loading globe…</p>}>
+          {/* Back to the Extras menu's history entry. */}
+          <NameEveryCountry onBack={() => history.back()} />
+        </Suspense>
+      )
+    }
     if (screen === 'settings') {
       return (
         <SettingsMenu
@@ -257,6 +278,7 @@ export default function App() {
         onOpenGlobe={() => openScreen('globe')}
         onOpenFlashcards={() => openScreen('flashcards')}
         onOpenPassport={() => openScreen('passport')}
+        onOpenExtras={() => openScreen('extras')}
         onOpenSettings={() => openScreen('settings')}
       />
     )

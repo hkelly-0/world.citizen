@@ -30,7 +30,7 @@ Audience: friends and family; the APK is sideloaded (no Play Store).
 ## Features
 The code is the source of truth for exact numbers and wording; this is an overview.
 
-Main menu: Flashcards, Globe, Passport, Settings. Screens are switched with React state in `src/App.tsx` (no URL routing); each screen, and the globe's open info panel, pushes a same-URL history entry so back (browser, or Android via `@capacitor/app` in `src/main.tsx`) steps through them. Features link up via ISO alpha-3 codes. Scope: the 195 countries (193 UN members + Vatican and Palestine).
+Main menu: Flashcards, Globe, Passport, Extras, Settings. Screens are switched with React state in `src/App.tsx` (no URL routing); each screen, and the globe's open info panel, pushes a same-URL history entry so back (browser, or Android via `@capacitor/app` in `src/main.tsx`) steps through them. Features link up via ISO alpha-3 codes. Scope: the 195 countries (193 UN members + Vatican and Palestine).
 
 1. **Flashcards** (`src/features/flashcards/`) – one card per country, asking globe, flag, area, population, IHDI and capital in that order, then the info questions.
    - **Info questions** (`INFO_QUESTION_IDS` in `deck.ts`, `InfoQuestion` in `Flashcard.tsx`) are full `QuestionId`s, one per `countryInfo/` section: the topic and Reveal, then the paragraph and self-ratings scored as wrong / close / right. The rating goes on, so there is no Next or click-anywhere.
@@ -57,7 +57,8 @@ Main menu: Flashcards, Globe, Passport, Settings. Screens are switched with Reac
    - **Edit Passport** (`PassportEditor.tsx`, logic in `passportEdit.ts`): a searchable checklist of all 195, behind an "Are you sure?". Since Passport membership is just having progress, removing a country deletes its FSRS progress, discovery time and review log entries (confirmed again on Save); adding one gives each learned question one made-up right answer today and a discovery time, but nothing in the review log (it is for real answers only). Saving also clears the chosen learning group, so a group is chosen again before the next new country.
 4. **Passport** (`src/features/passport/`) – grid of countries with any question answered, sortable (`src/shared/passportSort.ts`; discovery times in `src/shared/discoveries.ts`). Tapping one offers its card (`PassportFlashcardView.tsx`); a trailing "New country" card discovers one from the pending group (`randomUnseenCountryInGroup`).
    - Familiarity (`countryRecall` and `questionFamiliarity` in `familiarity.ts`): the average FSRS recall of the answered, learned questions `FAMILIARITY_DAYS_AHEAD` days ahead, plus `PRACTISED_TODAY_BONUS` for a question answered right again today. The same measure drives card picking (`pickingFamiliarity`), the ring (`RecallCircle.tsx`) and `isTooUnfamiliarForNewCountry`.
-5. **Dev menu** (`src/features/dev/`) – dev server only (`import.meta.env.DEV`): a tab on every screen (`DevTools.tsx`) with buttons that edit saved progress (`devProgress.ts`) and remount the current screen, and a toggle that tints globes by country group (`showCountryGroups.ts`, not saved, read when a globe is created).
+5. **Extras** (`src/features/extras/`) – games outside the flashcards that never read or write progress. **Name every country** (`NameEveryCountry.tsx`, logic in `namingGame.ts`): every country starts highlighted on a globe and is unhighlighted when its name is typed, with the name question's answer rules (`isCountryNameCorrect`). Nothing is saved, so leaving starts it again.
+6. **Dev menu** (`src/features/dev/`) – dev server only (`import.meta.env.DEV`): a tab on every screen (`DevTools.tsx`) with buttons that edit saved progress (`devProgress.ts`) and remount the current screen, and a toggle that tints globes by country group (`showCountryGroups.ts`, not saved, read when a globe is created).
 
 ## Architecture decisions
 - **One web codebase**, deployed as the website and packaged as an APK with **Capacitor** (`capacitor.config.ts`, native project in `android/`).
@@ -105,7 +106,7 @@ Generated files are committed; each script lists its download links.
 - `src/data/territorySubtitles.json` – hand-written description of each map area outside the 195, keyed by ISO code or map name (after `FULL_MAP_NAMES` in `countries.ts` writes out Natural Earth's abbreviations); `{ISO}` links to that country. Contested areas get neutral wording.
 
 ## Status
-- Not yet checked on a real phone: the location and name globe questions (especially the name question's bottom panel above the on-screen keyboard), and dragging in Matching and Ordering.
+- Not yet checked on a real phone: the location and name globe questions and Name every country (especially their bottom panels above the on-screen keyboard), and dragging in Matching and Ordering.
 - Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it).
 - Possible later: more facts (region, languages, etc.); ship the website as a PWA.
 - Owner to review `territorySubtitles.json`.
