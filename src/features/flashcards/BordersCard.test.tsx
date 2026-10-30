@@ -11,6 +11,12 @@ async function typeBorder(box: number, typed: string) {
   await userEvent.type(screen.getByLabelText(`Bordering country ${box}`), typed)
 }
 
+// Types each name into the boxes from `firstBox` on, then reveals.
+async function answerRound(firstBox: number, names: string[]) {
+  for (const [index, name] of names.entries()) await typeBorder(firstBox + index, name)
+  await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+}
+
 describe('BordersCard', () => {
   it('marks each box, lists every neighbour, and finishes on Next', async () => {
     const onFinish = vi.fn()
@@ -115,5 +121,69 @@ describe('BordersCard', () => {
     render(<BordersCard code="FRA" countryIcon="flag" onFinish={vi.fn()} />)
 
     expect(screen.getByRole('img', { name: 'Flag of France' })).toBeInTheDocument()
+  })
+
+  describe('with more than 4 neighbours, all named right', () => {
+    // Germany has 9 neighbours: Austria, Belgium, Czechia, Denmark, France,
+    // Luxembourg, Netherlands, Poland and Switzerland.
+    it('asks for 4 more, then the last 1, then lists them all', async () => {
+      const onFinish = vi.fn()
+      renderBorders('DEU', onFinish)
+
+      await answerRound(1, ['Austria', 'Belgium', 'Czechia', 'Denmark'])
+      expect(screen.getByText('Nice. 4 more?')).toBeInTheDocument()
+      expect(screen.queryByRole('list')).not.toBeInTheDocument()
+      expect(screen.getByLabelText('Bordering country 1')).toHaveClass('typed-answer__box--correct')
+      // The new round's first box is ready to type in.
+      expect(screen.getByLabelText('Bordering country 5')).toHaveFocus()
+      expect(screen.queryByLabelText('Bordering country 9')).not.toBeInTheDocument()
+
+      await answerRound(5, ['France', 'Luxembourg', 'Netherlands', 'Poland'])
+      expect(screen.getByText('Nice. Last 1?')).toBeInTheDocument()
+      expect(screen.queryByLabelText('Bordering country 10')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument()
+
+      await answerRound(9, ['Switzerland'])
+      const list = screen.getByRole('list', { name: 'Countries bordering Germany' })
+      expect(list.querySelectorAll('.flashcard__border--named')).toHaveLength(9)
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(onFinish).toHaveBeenCalled()
+    })
+
+    it('asks for the last 4 when exactly 4 are left', async () => {
+      // Austria has 8 neighbours.
+      renderBorders('AUT')
+
+      await answerRound(1, ['Switzerland', 'Czechia', 'Germany', 'Hungary'])
+      expect(screen.getByText('Nice. Last 4?')).toBeInTheDocument()
+      expect(screen.getByLabelText('Bordering country 8')).toBeInTheDocument()
+    })
+
+    it('lists every neighbour once a later round has a wrong box', async () => {
+      renderBorders('DEU')
+
+      await answerRound(1, ['Austria', 'Belgium', 'Czechia', 'Denmark'])
+      // Austria was already named, so it counts as wrong.
+      await answerRound(5, ['France', 'Austria', 'Netherlands', 'Poland'])
+
+      expect(screen.getByLabelText('Bordering country 6')).toHaveClass(
+        'flashcard__border-box--wrong',
+      )
+      expect(screen.getByLabelText('Bordering country 7')).toHaveClass('typed-answer__box--correct')
+      const list = screen.getByRole('list', { name: 'Countries bordering Germany' })
+      // Those named, in the order typed, then the rest.
+      expect([...list.querySelectorAll('li')].map((item) => item.textContent)).toEqual([
+        'Austria',
+        'Belgium',
+        'Czechia',
+        'Denmark',
+        'France',
+        'Netherlands',
+        'Poland',
+        'Luxembourg',
+        'Switzerland',
+      ])
+      expect(screen.getByRole('button', { name: 'Next' })).toBeInTheDocument()
+    })
   })
 })

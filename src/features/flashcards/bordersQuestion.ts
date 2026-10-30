@@ -62,3 +62,33 @@ export function bordersQuestionCountry(
   if (choices.length === 0) return null
   return choices[Math.floor(random() * choices.length)]
 }
+
+// The bordering countries not yet named in `earlierRounds` (each a round's
+// typed boxes), in `borderCodes` order. Each earlier round named only
+// neighbours, or the question would have ended after it.
+export function remainingBorders(earlierRounds: string[][], borderCodes: string[]): string[] {
+  let remaining = borderCodes
+  for (const round of earlierRounds) {
+    const named = markBorderAnswers(round, remaining)
+    remaining = remaining.filter((code) => !named.includes(code))
+  }
+  return remaining
+}
+
+// After a round's boxes `typed` are revealed, how many boxes the next round
+// offers: as many neighbours as are left, up to BORDER_ANSWER_BOXES. 0 ends
+// the question: every neighbour is named, or a box is wrong (`borderBoxResults`).
+// `remaining` is the round's `remainingBorders`.
+export function nextRoundBoxCount(typed: string[], remaining: string[]): number {
+  if (!borderBoxResults(typed, remaining).every((isCorrect) => isCorrect)) return 0
+  const namedCount = markBorderAnswers(typed, remaining).filter((code) => code !== null).length
+  return Math.min(remaining.length - namedCount, BORDER_ANSWER_BOXES)
+}
+
+// Shown above a later round's boxes, `remainingCount` being how many
+// neighbours are left to name.
+export function nextRoundPrompt(remainingCount: number): string {
+  return remainingCount > BORDER_ANSWER_BOXES
+    ? `Nice. ${BORDER_ANSWER_BOXES} more?`
+    : `Nice. Last ${remainingCount}?`
+}

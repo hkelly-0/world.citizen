@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type KeyboardEvent } from 'react'
+import { Fragment, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
@@ -8,6 +8,9 @@ import {
   borderingCountries,
   borderBoxResults,
   markBorderAnswers,
+  nextRoundBoxCount,
+  nextRoundPrompt,
+  remainingBorders,
 } from './bordersQuestion'
 // The boxes' styles, loaded before Flashcard.css as on the regular card.
 import './TypedAnswerReveal.css'
@@ -26,18 +29,28 @@ type BordersCardProps = {
 
 // One borders question (Custom Practice only), laid out like a country's
 // flashcard: the country's picture and name, then the question, then Next once
-// revealed. It has no FSRS progress.
+// it is over. It has no FSRS progress.
 export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
   const country = countryFacts[code]
-  const [typedBorders, setTypedBorders] = useState<string[]>(() =>
-    Array(BORDER_ANSWER_BOXES).fill(''),
-  )
+  const borderCodes = borderingCountries(code)
+  // Each round's typed boxes; the last is the round being answered.
+  const [rounds, setRounds] = useState<string[][]>(() => [Array(BORDER_ANSWER_BOXES).fill('')])
   const [isRevealed, setIsRevealed] = useState(false)
 
+  // Reveals the current round: either the question is over, or another round
+  // of boxes is added (`nextRoundBoxCount`).
   function reveal(event: FormEvent) {
     // Stop the browser from reloading the page on form submit.
     event.preventDefault()
-    setIsRevealed(true)
+    const current = rounds[rounds.length - 1]
+    const remaining = remainingBorders(rounds.slice(0, -1), borderCodes)
+    const boxCount = nextRoundBoxCount(current, remaining)
+    if (boxCount === 0) setIsRevealed(true)
+    else setRounds([...rounds, Array(boxCount).fill('')])
+  }
+
+  function changeCurrentRound(typed: string[]) {
+    setRounds([...rounds.slice(0, -1), typed])
   }
 
   // A click anywhere presses Next while it is showing.
@@ -64,15 +77,15 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
       <div className="flashcard__body">
         <BordersQuestion
           country={country}
-          borderCodes={borderingCountries(code)}
-          typedBorders={typedBorders}
-          onTypedBordersChange={setTypedBorders}
+          borderCodes={borderCodes}
+          rounds={rounds}
+          onCurrentRoundChange={changeCurrentRound}
           onSubmit={reveal}
           isAnswered={isRevealed}
         />
       </div>
 
-      {/* Until revealed, an empty space keeps Next's spot so the question
+      {/* Until it is over, an empty space keeps Next's spot so the question
           doesn't move when Next appears. */}
       {isRevealed ? (
         <button className="flashcard__next arrow-button" onClick={onFinish} autoFocus>
@@ -89,44 +102,59 @@ type BordersQuestionProps = {
   country: CountryFacts
   // The countries bordering `country`, in the order to list them on reveal.
   borderCodes: string[]
-  typedBorders: string[]
-  onTypedBordersChange: (typed: string[]) => void
+  // Each round's typed boxes; the last is the round being answered.
+  rounds: string[][]
+  onCurrentRoundChange: (typed: string[]) => void
   onSubmit: (event: FormEvent) => void
+  // Whether the question is over.
   isAnswered: boolean
 }
 
 // What a box left blank shows once the borders question is revealed.
 const BLANK_BORDER_BOX_TEXT = 'x'
 
-// Four text boxes for naming countries that border this one; boxes may be left
-// blank, which is right for a country with fewer than four neighbours. Enter
-// moves to the next box, and in the last box reveals the answers. On reveal
-// each box turns green or red as `borderBoxResults` marks it, and a blank box
-// shows `BLANK_BORDER_BOX_TEXT`. Every bordering country is listed below: those
-// named first, in green and in the order typed, then the rest in `borderCodes`
-// order.
+// Text boxes for naming countries that border this one, in rounds: four at
+// first, which may be left blank, as is right for a country with fewer than
+// four neighbours. Enter moves to the next box, and in a round's last box
+// reveals that round. On reveal each box turns green or red as
+// `borderBoxResults` marks it, and a blank box shows `BLANK_BORDER_BOX_TEXT`.
+// If every box was right and neighbours are left, a new round's boxes are
+// added below, after `nextRoundPrompt`. Otherwise every bordering country is
+// listed below: those named first, in green and in the order typed, then the
+// rest in `borderCodes` order.
 function BordersQuestion({
   country,
   borderCodes,
-  typedBorders,
-  onTypedBordersChange,
+  rounds,
+  onCurrentRoundChange,
   onSubmit,
   isAnswered,
 }: BordersQuestionProps) {
-  const marks = markBorderAnswers(typedBorders, borderCodes)
-  const boxResults = borderBoxResults(typedBorders, borderCodes)
-  const namedCodes = marks.filter((code) => code !== null)
+  const currentRoundIndex = rounds.length - 1
+  // For each round: the neighbours left to name, and what its boxes named.
+  const remainingByRound = rounds.map((_, index) =>
+    remainingBorders(rounds.slice(0, index), borderCodes),
+  )
+  const namedCodes = rounds
+    .flatMap((round, index) => markBorderAnswers(round, remainingByRound[index]))
+    .filter((code) => code !== null)
   const unnamedCodes = borderCodes.filter((code) => !namedCodes.includes(code))
+  // The boxes are numbered on through the rounds, and so are their ids.
+  const firstBoxNumbers = rounds.map((_, index) =>
+    rounds.slice(0, index).reduce((count, round) => count + round.length, 0),
+  )
+  const currentRound = rounds[currentRoundIndex]
+  const currentFirstBox = firstBoxNumbers[currentRoundIndex]
 
   function changeBox(index: number, typed: string) {
-    onTypedBordersChange(typedBorders.map((other, i) => (i === index ? typed : other)))
+    onCurrentRoundChange(currentRound.map((other, i) => (i === index ? typed : other)))
   }
 
-  // Enter in any box but the last moves to the next one instead of submitting.
+  // Enter in any box but the round's last moves to the next one instead of submitting.
   function moveToNextBox(event: KeyboardEvent<HTMLInputElement>, index: number) {
-    if (event.key !== 'Enter' || index === typedBorders.length - 1) return
+    if (event.key !== 'Enter' || index === currentRound.length - 1) return
     event.preventDefault()
-    document.getElementById(`border-answer-${index + 1}`)?.focus()
+    document.getElementById(`border-answer-${currentFirstBox + index + 1}`)?.focus()
   }
 
   return (
@@ -134,36 +162,50 @@ function BordersQuestion({
       <p className="flashcard__question">
         Name up to {BORDER_ANSWER_BOXES} countries which border {country.commonName}
       </p>
-      {typedBorders.map((typed, index) => {
-        const label = `Bordering country ${index + 1}`
-        if (!isAnswered) {
-          return (
-            <input
-              key={index}
-              id={`border-answer-${index}`}
-              className="typed-answer__box"
-              value={typed}
-              onChange={(event) => changeBox(index, event.target.value)}
-              onKeyDown={(event) => moveToNextBox(event, index)}
-              aria-label={label}
-              autoComplete="off"
-              autoFocus={index === 0}
-              // Labels the phone keyboard's Enter key to match.
-              enterKeyHint={index === typedBorders.length - 1 ? 'done' : 'next'}
-            />
-          )
-        }
-        const isCorrect = boxResults[index]
-        const answered = 'typed-answer__box typed-answer__box--answered'
-        const className = isCorrect
-          ? `${answered} typed-answer__box--correct`
-          : `${answered} flashcard__border-box--wrong`
+      {rounds.map((round, roundIndex) => {
+        const isBeingAnswered = roundIndex === currentRoundIndex && !isAnswered
+        const boxResults = borderBoxResults(round, remainingByRound[roundIndex])
         return (
-          <div key={index} className={className} aria-label={label}>
-            <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>
-              {typed.trim() === '' ? BLANK_BORDER_BOX_TEXT : typed}
-            </span>
-          </div>
+          <Fragment key={roundIndex}>
+            {roundIndex > 0 && (
+              <p className="flashcard__question">
+                {nextRoundPrompt(remainingByRound[roundIndex].length)}
+              </p>
+            )}
+            {round.map((typed, index) => {
+              const boxNumber = firstBoxNumbers[roundIndex] + index
+              const label = `Bordering country ${boxNumber + 1}`
+              if (isBeingAnswered) {
+                return (
+                  <input
+                    key={index}
+                    id={`border-answer-${boxNumber}`}
+                    className="typed-answer__box"
+                    value={typed}
+                    onChange={(event) => changeBox(index, event.target.value)}
+                    onKeyDown={(event) => moveToNextBox(event, index)}
+                    aria-label={label}
+                    autoComplete="off"
+                    autoFocus={index === 0}
+                    // Labels the phone keyboard's Enter key to match.
+                    enterKeyHint={index === round.length - 1 ? 'done' : 'next'}
+                  />
+                )
+              }
+              const isCorrect = boxResults[index]
+              const answered = 'typed-answer__box typed-answer__box--answered'
+              const className = isCorrect
+                ? `${answered} typed-answer__box--correct`
+                : `${answered} flashcard__border-box--wrong`
+              return (
+                <div key={index} className={className} aria-label={label}>
+                  <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>
+                    {typed.trim() === '' ? BLANK_BORDER_BOX_TEXT : typed}
+                  </span>
+                </div>
+              )
+            })}
+          </Fragment>
         )
       })}
       {isAnswered ? (

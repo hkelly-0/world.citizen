@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { borderBoxResults, borderingCountries, markBorderAnswers } from './bordersQuestion'
+import {
+  borderBoxResults,
+  borderingCountries,
+  markBorderAnswers,
+  nextRoundBoxCount,
+  nextRoundPrompt,
+  remainingBorders,
+} from './bordersQuestion'
 
 describe('borderingCountries', () => {
   it("lists a country's land neighbours by name", () => {
@@ -119,5 +126,44 @@ describe('borderBoxResults', () => {
     expect(
       borderBoxResults(['  ', 'Spain', 'Germany', 'Italy'], borderingCountries('FRA')),
     ).toEqual([false, true, true, true])
+  })
+})
+
+describe('remainingBorders', () => {
+  it('leaves out the neighbours named in earlier rounds', () => {
+    const germanyBorders = borderingCountries('DEU')
+    expect(
+      remainingBorders([['austria', 'Belgium', 'Czechia', 'Denmark']], germanyBorders),
+    ).toEqual(['FRA', 'LUX', 'NLD', 'POL', 'CHE'])
+  })
+})
+
+describe('nextRoundBoxCount', () => {
+  const germanyBorders = borderingCountries('DEU')
+
+  it('offers 4 more boxes, or as many as are left, after an all-right round', () => {
+    expect(nextRoundBoxCount(['Austria', 'Belgium', 'Czechia', 'Denmark'], germanyBorders)).toBe(4)
+    const remaining = remainingBorders(
+      [['Austria', 'Belgium', 'Czechia', 'Denmark']],
+      germanyBorders,
+    )
+    expect(nextRoundBoxCount(['France', 'Luxembourg', 'Netherlands', 'Poland'], remaining)).toBe(1)
+  })
+
+  it('ends the question after a wrong box', () => {
+    expect(nextRoundBoxCount(['Austria', 'Belgium', 'Czechia', ''], germanyBorders)).toBe(0)
+    expect(nextRoundBoxCount(['Austria', 'Belgium', 'Czechia', 'Spain'], germanyBorders)).toBe(0)
+  })
+
+  it('ends the question once every neighbour is named', () => {
+    expect(nextRoundBoxCount(['France', 'Spain', '', ''], borderingCountries('AND'))).toBe(0)
+  })
+})
+
+describe('nextRoundPrompt', () => {
+  it('asks for 4 more while more than 4 are left, then the last ones', () => {
+    expect(nextRoundPrompt(5)).toBe('Nice. 4 more?')
+    expect(nextRoundPrompt(4)).toBe('Nice. Last 4?')
+    expect(nextRoundPrompt(1)).toBe('Nice. Last 1?')
   })
 })
