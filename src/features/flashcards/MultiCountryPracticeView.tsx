@@ -3,14 +3,8 @@ import { BackButton } from '../../shared/BackButton'
 import { loadProgress } from '../../shared/progress'
 import type { CountryIcon } from '../../shared/settings'
 import { collectedCountries } from '../passport/passport'
-import { BordersCard } from './BordersCard'
-import { MatchingCard } from './MatchingCard'
-import {
-  nextMultiCountryQuestion,
-  ORDERING_STATS,
-  type MultiCountryQuestionId,
-} from './multiCountryQuestions'
-import { OrderingCard } from './OrderingCard'
+import { MultiCountryCard } from './MultiCountryCard'
+import { nextMultiCountryQuestion, type MultiCountryQuestionId } from './multiCountryQuestions'
 import './FlashcardsView.css'
 
 type MultiCountryPracticeViewProps = {
@@ -51,27 +45,11 @@ export function MultiCountryPracticeView({
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
-      {question === null ? null : question.id === 'borders' ? (
-        <BordersCard
+      {question !== null && (
+        <MultiCountryCard
           key={questionNumber}
-          code={question.codes[0]}
+          question={question}
           countryIcon={countryIcon}
-          onFinish={goToNext}
-        />
-      ) : question.id === 'flag-matching' ? (
-        <MatchingCard key={questionNumber} kind="flag" codes={question.codes} onFinish={goToNext} />
-      ) : question.id === 'capital-matching' ? (
-        <MatchingCard
-          key={questionNumber}
-          kind="capital"
-          codes={question.codes}
-          onFinish={goToNext}
-        />
-      ) : (
-        <OrderingCard
-          key={questionNumber}
-          stat={ORDERING_STATS[question.id]}
-          codes={question.codes}
           onFinish={goToNext}
         />
       )}
