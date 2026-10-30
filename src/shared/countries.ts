@@ -44,7 +44,14 @@ const FULL_MAP_NAMES: Record<string, string> = {
   'N. Cyprus': 'North Cyprus',
   'Indian Ocean Ter.': 'Australian Indian Ocean Territories',
   'Heard I. and McDonald Is.': 'Heard Island and McDonald Islands',
+  'Ashmore and Cartier Is.': 'Ashmore and Cartier Islands',
 }
+
+// Natural Earth gives these map areas (by map name) the ISO code of the
+// country they belong to, which would make them a second copy of that country
+// (e.g. a second Australia in search, and in the scripts that look shapes up
+// by code). They get no code instead, like the other territories.
+const TERRITORIES_WITH_COUNTRY_CODES = new Set(['Ashmore and Cartier Is.'])
 
 type WorldAtlasTopology = Topology<{
   countries: GeometryCollection<{ name: string }>
@@ -60,7 +67,10 @@ export function loadCountryShapes(): CountryShape[] {
   const countries = feature(topology, topology.objects.countries)
 
   const shapes = countries.features.map((country) => {
-    const isoNumeric = country.id === undefined ? null : String(country.id)
+    const isoNumeric =
+      country.id === undefined || TERRITORIES_WITH_COUNTRY_CODES.has(country.properties.name)
+        ? null
+        : String(country.id)
     const isoAlpha3 =
       isoNumeric === null ? null : (isoCountries.numericToAlpha3(isoNumeric) ?? null)
 

@@ -32,6 +32,11 @@ describe('loadCountryShapes', () => {
     expect(kosovo?.isoAlpha3).toBeNull()
   })
 
+  it('gives each country code to only one shape', () => {
+    const codes = shapes.flatMap((shape) => (shape.isoAlpha3 === null ? [] : [shape.isoAlpha3]))
+    expect(codes.length).toBe(new Set(codes).size)
+  })
+
   it('gives every shape with a numeric code an alpha-3 code', () => {
     const missingAlpha3 = shapes.filter(
       (shape) => shape.isoNumeric !== null && shape.isoAlpha3 === null,
