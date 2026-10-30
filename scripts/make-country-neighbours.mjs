@@ -20,7 +20,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { geoCentroid, geoDistance } from 'd3-geo'
 // Shared with the globe, so distances use the same parts the globe frames.
 import { mainLandmass } from '../src/features/globe/mainLandmass.ts'
-import { loadCountryShapes } from '../src/shared/countries.ts'
+import { loadCountryShapes, wholeCountryGeometry } from '../src/shared/countries.ts'
 
 const OUTPUT = 'src/data/countryNeighbours.json'
 
@@ -31,16 +31,15 @@ const EARTH_RADIUS_KM = 6371
 const DEGREES_TO_RADIANS = Math.PI / 180
 
 const codes = Object.keys(JSON.parse(readFileSync('src/data/countries.json', 'utf8'))).sort()
-const shapesByCode = new Map(loadCountryShapes().map((shape) => [shape.isoAlpha3, shape]))
+const shapes = loadCountryShapes()
 
 // Each country's main landmass as every outline point (holes included, so
 // countries inside another, e.g. San Marino, touch its outline), plus a circle
 // around them: the centre and the furthest point's distance from it.
 const landmasses = {}
 for (const code of codes) {
-  const shape = shapesByCode.get(code)
-  if (shape === undefined) throw new Error(`No outline for ${code}`)
-  const landmass = mainLandmass(shape.geometry, code)
+  // Far-off parts (e.g. French Guiana) still count as their country here.
+  const landmass = mainLandmass(wholeCountryGeometry(shapes, code), code)
   const points = landmass.coordinates.flat(2)
   const centre = geoCentroid(landmass)
   const radius = Math.max(...points.map((point) => geoDistance(centre, point)))

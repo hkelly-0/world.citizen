@@ -2,7 +2,8 @@
 // them to src/data/countryBorders.json.
 //
 // Every part of a country counts, overseas ones included (e.g. France borders
-// Brazil via French Guiana). Areas outside the 195 countries (e.g. Kosovo,
+// Brazil via French Guiana, which loadCountryShapes splits into a shape of its
+// own with France as its partOf). Areas outside the 195 countries (e.g. Kosovo,
 // Western Sahara, Sint Maarten) are left out, so countries that only meet
 // through one aren't neighbours (e.g. Serbia and Albania, or the Netherlands
 // and France on Saint Martin).
@@ -19,23 +20,19 @@
 //
 // Usage: node scripts/make-country-borders.mjs
 import { readFileSync, writeFileSync } from 'node:fs'
-import { loadCountryShapes } from '../src/shared/countries.ts'
+import { loadCountryShapes, wholeCountryGeometry } from '../src/shared/countries.ts'
 
 const OUTPUT = 'src/data/countryBorders.json'
 
 const codes = Object.keys(JSON.parse(readFileSync('src/data/countries.json', 'utf8'))).sort()
-const shapesByCode = new Map(loadCountryShapes().map((shape) => [shape.isoAlpha3, shape]))
+const shapes = loadCountryShapes()
 
 // Each edge of the country's outlines (holes included, so countries inside
 // another, e.g. San Marino, border it), as a key that is the same
 // whichever way round the edge is drawn.
 function edgeKeys(code) {
-  const shape = shapesByCode.get(code)
-  if (shape === undefined) throw new Error(`No outline for ${code}`)
   const keys = new Set()
-  const polygons =
-    shape.geometry.type === 'Polygon' ? [shape.geometry.coordinates] : shape.geometry.coordinates
-  for (const polygon of polygons) {
+  for (const polygon of wholeCountryGeometry(shapes, code).coordinates) {
     for (const ring of polygon) {
       for (let i = 1; i < ring.length; i++) {
         const from = ring[i - 1].join(',')

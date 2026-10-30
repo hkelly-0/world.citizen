@@ -54,6 +54,7 @@ describe('searchPlaces', () => {
       'Guinea',
       'Guinea-Bissau',
       'Equatorial Guinea',
+      'French Guiana',
       'Papua New Guinea',
     ])
   })

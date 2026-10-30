@@ -3,7 +3,12 @@ import type { CountryFacts } from '../../shared/countryFacts'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCountryNameCorrect } from '../flashcards/countryNameAnswer'
 import { TYPING_MS_PER_LETTER, TypedAnswerReveal } from '../flashcards/TypedAnswerReveal'
-import { COUNTRY_SHAPES, createCountryMap, flyToCountry, stopHoverHighlight } from './countryMap'
+import {
+  createCountryMap,
+  flyToCountry,
+  shapeIndicesOfCountry,
+  stopHoverHighlight,
+} from './countryMap'
 import './NameCountryGlobe.css'
 
 // Must match the opacity transition in NameCountryGlobe.css.
@@ -54,11 +59,15 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
 
     // Opens straight on the country (no flying), with the same centre and zoom
     // as tapping it on the globe screen.
-    const countryIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === country.isoAlpha3)
-    flyToCountry(map, countryIndex, BACK_BUTTON_SPACE_PX, panel.offsetHeight, 0)
+    // The country's own shape comes first, then its far-off parts (e.g.
+    // French Guiana for France), which are highlighted with it.
+    const countryIndices = shapeIndicesOfCountry(country.isoAlpha3)
+    flyToCountry(map, countryIndices[0], BACK_BUTTON_SPACE_PX, panel.offsetHeight, 0)
     // The country outlines only exist once the map has loaded.
     map.once('load', () => {
-      map.setFeatureState({ source: 'countries', id: countryIndex }, { selected: true })
+      for (const index of countryIndices) {
+        map.setFeatureState({ source: 'countries', id: index }, { selected: true })
+      }
     })
 
     return () => {

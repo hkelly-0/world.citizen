@@ -88,7 +88,13 @@ describe('countryFacts', () => {
 
 describe('countryDisplayName', () => {
   function shape(name: string, isoAlpha3: string | null): CountryShape {
-    return { name, isoNumeric: null, isoAlpha3, geometry: { type: 'Point', coordinates: [0, 0] } }
+    return {
+      name,
+      isoNumeric: null,
+      isoAlpha3,
+      partOf: null,
+      geometry: { type: 'Point', coordinates: [0, 0] },
+    }
   }
 
   it("uses our common name for the 195 countries, not the map data's name", () => {
@@ -141,6 +147,7 @@ describe('territorySubtitle', () => {
       name: 'North Cyprus',
       isoNumeric: null,
       isoAlpha3: null,
+      partOf: null,
       geometry: { type: 'Polygon', coordinates: [] },
     }
     expect(territorySubtitle(shape)).toEqual([

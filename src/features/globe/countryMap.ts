@@ -11,8 +11,8 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 // script next to its own file, which doesn't exist once Vite has bundled the
 // app, so Vite copies the script and we tell MapLibre where it is.
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
-import type { FeatureCollection, Position } from 'geojson'
-import { loadCountryShapes } from '../../shared/countries'
+import type { FeatureCollection, Geometry, Position } from 'geojson'
+import { loadCountryShapes, wholeCountryGeometry } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import groupColoursJson from '../../data/countryGroupColours.json'
 import { areCountryGroupsShown } from '../dev/showCountryGroups'
@@ -120,6 +120,29 @@ export const ALL_GROUP_IDS = [...GROUP_INDICES.keys()]
 // The positions in COUNTRY_SHAPES of the group's countries.
 export function countryIndicesInGroup(groupId: string): number[] {
   return GROUP_INDICES.get(groupId) ?? []
+}
+
+// The positions in COUNTRY_SHAPES of everything that counts as the country in
+// the flashcards: its own shape and its far-off parts (e.g. French Guiana for
+// France). The country's own shape comes first.
+export function shapeIndicesOfCountry(isoAlpha3: string): number[] {
+  const indices: number[] = []
+  COUNTRY_SHAPES.forEach((shape, index) => {
+    if (shape.isoAlpha3 === isoAlpha3) indices.unshift(index)
+    else if (shape.partOf === isoAlpha3) indices.push(index)
+  })
+  return indices
+}
+
+// The outline that frames the shape when the globe flies to it: for a country,
+// its whole outline including far-off parts (so France frames the same with
+// French Guiana split off, as its picture does); otherwise the shape's own
+// outline.
+function framedGeometry(countryIndex: number): Geometry {
+  const shape = COUNTRY_SHAPES[countryIndex]
+  return shape.isoAlpha3 === null
+    ? shape.geometry
+    : wholeCountryGeometry(COUNTRY_SHAPES, shape.isoAlpha3)
 }
 
 // The group id of the country at this position in COUNTRY_SHAPES, or null
@@ -278,7 +301,10 @@ export function flyToGroup(
   sidePadding: number,
   durationMs: number,
 ) {
-  const shapes = countryIndicesInGroup(groupId).map((index) => COUNTRY_SHAPES[index])
+  const shapes = countryIndicesInGroup(groupId).map((index) => ({
+    isoAlpha3: COUNTRY_SHAPES[index].isoAlpha3,
+    geometry: framedGeometry(index),
+  }))
   map.fitBounds(regionBounds(shapes), {
     padding: { top: topPadding, bottom: bottomPadding, left: sidePadding, right: sidePadding },
     maxZoom: GROUP_MAX_ZOOM,
@@ -349,12 +375,13 @@ export function flyToCountry(
   durationMs: number,
 ) {
   const shape = COUNTRY_SHAPES[countryIndex]
-  const centre = mainLandmassCentre(shape.geometry, shape.isoAlpha3)
+  const geometry = framedGeometry(countryIndex)
+  const centre = mainLandmassCentre(geometry, shape.isoAlpha3)
   map.flyTo({
     center: centre,
     zoom: focusZoomFor(
       shape.isoAlpha3,
-      mainLandmassWidthKm(shape.geometry, shape.isoAlpha3),
+      mainLandmassWidthKm(geometry, shape.isoAlpha3),
       map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
       centre[1],
     ),

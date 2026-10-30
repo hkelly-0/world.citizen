@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import { countryDisplayName } from '../../shared/countryFacts'
+import { countryCodeOfShape } from '../../shared/countries'
+import { countryDisplayName, countryFacts } from '../../shared/countryFacts'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import {
   COUNTRY_SHAPES,
   createCountryMap,
   findTappedCountryIndex,
   flyToCountry,
+  shapeIndicesOfCountry,
   stopHoverHighlight,
 } from './countryMap'
 import './LocateCountryGlobe.css'
@@ -41,7 +43,9 @@ type LocateCountryGlobeProps = {
 
 // A full-screen globe asking the user to tap a country. The tapped country
 // turns green or red (a wrong answer also shows the right country in green),
-// then a Next button fades the globe away.
+// then a Next button fades the globe away. A country's far-off parts (e.g.
+// French Guiana for France) count as the country: tapping one is the same as
+// tapping the country, and they turn green or red with it.
 export default function LocateCountryGlobe({
   isoAlpha3,
   countryName,
@@ -79,9 +83,12 @@ export default function LocateCountryGlobe({
     // Turns the correct country green and flies to it, with the same centre
     // and zoom as tapping a country on the globe screen.
     function flyToCorrectCountry() {
-      const correctIndex = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
-      map.setFeatureState({ source: 'countries', id: correctIndex }, { correct: true })
-      flyToCountry(map, correctIndex, LABEL_SPACE_PX, BOTTOM_PADDING_PX, FLY_TO_ANSWER_MS)
+      const correctIndices = shapeIndicesOfCountry(isoAlpha3)
+      for (const index of correctIndices) {
+        map.setFeatureState({ source: 'countries', id: index }, { correct: true })
+      }
+      // The first is the country's own shape, not a far-off part.
+      flyToCountry(map, correctIndices[0], LABEL_SPACE_PX, BOTTOM_PADDING_PX, FLY_TO_ANSWER_MS)
     }
 
     map.on('click', (event) => {
@@ -104,9 +111,15 @@ export default function LocateCountryGlobe({
       stopHoverHighlight(map)
 
       const pickedShape = COUNTRY_SHAPES[pickedIndex]
-      const isCorrect = pickedShape.isoAlpha3 === isoAlpha3
+      const pickedCode = countryCodeOfShape(pickedShape)
+      const isCorrect = pickedCode === isoAlpha3
       isCorrectRef.current = isCorrect
-      const pickedName = countryDisplayName(pickedShape)
+      // A far-off part is named as its country, e.g. "France" for French Guiana.
+      const pickedName =
+        pickedShape.partOf === null
+          ? countryDisplayName(pickedShape)
+          : countryFacts[pickedShape.partOf].commonName
+      const pickedIndices = pickedCode === null ? [pickedIndex] : shapeIndicesOfCountry(pickedCode)
 
       if (isCorrect) {
         flyToCorrectCountry()
@@ -115,10 +128,12 @@ export default function LocateCountryGlobe({
         const fadeStart = performance.now()
         const stepFadeIn = (now: number) => {
           const progress = Math.min((now - fadeStart) / WRONG_FADE_IN_MS, 1)
-          map.setFeatureState(
-            { source: 'countries', id: pickedIndex },
-            { wrong: true, wrongFadeIn: progress },
-          )
+          for (const index of pickedIndices) {
+            map.setFeatureState(
+              { source: 'countries', id: index },
+              { wrong: true, wrongFadeIn: progress },
+            )
+          }
           fadeInFrameRef.current = progress < 1 ? requestAnimationFrame(stepFadeIn) : null
         }
         stepFadeIn(fadeStart)

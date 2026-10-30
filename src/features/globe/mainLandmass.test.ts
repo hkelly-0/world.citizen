@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { loadCountryShapes } from '../../shared/countries'
+import { loadCountryShapes, wholeCountryGeometry } from '../../shared/countries'
 import { MAIN_LANDMASS_OVERRIDES, mainLandmassWidthKm, partsInBox } from './mainLandmass'
 
 const shapes = loadCountryShapes()
 
+// The whole country, with the far-off parts that loadCountryShapes splits off
+// (e.g. French Guiana), as the globe and pictures frame it.
 function shapeOf(isoAlpha3: string) {
-  const shape = shapes.find((country) => country.isoAlpha3 === isoAlpha3)
-  if (shape === undefined) throw new Error(`No shape for ${isoAlpha3}`)
-  return shape
+  return { isoAlpha3, geometry: wholeCountryGeometry(shapes, isoAlpha3) }
 }
 
 describe('mainLandmassWidthKm', () => {

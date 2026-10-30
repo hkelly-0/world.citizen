@@ -19,7 +19,7 @@ import { geoCentroid, geoOrthographic, geoPath } from 'd3-geo'
 // Hand-picked exceptions are in src/data/mainLandmassOverrides.json.
 import { mainLandmass } from '../src/features/globe/mainLandmass.ts'
 // Shared with the globe, so pictures and the globe give countries the same ISO codes.
-import { loadCountryShapes } from '../src/shared/countries.ts'
+import { loadCountryShapes, wholeCountryGeometry } from '../src/shared/countries.ts'
 
 const OUTPUT = 'public/country-images'
 const TILES = 'public/tiles/satellite'
@@ -263,7 +263,11 @@ for (const code of codes) {
     console.log(`${code}: no outline, skipped`)
     continue
   }
-  const image = await drawCountry(shape)
+  // Far-off parts (e.g. French Guiana) still count as their country here.
+  const image = await drawCountry({
+    isoAlpha3: code,
+    geometry: wholeCountryGeometry(countryShapes, code),
+  })
   writeFileSync(join(OUTPUT, `${code}.webp`), image)
   console.log(`${code}: ${Math.round(image.length / 1024)} KB`)
 }

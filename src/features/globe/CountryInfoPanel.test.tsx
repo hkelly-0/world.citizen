@@ -9,6 +9,7 @@ const france: CountryShape = {
   name: 'France',
   isoNumeric: '250',
   isoAlpha3: 'FRA',
+  partOf: null,
   geometry: { type: 'Polygon', coordinates: [] },
 }
 

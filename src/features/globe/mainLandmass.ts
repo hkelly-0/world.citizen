@@ -82,18 +82,22 @@ function automaticMainLandmass(geometry: Geometry): MultiPolygon {
   return toMultiPolygon(nearbyParts)
 }
 
-// The parts whose centre falls inside the box (see MainLandmassOverride).
-export function partsInBox(
-  geometry: Geometry,
+// Whether the polygon's centre falls inside the box (see MainLandmassOverride).
+// Also used to split far-off parts from their country (countries.ts).
+export function isPolygonInBox(
+  coordinates: Polygon['coordinates'],
   [west, south, east, north]: MainLandmassOverride['box'],
-): MultiPolygon {
-  const inside = partsOf(geometry).filter((part) => {
-    const [longitude, latitude] = geoCentroid(part)
-    // Try the longitude both as it is and one turn east, so a box whose east
-    // edge is above 180 also catches parts just west of 180°W.
-    const isInLongitude = [longitude, longitude + 360].some((lng) => lng >= west && lng <= east)
-    return isInLongitude && latitude >= south && latitude <= north
-  })
+): boolean {
+  const [longitude, latitude] = geoCentroid({ type: 'Polygon', coordinates })
+  // Try the longitude both as it is and one turn east, so a box whose east
+  // edge is above 180 also catches parts just west of 180°W.
+  const isInLongitude = [longitude, longitude + 360].some((lng) => lng >= west && lng <= east)
+  return isInLongitude && latitude >= south && latitude <= north
+}
+
+// The parts whose centre falls inside the box (see MainLandmassOverride).
+export function partsInBox(geometry: Geometry, box: MainLandmassOverride['box']): MultiPolygon {
+  const inside = partsOf(geometry).filter((part) => isPolygonInBox(part.geometry.coordinates, box))
   return toMultiPolygon(inside)
 }
 

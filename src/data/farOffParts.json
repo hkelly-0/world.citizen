@@ -1,0 +1,13 @@
+[
+  { "name": "French Guiana", "partOf": "FRA", "box": [-55, 2, -51, 6] },
+  { "name": "Guadeloupe", "partOf": "FRA", "box": [-62, 15.8, -61, 16.6] },
+  { "name": "Martinique", "partOf": "FRA", "box": [-61.3, 14.3, -60.7, 15] },
+  { "name": "Réunion", "partOf": "FRA", "box": [55, -21.5, 56, -20.8] },
+  { "name": "Mayotte", "partOf": "FRA", "box": [44.9, -13.1, 45.4, -12.5] },
+  { "name": "Bonaire", "partOf": "NLD", "box": [-68.5, 11.9, -68, 12.5] },
+  { "name": "Saba", "partOf": "NLD", "box": [-63.4, 17.55, -63.1, 17.75] },
+  { "name": "Sint Eustatius", "partOf": "NLD", "box": [-63.1, 17.4, -62.9, 17.55] },
+  { "name": "Tokelau", "partOf": "NZL", "box": [-173, -10, -171, -8] },
+  { "name": "Hawaii", "partOf": "USA", "box": [-161, 18.5, -154, 23] },
+  { "name": "Easter Island", "partOf": "CHL", "box": [-110, -27.5, -109, -26.8] }
+]

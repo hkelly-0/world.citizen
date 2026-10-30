@@ -6,9 +6,9 @@ import NameCountryGlobe from './NameCountryGlobe'
 
 // The real map needs WebGL, which jsdom doesn't have.
 vi.mock('./countryMap', () => ({
-  COUNTRY_SHAPES: [],
   createCountryMap: () => ({ once: vi.fn(), setFeatureState: vi.fn(), remove: vi.fn() }),
   flyToCountry: vi.fn(),
+  shapeIndicesOfCountry: () => [0],
   stopHoverHighlight: vi.fn(),
 }))
 
