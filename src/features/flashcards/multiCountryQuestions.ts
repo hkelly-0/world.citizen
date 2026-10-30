@@ -7,8 +7,8 @@ import { orderingCountries, type OrderingStat } from './orderingQuestion'
 // The Custom Practice questions about several Passport countries at once,
 // rather than one country's card, plus Borders, which is about one country but
 // is practised with them. They aren't QuestionIds: no FSRS progress, review
-// log or Settings tick. They can be practised together, but not alongside the
-// country card questions.
+// log or Settings tick. In Custom Practice they are asked one after another,
+// or, with country card questions ticked too, mixed in between the cards.
 export const MULTI_COUNTRY_QUESTION_IDS = [
   'borders',
   'flag-matching',

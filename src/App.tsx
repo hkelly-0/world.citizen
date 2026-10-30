@@ -204,8 +204,9 @@ export default function App() {
         />
       )
     }
-    // The multi-country questions are never practised alongside the others.
-    if (screen === 'custom-flashcards' && customMultiCountryQuestionIds.length > 0) {
+    // With only multi-country questions ticked, there are no country cards to
+    // mix them in between.
+    if (screen === 'custom-flashcards' && customQuestionIds.length === 0) {
       return (
         <MultiCountryPracticeView
           questionIds={customMultiCountryQuestionIds}
@@ -220,6 +221,7 @@ export default function App() {
           questionIds={customQuestionIds}
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={customGlobeKinds}
+          multiCountryQuestionIds={customMultiCountryQuestionIds}
           canDiscoverCountries={false}
           resumesUnfinishedCard={false}
           countryIcon={countryIcon}

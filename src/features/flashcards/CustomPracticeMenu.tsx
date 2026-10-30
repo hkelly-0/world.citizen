@@ -64,8 +64,7 @@ type CustomPracticeMenuProps = {
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
   // question were ticked (in the order of GLOBE_KINDS), and which multi-country
-  // questions were (in the order of MULTI_COUNTRY_QUESTION_IDS; if any were,
-  // nothing else was).
+  // questions were (in the order of MULTI_COUNTRY_QUESTION_IDS).
   onGo: (
     questionIds: QuestionId[],
     globeKinds: GlobeKind[],
@@ -74,12 +73,10 @@ type CustomPracticeMenuProps = {
 }
 
 // Lets the user tick which questions to practise. "Go" needs at least one.
-// The multi-country questions are practised apart from the rest: while any of
-// them is ticked the other boxes are disabled, and the other way round. Opens
-// with the boxes ticked when "Go" was last pressed, leaving out any no longer
-// offered (e.g. a question type unticked in Settings since), and any
-// multi-country ones ticked alongside the others (possible when saved before
-// Borders became a multi-country question). A multi-country question the
+// The multi-country questions can be ticked alongside the rest, and are then
+// mixed in between the country cards. Opens with the boxes ticked when "Go"
+// was last pressed, leaving out any no longer offered (e.g. a question type
+// unticked in Settings since). A multi-country question the
 // Passport can't make yet is disabled and opens unticked, with one note under
 // the section's heading.
 export function CustomPracticeMenu({
@@ -102,20 +99,10 @@ export function CustomPracticeMenu({
   }
   const [chosen, setChosen] = useState<Choice[]>(() => {
     const saved = loadCustomPracticeChoices()
-    const savedOffered = offered
+    return offered
       .map(({ choice }) => choice)
       .filter((choice) => saved.includes(choice) && !hasNotEnoughCountries(choice))
-    const isMixed =
-      savedOffered.some(isMultiCountry) && savedOffered.some((choice) => !isMultiCountry(choice))
-    return isMixed ? savedOffered.filter((choice) => !isMultiCountry(choice)) : savedOffered
   })
-
-  const isMultiCountryChosen = chosen.some(isMultiCountry)
-  function isDisabled(choice: Choice): boolean {
-    if (hasNotEnoughCountries(choice)) return true
-    if (chosen.length === 0) return false
-    return isMultiCountry(choice) !== isMultiCountryChosen
-  }
 
   function toggle(choice: Choice) {
     setChosen(
@@ -160,7 +147,7 @@ export function CustomPracticeMenu({
                 <input
                   type="checkbox"
                   checked={chosen.includes(choice)}
-                  disabled={isDisabled(choice)}
+                  disabled={hasNotEnoughCountries(choice)}
                   onChange={() => toggle(choice)}
                 />
               </label>

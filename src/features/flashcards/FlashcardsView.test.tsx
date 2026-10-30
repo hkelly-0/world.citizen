@@ -11,6 +11,7 @@ import { todayString } from './dates'
 import type { DeckProgress, GlobeKind, QuestionId } from './deck'
 import type { AnswerResult } from './fsrs'
 import { FlashcardsView } from './FlashcardsView'
+import type { MultiCountryQuestionId } from './multiCountryQuestions'
 
 // The region globe needs WebGL, which the test environment doesn't have. This
 // stand-in offers a "Discover ..." button for each region it would tint.
@@ -82,6 +83,7 @@ function renderFlashcards(
   questionIds: QuestionId[],
   canDiscoverCountries: boolean,
   globeKinds: GlobeKind[] = ['locate'],
+  multiCountryQuestionIds: MultiCountryQuestionId[] = [],
 ) {
   // As in App.tsx, only Classic resumes its unfinished card.
   return render(
@@ -90,6 +92,7 @@ function renderFlashcards(
       questionIds={questionIds}
       learnedQuestionIds={questionIds}
       globeKinds={globeKinds}
+      multiCountryQuestionIds={multiCountryQuestionIds}
       canDiscoverCountries={canDiscoverCountries}
       resumesUnfinishedCard={canDiscoverCountries}
       onBack={() => {}}
@@ -374,6 +377,25 @@ describe('FlashcardsView', () => {
       await answerArea()
       await userEvent.keyboard('{Enter}')
       expect(shownCountryName()).not.toBe(first)
+    })
+
+    it('asks a multi-country question after every two cards', async () => {
+      saveAreas(['FRA', 'DEU'], 0.2)
+      renderFlashcards(['area'], false, ['locate'], ['borders'])
+      const BORDERS = /^Name up to 4 countries which border/
+
+      for (let round = 0; round < 2; round++) {
+        await answerArea()
+        await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+        expect(screen.queryByText(BORDERS)).not.toBeInTheDocument()
+        await answerArea()
+        await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+        expect(screen.getByText(BORDERS)).toBeInTheDocument()
+
+        await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+        await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+        expect(screen.getByText('Area?')).toBeInTheDocument()
+      }
     })
 
     it('shows no cards when the Passport is empty', () => {

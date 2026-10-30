@@ -62,8 +62,7 @@
   background: none;
 }
 
-/* Can't be ticked alongside the boxes already ticked: the multi-country
-   questions and the rest are practised apart. */
+/* A multi-country question the Passport can't make yet. */
 .custom-practice__choice:has(input:disabled) {
   opacity: 0.4;
   cursor: default;
