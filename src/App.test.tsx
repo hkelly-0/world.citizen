@@ -34,13 +34,14 @@ describe('App', () => {
     history.replaceState(null, '')
   })
 
-  it('opens on a main menu with the title, subtitle, Globe, Flashcards and Settings', () => {
+  it('opens on a main menu with the title, subtitle, Globe, Flashcards, Extras and Settings', () => {
     render(<App />)
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
     expect(screen.getByText('learn every country')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Globe' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Extras' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 

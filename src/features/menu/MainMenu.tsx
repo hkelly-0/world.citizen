@@ -12,8 +12,8 @@ type MainMenuProps = {
   onOpenSettings: () => void
 }
 
-// The first screen: choose between the flashcards, the globe and the
-// passport, with settings at the bottom.
+// The first screen: choose between the flashcards, the globe, the passport
+// and the extras, with settings at the bottom.
 export function MainMenu({
   passportCount,
   onOpenGlobe,
@@ -95,6 +95,8 @@ export function MainMenu({
           {passportCount}/{COUNTRY_COUNT}
         </span>
       </button>
+      {/* Leads nowhere yet. */}
+      <button className="main-menu__option arrow-button">Extras</button>
       <button className="main-menu__settings arrow-button" onClick={onOpenSettings}>
         Settings
       </button>
