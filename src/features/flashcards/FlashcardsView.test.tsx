@@ -81,11 +81,10 @@ function saveFranceArea(stability: number) {
 
 function renderFlashcards(
   questionIds: QuestionId[],
-  canDiscoverCountries: boolean,
+  mode: 'classic' | 'custom',
   globeKinds: GlobeKind[] = ['locate'],
   multiCountryQuestionIds: MultiCountryQuestionId[] = [],
 ) {
-  // As in App.tsx, only Classic resumes its unfinished card.
   return render(
     <FlashcardsView
       countryIcon="outline"
@@ -93,15 +92,14 @@ function renderFlashcards(
       learnedQuestionIds={questionIds}
       globeKinds={globeKinds}
       multiCountryQuestionIds={multiCountryQuestionIds}
-      canDiscoverCountries={canDiscoverCountries}
-      resumesUnfinishedCard={canDiscoverCountries}
+      mode={mode}
       onBack={() => {}}
     />,
   )
 }
 
 function renderClassic() {
-  renderFlashcards(['area'], true)
+  renderFlashcards(['area'], 'classic')
 }
 
 // The Nordic Countries group (countryGroups.json).
@@ -244,14 +242,14 @@ describe('FlashcardsView', () => {
       ),
     )
     saveLearningGroup('nordic')
-    renderFlashcards(['capital'], true)
+    renderFlashcards(['capital'], 'classic')
 
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
   })
 
   it('saves each answer straight away, before the card is finished', async () => {
     saveFranceArea(0.2)
-    renderFlashcards(['area', 'capital'], true)
+    renderFlashcards(['area', 'capital'], 'classic')
 
     const code = franceAndOthers().find((code) => nameOf(code) === shownCountryName())!
     await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² / Immense' }))
@@ -269,7 +267,7 @@ describe('FlashcardsView', () => {
   it('picks the kind of globe question at random when both are allowed', async () => {
     saveFranceArea(0.2)
     vi.spyOn(Math, 'random').mockReturnValue(0.1)
-    renderFlashcards(['globe'], true, ['locate', 'name'])
+    renderFlashcards(['globe'], 'classic', ['locate', 'name'])
     expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
     vi.restoreAllMocks()
   })
@@ -278,7 +276,7 @@ describe('FlashcardsView', () => {
     saveFranceArea(0.2)
     // A random value that would otherwise pick the location question.
     vi.spyOn(Math, 'random').mockReturnValue(0.9)
-    renderFlashcards(['globe'], false, ['name'])
+    renderFlashcards(['globe'], 'custom', ['name'])
     expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
     vi.restoreAllMocks()
   })
@@ -286,12 +284,12 @@ describe('FlashcardsView', () => {
   describe('an unfinished card in Classic', () => {
     it('is resumed the same day at its next question', async () => {
       saveFranceArea(0.2)
-      const { unmount } = renderFlashcards(['area', 'capital'], true)
+      const { unmount } = renderFlashcards(['area', 'capital'], 'classic')
       const name = shownCountryName()
       await answerArea()
       unmount()
 
-      renderFlashcards(['area', 'capital'], true)
+      renderFlashcards(['area', 'capital'], 'classic')
       expect(shownCountryName()).toBe(name)
       expect(screen.queryByText('Area?')).not.toBeInTheDocument()
       expect(screen.getByLabelText('Capital?')).toBeInTheDocument()
@@ -299,13 +297,13 @@ describe('FlashcardsView', () => {
 
     it("still ends with a new country's Passport count when resumed", async () => {
       saveLearningGroup('nordic')
-      const { unmount } = renderFlashcards(['area', 'capital'], true)
+      const { unmount } = renderFlashcards(['area', 'capital'], 'classic')
       await userEvent.click(screen.getByRole('button', { name: 'Go' }))
       await answerArea()
       unmount()
 
       // Already in the Passport, so no "Discovering" screen again.
-      renderFlashcards(['area', 'capital'], true)
+      renderFlashcards(['area', 'capital'], 'classic')
       expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -335,12 +333,12 @@ describe('FlashcardsView', () => {
 
     it('in Classic, carries on the count of cards when opened again the same day', async () => {
       saveFranceArea(0.2)
-      const { unmount } = renderFlashcards(['area'], true, ['locate'], ['borders'])
+      const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
       await answerArea()
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       unmount()
 
-      renderFlashcards(['area'], true, ['locate'], ['borders'])
+      renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
       await answerArea()
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       expect(screen.getByText(BORDERS)).toBeInTheDocument()
@@ -349,7 +347,7 @@ describe('FlashcardsView', () => {
     it('skips one the Passport cannot make, and waits another two cards', async () => {
       // Islands only, so Borders can't be asked.
       saveAreas(['ISL', 'JAM'], 0.2)
-      renderFlashcards(['area'], false, ['locate'], ['borders'])
+      renderFlashcards(['area'], 'custom', ['locate'], ['borders'])
 
       for (let card = 0; card < 4; card++) {
         await answerArea()
@@ -363,18 +361,18 @@ describe('FlashcardsView', () => {
   describe('in Custom Practice', () => {
     it('does not resume an unfinished card', async () => {
       saveAreas(['FRA'], 0.2)
-      const { unmount } = renderFlashcards(['area', 'capital'], false)
+      const { unmount } = renderFlashcards(['area', 'capital'], 'custom')
       await answerArea()
       unmount()
 
-      renderFlashcards(['area', 'capital'], false)
+      renderFlashcards(['area', 'capital'], 'custom')
       expect(screen.getByText('Area?')).toBeInTheDocument()
     })
 
     it('shows countries in the Passport, even with a question never asked', async () => {
       // France's area is unfamiliar and its capital has never been asked.
       saveAreas(['FRA'], 0.2)
-      renderFlashcards(['capital'], false)
+      renderFlashcards(['capital'], 'custom')
 
       expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
@@ -390,7 +388,7 @@ describe('FlashcardsView', () => {
 
     it('never shows the same country twice in a row', async () => {
       saveAreas(['FRA', 'DEU'], 0.2)
-      renderFlashcards(['area'], false)
+      renderFlashcards(['area'], 'custom')
 
       const first = shownCountryName()
       await answerArea()
@@ -401,7 +399,7 @@ describe('FlashcardsView', () => {
 
     it('moves on from the reward when Enter is pressed', async () => {
       saveAreas(['FRA', 'DEU'], 0.2)
-      renderFlashcards(['area'], false)
+      renderFlashcards(['area'], 'custom')
 
       const first = shownCountryName()
       await answerArea()
@@ -411,7 +409,7 @@ describe('FlashcardsView', () => {
 
     it('asks a multi-country question after every two cards', async () => {
       saveAreas(['FRA', 'DEU'], 0.2)
-      renderFlashcards(['area'], false, ['locate'], ['borders'])
+      renderFlashcards(['area'], 'custom', ['locate'], ['borders'])
       const BORDERS = /^Name up to 4 countries which border/
 
       for (let round = 0; round < 2; round++) {
@@ -429,7 +427,7 @@ describe('FlashcardsView', () => {
     })
 
     it('shows no cards when the Passport is empty', () => {
-      renderFlashcards(['area'], false)
+      renderFlashcards(['area'], 'custom')
 
       expect(
         screen.getByText(

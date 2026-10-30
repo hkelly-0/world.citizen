@@ -62,13 +62,12 @@ type FlashcardsViewProps = {
   // the learned questions in Classic, or those ticked in Custom Practice.
   // Empty (the default) for none.
   multiCountryQuestionIds?: MultiCountryQuestionId[]
-  // True for Classic. False for Custom Practice, which only shows countries
-  // already in the Passport, so new countries are only discovered in Classic.
-  canDiscoverCountries: boolean
-  // True for Classic: its card is saved as it changes, and resumed when the
-  // screen is opened again the same day (unfinishedCard.ts). So is the count
-  // of cards since the last multi-country question (classicCardCount.ts).
-  resumesUnfinishedCard: boolean
+  // Classic discovers new countries, and saves its card and the count of
+  // cards since the last multi-country question as they change, resuming
+  // them when the screen is opened again the same day (unfinishedCard.ts,
+  // classicCardCount.ts). Custom Practice only shows countries already in the
+  // Passport, and starts afresh each time.
+  mode: 'classic' | 'custom'
   // Whether each card shows the country's outline or flag, chosen in Settings.
   countryIcon: CountryIcon
   onBack: () => void
@@ -86,23 +85,23 @@ type FlashcardsViewProps = {
 // introduced with a "Discovering a new country" screen before its card, and
 // after its card a reward shows the Passport count going up. After the card of
 // a country already in the Passport, a reward shows its familiarity instead.
-// With `resumesUnfinishedCard`, a card left part-way is resumed the same day;
-// on a later day, a new card is chosen as usual. With `multiCountryQuestionIds`,
-// a multi-country question comes after every CARDS_PER_MULTI_COUNTRY_QUESTION
-// cards, a random kind the Passport can make, but not the same kind as the one
-// before unless it is the only one (`nextMultiCountryQuestion`). If the
-// Passport can make none, it is skipped until another
-// CARDS_PER_MULTI_COUNTRY_QUESTION cards are finished.
+// In Classic, a card left part-way is resumed the same day; on a later day, a
+// new card is chosen as usual. With `multiCountryQuestionIds`, a multi-country
+// question comes after every CARDS_PER_MULTI_COUNTRY_QUESTION cards, a random
+// kind the Passport can make, but not the same kind as the one before unless
+// it is the only one (`nextMultiCountryQuestion`). If the Passport can make
+// none, it is skipped until another CARDS_PER_MULTI_COUNTRY_QUESTION cards are
+// finished.
 export function FlashcardsView({
   questionIds,
   learnedQuestionIds,
   globeKinds,
   multiCountryQuestionIds = [],
-  canDiscoverCountries,
-  resumesUnfinishedCard,
+  mode,
   countryIcon,
   onBack,
 }: FlashcardsViewProps) {
+  const canDiscoverCountries = mode === 'classic'
   // Fixed while the screen is open, so a session past midnight stays consistent.
   const [today] = useState(todayString)
   const [progress, setProgress] = useState<DeckProgress>(loadProgress)
@@ -166,7 +165,7 @@ export function FlashcardsView({
 
   // The card being shown, or null when there is no card to show.
   const [card, setCard] = useState<UnfinishedCard | null>(() => {
-    const saved = resumesUnfinishedCard ? loadUnfinishedCard() : null
+    const saved = mode === 'classic' ? loadUnfinishedCard() : null
     if (saved !== null && canResume(saved)) return saved
     return newCard(nextCountry(progress, groupId, null), progress)
   })
@@ -175,10 +174,10 @@ export function FlashcardsView({
   // Keeps the saved card in step with the one shown, so leaving at any point
   // resumes it.
   useEffect(() => {
-    if (!resumesUnfinishedCard) return
+    if (mode !== 'classic') return
     if (card === null) clearUnfinishedCard()
     else saveUnfinishedCard(card)
-  }, [card, resumesUnfinishedCard])
+  }, [card, mode])
 
   // The country whose "Discovering a new country" screen has been passed, by
   // "Go →".
@@ -189,11 +188,11 @@ export function FlashcardsView({
 
   // Cards finished since the last multi-country question was due.
   const [cardsSinceMultiCountryQuestion, setCardsSinceMultiCountryQuestion] = useState(() =>
-    resumesUnfinishedCard ? loadClassicCardCount(today) : 0,
+    mode === 'classic' ? loadClassicCardCount(today) : 0,
   )
   useEffect(() => {
-    if (resumesUnfinishedCard) saveClassicCardCount(cardsSinceMultiCountryQuestion, today)
-  }, [cardsSinceMultiCountryQuestion, resumesUnfinishedCard, today])
+    if (mode === 'classic') saveClassicCardCount(cardsSinceMultiCountryQuestion, today)
+  }, [cardsSinceMultiCountryQuestion, mode, today])
   // The last multi-country question asked, kept after it is answered so the
   // next one isn't the same kind.
   const [multiCountryQuestion, setMultiCountryQuestion] = useState<MultiCountryQuestion | null>(

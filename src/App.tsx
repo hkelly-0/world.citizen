@@ -191,8 +191,7 @@ export default function App() {
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={GLOBE_KINDS}
           multiCountryQuestionIds={offeredMultiCountryQuestionIds(learnedQuestionIds)}
-          canDiscoverCountries={true}
-          resumesUnfinishedCard={true}
+          mode="classic"
           countryIcon={countryIcon}
           onBack={goToMenu}
         />
@@ -226,8 +225,7 @@ export default function App() {
           learnedQuestionIds={learnedQuestionIds}
           globeKinds={customGlobeKinds}
           multiCountryQuestionIds={customMultiCountryQuestionIds}
-          canDiscoverCountries={false}
-          resumesUnfinishedCard={false}
+          mode="custom"
           countryIcon={countryIcon}
           onBack={goToMenu}
         />
