@@ -72,6 +72,20 @@
   cursor: pointer;
 }
 
+/* The four main options, closer together and a little shorter than the
+   options in the other menus, which share .main-menu__option. */
+.main-menu__options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.main-menu__options .main-menu__option {
+  min-height: 48px;
+}
+
 /* Go and Save: centred in the column rather than starting at its left edge. */
 .main-menu__option--centered {
   justify-content: center;

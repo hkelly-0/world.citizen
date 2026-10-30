@@ -80,23 +80,25 @@ export function MainMenu({
         </span>
       </h1>
       <p className="main-menu__subtitle">learn every country</p>
-      <button className="main-menu__option arrow-button" onClick={onOpenFlashcards}>
-        Flashcards
-      </button>
-      <button className="main-menu__option arrow-button" onClick={onOpenGlobe}>
-        Globe
-      </button>
-      <button
-        className="main-menu__option main-menu__option--stacked arrow-button"
-        onClick={onOpenPassport}
-      >
-        <span>Passport</span>{' '}
-        <span className="main-menu__count">
-          {passportCount}/{COUNTRY_COUNT}
-        </span>
-      </button>
-      {/* Leads nowhere yet. */}
-      <button className="main-menu__option arrow-button">Extras</button>
+      <div className="main-menu__options">
+        <button className="main-menu__option arrow-button" onClick={onOpenFlashcards}>
+          Flashcards
+        </button>
+        <button className="main-menu__option arrow-button" onClick={onOpenGlobe}>
+          Globe
+        </button>
+        <button
+          className="main-menu__option main-menu__option--stacked arrow-button"
+          onClick={onOpenPassport}
+        >
+          <span>Passport</span>{' '}
+          <span className="main-menu__count">
+            {passportCount}/{COUNTRY_COUNT}
+          </span>
+        </button>
+        {/* Leads nowhere yet. */}
+        <button className="main-menu__option arrow-button">Extras</button>
+      </div>
       <button className="main-menu__settings arrow-button" onClick={onOpenSettings}>
         Settings
       </button>
