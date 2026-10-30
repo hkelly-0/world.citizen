@@ -48,7 +48,9 @@
 .main-menu__subtitle {
   width: 100%;
   max-width: 280px;
-  margin: 0 0 16px;
+  /* The negative top margin pulls it closer to the title than the column's
+     gap. */
+  margin: -10px 0 16px;
   text-align: left;
   color: #a9b1c2;
   font-size: 1.1rem;
