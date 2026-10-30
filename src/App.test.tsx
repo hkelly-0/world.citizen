@@ -4,14 +4,15 @@ import { State } from 'ts-fsrs'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { todayString } from './features/flashcards/dates'
+import type { AnswerResult } from './features/flashcards/fsrs'
 import { saveLearningGroup } from './shared/learningGroup'
 import { saveProgress } from './shared/progress'
 
 // The flashcards' globe questions need WebGL too. These stand-ins answer
 // correctly when their button is clicked.
 vi.mock('./features/globe/LocateCountryGlobe', () => ({
-  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
-    <button onClick={() => onAnswer(true)}>Answer globe question</button>
+  default: ({ onAnswer }: { onAnswer: (result: AnswerResult) => void }) => (
+    <button onClick={() => onAnswer('right')}>Answer globe question</button>
   ),
 }))
 vi.mock('./features/globe/NameCountryGlobe', () => ({

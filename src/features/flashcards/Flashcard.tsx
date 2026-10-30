@@ -129,8 +129,8 @@ export function Flashcard({
   // so a question mark stands in for it until then.
   const hidesFlag = steps.includes('flag') && results.flag === undefined
 
-  function submitGlobeAnswer(isCorrect: boolean) {
-    const newResults = { ...results, globe: resultFromCorrect(isCorrect) }
+  function submitGlobeAnswer(result: AnswerResult) {
+    const newResults = { ...results, globe: result }
     setHasAnsweredGlobe(true)
     setResults(newResults)
     // When only the globe question is asked, the card is finished.
@@ -195,7 +195,7 @@ export function Flashcard({
             <NameCountryGlobe
               country={country}
               fadesOut={!isGlobeOnly}
-              onAnswer={submitGlobeAnswer}
+              onAnswer={(isCorrect) => submitGlobeAnswer(resultFromCorrect(isCorrect))}
             />
           ) : (
             <LocateCountryGlobe

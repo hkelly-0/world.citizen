@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { GLOBE_KINDS, isInfoQuestion, QUESTION_IDS } from './deck'
 import { Flashcard } from './Flashcard'
-import { reviewQuestion } from './fsrs'
+import { reviewQuestion, type AnswerResult } from './fsrs'
 
 // The real globes need WebGL, which jsdom doesn't have. These stand-ins have
 // a button for each kind of answer.
@@ -14,12 +14,12 @@ vi.mock('../globe/LocateCountryGlobe', () => ({
     onAnswer,
   }: {
     countryName: string
-    onAnswer: (isCorrect: boolean) => void
+    onAnswer: (result: AnswerResult) => void
   }) => (
     <div>
       <p>Select {countryName}</p>
-      <button onClick={() => onAnswer(true)}>Tap right country</button>
-      <button onClick={() => onAnswer(false)}>Tap wrong country</button>
+      <button onClick={() => onAnswer('right')}>Tap right country</button>
+      <button onClick={() => onAnswer('wrong')}>Tap wrong country</button>
     </div>
   ),
 }))

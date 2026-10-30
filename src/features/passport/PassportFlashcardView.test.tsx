@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import type { AnswerResult } from '../flashcards/fsrs'
 import { loadDiscoveries } from '../../shared/discoveries'
 import { loadProgress } from '../../shared/progress'
 import { PassportFlashcardView } from './PassportFlashcardView'
@@ -8,8 +9,8 @@ import { PassportFlashcardView } from './PassportFlashcardView'
 // The real globes need WebGL, which jsdom doesn't have. The stand-in for the
 // location globe answers it right; the name globe must never show.
 vi.mock('../globe/LocateCountryGlobe', () => ({
-  default: ({ onAnswer }: { onAnswer: (isCorrect: boolean) => void }) => (
-    <button onClick={() => onAnswer(true)}>Locate</button>
+  default: ({ onAnswer }: { onAnswer: (result: AnswerResult) => void }) => (
+    <button onClick={() => onAnswer('right')}>Locate</button>
   ),
 }))
 vi.mock('../globe/NameCountryGlobe', () => ({
