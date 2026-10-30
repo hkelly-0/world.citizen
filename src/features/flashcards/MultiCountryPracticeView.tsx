@@ -5,14 +5,12 @@ import type { CountryIcon } from '../../shared/settings'
 import { collectedCountries } from '../passport/passport'
 import { BordersCard } from './BordersCard'
 import { MatchingCard } from './MatchingCard'
-import { MATCHING_COUNT } from './matchingQuestion'
 import {
   nextMultiCountryQuestion,
   ORDERING_STATS,
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
 import { OrderingCard } from './OrderingCard'
-import { ORDERING_COUNT } from './orderingQuestion'
 import './FlashcardsView.css'
 
 type MultiCountryPracticeViewProps = {
@@ -36,7 +34,8 @@ export function MultiCountryPracticeView({
   const [passportCodes] = useState(() =>
     collectedCountries(loadProgress()).map((country) => country.isoAlpha3),
   )
-  // Null when the Passport can't make any of the ticked kinds.
+  // Null when the Passport can't make any of the ticked kinds, which can't
+  // happen: Custom Practice only lets kinds it can make be ticked.
   const [question, setQuestion] = useState(() =>
     nextMultiCountryQuestion(questionIds, passportCodes, null),
   )
@@ -52,13 +51,7 @@ export function MultiCountryPracticeView({
   return (
     <div className="flashcards-view">
       <BackButton onClick={onBack} />
-      {question === null ? (
-        <p className="flashcards-view__done">
-          Not enough countries in your Passport yet. Borders needs one with land borders, Matching
-          needs {MATCHING_COUNT}, and an ordering needs {ORDERING_COUNT} with different titles.
-          Discover new countries in Classic Mode.
-        </p>
-      ) : question.id === 'borders' ? (
+      {question === null ? null : question.id === 'borders' ? (
         <BordersCard
           key={questionNumber}
           code={question.codes[0]}

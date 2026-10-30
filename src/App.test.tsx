@@ -221,11 +221,12 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     await userEvent.click(screen.getByRole('button', { name: 'Custom Practice' }))
     // Borders isn't in Settings, so it is always offered; Capital Matching is
-    // offered as Capital is learned.
+    // offered as Capital is learned. Both are disabled, as the
+    // Passport is empty.
     expect(screen.getAllByRole('checkbox')).toHaveLength(3)
     expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeInTheDocument()
-    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeInTheDocument()
-    expect(screen.getByRole('checkbox', { name: 'Matching - Capitals' })).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: 'Matching - Capitals' })).toBeDisabled()
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))

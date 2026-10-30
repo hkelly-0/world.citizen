@@ -198,6 +198,7 @@ export default function App() {
       return (
         <CustomPracticeMenu
           learnedQuestionIds={learnedQuestionIds}
+          passportCodes={collectedCountries(loadProgress()).map((country) => country.isoAlpha3)}
           onBack={goToMenu}
           onGo={startCustomPractice}
         />

@@ -2,13 +2,24 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { CustomPracticeMenu } from './CustomPracticeMenu'
+import { countryFacts } from '../../shared/countryFacts'
 import { QUESTION_IDS } from './deck'
+
+// A Passport with every country, which can make every multi-country question.
+const ALL_CODES = Object.keys(countryFacts)
 
 describe('CustomPracticeMenu', () => {
   beforeEach(() => localStorage.clear())
 
   it('lists the 13 options, all unticked, with Go disabled', () => {
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
 
     for (const label of [
       'Locate country on globe',
@@ -31,7 +42,14 @@ describe('CustomPracticeMenu', () => {
   })
 
   it('splits the options into Country Fundamentals and Multi-Country Questions', () => {
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
 
     const labelsIn = (heading: string) =>
       within(screen.getByRole('group', { name: heading }))
@@ -61,7 +79,14 @@ describe('CustomPracticeMenu', () => {
   })
 
   it('leaves out Country Fundamentals when none of them is offered', () => {
-    render(<CustomPracticeMenu learnedQuestionIds={[]} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={[]}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
 
     expect(screen.queryByRole('group', { name: 'Country Fundamentals' })).toBeNull()
     expect(screen.getByRole('group', { name: 'Multi-Country Questions' })).toBeInTheDocument()
@@ -69,7 +94,14 @@ describe('CustomPracticeMenu', () => {
 
   it('passes the ticked question types to onGo, in the usual question order', async () => {
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Name country from globe' }))
@@ -83,7 +115,14 @@ describe('CustomPracticeMenu', () => {
 
   it('treats both globe options as the one globe question type', async () => {
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Name country from globe' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Locate country on globe' }))
@@ -93,7 +132,14 @@ describe('CustomPracticeMenu', () => {
   })
 
   it('disables Go again when every box is unticked', async () => {
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     expect(screen.getByRole('button', { name: 'Go' })).toBeEnabled()
@@ -103,7 +149,14 @@ describe('CustomPracticeMenu', () => {
 
   it('practises Borders, Flag Matching and the Orderings apart from the rest', async () => {
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
 
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     expect(screen.getByRole('checkbox', { name: 'Matching - Flags' })).toBeDisabled()
@@ -125,6 +178,7 @@ describe('CustomPracticeMenu', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={['globe', 'capital']}
+        passportCodes={ALL_CODES}
         onBack={vi.fn()}
         onGo={vi.fn()}
       />,
@@ -139,7 +193,14 @@ describe('CustomPracticeMenu', () => {
     ])
   })
   it("offers each Ordering only if its stat's question type is learned", () => {
-    render(<CustomPracticeMenu learnedQuestionIds={['area']} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={['area']}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
 
     expect(screen.getAllByRole('checkbox').map((box) => box.parentElement!.textContent)).toEqual([
       'Area',
@@ -150,7 +211,12 @@ describe('CustomPracticeMenu', () => {
 
   it('opens with the boxes ticked when Go was last pressed', async () => {
     const { unmount } = render(
-      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
@@ -158,7 +224,14 @@ describe('CustomPracticeMenu', () => {
     unmount()
 
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
     expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Area' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Flag' })).not.toBeChecked()
@@ -168,18 +241,35 @@ describe('CustomPracticeMenu', () => {
 
   it('remembers nothing ticked without pressing Go', async () => {
     const { unmount } = render(
-      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     unmount()
 
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
     expect(screen.getByRole('checkbox', { name: 'Capital' })).not.toBeChecked()
   })
 
   it('leaves out remembered boxes no longer offered', async () => {
     const { unmount } = render(
-      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
     )
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Flag' }))
@@ -188,7 +278,14 @@ describe('CustomPracticeMenu', () => {
 
     // The flag question has since been unticked in Settings.
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={['capital']} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={['capital']}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(onGo).toHaveBeenCalledWith(['capital'], [], [])
   })
@@ -200,10 +297,70 @@ describe('CustomPracticeMenu', () => {
       JSON.stringify(['capital', 'borders']),
     )
     const onGo = vi.fn()
-    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={onGo}
+      />,
+    )
 
     expect(screen.getByRole('checkbox', { name: 'Borders' })).not.toBeChecked()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(onGo).toHaveBeenCalledWith(['capital'], [], [])
+  })
+
+  it("disables the multi-country questions the Passport can't make, with a note", () => {
+    // All three are islands, so Borders can't be asked, and three countries
+    // are too few for Matching.
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={['flag']}
+        passportCodes={['ISL', 'FJI', 'JAM']}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByRole('checkbox', { name: 'Flag' })).toBeEnabled()
+    expect(screen.getByRole('checkbox', { name: 'Matching - Flags' })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeDisabled()
+    expect(
+      within(screen.getByRole('group', { name: 'Multi-Country Questions' })).getByText(
+        'Some options require more countries in your Passport',
+      ),
+    ).toBeInTheDocument()
+  })
+
+  it('shows no note when the Passport can make every multi-country question', () => {
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={ALL_CODES}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
+
+    expect(screen.queryByText('Some options require more countries in your Passport')).toBeNull()
+  })
+
+  it("leaves out remembered multi-country boxes the Passport can't make", () => {
+    localStorage.setItem(
+      'geography-app/custom-practice-choices',
+      JSON.stringify(['borders', 'flag-matching']),
+    )
+    render(
+      <CustomPracticeMenu
+        learnedQuestionIds={QUESTION_IDS}
+        passportCodes={['FRA', 'ESP', 'ITA']}
+        onBack={vi.fn()}
+        onGo={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Matching - Flags' })).not.toBeChecked()
   })
 })

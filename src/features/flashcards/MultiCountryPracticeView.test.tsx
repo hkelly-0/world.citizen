@@ -23,19 +23,6 @@ describe('MultiCountryPracticeView', () => {
     localStorage.clear()
   })
 
-  it('asks for more countries when the Passport can make no question', () => {
-    savePassport(['TCD', 'ROU', 'BEL'])
-    render(
-      <MultiCountryPracticeView
-        questionIds={['flag-matching']}
-        countryIcon="outline"
-        onBack={vi.fn()}
-      />,
-    )
-
-    expect(screen.getByText(/Not enough countries in your Passport yet/)).toBeInTheDocument()
-  })
-
   it('matches Passport countries', () => {
     savePassport(['TCD', 'ROU', 'BEL', 'GIN'])
     render(

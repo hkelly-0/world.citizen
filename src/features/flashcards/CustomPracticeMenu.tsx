@@ -6,6 +6,7 @@ import {
 } from '../../shared/customPracticeChoices'
 import { GLOBE_KINDS, QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
 import {
+  canMakeMultiCountryQuestion,
   LEARNED_QUESTION_NEEDED,
   MULTI_COUNTRY_QUESTION_IDS,
   type MultiCountryQuestionId,
@@ -56,6 +57,9 @@ type CustomPracticeMenuProps = {
   // and each other multi-country question whose LEARNED_QUESTION_NEEDED is one
   // of them.
   learnedQuestionIds: QuestionId[]
+  // The Passport's countries (ISO alpha-3 codes). A multi-country question
+  // they can't make is disabled.
+  passportCodes: string[]
   onBack: () => void
   // Called with the ticked question types (in the order of QUESTION_IDS, with
   // 'globe' if either globe option is ticked) and which kinds of globe
@@ -75,18 +79,32 @@ type CustomPracticeMenuProps = {
 // with the boxes ticked when "Go" was last pressed, leaving out any no longer
 // offered (e.g. a question type unticked in Settings since), and any
 // multi-country ones ticked alongside the others (possible when saved before
-// Borders became a multi-country question).
-export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
+// Borders became a multi-country question). A multi-country question the
+// Passport can't make yet is disabled and opens unticked, with one note under
+// the section's heading.
+export function CustomPracticeMenu({
+  learnedQuestionIds,
+  passportCodes,
+  onBack,
+  onGo,
+}: CustomPracticeMenuProps) {
   const offered = CHOICES.filter(({ choice }) => {
     if (choice === 'borders') return true
     if (isMultiCountry(choice)) return learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[choice])
     return learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice)
   })
+  // Worked out once: the Passport doesn't change while the menu is open.
+  const [notEnoughCountries] = useState(() =>
+    MULTI_COUNTRY_QUESTION_IDS.filter((id) => !canMakeMultiCountryQuestion(id, passportCodes)),
+  )
+  function hasNotEnoughCountries(choice: Choice): boolean {
+    return isMultiCountry(choice) && notEnoughCountries.includes(choice)
+  }
   const [chosen, setChosen] = useState<Choice[]>(() => {
     const saved = loadCustomPracticeChoices()
     const savedOffered = offered
       .map(({ choice }) => choice)
-      .filter((choice) => saved.includes(choice))
+      .filter((choice) => saved.includes(choice) && !hasNotEnoughCountries(choice))
     const isMixed =
       savedOffered.some(isMultiCountry) && savedOffered.some((choice) => !isMultiCountry(choice))
     return isMixed ? savedOffered.filter((choice) => !isMultiCountry(choice)) : savedOffered
@@ -94,6 +112,7 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
 
   const isMultiCountryChosen = chosen.some(isMultiCountry)
   function isDisabled(choice: Choice): boolean {
+    if (hasNotEnoughCountries(choice)) return true
     if (chosen.length === 0) return false
     return isMultiCountry(choice) !== isMultiCountryChosen
   }
@@ -124,9 +143,17 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
         )
         // A section with nothing offered (nothing it needs is learned) is left out.
         if (sectionChoices.length === 0) return null
+        const isMissingCountries = sectionChoices.some(({ choice }) =>
+          hasNotEnoughCountries(choice),
+        )
         return (
           <fieldset key={heading} className="custom-practice__choices">
             <legend className="custom-practice__heading">{heading}</legend>
+            {isMissingCountries && (
+              <p className="custom-practice__note">
+                Some options require more countries in your Passport
+              </p>
+            )}
             {sectionChoices.map(({ choice, label }) => (
               <label key={choice} className="custom-practice__choice">
                 {label}

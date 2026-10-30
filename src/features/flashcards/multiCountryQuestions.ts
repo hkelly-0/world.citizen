@@ -70,6 +70,15 @@ function questionCountries(
   return orderingCountries(ORDERING_STATS[id], passportCodes, random)
 }
 
+// Whether the Passport can make a question of kind `id`. Which countries are
+// picked is random, but whether there are enough of them isn't.
+export function canMakeMultiCountryQuestion(
+  id: MultiCountryQuestionId,
+  passportCodes: string[],
+): boolean {
+  return questionCountries(id, passportCodes, null, Math.random) !== null
+}
+
 // The next question: one of the kinds in `ids` that the Passport can make, at
 // random, but not the same kind as `previous` unless it is the only one. Null
 // when the Passport can't make any of them. `random` is a parameter so tests

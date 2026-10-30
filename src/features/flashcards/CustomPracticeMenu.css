@@ -39,6 +39,13 @@
   cursor: pointer;
 }
 
+/* Under the Multi-Country heading while the Passport can't make some of its
+   options. */
+.custom-practice__note {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+}
+
 .custom-practice__choice input {
   width: 20px;
   height: 20px;
