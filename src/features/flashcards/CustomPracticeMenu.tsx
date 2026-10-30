@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import {
+  loadCustomPracticeChoices,
+  saveCustomPracticeChoices,
+} from '../../shared/customPracticeChoices'
 import { GLOBE_KINDS, QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
 import {
   LEARNED_QUESTION_NEEDED,
@@ -66,13 +70,18 @@ type CustomPracticeMenuProps = {
 
 // Lets the user tick which questions to practise. "Go" needs at least one.
 // The multi-country questions are practised apart from the rest: while any of
-// them is ticked the other boxes are disabled, and the other way round.
+// them is ticked the other boxes are disabled, and the other way round. Opens
+// with the boxes ticked when "Go" was last pressed, leaving out any no longer
+// offered (e.g. a question type unticked in Settings since).
 export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomPracticeMenuProps) {
-  const [chosen, setChosen] = useState<Choice[]>([])
   const offered = CHOICES.filter(({ choice }) => {
     if (choice === 'borders') return true
     if (isMultiCountry(choice)) return learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[choice])
     return learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice)
+  })
+  const [chosen, setChosen] = useState<Choice[]>(() => {
+    const saved = loadCustomPracticeChoices()
+    return offered.map(({ choice }) => choice).filter((choice) => saved.includes(choice))
   })
 
   const isMultiCountryChosen = chosen.some(isMultiCountry)
@@ -93,6 +102,7 @@ export function CustomPracticeMenu({ learnedQuestionIds, onBack, onGo }: CustomP
       id === 'globe' ? globeKinds.length > 0 : chosen.includes(id),
     )
     const multiCountryQuestionIds = MULTI_COUNTRY_QUESTION_IDS.filter((id) => chosen.includes(id))
+    saveCustomPracticeChoices(chosen)
     onGo(questionIds, globeKinds, chosen.includes('borders'), multiCountryQuestionIds)
   }
 

@@ -1,10 +1,12 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { CustomPracticeMenu } from './CustomPracticeMenu'
 import { QUESTION_IDS } from './deck'
 
 describe('CustomPracticeMenu', () => {
+  beforeEach(() => localStorage.clear())
+
   it('lists the 13 options, all unticked, with Go disabled', () => {
     render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
 
@@ -153,5 +155,50 @@ describe('CustomPracticeMenu', () => {
       'Borders',
       'Ordering - Area',
     ])
+  })
+
+  it('opens with the boxes ticked when Go was last pressed', async () => {
+    const { unmount } = render(
+      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+    )
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Borders' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    unmount()
+
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={onGo} />)
+    expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Borders' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Area' })).not.toBeChecked()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(onGo).toHaveBeenCalledWith(['capital'], [], true, [])
+  })
+
+  it('remembers nothing ticked without pressing Go', async () => {
+    const { unmount } = render(
+      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+    )
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    unmount()
+
+    render(<CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />)
+    expect(screen.getByRole('checkbox', { name: 'Capital' })).not.toBeChecked()
+  })
+
+  it('leaves out remembered boxes no longer offered', async () => {
+    const { unmount } = render(
+      <CustomPracticeMenu learnedQuestionIds={QUESTION_IDS} onBack={vi.fn()} onGo={vi.fn()} />,
+    )
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Flag' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    unmount()
+
+    // The flag question has since been unticked in Settings.
+    const onGo = vi.fn()
+    render(<CustomPracticeMenu learnedQuestionIds={['capital']} onBack={vi.fn()} onGo={onGo} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    expect(onGo).toHaveBeenCalledWith(['capital'], [], false, [])
   })
 })
