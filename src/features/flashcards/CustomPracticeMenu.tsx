@@ -7,8 +7,8 @@ import {
 import { GLOBE_KINDS, QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
 import {
   canMakeMultiCountryQuestion,
-  LEARNED_QUESTION_NEEDED,
   MULTI_COUNTRY_QUESTION_IDS,
+  offeredMultiCountryQuestionIds,
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
 // Same layout and buttons as the main menu.
@@ -86,8 +86,9 @@ export function CustomPracticeMenu({
   onGo,
 }: CustomPracticeMenuProps) {
   const offered = CHOICES.filter(({ choice }) => {
-    if (choice === 'borders') return true
-    if (isMultiCountry(choice)) return learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[choice])
+    if (isMultiCountry(choice)) {
+      return offeredMultiCountryQuestionIds(learnedQuestionIds).includes(choice)
+    }
     return learnedQuestionIds.includes(choice === 'locate' || choice === 'name' ? 'globe' : choice)
   })
   // Worked out once: the Passport doesn't change while the menu is open.

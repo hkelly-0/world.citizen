@@ -32,6 +32,17 @@ export const LEARNED_QUESTION_NEEDED: Record<
   'ihdi-ordering': 'ihdi',
 }
 
+// The multi-country questions offered when `learnedQuestionIds` are learned
+// in Settings: Borders, and each other whose LEARNED_QUESTION_NEEDED is one of
+// them. Classic asks all of these; Custom Practice offers them to tick.
+export function offeredMultiCountryQuestionIds(
+  learnedQuestionIds: QuestionId[],
+): MultiCountryQuestionId[] {
+  return MULTI_COUNTRY_QUESTION_IDS.filter(
+    (id) => id === 'borders' || learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[id]),
+  )
+}
+
 // The statistic each ordering question is about.
 export const ORDERING_STATS: Record<
   Exclude<MultiCountryQuestionId, 'borders' | 'flag-matching' | 'capital-matching'>,
