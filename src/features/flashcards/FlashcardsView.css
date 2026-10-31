@@ -16,11 +16,16 @@
 }
 
 /* Shown before a country not yet in the Passport. The auto margins centre it
-   vertically in the screen. */
+   vertically in the screen. On wide screens it is kept to the width of the
+   card that follows (`.flashcard`'s max-width and padding). */
 .flashcards-view__discovering {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 20px;
+  box-sizing: border-box;
   margin: auto 0;
   text-align: center;
 }
@@ -28,6 +33,16 @@
 .flashcards-view__discovering p {
   margin: 0;
   font-size: 1.2rem;
+}
+
+/* Keeps the "(1 of 4)..." label on one line. */
+.flashcards-view__no-wrap {
+  white-space: nowrap;
+}
+
+.flashcards-view__discovering p.flashcards-view__discovering-subtitle {
+  font-size: 0.95rem;
+  opacity: 0.7;
 }
 
 /* Shaped like the flashcards' Next button. */

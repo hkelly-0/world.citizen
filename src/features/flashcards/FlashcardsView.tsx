@@ -327,7 +327,14 @@ export function FlashcardsView({
         <div className="flashcards-view__discovering">
           <p>
             Discovering a new country from {countryFacts[card.country].groupName}{' '}
-            {groupProgressLabel(countryFacts[card.country].groupId, progress)}...
+            <span className="flashcards-view__no-wrap">
+              {groupProgressLabel(countryFacts[card.country].groupId, progress)}...
+            </span>
+          </p>
+          <p className="flashcards-view__discovering-subtitle">
+            Just try your best guess
+            <br />
+            for these questions
           </p>
           <button
             type="button"

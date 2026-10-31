@@ -136,9 +136,9 @@ describe('FlashcardsView', () => {
     saveLearningGroup('nordic')
     renderClassic()
 
-    expect(
-      screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
-    ).toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toHaveTextContent(
+      'Discovering a new country from Nordic Countries (1 of 4)...',
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
@@ -156,9 +156,9 @@ describe('FlashcardsView', () => {
 
     expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
     await userEvent.click(await screen.findByRole('button', { name: 'Discover Nordic Countries' }))
-    expect(
-      screen.getByText('Discovering a new country from Nordic Countries (1 of 4)...'),
-    ).toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toHaveTextContent(
+      'Discovering a new country from Nordic Countries (1 of 4)...',
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByRole('heading', { name: NORDIC_NAME })).toBeInTheDocument()
   })
@@ -169,9 +169,9 @@ describe('FlashcardsView', () => {
     renderClassic()
 
     expect(screen.queryByRole('button', { name: /^Discover / })).not.toBeInTheDocument()
-    expect(
-      screen.getByText('Discovering a new country from Nordic Countries (2 of 4)...'),
-    ).toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toHaveTextContent(
+      'Discovering a new country from Nordic Countries (2 of 4)...',
+    )
   })
 
   it("asks for the next group after the group's last country", async () => {
@@ -179,9 +179,9 @@ describe('FlashcardsView', () => {
     saveLearningGroup('nordic')
     renderClassic()
 
-    expect(
-      screen.getByText('Discovering a new country from Nordic Countries (4 of 4)...'),
-    ).toBeInTheDocument()
+    expect(screen.getByText(DISCOVERING)).toHaveTextContent(
+      'Discovering a new country from Nordic Countries (4 of 4)...',
+    )
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
