@@ -32,7 +32,7 @@ const COUNTRY_IMAGES = '/country-images'
 
 // Shown by the "?" beside the sort box when sorting by Familiarity.
 const FAMILIARITY_HELP =
-  "A Familiarity score is shown by the coloured ring beside each country's name. It's a statistical estimate of the likelihood that you could correctly remember all of the facts about that country, 2 weeks from now. Familiarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
+  "A Familiarity score is shown by the coloured ring beside each country's name. It's a statistical estimate of the likelihood you could correctly remember all of the facts about that country, 2 weeks from now.\n\nFamiliarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
 
 type PassportViewProps = {
   // The information chosen in Settings; only these questions count towards recall.
