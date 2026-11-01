@@ -11,6 +11,8 @@ type TutorialNoteProps = {
   // Fixed to the bottom of the screen, over the screen being explained,
   // rather than in the flow of the page.
   isPinned?: boolean
+  // Outlined in red instead of blue, for a warning.
+  isWarning?: boolean
 }
 
 // A tutorial explanation in a highlighted box: above a question on the home
@@ -22,12 +24,14 @@ export function TutorialNote({
   isButtonDisabled = false,
   onButtonClick,
   isPinned = false,
+  isWarning = false,
 }: TutorialNoteProps) {
+  let className = 'tutorial-note'
+  if (isPinned) className += ' tutorial-note--pinned'
+  if (isWarning) className += ' tutorial-note--warning'
+
   return (
-    <aside
-      className={isPinned ? 'tutorial-note tutorial-note--pinned' : 'tutorial-note'}
-      aria-label="Tutorial"
-    >
+    <aside className={className} aria-label="Tutorial">
       <p className="tutorial-note__text">{text}</p>
       {buttonLabel !== undefined && (
         <button

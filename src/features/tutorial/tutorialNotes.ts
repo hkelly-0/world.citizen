@@ -1,41 +1,24 @@
-import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
-import type { CardRewardDetails } from '../flashcards/rewardAfterCard'
+import type { QuestionId } from '../flashcards/deck'
 
-// Shown on the first of the range questions asked (area, population, IHDI).
-const RANGES_NOTE =
-  'Numbers are learned as named ranges, not exact figures. Picking the range next to the right one counts as nearly right.'
+// The explanation shown above each question on the home country's card, which
+// asks every question type. Ranges are explained on area, the first of them,
+// and the info questions on history, the first of those.
+export const HOME_CARD_NOTES: Partial<Record<QuestionId, string>> = {
+  globe: 'We start by locating the country on the globe.',
+  flag: 'Next is its flag.',
+  area: 'Numerical stats are grouped into ranges, to make memorization easier.',
+  ihdi: "IHDI = Inequality-adjusted Human Development Index. A composite statistic which reflects lifespan, years of schooling, and GNI per capita, all adjusted based on inequality. Published by the United Nations.\n\nWe've rounded it to the nearest whole number.",
+  capital: 'Text entry boxes ignore case and accents.',
+  history:
+    "The following sections are AI-written summaries describing the country's History, People, Economy, and International Relations.\n\nThey're meant to build a very basic understanding of these topics, as a starting point for broad knowledge of the whole world.",
+  people:
+    'We recommend treating these questions like old-fashioned flashcards - Try your best to recall the key ideas in your head, then press reveal, and grade yourself on what you remembered.',
+}
 
-// The explanation shown above each question on the home country's card, for
-// the questions in `questionIds`. Range and info questions are explained once,
-// on the first of them asked; later ones get a shorter note or none.
-export function homeCardNotes(questionIds: QuestionId[]): Partial<Record<QuestionId, string>> {
-  const notes: Partial<Record<QuestionId, string>> = {
-    globe:
-      'Every card starts on the globe. Drag to turn it, pinch or scroll to zoom, then tap the country.',
-    flag: 'Pick its flag. The wrong options are flags that look alike, or those of nearby countries.',
-    capital:
-      "Type the capital. Upper or lower case and accents don't matter, and its name in the local language counts too.",
-  }
-
-  const rangeIds = (['area', 'population', 'ihdi'] as QuestionId[]).filter((id) =>
-    questionIds.includes(id),
-  )
-  if (questionIds.includes('area')) notes.area = RANGES_NOTE
-  if (questionIds.includes('population')) {
-    notes.population = rangeIds[0] === 'population' ? RANGES_NOTE : 'Pick the named range again.'
-  }
-  if (questionIds.includes('ihdi')) {
-    const meaning =
-      "IHDI is the Inequality-adjusted Human Development Index: a country's health, education and income, lowered the more unequally they're shared."
-    notes.ihdi = rangeIds[0] === 'ihdi' ? `${meaning} ${RANGES_NOTE}` : meaning
-  }
-
-  const firstInfoId = INFO_QUESTION_IDS.find((id) => questionIds.includes(id))
-  if (firstInfoId !== undefined) {
-    notes[firstInfoId] =
-      'Now some background. Think about what you already know on the topic, then reveal the paragraph and say how much of it was new.'
-  }
-  return notes
+// Shown below a question's note on the home country's card, in a red box.
+export const HOME_CARD_WARNINGS: Partial<Record<QuestionId, string>> = {
+  history:
+    "WARNING: we haven't yet been able to individually fact-check these paragraphs. AI makes mistakes.",
 }
 
 // Shown on its own page after the home country is chosen, before its card.
@@ -43,14 +26,14 @@ export const FLASHCARDS_INTRO =
   "world.citizen is primarily a flashcard app: you'll get to gradually learn about every country while using spaced repetition to cement the information you've already learned.\n\nNext up is a walkthrough of the flashcard for your home country."
 
 // Shown under the reward once the home country's card is finished.
-export function homeCardRewardNote(reward: CardRewardDetails): string {
-  return reward.kind === 'new-country'
-    ? 'Each country joins your Passport the first time you answer one of its questions.'
-    : "The ring shows how familiar this country is. It fills as you answer right, and slowly empties when you haven't seen the country for a while."
-}
+export const HOME_CARD_REWARD_NOTE = 'Nice work. The journey begins'
 
 export const PASSPORT_NOTE =
-  "This is your Passport, with every country you've met. The ring beside each name is its Familiarity: how likely you are to remember its facts. Tap a country to play its card again, or New Country to discover another."
+  "This is your Passport, your collection of every country you've studied in the app.\n\nTap a country to play its card again, or New Country to discover another."
+
+// Shown after the Passport note's Next, still over the Passport.
+export const PASSPORT_SECOND_NOTE =
+  "The coloured ring beside each name is its Familiarity: a statistical estimate of the likelihood that you could correctly remember all of the facts about that country, 2 weeks from now.\n\nFamiliarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
 
 export const SETTINGS_NOTE =
   "Choose the information you're most interested in learning: only these are asked on the cards. You can change this in Settings any time, and nothing you've learned is lost."

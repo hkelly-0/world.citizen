@@ -49,6 +49,9 @@ type FlashcardProps = {
   // The tutorial's explanations, shown above each question they name (the
   // globe question's on the globe). Only the home country's card has them.
   notes?: Partial<Record<QuestionId, string>>
+  // The tutorial's warnings, shown in a red box below the note of each
+  // question they name. Only the home country's card has them.
+  warnings?: Partial<Record<QuestionId, string>>
   // Called as soon as each question is answered, so the answer can be saved
   // straight away: right, close (range questions only) or wrong.
   // `isCardFinished` is true when that answer ends the card (an info rating
@@ -77,6 +80,7 @@ export function Flashcard({
   answeredIds = [],
   progress = {},
   notes = {},
+  warnings = {},
   onAnswer,
   onFinish,
 }: FlashcardProps) {
@@ -125,6 +129,7 @@ export function Flashcard({
 
   const stepId = steps[step]
   const stepNote = stepId === undefined ? undefined : notes[stepId]
+  const stepWarning = stepId === undefined ? undefined : warnings[stepId]
   const rangeQuestion = questions.find((question) => question.id === stepId)
   const isLastStep = step === steps.length - 1
   // Showing the flag before the flag question is answered would give it away,
@@ -220,6 +225,7 @@ export function Flashcard({
       {/* Centred in the space between the name and the Next button. */}
       <div className="flashcard__body">
         {stepNote !== undefined && <TutorialNote text={stepNote} />}
+        {stepWarning !== undefined && <TutorialNote text={stepWarning} isWarning />}
         {stepId === 'flag' && (
           <FlagQuestion
             correctCode={country.isoAlpha3}

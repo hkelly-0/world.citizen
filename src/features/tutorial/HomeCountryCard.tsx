@@ -6,27 +6,29 @@ import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { CardReward } from '../flashcards/CardReward'
 import { todayString } from '../flashcards/dates'
-import { reviewAnswer, type DeckProgress, type QuestionId } from '../flashcards/deck'
+import { QUESTION_IDS, reviewAnswer, type DeckProgress, type QuestionId } from '../flashcards/deck'
 import { flagOptions } from '../flashcards/flagQuestion'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
 import { rewardAfterCard, type CardRewardDetails } from '../flashcards/rewardAfterCard'
-import { homeCardNotes, homeCardRewardNote } from './tutorialNotes'
+import { HOME_CARD_NOTES, HOME_CARD_REWARD_NOTE, HOME_CARD_WARNINGS } from './tutorialNotes'
 import '../flashcards/FlashcardsView.css'
 
 type HomeCountryCardProps = {
   // The home country chosen in the tutorial, e.g. "IRL".
   isoAlpha3: string
-  // The information chosen in Settings; only these questions are asked.
+  // The information chosen in Settings, which the reward's familiarity ring
+  // covers, as in the Passport.
   learnedQuestionIds: QuestionId[]
   countryIcon: CountryIcon
   // Called by the reward's Next, going on to the Passport step.
   onContinue: () => void
 }
 
-// The home country's full card, played like a Passport card (always finding
-// the country on the globe, never naming it) but with a tutorial note above
-// each question and under the reward. The answers are real progress: each is
+// The home country's full card, asking every question type whatever is
+// learned in Settings, so a replay shows them all. Played like a Passport card
+// (always finding the country on the globe, never naming it) but with a
+// tutorial note above each question and under the reward. The answers are real progress: each is
 // reviewed and saved straight away, so the country joins the Passport.
 export function HomeCountryCard({
   isoAlpha3,
@@ -69,18 +71,19 @@ export function HomeCountryCard({
           reward={reward}
           continueLabel="Next"
           continueHasArrow={true}
-          note={homeCardRewardNote(reward)}
+          note={HOME_CARD_REWARD_NOTE}
           onContinue={onContinue}
         />
       ) : (
         <Flashcard
           country={countryFacts[isoAlpha3]}
-          questionIds={learnedQuestionIds}
+          questionIds={QUESTION_IDS}
           isNameQuestion={false}
           offeredFlags={offeredFlags}
           countryIcon={countryIcon}
           progress={countryProgress}
-          notes={homeCardNotes(learnedQuestionIds)}
+          notes={HOME_CARD_NOTES}
+          warnings={HOME_CARD_WARNINGS}
           onAnswer={answerQuestion}
           onFinish={() => finishCard(loadProgress(), todayString())}
         />

@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { todayString } from './features/flashcards/dates'
 import type { AnswerResult } from './features/flashcards/fsrs'
+import { HOME_CARD_REWARD_NOTE } from './features/tutorial/tutorialNotes'
 import { saveLearningGroup } from './shared/learningGroup'
 import { loadProgress, saveProgress } from './shared/progress'
 import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
@@ -304,16 +305,38 @@ describe('Tutorial', () => {
 
     // The home country's card, with a note above each question.
     await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
-    expect(screen.getByText(/Pick its flag/)).toBeInTheDocument()
+    expect(screen.getByText(/Next is its flag/)).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Flag 1' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    // Every question type is asked, though only the globe and flag are learned.
+    for (const question of ['Area?', 'Population?', 'IHDI?']) {
+      expect(screen.getByText(question)).toBeInTheDocument()
+      // Any range will do.
+      await userEvent.click(screen.getAllByRole('button', { name: / \/ / })[0])
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    }
+    await userEvent.type(screen.getByLabelText('Capital?'), 'Dublin')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    for (const topic of ['History', 'People', 'Economy', 'International Relations']) {
+      expect(screen.getByText(topic)).toBeInTheDocument()
+      // Reveal waits for the country's info file to load.
+      const reveal = screen.getByRole('button', { name: 'Reveal' })
+      await vi.waitFor(() => expect(reveal).toBeEnabled())
+      await userEvent.click(reveal)
+      await userEvent.click(screen.getByRole('button', { name: 'New info' }))
+    }
     expect(screen.getByText('Ireland ✓')).toBeInTheDocument()
-    expect(screen.getByText(/joins your Passport/)).toBeInTheDocument()
+    expect(screen.getByText(HOME_CARD_REWARD_NOTE)).toBeInTheDocument()
     expect(Object.keys(loadProgress())).toEqual(['IRL'])
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     expect(screen.getByText(/This is your Passport/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    // A second note, still over the Passport.
+    expect(screen.getByText(/beside each name is its Familiarity/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     // Settings starts with nothing ticked, so Next waits for a choice.

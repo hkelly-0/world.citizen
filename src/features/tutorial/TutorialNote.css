@@ -24,6 +24,12 @@
   line-height: 1.4;
 }
 
+/* A warning, edged and written in red. */
+.tutorial-note--warning {
+  border-color: var(--wrong-red);
+  color: var(--wrong-red);
+}
+
 /* Above the screen it explains, and above the flashcards' location globe
    (z-index 1). */
 .tutorial-note--pinned {
