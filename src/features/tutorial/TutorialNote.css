@@ -16,8 +16,10 @@
   pointer-events: none;
 }
 
+/* pre-line keeps the text's line breaks (\n) and wraps it as usual. */
 .tutorial-note__text {
   margin: 0;
+  white-space: pre-line;
   font-size: 0.95rem;
   line-height: 1.4;
 }

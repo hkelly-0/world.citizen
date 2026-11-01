@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { compareNames, countryFacts } from '../../shared/countryFacts'
 import { matchesCountrySearch } from '../globe/countryNameSearch'
-// Same layout, title and search box as the Passport editor.
-import '../menu/MainMenu.css'
-import '../flashcards/CustomPracticeMenu.css'
+// Laid out like a flashcard, with its text box for the search.
+import '../flashcards/FlashcardsView.css'
+import '../flashcards/Flashcard.css'
+import '../flashcards/TypedAnswerReveal.css'
 import '../settings/PassportEditor.css'
 import './HomeCountryChoice.css'
 
@@ -26,37 +27,43 @@ export function HomeCountryChoice({ onChoose }: HomeCountryChoiceProps) {
   )
 
   return (
-    <main className="main-menu passport-editor home-country-choice">
-      <h1 className="custom-practice__title">Where are you from?</h1>
-      <p className="home-country-choice__intro">
-        Choose your home country. Its card comes first, with tips along the way.
-      </p>
-      <input
-        className="passport-editor__search"
-        type="text"
-        aria-label="Search countries"
-        placeholder="Search countries"
-        // Stops the browser and phone suggesting their own words.
-        autoComplete="off"
-        autoCorrect="off"
-        autoCapitalize="off"
-        spellCheck={false}
-        value={searchText}
-        onChange={(event) => setSearchText(event.target.value)}
-      />
-      <ul className="home-country-choice__list">
-        {shownCountries.map((country) => (
-          <li key={country.isoAlpha3}>
-            <button
-              className="home-country-choice__country"
-              onClick={() => onChoose(country.isoAlpha3)}
-            >
-              {country.commonName}
-            </button>
-          </li>
-        ))}
-      </ul>
-      {shownCountries.length === 0 && <p className="passport-editor__empty">No countries found</p>}
+    <main className="flashcards-view home-country-choice">
+      <article className="flashcard home-country-choice__card">
+        <h2>Where are you from?</h2>
+        <p className="flashcard__question">
+          Choose your home country. We'll use it as the example country for this tutorial.
+        </p>
+        <input
+          className="typed-answer__box home-country-choice__search"
+          type="text"
+          aria-label="Search countries"
+          placeholder="Search countries"
+          // Stops the browser and phone suggesting their own words.
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
+        />
+        {/* The list's box is left out when it would be empty. */}
+        {shownCountries.length > 0 ? (
+          <ul className="home-country-choice__list">
+            {shownCountries.map((country) => (
+              <li key={country.isoAlpha3}>
+                <button
+                  className="home-country-choice__country"
+                  onClick={() => onChoose(country.isoAlpha3)}
+                >
+                  {country.commonName}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="passport-editor__empty">No countries found</p>
+        )}
+      </article>
     </main>
   )
 }

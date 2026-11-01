@@ -1,21 +1,36 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { CountryIcon } from '../../shared/settings'
 import type { QuestionId } from '../flashcards/deck'
 import { FlashcardsMenu } from '../flashcards/FlashcardsMenu'
 import { SpinningLogo } from '../menu/SpinningLogo'
+import { useFitTextToWidth } from '../menu/useFitTextToWidth'
 import { PassportView } from '../passport/PassportView'
 import { SettingsMenu } from '../settings/SettingsMenu'
 import { HomeCountryCard } from './HomeCountryCard'
 import { HomeCountryChoice } from './HomeCountryChoice'
 import { TutorialNote } from './TutorialNote'
-import { FLASHCARDS_MENU_NOTE, PASSPORT_NOTE, SETTINGS_NOTE } from './tutorialNotes'
+import {
+  FLASHCARDS_INTRO,
+  FLASHCARDS_MENU_NOTE,
+  PASSPORT_NOTE,
+  SETTINGS_NOTE,
+} from './tutorialNotes'
+// The first three steps are laid out like a flashcard.
+import '../flashcards/FlashcardsView.css'
+import '../flashcards/Flashcard.css'
 import '../menu/MainMenu.css'
 import './Tutorial.css'
 
 // The tutorial's steps, in order. 'passport', 'settings' and
 // 'flashcards-menu' show the real screens with a note over them.
 type TutorialStep =
-  'welcome' | 'home-country' | 'home-card' | 'passport' | 'settings' | 'flashcards-menu'
+  | 'welcome'
+  | 'home-country'
+  | 'flashcards-intro'
+  | 'home-card'
+  | 'passport'
+  | 'settings'
+  | 'flashcards-menu'
 
 type TutorialProps = {
   // The information chosen in Settings, asked on the home country's card.
@@ -28,9 +43,10 @@ type TutorialProps = {
 }
 
 // The app tour, opened by itself on the first visit and from Settings' "Replay
-// tutorial": a welcome, then the user chooses their home country and plays its
-// card with explanations, then is shown the Passport, chooses the information
-// to learn in Settings, and is shown the Flashcards menu. "Skip tutorial" is
+// tutorial": a welcome, then the user chooses their home country, is told the
+// app is mainly flashcards, and plays its card with explanations, then is
+// shown the Passport, chooses the information to learn in Settings, and is
+// shown the Flashcards menu. "Skip tutorial" is
 // always in the top-right corner. Its steps have no history entries of their
 // own, and on the shown screens only the tutorial's buttons (and Settings'
 // choices) work.
@@ -43,6 +59,12 @@ export function Tutorial({
   const [step, setStep] = useState<TutorialStep>('welcome')
   // Chosen at the 'home-country' step.
   const [homeCode, setHomeCode] = useState<string | null>(null)
+  // Sizes "world.citizen" on the welcome so it spans the column exactly, like
+  // the main menu's title. The welcome is the first step, so it is shown when
+  // this runs.
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const appNameRef = useRef<HTMLSpanElement>(null)
+  useFitTextToWidth(titleRef, appNameRef)
 
   function currentStep() {
     if (step === 'home-country') {
@@ -50,9 +72,26 @@ export function Tutorial({
         <HomeCountryChoice
           onChoose={(isoAlpha3) => {
             setHomeCode(isoAlpha3)
-            setStep('home-card')
+            setStep('flashcards-intro')
           }}
         />
+      )
+    }
+    if (step === 'flashcards-intro') {
+      return (
+        <main className="flashcards-view">
+          <article className="flashcard">
+            <div className="flashcard__body">
+              <TutorialNote text={FLASHCARDS_INTRO} />
+            </div>
+            <button
+              className="flashcard__next arrow-button tutorial__green-button"
+              onClick={() => setStep('home-card')}
+            >
+              Next
+            </button>
+          </article>
+        </main>
       )
     }
     if (step === 'home-card' && homeCode !== null) {
@@ -124,19 +163,28 @@ export function Tutorial({
       )
     }
     return (
-      <main className="main-menu">
-        <SpinningLogo className="main-menu__logo" />
-        <h1 className="tutorial__title">Welcome to world.citizen</h1>
-        <p className="tutorial__intro">
-          Learn every country in the world: where it is, its flag, its capital and more. Let's start
-          with the one you know best.
-        </p>
-        <button
-          className="main-menu__option main-menu__option--centered arrow-button"
-          onClick={() => setStep('home-country')}
-        >
-          Start
-        </button>
+      <main className="flashcards-view">
+        <article className="flashcard tutorial__welcome-card">
+          <div className="flashcard__body">
+            <SpinningLogo className="main-menu__logo tutorial__logo" />
+            <h1 className="tutorial__title" ref={titleRef}>
+              Welcome to <br />
+              <span className="main-menu__title-text" ref={appNameRef}>
+                world.citizen
+              </span>
+            </h1>
+            <p className="flashcard__question tutorial__intro">
+              Learn every country in the world: where it is, its population, its level of
+              development, and lots more. Let's start with the country you know best.
+            </p>
+          </div>
+          <button
+            className="flashcard__next arrow-button tutorial__green-button"
+            onClick={() => setStep('home-country')}
+          >
+            Start
+          </button>
+        </article>
       </main>
     )
   }

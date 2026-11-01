@@ -299,6 +299,8 @@ describe('Tutorial', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     await userEvent.type(screen.getByRole('textbox', { name: 'Search countries' }), 'irel')
     await userEvent.click(screen.getByRole('button', { name: 'Ireland' }))
+    expect(screen.getByText(/primarily a flashcard app/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     // The home country's card, with a note above each question.
     await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))

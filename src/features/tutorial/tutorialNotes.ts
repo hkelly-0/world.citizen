@@ -38,6 +38,10 @@ export function homeCardNotes(questionIds: QuestionId[]): Partial<Record<Questio
   return notes
 }
 
+// Shown on its own page after the home country is chosen, before its card.
+export const FLASHCARDS_INTRO =
+  "world.citizen is primarily a flashcard app: you'll get to gradually learn about every country while using spaced repetition to cement the information you've already learned.\n\nNext up is a walkthrough of the flashcard for your home country."
+
 // Shown under the reward once the home country's card is finished.
 export function homeCardRewardNote(reward: CardRewardDetails): string {
   return reward.kind === 'new-country'
