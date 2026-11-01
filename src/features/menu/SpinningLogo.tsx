@@ -31,7 +31,7 @@ const SHOULDERS_HALF_HEIGHT = 280
 // east of the still icon's view.
 const GLOBE_FACING = { longitude: -60, latitude: 8 }
 // How long one full turn of the globe takes.
-const SECONDS_PER_TURN = 25
+const SECONDS_PER_TURN = 40
 // The most times a second the land is redrawn. At the logo's size it moves a
 // few pixels a second, so this still looks smooth, while saving the phone the
 // work of redrawing every frame.
