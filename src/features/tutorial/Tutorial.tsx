@@ -41,7 +41,7 @@ type TutorialProps = {
   countryIcon: CountryIcon
   // Saves the information chosen at the Settings step, as Settings' Save does.
   onSaveSettings: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
-  // Called by "Skip tutorial" or the last step's Finish; returns to the main menu.
+  // Called by "Skip tutorial" or the last step's "Finish tutorial"; returns to the main menu.
   onClose: () => void
 }
 
@@ -167,7 +167,7 @@ export function Tutorial({
           </div>
           <TutorialNote
             text={FLASHCARDS_MENU_NOTE}
-            buttonLabel="Finish"
+            buttonLabel="Finish tutorial"
             buttonHasArrow={false}
             onButtonClick={onClose}
             isPinned

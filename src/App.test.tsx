@@ -349,7 +349,7 @@ describe('Tutorial', () => {
 
     expect(screen.getByRole('heading', { name: 'Flashcards' })).toBeInTheDocument()
     expect(screen.getByText(/Classic Mode is the main way to learn/)).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Finish' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Finish tutorial' }))
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
     expect(screen.getByText('1/195')).toBeInTheDocument()
