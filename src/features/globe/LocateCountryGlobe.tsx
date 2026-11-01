@@ -11,6 +11,7 @@ import {
   shapeIndicesOfCountry,
   stopHoverHighlight,
 } from './countryMap'
+import { TutorialNote } from '../tutorial/TutorialNote'
 import './LocateCountryGlobe.css'
 
 // The globe flies to the correct country, with a Next button shown straight
@@ -38,6 +39,9 @@ type LocateCountryGlobeProps = {
   // the card has no more questions, so the next card's globe replaces this one
   // without the card flashing up between them.
   fadesOut: boolean
+  // The tutorial's explanation, at the bottom of the screen until a country
+  // is tapped. Only the home country's card has one.
+  note?: string
   // Called once the user has pressed Next and the globe has faded away: right
   // on the first try, close on the second, otherwise wrong.
   onAnswer: (result: AnswerResult) => void
@@ -53,6 +57,7 @@ export default function LocateCountryGlobe({
   isoAlpha3,
   countryName,
   fadesOut,
+  note,
   onAnswer,
 }: LocateCountryGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -236,6 +241,7 @@ export default function LocateCountryGlobe({
           {isOneMoreTry && <p className="locate-globe__one-more-try">one more try</p>}
         </div>
       )}
+      {note !== undefined && !isNextShown && <TutorialNote text={note} isPinned />}
       {isNextShown && (
         <button className="locate-globe__next arrow-button" onClick={goToNext} autoFocus>
           Next

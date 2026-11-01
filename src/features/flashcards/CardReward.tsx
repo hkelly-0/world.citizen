@@ -1,6 +1,7 @@
 import { countryFacts } from '../../shared/countryFacts'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { RecallCircle } from '../passport/RecallCircle'
+import { TutorialNote } from '../tutorial/TutorialNote'
 import type { CardRewardDetails } from './rewardAfterCard'
 import './CardReward.css'
 
@@ -15,6 +16,9 @@ type CardRewardProps = {
   continueLabel: string
   // Whether the button gets an arrow: it does when it moves on to another card.
   continueHasArrow: boolean
+  // The tutorial's explanation, above the continue button. Only the home
+  // country's card has one.
+  note?: string
   onContinue: () => void
 }
 
@@ -27,6 +31,7 @@ export function CardReward({
   reward,
   continueLabel,
   continueHasArrow,
+  note,
   onContinue,
 }: CardRewardProps) {
   useClickAnywhereToContinue(true, onContinue)
@@ -44,6 +49,7 @@ export function CardReward({
           <RecallCircle recall={reward.recall} size={RING_SIZE} isAnimated={true} />
         </>
       )}
+      {note !== undefined && <TutorialNote text={note} />}
       <button
         type="button"
         className={

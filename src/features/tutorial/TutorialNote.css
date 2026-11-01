@@ -1,0 +1,57 @@
+/* Edged in blue so it stands apart from the app's own text. Taps go through
+   the box to whatever is underneath (e.g. the globe), except on its button. */
+.tutorial-note {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border: 1px solid #58a6ff;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.95);
+  text-align: left;
+  pointer-events: none;
+}
+
+.tutorial-note__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Above the screen it explains, and above the flashcards' location globe
+   (z-index 1). */
+.tutorial-note--pinned {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 3;
+  width: calc(100% - 32px);
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.tutorial-note__button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.tutorial-note__button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Settings' Next waits for at least one type of information to be ticked. */
+.tutorial-note__button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

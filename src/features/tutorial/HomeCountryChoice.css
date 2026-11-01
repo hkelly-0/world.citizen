@@ -1,0 +1,38 @@
+/* Leaves space below the list, as there is no footer. */
+.home-country-choice {
+  padding-bottom: 24px;
+}
+
+.home-country-choice__intro {
+  width: 100%;
+  max-width: 280px;
+  margin: 0;
+  color: #a9b1c2;
+}
+
+/* As wide as the search box, one country per row like the Passport editor's
+   checklist. */
+.home-country-choice__list {
+  width: 100%;
+  max-width: 280px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-country-choice__country {
+  width: 100%;
+  min-height: 34px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.home-country-choice__country:hover {
+  background: rgba(255, 255, 255, 0.08);
+}

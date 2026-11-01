@@ -13,6 +13,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={vi.fn()}
         onEditPassport={vi.fn()}
+        onReplayTutorial={vi.fn()}
       />,
     )
 
@@ -34,6 +35,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={onSave}
         onEditPassport={vi.fn()}
+        onReplayTutorial={vi.fn()}
       />,
     )
 
@@ -64,6 +66,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={vi.fn()}
         onEditPassport={vi.fn()}
+        onReplayTutorial={vi.fn()}
       />,
     )
 
@@ -82,6 +85,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={vi.fn()}
         onEditPassport={vi.fn()}
+        onReplayTutorial={vi.fn()}
       />,
     )
 
@@ -100,6 +104,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={onSave}
         onEditPassport={vi.fn()}
+        onReplayTutorial={vi.fn()}
       />,
     )
 
@@ -122,6 +127,7 @@ describe('SettingsMenu', () => {
         onBack={vi.fn()}
         onSave={vi.fn()}
         onEditPassport={onEditPassport}
+        onReplayTutorial={vi.fn()}
       />,
     )
 

@@ -1,0 +1,49 @@
+/* In the top-right corner, opposite where the back button would be, above
+   the flashcards' location globe (z-index 1) and pinned notes. */
+.tutorial__skip {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #a9b1c2;
+  font: inherit;
+  cursor: pointer;
+}
+
+.tutorial__skip:hover {
+  background: rgba(40, 48, 70, 0.95);
+}
+
+/* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css. Smaller
+   than the main menu's title, as it is longer. */
+.main-menu .tutorial__title {
+  text-align: center;
+  font-size: 1.6rem;
+}
+
+.tutorial__intro {
+  max-width: 280px;
+  margin: 0;
+  color: #a9b1c2;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* A screen shown under a pinned note. Its bottom padding leaves room for the
+   note, so the screen (whose min-height is 100% of this box's content) ends
+   above it. */
+.tutorial__screen {
+  height: 100%;
+  padding-bottom: 200px;
+  box-sizing: border-box;
+}
+
+/* The screen's own way back isn't part of the tour. */
+.tutorial__screen .back-button {
+  display: none;
+}

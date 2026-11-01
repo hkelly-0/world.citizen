@@ -16,6 +16,7 @@ import {
 import { rangeAnswerResult, rangeQuestions, type RangeQuestion } from './rangeQuestions'
 import type { AnswerResult } from './fsrs'
 import { TypedAnswerReveal } from './TypedAnswerReveal'
+import { TutorialNote } from '../tutorial/TutorialNote'
 import './Flashcard.css'
 
 // The globe (MapLibre + border data) is large, so it is loaded only when a
@@ -45,6 +46,9 @@ type FlashcardProps = {
   // The country's saved progress, used to tell whether an info question is
   // being seen for the first time. Missing for a country never answered.
   progress?: CountryProgress
+  // The tutorial's explanations, shown above each question they name (the
+  // globe question's on the globe). Only the home country's card has them.
+  notes?: Partial<Record<QuestionId, string>>
   // Called as soon as each question is answered, so the answer can be saved
   // straight away: right, close (range questions only) or wrong.
   // `isCardFinished` is true when that answer ends the card (an info rating
@@ -72,6 +76,7 @@ export function Flashcard({
   countryIcon,
   answeredIds = [],
   progress = {},
+  notes = {},
   onAnswer,
   onFinish,
 }: FlashcardProps) {
@@ -119,6 +124,7 @@ export function Flashcard({
   }, [asksInfo, country.isoAlpha3])
 
   const stepId = steps[step]
+  const stepNote = stepId === undefined ? undefined : notes[stepId]
   const rangeQuestion = questions.find((question) => question.id === stepId)
   const isLastStep = step === steps.length - 1
   // Showing the flag before the flag question is answered would give it away,
@@ -184,6 +190,7 @@ export function Flashcard({
               isoAlpha3={country.isoAlpha3}
               countryName={country.commonName}
               fadesOut={!isGlobeOnly}
+              note={notes.globe}
               onAnswer={submitGlobeAnswer}
             />
           )}
@@ -212,6 +219,7 @@ export function Flashcard({
 
       {/* Centred in the space between the name and the Next button. */}
       <div className="flashcard__body">
+        {stepNote !== undefined && <TutorialNote text={stepNote} />}
         {stepId === 'flag' && (
           <FlagQuestion
             correctCode={country.isoAlpha3}

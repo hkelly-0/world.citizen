@@ -17,6 +17,7 @@ import { ExtrasMenu } from './features/extras/ExtrasMenu'
 import { NAMING_AREAS } from './features/extras/namingGame'
 import { PassportEditor } from './features/settings/PassportEditor'
 import { SettingsMenu } from './features/settings/SettingsMenu'
+import { Tutorial } from './features/tutorial/Tutorial'
 import { loadProgress } from './shared/progress'
 import {
   loadCountryIcon,
@@ -25,6 +26,7 @@ import {
   saveLearnedQuestionIds,
   type CountryIcon,
 } from './shared/settings'
+import { loadHasSeenTutorial, saveHasSeenTutorial } from './shared/tutorial'
 
 // The map (MapLibre + border data) is large, so it is loaded only when shown.
 // This keeps other screens, like the flashcards, fast to open.
@@ -100,6 +102,11 @@ export default function App() {
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
   // The picture shown for each country in the Passport, chosen in Settings.
   const [countryIcon, setCountryIcon] = useState<CountryIcon>(loadCountryIcon)
+  // Shown instead of any screen. Opens by itself on the first visit (unless
+  // the Passport already has countries), and from Settings' "Replay tutorial".
+  const [isTutorialOpen, setIsTutorialOpen] = useState(
+    () => !loadHasSeenTutorial() && collectedCountries(loadProgress()).length === 0,
+  )
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -161,6 +168,17 @@ export default function App() {
     setCountryIcon(icon)
   }
   const goToMenu = () => history.back()
+  // Finishing or skipping the tutorial both count as having seen it.
+  function closeTutorial() {
+    saveHasSeenTutorial()
+    setIsTutorialOpen(false)
+  }
+  // Settings was opened from the main menu, so going back returns to it,
+  // shown once the tutorial closes.
+  function replayTutorial() {
+    history.back()
+    setIsTutorialOpen(true)
+  }
 
   // Goes up each time a dev tool changes the saved progress. Used as the
   // current screen's key, so the screen is rebuilt and reads the new progress.
@@ -256,6 +274,7 @@ export default function App() {
           onBack={goToMenu}
           onSave={saveSettings}
           onEditPassport={() => openScreen('passport-editor')}
+          onReplayTutorial={replayTutorial}
         />
       )
     }
@@ -306,7 +325,16 @@ export default function App() {
 
   return (
     <>
-      <Fragment key={devChangeCount}>{currentScreen()}</Fragment>
+      {isTutorialOpen ? (
+        <Tutorial
+          learnedQuestionIds={learnedQuestionIds}
+          countryIcon={countryIcon}
+          onSaveSettings={saveSettings}
+          onClose={closeTutorial}
+        />
+      ) : (
+        <Fragment key={devChangeCount}>{currentScreen()}</Fragment>
+      )}
       {/* Left out of the website and APK builds. */}
       {import.meta.env.DEV && <DevTools onChange={() => setDevChangeCount((count) => count + 1)} />}
     </>

@@ -6,7 +6,9 @@ import App from './App'
 import { todayString } from './features/flashcards/dates'
 import type { AnswerResult } from './features/flashcards/fsrs'
 import { saveLearningGroup } from './shared/learningGroup'
-import { saveProgress } from './shared/progress'
+import { loadProgress, saveProgress } from './shared/progress'
+import { loadLearnedQuestionIds, saveLearnedQuestionIds } from './shared/settings'
+import { loadHasSeenTutorial, saveHasSeenTutorial } from './shared/tutorial'
 
 // The flashcards' globe questions need WebGL too. These stand-ins answer
 // correctly when their button is clicked.
@@ -31,8 +33,12 @@ vi.mock('./features/extras/NameEveryCountry', () => ({
 // only the menu and flashcards screens are tested here.
 describe('App', () => {
   // A group of countries is being learned, so Classic goes straight to a new
-  // country instead of first asking for a group.
-  beforeEach(() => saveLearningGroup('nordic'))
+  // country instead of first asking for a group. The tutorial has been seen,
+  // so the app opens on the main menu.
+  beforeEach(() => {
+    saveLearningGroup('nordic')
+    saveHasSeenTutorial()
+  })
 
   afterEach(() => {
     localStorage.clear()
@@ -249,5 +255,89 @@ describe('App', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'Settings' }))
     expect(screen.getByRole('checkbox', { name: 'Area' })).toBeChecked()
     expect(localStorage.getItem('geography-app/learned-question-ids')).toBeNull()
+  })
+})
+
+describe('Tutorial', () => {
+  afterEach(() => {
+    localStorage.clear()
+    history.replaceState(null, '')
+  })
+
+  it('opens on the first visit, and Skip goes to the main menu for good', async () => {
+    const { unmount } = render(<App />)
+
+    expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(loadHasSeenTutorial()).toBe(true)
+
+    unmount()
+    render(<App />)
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+  })
+
+  it("doesn't open for someone with countries in their Passport", () => {
+    const franceArea = {
+      stability: 10,
+      difficulty: 5,
+      reps: 1,
+      lapses: 0,
+      state: State.Review,
+      lastReview: todayString(),
+    }
+    saveProgress({ FRA: { area: franceArea } })
+    render(<App />)
+
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+  })
+
+  it('plays the home country, then shows the Passport, Settings and the Flashcards menu', async () => {
+    saveLearnedQuestionIds(['globe', 'flag'])
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Start' }))
+    await userEvent.type(screen.getByRole('textbox', { name: 'Search countries' }), 'irel')
+    await userEvent.click(screen.getByRole('button', { name: 'Ireland' }))
+
+    // The home country's card, with a note above each question.
+    await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
+    expect(screen.getByText(/Pick its flag/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Flag 1' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.getByText('Ireland ✓')).toBeInTheDocument()
+    expect(screen.getByText(/joins your Passport/)).toBeInTheDocument()
+    expect(Object.keys(loadProgress())).toEqual(['IRL'])
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
+    expect(screen.getByText(/This is your Passport/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+
+    // Settings starts with nothing ticked, so Next waits for a choice.
+    expect(screen.getByRole('checkbox', { name: 'Capital' })).not.toBeChecked()
+    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(loadLearnedQuestionIds()).toEqual(['capital'])
+
+    expect(screen.getByRole('heading', { name: 'Flashcards' })).toBeInTheDocument()
+    expect(screen.getByText(/Classic Mode is the main way to learn/)).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Finish' }))
+
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(screen.getByText('1/195')).toBeInTheDocument()
+    expect(loadHasSeenTutorial()).toBe(true)
+  })
+
+  it("opens again from Settings' Replay tutorial", async () => {
+    saveHasSeenTutorial()
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Replay tutorial' }))
+
+    expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()
   })
 })

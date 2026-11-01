@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import type { CountryIcon } from '../../shared/settings'
 import { QUESTION_IDS, type QuestionId } from '../flashcards/deck'
+import { TutorialNote } from '../tutorial/TutorialNote'
 import { ConfirmMessage } from './ConfirmMessage'
 // Same layout, buttons and checkboxes as the custom practice menu.
 import '../menu/MainMenu.css'
@@ -38,6 +39,12 @@ type SettingsMenuProps = {
   onSave: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
   // Opens the Passport editor, once the user has confirmed.
   onEditPassport: () => void
+  // Closes Settings and starts the tutorial again.
+  onReplayTutorial: () => void
+  // Given when shown as a step of the tutorial: this note, with a Next button
+  // that saves (like Save), replaces the back button and the buttons below the
+  // choices.
+  tutorialNote?: string
 }
 
 // Lets the user choose which information to learn, and whether the Passport
@@ -45,13 +52,15 @@ type SettingsMenuProps = {
 // "Save" is pressed, which needs at least one ticked. Once saved (or before
 // anything is changed) the button reads "Saved" and is disabled. Below it,
 // "Manually edit Passport" asks "Are you sure?" before opening the Passport
-// editor.
+// editor, and "Replay tutorial" starts the tutorial again.
 export function SettingsMenu({
   learnedQuestionIds,
   countryIcon,
   onBack,
   onSave,
   onEditPassport,
+  onReplayTutorial,
+  tutorialNote,
 }: SettingsMenuProps) {
   const [chosen, setChosen] = useState<QuestionId[]>(learnedQuestionIds)
   const [chosenIcon, setChosenIcon] = useState<CountryIcon>(countryIcon)
@@ -69,7 +78,7 @@ export function SettingsMenu({
 
   return (
     <main className="main-menu">
-      <BackButton onClick={onBack} />
+      {tutorialNote === undefined && <BackButton onClick={onBack} />}
       <h1 className="custom-practice__title">Information I want to learn:</h1>
       <fieldset className="custom-practice__choices">
         {QUESTION_IDS.map((id) => (
@@ -99,32 +108,49 @@ export function SettingsMenu({
           ))}
         </div>
       </div>
-      <button
-        // "Saved" has nothing to go on to, so no arrow.
-        className={
-          isSaved
-            ? 'main-menu__option main-menu__option--centered'
-            : 'main-menu__option main-menu__option--centered arrow-button'
-        }
-        onClick={() => onSave(chosenInOrder, chosenIcon)}
-        disabled={isSaved || chosen.length === 0}
-      >
-        {isSaved ? 'Saved' : 'Save'}
-      </button>
-      {isConfirmingEdit ? (
-        <ConfirmMessage
-          message="Are you sure? Removing a country from your Passport deletes all its progress."
-          confirmLabel="Continue"
-          onConfirm={onEditPassport}
-          onCancel={() => setIsConfirmingEdit(false)}
+      {tutorialNote !== undefined ? (
+        <TutorialNote
+          text={tutorialNote}
+          buttonLabel="Next"
+          isButtonDisabled={chosen.length === 0}
+          onButtonClick={() => onSave(chosenInOrder, chosenIcon)}
         />
       ) : (
-        <button
-          className="main-menu__option main-menu__option--centered arrow-button"
-          onClick={() => setIsConfirmingEdit(true)}
-        >
-          Manually edit Passport
-        </button>
+        <>
+          <button
+            // "Saved" has nothing to go on to, so no arrow.
+            className={
+              isSaved
+                ? 'main-menu__option main-menu__option--centered'
+                : 'main-menu__option main-menu__option--centered arrow-button'
+            }
+            onClick={() => onSave(chosenInOrder, chosenIcon)}
+            disabled={isSaved || chosen.length === 0}
+          >
+            {isSaved ? 'Saved' : 'Save'}
+          </button>
+          {isConfirmingEdit ? (
+            <ConfirmMessage
+              message="Are you sure? Removing a country from your Passport deletes all its progress."
+              confirmLabel="Continue"
+              onConfirm={onEditPassport}
+              onCancel={() => setIsConfirmingEdit(false)}
+            />
+          ) : (
+            <button
+              className="main-menu__option main-menu__option--centered arrow-button"
+              onClick={() => setIsConfirmingEdit(true)}
+            >
+              Manually edit Passport
+            </button>
+          )}
+          <button
+            className="main-menu__option main-menu__option--centered arrow-button"
+            onClick={onReplayTutorial}
+          >
+            Replay tutorial
+          </button>
+        </>
       )}
     </main>
   )
