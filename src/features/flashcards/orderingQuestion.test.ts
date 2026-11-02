@@ -1,13 +1,15 @@
 import { describe, expect, it } from 'vitest'
+import { POPULATION_RANGES } from '../../shared/statRanges'
 import { moveItem, orderingCountries, orderingTitle, swapItems } from './orderingQuestion'
 
 describe('orderingTitle', () => {
-  it("gives a country's range title, and its place among the stat's ranges", () => {
+  it("gives a country's range, and its place among the stat's ranges", () => {
     expect(orderingTitle('population', 'CHN')).toEqual({
-      title: '1.4 Billion',
+      range: POPULATION_RANGES[6],
       rangeIndex: 6,
       isEstimate: false,
     })
+    expect(POPULATION_RANGES[6].name).toBe('1.4 Billion')
     expect(orderingTitle('area', 'VAT')?.rangeIndex).toBe(0)
   })
 
@@ -19,7 +21,7 @@ describe('orderingTitle', () => {
 
 describe('orderingCountries', () => {
   it('takes countries with different titles, highest first', () => {
-    // Germany and France are both "≥ 50M  /  Numerous"; with random() always
+    // Germany and France are both "≥ 50M" (Numerous); with random() always
     // 0 the Passport is gone through in order, so Germany is taken.
     expect(orderingCountries('population', ['DEU', 'FRA', 'CAN', 'USA', 'ISL'], () => 0)).toEqual([
       'USA',

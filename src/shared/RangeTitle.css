@@ -1,4 +1,4 @@
-/* Number and name pushed to opposite ends. */
+/* Bound and name pushed to opposite ends. */
 .range-title {
   display: flex;
   justify-content: space-between;
@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-/* A title with no number, such as "1.4 Billion". */
+/* A range with no bound, such as "1.4 Billion". */
 .range-title--whole {
   justify-content: center;
 }

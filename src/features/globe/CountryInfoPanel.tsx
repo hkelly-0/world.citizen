@@ -4,7 +4,13 @@ import { countryDisplayName, countryFacts, territorySubtitle } from '../../share
 import { flagImageSrc } from '../../shared/flags'
 import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import { RangeTitle } from '../../shared/RangeTitle'
-import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
+import {
+  AREA_RANGES,
+  ihdiRange,
+  NO_DATA,
+  POPULATION_RANGES,
+  rangeOf,
+} from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
 
@@ -83,7 +89,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Area</dt>
                 <dd>
-                  <RangeTitle title={rangeTitle(AREA_RANGES, facts.areaKm2)} />
+                  <RangeTitle range={rangeOf(AREA_RANGES, facts.areaKm2)} />
                 </dd>
               </>
             )}
@@ -91,7 +97,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Population</dt>
                 <dd>
-                  <RangeTitle title={rangeTitle(POPULATION_RANGES, facts.population)} />
+                  <RangeTitle range={rangeOf(POPULATION_RANGES, facts.population)} />
                 </dd>
               </>
             )}
@@ -100,9 +106,9 @@ export function CountryInfoPanel({
                 <dt>IHDI</dt>
                 <dd>
                   {ihdi === null ? (
-                    <RangeTitle title="No data" />
+                    <RangeTitle range={NO_DATA} />
                   ) : (
-                    <RangeTitle title={ihdi.title} suffix={ihdi.isEstimate ? ' (est.)' : ''} />
+                    <RangeTitle range={ihdi.range} suffix={ihdi.isEstimate ? ' (est.)' : ''} />
                   )}
                 </dd>
               </>

@@ -182,7 +182,7 @@ export function OrderingCard({ stat, codes, onFinish }: OrderingCardProps) {
                     {phase === 'revealed' && (
                       <span className="ordering__title">
                         <RangeTitle
-                          title={title.title}
+                          range={title.range}
                           suffix={title.isEstimate ? ' (estimated)' : ''}
                         />
                       </span>

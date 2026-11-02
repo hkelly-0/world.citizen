@@ -5,7 +5,7 @@ import {
   IHDI_RANGES,
   ihdiRange,
   POPULATION_RANGES,
-  rangeTitle,
+  rangeOf,
   type StatRange,
 } from '../../shared/statRanges'
 
@@ -15,9 +15,9 @@ export type OrderingStat = 'population' | 'area' | 'ihdi'
 // How many countries each ordering question shows.
 export const ORDERING_COUNT = 4
 
-// A country's range title for the stat, and its place in the stat's ranges
-// (higher is bigger). True `isEstimate` for an IHDI from our estimate.
-export type OrderingTitle = { title: string; rangeIndex: number; isEstimate: boolean }
+// A country's range for the stat, and its place in the stat's ranges (higher
+// is bigger). True `isEstimate` for an IHDI from our estimate.
+export type OrderingTitle = { range: StatRange; rangeIndex: number; isEstimate: boolean }
 
 // Null for an IHDI with neither data nor an estimate.
 export function orderingTitle(stat: OrderingStat, code: string): OrderingTitle | null {
@@ -26,20 +26,16 @@ export function orderingTitle(stat: OrderingStat, code: string): OrderingTitle |
     const ihdi = ihdiRange(country)
     if (ihdi === null) return null
     return {
-      title: ihdi.title,
-      rangeIndex: rangeIndexOf(IHDI_RANGES, ihdi.title),
+      range: ihdi.range,
+      rangeIndex: IHDI_RANGES.indexOf(ihdi.range),
       isEstimate: ihdi.isEstimate,
     }
   }
   const ranges = stat === 'population' ? POPULATION_RANGES : AREA_RANGES
   const value = stat === 'population' ? country.population : country.areaKm2
-  const title = rangeTitle(ranges, value)
-  return { title, rangeIndex: rangeIndexOf(ranges, title), isEstimate: false }
-}
-
-// Ranges are listed smallest first, so a later one is bigger.
-function rangeIndexOf(ranges: StatRange[], title: string): number {
-  return ranges.findIndex((range) => range.title === title)
+  const range = rangeOf(ranges, value)
+  // Ranges are listed smallest first, so a later one is bigger.
+  return { range, rangeIndex: ranges.indexOf(range), isEstimate: false }
 }
 
 // The countries for one ordering question, highest first: ORDERING_COUNT

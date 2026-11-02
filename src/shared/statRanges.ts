@@ -1,58 +1,68 @@
 // Numerical statistics are grouped into named ranges to make them easier to
-// learn; cards show only the range title (a name plus the range's lower bound,
-// e.g. "≥ 5M km²  /  Immense"), not the exact number. The slash marks where
-// `RangeTitle.tsx` splits the title; it isn't shown.
+// learn; cards show only the range's title (its lower bound and name, e.g.
+// "≥ 5M km²" and "Immense"), not the exact number. `RangeTitle.tsx` shows one.
+
+// A range's title. `bound` is null for a range with only a name (e.g.
+// "1.4 Billion"). Names are unique within each list, so range questions use
+// them to tell the options apart.
+export type RangeLabel = {
+  bound: string | null
+  name: string
+}
 
 // One range: a value belongs to it if it is at least `min` and below the next
 // range's `min`. Ranges are listed from smallest to largest.
-export type StatRange = {
-  title: string
+export type StatRange = RangeLabel & {
   min: number
 }
 
+// Shown, and offered as an IHDI answer, for a country with neither an IHDI nor
+// an HDI to estimate it from. It isn't a range.
+export const NO_DATA: RangeLabel = { bound: null, name: 'No data' }
+
 export const POPULATION_RANGES: StatRange[] = [
-  { title: '< 100K  /  Minute', min: 0 },
-  { title: '≥ 100K  /  Few', min: 100_000 },
-  { title: '≥ 1M  /  Smallish', min: 1_000_000 },
-  { title: '≥ 10M  /  Moderate', min: 10_000_000 },
-  { title: '≥ 50M  /  Numerous', min: 50_000_000 },
-  { title: '≥ 100M  /  Multitudes', min: 100_000_000 },
-  { title: '1.4 Billion', min: 1_000_000_000 },
+  { bound: '< 100K', name: 'Minute', min: 0 },
+  { bound: '≥ 100K', name: 'Few', min: 100_000 },
+  { bound: '≥ 1M', name: 'Smallish', min: 1_000_000 },
+  { bound: '≥ 10M', name: 'Moderate', min: 10_000_000 },
+  { bound: '≥ 50M', name: 'Numerous', min: 50_000_000 },
+  { bound: '≥ 100M', name: 'Multitudes', min: 100_000_000 },
+  { bound: null, name: '1.4 Billion', min: 1_000_000_000 },
 ]
 
 // In square kilometres.
 export const AREA_RANGES: StatRange[] = [
-  { title: '< 10K km²  /  Teensy-weensy', min: 0 },
-  { title: '≥ 10K km²  /  Tiny', min: 10_000 },
-  { title: '≥ 100K km²  /  Small', min: 100_000 },
-  { title: '≥ 300K km²  /  Medium', min: 300_000 },
-  { title: '≥ 1M km²  /  Large', min: 1_000_000 },
-  { title: '≥ 5M km²  /  Immense', min: 5_000_000 },
+  { bound: '< 10K km²', name: 'Teensy-weensy', min: 0 },
+  { bound: '≥ 10K km²', name: 'Tiny', min: 10_000 },
+  { bound: '≥ 100K km²', name: 'Small', min: 100_000 },
+  { bound: '≥ 300K km²', name: 'Medium', min: 300_000 },
+  { bound: '≥ 1M km²', name: 'Large', min: 1_000_000 },
+  { bound: '≥ 5M km²', name: 'Immense', min: 5_000_000 },
 ]
 
-// Inequality-adjusted HDI. Each title's number is the IHDI multiplied by 10
-// and rounded (halves round up), e.g. 0.65 -> "7  /  Good". Values below 0.25
+// Inequality-adjusted HDI. Each bound is the IHDI multiplied by 10 and
+// rounded (halves round up), e.g. 0.65 -> "7" (Good). Values below 0.25
 // would round to 1 or 0, but no country is that low, so they count as 2.
 export const IHDI_RANGES: StatRange[] = [
-  { title: '2  /  Very Awful', min: 0 },
-  { title: '3  /  Awful', min: 0.25 },
-  { title: '4  /  Very Bad', min: 0.35 },
-  { title: '5  /  Bad', min: 0.45 },
-  { title: '6  /  Ok', min: 0.55 },
-  { title: '7  /  Good', min: 0.65 },
-  { title: '8  /  Great', min: 0.75 },
-  { title: '9  /  Excellent', min: 0.85 },
-  { title: '10  /  Fantastic', min: 0.95 },
+  { bound: '2', name: 'Very Awful', min: 0 },
+  { bound: '3', name: 'Awful', min: 0.25 },
+  { bound: '4', name: 'Very Bad', min: 0.35 },
+  { bound: '5', name: 'Bad', min: 0.45 },
+  { bound: '6', name: 'Ok', min: 0.55 },
+  { bound: '7', name: 'Good', min: 0.65 },
+  { bound: '8', name: 'Great', min: 0.75 },
+  { bound: '9', name: 'Excellent', min: 0.85 },
+  { bound: '10', name: 'Fantastic', min: 0.95 },
 ]
 
-// Returns the title of the range the value falls in: the last range whose
-// minimum it reaches.
-export function rangeTitle(ranges: StatRange[], value: number): string {
-  let title = ranges[0].title
+// Returns the range the value falls in: the last range whose minimum it
+// reaches.
+export function rangeOf(ranges: StatRange[], value: number): StatRange {
+  let found = ranges[0]
   for (const range of ranges) {
-    if (value >= range.min) title = range.title
+    if (value >= range.min) found = range
   }
-  return title
+  return found
 }
 
 // The IHDI range to show for a country: from its real IHDI if UNDP has one,
@@ -60,12 +70,12 @@ export function rangeTitle(ranges: StatRange[], value: number): string {
 export function ihdiRange(country: {
   ihdi: number | null
   ihdiEstimate: number | null
-}): { title: string; isEstimate: boolean } | null {
+}): { range: StatRange; isEstimate: boolean } | null {
   if (country.ihdi !== null) {
-    return { title: rangeTitle(IHDI_RANGES, country.ihdi), isEstimate: false }
+    return { range: rangeOf(IHDI_RANGES, country.ihdi), isEstimate: false }
   }
   if (country.ihdiEstimate !== null) {
-    return { title: rangeTitle(IHDI_RANGES, country.ihdiEstimate), isEstimate: true }
+    return { range: rangeOf(IHDI_RANGES, country.ihdiEstimate), isEstimate: true }
   }
   return null
 }

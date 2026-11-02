@@ -355,15 +355,15 @@ function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQues
   const isAnswered = answer !== null
 
   // After answering, the correct option turns green and a wrong pick turns red,
-  // or orange if it was one title away.
-  function optionClassName(option: string): string {
+  // or orange if it was one range away. Options are told apart by name.
+  function optionClassName(name: string): string {
     if (!isAnswered) return 'flashcard__option'
     const answered = 'flashcard__option flashcard__option--answered'
-    if (option === question.correctAnswer) return `${answered} flashcard__option--correct`
-    if (option === answer && rangeAnswerResult(question, answer) === 'close') {
+    if (name === question.correctAnswer.name) return `${answered} flashcard__option--correct`
+    if (name === answer && rangeAnswerResult(question, answer) === 'close') {
       return `${answered} flashcard__option--close`
     }
-    if (option === answer) return `${answered} flashcard__option--wrong`
+    if (name === answer) return `${answered} flashcard__option--wrong`
     return answered
   }
 
@@ -373,11 +373,11 @@ function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQues
       <div className="flashcard__options">
         {question.options.map((option) => (
           <button
-            key={option}
-            className={optionClassName(option)}
-            onClick={() => (isAnswered ? onContinue() : onAnswer(option))}
+            key={option.name}
+            className={optionClassName(option.name)}
+            onClick={() => (isAnswered ? onContinue() : onAnswer(option.name))}
           >
-            <RangeTitle title={option} />
+            <RangeTitle range={option} />
           </button>
         ))}
       </div>
