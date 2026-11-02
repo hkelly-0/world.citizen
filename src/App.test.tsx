@@ -339,10 +339,17 @@ describe('Tutorial', () => {
     expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    // Settings starts with nothing ticked, so Next waits for a choice.
+    // Settings starts with the suggested question types ticked.
+    expect(screen.getByRole('checkbox', { name: 'Location' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Population' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'IHDI' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Capital' })).not.toBeChecked()
-    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
     expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument()
+    // With nothing ticked, Next waits for a choice.
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Location' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
+    await userEvent.click(screen.getByRole('checkbox', { name: 'IHDI' }))
+    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(loadLearnedQuestionIds()).toEqual(['capital'])

@@ -34,6 +34,10 @@ type TutorialStep =
   | 'settings'
   | 'flashcards-menu'
 
+// The question types ticked to start on the tutorial's Settings step; the user
+// can change them before going on.
+const SUGGESTED_QUESTION_IDS: QuestionId[] = ['globe', 'population', 'ihdi']
+
 type TutorialProps = {
   // The information chosen in Settings, which the Passport step's familiarity
   // covers. The home country's card asks every question type regardless.
@@ -141,8 +145,7 @@ export function Tutorial({
     if (step === 'settings') {
       return (
         <SettingsMenu
-          // Nothing ticked, so the user chooses for themselves.
-          learnedQuestionIds={[]}
+          learnedQuestionIds={SUGGESTED_QUESTION_IDS}
           countryIcon={countryIcon}
           tutorialNote={SETTINGS_NOTE}
           onBack={() => {}}
