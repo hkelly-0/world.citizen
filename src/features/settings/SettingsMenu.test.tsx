@@ -45,7 +45,7 @@ describe('SettingsMenu', () => {
       />,
     )
 
-    expect(screen.getByText('Information I want to learn:')).toBeInTheDocument()
+    expect(screen.getByText('Information I want to learn')).toBeInTheDocument()
     expect(screen.getByRole('checkbox', { name: 'Location' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Flag' })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Area' })).not.toBeChecked()

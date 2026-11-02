@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import type { CountryIcon } from '../../shared/settings'
-import { QUESTION_IDS, type QuestionId } from '../flashcards/deck'
+import {
+  INFO_QUESTION_IDS,
+  QUESTION_IDS,
+  isInfoQuestion,
+  type QuestionId,
+} from '../flashcards/deck'
 import { TutorialNote } from '../tutorial/TutorialNote'
 import { ConfirmMessage } from './ConfirmMessage'
-// Same layout, buttons and checkboxes as the custom practice menu.
+// The main menu's centred column layout.
 import '../menu/MainMenu.css'
-import '../flashcards/CustomPracticeMenu.css'
 import './SettingsMenu.css'
 
 const LABELS: Record<QuestionId, string> = {
@@ -19,9 +23,12 @@ const LABELS: Record<QuestionId, string> = {
   history: 'History',
   people: 'People',
   economy: 'Economy',
-  // Shortened to fit on one line beside its checkbox.
+  // Shortened to fit on one line beside its switch.
   internationalRelations: 'Int. Relations',
 }
+
+// The question types that aren't info questions, listed under "Fundamentals".
+const FACT_QUESTION_IDS = QUESTION_IDS.filter((id) => !isInfoQuestion(id))
 
 const ICON_LABELS: { icon: CountryIcon; label: string }[] = [
   { icon: 'outline', label: 'Outline' },
@@ -52,7 +59,9 @@ type SettingsMenuProps = {
 // shows each country's outline or flag. Every change is saved straight away.
 // At least one box stays ticked: the last ticked one is disabled. Below,
 // "Manually edit Passport" asks "Are you sure?" before opening the Passport
-// editor, and "Replay tutorial" starts the tutorial again.
+// editor, and "Replay tutorial" starts the tutorial again. The settings are
+// grouped into cards under small headings; each question type's checkbox is
+// drawn as a switch.
 export function SettingsMenu({
   learnedQuestionIds,
   countryIcon,
@@ -73,70 +82,99 @@ export function SettingsMenu({
     onSave(ticked, countryIcon)
   }
 
+  // One switch row per question type in the list given.
+  function questionSwitches(questionIds: QuestionId[]) {
+    return questionIds.map((id) => (
+      <label key={id} className="settings__row settings__switch-row">
+        {LABELS[id]}
+        <input
+          type="checkbox"
+          className="settings__switch-input"
+          checked={learnedQuestionIds.includes(id)}
+          // The last ticked box can't be unticked, so something is always learned.
+          disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
+          onChange={() => toggle(id)}
+        />
+        {/* The visible switch, drawn from the hidden checkbox's state. */}
+        <span className="settings__switch" aria-hidden="true" />
+      </label>
+    ))
+  }
+
   return (
-    <main className="main-menu">
+    <main className="main-menu settings">
       {tutorialNote === undefined && <BackButton onClick={onBack} />}
-      <h1 className="custom-practice__title">Information I want to learn:</h1>
-      <fieldset className="custom-practice__choices">
-        {QUESTION_IDS.map((id) => (
-          <label key={id} className="custom-practice__choice">
-            {LABELS[id]}
-            <input
-              type="checkbox"
-              checked={learnedQuestionIds.includes(id)}
-              // The last ticked box can't be unticked, so something is always learned.
-              disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
-              onChange={() => toggle(id)}
-            />
-          </label>
-        ))}
-      </fieldset>
-      <div className="settings__icon-choice">
-        <span id="country-icon-label">Main icon for countries</span>
-        {/* Two joined buttons; the chosen one is highlighted. */}
-        <div className="settings__toggle" role="group" aria-labelledby="country-icon-label">
-          {ICON_LABELS.map(({ icon, label }) => (
-            <button
-              key={icon}
-              className={
-                icon === countryIcon
-                  ? 'settings__toggle-option settings__toggle-option--chosen'
-                  : 'settings__toggle-option'
-              }
-              aria-pressed={icon === countryIcon}
-              onClick={() => onSave(learnedQuestionIds, icon)}
-            >
-              {label}
-            </button>
-          ))}
+      <h1 className="settings__title">Settings</h1>
+      <section className="settings__section">
+        <h2 className="settings__heading">Information I want to learn</h2>
+        <div className="settings__card">
+          <fieldset className="settings__group">
+            <legend className="settings__group-label">Fundamentals</legend>
+            {questionSwitches(FACT_QUESTION_IDS)}
+          </fieldset>
+          <fieldset className="settings__group">
+            <legend className="settings__group-label">Textual info</legend>
+            {questionSwitches(INFO_QUESTION_IDS)}
+          </fieldset>
         </div>
-      </div>
+      </section>
+      <section className="settings__section">
+        <h2 className="settings__heading">Passport</h2>
+        <div className="settings__card">
+          <div className="settings__row settings__icon-choice">
+            <span id="country-icon-label">Main icon for countries</span>
+            {/* Two joined buttons; the chosen one is highlighted. */}
+            <div className="settings__toggle" role="group" aria-labelledby="country-icon-label">
+              {ICON_LABELS.map(({ icon, label }) => (
+                <button
+                  key={icon}
+                  className={
+                    icon === countryIcon
+                      ? 'settings__toggle-option settings__toggle-option--chosen'
+                      : 'settings__toggle-option'
+                  }
+                  aria-pressed={icon === countryIcon}
+                  onClick={() => onSave(learnedQuestionIds, icon)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {tutorialNote === undefined &&
+            (isConfirmingEdit ? (
+              <div className="settings__row">
+                <ConfirmMessage
+                  message="Are you sure? Removing a country from your Passport deletes all its progress."
+                  confirmLabel="Continue"
+                  onConfirm={onEditPassport}
+                  onCancel={() => setIsConfirmingEdit(false)}
+                />
+              </div>
+            ) : (
+              <button
+                className="settings__row settings__action arrow-button"
+                onClick={() => setIsConfirmingEdit(true)}
+              >
+                Manually edit Passport
+              </button>
+            ))}
+        </div>
+      </section>
       {tutorialNote !== undefined ? (
         <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
       ) : (
-        <>
-          {isConfirmingEdit ? (
-            <ConfirmMessage
-              message="Are you sure? Removing a country from your Passport deletes all its progress."
-              confirmLabel="Continue"
-              onConfirm={onEditPassport}
-              onCancel={() => setIsConfirmingEdit(false)}
-            />
-          ) : (
+        <section className="settings__section">
+          <h2 className="settings__heading">Help</h2>
+          <div className="settings__card">
             <button
-              className="main-menu__option main-menu__option--centered arrow-button"
-              onClick={() => setIsConfirmingEdit(true)}
+              className="settings__row settings__action arrow-button"
+              onClick={onReplayTutorial}
             >
-              Manually edit Passport
+              Replay tutorial
             </button>
-          )}
-          <button
-            className="main-menu__option main-menu__option--centered arrow-button"
-            onClick={onReplayTutorial}
-          >
-            Replay tutorial
-          </button>
-        </>
+          </div>
+        </section>
       )}
     </main>
   )
