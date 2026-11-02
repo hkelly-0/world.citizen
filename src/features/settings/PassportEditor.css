@@ -1,10 +1,20 @@
-/* The list is longer than the screen, so it starts at the top (below the
-   back button) rather than being centred, and leaves no gap below the
-   footer. */
+/* Exactly the screen's height, so only the list scrolls (in its own box),
+   starting at the top (below the back button) rather than being centred. */
 .passport-editor {
   justify-content: flex-start;
+  height: 100%;
   padding-top: 72px;
   padding-bottom: 0;
+}
+
+/* Takes the height left between the search box and the footer, and scrolls.
+   min-height: 0 lets it shrink below the list's full length. */
+.passport-editor__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 280px;
 }
 
 /* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css, which sets
@@ -84,15 +94,10 @@
   color: #a9b1c2;
 }
 
-/* Sticks to the bottom of the scrolling screen, over the list, in the page's
-   background colour so the list doesn't show through. */
+/* Below the list's box, at the bottom of the screen. */
 .passport-editor__footer {
-  position: sticky;
-  bottom: 0;
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: auto;
   padding: 8px 0 16px;
-  background: #000010;
 }

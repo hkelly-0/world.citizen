@@ -75,20 +75,24 @@ export function PassportEditor({ learnedQuestionIds, onBack }: PassportEditorPro
         value={searchText}
         onChange={(event) => setSearchText(event.target.value)}
       />
-      <fieldset className="passport-editor__choices">
-        {shownCountries.map((country) => (
-          <label key={country.isoAlpha3} className="passport-editor__choice">
-            {country.commonName}
-            <input
-              type="checkbox"
-              checked={ticked.includes(country.isoAlpha3)}
-              onChange={() => toggle(country.isoAlpha3)}
-            />
-          </label>
-        ))}
-      </fieldset>
-      {shownCountries.length === 0 && <p className="passport-editor__empty">No countries found</p>}
-      {/* Kept at the bottom of the screen while the list scrolls. */}
+      {/* Scrolls on its own, so the title, search box and Save stay on screen. */}
+      <div className="passport-editor__list">
+        <fieldset className="passport-editor__choices">
+          {shownCountries.map((country) => (
+            <label key={country.isoAlpha3} className="passport-editor__choice">
+              {country.commonName}
+              <input
+                type="checkbox"
+                checked={ticked.includes(country.isoAlpha3)}
+                onChange={() => toggle(country.isoAlpha3)}
+              />
+            </label>
+          ))}
+        </fieldset>
+        {shownCountries.length === 0 && (
+          <p className="passport-editor__empty">No countries found</p>
+        )}
+      </div>
       <div className="passport-editor__footer">
         {isConfirmingRemoval ? (
           <ConfirmMessage
