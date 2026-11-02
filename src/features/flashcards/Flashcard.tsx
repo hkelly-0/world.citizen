@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { flagImageSrc } from '../../shared/flags'
+import { RangeTitle } from '../../shared/RangeTitle'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCapitalCorrect } from './capitalAnswer'
@@ -376,7 +377,7 @@ function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQues
             className={optionClassName(option)}
             onClick={() => (isAnswered ? onContinue() : onAnswer(option))}
           >
-            {option}
+            <RangeTitle title={option} />
           </button>
         ))}
       </div>

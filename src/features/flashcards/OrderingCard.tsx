@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type PointerEvent } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
+import { RangeTitle } from '../../shared/RangeTitle'
 import { shuffled } from '../../shared/shuffled'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { moveItem, orderingTitle, swapItems, type OrderingStat } from './orderingQuestion'
@@ -180,8 +181,10 @@ export function OrderingCard({ stat, codes, onFinish }: OrderingCardProps) {
                     <span>{countryFacts[code].commonName}</span>
                     {phase === 'revealed' && (
                       <span className="ordering__title">
-                        {title.title}
-                        {title.isEstimate && ' (estimated)'}
+                        <RangeTitle
+                          title={title.title}
+                          suffix={title.isEstimate ? ' (estimated)' : ''}
+                        />
                       </span>
                     )}
                   </button>

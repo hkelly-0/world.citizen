@@ -105,8 +105,10 @@
   background: var(--wrong-red-tint);
 }
 
-/* The country's range title, shown on Reveal. */
+/* The country's range title, shown on Reveal. Stretched across the tile
+   (which centres its other contents) so RangeTitle can spread it out. */
 .ordering__title {
+  align-self: stretch;
   color: #a9b1c2;
   font-size: 0.85rem;
 }

@@ -3,6 +3,7 @@ import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
+import { RangeTitle } from '../../shared/RangeTitle'
 import { AREA_RANGES, ihdiRange, POPULATION_RANGES, rangeTitle } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
@@ -81,24 +82,28 @@ export function CountryInfoPanel({
             {learnedQuestionIds.includes('area') && (
               <>
                 <dt>Area</dt>
-                <dd>{rangeTitle(AREA_RANGES, facts.areaKm2)}</dd>
+                <dd>
+                  <RangeTitle title={rangeTitle(AREA_RANGES, facts.areaKm2)} />
+                </dd>
               </>
             )}
             {learnedQuestionIds.includes('population') && (
               <>
                 <dt>Population</dt>
-                <dd>{rangeTitle(POPULATION_RANGES, facts.population)}</dd>
+                <dd>
+                  <RangeTitle title={rangeTitle(POPULATION_RANGES, facts.population)} />
+                </dd>
               </>
             )}
             {learnedQuestionIds.includes('ihdi') && (
               <>
                 <dt>IHDI</dt>
                 <dd>
-                  {ihdi === null
-                    ? 'No data'
-                    : ihdi.isEstimate
-                      ? `${ihdi.title} (est.)`
-                      : ihdi.title}
+                  {ihdi === null ? (
+                    <RangeTitle title="No data" />
+                  ) : (
+                    <RangeTitle title={ihdi.title} suffix={ihdi.isEstimate ? ' (est.)' : ''} />
+                  )}
                 </dd>
               </>
             )}

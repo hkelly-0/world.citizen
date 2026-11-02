@@ -1,6 +1,7 @@
 // Numerical statistics are grouped into named ranges to make them easier to
 // learn; cards show only the range title (a name plus the range's lower bound,
-// e.g. "≥ 5M km²  /  Immense"), not the exact number.
+// e.g. "≥ 5M km²  /  Immense"), not the exact number. The slash marks where
+// `RangeTitle.tsx` splits the title; it isn't shown.
 
 // One range: a value belongs to it if it is at least `min` and below the next
 // range's `min`. Ranges are listed from smallest to largest.

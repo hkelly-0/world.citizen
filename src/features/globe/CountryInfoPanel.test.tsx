@@ -20,6 +20,12 @@ const panelProps = {
   onSelectCountry: () => {},
 }
 
+// The value shown beside a label such as "Area". A range title is split into
+// parts, so it can't be found by its text alone.
+function valueOf(label: string): HTMLElement {
+  return screen.getByText(label).nextElementSibling as HTMLElement
+}
+
 describe('CountryInfoPanel', () => {
   it("shows the country's names and facts", () => {
     render(<CountryInfoPanel {...panelProps} country={france} />)
@@ -33,9 +39,9 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
     // Population, area and IHDI show range titles, not exact numbers.
-    expect(screen.getByText('≥ 50M / Numerous')).toBeInTheDocument()
-    expect(screen.getByText('≥ 300K km² / Medium')).toBeInTheDocument()
-    expect(screen.getByText('8 / Great')).toBeInTheDocument()
+    expect(valueOf('Population')).toHaveTextContent('≥ 50M Numerous')
+    expect(valueOf('Area')).toHaveTextContent('≥ 300K km² Medium')
+    expect(valueOf('IHDI')).toHaveTextContent('8 Great')
   })
 
   it('lists every capital for countries with several', () => {
@@ -101,7 +107,7 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
-    expect(screen.getByText('≥ 300K km² / Medium')).toBeInTheDocument()
+    expect(valueOf('Area')).toHaveTextContent('≥ 300K km² Medium')
     expect(screen.queryByText('Paris')).not.toBeInTheDocument()
     expect(screen.queryByRole('img', { name: 'Flag of France' })).not.toBeInTheDocument()
     expect(screen.queryByText('Population')).not.toBeInTheDocument()

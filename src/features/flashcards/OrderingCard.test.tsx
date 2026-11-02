@@ -50,7 +50,7 @@ describe('OrderingCard', () => {
     const next = await screen.findByRole('button', { name: 'Next' }, { timeout: 2000 })
 
     const tiles = screen.getAllByRole('listitem').map((item) => item.firstElementChild!)
-    expect(tiles[0]).toHaveTextContent('United States≥ 100M / Multitudes')
+    expect(tiles[0]).toHaveTextContent('United States≥ 100M Multitudes')
     expect(tiles[0]).toHaveClass('ordering__tile--wrong')
     expect(tiles[1]).toHaveClass('ordering__tile--correct')
     expect(tiles[2]).toHaveClass('ordering__tile--wrong')
@@ -79,6 +79,8 @@ describe('OrderingCard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     await screen.findByRole('button', { name: 'Next' }, { timeout: 2000 })
 
-    expect(screen.getByText(/\(estimated\)/)).toHaveTextContent('6 / Ok (estimated)')
+    expect(screen.getByText(/\(estimated\)/).closest('.ordering__title')).toHaveTextContent(
+      '6 Ok (estimated)',
+    )
   })
 })

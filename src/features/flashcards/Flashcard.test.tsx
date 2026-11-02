@@ -57,8 +57,11 @@ async function answerFlag(isoAlpha3: string, isCorrect: boolean) {
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 }
 
+// `option` is the range title as written in statRanges.ts; its button shows
+// it without the slash.
 async function answerRangeQuestion(option: string) {
-  await userEvent.click(screen.getByRole('button', { name: option.replace(/\s+/g, ' ') }))
+  const name = option.replace('/', '').replace(/\s+/g, ' ')
+  await userEvent.click(screen.getByRole('button', { name }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 }
 
@@ -240,15 +243,15 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap wrong country')
     await answerFlag('FRA', false)
-    await userEvent.click(screen.getByRole('button', { name: '≥ 10K km² / Tiny' }))
-    expect(screen.getByRole('button', { name: '≥ 10K km² / Tiny' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '≥ 10K km² Tiny' }))
+    expect(screen.getByRole('button', { name: '≥ 10K km² Tiny' })).toHaveClass(
       'flashcard__option--wrong',
     )
-    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '≥ 300K km² Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     // Once answered, clicking any option goes on, like Next, without changing the answer.
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
+    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² Medium' }))
     expect(screen.getByText('Population?')).toBeInTheDocument()
 
     await answerRangeQuestion('≥ 50M  /  Numerous')
@@ -320,11 +323,11 @@ describe('Flashcard', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: '≥ 100K km² / Small' }))
-    expect(screen.getByRole('button', { name: '≥ 100K km² / Small' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '≥ 100K km² Small' }))
+    expect(screen.getByRole('button', { name: '≥ 100K km² Small' })).toHaveClass(
       'flashcard__option--close',
     )
-    expect(screen.getByRole('button', { name: '≥ 300K km² / Medium' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '≥ 300K km² Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -410,7 +413,7 @@ describe('Flashcard', () => {
     await answerRangeQuestion('≥ 1M km²  /  Large')
     await answerRangeQuestion('≥ 10M  /  Moderate')
     expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '8 / Great' }))
+    await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
 
     expect(screen.getByText(/Estimated: UNDP has no IHDI/)).toBeInTheDocument()
   })
@@ -524,7 +527,7 @@ describe('Flashcard', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² / Medium' }))
+    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² Medium' }))
     // Before Next is pressed.
     expect(onAnswer).toHaveBeenCalledWith('area', 'right', false)
   })

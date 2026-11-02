@@ -311,8 +311,8 @@ describe('Tutorial', () => {
     // Every question type is asked, though only the globe and flag are learned.
     for (const question of ['Area?', 'Population?', 'IHDI?']) {
       expect(screen.getByText(question)).toBeInTheDocument()
-      // Any range will do.
-      await userEvent.click(screen.getAllByRole('button', { name: / \/ / })[0])
+      // Any range will do; the largest is listed first.
+      await userEvent.click(screen.getAllByRole('button', { name: /^[≥<\d]/ })[0])
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     }
     await userEvent.type(screen.getByLabelText('Capital?'), 'Dublin')
