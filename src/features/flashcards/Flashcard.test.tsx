@@ -481,9 +481,9 @@ describe('Flashcard', () => {
       />,
     )
 
-    expect(screen.queryByText('552K km²')).not.toBeInTheDocument()
+    expect(screen.queryByText('550K km²')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: '≥ 1M km² Large' }))
-    expect(screen.getByText('552K km²')).toBeInTheDocument()
+    expect(screen.getByText('550K km²')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     await answerRangeQuestion('≥ 50M Numerous')
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))

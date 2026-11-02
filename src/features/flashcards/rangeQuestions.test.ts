@@ -59,8 +59,8 @@ describe('rangeQuestions', () => {
 
   it("gives each question the country's true value, marking an estimated IHDI", () => {
     expect(rangeQuestions(france).map((question) => question.trueValue)).toEqual([
-      '552K km²',
-      '66.7M',
+      '550K km²',
+      '67M',
       '8.4',
     ])
     expect(rangeQuestions(countryFacts['SAU'])[2].trueValue).toBe('8.0 (est.)')

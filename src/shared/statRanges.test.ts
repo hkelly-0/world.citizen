@@ -82,12 +82,12 @@ describe('rangeOf', () => {
 })
 
 describe('formatLargeNumber', () => {
-  it('rounds to 3 significant figures with a K, M or B suffix', () => {
-    expect(formatLargeNumber(45_312_000)).toBe('45.3M')
-    expect(formatLargeNumber(1_416_000_000)).toBe('1.42B')
-    expect(formatLargeNumber(9_984_670)).toBe('9.98M')
-    expect(formatLargeNumber(12_345)).toBe('12.3K')
-    expect(formatLargeNumber(496)).toBe('496')
+  it('rounds to 2 significant figures with a K, M or B suffix', () => {
+    expect(formatLargeNumber(45_312_000)).toBe('45M')
+    expect(formatLargeNumber(1_416_000_000)).toBe('1.4B')
+    expect(formatLargeNumber(9_484_670)).toBe('9.5M')
+    expect(formatLargeNumber(12_345)).toBe('12K')
+    expect(formatLargeNumber(496)).toBe('500')
     expect(formatLargeNumber(0.44)).toBe('0.44')
   })
 
@@ -98,7 +98,7 @@ describe('formatLargeNumber', () => {
 })
 
 describe('formatIhdi', () => {
-  it('multiplies by 10 and gives one decimal place', () => {
+  it('multiplies by 10 and gives 2 significant figures', () => {
     expect(formatIhdi(0.543)).toBe('5.4')
     expect(formatIhdi(0.8)).toBe('8.0')
   })
@@ -107,8 +107,8 @@ describe('formatIhdi', () => {
 describe('country stats', () => {
   it("gives each stat's range and rounded value", () => {
     const france = countryFacts['FRA']
-    expect(areaStat(france)).toEqual({ range: rangeOf(AREA_RANGES, 551_695), value: '552K km²' })
-    expect(populationStat(france).value).toBe('66.7M')
+    expect(areaStat(france)).toEqual({ range: rangeOf(AREA_RANGES, 551_695), value: '550K km²' })
+    expect(populationStat(france).value).toBe('67M')
     expect(ihdiStat(france)).toEqual({
       range: rangeOf(IHDI_RANGES, 0.836),
       value: '8.4',

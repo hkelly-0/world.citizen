@@ -67,29 +67,29 @@ export function rangeOf(ranges: StatRange[], value: number): StatRange {
   return found
 }
 
-// Rounds to 3 significant figures and shortens with K, M or B like the range
-// bounds, e.g. 45_312_000 -> "45.3M". Trailing zeros are dropped ("1M").
+// Rounds to 2 significant figures and shortens with K, M or B like the range
+// bounds, e.g. 45_312_000 -> "45M". Trailing zeros are dropped ("1M").
 export function formatLargeNumber(value: number): string {
-  const rounded = Number(value.toPrecision(3))
+  const rounded = Number(value.toPrecision(2))
   const suffixes: [number, string][] = [
     [1_000_000_000, 'B'],
     [1_000_000, 'M'],
     [1_000, 'K'],
   ]
   for (const [size, suffix] of suffixes) {
-    if (rounded >= size) return `${Number((rounded / size).toPrecision(3))}${suffix}`
+    if (rounded >= size) return `${Number((rounded / size).toPrecision(2))}${suffix}`
   }
   return String(rounded)
 }
 
-// Multiplied by 10 like the IHDI range bounds and given to one decimal place,
-// e.g. 0.543 -> "5.4".
+// Multiplied by 10 like the IHDI range bounds and given to 2 significant
+// figures, keeping a trailing zero, e.g. 0.543 -> "5.4" and 0.8 -> "8.0".
 export function formatIhdi(ihdi: number): string {
-  return (ihdi * 10).toFixed(1)
+  return (ihdi * 10).toPrecision(2)
 }
 
 // A country's statistic: the range it falls in, and its rounded value as
-// shown to the user (e.g. "45.3M").
+// shown to the user (e.g. "45M").
 export type StatValue = {
   range: StatRange
   value: string

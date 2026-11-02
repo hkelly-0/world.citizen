@@ -39,8 +39,8 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
     // Population, area and IHDI show the rounded value with the range's name.
-    expect(valueOf('Population')).toHaveTextContent('66.7M Numerous')
-    expect(valueOf('Area')).toHaveTextContent('552K km² Medium')
+    expect(valueOf('Population')).toHaveTextContent('67M Numerous')
+    expect(valueOf('Area')).toHaveTextContent('550K km² Medium')
     expect(valueOf('IHDI')).toHaveTextContent('8.4 Great')
   })
 
@@ -71,7 +71,7 @@ describe('CountryInfoPanel', () => {
     const india: CountryShape = { ...france, name: 'India', isoAlpha3: 'IND' }
     render(<CountryInfoPanel {...panelProps} country={india} />)
 
-    expect(valueOf('Population')).toHaveTextContent(/^1\.\d\dB 1\.4 Billion$/)
+    expect(valueOf('Population')).toHaveTextContent(/^1\.\dB 1\.4 Billion$/)
   })
 
   it('says what a territory is, by ISO code or, with no code, by map name', () => {
@@ -114,7 +114,7 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
-    expect(valueOf('Area')).toHaveTextContent('552K km² Medium')
+    expect(valueOf('Area')).toHaveTextContent('550K km² Medium')
     expect(screen.queryByText('Paris')).not.toBeInTheDocument()
     expect(screen.queryByRole('img', { name: 'Flag of France' })).not.toBeInTheDocument()
     expect(screen.queryByText('Population')).not.toBeInTheDocument()

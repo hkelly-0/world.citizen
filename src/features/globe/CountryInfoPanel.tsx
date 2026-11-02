@@ -34,7 +34,7 @@ type CountryInfoPanelProps = {
 }
 
 // The range's name with the country's rounded value in place of the bound,
-// e.g. "45.3M  Moderate". With no data (null), only "No data" is shown.
+// e.g. "45M  Moderate". With no data (null), only "No data" is shown.
 function RangeWithValue({ stat }: { stat: StatValue | null }) {
   if (stat === null) return <RangeTitle range={NO_DATA} />
   return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} />
