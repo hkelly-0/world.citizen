@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
-import type { QuestionId } from '../flashcards/deck'
+import { QUESTION_IDS } from '../flashcards/deck'
 import { areCountryGroupsShown } from '../dev/showCountryGroups'
 import {
   ALL_GROUP_IDS,
@@ -47,12 +47,10 @@ const PANEL_BOTTOM_MARGIN = 16
 const SEARCH_PLACES = searchPlacesFromShapes(COUNTRY_SHAPES)
 
 type GlobeViewProps = {
-  // The information chosen in Settings, shown on the info panel.
-  learnedQuestionIds: QuestionId[]
   onBack: () => void
 }
 
-export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps) {
+export default function GlobeView({ onBack }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const panelRef = useRef<HTMLElement>(null)
@@ -293,7 +291,9 @@ export default function GlobeView({ learnedQuestionIds, onBack }: GlobeViewProps
       {selectedCountry !== null && (
         <CountryInfoPanel
           country={selectedCountry}
-          learnedQuestionIds={learnedQuestionIds}
+          // The globe is for exploring, so it shows every fact and paragraph,
+          // whatever is learned in Settings.
+          learnedQuestionIds={QUESTION_IDS}
           onClose={closePanel}
           onSelectCountry={selectCountryByCode}
           showCountryInfo

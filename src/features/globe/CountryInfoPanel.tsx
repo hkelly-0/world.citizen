@@ -17,8 +17,9 @@ import './CountryInfoPanel.css'
 type CountryInfoPanelProps = {
   // Only the name and code are used, so the Passport can pass just those.
   country: Pick<CountryShape, 'name' | 'isoAlpha3'>
-  // The information chosen in Settings; facts left out there aren't shown.
-  // (Names are always shown, and 'globe' has no fact here.)
+  // The question types whose facts are shown: those chosen in Settings on the
+  // Passport card, all of them on the globe. (Names are always shown, and
+  // 'globe' has no fact here.)
   learnedQuestionIds: QuestionId[]
   onClose: () => void
   // Called with a country's ISO alpha-3 code when its name in a territory's
@@ -26,7 +27,7 @@ type CountryInfoPanelProps = {
   // territories, so only it passes this.
   onSelectCountry?: (isoAlpha3: string) => void
   // Whether to show the paragraphs about the country (History, People, etc.)
-  // below the facts, those learned in Settings. Only the globe shows them.
+  // below the facts, those in learnedQuestionIds. Only the globe shows them.
   showCountryInfo?: boolean
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>

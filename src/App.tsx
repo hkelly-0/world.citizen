@@ -189,7 +189,7 @@ export default function App() {
     if (screen === 'globe') {
       return (
         <Suspense fallback={<p className="loading">Loading globe…</p>}>
-          <GlobeView learnedQuestionIds={learnedQuestionIds} onBack={goToMenu} />
+          <GlobeView onBack={goToMenu} />
         </Suspense>
       )
     }
