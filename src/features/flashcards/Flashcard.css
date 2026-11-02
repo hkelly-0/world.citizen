@@ -213,6 +213,14 @@
 }
 
 /* Shown after an answer when the correct answer is our own estimate. */
+/* A range question's true value, under the correct option once answered. */
+.flashcard__true-value {
+  margin: 0;
+  text-align: center;
+  color: #a9b1c2;
+  font-size: 0.9rem;
+}
+
 .flashcard__note {
   margin: 8px 0 0;
   color: #a9b1c2;

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { flagImageSrc } from '../../shared/flags'
@@ -372,13 +372,20 @@ function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQues
       <p className="flashcard__question">{question.label}?</p>
       <div className="flashcard__options">
         {question.options.map((option) => (
-          <button
-            key={option.name}
-            className={optionClassName(option.name)}
-            onClick={() => (isAnswered ? onContinue() : onAnswer(option.name))}
-          >
-            <RangeTitle range={option} />
-          </button>
+          <Fragment key={option.name}>
+            <button
+              className={optionClassName(option.name)}
+              onClick={() => (isAnswered ? onContinue() : onAnswer(option.name))}
+            >
+              <RangeTitle range={option} />
+            </button>
+            {/* Once answered, the country's own value goes under the correct option. */}
+            {isAnswered &&
+              option.name === question.correctAnswer.name &&
+              question.trueValue !== null && (
+                <p className="flashcard__true-value">{question.trueValue}</p>
+              )}
+          </Fragment>
         ))}
       </div>
       {isAnswered && question.isEstimate && (

@@ -468,6 +468,28 @@ describe('Flashcard', () => {
     expect(answersGiven(onAnswer)).toEqual({ population: 'right', capital: 'wrong' })
   })
 
+  it("shows the country's true value under the correct range once answered", async () => {
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={france}
+        questionIds={['area', 'population', 'ihdi']}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('FRA')}
+        onAnswer={vi.fn()}
+        onFinish={vi.fn()}
+      />,
+    )
+
+    expect(screen.queryByText('552K km²')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: '≥ 1M km² Large' }))
+    expect(screen.getByText('552K km²')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    await answerRangeQuestion('≥ 50M Numerous')
+    await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
+    expect(screen.getByText('8.4')).toBeInTheDocument()
+  })
+
   it('finishes after the last range question when the capital is not asked', async () => {
     const onAnswer = vi.fn()
     const onFinish = vi.fn()
