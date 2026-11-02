@@ -1,0 +1,87 @@
+/* Dims the screen behind the popup, and sits above the back button (z-index
+   2), the tutorial's pinned notes (3) and its Skip button (4), so nothing
+   behind it can be pressed. */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 16, 0.6);
+}
+
+/* Same look as the "Are you sure?" message (ConfirmMessage.css). */
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  /* Leaves room for the overlay's padding; a long list inside scrolls. */
+  max-height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 20, 35, 0.95);
+}
+
+.popup__title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* The score in Name every country ("You win", or after Give up), larger than
+   the other titles (1.3rem). */
+.popup__title--score {
+  color: var(--correct-green);
+  font-size: 1.7rem;
+}
+
+.popup--confirmation .popup__title {
+  text-align: center;
+}
+
+.popup__buttons {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.popup__button {
+  flex: 1;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.popup__button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Yes on a confirmation, which ends the game. */
+.popup__button--red {
+  border-color: var(--wrong-red);
+  background: var(--wrong-red-tint);
+}
+
+.popup__button--red:hover {
+  background: var(--wrong-red-tint-hover);
+}
+
+/* Go on "Ready?". */
+.popup__button--green {
+  border-color: var(--correct-green);
+  background: var(--correct-green-tint);
+}
+
+.popup__button--green:hover {
+  background: var(--correct-green-tint-hover);
+}

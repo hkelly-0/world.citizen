@@ -100,55 +100,10 @@
   }
 }
 
-/* While "Ready?" shows, the Menu button sits above its overlay (z-index 3),
-   so it can still be pressed. */
+/* While "Ready?" shows, the Menu button sits above its overlay (z-index 5
+   in Popup.css), so it can still be pressed. */
 .name-every-country--ready .back-button {
-  z-index: 4;
-}
-
-/* Dims the globe behind the popup, and sits above the back button (z-index 2)
-   so the game can't go on behind it. */
-.name-every-country__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: rgba(0, 0, 16, 0.6);
-}
-
-/* Same look as the "Are you sure?" message (ConfirmMessage.css). */
-.name-every-country__popup {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 320px;
-  /* Leaves room for the overlay's padding; the Remaining list scrolls. */
-  max-height: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  background: rgba(15, 20, 35, 0.95);
-}
-
-.name-every-country__popup-title {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-/* The score ("You win", or after Give up), larger than the other titles
-   (1.3rem). */
-.name-every-country__popup-title--score {
-  color: var(--correct-green);
-  font-size: 1.7rem;
-}
-
-.name-every-country__popup--confirmation .name-every-country__popup-title {
-  text-align: center;
+  z-index: 6;
 }
 
 /* "Time: 12:45" on "You win" and the score after Give up. */
@@ -171,46 +126,4 @@
   overflow-y: auto;
   color: #a9b1c2;
   line-height: 1.6;
-}
-
-.name-every-country__popup-buttons {
-  display: flex;
-  flex-shrink: 0;
-  gap: 8px;
-}
-
-.name-every-country__popup-button {
-  flex: 1;
-  min-height: 44px;
-  padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.name-every-country__popup-button:hover {
-  background: rgba(255, 255, 255, 0.14);
-}
-
-/* Yes on a confirmation, which ends the game. */
-.name-every-country__popup-button--red {
-  border-color: var(--wrong-red);
-  background: var(--wrong-red-tint);
-}
-
-.name-every-country__popup-button--red:hover {
-  background: var(--wrong-red-tint-hover);
-}
-
-/* Go on "Ready?". */
-.name-every-country__popup-button--green {
-  border-color: var(--correct-green);
-  background: var(--correct-green-tint);
-}
-
-.name-every-country__popup-button--green:hover {
-  background: var(--correct-green-tint-hover);
 }

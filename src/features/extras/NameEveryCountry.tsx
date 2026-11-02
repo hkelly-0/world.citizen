@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
+import { Popup } from '../../shared/Popup'
 import {
   createCountryMap,
   hideBorders,
@@ -331,68 +332,4 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
 // Give up.
 function ElapsedTime({ elapsedMs }: { elapsedMs: number }) {
   return <p className="name-every-country__time">Time: {formatElapsedTime(elapsedMs)}</p>
-}
-
-// A card over the dimmed globe, with its buttons side by side along the
-// bottom, each optionally tinted red or green or ending in an arrow. The first
-// button is focused, so Enter presses it. A confirmation ("Ready?", "Exit?",
-// "End game?") centres its title. The score ("You win", or after Give up) has
-// a larger green title.
-function Popup({
-  title,
-  isConfirmation = false,
-  isScoreTitle = false,
-  buttons,
-  children,
-}: {
-  title: string
-  isConfirmation?: boolean
-  isScoreTitle?: boolean
-  buttons: { label: string; onClick: () => void; colour?: 'red' | 'green'; hasArrow?: boolean }[]
-  children?: ReactNode
-}) {
-  return (
-    <div className="name-every-country__overlay">
-      <div
-        className={
-          isConfirmation
-            ? 'name-every-country__popup name-every-country__popup--confirmation'
-            : 'name-every-country__popup'
-        }
-        role="dialog"
-        aria-label={title}
-      >
-        <h2
-          className={
-            isScoreTitle
-              ? 'name-every-country__popup-title name-every-country__popup-title--score'
-              : 'name-every-country__popup-title'
-          }
-        >
-          {title}
-        </h2>
-        {children}
-        <div className="name-every-country__popup-buttons">
-          {buttons.map((button, index) => (
-            <button
-              key={button.label}
-              className={[
-                'name-every-country__popup-button',
-                button.colour === undefined
-                  ? ''
-                  : `name-every-country__popup-button--${button.colour}`,
-                button.hasArrow ? 'arrow-button' : '',
-              ]
-                .filter((name) => name !== '')
-                .join(' ')}
-              onClick={button.onClick}
-              autoFocus={index === 0}
-            >
-              {button.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
 }
