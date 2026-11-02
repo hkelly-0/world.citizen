@@ -34,8 +34,8 @@ type TutorialStep =
   | 'settings'
   | 'flashcards-menu'
 
-// The question types ticked to start on the tutorial's Settings step; the user
-// can change them before going on.
+// The question types saved as learned when the tutorial's Settings step opens;
+// the user can change them there before going on.
 const SUGGESTED_QUESTION_IDS: QuestionId[] = ['globe', 'population', 'ihdi']
 
 type TutorialProps = {
@@ -43,7 +43,8 @@ type TutorialProps = {
   // covers. The home country's card asks every question type regardless.
   learnedQuestionIds: QuestionId[]
   countryIcon: CountryIcon
-  // Saves the information chosen at the Settings step, as Settings' Save does.
+  // Saves the information chosen at the Settings step, as Settings does on
+  // every change.
   onSaveSettings: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
   // Called by "Skip tutorial" or the last step's "Finish tutorial"; returns to the main menu.
   onClose: () => void
@@ -135,7 +136,10 @@ export function Tutorial({
             <TutorialNote
               text={PASSPORT_SECOND_NOTE}
               buttonLabel="Next"
-              onButtonClick={() => setStep('settings')}
+              onButtonClick={() => {
+                onSaveSettings(SUGGESTED_QUESTION_IDS, countryIcon)
+                setStep('settings')
+              }}
               isPinned
             />
           )}
@@ -145,14 +149,12 @@ export function Tutorial({
     if (step === 'settings') {
       return (
         <SettingsMenu
-          learnedQuestionIds={SUGGESTED_QUESTION_IDS}
+          learnedQuestionIds={learnedQuestionIds}
           countryIcon={countryIcon}
           tutorialNote={SETTINGS_NOTE}
+          onTutorialNext={() => setStep('flashcards-menu')}
           onBack={() => {}}
-          onSave={(questionIds, icon) => {
-            onSaveSettings(questionIds, icon)
-            setStep('flashcards-menu')
-          }}
+          onSave={onSaveSettings}
           onEditPassport={() => {}}
           onReplayTutorial={() => {}}
         />

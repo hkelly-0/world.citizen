@@ -29,28 +29,28 @@ const ICON_LABELS: { icon: CountryIcon; label: string }[] = [
 ]
 
 type SettingsMenuProps = {
-  // The question types currently learned, ticked to start.
+  // The question types currently learned, shown ticked.
   learnedQuestionIds: QuestionId[]
-  // The picture currently shown for each country in the Passport, chosen to start.
+  // The picture currently shown for each country in the Passport, shown chosen.
   countryIcon: CountryIcon
   onBack: () => void
-  // Called with the ticked question types, in the order of QUESTION_IDS, and
-  // the chosen country icon.
+  // Called on every change with the ticked question types, in the order of
+  // QUESTION_IDS, and the chosen country icon, to save them.
   onSave: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
   // Opens the Passport editor, once the user has confirmed.
   onEditPassport: () => void
   // Closes Settings and starts the tutorial again.
   onReplayTutorial: () => void
   // Given when shown as a step of the tutorial: this note, with a Next button
-  // that saves (like Save), replaces the back button and the buttons below the
-  // choices.
+  // that calls onTutorialNext, replaces the back button and the buttons below
+  // the choices.
   tutorialNote?: string
+  onTutorialNext?: () => void
 }
 
 // Lets the user choose which information to learn, and whether the Passport
-// shows each country's outline or flag. Nothing changes until
-// "Save" is pressed, which needs at least one ticked. Once saved (or before
-// anything is changed) the button reads "Saved" and is disabled. Below it,
+// shows each country's outline or flag. Every change is saved straight away.
+// At least one box stays ticked: the last ticked one is disabled. Below,
 // "Manually edit Passport" asks "Are you sure?" before opening the Passport
 // editor, and "Replay tutorial" starts the tutorial again.
 export function SettingsMenu({
@@ -61,20 +61,17 @@ export function SettingsMenu({
   onEditPassport,
   onReplayTutorial,
   tutorialNote,
+  onTutorialNext,
 }: SettingsMenuProps) {
-  const [chosen, setChosen] = useState<QuestionId[]>(learnedQuestionIds)
-  const [chosenIcon, setChosenIcon] = useState<CountryIcon>(countryIcon)
   const [isConfirmingEdit, setIsConfirmingEdit] = useState(false)
 
   function toggle(id: QuestionId) {
-    setChosen(chosen.includes(id) ? chosen.filter((other) => other !== id) : [...chosen, id])
+    const isTicked = learnedQuestionIds.includes(id)
+    const ticked = QUESTION_IDS.filter((other) =>
+      other === id ? !isTicked : learnedQuestionIds.includes(other),
+    )
+    onSave(ticked, countryIcon)
   }
-
-  const chosenInOrder = QUESTION_IDS.filter((id) => chosen.includes(id))
-  const isSaved =
-    chosenInOrder.length === learnedQuestionIds.length &&
-    chosenInOrder.every((id, i) => id === learnedQuestionIds[i]) &&
-    chosenIcon === countryIcon
 
   return (
     <main className="main-menu">
@@ -84,7 +81,13 @@ export function SettingsMenu({
         {QUESTION_IDS.map((id) => (
           <label key={id} className="custom-practice__choice">
             {LABELS[id]}
-            <input type="checkbox" checked={chosen.includes(id)} onChange={() => toggle(id)} />
+            <input
+              type="checkbox"
+              checked={learnedQuestionIds.includes(id)}
+              // The last ticked box can't be unticked, so something is always learned.
+              disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
+              onChange={() => toggle(id)}
+            />
           </label>
         ))}
       </fieldset>
@@ -96,12 +99,12 @@ export function SettingsMenu({
             <button
               key={icon}
               className={
-                icon === chosenIcon
+                icon === countryIcon
                   ? 'settings__toggle-option settings__toggle-option--chosen'
                   : 'settings__toggle-option'
               }
-              aria-pressed={icon === chosenIcon}
-              onClick={() => setChosenIcon(icon)}
+              aria-pressed={icon === countryIcon}
+              onClick={() => onSave(learnedQuestionIds, icon)}
             >
               {label}
             </button>
@@ -109,26 +112,9 @@ export function SettingsMenu({
         </div>
       </div>
       {tutorialNote !== undefined ? (
-        <TutorialNote
-          text={tutorialNote}
-          buttonLabel="Next"
-          isButtonDisabled={chosen.length === 0}
-          onButtonClick={() => onSave(chosenInOrder, chosenIcon)}
-        />
+        <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
       ) : (
         <>
-          <button
-            // "Saved" has nothing to go on to, so no arrow.
-            className={
-              isSaved
-                ? 'main-menu__option main-menu__option--centered'
-                : 'main-menu__option main-menu__option--centered arrow-button'
-            }
-            onClick={() => onSave(chosenInOrder, chosenIcon)}
-            disabled={isSaved || chosen.length === 0}
-          >
-            {isSaved ? 'Saved' : 'Save'}
-          </button>
           {isConfirmingEdit ? (
             <ConfirmMessage
               message="Are you sure? Removing a country from your Passport deletes all its progress."

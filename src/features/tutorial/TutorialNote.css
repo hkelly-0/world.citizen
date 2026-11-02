@@ -57,9 +57,3 @@
 .tutorial-note__button:hover {
   background: rgba(255, 255, 255, 0.14);
 }
-
-/* Settings' Next waits for at least one type of information to be ticked. */
-.tutorial-note__button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}

@@ -215,10 +215,9 @@ describe('App', () => {
     for (const label of unticked) {
       await userEvent.click(screen.getByRole('checkbox', { name: label }))
     }
-    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
 
-    // Save stays on the settings screen, now showing "Saved", and keeps them.
-    expect(screen.getByRole('button', { name: 'Saved' })).toBeDisabled()
+    // Each change is saved straight away, and the last ticked box can't be unticked.
+    expect(screen.getByRole('checkbox', { name: 'Capital' })).toBeDisabled()
     expect(JSON.parse(localStorage.getItem('geography-app/learned-question-ids')!)).toEqual([
       'capital',
     ])
@@ -247,15 +246,15 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Reveal' })).toBeInTheDocument()
   })
 
-  it('leaves settings unchanged when going back without saving', async () => {
+  it('keeps a settings change after going back and reopening Settings', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
     await userEvent.click(screen.getByRole('checkbox', { name: 'Area' }))
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
 
     await userEvent.click(await screen.findByRole('button', { name: 'Settings' }))
-    expect(screen.getByRole('checkbox', { name: 'Area' })).toBeChecked()
-    expect(localStorage.getItem('geography-app/learned-question-ids')).toBeNull()
+    expect(screen.getByRole('checkbox', { name: 'Area' })).not.toBeChecked()
+    expect(loadLearnedQuestionIds()).not.toContain('area')
   })
 })
 
@@ -339,20 +338,18 @@ describe('Tutorial', () => {
     expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-    // Settings starts with the suggested question types ticked.
+    // Settings starts with the suggested question types ticked and saved, and
+    // saves each change.
     expect(screen.getByRole('checkbox', { name: 'Location' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Population' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'IHDI' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Capital' })).not.toBeChecked()
-    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument()
-    // With nothing ticked, Next waits for a choice.
+    expect(loadLearnedQuestionIds()).toEqual(['globe', 'population', 'ihdi'])
     await userEvent.click(screen.getByRole('checkbox', { name: 'Location' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'Population' }))
-    await userEvent.click(screen.getByRole('checkbox', { name: 'IHDI' }))
-    expect(screen.getByRole('button', { name: 'Next' })).toBeDisabled()
     await userEvent.click(screen.getByRole('checkbox', { name: 'Capital' }))
+    expect(loadLearnedQuestionIds()).toEqual(['population', 'ihdi', 'capital'])
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    expect(loadLearnedQuestionIds()).toEqual(['capital'])
+    expect(loadLearnedQuestionIds()).toEqual(['population', 'ihdi', 'capital'])
 
     expect(screen.getByRole('heading', { name: 'Flashcards' })).toBeInTheDocument()
     expect(screen.getByText(/Classic Mode is the main way to learn/)).toBeInTheDocument()

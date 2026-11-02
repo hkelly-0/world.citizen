@@ -6,7 +6,6 @@ type TutorialNoteProps = {
   buttonLabel?: string
   // Whether the button gets an arrow: it does when it moves on to another step.
   buttonHasArrow?: boolean
-  isButtonDisabled?: boolean
   onButtonClick?: () => void
   // Fixed to the bottom of the screen, over the screen being explained,
   // rather than in the flow of the page.
@@ -21,7 +20,6 @@ export function TutorialNote({
   text,
   buttonLabel,
   buttonHasArrow = true,
-  isButtonDisabled = false,
   onButtonClick,
   isPinned = false,
   isWarning = false,
@@ -39,7 +37,6 @@ export function TutorialNote({
             buttonHasArrow ? 'tutorial-note__button arrow-button' : 'tutorial-note__button'
           }
           onClick={onButtonClick}
-          disabled={isButtonDisabled}
         >
           {buttonLabel}
         </button>
