@@ -1,8 +1,8 @@
 // Numerical statistics are grouped into named ranges to make them easier to
 // learn; cards show the range's title (its lower bound and name, e.g.
 // "≥ 5M km²" and "Immense"). `RangeTitle.tsx` shows one. Only a range
-// question's answer and the globe's info panel show the rounded value
-// (`trueValue` in rangeQuestions.ts).
+// question's answer and the globe's info panel also show the rounded value
+// (`StatValue`'s `value`).
 
 // A range's title. `bound` is null for a range with only a name (e.g.
 // "1.4 Billion"). Names are unique within each list, so range questions use
@@ -67,17 +67,67 @@ export function rangeOf(ranges: StatRange[], value: number): StatRange {
   return found
 }
 
-// The IHDI range to show for a country: from its real IHDI if UNDP has one,
-// otherwise from our estimate (isEstimate is then true), otherwise null.
-export function ihdiRange(country: {
+// Rounds to 3 significant figures and shortens with K, M or B like the range
+// bounds, e.g. 45_312_000 -> "45.3M". Trailing zeros are dropped ("1M").
+export function formatLargeNumber(value: number): string {
+  const rounded = Number(value.toPrecision(3))
+  const suffixes: [number, string][] = [
+    [1_000_000_000, 'B'],
+    [1_000_000, 'M'],
+    [1_000, 'K'],
+  ]
+  for (const [size, suffix] of suffixes) {
+    if (rounded >= size) return `${Number((rounded / size).toPrecision(3))}${suffix}`
+  }
+  return String(rounded)
+}
+
+// Multiplied by 10 like the IHDI range bounds and given to one decimal place,
+// e.g. 0.543 -> "5.4".
+export function formatIhdi(ihdi: number): string {
+  return (ihdi * 10).toFixed(1)
+}
+
+// A country's statistic: the range it falls in, and its rounded value as
+// shown to the user (e.g. "45.3M").
+export type StatValue = {
+  range: StatRange
+  value: string
+}
+
+export function areaStat(country: { areaKm2: number }): StatValue {
+  return {
+    range: rangeOf(AREA_RANGES, country.areaKm2),
+    value: `${formatLargeNumber(country.areaKm2)} km²`,
+  }
+}
+
+export function populationStat(country: { population: number }): StatValue {
+  return {
+    range: rangeOf(POPULATION_RANGES, country.population),
+    value: formatLargeNumber(country.population),
+  }
+}
+
+// A country's IHDI: its real one if UNDP has one, otherwise our estimate
+// (isEstimate is then true, and the value is marked "(est.)"), otherwise null.
+export function ihdiStat(country: {
   ihdi: number | null
   ihdiEstimate: number | null
-}): { range: StatRange; isEstimate: boolean } | null {
+}): (StatValue & { isEstimate: boolean }) | null {
   if (country.ihdi !== null) {
-    return { range: rangeOf(IHDI_RANGES, country.ihdi), isEstimate: false }
+    return {
+      range: rangeOf(IHDI_RANGES, country.ihdi),
+      value: formatIhdi(country.ihdi),
+      isEstimate: false,
+    }
   }
   if (country.ihdiEstimate !== null) {
-    return { range: rangeOf(IHDI_RANGES, country.ihdiEstimate), isEstimate: true }
+    return {
+      range: rangeOf(IHDI_RANGES, country.ihdiEstimate),
+      value: `${formatIhdi(country.ihdiEstimate)} (est.)`,
+      isEstimate: true,
+    }
   }
   return null
 }

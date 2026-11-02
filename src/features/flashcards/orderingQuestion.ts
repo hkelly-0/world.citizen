@@ -3,7 +3,7 @@ import { shuffled } from '../../shared/shuffled'
 import {
   AREA_RANGES,
   IHDI_RANGES,
-  ihdiRange,
+  ihdiStat,
   POPULATION_RANGES,
   rangeOf,
   type StatRange,
@@ -23,7 +23,7 @@ export type OrderingTitle = { range: StatRange; rangeIndex: number; isEstimate: 
 export function orderingTitle(stat: OrderingStat, code: string): OrderingTitle | null {
   const country = countryFacts[code]
   if (stat === 'ihdi') {
-    const ihdi = ihdiRange(country)
+    const ihdi = ihdiStat(country)
     if (ihdi === null) return null
     return {
       range: ihdi.range,

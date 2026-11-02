@@ -3,8 +3,14 @@ import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
-import { rangeQuestions, type RangeQuestion } from '../flashcards/rangeQuestions'
 import { RangeTitle } from '../../shared/RangeTitle'
+import {
+  areaStat,
+  ihdiStat,
+  NO_DATA,
+  populationStat,
+  type StatValue,
+} from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
 
@@ -28,10 +34,10 @@ type CountryInfoPanelProps = {
 }
 
 // The range's name with the country's rounded value in place of the bound,
-// e.g. "45.3M  Moderate", worked out as on the range question's answer. With
-// no data, only "No data" is shown.
-function RangeWithValue({ question }: { question: RangeQuestion }) {
-  return <RangeTitle range={{ bound: question.trueValue, name: question.correctAnswer.name }} />
+// e.g. "45.3M  Moderate". With no data (null), only "No data" is shown.
+function RangeWithValue({ stat }: { stat: StatValue | null }) {
+  if (stat === null) return <RangeTitle range={NO_DATA} />
+  return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} />
 }
 
 export function CountryInfoPanel({
@@ -46,7 +52,6 @@ export function CountryInfoPanel({
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = countryDisplayName(country)
-  const [area, population, ihdi] = facts === undefined ? [] : rangeQuestions(facts)
   const subtitle = territorySubtitle(country)
 
   return (
@@ -91,7 +96,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Area</dt>
                 <dd>
-                  <RangeWithValue question={area} />
+                  <RangeWithValue stat={areaStat(facts)} />
                 </dd>
               </>
             )}
@@ -99,7 +104,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Population</dt>
                 <dd>
-                  <RangeWithValue question={population} />
+                  <RangeWithValue stat={populationStat(facts)} />
                 </dd>
               </>
             )}
@@ -107,7 +112,7 @@ export function CountryInfoPanel({
               <>
                 <dt>IHDI</dt>
                 <dd>
-                  <RangeWithValue question={ihdi} />
+                  <RangeWithValue stat={ihdiStat(facts)} />
                 </dd>
               </>
             )}

@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from './countryFacts'
-import { AREA_RANGES, IHDI_RANGES, NO_DATA, POPULATION_RANGES, rangeOf } from './statRanges'
+import {
+  AREA_RANGES,
+  areaStat,
+  formatIhdi,
+  formatLargeNumber,
+  IHDI_RANGES,
+  ihdiStat,
+  NO_DATA,
+  POPULATION_RANGES,
+  populationStat,
+  rangeOf,
+} from './statRanges'
 
 describe('rangeOf', () => {
   it('puts population values in the right range', () => {
@@ -67,5 +78,46 @@ describe('rangeOf', () => {
       .filter((country) => rangeOf(POPULATION_RANGES, country.population).name === '1.4 Billion')
       .map((country) => country.isoAlpha3)
     expect(billions.sort()).toEqual(['CHN', 'IND'])
+  })
+})
+
+describe('formatLargeNumber', () => {
+  it('rounds to 3 significant figures with a K, M or B suffix', () => {
+    expect(formatLargeNumber(45_312_000)).toBe('45.3M')
+    expect(formatLargeNumber(1_416_000_000)).toBe('1.42B')
+    expect(formatLargeNumber(9_984_670)).toBe('9.98M')
+    expect(formatLargeNumber(12_345)).toBe('12.3K')
+    expect(formatLargeNumber(496)).toBe('496')
+    expect(formatLargeNumber(0.44)).toBe('0.44')
+  })
+
+  it('moves up a suffix when rounding reaches it, and drops trailing zeros', () => {
+    expect(formatLargeNumber(999_600)).toBe('1M')
+    expect(formatLargeNumber(2_000_000)).toBe('2M')
+  })
+})
+
+describe('formatIhdi', () => {
+  it('multiplies by 10 and gives one decimal place', () => {
+    expect(formatIhdi(0.543)).toBe('5.4')
+    expect(formatIhdi(0.8)).toBe('8.0')
+  })
+})
+
+describe('country stats', () => {
+  it("gives each stat's range and rounded value", () => {
+    const france = countryFacts['FRA']
+    expect(areaStat(france)).toEqual({ range: rangeOf(AREA_RANGES, 551_695), value: '552K km²' })
+    expect(populationStat(france).value).toBe('66.7M')
+    expect(ihdiStat(france)).toEqual({
+      range: rangeOf(IHDI_RANGES, 0.836),
+      value: '8.4',
+      isEstimate: false,
+    })
+  })
+
+  it('marks an estimated IHDI, and gives null with no data', () => {
+    expect(ihdiStat(countryFacts['SAU'])).toMatchObject({ value: '8.0 (est.)', isEstimate: true })
+    expect(ihdiStat(countryFacts['VAT'])).toBeNull()
   })
 })

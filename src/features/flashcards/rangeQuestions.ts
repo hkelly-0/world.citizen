@@ -1,11 +1,12 @@
 import type { CountryFacts } from '../../shared/countryFacts'
 import {
   AREA_RANGES,
+  areaStat,
   IHDI_RANGES,
-  ihdiRange,
+  ihdiStat,
   NO_DATA,
   POPULATION_RANGES,
-  rangeOf,
+  populationStat,
   type RangeLabel,
   type StatRange,
 } from '../../shared/statRanges'
@@ -28,38 +29,9 @@ export type RangeQuestion = {
   correctAnswer: RangeLabel
   // True when the correct answer comes from our estimate, not UNDP's figure.
   isEstimate?: boolean
-  // The country's own value, shown once answered (e.g. "45.3M"), or null for
-  // an IHDI with no data.
+  // The country's rounded value (`StatValue`'s `value`), shown once answered,
+  // or null for an IHDI with no data.
   trueValue: string | null
-}
-
-// Rounds to 3 significant figures and shortens with K, M or B like the range
-// bounds, e.g. 45_312_000 -> "45.3M". Trailing zeros are dropped ("1M").
-export function formatLargeNumber(value: number): string {
-  const rounded = Number(value.toPrecision(3))
-  const suffixes: [number, string][] = [
-    [1_000_000_000, 'B'],
-    [1_000_000, 'M'],
-    [1_000, 'K'],
-  ]
-  for (const [size, suffix] of suffixes) {
-    if (rounded >= size) return `${Number((rounded / size).toPrecision(3))}${suffix}`
-  }
-  return String(rounded)
-}
-
-// Multiplied by 10 like the IHDI range bounds and given to one decimal place,
-// e.g. 0.543 -> "5.4".
-export function formatIhdi(ihdi: number): string {
-  return (ihdi * 10).toFixed(1)
-}
-
-// The real IHDI if UNDP has one, otherwise our estimate marked "(est.)",
-// otherwise null.
-function ihdiTrueValue(country: CountryFacts): string | null {
-  if (country.ihdi !== null) return formatIhdi(country.ihdi)
-  if (country.ihdiEstimate !== null) return `${formatIhdi(country.ihdiEstimate)} (est.)`
-  return null
 }
 
 // `chosen` is the name of the picked option. Right if it is the correct one,
@@ -76,21 +48,23 @@ export function rangeAnswerResult(question: RangeQuestion, chosen: string): Answ
 }
 
 export function rangeQuestions(country: CountryFacts): RangeQuestion[] {
-  const ihdi = ihdiRange(country)
+  const area = areaStat(country)
+  const population = populationStat(country)
+  const ihdi = ihdiStat(country)
   return [
     {
       id: 'area',
       label: 'Area',
       options: largestFirst(AREA_RANGES),
-      correctAnswer: rangeOf(AREA_RANGES, country.areaKm2),
-      trueValue: `${formatLargeNumber(country.areaKm2)} km²`,
+      correctAnswer: area.range,
+      trueValue: area.value,
     },
     {
       id: 'population',
       label: 'Population',
       options: largestFirst(POPULATION_RANGES),
-      correctAnswer: rangeOf(POPULATION_RANGES, country.population),
-      trueValue: formatLargeNumber(country.population),
+      correctAnswer: population.range,
+      trueValue: population.value,
     },
     {
       id: 'ihdi',
@@ -101,7 +75,7 @@ export function rangeQuestions(country: CountryFacts): RangeQuestion[] {
       ],
       correctAnswer: ihdi === null ? NO_DATA : ihdi.range,
       isEstimate: ihdi?.isEstimate,
-      trueValue: ihdiTrueValue(country),
+      trueValue: ihdi === null ? null : ihdi.value,
     },
   ]
 }

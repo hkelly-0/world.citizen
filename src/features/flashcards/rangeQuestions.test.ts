@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { IHDI_RANGES, type RangeLabel } from '../../shared/statRanges'
-import { formatIhdi, formatLargeNumber, rangeAnswerResult, rangeQuestions } from './rangeQuestions'
+import { rangeAnswerResult, rangeQuestions } from './rangeQuestions'
 
 const france = countryFacts['FRA']
 
@@ -65,29 +65,6 @@ describe('rangeQuestions', () => {
     ])
     expect(rangeQuestions(countryFacts['SAU'])[2].trueValue).toBe('8.0 (est.)')
     expect(rangeQuestions(countryFacts['VAT'])[2].trueValue).toBeNull()
-  })
-})
-
-describe('formatLargeNumber', () => {
-  it('rounds to 3 significant figures with a K, M or B suffix', () => {
-    expect(formatLargeNumber(45_312_000)).toBe('45.3M')
-    expect(formatLargeNumber(1_416_000_000)).toBe('1.42B')
-    expect(formatLargeNumber(9_984_670)).toBe('9.98M')
-    expect(formatLargeNumber(12_345)).toBe('12.3K')
-    expect(formatLargeNumber(496)).toBe('496')
-    expect(formatLargeNumber(0.44)).toBe('0.44')
-  })
-
-  it('moves up a suffix when rounding reaches it, and drops trailing zeros', () => {
-    expect(formatLargeNumber(999_600)).toBe('1M')
-    expect(formatLargeNumber(2_000_000)).toBe('2M')
-  })
-})
-
-describe('formatIhdi', () => {
-  it('multiplies by 10 and gives one decimal place', () => {
-    expect(formatIhdi(0.543)).toBe('5.4')
-    expect(formatIhdi(0.8)).toBe('8.0')
   })
 })
 
