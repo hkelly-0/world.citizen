@@ -18,6 +18,7 @@ import {
 } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
 import { CountrySearch } from './CountrySearch'
+import { WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { GlobeSettings } from './GlobeSettings'
 import { RegionInfoPanel } from './RegionInfoPanel'
 import { searchPlacesFromShapes } from './countryNameSearch'
@@ -42,6 +43,10 @@ const FOCUS_TOP_PADDING = 72
 const FOCUS_DURATION_MS = 1200
 // The panel's bottom margin, plus a gap above it.
 const PANEL_BOTTOM_MARGIN = 16
+// On phones the globe's resting centre sits this fraction of the screen
+// height above the middle, so less of it is under an open info panel.
+// The other globes stay centred.
+const PHONE_GLOBE_RAISE = 0.05
 
 // Every country and territory on the map, for the search box.
 const SEARCH_PLACES = searchPlacesFromShapes(COUNTRY_SHAPES)
@@ -185,6 +190,16 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
     // starts off) unless the dev option is on.
     const map = createCountryMap(container, ALL_GROUP_IDS, areCountryGroupsShown())
     mapRef.current = map
+
+    // Bottom padding moves the map's centre up by half its height. Set again
+    // when the screen is resized (e.g. a phone turned sideways).
+    function updateRaise() {
+      const isPhone = map.getContainer().clientWidth < WIDE_SCREEN_MIN_PX
+      const raisePx = isPhone ? map.getContainer().clientHeight * PHONE_GLOBE_RAISE : 0
+      map.setPadding({ top: 0, bottom: 2 * raisePx, left: 0, right: 0 })
+    }
+    updateRaise()
+    map.on('resize', updateRaise)
 
     // Tapping a country selects it (or its region); tapping the ocean closes
     // the info panel.
