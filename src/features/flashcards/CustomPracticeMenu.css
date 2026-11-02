@@ -67,11 +67,9 @@
 }
 
 /* A multi-country question the Passport can't make yet: the whole row is
-   dimmed, not just its switch. */
-.custom-practice__unavailable,
-.custom-practice__unavailable:hover {
+   dimmed, not just its switch. SwitchRow.css already drops its hover tint. */
+.custom-practice__unavailable {
   opacity: 0.4;
-  background: none;
 }
 
 /* The main action, filled in the switches' blue so it stands out below the

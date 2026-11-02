@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { SwitchRow } from '../../shared/SwitchRow'
 import type { CountryIcon } from '../../shared/settings'
 import {
   INFO_QUESTION_IDS,
@@ -84,23 +85,18 @@ export function SettingsMenu({
     onSave(ticked, countryIcon)
   }
 
-  // One switch row per question type in the list given.
-  function questionSwitches(questionIds: QuestionId[]) {
-    return questionIds.map((id) => (
-      <label key={id} className="options-page__row options-page__switch-row">
-        {LABELS[id]}
-        <input
-          type="checkbox"
-          className="options-page__switch-input"
-          checked={learnedQuestionIds.includes(id)}
-          // The last ticked box can't be unticked, so something is always learned.
-          disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
-          onChange={() => toggle(id)}
-        />
-        {/* The visible switch, drawn from the hidden checkbox's state. */}
-        <span className="options-page__switch" aria-hidden="true" />
-      </label>
-    ))
+  // The switch row for one question type.
+  function questionSwitch(id: QuestionId) {
+    return (
+      <SwitchRow
+        key={id}
+        label={LABELS[id]}
+        checked={learnedQuestionIds.includes(id)}
+        // The last ticked box can't be unticked, so something is always learned.
+        disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
+        onChange={() => toggle(id)}
+      />
+    )
   }
 
   return (
@@ -112,11 +108,11 @@ export function SettingsMenu({
         <div className="options-page__card">
           <fieldset className="options-page__group">
             <legend className="options-page__group-label">Fundamentals</legend>
-            {questionSwitches(FACT_QUESTION_IDS)}
+            {FACT_QUESTION_IDS.map(questionSwitch)}
           </fieldset>
           <fieldset className="options-page__group">
             <legend className="options-page__group-label">Textual info</legend>
-            {questionSwitches(INFO_QUESTION_IDS)}
+            {INFO_QUESTION_IDS.map(questionSwitch)}
           </fieldset>
         </div>
       </section>

@@ -1,6 +1,6 @@
 /* The layout shared by Settings and the Custom Practice menu: a title, then
-   small headings over rounded cards of rows, with switches for the choices.
-   Used with .main-menu from MainMenu.css. */
+   small headings over rounded cards of rows, with switches (SwitchRow.tsx)
+   for the choices. Used with .main-menu from MainMenu.css. */
 
 /* A column a little wider than the main menu's, as each card has its own
    padding. Room at the top for the back button, which is positioned over the
@@ -89,76 +89,4 @@
 .options-page__group .options-page__row {
   min-height: 44px;
   border-top: none;
-}
-
-.options-page__switch-row {
-  /* Name on the left, switch at the right-hand edge. */
-  justify-content: space-between;
-  /* Holds the hidden checkbox, which is positioned. */
-  position: relative;
-  cursor: pointer;
-}
-
-.options-page__switch-row:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-/* The real checkbox, invisible but still focusable and read out; the span
-   after it is what's seen. */
-.options-page__switch-input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-}
-
-/* A pill with a round knob, which slides right and turns the pill blue when
-   ticked. */
-.options-page__switch {
-  position: relative;
-  flex-shrink: 0;
-  width: 40px;
-  height: 24px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  transition: background 0.15s;
-}
-
-.options-page__switch::before {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #f2f4f8;
-  transition: transform 0.15s;
-}
-
-.options-page__switch-input:checked + .options-page__switch {
-  background: #58a6ff;
-}
-
-.options-page__switch-input:checked + .options-page__switch::before {
-  transform: translateX(16px);
-}
-
-.options-page__switch-input:focus-visible + .options-page__switch {
-  outline: 2px solid #f2f4f8;
-  outline-offset: 2px;
-}
-
-/* A switch that can't be changed, e.g. Settings' last ticked one. */
-.options-page__switch-row:has(.options-page__switch-input:disabled) {
-  cursor: default;
-}
-
-.options-page__switch-row:has(.options-page__switch-input:disabled):hover {
-  background: none;
-}
-
-.options-page__switch-input:disabled + .options-page__switch {
-  opacity: 0.5;
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { SwitchRow } from '../../shared/SwitchRow'
 import {
   loadCustomPracticeChoices,
   saveCustomPracticeChoices,
@@ -130,25 +131,14 @@ export function CustomPracticeMenu({
   // One switch row per choice in the list given.
   function choiceRows(choices: typeof offered) {
     return choices.map(({ choice, label }) => (
-      <label
+      <SwitchRow
         key={choice}
-        className={
-          hasNotEnoughCountries(choice)
-            ? 'options-page__row options-page__switch-row custom-practice__unavailable'
-            : 'options-page__row options-page__switch-row'
-        }
-      >
-        {label}
-        <input
-          type="checkbox"
-          className="options-page__switch-input"
-          checked={chosen.includes(choice)}
-          disabled={hasNotEnoughCountries(choice)}
-          onChange={() => toggle(choice)}
-        />
-        {/* The visible switch, drawn from the hidden checkbox's state. */}
-        <span className="options-page__switch" aria-hidden="true" />
-      </label>
+        label={label}
+        checked={chosen.includes(choice)}
+        disabled={hasNotEnoughCountries(choice)}
+        onChange={() => toggle(choice)}
+        className={hasNotEnoughCountries(choice) ? 'custom-practice__unavailable' : undefined}
+      />
     ))
   }
 

@@ -1,0 +1,72 @@
+/* A row of an options-page card (OptionsPage.css) with a switch. */
+.switch-row {
+  /* Name on the left, switch at the right-hand edge. */
+  justify-content: space-between;
+  /* Holds the hidden checkbox, which is positioned. */
+  position: relative;
+  cursor: pointer;
+}
+
+.switch-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* The real checkbox, invisible but still focusable and read out; the span
+   after it is what's seen. */
+.switch-row__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+/* A pill with a round knob, which slides right and turns the pill blue when
+   ticked. */
+.switch-row__switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 24px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.15s;
+}
+
+.switch-row__switch::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f2f4f8;
+  transition: transform 0.15s;
+}
+
+.switch-row__input:checked + .switch-row__switch {
+  background: #58a6ff;
+}
+
+.switch-row__input:checked + .switch-row__switch::before {
+  transform: translateX(16px);
+}
+
+.switch-row__input:focus-visible + .switch-row__switch {
+  outline: 2px solid #f2f4f8;
+  outline-offset: 2px;
+}
+
+/* A switch that can't be changed, e.g. Settings' last ticked one. */
+.switch-row:has(.switch-row__input:disabled) {
+  cursor: default;
+}
+
+.switch-row:has(.switch-row__input:disabled):hover {
+  background: none;
+}
+
+.switch-row__input:disabled + .switch-row__switch {
+  opacity: 0.5;
+}
