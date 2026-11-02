@@ -53,9 +53,14 @@ const SEARCH_PLACES = searchPlacesFromShapes(COUNTRY_SHAPES)
 
 type GlobeViewProps = {
   onBack: () => void
+  // A country (e.g. "FRA") selected as the globe opens, when opened by a
+  // flashcard's "See on Globe". Otherwise nothing is selected.
+  initialCountryCode?: string
+  // The back button's label, when it doesn't return to the main menu.
+  backLabel?: string
 }
 
-export default function GlobeView({ onBack }: GlobeViewProps) {
+export default function GlobeView({ onBack, initialCountryCode, backLabel }: GlobeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const panelRef = useRef<HTMLElement>(null)
@@ -221,6 +226,11 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
       if (isShowingRegionsRef.current) setHoveredGroup(null)
     })
 
+    // Selected as if tapped, once the country outlines exist.
+    if (initialCountryCode !== undefined) {
+      map.once('load', () => selectCountryByCode(initialCountryCode))
+    }
+
     if (import.meta.env.DEV) {
       setZoom(map.getZoom())
       map.on('zoom', () => setZoom(map.getZoom()))
@@ -297,7 +307,7 @@ export default function GlobeView({ onBack }: GlobeViewProps) {
   return (
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
-      <BackButton onClick={goToMenu} />
+      <BackButton onClick={goToMenu} label={backLabel} />
       <GlobeSettings isShowingRegions={isShowingRegions} onShowRegionsChange={changeShowRegions} />
       <CountrySearch
         places={SEARCH_PLACES}

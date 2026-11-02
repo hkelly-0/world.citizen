@@ -1,0 +1,46 @@
+/* In the top-right corner, opposite the back button and styled like it.
+   Scrolls away with the screen on phones, like the back button (see #root in
+   index.css). */
+.see-on-globe {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Hidden during the card's location and name questions (and while their globe
+   loads), as the globe would give the answer away. */
+#root:has(.locate-globe, .name-globe, .flashcard__globe-loading) .see-on-globe {
+  display: none;
+}
+
+.see-on-globe:hover {
+  background: rgba(40, 48, 70, 0.95);
+}
+
+/* Drawn like the globe settings' gear. */
+.see-on-globe__icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #f2f4f8;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The flashcard screen while the globe is shown over it. Its own display
+   rule would otherwise beat the hidden attribute. */
+.flashcards-view[hidden] {
+  display: none;
+}

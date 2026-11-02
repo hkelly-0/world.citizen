@@ -24,6 +24,24 @@ vi.mock('./features/globe/NameCountryGlobe', () => ({
   ),
 }))
 
+// The globe screen, as opened by "See on Globe".
+vi.mock('./features/globe/GlobeView', () => ({
+  default: ({
+    initialCountryCode,
+    backLabel,
+    onBack,
+  }: {
+    initialCountryCode?: string
+    backLabel?: string
+    onBack: () => void
+  }) => (
+    <div>
+      <p>Globe showing {initialCountryCode}</p>
+      <button onClick={onBack}>{backLabel}</button>
+    </div>
+  ),
+}))
+
 vi.mock('./features/extras/NameEveryCountry', () => ({
   default: ({ area, onBack }: { area: { name: string }; onBack: () => void }) => (
     <button onClick={onBack}>Finish game in {area.name}</button>
@@ -133,11 +151,11 @@ describe('App', () => {
     // a globe question.
     await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
 
-    // Pick the first option each time (button 0 is "← Menu") for the flag and
-    // the three range questions, then type a capital. Right or wrong, the card
-    // gets saved.
+    // Pick the first option each time (button 0 is "← Menu", 1 is "See on
+    // Globe") for the flag and the three range questions, then type a
+    // capital. Right or wrong, the card gets saved.
     for (let i = 0; i < 4; i++) {
-      await userEvent.click(screen.getAllByRole('button', { name: /./ })[1])
+      await userEvent.click(screen.getAllByRole('button', { name: /./ })[2])
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     }
     await userEvent.type(screen.getByRole('textbox'), 'Nowhere')
@@ -168,6 +186,26 @@ describe('App', () => {
       'people',
       'population',
     ])
+  })
+
+  it('opens the card\'s country on the globe with "See on Globe", and goes back to the card', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    // Not on the discovery screen, which doesn't name the country.
+    expect(screen.queryByRole('button', { name: 'See on Globe' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Answer globe question' }))
+
+    const country = screen.getByRole('heading', { level: 2 }).textContent
+    await userEvent.click(screen.getByRole('button', { name: 'See on Globe' }))
+    expect(await screen.findByText(/Globe showing [A-Z]{3}/)).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: '← Flashcards' }))
+    // The same card, still past its globe question.
+    await vi.waitFor(() => expect(screen.queryByText(/Globe showing/)).not.toBeInTheDocument())
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(country ?? '')
+    expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
   })
 
   it('practises only the ticked question types, and saves progress for just those', async () => {

@@ -12,6 +12,7 @@ import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
 import { CardReward } from '../flashcards/CardReward'
 import { rewardAfterCard, type CardRewardDetails } from '../flashcards/rewardAfterCard'
+import { SeeOnGlobeButton, SeeOnGlobeScreen, useSeeOnGlobe } from '../flashcards/SeeOnGlobe'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {
@@ -67,28 +68,35 @@ export function PassportFlashcardView({
     setReward(rewardAfterCard(isoAlpha3, isNewCountry, newProgress, learnedQuestionIds, today))
   }
 
+  const seeOnGlobe = useSeeOnGlobe()
+
   return (
-    <div className="flashcards-view">
-      <BackButton onClick={onBack} label="← Passport" />
-      {reward !== null ? (
-        <CardReward
-          reward={reward}
-          continueLabel="Done"
-          continueHasArrow={false}
-          onContinue={onBack}
-        />
-      ) : (
-        <Flashcard
-          country={countryFacts[isoAlpha3]}
-          questionIds={learnedQuestionIds}
-          isNameQuestion={false}
-          offeredFlags={offeredFlags}
-          countryIcon={countryIcon}
-          progress={countryProgress}
-          onAnswer={answerQuestion}
-          onFinish={() => finishCard(loadProgress(), todayString())}
-        />
-      )}
-    </div>
+    <>
+      {seeOnGlobe.code !== null && <SeeOnGlobeScreen code={seeOnGlobe.code} />}
+      {/* Kept mounted under the globe, so the card is as it was left. */}
+      <div className="flashcards-view" hidden={seeOnGlobe.code !== null}>
+        <BackButton onClick={onBack} label="← Passport" />
+        <SeeOnGlobeButton onClick={() => seeOnGlobe.open(isoAlpha3)} />
+        {reward !== null ? (
+          <CardReward
+            reward={reward}
+            continueLabel="Done"
+            continueHasArrow={false}
+            onContinue={onBack}
+          />
+        ) : (
+          <Flashcard
+            country={countryFacts[isoAlpha3]}
+            questionIds={learnedQuestionIds}
+            isNameQuestion={false}
+            offeredFlags={offeredFlags}
+            countryIcon={countryIcon}
+            progress={countryProgress}
+            onAnswer={answerQuestion}
+            onFinish={() => finishCard(loadProgress(), todayString())}
+          />
+        )}
+      </div>
+    </>
   )
 }

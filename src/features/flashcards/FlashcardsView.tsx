@@ -40,6 +40,7 @@ import {
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
 import { rewardAfterCard, type CardRewardDetails } from './rewardAfterCard'
+import { SeeOnGlobeButton, SeeOnGlobeScreen, useSeeOnGlobe } from './SeeOnGlobe'
 import './FlashcardsView.css'
 
 // The globe (MapLibre + border data) is large, so it is loaded only when a new
@@ -298,69 +299,89 @@ export function FlashcardsView({
     setCard(newCard(nextCountry(progress, newGroupId, null), progress))
   }
 
+  const seeOnGlobe = useSeeOnGlobe()
+  // The country "See on Globe" shows: the finished card's on its reward, or
+  // the card being asked. None on the other screens (multi-country questions,
+  // the region globe, the discovery screen).
+  const seeOnGlobeCode =
+    reward !== null
+      ? reward.code
+      : (isMultiCountryQuestionShown && multiCountryQuestion !== null) ||
+          card === null ||
+          showDiscoveryScreen
+        ? null
+        : card.country
+
   return (
-    <div className="flashcards-view">
-      <BackButton onClick={onBack} />
-      {reward !== null ? (
-        <CardReward
-          reward={reward}
-          continueLabel="Next"
-          continueHasArrow={true}
-          onContinue={() => setReward(null)}
-        />
-      ) : isMultiCountryQuestionShown && multiCountryQuestion !== null ? (
-        <MultiCountryCard
-          question={multiCountryQuestion}
-          countryIcon={countryIcon}
-          onFinish={finishMultiCountryQuestion}
-        />
-      ) : needsNewGroup ? (
-        <Suspense fallback={<p className="flashcards-view__done">Loading globe…</p>}>
-          <RegionGlobe progress={progress} onDiscover={chooseGroup} />
-        </Suspense>
-      ) : card === null ? (
-        // Only in Custom Practice, with the Passport empty.
-        <p className="flashcards-view__done">
-          No countries in your Passport yet. Discover new countries in Classic Mode.
-        </p>
-      ) : showDiscoveryScreen ? (
-        <div className="flashcards-view__discovering">
-          <p>
-            Discovering a new country from {countryFacts[card.country].groupName}{' '}
-            <span className="flashcards-view__no-wrap">
-              {groupProgressLabel(countryFacts[card.country].groupId, progress)}...
-            </span>
+    <>
+      {seeOnGlobe.code !== null && <SeeOnGlobeScreen code={seeOnGlobe.code} />}
+      {/* Kept mounted under the globe, so the card is as it was left. */}
+      <div className="flashcards-view" hidden={seeOnGlobe.code !== null}>
+        <BackButton onClick={onBack} />
+        {seeOnGlobeCode !== null && (
+          <SeeOnGlobeButton onClick={() => seeOnGlobe.open(seeOnGlobeCode)} />
+        )}
+        {reward !== null ? (
+          <CardReward
+            reward={reward}
+            continueLabel="Next"
+            continueHasArrow={true}
+            onContinue={() => setReward(null)}
+          />
+        ) : isMultiCountryQuestionShown && multiCountryQuestion !== null ? (
+          <MultiCountryCard
+            question={multiCountryQuestion}
+            countryIcon={countryIcon}
+            onFinish={finishMultiCountryQuestion}
+          />
+        ) : needsNewGroup ? (
+          <Suspense fallback={<p className="flashcards-view__done">Loading globe…</p>}>
+            <RegionGlobe progress={progress} onDiscover={chooseGroup} />
+          </Suspense>
+        ) : card === null ? (
+          // Only in Custom Practice, with the Passport empty.
+          <p className="flashcards-view__done">
+            No countries in your Passport yet. Discover new countries in Classic Mode.
           </p>
-          <p className="flashcards-view__discovering-subtitle">
-            Just try your best guess
-            <br />
-            for these questions
-          </p>
-          <button
-            type="button"
-            className="flashcards-view__go arrow-button"
-            onClick={() => setDiscoveryScreenPassedFor(card.country)}
-          >
-            Go
-          </button>
-        </div>
-      ) : (
-        // The key gives each country a fresh card, resetting its answers.
-        <Flashcard
-          key={card.country}
-          country={countryFacts[card.country]}
-          questionIds={questionIds}
-          isNameQuestion={card.isNameQuestion}
-          offeredFlags={card.offeredFlags}
-          answeredIds={card.answeredIds}
-          countryIcon={countryIcon}
-          progress={progress[card.country]}
-          onAnswer={(id, result, isCardFinished) =>
-            answerQuestion(card, id, result, isCardFinished)
-          }
-          onFinish={() => finishCard(card, progress)}
-        />
-      )}
-    </div>
+        ) : showDiscoveryScreen ? (
+          <div className="flashcards-view__discovering">
+            <p>
+              Discovering a new country from {countryFacts[card.country].groupName}{' '}
+              <span className="flashcards-view__no-wrap">
+                {groupProgressLabel(countryFacts[card.country].groupId, progress)}...
+              </span>
+            </p>
+            <p className="flashcards-view__discovering-subtitle">
+              Just try your best guess
+              <br />
+              for these questions
+            </p>
+            <button
+              type="button"
+              className="flashcards-view__go arrow-button"
+              onClick={() => setDiscoveryScreenPassedFor(card.country)}
+            >
+              Go
+            </button>
+          </div>
+        ) : (
+          // The key gives each country a fresh card, resetting its answers.
+          <Flashcard
+            key={card.country}
+            country={countryFacts[card.country]}
+            questionIds={questionIds}
+            isNameQuestion={card.isNameQuestion}
+            offeredFlags={card.offeredFlags}
+            answeredIds={card.answeredIds}
+            countryIcon={countryIcon}
+            progress={progress[card.country]}
+            onAnswer={(id, result, isCardFinished) =>
+              answerQuestion(card, id, result, isCardFinished)
+            }
+            onFinish={() => finishCard(card, progress)}
+          />
+        )}
+      </div>
+    </>
   )
 }
