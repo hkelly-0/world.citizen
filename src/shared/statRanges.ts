@@ -32,7 +32,7 @@ export const POPULATION_RANGES: StatRange[] = [
 
 // In square kilometres.
 export const AREA_RANGES: StatRange[] = [
-  { bound: '< 10K km²', name: 'Teensy-weensy', min: 0 },
+  { bound: '< 10K km²', name: 'Minuscule', min: 0 },
   { bound: '≥ 10K km²', name: 'Tiny', min: 10_000 },
   { bound: '≥ 100K km²', name: 'Small', min: 100_000 },
   { bound: '≥ 300K km²', name: 'Medium', min: 300_000 },

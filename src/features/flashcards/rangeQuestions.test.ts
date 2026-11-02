@@ -16,7 +16,7 @@ describe('rangeQuestions', () => {
       'Medium',
       'Small',
       'Tiny',
-      'Teensy-weensy',
+      'Minuscule',
     ])
     expect(names(population.options)[0]).toBe('1.4 Billion')
     expect(names(population.options).at(-1)).toBe('Minute')

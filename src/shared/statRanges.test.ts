@@ -14,7 +14,7 @@ describe('rangeOf', () => {
   })
 
   it('puts area values in the right range', () => {
-    expect(rangeOf(AREA_RANGES, 0.44).name).toBe('Teensy-weensy')
+    expect(rangeOf(AREA_RANGES, 0.44).name).toBe('Minuscule')
     expect(rangeOf(AREA_RANGES, 50_000).name).toBe('Tiny')
     expect(rangeOf(AREA_RANGES, 200_000).name).toBe('Small')
     expect(rangeOf(AREA_RANGES, 551_695).name).toBe('Medium')

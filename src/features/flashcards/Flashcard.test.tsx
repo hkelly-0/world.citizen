@@ -385,7 +385,7 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap right country')
     await answerFlag('VAT', true)
-    await answerRangeQuestion('< 10K km² Teensy-weensy')
+    await answerRangeQuestion('< 10K km² Minuscule')
     await answerRangeQuestion('< 100K Minute')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
