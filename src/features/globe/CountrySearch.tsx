@@ -9,12 +9,19 @@ type CountrySearchProps = {
   places: SearchPlace[]
   // Called with the chosen place's shape index.
   onSelect: (shapeIndex: number) => void
+  // True when the back button beside it has a longer label than "← Menu"
+  // (e.g. "← Flashcards"), so on phones the box narrows further to leave it room.
+  isBesideLongBackButton?: boolean
 }
 
 // A search box for the globe screen. Suggestions appear once 3 letters are
 // typed; tapping one, or pressing Enter for the top (or arrow-key highlighted)
 // one, chooses that country or territory.
-export function CountrySearch({ places, onSelect }: CountrySearchProps) {
+export function CountrySearch({
+  places,
+  onSelect,
+  isBesideLongBackButton = false,
+}: CountrySearchProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [typed, setTyped] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -51,7 +58,14 @@ export function CountrySearch({ places, onSelect }: CountrySearchProps) {
   }
 
   return (
-    <div className="country-search" role="search">
+    <div
+      className={
+        isBesideLongBackButton
+          ? 'country-search country-search--beside-long-back'
+          : 'country-search'
+      }
+      role="search"
+    >
       {/* Magnifying glass. */}
       <svg className="country-search__icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="10" cy="10" r="6.5" />

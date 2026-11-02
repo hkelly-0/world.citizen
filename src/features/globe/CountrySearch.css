@@ -9,6 +9,11 @@
   width: min(260px, calc(100% - 144px));
 }
 
+/* Room for a back button as wide as "← Flashcards". */
+.country-search--beside-long-back {
+  width: min(260px, calc(100% - 200px));
+}
+
 .country-search__icon {
   position: absolute;
   top: 10px;

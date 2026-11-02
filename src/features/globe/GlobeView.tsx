@@ -312,6 +312,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
       <CountrySearch
         places={SEARCH_PLACES}
         onSelect={(index) => selectCountryOrRegion(index, false)}
+        isBesideLongBackButton={backLabel !== undefined}
       />
       {selectedCountry !== null && (
         <CountryInfoPanel
