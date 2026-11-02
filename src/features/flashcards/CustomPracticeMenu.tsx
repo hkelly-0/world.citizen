@@ -19,7 +19,7 @@ import {
 } from './multiCountryQuestions'
 // Same layout as the main menu, and the same cards and switches as Settings.
 import '../menu/MainMenu.css'
-import '../settings/SettingsMenu.css'
+import '../../shared/OptionsPage.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
@@ -134,20 +134,20 @@ export function CustomPracticeMenu({
         key={choice}
         className={
           hasNotEnoughCountries(choice)
-            ? 'settings__row settings__switch-row custom-practice__unavailable'
-            : 'settings__row settings__switch-row'
+            ? 'options-page__row options-page__switch-row custom-practice__unavailable'
+            : 'options-page__row options-page__switch-row'
         }
       >
         {label}
         <input
           type="checkbox"
-          className="settings__switch-input"
+          className="options-page__switch-input"
           checked={chosen.includes(choice)}
           disabled={hasNotEnoughCountries(choice)}
           onChange={() => toggle(choice)}
         />
         {/* The visible switch, drawn from the hidden checkbox's state. */}
-        <span className="settings__switch" aria-hidden="true" />
+        <span className="options-page__switch" aria-hidden="true" />
       </label>
     ))
   }
@@ -160,33 +160,33 @@ export function CustomPracticeMenu({
   const isMissingCountries = multiCountry.some(({ choice }) => hasNotEnoughCountries(choice))
 
   return (
-    <main className="main-menu settings">
+    <main className="main-menu options-page">
       <BackButton onClick={onBack} />
-      <h1 className="settings__title">Custom Practice</h1>
-      <section className="settings__section">
-        <h2 className="settings__heading">Select which question types to see today</h2>
+      <h1 className="options-page__title">Custom Practice</h1>
+      <section className="options-page__section">
+        <h2 className="options-page__heading">Select which question types to see today</h2>
         {/* A card or group with nothing offered (nothing it needs is learned)
             is left out. */}
         {(fundamentals.length > 0 || textualInfo.length > 0) && (
-          <div className="settings__card">
+          <div className="options-page__card">
             {fundamentals.length > 0 && (
-              <fieldset className="settings__group">
-                <legend className="settings__group-label">Fundamentals</legend>
+              <fieldset className="options-page__group">
+                <legend className="options-page__group-label">Fundamentals</legend>
                 {choiceRows(fundamentals)}
               </fieldset>
             )}
             {textualInfo.length > 0 && (
-              <fieldset className="settings__group">
-                <legend className="settings__group-label">Textual info</legend>
+              <fieldset className="options-page__group">
+                <legend className="options-page__group-label">Textual info</legend>
                 {choiceRows(textualInfo)}
               </fieldset>
             )}
           </div>
         )}
         {multiCountry.length > 0 && (
-          <div className="settings__card custom-practice__card">
-            <fieldset className="settings__group">
-              <legend className="settings__group-label">Multi-Country Questions</legend>
+          <div className="options-page__card custom-practice__card">
+            <fieldset className="options-page__group">
+              <legend className="options-page__group-label">Multi-Country Questions</legend>
               {isMissingCountries && (
                 <p className="custom-practice__note">
                   Some options require more countries in your Passport

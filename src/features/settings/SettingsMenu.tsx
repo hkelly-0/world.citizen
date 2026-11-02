@@ -9,8 +9,10 @@ import {
 } from '../flashcards/deck'
 import { TutorialNote } from '../tutorial/TutorialNote'
 import { ConfirmMessage } from './ConfirmMessage'
-// The main menu's centred column layout.
+// The main menu's centred column layout, with the cards and switches shared
+// with Custom Practice.
 import '../menu/MainMenu.css'
+import '../../shared/OptionsPage.css'
 import './SettingsMenu.css'
 
 const LABELS: Record<QuestionId, string> = {
@@ -85,43 +87,43 @@ export function SettingsMenu({
   // One switch row per question type in the list given.
   function questionSwitches(questionIds: QuestionId[]) {
     return questionIds.map((id) => (
-      <label key={id} className="settings__row settings__switch-row">
+      <label key={id} className="options-page__row options-page__switch-row">
         {LABELS[id]}
         <input
           type="checkbox"
-          className="settings__switch-input"
+          className="options-page__switch-input"
           checked={learnedQuestionIds.includes(id)}
           // The last ticked box can't be unticked, so something is always learned.
           disabled={learnedQuestionIds.length === 1 && learnedQuestionIds[0] === id}
           onChange={() => toggle(id)}
         />
         {/* The visible switch, drawn from the hidden checkbox's state. */}
-        <span className="settings__switch" aria-hidden="true" />
+        <span className="options-page__switch" aria-hidden="true" />
       </label>
     ))
   }
 
   return (
-    <main className="main-menu settings">
+    <main className="main-menu options-page">
       {tutorialNote === undefined && <BackButton onClick={onBack} />}
-      <h1 className="settings__title">Settings</h1>
-      <section className="settings__section">
-        <h2 className="settings__heading">Information I want to learn</h2>
-        <div className="settings__card">
-          <fieldset className="settings__group">
-            <legend className="settings__group-label">Fundamentals</legend>
+      <h1 className="options-page__title">Settings</h1>
+      <section className="options-page__section">
+        <h2 className="options-page__heading">Information I want to learn</h2>
+        <div className="options-page__card">
+          <fieldset className="options-page__group">
+            <legend className="options-page__group-label">Fundamentals</legend>
             {questionSwitches(FACT_QUESTION_IDS)}
           </fieldset>
-          <fieldset className="settings__group">
-            <legend className="settings__group-label">Textual info</legend>
+          <fieldset className="options-page__group">
+            <legend className="options-page__group-label">Textual info</legend>
             {questionSwitches(INFO_QUESTION_IDS)}
           </fieldset>
         </div>
       </section>
-      <section className="settings__section">
-        <h2 className="settings__heading">Passport</h2>
-        <div className="settings__card">
-          <div className="settings__row settings__icon-choice">
+      <section className="options-page__section">
+        <h2 className="options-page__heading">Passport</h2>
+        <div className="options-page__card">
+          <div className="options-page__row settings__icon-choice">
             <span id="country-icon-label">Main icon for countries</span>
             {/* Two joined buttons; the chosen one is highlighted. */}
             <div className="settings__toggle" role="group" aria-labelledby="country-icon-label">
@@ -143,7 +145,7 @@ export function SettingsMenu({
           </div>
           {tutorialNote === undefined &&
             (isConfirmingEdit ? (
-              <div className="settings__row">
+              <div className="options-page__row">
                 <ConfirmMessage
                   message="Are you sure? Removing a country from your Passport deletes all its progress."
                   confirmLabel="Continue"
@@ -153,7 +155,7 @@ export function SettingsMenu({
               </div>
             ) : (
               <button
-                className="settings__row settings__action arrow-button"
+                className="options-page__row settings__action arrow-button"
                 onClick={() => setIsConfirmingEdit(true)}
               >
                 Manually edit Passport
@@ -164,11 +166,11 @@ export function SettingsMenu({
       {tutorialNote !== undefined ? (
         <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
       ) : (
-        <section className="settings__section">
-          <h2 className="settings__heading">Help</h2>
-          <div className="settings__card">
+        <section className="options-page__section">
+          <h2 className="options-page__heading">Help</h2>
+          <div className="options-page__card">
             <button
-              className="settings__row settings__action arrow-button"
+              className="options-page__row settings__action arrow-button"
               onClick={onReplayTutorial}
             >
               Replay tutorial

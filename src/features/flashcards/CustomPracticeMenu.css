@@ -1,5 +1,5 @@
 /* The title, list and checkboxes below are the Passport editor's; Custom
-   Practice itself uses the cards and switches in SettingsMenu.css, plus the
+   Practice itself uses the cards and switches in src/shared/OptionsPage.css, plus the
    rules at the end of this file. */
 
 /* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css, which sets
