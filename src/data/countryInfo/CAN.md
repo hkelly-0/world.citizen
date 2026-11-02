@@ -4,7 +4,7 @@ North America is home to hundreds of Indigenous nations, whose populations and c
 
 ## People
 
-Canada is ethnically diverse, with most people having European ancestry and growing South Asian, East Asian, and other communities. English and French are official languages, alongside many Indigenous languages. High immigration has shaped its population, and Christianity is the largest religious tradition, though many are non-religious.
+Most Canadians live near the southern border where winters are milder. European ancestry is common, with growing South Asian and East asian communities due to high immigration. English and French are official. Most people are Christian or non-religious.
 
 ## Economy
 
