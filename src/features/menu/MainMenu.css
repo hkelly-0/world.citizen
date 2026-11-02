@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
+  /* Positioned so the Settings button sits at the bottom of the menu. */
+  position: relative;
   min-height: 100%;
   padding: 24px 16px;
   box-sizing: border-box;

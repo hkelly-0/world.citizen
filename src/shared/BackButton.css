@@ -15,6 +15,12 @@
   cursor: pointer;
 }
 
+/* Pinned over the full-screen globes (position: fixed), so the user can still
+   leave if the screen behind was scrolled down when one opened. */
+#root:has(.locate-globe, .name-globe, .region-globe) .back-button {
+  position: fixed;
+}
+
 .back-button:hover {
   background: rgba(40, 48, 70, 0.95);
 }

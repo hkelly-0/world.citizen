@@ -34,6 +34,17 @@ body {
   overflow-y: auto;
 }
 
+/* On phones, positioned so the back button and the tutorial's Skip button,
+   placed with position: absolute, scroll away with the screen instead of
+   staying over it. Wide screens have room for them beside the content, so
+   there they stay put. The width is WIDE_SCREEN_MIN_PX in focusZoom.ts, which
+   CSS can't read, so change both together. */
+@media (width < 768px) {
+  #root {
+    position: relative;
+  }
+}
+
 body {
   background: #000010;
   color: #f2f4f8;

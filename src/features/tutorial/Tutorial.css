@@ -1,7 +1,8 @@
 /* In the top-right corner, opposite where the back button would be, above
-   the flashcards' location globe (z-index 1) and pinned notes. */
+   the flashcards' location globe (z-index 1) and pinned notes. Scrolls away
+   with the screen on phones, like the back button (see #root in index.css). */
 .tutorial__skip {
-  position: fixed;
+  position: absolute;
   top: 16px;
   right: 16px;
   z-index: 4;
@@ -13,6 +14,11 @@
   color: #a9b1c2;
   font: inherit;
   cursor: pointer;
+}
+
+/* Pinned over the full-screen globes, as the back button is. */
+#root:has(.locate-globe, .name-globe, .region-globe) .tutorial__skip {
+  position: fixed;
 }
 
 .tutorial__skip:hover {
