@@ -33,7 +33,7 @@
 
 .settings__toggle-option--chosen,
 .settings__toggle-option--chosen:hover {
-  background: rgba(88, 166, 255, 0.25);
+  background: var(--accent-blue-tint);
   color: #f2f4f8;
 }
 

@@ -28,7 +28,7 @@
   padding: 0 16px;
   border: none;
   border-radius: 12px;
-  background: #58a6ff;
+  background: var(--accent-blue);
   color: #000010;
   font: inherit;
   font-size: 1.2rem;
@@ -37,7 +37,7 @@
 }
 
 .custom-practice__go:hover {
-  background: #79b8ff;
+  background: var(--accent-blue-hover);
 }
 
 .custom-practice__go:disabled {
@@ -46,5 +46,5 @@
 }
 
 .custom-practice__go:disabled:hover {
-  background: #58a6ff;
+  background: var(--accent-blue);
 }

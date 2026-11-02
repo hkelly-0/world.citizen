@@ -9,7 +9,7 @@
   margin: 0 0 16px;
   padding: 12px 16px;
   box-sizing: border-box;
-  border: 1px solid #58a6ff;
+  border: 1px solid var(--accent-blue);
   border-radius: 8px;
   background: rgba(15, 20, 35, 0.95);
   text-align: left;

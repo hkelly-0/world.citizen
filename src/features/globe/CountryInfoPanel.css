@@ -38,7 +38,7 @@
   padding: 0;
   border: none;
   background: none;
-  color: #6cb4ff;
+  color: var(--accent-blue-text);
   font: inherit;
   cursor: pointer;
 }

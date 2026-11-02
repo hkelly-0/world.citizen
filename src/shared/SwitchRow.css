@@ -46,7 +46,7 @@
 }
 
 .switch-row__input:checked + .switch-row__switch {
-  background: #58a6ff;
+  background: var(--accent-blue);
 }
 
 .switch-row__input:checked + .switch-row__switch::before {

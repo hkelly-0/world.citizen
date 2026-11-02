@@ -76,7 +76,7 @@
   width: 100%;
   padding: 12px 16px 4px;
   box-sizing: border-box;
-  color: #6cb4ff;
+  color: var(--accent-blue-text);
   font-size: 0.85rem;
 }
 

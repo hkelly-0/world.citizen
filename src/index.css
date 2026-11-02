@@ -27,6 +27,15 @@ body {
   --correct-green: #3fb950;
   --correct-green-tint: rgba(63, 185, 80, 0.25);
   --correct-green-tint-hover: rgba(63, 185, 80, 0.4);
+  /* The app's accent blue: switches, chosen options, the main action button
+     and the tutorial's notes. Its tint as a chosen option's background, and
+     lighter for a button's hover. */
+  --accent-blue: #58a6ff;
+  --accent-blue-tint: rgba(88, 166, 255, 0.25);
+  --accent-blue-hover: #79b8ff;
+  /* A lighter blue for text, e.g. links and group labels, easier to read
+     than the accent on the dark background. */
+  --accent-blue-text: #6cb4ff;
 }
 
 #root {

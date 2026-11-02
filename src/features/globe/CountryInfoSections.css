@@ -22,7 +22,7 @@
 }
 
 .country-info-sections__heading:hover {
-  color: #6cb4ff;
+  color: var(--accent-blue-text);
 }
 
 /* A chevron drawn from two borders of a rotated square, pointing down when
