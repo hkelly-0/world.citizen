@@ -1,7 +1,8 @@
 // Numerical statistics are grouped into named ranges to make them easier to
 // learn; cards show the range's title (its lower bound and name, e.g.
 // "≥ 5M km²" and "Immense"). `RangeTitle.tsx` shows one. Only a range
-// question's answer adds the rounded value (`trueValue` in rangeQuestions.ts).
+// question's answer and the globe's info panel show the rounded value
+// (`trueValue` in rangeQuestions.ts).
 
 // A range's title. `bound` is null for a range with only a name (e.g.
 // "1.4 Billion"). Names are unique within each list, so range questions use

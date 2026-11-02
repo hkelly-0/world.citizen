@@ -38,10 +38,10 @@ describe('CountryInfoPanel', () => {
     )
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
-    // Population, area and IHDI show range titles, not exact numbers.
-    expect(valueOf('Population')).toHaveTextContent('≥ 50M Numerous')
-    expect(valueOf('Area')).toHaveTextContent('≥ 300K km² Medium')
-    expect(valueOf('IHDI')).toHaveTextContent('8 Great')
+    // Population, area and IHDI show the rounded value with the range's name.
+    expect(valueOf('Population')).toHaveTextContent('66.7M Numerous')
+    expect(valueOf('Area')).toHaveTextContent('552K km² Medium')
+    expect(valueOf('IHDI')).toHaveTextContent('8.4 Great')
   })
 
   it('lists every capital for countries with several', () => {
@@ -60,11 +60,18 @@ describe('CountryInfoPanel', () => {
     expect(screen.getByText('No data')).toBeInTheDocument()
   })
 
-  it('marks an estimated IHDI with (est.)', () => {
+  it('marks an estimated IHDI value with (est.)', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
-    expect(screen.getByText(/\(est\.\)$/)).toBeInTheDocument()
+    expect(valueOf('IHDI')).toHaveTextContent('8.0 (est.) Great')
+  })
+
+  it('shows the value beside a range with no bound, e.g. "1.4 Billion"', () => {
+    const india: CountryShape = { ...france, name: 'India', isoAlpha3: 'IND' }
+    render(<CountryInfoPanel {...panelProps} country={india} />)
+
+    expect(valueOf('Population')).toHaveTextContent(/^1\.\d\dB 1\.4 Billion$/)
   })
 
   it('says what a territory is, by ISO code or, with no code, by map name', () => {
@@ -107,7 +114,7 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
     expect(screen.getByText('French Republic')).toBeInTheDocument()
-    expect(valueOf('Area')).toHaveTextContent('≥ 300K km² Medium')
+    expect(valueOf('Area')).toHaveTextContent('552K km² Medium')
     expect(screen.queryByText('Paris')).not.toBeInTheDocument()
     expect(screen.queryByRole('img', { name: 'Flag of France' })).not.toBeInTheDocument()
     expect(screen.queryByText('Population')).not.toBeInTheDocument()

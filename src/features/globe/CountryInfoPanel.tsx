@@ -3,14 +3,8 @@ import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
+import { rangeQuestions, type RangeQuestion } from '../flashcards/rangeQuestions'
 import { RangeTitle } from '../../shared/RangeTitle'
-import {
-  AREA_RANGES,
-  ihdiRange,
-  NO_DATA,
-  POPULATION_RANGES,
-  rangeOf,
-} from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
 import './CountryInfoPanel.css'
 
@@ -33,6 +27,13 @@ type CountryInfoPanelProps = {
   ref?: Ref<HTMLElement>
 }
 
+// The range's name with the country's rounded value in place of the bound,
+// e.g. "45.3M  Moderate", worked out as on the range question's answer. With
+// no data, only "No data" is shown.
+function RangeWithValue({ question }: { question: RangeQuestion }) {
+  return <RangeTitle range={{ bound: question.trueValue, name: question.correctAnswer.name }} />
+}
+
 export function CountryInfoPanel({
   country,
   learnedQuestionIds,
@@ -45,7 +46,7 @@ export function CountryInfoPanel({
   // Kosovo) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = countryDisplayName(country)
-  const ihdi = facts === undefined ? null : ihdiRange(facts)
+  const [area, population, ihdi] = facts === undefined ? [] : rangeQuestions(facts)
   const subtitle = territorySubtitle(country)
 
   return (
@@ -90,7 +91,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Area</dt>
                 <dd>
-                  <RangeTitle range={rangeOf(AREA_RANGES, facts.areaKm2)} />
+                  <RangeWithValue question={area} />
                 </dd>
               </>
             )}
@@ -98,7 +99,7 @@ export function CountryInfoPanel({
               <>
                 <dt>Population</dt>
                 <dd>
-                  <RangeTitle range={rangeOf(POPULATION_RANGES, facts.population)} />
+                  <RangeWithValue question={population} />
                 </dd>
               </>
             )}
@@ -106,11 +107,7 @@ export function CountryInfoPanel({
               <>
                 <dt>IHDI</dt>
                 <dd>
-                  {ihdi === null ? (
-                    <RangeTitle range={NO_DATA} />
-                  ) : (
-                    <RangeTitle range={ihdi.range} suffix={ihdi.isEstimate ? ' (est.)' : ''} />
-                  )}
+                  <RangeWithValue question={ihdi} />
                 </dd>
               </>
             )}
