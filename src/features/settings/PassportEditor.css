@@ -7,6 +7,56 @@
   padding-bottom: 0;
 }
 
+/* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css, which sets
+   the main menu's larger title. */
+.main-menu .passport-editor__title {
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+  font-size: 1.4rem;
+}
+
+.passport-editor__choices {
+  display: flex;
+  flex-direction: column;
+  /* Rows sit tightly together so more of the list fits on screen. */
+  gap: 0;
+  width: 100%;
+  max-width: 280px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.passport-editor__choice {
+  display: flex;
+  align-items: center;
+  /* Name on the left, checkbox at the right-hand edge. */
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  padding: 0 16px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.passport-editor__choice input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Save, once saved. */
+.main-menu__option:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.main-menu__option:disabled:hover {
+  background: none;
+}
+
 /* The "42/195", quieter than the title, like the Passport's count. */
 .passport-editor__count {
   color: #a9b1c2;

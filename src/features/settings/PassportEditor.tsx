@@ -8,9 +8,8 @@ import { matchesCountrySearch } from '../globe/countryNameSearch'
 import { COUNTRY_COUNT } from '../passport/passport'
 import { ConfirmMessage } from './ConfirmMessage'
 import { passportCodes, savePassport } from './passportEdit'
-// Same layout, buttons and checkboxes as the Settings menu.
+// The main menu's layout and buttons.
 import '../menu/MainMenu.css'
-import '../flashcards/CustomPracticeMenu.css'
 import './PassportEditor.css'
 
 // All 195 countries, A–Z by name.
@@ -57,7 +56,7 @@ export function PassportEditor({ learnedQuestionIds, onBack }: PassportEditorPro
   return (
     <main className="main-menu passport-editor">
       <BackButton onClick={onBack} label="← Settings" />
-      <h1 className="custom-practice__title">
+      <h1 className="passport-editor__title">
         Edit Passport{' '}
         <span className="passport-editor__count">
           {ticked.length}/{COUNTRY_COUNT}
@@ -76,9 +75,9 @@ export function PassportEditor({ learnedQuestionIds, onBack }: PassportEditorPro
         value={searchText}
         onChange={(event) => setSearchText(event.target.value)}
       />
-      <fieldset className="custom-practice__choices">
+      <fieldset className="passport-editor__choices">
         {shownCountries.map((country) => (
-          <label key={country.isoAlpha3} className="custom-practice__choice">
+          <label key={country.isoAlpha3} className="passport-editor__choice">
             {country.commonName}
             <input
               type="checkbox"
