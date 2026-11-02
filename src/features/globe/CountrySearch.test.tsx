@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { loadCountryShapes } from '../../shared/countries'
 import { CountrySearch } from './CountrySearch'
 import { searchPlacesFromShapes } from './countryNameSearch'
@@ -66,5 +66,62 @@ describe('CountrySearch', () => {
 
     expect(onSelect).not.toHaveBeenCalled()
     expect(screen.getByRole('combobox')).toHaveValue('xyz')
+  })
+})
+
+// On phones, choosing waits for the on-screen keyboard to close. Whether the
+// device is a phone is read when CountrySearch.tsx loads, so it is loaded
+// again with a touch screen's matchMedia.
+describe('CountrySearch on a phone', () => {
+  async function renderOnPhone(onSelect: () => void) {
+    vi.stubGlobal('matchMedia', (query: string) => ({ matches: query === '(pointer: coarse)' }))
+    vi.resetModules()
+    const { CountrySearch: PhoneCountrySearch } = await import('./CountrySearch')
+    vi.useFakeTimers()
+    const result = render(<PhoneCountrySearch places={PLACES} onSelect={onSelect} />)
+    const box = screen.getByRole('combobox')
+    fireEvent.focus(box)
+    fireEvent.change(box, { target: { value: 'kor' } })
+    fireEvent.click(screen.getByRole('option', { name: 'South Korea' }))
+    return result
+  }
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  it('chooses once the screen stops resizing', async () => {
+    const onSelect = vi.fn()
+    await renderOnPhone(onSelect)
+
+    act(() => vi.advanceTimersByTime(200))
+    window.dispatchEvent(new Event('resize'))
+    act(() => vi.advanceTimersByTime(80))
+    window.dispatchEvent(new Event('resize'))
+    act(() => vi.advanceTimersByTime(80))
+    expect(onSelect).not.toHaveBeenCalled()
+
+    act(() => vi.advanceTimersByTime(20))
+    expect(chosenCode(onSelect)).toBe('KOR')
+  })
+
+  it('chooses anyway if the screen never resizes', async () => {
+    const onSelect = vi.fn()
+    await renderOnPhone(onSelect)
+
+    act(() => vi.advanceTimersByTime(299))
+    expect(onSelect).not.toHaveBeenCalled()
+    act(() => vi.advanceTimersByTime(1))
+    expect(chosenCode(onSelect)).toBe('KOR')
+  })
+
+  it('chooses nothing if the screen is left while waiting', async () => {
+    const onSelect = vi.fn()
+    const { unmount } = await renderOnPhone(onSelect)
+
+    unmount()
+    act(() => vi.advanceTimersByTime(1000))
+    expect(onSelect).not.toHaveBeenCalled()
   })
 })

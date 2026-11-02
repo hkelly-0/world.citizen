@@ -1,8 +1,20 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { searchPlaces, type SearchPlace } from './countryNameSearch'
 import './CountrySearch.css'
 
 const SUGGESTIONS_ID = 'country-search-suggestions'
+
+// Phones and tablets, whose on-screen keyboard closes when the box is
+// unfocused. (Tests have no matchMedia, and count as having no such keyboard.)
+const HAS_ON_SCREEN_KEYBOARD =
+  typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches
+
+// How long to wait for the screen to grow as the on-screen keyboard closes,
+// before choosing anyway (e.g. if the keyboard was already hidden).
+const KEYBOARD_CLOSE_WAIT_MS = 300
+// Once the screen has started growing, how long it must stay the same size
+// before the keyboard counts as closed.
+const RESIZE_SETTLED_MS = 100
 
 type CountrySearchProps = {
   // The countries and territories that can be found, from searchPlacesFromShapes.
@@ -28,17 +40,45 @@ export function CountrySearch({
   // Position in the suggestions of the one Enter would choose. Starts at the
   // top suggestion; the arrow keys move it.
   const [highlightedIndex, setHighlightedIndex] = useState(0)
+  // Stops waiting for the keyboard to close, while choose is waiting.
+  const cancelKeyboardWaitRef = useRef<(() => void) | null>(null)
+
+  // Leaving the screen mid-wait chooses nothing.
+  useEffect(() => () => cancelKeyboardWaitRef.current?.(), [])
 
   const suggestions = searchPlaces(places, typed)
   const isListOpen = isFocused && suggestions.length > 0
 
   // Clears the box and unfocuses it, which closes the phone keyboard so the
-  // info panel can be seen.
+  // info panel can be seen. On phones the place is chosen only once the
+  // keyboard has closed and the screen stopped resizing, so the info panel
+  // opens and the globe flies to it once, on the full-size screen, instead of
+  // both jumping as the keyboard closes.
   function choose(place: SearchPlace) {
     setTyped('')
     setHighlightedIndex(0)
     inputRef.current?.blur()
-    onSelect(place.shapeIndex)
+    if (!HAS_ON_SCREEN_KEYBOARD) {
+      onSelect(place.shapeIndex)
+      return
+    }
+    cancelKeyboardWaitRef.current?.()
+    let timer = setTimeout(finish, KEYBOARD_CLOSE_WAIT_MS)
+    function waitForResizeToSettle() {
+      clearTimeout(timer)
+      timer = setTimeout(finish, RESIZE_SETTLED_MS)
+    }
+    function stopWaiting() {
+      clearTimeout(timer)
+      window.removeEventListener('resize', waitForResizeToSettle)
+      cancelKeyboardWaitRef.current = null
+    }
+    function finish() {
+      stopWaiting()
+      onSelect(place.shapeIndex)
+    }
+    window.addEventListener('resize', waitForResizeToSettle)
+    cancelKeyboardWaitRef.current = stopWaiting
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
