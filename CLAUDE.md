@@ -65,6 +65,7 @@ Main menu: Flashcards, Globe, Passport, Extras, Settings. Screens are switched w
 ## Architecture decisions
 - **One web codebase**, deployed as the website and packaged as an APK with **Capacitor** (`capacitor.config.ts`, native project in `android/`).
   - App ID `world.citizen` must never change, or installed apps can't be updated.
+  - Release APKs are signed by `android/app/build.gradle` from the gitignored `android/keystore.properties`, which points at a keystore in `~/Keystores/` outside the repo. Never commit either; losing the keystore or its passwords means installed apps can't be updated (only reinstalled, losing progress). Without the properties file, release builds come out unsigned. Raise `versionCode` for each APK sent out.
   - `npm run android:sync` builds the web app and copies it into `android/` (the copy is gitignored). Then build from Android Studio (`npx cap open android`), or `cd android && ./gradlew assembleDebug` with `JAVA_HOME` set to a Java 21 JDK, e.g. `~/Library/Java/JavaVirtualMachines/jbr-21.0.11/Contents/Home` (Android Studio's bundled JDK 25 isn't supported by Gradle 8.14).
 - **Build tool:** Vite. Needs npm 11+: npm 10 crashes resolving Vitest 5's peer dependencies, so on npm 10 use `npx npm@11 install`.
 - **UI:** React + TypeScript. Plain CSS, one file per component; shared colours are CSS variables on `:root` in `src/index.css`. Font is Roboto Mono (`@fontsource/roboto-mono`). Symbols it lacks come from tiny fallback fonts written by `node scripts/make-symbol-fonts.mjs` (≥ from the original Roboto Mono, others from JetBrains Mono); a new symbol must be added to both the script and the `unicode-range` in `src/index.css`.
@@ -111,7 +112,7 @@ Generated files are committed; each script lists its download links.
 
 ## Status
 - Not yet checked on a real phone: the location and name globe questions, the tutorial (its notes over the globe and screens) and Name every country (especially their bottom panels above the on-screen keyboard), and dragging in Matching and Ordering.
-- Next: range boundaries page. Later for Android: release signing keystore (keep it backed up, never commit it).
+- Next: range boundaries page.
 - Possible later: more facts (region, languages, etc.); ship the website as a PWA.
 - Owner to review `territorySubtitles.json`.
 - Owner to fact-check `countryInfo/` (all but Canada, US, UK and India drafted by Claude), especially recent events and small countries.
