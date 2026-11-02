@@ -277,6 +277,35 @@ describe('Tutorial', () => {
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
   })
 
+  it('asks "Exit tutorial?" on back; Cancel stays and Yes goes to the main menu for good', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Start' }))
+    expect(history.state).toEqual({ tutorialGuard: true })
+
+    history.back()
+    expect(await screen.findByRole('dialog', { name: 'Exit tutorial?' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Search countries' })).toBeInTheDocument()
+    expect(history.state).toEqual({ tutorialGuard: true })
+
+    history.back()
+    await screen.findByRole('dialog', { name: 'Exit tutorial?' })
+    await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(history.state).toBeNull()
+    expect(loadHasSeenTutorial()).toBe(true)
+  })
+
+  it("takes the tutorial's history entry off on Skip, so back doesn't ask", async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
+
+    await vi.waitFor(() => expect(history.state).toBeNull())
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+  })
+
   it("doesn't open for someone with countries in their Passport", () => {
     const franceArea = {
       stability: 10,
@@ -368,5 +397,12 @@ describe('Tutorial', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Replay tutorial' }))
 
     expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()
+
+    // Back asks first, then Yes returns to the main menu, not Settings.
+    history.back()
+    await screen.findByRole('dialog', { name: 'Exit tutorial?' })
+    await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(history.state).toBeNull()
   })
 })

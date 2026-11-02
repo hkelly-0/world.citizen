@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Popup } from '../../shared/Popup'
 import type { CountryIcon } from '../../shared/settings'
 import type { QuestionId } from '../flashcards/deck'
 import { FlashcardsMenu } from '../flashcards/FlashcardsMenu'
@@ -34,6 +35,13 @@ type TutorialStep =
   | 'settings'
   | 'flashcards-menu'
 
+// The tutorial adds a history entry of its own on top of the main menu's, so
+// that browser or Android back pops it and asks "Exit tutorial?" instead of
+// leaving the app. Replay tutorial puts it in place of Settings' entry.
+function isTutorialGuardInHistory(): boolean {
+  return history.state?.tutorialGuard === true
+}
+
 // The question types saved as learned when the tutorial's Settings step opens;
 // the user can change them there before going on.
 const SUGGESTED_QUESTION_IDS: QuestionId[] = ['globe', 'population', 'ihdi']
@@ -46,7 +54,8 @@ type TutorialProps = {
   // Saves the information chosen at the Settings step, as Settings does on
   // every change.
   onSaveSettings: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
-  // Called by "Skip tutorial" or the last step's "Finish tutorial"; returns to the main menu.
+  // Called by "Skip tutorial", the last step's "Finish tutorial" or Yes on
+  // "Exit tutorial?"; returns to the main menu.
   onClose: () => void
 }
 
@@ -55,9 +64,9 @@ type TutorialProps = {
 // app is mainly flashcards, and plays its card with explanations, then is
 // shown the Passport, chooses the information to learn in Settings, and is
 // shown the Flashcards menu. "Skip tutorial" is
-// always in the top-right corner. Its steps have no history entries of their
-// own, and on the shown screens only the tutorial's buttons (and Settings'
-// choices) work.
+// always in the top-right corner, and back asks "Exit tutorial?" at any step.
+// Its steps have no history entries of their own, and on the shown screens
+// only the tutorial's buttons (and Settings' choices) work.
 export function Tutorial({
   learnedQuestionIds,
   countryIcon,
@@ -73,6 +82,46 @@ export function Tutorial({
   const titleRef = useRef<HTMLHeadingElement>(null)
   const appNameRef = useRef<HTMLSpanElement>(null)
   useFitTextToWidth(titleRef, appNameRef)
+  // True while "Exit tutorial?" is shown, after back.
+  const [isConfirmingExit, setIsConfirmingExit] = useState(false)
+  // Set when Skip or Finish takes the guard entry off, so the 'popstate' that
+  // follows doesn't ask "Exit tutorial?".
+  const isLeavingRef = useRef(false)
+
+  // Not added again if it is already there, e.g. after reloading the website
+  // or from Replay tutorial.
+  useEffect(() => {
+    if (!isTutorialGuardInHistory()) {
+      history.pushState({ ...history.state, tutorialGuard: true }, '')
+    }
+  }, [])
+
+  // Back pops the guard, landing on the main menu's entry.
+  useEffect(() => {
+    function confirmExitIfGuardLeft() {
+      if (isTutorialGuardInHistory() || isLeavingRef.current) return
+      setIsConfirmingExit(true)
+    }
+    window.addEventListener('popstate', confirmExitIfGuardLeft)
+    return () => window.removeEventListener('popstate', confirmExitIfGuardLeft)
+  }, [])
+
+  // Skip and Finish take the guard entry off first, so back from the main
+  // menu doesn't land on it.
+  function leave() {
+    if (isTutorialGuardInHistory()) {
+      isLeavingRef.current = true
+      history.back()
+    }
+    onClose()
+  }
+
+  // Stays in the tutorial after "Exit tutorial?", putting back the guard that
+  // back popped.
+  function cancelExit() {
+    history.pushState({ ...history.state, tutorialGuard: true }, '')
+    setIsConfirmingExit(false)
+  }
 
   function currentStep() {
     if (step === 'home-country') {
@@ -174,7 +223,7 @@ export function Tutorial({
             text={FLASHCARDS_MENU_NOTE}
             buttonLabel="Finish tutorial"
             buttonHasArrow={false}
-            onButtonClick={onClose}
+            onButtonClick={leave}
             isPinned
           />
         </>
@@ -210,9 +259,20 @@ export function Tutorial({
   return (
     <>
       {currentStep()}
-      <button className="tutorial__skip" onClick={onClose}>
+      <button className="tutorial__skip" onClick={leave}>
         Skip tutorial
       </button>
+      {/* Back already took the guard off, so Yes just closes the tutorial. */}
+      {isConfirmingExit && (
+        <Popup
+          title="Exit tutorial?"
+          isConfirmation
+          buttons={[
+            { label: 'Cancel', onClick: cancelExit },
+            { label: 'Yes', onClick: onClose },
+          ]}
+        />
+      )}
     </>
   )
 }

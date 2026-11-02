@@ -173,10 +173,12 @@ export default function App() {
     saveHasSeenTutorial()
     setIsTutorialOpen(false)
   }
-  // Settings was opened from the main menu, so going back returns to it,
-  // shown once the tutorial closes.
+  // Settings was opened from the main menu, so its history entry becomes the
+  // tutorial's guard (see Tutorial.tsx) on top of the main menu's: back asks
+  // "Exit tutorial?", and the main menu is shown once the tutorial closes.
   function replayTutorial() {
-    history.back()
+    history.replaceState({ tutorialGuard: true }, '')
+    setScreen('menu')
     setIsTutorialOpen(true)
   }
 
