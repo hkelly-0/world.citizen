@@ -1,3 +1,7 @@
+/* The title, list and checkboxes below are the Passport editor's; Custom
+   Practice itself uses the cards and switches in SettingsMenu.css, plus the
+   rules at the end of this file. */
+
 /* Includes .main-menu to outrank `.main-menu h1` in MainMenu.css, which sets
    the main menu's larger title. */
 .main-menu .custom-practice__title {
@@ -19,14 +23,6 @@
   border: none;
 }
 
-/* A section's heading, a step smaller than the page title. */
-.custom-practice__heading {
-  margin-bottom: 4px;
-  padding: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
 .custom-practice__choice {
   display: flex;
   align-items: center;
@@ -37,13 +33,6 @@
   padding: 0 16px;
   font-size: 1rem;
   cursor: pointer;
-}
-
-/* Under the Multi-Country heading while the Passport can't make some of its
-   options. */
-.custom-practice__note {
-  margin: 0 0 4px;
-  font-size: 0.75rem;
 }
 
 .custom-practice__choice input {
@@ -62,12 +51,55 @@
   background: none;
 }
 
-/* A multi-country question the Passport can't make yet. */
-.custom-practice__choice:has(input:disabled) {
+/* The multi-country card, a little apart from the one above it. */
+.custom-practice__card {
+  margin-top: 8px;
+}
+
+/* Under the Multi-Country label while the Passport can't make some of its
+   options. Clears the floated label, like the rows. */
+.custom-practice__note {
+  clear: both;
+  margin: 0;
+  padding: 0 16px 4px;
+  color: #a9b1c2;
+  font-size: 0.75rem;
+}
+
+/* A multi-country question the Passport can't make yet: the whole row is
+   dimmed, not just its switch. */
+.custom-practice__unavailable,
+.custom-practice__unavailable:hover {
+  opacity: 0.4;
+  background: none;
+}
+
+/* The main action, filled in the switches' blue so it stands out below the
+   cards. */
+.custom-practice__go {
+  width: 100%;
+  max-width: 320px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #58a6ff;
+  color: #000010;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.custom-practice__go:hover {
+  background: #79b8ff;
+}
+
+.custom-practice__go:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.custom-practice__choice input:disabled {
-  cursor: default;
+.custom-practice__go:disabled:hover {
+  background: #58a6ff;
 }

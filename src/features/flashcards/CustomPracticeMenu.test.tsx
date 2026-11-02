@@ -41,7 +41,7 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
-  it('splits the options into Country Fundamentals and Multi-Country Questions', () => {
+  it('splits the options into Fundamentals, Textual info and Multi-Country Questions', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={QUESTION_IDS}
@@ -55,7 +55,7 @@ describe('CustomPracticeMenu', () => {
       within(screen.getByRole('group', { name: heading }))
         .getAllByRole('checkbox')
         .map((box) => box.parentElement!.textContent)
-    expect(labelsIn('Country Fundamentals')).toEqual([
+    expect(labelsIn('Fundamentals')).toEqual([
       'Locate country on globe',
       'Name country from globe',
       'Flag',
@@ -63,11 +63,8 @@ describe('CustomPracticeMenu', () => {
       'Population',
       'IHDI',
       'Capital',
-      'History',
-      'People',
-      'Economy',
-      'Int. Relations',
     ])
+    expect(labelsIn('Textual info')).toEqual(['History', 'People', 'Economy', 'Int. Relations'])
     expect(labelsIn('Multi-Country Questions')).toEqual([
       'Borders',
       'Matching - Flags',
@@ -78,7 +75,7 @@ describe('CustomPracticeMenu', () => {
     ])
   })
 
-  it('leaves out Country Fundamentals when none of them is offered', () => {
+  it('leaves out Fundamentals and Textual info when none of them is offered', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={[]}
@@ -88,7 +85,8 @@ describe('CustomPracticeMenu', () => {
       />,
     )
 
-    expect(screen.queryByRole('group', { name: 'Country Fundamentals' })).toBeNull()
+    expect(screen.queryByRole('group', { name: 'Fundamentals' })).toBeNull()
+    expect(screen.queryByRole('group', { name: 'Textual info' })).toBeNull()
     expect(screen.getByRole('group', { name: 'Multi-Country Questions' })).toBeInTheDocument()
   })
 

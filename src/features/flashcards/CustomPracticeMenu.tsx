@@ -4,15 +4,22 @@ import {
   loadCustomPracticeChoices,
   saveCustomPracticeChoices,
 } from '../../shared/customPracticeChoices'
-import { GLOBE_KINDS, QUESTION_IDS, type GlobeKind, type QuestionId } from './deck'
+import {
+  GLOBE_KINDS,
+  INFO_QUESTION_IDS,
+  QUESTION_IDS,
+  type GlobeKind,
+  type QuestionId,
+} from './deck'
 import {
   canMakeMultiCountryQuestion,
   MULTI_COUNTRY_QUESTION_IDS,
   offeredMultiCountryQuestionIds,
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
-// Same layout and buttons as the main menu.
+// Same layout as the main menu, and the same cards and switches as Settings.
 import '../menu/MainMenu.css'
+import '../settings/SettingsMenu.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
@@ -39,13 +46,12 @@ const CHOICES: { choice: Choice; label: string }[] = [
   { choice: 'ihdi-ordering', label: 'Ordering - IHDI' },
 ]
 
-// The choices are shown in two sections: the questions on one country's card,
-// then the multi-country questions (with Borders, though it is about one
-// country).
-const SECTIONS = [
-  { heading: 'Country Fundamentals', isMultiCountrySection: false },
-  { heading: 'Multi-Country Questions', isMultiCountrySection: true },
-]
+// The choices are shown in two cards: the questions on one country's card,
+// split into Fundamentals and Textual info as in Settings, then the
+// multi-country questions (with Borders, though it is about one country).
+function isTextualInfo(choice: Choice): boolean {
+  return (INFO_QUESTION_IDS as Choice[]).includes(choice)
+}
 
 function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {
   return (MULTI_COUNTRY_QUESTION_IDS as readonly Choice[]).includes(choice)
@@ -78,7 +84,7 @@ type CustomPracticeMenuProps = {
 // was last pressed, leaving out any no longer offered (e.g. a question type
 // unticked in Settings since). A multi-country question the
 // Passport can't make yet is disabled and opens unticked, with one note under
-// the section's heading.
+// the card's label.
 export function CustomPracticeMenu({
   learnedQuestionIds,
   passportCodes,
@@ -121,43 +127,78 @@ export function CustomPracticeMenu({
     onGo(questionIds, globeKinds, multiCountryQuestionIds)
   }
 
+  // One switch row per choice in the list given.
+  function choiceRows(choices: typeof offered) {
+    return choices.map(({ choice, label }) => (
+      <label
+        key={choice}
+        className={
+          hasNotEnoughCountries(choice)
+            ? 'settings__row settings__switch-row custom-practice__unavailable'
+            : 'settings__row settings__switch-row'
+        }
+      >
+        {label}
+        <input
+          type="checkbox"
+          className="settings__switch-input"
+          checked={chosen.includes(choice)}
+          disabled={hasNotEnoughCountries(choice)}
+          onChange={() => toggle(choice)}
+        />
+        {/* The visible switch, drawn from the hidden checkbox's state. */}
+        <span className="settings__switch" aria-hidden="true" />
+      </label>
+    ))
+  }
+
+  const fundamentals = offered.filter(
+    ({ choice }) => !isMultiCountry(choice) && !isTextualInfo(choice),
+  )
+  const textualInfo = offered.filter(({ choice }) => isTextualInfo(choice))
+  const multiCountry = offered.filter(({ choice }) => isMultiCountry(choice))
+  const isMissingCountries = multiCountry.some(({ choice }) => hasNotEnoughCountries(choice))
+
   return (
-    <main className="main-menu">
+    <main className="main-menu settings">
       <BackButton onClick={onBack} />
-      <h1 className="custom-practice__title">Select which question types to see today</h1>
-      {SECTIONS.map(({ heading, isMultiCountrySection }) => {
-        const sectionChoices = offered.filter(
-          ({ choice }) => isMultiCountry(choice) === isMultiCountrySection,
-        )
-        // A section with nothing offered (nothing it needs is learned) is left out.
-        if (sectionChoices.length === 0) return null
-        const isMissingCountries = sectionChoices.some(({ choice }) =>
-          hasNotEnoughCountries(choice),
-        )
-        return (
-          <fieldset key={heading} className="custom-practice__choices">
-            <legend className="custom-practice__heading">{heading}</legend>
-            {isMissingCountries && (
-              <p className="custom-practice__note">
-                Some options require more countries in your Passport
-              </p>
+      <h1 className="settings__title">Custom Practice</h1>
+      <section className="settings__section">
+        <h2 className="settings__heading">Select which question types to see today</h2>
+        {/* A card or group with nothing offered (nothing it needs is learned)
+            is left out. */}
+        {(fundamentals.length > 0 || textualInfo.length > 0) && (
+          <div className="settings__card">
+            {fundamentals.length > 0 && (
+              <fieldset className="settings__group">
+                <legend className="settings__group-label">Fundamentals</legend>
+                {choiceRows(fundamentals)}
+              </fieldset>
             )}
-            {sectionChoices.map(({ choice, label }) => (
-              <label key={choice} className="custom-practice__choice">
-                {label}
-                <input
-                  type="checkbox"
-                  checked={chosen.includes(choice)}
-                  disabled={hasNotEnoughCountries(choice)}
-                  onChange={() => toggle(choice)}
-                />
-              </label>
-            ))}
-          </fieldset>
-        )
-      })}
+            {textualInfo.length > 0 && (
+              <fieldset className="settings__group">
+                <legend className="settings__group-label">Textual info</legend>
+                {choiceRows(textualInfo)}
+              </fieldset>
+            )}
+          </div>
+        )}
+        {multiCountry.length > 0 && (
+          <div className="settings__card custom-practice__card">
+            <fieldset className="settings__group">
+              <legend className="settings__group-label">Multi-Country Questions</legend>
+              {isMissingCountries && (
+                <p className="custom-practice__note">
+                  Some options require more countries in your Passport
+                </p>
+              )}
+              {choiceRows(multiCountry)}
+            </fieldset>
+          </div>
+        )}
+      </section>
       <button
-        className="main-menu__option main-menu__option--centered arrow-button"
+        className="custom-practice__go arrow-button"
         onClick={go}
         disabled={chosen.length === 0}
       >
