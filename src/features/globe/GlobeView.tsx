@@ -75,6 +75,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   // The region under the pointer while Show Regions is on. Kept outside React
   // state: hover changes often and only affects the map.
   const hoveredGroupIdRef = useRef<string | null>(null)
+  // Starts the flight to the selected country or region again, while that
+  // flight is under way; null once it ends. See updateRaise.
+  const flightToSelectionRef = useRef<(() => void) | null>(null)
   // The map's current zoom level, shown for debugging on the dev server only.
   const [zoom, setZoom] = useState<number | null>(null)
 
@@ -197,14 +200,23 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     mapRef.current = map
 
     // Bottom padding moves the map's centre up by half its height. Set again
-    // when the screen is resized (e.g. a phone turned sideways).
+    // when the screen is resized (e.g. a phone turned sideways, or its
+    // keyboard closing after a search). setPadding stops any animation, so a
+    // flight to the selection that was under way is started again.
     function updateRaise() {
+      const interruptedFlight = flightToSelectionRef.current
       const isPhone = map.getContainer().clientWidth < WIDE_SCREEN_MIN_PX
       const raisePx = isPhone ? map.getContainer().clientHeight * PHONE_GLOBE_RAISE : 0
       map.setPadding({ top: 0, bottom: 2 * raisePx, left: 0, right: 0 })
+      interruptedFlight?.()
     }
     updateRaise()
     map.on('resize', updateRaise)
+    // Any movement ending (finished, stopped or interrupted by a drag) ends
+    // the flight to the selection.
+    map.on('moveend', () => {
+      flightToSelectionRef.current = null
+    })
 
     // Tapping a country selects it (or its region); tapping the ocean closes
     // the info panel.
@@ -276,7 +288,14 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   useEffect(() => {
     const map = mapRef.current
     if (selectedIndex === null || map === null) return
-    flyToCountry(map, selectedIndex, FOCUS_TOP_PADDING, panelBottomPadding(map), FOCUS_DURATION_MS)
+    const country = selectedIndex
+    function fly() {
+      if (map === null) return
+      flyToCountry(map, country, FOCUS_TOP_PADDING, panelBottomPadding(map), FOCUS_DURATION_MS)
+      // Not if it finished at once (as with reduced motion).
+      if (map.isMoving()) flightToSelectionRef.current = fly
+    }
+    fly()
   }, [selectedIndex])
 
   // Highlight the selected region, un-highlight it when the selection changes,
@@ -285,14 +304,21 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     const map = mapRef.current
     if (selectedGroupId === null || map === null) return
     setGroupFeatureState(map, selectedGroupId, { groupSelected: true })
-    flyToGroup(
-      map,
-      selectedGroupId,
-      FOCUS_TOP_PADDING,
-      panelBottomPadding(map),
-      FOCUS_PADDING,
-      FOCUS_DURATION_MS,
-    )
+    const groupId = selectedGroupId
+    function fly() {
+      if (map === null) return
+      flyToGroup(
+        map,
+        groupId,
+        FOCUS_TOP_PADDING,
+        panelBottomPadding(map),
+        FOCUS_PADDING,
+        FOCUS_DURATION_MS,
+      )
+      // Not if it finished at once (as with reduced motion).
+      if (map.isMoving()) flightToSelectionRef.current = fly
+    }
+    fly()
 
     return () => {
       // The map may already be removed if the whole view is unmounting.
