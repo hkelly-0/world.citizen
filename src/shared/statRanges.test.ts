@@ -11,6 +11,7 @@ import {
   POPULATION_RANGES,
   populationStat,
   rangeOf,
+  roundWithinRange,
 } from './statRanges'
 
 describe('rangeOf', () => {
@@ -101,6 +102,33 @@ describe('formatIhdi', () => {
   it('multiplies by 10 and gives 2 significant figures', () => {
     expect(formatIhdi(0.543)).toBe('5.4')
     expect(formatIhdi(0.8)).toBe('8.0')
+  })
+})
+
+describe('roundWithinRange', () => {
+  it('rounds to 2 significant figures', () => {
+    expect(roundWithinRange(POPULATION_RANGES, 66_650_804)).toBe(67_000_000)
+    expect(roundWithinRange(AREA_RANGES, 551_695)).toBe(550_000)
+  })
+
+  it("rounds down when rounding up would reach the next range's minimum", () => {
+    expect(roundWithinRange(POPULATION_RANGES, 99_924)).toBe(99_000)
+    expect(roundWithinRange(AREA_RANGES, 299_600)).toBe(290_000)
+    // Rounding up within the same range is fine.
+    expect(roundWithinRange(POPULATION_RANGES, 99_400)).toBe(99_000)
+    expect(roundWithinRange(POPULATION_RANGES, 1_960_000)).toBe(2_000_000)
+  })
+
+  it("keeps every country's rounded population and area in its own range", () => {
+    for (const country of Object.values(countryFacts)) {
+      const population = roundWithinRange(POPULATION_RANGES, country.population)
+      expect(rangeOf(POPULATION_RANGES, population)).toBe(
+        rangeOf(POPULATION_RANGES, country.population),
+      )
+      const area = roundWithinRange(AREA_RANGES, country.areaKm2)
+      expect(rangeOf(AREA_RANGES, area)).toBe(rangeOf(AREA_RANGES, country.areaKm2))
+    }
+    expect(populationStat(countryFacts['VCT']).value).toBe('99K')
   })
 })
 

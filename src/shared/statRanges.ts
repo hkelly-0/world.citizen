@@ -95,17 +95,27 @@ export type StatValue = {
   value: string
 }
 
+// Rounds to 2 significant figures, but rounds down instead when rounding up
+// would reach the next range, so the value doesn't read as that range: e.g.
+// a population of 99_924 is 99_000 ("99K"), not 100_000 ("100K").
+export function roundWithinRange(ranges: StatRange[], value: number): number {
+  const rounded = Number(value.toPrecision(2))
+  if (rangeOf(ranges, rounded) === rangeOf(ranges, value)) return rounded
+  const unit = 10 ** (Math.floor(Math.log10(value)) - 1)
+  return Math.floor(value / unit) * unit
+}
+
 export function areaStat(country: { areaKm2: number }): StatValue {
   return {
     range: rangeOf(AREA_RANGES, country.areaKm2),
-    value: `${formatLargeNumber(country.areaKm2)} km²`,
+    value: `${formatLargeNumber(roundWithinRange(AREA_RANGES, country.areaKm2))} km²`,
   }
 }
 
 export function populationStat(country: { population: number }): StatValue {
   return {
     range: rangeOf(POPULATION_RANGES, country.population),
-    value: formatLargeNumber(country.population),
+    value: formatLargeNumber(roundWithinRange(POPULATION_RANGES, country.population)),
   }
 }
 
