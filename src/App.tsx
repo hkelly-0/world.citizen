@@ -15,6 +15,7 @@ import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
 import { ExtrasMenu } from './features/extras/ExtrasMenu'
 import { NAMING_AREAS } from './features/extras/namingGame'
+import { Credits } from './features/settings/Credits'
 import { PassportEditor } from './features/settings/PassportEditor'
 import { SettingsMenu } from './features/settings/SettingsMenu'
 import { Tutorial } from './features/tutorial/Tutorial'
@@ -38,7 +39,8 @@ const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry')
 // 'custom-flashcards' the cards asking only those question types.
 // 'settings' chooses which information is learned at all, and
 // 'passport-editor' (opened from it) adds or removes Passport countries by
-// hand. 'passport' lists the countries seen as flashcards, and
+// hand, and 'credits' (also from it) lists who made the data and libraries.
+// 'passport' lists the countries seen as flashcards, and
 // 'passport-flashcard' plays one of their cards. 'extras' lists the games
 // outside the flashcards, such as 'name-every-country' (for the world or one
 // continent).
@@ -46,6 +48,7 @@ type Screen =
   | 'menu'
   | 'settings'
   | 'passport-editor'
+  | 'credits'
   | 'passport'
   | 'passport-flashcard'
   | 'globe'
@@ -277,6 +280,7 @@ export default function App() {
           onSave={saveSettings}
           onEditPassport={() => openScreen('passport-editor')}
           onReplayTutorial={replayTutorial}
+          onOpenCredits={() => openScreen('credits')}
         />
       )
     }
@@ -288,6 +292,10 @@ export default function App() {
           onBack={() => history.back()}
         />
       )
+    }
+    if (screen === 'credits') {
+      // Back to the Settings history entry.
+      return <Credits onBack={() => history.back()} />
     }
     if (screen === 'passport') {
       return (

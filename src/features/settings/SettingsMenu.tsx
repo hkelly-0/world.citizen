@@ -51,6 +51,8 @@ type SettingsMenuProps = {
   onEditPassport: () => void
   // Closes Settings and starts the tutorial again.
   onReplayTutorial: () => void
+  // Opens the Credits screen.
+  onOpenCredits: () => void
   // Given when shown as a step of the tutorial: this note, with a Next button
   // that calls onTutorialNext, replaces the back button and the buttons below
   // the choices.
@@ -62,7 +64,8 @@ type SettingsMenuProps = {
 // shows each country's outline or flag. Every change is saved straight away.
 // At least one box stays ticked: the last ticked one is disabled. Below,
 // "Manually edit Passport" asks "Are you sure?" before opening the Passport
-// editor, and "Replay tutorial" starts the tutorial again. The settings are
+// editor, "Replay tutorial" starts the tutorial again, and "Credits" opens the
+// Credits screen. The settings are
 // grouped into cards under small headings; each question type's checkbox is
 // drawn as a switch.
 export function SettingsMenu({
@@ -72,6 +75,7 @@ export function SettingsMenu({
   onSave,
   onEditPassport,
   onReplayTutorial,
+  onOpenCredits,
   tutorialNote,
   onTutorialNext,
 }: SettingsMenuProps) {
@@ -162,17 +166,30 @@ export function SettingsMenu({
       {tutorialNote !== undefined ? (
         <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
       ) : (
-        <section className="options-page__section">
-          <h2 className="options-page__heading">Help</h2>
-          <div className="options-page__card">
-            <button
-              className="options-page__row settings__action arrow-button"
-              onClick={onReplayTutorial}
-            >
-              Replay tutorial
-            </button>
-          </div>
-        </section>
+        <>
+          <section className="options-page__section">
+            <h2 className="options-page__heading">Help</h2>
+            <div className="options-page__card">
+              <button
+                className="options-page__row settings__action arrow-button"
+                onClick={onReplayTutorial}
+              >
+                Replay tutorial
+              </button>
+            </div>
+          </section>
+          <section className="options-page__section">
+            <h2 className="options-page__heading">About</h2>
+            <div className="options-page__card">
+              <button
+                className="options-page__row settings__action arrow-button"
+                onClick={onOpenCredits}
+              >
+                Credits
+              </button>
+            </div>
+          </section>
+        </>
       )}
     </main>
   )

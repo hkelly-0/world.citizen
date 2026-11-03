@@ -1,0 +1,41 @@
+/* One credit in a card, with a thin line between credits like the card's other
+   rows. Not .options-page__row: that is a flex row, which would split the text
+   around each link. */
+.credits__entry {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  /* Long names and links mustn't widen the card on a phone. */
+  overflow-wrap: anywhere;
+}
+
+.credits__entry + .credits__entry,
+.credits__licence + .credits__licence {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.credits__entry a {
+  color: var(--accent-blue-text);
+}
+
+.credits__licence-title {
+  min-height: 48px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.credits__licence-title:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.credits__licence-text {
+  margin: 0;
+  padding: 4px 16px 16px;
+  color: #a9b1c2;
+  font: inherit;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

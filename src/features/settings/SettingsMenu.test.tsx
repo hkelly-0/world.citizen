@@ -28,6 +28,7 @@ function SavingSettingsMenu({
       }}
       onEditPassport={vi.fn()}
       onReplayTutorial={vi.fn()}
+      onOpenCredits={vi.fn()}
     />
   )
 }
@@ -42,6 +43,7 @@ describe('SettingsMenu', () => {
         onSave={vi.fn()}
         onEditPassport={vi.fn()}
         onReplayTutorial={vi.fn()}
+        onOpenCredits={vi.fn()}
       />,
     )
 
@@ -99,6 +101,7 @@ describe('SettingsMenu', () => {
         onSave={vi.fn()}
         onEditPassport={onEditPassport}
         onReplayTutorial={vi.fn()}
+        onOpenCredits={vi.fn()}
       />,
     )
 

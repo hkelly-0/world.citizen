@@ -206,6 +206,7 @@ export function Tutorial({
           onSave={onSaveSettings}
           onEditPassport={() => {}}
           onReplayTutorial={() => {}}
+          onOpenCredits={() => {}}
         />
       )
     }
