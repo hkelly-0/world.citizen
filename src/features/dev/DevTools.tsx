@@ -7,7 +7,6 @@ import { todayString } from '../flashcards/dates'
 import type { DeckProgress } from '../flashcards/deck'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { COUNTRY_COUNT } from '../passport/passport'
-import { areCountryGroupsShown, setCountryGroupsShown } from './showCountryGroups'
 import {
   addCountries,
   makeAllSeenToday,
@@ -27,14 +26,13 @@ type DevToolsProps = {
 }
 
 // Buttons that change the saved flashcard progress, for testing different
-// flashcard situations, and a switch that tints the globes by country group. Shown on every screen, on the dev server only, as a
+// flashcard situations. Shown on every screen, on the dev server only, as a
 // "dev" tab on the right edge that opens and closes the buttons. Each change
 // is saved straight away.
 export function DevTools({ onChange }: DevToolsProps) {
   const [isOpen, setIsOpen] = useState(false)
   // What the last button did, so it's clear it worked.
   const [message, setMessage] = useState<string | null>(null)
-  const [isShowingGroups, setIsShowingGroups] = useState(areCountryGroupsShown)
 
   function finish(done: string) {
     setMessage(done)
@@ -56,12 +54,6 @@ export function DevTools({ onChange }: DevToolsProps) {
     // So they sort by Date discovered like countries found in the flashcards.
     for (const code of codes) recordDiscovery(code, new Date())
     finish(`Added ${codes.length} ${kind} countries.`)
-  }
-
-  function showGroups(shown: boolean) {
-    setCountryGroupsShown(shown)
-    setIsShowingGroups(shown)
-    finish(shown ? 'Globes show country groups.' : 'Globes back to normal.')
   }
 
   function reset() {
@@ -129,14 +121,6 @@ export function DevTools({ onChange }: DevToolsProps) {
           >
             Reset progress
           </button>
-          <label className="dev-tools__row">
-            <input
-              type="checkbox"
-              checked={isShowingGroups}
-              onChange={(event) => showGroups(event.target.checked)}
-            />
-            Show country groups on globes
-          </label>
           {message !== null && <p className="dev-tools__message">{message}</p>}
         </section>
       )}

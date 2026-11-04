@@ -15,7 +15,6 @@ import type { FeatureCollection, Geometry, Position } from 'geojson'
 import { loadCountryShapes, wholeCountryGeometry } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import groupColoursJson from '../../data/countryGroupColours.json'
-import { areCountryGroupsShown } from '../dev/showCountryGroups'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
@@ -54,9 +53,9 @@ const CORRECT_COLOR = '#3fb950'
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
-// The country group tint over the satellite imagery (the region globe, the
-// globe screen's Show Regions setting, and the dev option), stronger for the region under the pointer and the one
-// selected.
+// The country group tint over the satellite imagery (the region globe and the
+// globe screen's Show Regions setting), stronger for the region under the
+// pointer and the one selected.
 const GROUP_OPACITY = 0.45
 const GROUP_HOVERED_OPACITY = 0.65
 const GROUP_SELECTED_OPACITY = 0.8
@@ -233,23 +232,17 @@ const MAP_STYLE: StyleSpecification = {
 }
 
 // The style with countries tinted by their group's colour, between the
-// imagery and the highlights: only the groups in `tintedGroupIds`, or every
-// group if it is null. The feature states "groupHovered" and "groupSelected"
-// (set on all of a group's countries by setGroupFeatureState) strengthen it.
+// imagery and the highlights: only the groups in `tintedGroupIds`. The feature
+// states "groupHovered" and "groupSelected" (set on all of a group's countries
+// by setGroupFeatureState) strengthen it.
 // The tint can start hidden and be shown later with setGroupTintShown.
-function styleWithGroups(
-  tintedGroupIds: string[] | null,
-  isTintShown: boolean,
-): StyleSpecification {
+function styleWithGroups(tintedGroupIds: string[], isTintShown: boolean): StyleSpecification {
   const groupsLayer: LayerSpecification = {
     id: 'country-groups',
     type: 'fill',
     source: 'countries',
     layout: { visibility: isTintShown ? 'visible' : 'none' },
-    filter:
-      tintedGroupIds === null
-        ? ['has', 'groupId']
-        : ['in', ['get', 'groupId'], ['literal', tintedGroupIds]],
+    filter: ['in', ['get', 'groupId'], ['literal', tintedGroupIds]],
     paint: {
       'fill-color': ['get', 'groupColour'],
       'fill-opacity': [
@@ -419,8 +412,7 @@ export function resumeHoverHighlight(map: MapLibreMap) {
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
 // container, with hover highlighting on devices that can hover. The groups in
 // `tintedGroupIds` are tinted in their colours (the region globe, and the
-// globe screen, which starts with the tint hidden by `isTintShown`); without
-// it, every group is tinted while the dev option is on. The caller
+// globe screen, which starts with the tint hidden by `isTintShown`). The caller
 // handles clicks and must call map.remove() when done.
 export function createCountryMap(
   container: HTMLElement,
@@ -429,12 +421,7 @@ export function createCountryMap(
 ): MapLibreMap {
   const map = new MapLibreMap({
     container,
-    style:
-      tintedGroupIds !== undefined
-        ? styleWithGroups(tintedGroupIds, isTintShown)
-        : areCountryGroupsShown()
-          ? styleWithGroups(null, true)
-          : MAP_STYLE,
+    style: tintedGroupIds !== undefined ? styleWithGroups(tintedGroupIds, isTintShown) : MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
     pixelRatio: Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO),

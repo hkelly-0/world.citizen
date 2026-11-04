@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
 import { QUESTION_IDS } from '../flashcards/deck'
-import { areCountryGroupsShown } from '../dev/showCountryGroups'
 import {
   ALL_GROUP_IDS,
   COUNTRY_SHAPES,
@@ -125,14 +124,13 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     map.getCanvas().style.cursor = groupId === null ? '' : 'pointer'
   }
 
-  // Switches the map between highlighting countries and regions. The dev
-  // option's tint stays on even with Show Regions off.
+  // Switches the map between highlighting countries and regions.
   function setRegionsShown(shown: boolean) {
     setIsShowingRegions(shown)
     isShowingRegionsRef.current = shown
     const map = mapRef.current
     if (map === null) return
-    setGroupTintShown(map, shown || areCountryGroupsShown())
+    setGroupTintShown(map, shown)
     setHoveredGroup(null)
     if (shown) stopHoverHighlight(map)
     else resumeHoverHighlight(map)
@@ -195,8 +193,8 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     if (container === null) return
 
     // Every region can be tinted, but the tint starts hidden (Show Regions
-    // starts off) unless the dev option is on.
-    const map = createCountryMap(container, ALL_GROUP_IDS, areCountryGroupsShown())
+    // starts off).
+    const map = createCountryMap(container, ALL_GROUP_IDS, false)
     mapRef.current = map
 
     // Bottom padding moves the map's centre up by half its height. Set again
