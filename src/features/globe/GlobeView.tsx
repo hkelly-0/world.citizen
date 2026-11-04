@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Map as MapLibreMap } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
 import { QUESTION_IDS } from '../flashcards/deck'
+import { useIsZoomShown } from '../dev/zoomDisplay'
 import {
   ALL_GROUP_IDS,
   COUNTRY_SHAPES,
@@ -77,8 +78,10 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   // Starts the flight to the selected country or region again, while that
   // flight is under way; null once it ends. See updateRaise.
   const flightToSelectionRef = useRef<(() => void) | null>(null)
-  // The map's current zoom level, shown for debugging on the dev server only.
+  // The map's current zoom level, shown for debugging on the dev server only,
+  // while the dev menu's switch is on.
   const [zoom, setZoom] = useState<number | null>(null)
+  const isZoomShown = useIsZoomShown()
 
   // Opening the panel adds its history entry; tapping another country (or
   // region) while it's open just swaps what the panel shows.
@@ -358,7 +361,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
           ref={panelRef}
         />
       )}
-      {zoom !== null && <div className="globe-view__zoom">Zoom {zoom.toFixed(2)}</div>}
+      {isZoomShown && zoom !== null && (
+        <div className="globe-view__zoom">Zoom {zoom.toFixed(2)}</div>
+      )}
     </div>
   )
 }

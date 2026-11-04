@@ -13,6 +13,7 @@ import {
   skipAheadDays,
   unseenCountriesInRandomGroups,
 } from './devProgress'
+import { setZoomShown, useIsZoomShown } from './zoomDisplay'
 import './DevTools.css'
 
 const SKIP_DAYS = [1, 7, 30]
@@ -26,13 +27,15 @@ type DevToolsProps = {
 }
 
 // Buttons that change the saved flashcard progress, for testing different
-// flashcard situations. Shown on every screen, on the dev server only, as a
-// "dev" tab on the right edge that opens and closes the buttons. Each change
-// is saved straight away.
+// flashcard situations, and a switch that shows the zoom level on the globe
+// screen. Shown on every screen, on the dev server only, as a "dev" tab on the
+// right edge that opens and closes the buttons. Each change is saved straight
+// away.
 export function DevTools({ onChange }: DevToolsProps) {
   const [isOpen, setIsOpen] = useState(false)
   // What the last button did, so it's clear it worked.
   const [message, setMessage] = useState<string | null>(null)
+  const isZoomShown = useIsZoomShown()
 
   function finish(done: string) {
     setMessage(done)
@@ -121,6 +124,14 @@ export function DevTools({ onChange }: DevToolsProps) {
           >
             Reset progress
           </button>
+          <label className="dev-tools__row">
+            <input
+              type="checkbox"
+              checked={isZoomShown}
+              onChange={(event) => setZoomShown(event.target.checked)}
+            />
+            Show zoom on globe
+          </label>
           {message !== null && <p className="dev-tools__message">{message}</p>}
         </section>
       )}
