@@ -69,23 +69,27 @@
   {
     "id": "eastern-europe",
     "name": "Eastern Europe",
-    "countries": ["RUS", "BLR", "UKR", "MDA", "ROU"]
+    "countries": ["BLR", "UKR", "MDA", "ROU"]
   },
-  { "id": "caucasus", "name": "Caucasus", "countries": ["GEO", "ARM", "AZE"] },
+  {
+    "id": "caucasus",
+    "name": "Turkey & the Caucasus",
+    "countries": ["TUR", "GEO", "ARM", "AZE"]
+  },
   {
     "id": "northern-middle-east",
-    "name": "Northern Middle East",
-    "countries": ["TUR", "IRQ", "IRN"]
+    "name": "Iran & Its Neighbours",
+    "countries": ["IRQ", "IRN", "AFG"]
   },
   { "id": "levant", "name": "Levant", "countries": ["ISR", "PSE", "LBN", "SYR", "JOR"] },
   { "id": "gulf-states", "name": "Gulf States", "countries": ["KWT", "BHR", "QAT", "ARE"] },
   { "id": "arabian-peninsula", "name": "Arabian Peninsula", "countries": ["SAU", "OMN", "YEM"] },
   {
     "id": "southern-central-asia",
-    "name": "Southern Central Asia",
-    "countries": ["UZB", "TKM", "TJK", "AFG"]
+    "name": "Central Asia",
+    "countries": ["UZB", "TKM", "TJK", "KGZ"]
   },
-  { "id": "central-asian-steppe", "name": "Central Asian Steppe", "countries": ["KAZ", "KGZ", "MNG"] },
+  { "id": "central-asian-steppe", "name": "Russia & the Steppe", "countries": ["RUS", "KAZ", "MNG"] },
   { "id": "east-asia", "name": "East Asia", "countries": ["CHN", "JPN", "KOR", "PRK"] },
   {
     "id": "indian-subcontinent",
