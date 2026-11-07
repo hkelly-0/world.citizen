@@ -14,6 +14,7 @@ import {
   resumeHoverHighlight,
   setGroupFeatureState,
   setGroupTintShown,
+  setIhdiShown,
   setPopulationShown,
   stopHoverHighlight,
 } from './countryMap'
@@ -76,6 +77,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   // The Population switch only changes how the map looks, so tapping and search work
   // the same with it on, and it can be on along with Regions.
   const [isShowingPopulation, setIsShowingPopulation] = useState(false)
+  // The same goes for the IHDI colours, but turning on Regions or IHDI turns
+  // the other off, as their fills would blend into colours that mean neither.
+  const [isShowingIhdi, setIsShowingIhdi] = useState(false)
   // The region under the pointer while Regions is on. Kept outside React
   // state: hover changes often and only affects the map.
   const hoveredGroupIdRef = useRef<string | null>(null)
@@ -147,6 +151,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   // country becomes its region, but a selected region has no single country
   // to go back to, so its panel closes.
   function changeShowRegions(shown: boolean) {
+    if (shown) changeShowIhdi(false)
     setRegionsShown(shown)
     if (shown && selectedIndex !== null) {
       const groupId = groupIdOfCountry(selectedIndex)
@@ -160,6 +165,13 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   function changeShowPopulation(shown: boolean) {
     setIsShowingPopulation(shown)
     if (mapRef.current !== null) setPopulationShown(mapRef.current, shown)
+  }
+
+  // Goes through changeShowRegions so an open region panel closes too.
+  function changeShowIhdi(shown: boolean) {
+    if (shown && isShowingRegions) changeShowRegions(false)
+    setIsShowingIhdi(shown)
+    if (mapRef.current !== null) setIhdiShown(mapRef.current, shown)
   }
 
   // Clicking a country's name in a region's panel turns Regions off and
@@ -349,6 +361,8 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
         onShowRegionsChange={changeShowRegions}
         isShowingPopulation={isShowingPopulation}
         onShowPopulationChange={changeShowPopulation}
+        isShowingIhdi={isShowingIhdi}
+        onShowIhdiChange={changeShowIhdi}
       />
       <CountrySearch
         places={SEARCH_PLACES}

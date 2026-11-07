@@ -6,6 +6,8 @@ type GlobeSettingsProps = {
   onShowRegionsChange: (shown: boolean) => void
   isShowingPopulation: boolean
   onShowPopulationChange: (shown: boolean) => void
+  isShowingIhdi: boolean
+  onShowIhdiChange: (shown: boolean) => void
 }
 
 // A gear button under the back button on the globe screen, which opens and
@@ -16,6 +18,8 @@ export function GlobeSettings({
   onShowRegionsChange,
   isShowingPopulation,
   onShowPopulationChange,
+  isShowingIhdi,
+  onShowIhdiChange,
 }: GlobeSettingsProps) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -53,6 +57,17 @@ export function GlobeSettings({
               role="switch"
               aria-checked={isShowingPopulation}
               onClick={() => onShowPopulationChange(!isShowingPopulation)}
+            >
+              <span className="globe-settings__switch-knob" />
+            </button>
+          </label>
+          <label className="globe-settings__row">
+            IHDI
+            <button
+              className="globe-settings__switch"
+              role="switch"
+              aria-checked={isShowingIhdi}
+              onClick={() => onShowIhdiChange(!isShowingIhdi)}
             >
               <span className="globe-settings__switch-knob" />
             </button>

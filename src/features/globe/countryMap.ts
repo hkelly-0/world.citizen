@@ -80,6 +80,20 @@ const FULL_SATELLITE_BRIGHTNESS = 1
 const POPULATION_BORDER_OPACITY = 0.6
 const FULL_BORDER_OPACITY = 1
 
+// The IHDI colours (the globe screen's IHDI setting): the lowest value is a
+// dark reddish purple, fading through red at IHDI_RED_VALUE, orange midway
+// between red and yellow, and yellow at IHDI_YELLOW_VALUE, to green at the
+// highest value.
+// These are raw IHDIs: the app shows them multiplied by 10, as 4.0 and 7.5.
+const IHDI_RED_VALUE = 0.4
+const IHDI_YELLOW_VALUE = 0.75
+const IHDI_ORANGE_COLOR = '#ff8c1a'
+const IHDI_LOWEST_COLOR = '#6b0f4e'
+const IHDI_LOW_COLOR = '#e5262b'
+const IHDI_MIDDLE_COLOR = '#ffe135'
+const IHDI_HIGH_COLOR = '#1fb141'
+const IHDI_OPACITY = 0.5
+
 // The map is a globe when zoomed out and blends into a flat map between these
 // zoom levels. MapLibre's built-in 'globe' only goes flat at zoom 11-12, which
 // is further in than the 1:50m borders have detail for.
@@ -97,10 +111,19 @@ export const COUNTRY_SHAPES = loadCountryShapes()
 // scripts/make-country-group-colours.mjs.
 const GROUP_COLOURS: Record<string, string> = groupColoursJson
 
+// The ends of the IHDI colour scale. Estimated values fall within the real ones
+// today, but are included so a future estimate can't fall off the scale.
+const IHDI_VALUES = Object.values(countryFacts).flatMap(
+  (facts) => facts.ihdi ?? facts.ihdiEstimate ?? [],
+)
+const LOWEST_IHDI = Math.min(...IHDI_VALUES)
+const HIGHEST_IHDI = Math.max(...IHDI_VALUES)
+
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
 // a tapped feature can be turned back into its CountryShape. The 195 countries
-// carry their group's id and colour as "groupId" and "groupColour"; other map
-// areas have neither.
+// carry their group's id and colour as "groupId" and "groupColour", and their
+// real or else estimated IHDI as "ihdi" (null if they have neither); other map
+// areas have none of these.
 const COUNTRY_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
   features: COUNTRY_SHAPES.map((shape, index) => {
@@ -112,7 +135,11 @@ const COUNTRY_FEATURES: FeatureCollection = {
       properties:
         facts === undefined
           ? {}
-          : { groupId: facts.groupId, groupColour: GROUP_COLOURS[facts.groupId] },
+          : {
+              groupId: facts.groupId,
+              groupColour: GROUP_COLOURS[facts.groupId],
+              ihdi: facts.ihdi ?? facts.ihdiEstimate,
+            },
     }
   }),
 }
@@ -206,6 +233,33 @@ const MAP_STYLE: StyleSpecification = {
     { id: 'ocean', type: 'background', paint: { 'background-color': OCEAN_COLOR } },
     { id: 'satellite-imagery', type: 'raster', source: 'satellite' },
     {
+      // Hidden until setIhdiShown shows it. Above the group tint (added under
+      // this layer by styleWithGroups) and under the lights and highlights.
+      id: 'country-ihdi',
+      type: 'fill',
+      source: 'countries',
+      layout: { visibility: 'none' },
+      filter: ['!=', ['get', 'ihdi'], null],
+      paint: {
+        'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['get', 'ihdi'],
+          LOWEST_IHDI,
+          IHDI_LOWEST_COLOR,
+          IHDI_RED_VALUE,
+          IHDI_LOW_COLOR,
+          (IHDI_RED_VALUE + IHDI_YELLOW_VALUE) / 2,
+          IHDI_ORANGE_COLOR,
+          IHDI_YELLOW_VALUE,
+          IHDI_MIDDLE_COLOR,
+          HIGHEST_IHDI,
+          IHDI_HIGH_COLOR,
+        ],
+        'fill-opacity': IHDI_OPACITY,
+      },
+    },
+    {
       // Hidden (so no tiles load) until setPopulationShown shows it.
       id: 'population-lights',
       type: 'raster',
@@ -292,6 +346,11 @@ function styleWithGroups(tintedGroupIds: string[], isTintShown: boolean): StyleS
 // Shows or hides the group tint of a map created with tintedGroupIds.
 export function setGroupTintShown(map: MapLibreMap, shown: boolean) {
   map.setLayoutProperty('country-groups', 'visibility', shown ? 'visible' : 'none')
+}
+
+// Shows or hides the fills coloured by each country's IHDI.
+export function setIhdiShown(map: MapLibreMap, shown: boolean) {
+  map.setLayoutProperty('country-ihdi', 'visibility', shown ? 'visible' : 'none')
 }
 
 // Shows the population lights and dims the imagery and borders around them, or
