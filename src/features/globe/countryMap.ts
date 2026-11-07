@@ -68,6 +68,21 @@ const SATELLITE_TILES = '/tiles/satellite/{z}/{x}/{y}.webp'
 // MapLibre enlarges these tiles instead when zooming further in.
 const SATELLITE_MAX_DETAIL_ZOOM = 6
 
+// Population drawn as points of light (the globe screen's Show Population
+// setting), cut into tiles by scripts/make-population-lights.py. Oceans and
+// empty land have no tile files, as there is nothing to draw there.
+const POPULATION_TILES = '/tiles/population/{z}/{x}/{y}.webp'
+// As far as the globe zooms in (MAX_ZOOM_AT_EQUATOR in zoomLimits.ts).
+const POPULATION_MAX_DETAIL_ZOOM = 7
+// The imagery and the ocean beyond it are dimmed so the lights stand out.
+const POPULATION_SATELLITE_BRIGHTNESS = 0.45
+const POPULATION_OCEAN_COLOR = '#030810'
+// MapLibre's default, undimmed.
+const FULL_SATELLITE_BRIGHTNESS = 1
+// Fainter borders, so they don't compete with the lights.
+const POPULATION_BORDER_OPACITY = 0.6
+const FULL_BORDER_OPACITY = 1
+
 // The map is a globe when zoomed out and blends into a flat map between these
 // zoom levels. MapLibre's built-in 'globe' only goes flat at zoom 11-12, which
 // is further in than the 1:50m borders have detail for.
@@ -183,10 +198,24 @@ const MAP_STYLE: StyleSpecification = {
       tileSize: 256,
       maxzoom: SATELLITE_MAX_DETAIL_ZOOM,
     },
+    population: {
+      type: 'raster',
+      tiles: [POPULATION_TILES],
+      tileSize: 256,
+      maxzoom: POPULATION_MAX_DETAIL_ZOOM,
+    },
   },
   layers: [
     { id: 'ocean', type: 'background', paint: { 'background-color': OCEAN_COLOR } },
     { id: 'satellite-imagery', type: 'raster', source: 'satellite' },
+    {
+      // Hidden (so no tiles load) until setPopulationShown shows it.
+      id: 'population-lights',
+      type: 'raster',
+      source: 'population',
+      layout: { visibility: 'none' },
+      paint: { 'raster-fade-duration': 0 },
+    },
     {
       // Invisible unless hovered or selected, so the imagery shows through.
       // It is still used to find which country was tapped.
@@ -266,6 +295,23 @@ function styleWithGroups(tintedGroupIds: string[], isTintShown: boolean): StyleS
 // Shows or hides the group tint of a map created with tintedGroupIds.
 export function setGroupTintShown(map: MapLibreMap, shown: boolean) {
   map.setLayoutProperty('country-groups', 'visibility', shown ? 'visible' : 'none')
+}
+
+// Shows the population lights and dims the imagery and borders around them, or
+// undoes all of it.
+export function setPopulationShown(map: MapLibreMap, shown: boolean) {
+  map.setLayoutProperty('population-lights', 'visibility', shown ? 'visible' : 'none')
+  map.setPaintProperty(
+    'satellite-imagery',
+    'raster-brightness-max',
+    shown ? POPULATION_SATELLITE_BRIGHTNESS : FULL_SATELLITE_BRIGHTNESS,
+  )
+  map.setPaintProperty('ocean', 'background-color', shown ? POPULATION_OCEAN_COLOR : OCEAN_COLOR)
+  map.setPaintProperty(
+    'country-borders',
+    'line-opacity',
+    shown ? POPULATION_BORDER_OPACITY : FULL_BORDER_OPACITY,
+  )
 }
 
 // Hides the white country borders (Name every country), so neighbouring
@@ -441,6 +487,14 @@ export function createCountryMap(
   }
   updateZoomLimits()
   map.on('move', updateZoomLimits)
+
+  // MapLibre only logs errors itself when nothing listens for them, so this
+  // has to log the others. Population tiles fail wherever there is nothing to
+  // draw (no file is written for those), which is expected and draws nothing.
+  map.on('error', (event) => {
+    const { sourceId } = event as { sourceId?: string }
+    if (sourceId !== 'population') console.error(event.error)
+  })
 
   if (CAN_HOVER) {
     // Kept outside React state: hover changes often and only affects the map.

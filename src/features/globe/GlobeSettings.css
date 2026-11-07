@@ -50,6 +50,8 @@
 .globe-settings__row {
   display: flex;
   align-items: center;
+  /* Lines the switches up, whatever the length of their labels. */
+  justify-content: space-between;
   gap: 12px;
   min-height: 40px;
   cursor: pointer;

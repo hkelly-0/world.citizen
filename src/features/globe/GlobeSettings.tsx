@@ -4,12 +4,19 @@ import './GlobeSettings.css'
 type GlobeSettingsProps = {
   isShowingRegions: boolean
   onShowRegionsChange: (shown: boolean) => void
+  isShowingPopulation: boolean
+  onShowPopulationChange: (shown: boolean) => void
 }
 
 // A gear button under the back button on the globe screen, which opens and
 // closes the globe's settings. Nothing here is saved: the globe screen starts
 // with every setting off.
-export function GlobeSettings({ isShowingRegions, onShowRegionsChange }: GlobeSettingsProps) {
+export function GlobeSettings({
+  isShowingRegions,
+  onShowRegionsChange,
+  isShowingPopulation,
+  onShowPopulationChange,
+}: GlobeSettingsProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -35,6 +42,17 @@ export function GlobeSettings({ isShowingRegions, onShowRegionsChange }: GlobeSe
               role="switch"
               aria-checked={isShowingRegions}
               onClick={() => onShowRegionsChange(!isShowingRegions)}
+            >
+              <span className="globe-settings__switch-knob" />
+            </button>
+          </label>
+          <label className="globe-settings__row">
+            Show Population
+            <button
+              className="globe-settings__switch"
+              role="switch"
+              aria-checked={isShowingPopulation}
+              onClick={() => onShowPopulationChange(!isShowingPopulation)}
             >
               <span className="globe-settings__switch-knob" />
             </button>

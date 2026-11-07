@@ -14,6 +14,7 @@ import {
   resumeHoverHighlight,
   setGroupFeatureState,
   setGroupTintShown,
+  setPopulationShown,
   stopHoverHighlight,
 } from './countryMap'
 import { CountryInfoPanel } from './CountryInfoPanel'
@@ -72,6 +73,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   const [isShowingRegions, setIsShowingRegions] = useState(false)
   // The same, for the map's event handlers, which are set up only once.
   const isShowingRegionsRef = useRef(false)
+  // Show Population only changes how the map looks, so tapping and search work
+  // the same with it on, and it can be on along with Show Regions.
+  const [isShowingPopulation, setIsShowingPopulation] = useState(false)
   // The region under the pointer while Show Regions is on. Kept outside React
   // state: hover changes often and only affects the map.
   const hoveredGroupIdRef = useRef<string | null>(null)
@@ -151,6 +155,11 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     } else if (!shown && selectedGroupId !== null) {
       closePanel()
     }
+  }
+
+  function changeShowPopulation(shown: boolean) {
+    setIsShowingPopulation(shown)
+    if (mapRef.current !== null) setPopulationShown(mapRef.current, shown)
   }
 
   // Clicking a country's name in a region's panel turns Show Regions off and
@@ -335,7 +344,12 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     <div className="globe-view">
       <div className="globe-view__canvas" ref={containerRef} />
       <BackButton onClick={goToMenu} label={backLabel} />
-      <GlobeSettings isShowingRegions={isShowingRegions} onShowRegionsChange={changeShowRegions} />
+      <GlobeSettings
+        isShowingRegions={isShowingRegions}
+        onShowRegionsChange={changeShowRegions}
+        isShowingPopulation={isShowingPopulation}
+        onShowPopulationChange={changeShowPopulation}
+      />
       <CountrySearch
         places={SEARCH_PLACES}
         onSelect={(index) => selectCountryOrRegion(index, false)}
