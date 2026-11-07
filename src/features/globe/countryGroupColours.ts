@@ -6,7 +6,7 @@ import countryGroupsJson from '../../data/countryGroups.json' with { type: 'json
 
 // Picks the colours of the country groups (src/data/countryGroups.json): the
 // tint of the region globe, where new regions are chosen, and of the globe
-// screen's Show Regions setting. Not used by the app itself:
+// screen's Regions setting. Not used by the app itself:
 // scripts/make-country-group-colours.mjs saves the colours to
 // src/data/countryGroupColours.json, which the app reads. The JSON imports
 // carry `with { type: 'json' }` so the script can import this file in Node.

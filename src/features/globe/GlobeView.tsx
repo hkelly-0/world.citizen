@@ -31,7 +31,7 @@ function isPanelOpenInHistory(): boolean {
   return history.state?.panelOpen === true
 }
 
-// With Show Regions on (in the globe settings), every country is tinted in its
+// With Regions on (in the globe settings), every country is tinted in its
 // region's (country group's) colour, and hovering, tapping or searching for a
 // country highlights and selects its whole region instead. A selected region
 // gets its own info panel, which also uses the panel's history entry.
@@ -73,10 +73,10 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   const [isShowingRegions, setIsShowingRegions] = useState(false)
   // The same, for the map's event handlers, which are set up only once.
   const isShowingRegionsRef = useRef(false)
-  // Show Population only changes how the map looks, so tapping and search work
-  // the same with it on, and it can be on along with Show Regions.
+  // The Population switch only changes how the map looks, so tapping and search work
+  // the same with it on, and it can be on along with Regions.
   const [isShowingPopulation, setIsShowingPopulation] = useState(false)
-  // The region under the pointer while Show Regions is on. Kept outside React
+  // The region under the pointer while Regions is on. Kept outside React
   // state: hover changes often and only affects the map.
   const hoveredGroupIdRef = useRef<string | null>(null)
   // Starts the flight to the selected country or region again, while that
@@ -107,8 +107,8 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     setSelectedGroupId(groupId)
   }
 
-  // A tapped or searched-for country selects itself, or its region while Show
-  // Regions is on. Map areas outside the 195 have no region, so with Show
+  // A tapped or searched-for country selects itself, or its region while
+  // Regions is on. Map areas outside the 195 have no region, so with
   // Regions on they close the panel when tapped and do nothing when searched for.
   function selectCountryOrRegion(index: number, isTap: boolean) {
     if (!isShowingRegionsRef.current) {
@@ -120,7 +120,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     else if (isTap) closePanel()
   }
 
-  // Highlights the whole region under the pointer, while Show Regions is on.
+  // Highlights the whole region under the pointer, while Regions is on.
   function setHoveredGroup(groupId: string | null) {
     const map = mapRef.current
     if (map === null) return
@@ -162,7 +162,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     if (mapRef.current !== null) setPopulationShown(mapRef.current, shown)
   }
 
-  // Clicking a country's name in a region's panel turns Show Regions off and
+  // Clicking a country's name in a region's panel turns Regions off and
   // selects that country, keeping the panel's history entry.
   function selectCountryFromRegion(index: number) {
     setRegionsShown(false)
@@ -204,7 +204,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     const container = containerRef.current
     if (container === null) return
 
-    // Every region can be tinted, but the tint starts hidden (Show Regions
+    // Every region can be tinted, but the tint starts hidden (Regions
     // starts off).
     const map = createCountryMap(container, ALL_GROUP_IDS, false)
     mapRef.current = map

@@ -51,7 +51,7 @@ const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
 // The country group tint over the satellite imagery (the region globe and the
-// globe screen's Show Regions setting), stronger for the region under the
+// globe screen's Regions setting), stronger for the region under the
 // pointer and the one selected.
 const GROUP_OPACITY = 0.45
 const GROUP_HOVERED_OPACITY = 0.65
@@ -65,7 +65,7 @@ const SATELLITE_TILES = '/tiles/satellite/{z}/{x}/{y}.webp'
 // MapLibre enlarges these tiles instead when zooming further in.
 const SATELLITE_MAX_DETAIL_ZOOM = 6
 
-// Population drawn as points of light (the globe screen's Show Population
+// Population drawn as points of light (the globe screen's Population
 // setting), cut into tiles by scripts/make-population-lights.py. Oceans and
 // empty land have no tile files, as there is nothing to draw there.
 const POPULATION_TILES = '/tiles/population/{z}/{x}/{y}.webp'

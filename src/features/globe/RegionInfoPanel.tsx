@@ -14,7 +14,7 @@ type RegionInfoPanelProps = {
 }
 
 // The globe screen's panel for a selected region (country group), shown while
-// Show Regions is on: the region's name and its countries in alphabetical
+// Regions is on: the region's name and its countries in alphabetical
 // order. Styled like the country info panel.
 export function RegionInfoPanel({ groupId, onClose, onSelectCountry, ref }: RegionInfoPanelProps) {
   const name = COUNTRY_GROUPS.find((group) => group.id === groupId)?.name ?? ''

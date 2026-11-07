@@ -36,7 +36,7 @@ export function GlobeSettings({
       {isOpen && (
         <section className="globe-settings__panel" aria-label="Globe settings">
           <label className="globe-settings__row">
-            Show Regions
+            Regions
             <button
               className="globe-settings__switch"
               role="switch"
@@ -47,7 +47,7 @@ export function GlobeSettings({
             </button>
           </label>
           <label className="globe-settings__row">
-            Show Population
+            Population
             <button
               className="globe-settings__switch"
               role="switch"

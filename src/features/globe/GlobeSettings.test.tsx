@@ -17,13 +17,13 @@ describe('GlobeSettings', () => {
 
     expect(screen.queryByRole('switch')).not.toBeInTheDocument()
     await userEvent.click(gear)
-    expect(screen.getByRole('switch', { name: 'Show Regions' })).not.toBeChecked()
-    expect(screen.getByRole('switch', { name: 'Show Population' })).not.toBeChecked()
+    expect(screen.getByRole('switch', { name: 'Regions' })).not.toBeChecked()
+    expect(screen.getByRole('switch', { name: 'Population' })).not.toBeChecked()
     await userEvent.click(gear)
     expect(screen.queryByRole('switch')).not.toBeInTheDocument()
   })
 
-  it('flips Show Regions', async () => {
+  it('flips Regions', async () => {
     const onShowRegionsChange = vi.fn()
     render(
       <GlobeSettings
@@ -35,14 +35,14 @@ describe('GlobeSettings', () => {
     )
 
     await userEvent.click(screen.getByRole('button', { name: 'Globe settings' }))
-    const toggle = screen.getByRole('switch', { name: 'Show Regions' })
+    const toggle = screen.getByRole('switch', { name: 'Regions' })
     expect(toggle).toBeChecked()
     await userEvent.click(toggle)
 
     expect(onShowRegionsChange).toHaveBeenCalledWith(false)
   })
 
-  it('flips Show Population without touching Show Regions', async () => {
+  it('flips Population without touching Regions', async () => {
     const onShowRegionsChange = vi.fn()
     const onShowPopulationChange = vi.fn()
     render(
@@ -55,7 +55,7 @@ describe('GlobeSettings', () => {
     )
 
     await userEvent.click(screen.getByRole('button', { name: 'Globe settings' }))
-    await userEvent.click(screen.getByRole('switch', { name: 'Show Population' }))
+    await userEvent.click(screen.getByRole('switch', { name: 'Population' }))
 
     expect(onShowPopulationChange).toHaveBeenCalledWith(true)
     expect(onShowRegionsChange).not.toHaveBeenCalled()
