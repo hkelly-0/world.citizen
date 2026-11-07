@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
 import { loadCountryShapes } from '../../shared/countries'
-import { regionBounds } from './regionBounds'
+import { regionBounds, regionWidthKm } from './regionBounds'
 
 const SHAPES = loadCountryShapes()
 
@@ -25,5 +25,19 @@ describe('regionBounds', () => {
     // Samoa, Tonga and Tuvalu lie on both sides of 180°.
     const [[west], [east]] = regionBounds(groupShapes('polynesia'))
     expect(east - west).toBeLessThan(30)
+  })
+})
+
+describe('regionWidthKm', () => {
+  it('measures a region from its centre to its furthest coastline point and back', () => {
+    // Iberia is roughly 1300 km from Portugal's west coast to Menorca.
+    const width = regionWidthKm(groupShapes('iberia'))
+    expect(width).toBeGreaterThan(1100)
+    expect(width).toBeLessThan(1700)
+  })
+
+  it('stays narrow for a region across the 180° meridian', () => {
+    // Samoa, Tonga and Tuvalu are within about 1500 km of each other.
+    expect(regionWidthKm(groupShapes('polynesia'))).toBeLessThan(2500)
   })
 })

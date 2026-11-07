@@ -18,7 +18,7 @@ import groupColoursJson from '../../data/countryGroupColours.json'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
-import { regionBounds } from './regionBounds'
+import { regionBounds, regionCentre, regionWidthKm } from './regionBounds'
 import {
   chooseTappedIndex,
   distanceToOutlinePx,
@@ -290,12 +290,11 @@ export function setGroupFeatureState(
   }
 }
 
-// Small regions (e.g. the Leeward Islands) would otherwise fill the screen.
-const GROUP_MAX_ZOOM = 5
-
 // Turns and zooms the globe to fit the main landmasses of the group's
 // countries in the space between topPadding and bottomPadding (pixels), with
-// sidePadding at the left and right.
+// sidePadding at the left and right. It goes no closer than a country of the
+// same width would (focusZoom.ts), so small regions don't fill the screen:
+// large regions are limited by the fit, and smaller ones by that curve.
 export function flyToGroup(
   map: MapLibreMap,
   groupId: string,
@@ -310,7 +309,12 @@ export function flyToGroup(
   }))
   map.fitBounds(regionBounds(shapes), {
     padding: { top: topPadding, bottom: bottomPadding, left: sidePadding, right: sidePadding },
-    maxZoom: GROUP_MAX_ZOOM,
+    maxZoom: focusZoomFor(
+      null,
+      regionWidthKm(shapes),
+      map.getContainer().clientWidth >= WIDE_SCREEN_MIN_PX,
+      regionCentre(shapes)[1],
+    ),
     duration: durationMs,
   })
 }
