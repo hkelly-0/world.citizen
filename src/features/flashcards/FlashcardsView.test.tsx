@@ -115,7 +115,7 @@ function nameOf(code: string): string {
 }
 
 async function answerArea() {
-  await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² Immense' }))
+  await userEvent.click(screen.getByRole('button', { name: '5M+ km² Immense' }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 }
 
@@ -252,7 +252,7 @@ describe('FlashcardsView', () => {
     renderFlashcards(['area', 'capital'], 'classic')
 
     const code = franceAndOthers().find((code) => nameOf(code) === shownCountryName())!
-    await userEvent.click(screen.getByRole('button', { name: '≥ 5M km² Immense' }))
+    await userEvent.click(screen.getByRole('button', { name: '5M+ km² Immense' }))
 
     // The area was already reviewed today, so this is saved as a repeat.
     expect(loadProgress()[code].area!.latestRepeatAnswer).toEqual({

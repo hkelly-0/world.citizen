@@ -1,12 +1,12 @@
 // Numerical statistics are grouped into named ranges to make them easier to
-// learn; cards show the range's title (its lower bound and name, e.g.
-// "≥ 5M km²" and "Immense"). `RangeTitle.tsx` shows one. Only a range
+// learn; cards show the range's title (its bounds and name, e.g.
+// "5M+ km²" and "Immense"). `RangeTitle.tsx` shows one. Only a range
 // question's answer and the globe's info panel also show the rounded value
 // (`StatValue`'s `value`).
 
-// A range's title. `bound` is null for a range with only a name (e.g.
-// "1.4 Billion"). Names are unique within each list, so range questions use
-// them to tell the options apart.
+// A range's title. `bound` is null for a title with only a name (e.g.
+// "No data"). Names are unique within each list, so range questions use them
+// to tell the options apart.
 export type RangeLabel = {
   bound: string | null
   name: string
@@ -23,23 +23,23 @@ export type StatRange = RangeLabel & {
 export const NO_DATA: RangeLabel = { bound: null, name: 'No data' }
 
 export const POPULATION_RANGES: StatRange[] = [
-  { bound: '< 100K', name: 'Minute', min: 0 },
-  { bound: '≥ 100K', name: 'Few', min: 100_000 },
-  { bound: '≥ 1M', name: 'Smallish', min: 1_000_000 },
-  { bound: '≥ 10M', name: 'Moderate', min: 10_000_000 },
-  { bound: '≥ 50M', name: 'Numerous', min: 50_000_000 },
-  { bound: '≥ 100M', name: 'Multitudes', min: 100_000_000 },
-  { bound: null, name: '1.4 Billion', min: 1_000_000_000 },
+  { bound: '0-100K', name: 'Minute', min: 0 },
+  { bound: '100K-1M', name: 'Few', min: 100_000 },
+  { bound: '1-10M', name: 'Smallish', min: 1_000_000 },
+  { bound: '10-50M', name: 'Moderate', min: 10_000_000 },
+  { bound: '50-100M', name: 'Numerous', min: 50_000_000 },
+  { bound: '100M-1B', name: 'Multitudes', min: 100_000_000 },
+  { bound: '1B+', name: 'Billions', min: 1_000_000_000 },
 ]
 
 // In square kilometres.
 export const AREA_RANGES: StatRange[] = [
-  { bound: '< 10K km²', name: 'Minuscule', min: 0 },
-  { bound: '≥ 10K km²', name: 'Tiny', min: 10_000 },
-  { bound: '≥ 100K km²', name: 'Small', min: 100_000 },
-  { bound: '≥ 300K km²', name: 'Medium', min: 300_000 },
-  { bound: '≥ 1M km²', name: 'Large', min: 1_000_000 },
-  { bound: '≥ 5M km²', name: 'Immense', min: 5_000_000 },
+  { bound: '0-10K km²', name: 'Minuscule', min: 0 },
+  { bound: '10-100K km²', name: 'Tiny', min: 10_000 },
+  { bound: '100-300K km²', name: 'Small', min: 100_000 },
+  { bound: '300K-1M km²', name: 'Medium', min: 300_000 },
+  { bound: '1-5M km²', name: 'Large', min: 1_000_000 },
+  { bound: '5M+ km²', name: 'Immense', min: 5_000_000 },
 ]
 
 // Inequality-adjusted HDI. Each bound is the IHDI multiplied by 10 and

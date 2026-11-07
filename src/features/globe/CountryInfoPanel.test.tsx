@@ -67,11 +67,11 @@ describe('CountryInfoPanel', () => {
     expect(valueOf('IHDI')).toHaveTextContent('8.0 (est.) Great')
   })
 
-  it('shows the value beside a range with no bound, e.g. "1.4 Billion"', () => {
+  it('shows the value in place of the bound in the highest population range', () => {
     const india: CountryShape = { ...france, name: 'India', isoAlpha3: 'IND' }
     render(<CountryInfoPanel {...panelProps} country={india} />)
 
-    expect(valueOf('Population')).toHaveTextContent(/^1\.\dB 1\.4 Billion$/)
+    expect(valueOf('Population')).toHaveTextContent(/^1\.\dB Billions$/)
   })
 
   it('says what a territory is, by ISO code or, with no code, by map name', () => {

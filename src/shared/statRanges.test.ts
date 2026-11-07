@@ -22,7 +22,7 @@ describe('rangeOf', () => {
     expect(rangeOf(POPULATION_RANGES, 30_000_000).name).toBe('Moderate')
     expect(rangeOf(POPULATION_RANGES, 66_650_804).name).toBe('Numerous')
     expect(rangeOf(POPULATION_RANGES, 347_000_000).name).toBe('Multitudes')
-    expect(rangeOf(POPULATION_RANGES, 1_463_865_525).name).toBe('1.4 Billion')
+    expect(rangeOf(POPULATION_RANGES, 1_463_865_525).name).toBe('Billions')
   })
 
   it('puts area values in the right range', () => {
@@ -74,9 +74,9 @@ describe('rangeOf', () => {
     }
   })
 
-  it('puts only China and India in the "1.4 Billion" range', () => {
+  it('puts only China and India in the "Billions" range', () => {
     const billions = Object.values(countryFacts)
-      .filter((country) => rangeOf(POPULATION_RANGES, country.population).name === '1.4 Billion')
+      .filter((country) => rangeOf(POPULATION_RANGES, country.population).name === 'Billions')
       .map((country) => country.isoAlpha3)
     expect(billions.sort()).toEqual(['CHN', 'IND'])
   })

@@ -9,7 +9,7 @@ describe('orderingTitle', () => {
       rangeIndex: 6,
       isEstimate: false,
     })
-    expect(POPULATION_RANGES[6].name).toBe('1.4 Billion')
+    expect(POPULATION_RANGES[6].name).toBe('Billions')
     expect(orderingTitle('area', 'VAT')?.rangeIndex).toBe(0)
   })
 
@@ -21,7 +21,7 @@ describe('orderingTitle', () => {
 
 describe('orderingCountries', () => {
   it('takes countries with different titles, highest first', () => {
-    // Germany and France are both "≥ 50M" (Numerous); with random() always
+    // Germany and France are both "50-100M" (Numerous); with random() always
     // 0 the Passport is gone through in order, so Germany is taken.
     expect(orderingCountries('population', ['DEU', 'FRA', 'CAN', 'USA', 'ISL'], () => 0)).toEqual([
       'USA',

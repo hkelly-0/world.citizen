@@ -58,7 +58,7 @@ async function answerFlag(isoAlpha3: string, isCorrect: boolean) {
 }
 
 // `name` is the option button's name: the range's bound and name, e.g.
-// "≥ 10M Moderate".
+// "10-50M Moderate".
 async function answerRangeQuestion(name: string) {
   await userEvent.click(screen.getByRole('button', { name }))
   await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -167,9 +167,9 @@ describe('Flashcard', () => {
     expect(screen.getByText('Flag?')).toBeInTheDocument()
     await answerFlag('FRA', true)
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('≥ 300K km² Medium')
+    await answerRangeQuestion('300K-1M km² Medium')
     expect(screen.getByText('Population?')).toBeInTheDocument()
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('50-100M Numerous')
     expect(screen.getByText('IHDI?')).toBeInTheDocument()
     await answerRangeQuestion('8 Great')
     await answerCapital('paris')
@@ -208,8 +208,8 @@ describe('Flashcard', () => {
     expect(screen.getByText('Flag?')).toBeInTheDocument()
     await answerFlag('FRA', true)
     expect(screen.getByText('Area?')).toBeInTheDocument()
-    await answerRangeQuestion('≥ 300K km² Medium')
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('300K-1M km² Medium')
+    await answerRangeQuestion('50-100M Numerous')
     await answerRangeQuestion('8 Great')
     await answerCapital('paris')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -242,18 +242,18 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap wrong country')
     await answerFlag('FRA', false)
-    await userEvent.click(screen.getByRole('button', { name: '≥ 10K km² Tiny' }))
-    expect(screen.getByRole('button', { name: '≥ 10K km² Tiny' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '10-100K km² Tiny' }))
+    expect(screen.getByRole('button', { name: '10-100K km² Tiny' })).toHaveClass(
       'flashcard__option--wrong',
     )
-    expect(screen.getByRole('button', { name: '≥ 300K km² Medium' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '300K-1M km² Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     // Once answered, clicking any option goes on, like Next, without changing the answer.
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² Medium' }))
+    await userEvent.click(screen.getByRole('button', { name: '300K-1M km² Medium' }))
     expect(screen.getByText('Population?')).toBeInTheDocument()
 
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('50-100M Numerous')
     await answerRangeQuestion('8 Great')
     await answerCapital('Lyon')
     expect(screen.getByText('Lyon')).toHaveClass('typed-answer__red')
@@ -322,11 +322,11 @@ describe('Flashcard', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: '≥ 100K km² Small' }))
-    expect(screen.getByRole('button', { name: '≥ 100K km² Small' })).toHaveClass(
+    await userEvent.click(screen.getByRole('button', { name: '100-300K km² Small' }))
+    expect(screen.getByRole('button', { name: '100-300K km² Small' })).toHaveClass(
       'flashcard__option--close',
     )
-    expect(screen.getByRole('button', { name: '≥ 300K km² Medium' })).toHaveClass(
+    expect(screen.getByRole('button', { name: '300K-1M km² Medium' })).toHaveClass(
       'flashcard__option--correct',
     )
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -352,8 +352,8 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap right country')
     await answerFlag('FRA', true)
-    await answerRangeQuestion('≥ 300K km² Medium')
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('300K-1M km² Medium')
+    await answerRangeQuestion('50-100M Numerous')
     await answerRangeQuestion('8 Great')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
     expect(await screen.findByText('Paris')).toHaveClass('typed-answer__green')
@@ -385,8 +385,8 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap right country')
     await answerFlag('VAT', true)
-    await answerRangeQuestion('< 10K km² Minuscule')
-    await answerRangeQuestion('< 100K Minute')
+    await answerRangeQuestion('0-10K km² Minuscule')
+    await answerRangeQuestion('0-100K Minute')
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
     expect(screen.getByRole('button', { name: 'No data' })).toHaveClass(
@@ -409,8 +409,8 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap right country')
     await answerFlag('SAU', true)
-    await answerRangeQuestion('≥ 1M km² Large')
-    await answerRangeQuestion('≥ 10M Moderate')
+    await answerRangeQuestion('1-5M km² Large')
+    await answerRangeQuestion('10-50M Moderate')
     expect(screen.queryByText(/Estimated/)).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
 
@@ -432,8 +432,8 @@ describe('Flashcard', () => {
 
     await answerLocation('Tap right country')
     await answerFlag('ZAF', true)
-    await answerRangeQuestion('≥ 1M km² Large')
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('1-5M km² Large')
+    await answerRangeQuestion('50-100M Numerous')
     await answerRangeQuestion('4 Very Bad')
     await userEvent.type(screen.getByLabelText('Capital (any one of them)?'), 'Cape Town')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
@@ -459,7 +459,7 @@ describe('Flashcard', () => {
     // No globe question, and the card starts at population.
     expect(screen.queryByText('Select France')).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('50-100M Numerous')
     expect(screen.queryByText('IHDI?')).not.toBeInTheDocument()
     await answerCapital('Lyon')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -482,10 +482,10 @@ describe('Flashcard', () => {
     )
 
     expect(screen.queryByText('550K km²')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '≥ 1M km² Large' }))
+    await userEvent.click(screen.getByRole('button', { name: '1-5M km² Large' }))
     expect(screen.getByText('550K km²')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    await answerRangeQuestion('≥ 50M Numerous')
+    await answerRangeQuestion('50-100M Numerous')
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
     expect(screen.getByText('8.4')).toBeInTheDocument()
   })
@@ -506,7 +506,7 @@ describe('Flashcard', () => {
     )
 
     await answerLocation('Tap right country')
-    await answerRangeQuestion('≥ 10K km² Tiny')
+    await answerRangeQuestion('10-100K km² Tiny')
 
     expect(onFinish).toHaveBeenCalled()
     expect(answersGiven(onAnswer)).toEqual({ globe: 'right', area: 'wrong' })
@@ -548,7 +548,7 @@ describe('Flashcard', () => {
       />,
     )
 
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² Medium' }))
+    await userEvent.click(screen.getByRole('button', { name: '300K-1M km² Medium' }))
     // Before Next is pressed.
     expect(onAnswer).toHaveBeenCalledWith('area', 'right', false)
   })
@@ -572,7 +572,7 @@ describe('Flashcard', () => {
 
       expect(screen.queryByText('Select France')).not.toBeInTheDocument()
       expect(screen.getByText('Population?')).toBeInTheDocument()
-      await answerRangeQuestion('≥ 50M Numerous')
+      await answerRangeQuestion('50-100M Numerous')
       await answerRangeQuestion('8 Great')
       await answerCapital('Paris')
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))

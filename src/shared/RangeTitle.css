@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-/* A range with no bound, such as "1.4 Billion". */
+/* A title with no bound, such as "No data". */
 .range-title--whole {
   justify-content: center;
 }

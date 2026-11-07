@@ -38,7 +38,7 @@ describe('PassportFlashcardView', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
     expect(screen.queryByText('Name globe')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: '≥ 300K km² Medium' }))
+    await userEvent.click(screen.getByRole('button', { name: '300K-1M km² Medium' }))
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
     // France is new, so the Passport count goes up before going back.
