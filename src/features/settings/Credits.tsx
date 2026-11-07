@@ -121,6 +121,18 @@ export function Credits({ onBack }: { onBack: () => void }) {
             . Cut into map tiles for this app. NASA doesn't endorse this app.
           </p>
           <p className="credits__entry">
+            <strong>Population lights:</strong> Schiavina, Freire, Carioli and MacManus (2023),{' '}
+            <ExternalLink href="https://doi.org/10.2905/2FF68A52-5B5B-4A22-8F40-C41DA8332CFE">
+              GHS-POP R2023A
+            </ExternalLink>
+            , European Commission, Joint Research Centre, under{' '}
+            <ExternalLink href="https://creativecommons.org/licenses/by/4.0/">
+              CC BY 4.0
+            </ExternalLink>
+            . The 2025 grid is drawn as randomly placed dots of light and cut into map tiles. The
+            European Commission doesn't endorse this app.
+          </p>
+          <p className="credits__entry">
             <strong>Flags:</strong>{' '}
             <ExternalLink href="https://github.com/hampusborgos/country-flags">
               hampusborgos/country-flags
