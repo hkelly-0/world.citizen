@@ -30,16 +30,13 @@ import { zoomLimitsFor } from './zoomLimits'
 
 setWorkerUrl(maplibreWorkerUrl)
 
-// True when the main input is a finger (phones and tablets). Their GPUs are
-// weaker, so the map uses a lower pixel ratio on them.
-const IS_TOUCH_DEVICE = window.matchMedia('(pointer: coarse)').matches
-
 // Phones and tablets can't hover, so hover highlighting is only set up on
 // devices with a mouse or trackpad.
 const CAN_HOVER = window.matchMedia('(hover: hover)').matches
 
 // Higher pixel ratios look marginally sharper but are slow in Android WebView.
-const MAX_PIXEL_RATIO = IS_TOUCH_DEVICE ? 1.5 : 2
+// 1.5 made the population lights look blocky on phones.
+const MAX_PIXEL_RATIO = 2
 
 // Only shown where the background imagery doesn't reach (beyond about 85°N/S).
 const OCEAN_COLOR = '#16324f'
