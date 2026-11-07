@@ -1,5 +1,4 @@
 import { countryFacts } from '../../shared/countryFacts'
-import { shuffled } from '../../shared/shuffled'
 import {
   AREA_RANGES,
   IHDI_RANGES,
@@ -40,24 +39,63 @@ export function orderingTitle(stat: OrderingStat, code: string): OrderingTitle |
 
 // The countries for one ordering question, highest first: ORDERING_COUNT
 // Passport countries, each with a different range title for the stat, so
-// there are no ties. They are picked by going through the Passport in a
-// random order, taking each country whose title isn't taken yet. Null when
-// the Passport doesn't have ORDERING_COUNT different titles. `random` is a
-// parameter so tests can make the choice predictable.
+// there are no ties. To make the order hard to tell, their ranges are as close
+// together as the Passport allows: adjacent ranges when it has them, otherwise
+// the closest ones it has. When several sets of ranges are equally close, one
+// is picked at random, weighted by how many Passport countries it holds. Null
+// when the Passport doesn't have ORDERING_COUNT different titles. `random` is
+// a parameter so tests can make the choice predictable.
 export function orderingCountries(
   stat: OrderingStat,
   passportCodes: string[],
   random: () => number = Math.random,
 ): string[] | null {
-  const picked: { code: string; rangeIndex: number }[] = []
-  for (const code of shuffled(passportCodes, random)) {
+  const codesByRange = new Map<number, string[]>()
+  for (const code of passportCodes) {
     const title = orderingTitle(stat, code)
-    if (title === null || picked.some((other) => other.rangeIndex === title.rangeIndex)) continue
-    picked.push({ code, rangeIndex: title.rangeIndex })
-    if (picked.length === ORDERING_COUNT) break
+    if (title === null) continue
+    codesByRange.set(title.rangeIndex, [...(codesByRange.get(title.rangeIndex) ?? []), code])
   }
-  if (picked.length < ORDERING_COUNT) return null
-  return picked.sort((a, b) => b.rangeIndex - a.rangeIndex).map((country) => country.code)
+  const rangeIndices = [...codesByRange.keys()].sort((a, b) => a - b)
+  if (rangeIndices.length < ORDERING_COUNT) return null
+
+  // Every run of ORDERING_COUNT ranges that are next to each other among the
+  // ones the Passport has. Those it has may still have gaps between them.
+  const runs: number[][] = []
+  for (let start = 0; start + ORDERING_COUNT <= rangeIndices.length; start++) {
+    runs.push(rangeIndices.slice(start, start + ORDERING_COUNT))
+  }
+  const runSpan = (run: number[]) => run[run.length - 1] - run[0]
+  const smallestSpan = Math.min(...runs.map(runSpan))
+  const closestRuns = runs.filter((run) => runSpan(run) === smallestSpan)
+
+  const run = chooseRunByCountryCount(closestRuns, codesByRange, random)
+  // Ranges are sorted smallest first, so reversed gives highest first.
+  return [...run].reverse().map((rangeIndex) => {
+    const codes = codesByRange.get(rangeIndex)!
+    return codes[Math.floor(random() * codes.length)]
+  })
+}
+
+// One of `runs` at random, weighted by how many countries its ranges hold.
+function chooseRunByCountryCount(
+  runs: number[][],
+  codesByRange: Map<number, string[]>,
+  random: () => number,
+): number[] {
+  const weights = runs.map((run) =>
+    run.reduce((sum, rangeIndex) => sum + codesByRange.get(rangeIndex)!.length, 0),
+  )
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+
+  // Walks along the weights until passing a random point in their total.
+  let point = random() * totalWeight
+  for (let i = 0; i < runs.length; i++) {
+    point -= weights[i]
+    if (point < 0) return runs[i]
+  }
+  // Only reached through rounding, with `point` at the very end.
+  return runs[runs.length - 1]
 }
 
 // `order` after the item at `fromIndex` is taken out and put back at `toIndex`,
