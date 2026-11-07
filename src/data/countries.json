@@ -21,7 +21,7 @@
     "ihdi": 0.321,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "northern-middle-east",
+    "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
   "AGO": {
@@ -154,7 +154,7 @@
     "ihdi": 0.743,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "caucasus",
+    "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
   },
   "ATG": {
@@ -243,7 +243,7 @@
     "ihdi": 0.735,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "caucasus",
+    "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
   },
   "BDI": {
@@ -1433,7 +1433,7 @@
     "ihdi": 0.754,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "caucasus",
+    "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
   },
   "GHA": {
@@ -1817,7 +1817,7 @@
     "ihdi": 0.643,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "northern-middle-east",
+    "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
   "IRQ": {
@@ -1843,7 +1843,7 @@
     "ihdi": 0.534,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "northern-middle-east",
+    "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
   "ISL": {
@@ -1998,7 +1998,7 @@
     "ihdi": 0.766,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "central-asian-steppe",
+    "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
   "KEN": {
@@ -2044,7 +2044,7 @@
     "ihdi": 0.649,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "southern-central-asia",
+    "groupId": "central-asia",
     "groupName": "Central Asia"
   },
   "KHM": {
@@ -2695,7 +2695,7 @@
     "ihdi": 0.647,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "central-asian-steppe",
+    "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
   "MOZ": {
@@ -3362,7 +3362,7 @@
     "ihdi": 0.758,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "central-asian-steppe",
+    "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
   "RWA": {
@@ -3911,7 +3911,7 @@
     "ihdi": 0.594,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "southern-central-asia",
+    "groupId": "central-asia",
     "groupName": "Central Asia"
   },
   "TKM": {
@@ -3934,7 +3934,7 @@
     "ihdi": null,
     "ihdiYear": null,
     "ihdiEstimate": 0.636,
-    "groupId": "southern-central-asia",
+    "groupId": "central-asia",
     "groupName": "Central Asia"
   },
   "TLS": {
@@ -4046,7 +4046,7 @@
     "ihdi": 0.708,
     "ihdiYear": 2023,
     "ihdiEstimate": null,
-    "groupId": "caucasus",
+    "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
   },
   "TUV": {
@@ -4201,7 +4201,7 @@
     "ihdi": null,
     "ihdiYear": null,
     "ihdiEstimate": 0.606,
-    "groupId": "southern-central-asia",
+    "groupId": "central-asia",
     "groupName": "Central Asia"
   },
   "VAT": {

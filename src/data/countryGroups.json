@@ -72,12 +72,12 @@
     "countries": ["BLR", "UKR", "MDA", "ROU"]
   },
   {
-    "id": "caucasus",
+    "id": "turkey-caucasus",
     "name": "Turkey & the Caucasus",
     "countries": ["TUR", "GEO", "ARM", "AZE"]
   },
   {
-    "id": "northern-middle-east",
+    "id": "iran-neighbours",
     "name": "Iran & Its Neighbours",
     "countries": ["IRQ", "IRN", "AFG"]
   },
@@ -85,11 +85,11 @@
   { "id": "gulf-states", "name": "Gulf States", "countries": ["KWT", "BHR", "QAT", "ARE"] },
   { "id": "arabian-peninsula", "name": "Arabian Peninsula", "countries": ["SAU", "OMN", "YEM"] },
   {
-    "id": "southern-central-asia",
+    "id": "central-asia",
     "name": "Central Asia",
     "countries": ["UZB", "TKM", "TJK", "KGZ"]
   },
-  { "id": "central-asian-steppe", "name": "Russia & the Steppe", "countries": ["RUS", "KAZ", "MNG"] },
+  { "id": "russia-steppe", "name": "Russia & the Steppe", "countries": ["RUS", "KAZ", "MNG"] },
   { "id": "east-asia", "name": "East Asia", "countries": ["CHN", "JPN", "KOR", "PRK"] },
   {
     "id": "indian-subcontinent",

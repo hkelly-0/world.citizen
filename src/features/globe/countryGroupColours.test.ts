@@ -23,8 +23,8 @@ function expectNeighboursApart(hues: Map<string, number>, neighbours: Map<string
 describe('groupNeighbours', () => {
   it('links groups that share a land border, both ways', () => {
     const neighbours = groupNeighbours()
-    expect(neighbours.get('east-asia')?.has('central-asian-steppe')).toBe(true)
-    expect(neighbours.get('central-asian-steppe')?.has('east-asia')).toBe(true)
+    expect(neighbours.get('east-asia')?.has('russia-steppe')).toBe(true)
+    expect(neighbours.get('russia-steppe')?.has('east-asia')).toBe(true)
   })
 
   it('links groups listed next to each other, so island groups have neighbours', () => {
@@ -35,7 +35,7 @@ describe('groupNeighbours', () => {
 describe('borderingGroups', () => {
   it('links only groups that share a land border', () => {
     const bordering = borderingGroups()
-    expect(bordering.get('east-asia')?.has('central-asian-steppe')).toBe(true)
+    expect(bordering.get('east-asia')?.has('russia-steppe')).toBe(true)
     expect(bordering.get('leeward-islands')?.size).toBe(0)
   })
 })
