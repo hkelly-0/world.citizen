@@ -31,9 +31,13 @@ export const HOME_CARD_REWARD_NOTE = "Nice work. Let's briefly look at the rest 
 export const PASSPORT_NOTE =
   "This is your Passport: your collection of every country you've studied in the app.\n\nIt starts small but can grow quickly if you practice persistently."
 
-// Shown after the Passport note's Next, still over the Passport.
-export const PASSPORT_SECOND_NOTE =
-  "The coloured ring beside each name is its Familiarity: a statistical estimate of the likelihood you could correctly remember all of the facts about that country, 2 weeks from now.\n\nFamiliarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
+// Familiarity is explained in two notes after the Passport note's Next, still
+// over the Passport: what it is, then how it changes.
+export const FAMILIARITY_NOTE =
+  'The coloured ring beside each name is its Familiarity: a statistical estimate of the likelihood you could correctly remember all of the facts about that country, 2 weeks from now.'
+
+export const FAMILIARITY_CHANGE_NOTE =
+  "Familiarity increases whenever you answer a question right, but it also naturally decreases over time if you haven't seen that country in a while."
 
 export const SETTINGS_NOTE =
   "Select the information you're most interested in learning - only these questions will appear on flashcards.\n\nYou can update your choices at any time in Settings, and nothing you've learned is ever deleted.\n\nKeep in mind that it's easier to learn about many countries if you select fewer items."

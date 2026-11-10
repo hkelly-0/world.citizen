@@ -11,10 +11,11 @@ import { HomeCountryCard } from './HomeCountryCard'
 import { HomeCountryChoice } from './HomeCountryChoice'
 import { TutorialNote } from './TutorialNote'
 import {
+  FAMILIARITY_CHANGE_NOTE,
+  FAMILIARITY_NOTE,
   FLASHCARDS_INTRO,
   FLASHCARDS_MENU_NOTE,
   PASSPORT_NOTE,
-  PASSPORT_SECOND_NOTE,
   SETTINGS_NOTE,
 } from './tutorialNotes'
 // The first three steps are laid out like a flashcard.
@@ -23,15 +24,17 @@ import '../flashcards/Flashcard.css'
 import '../menu/MainMenu.css'
 import './Tutorial.css'
 
-// The tutorial's steps, in order. 'passport', 'passport-second', 'settings'
-// and 'flashcards-menu' show the real screens with a note over them.
+// The tutorial's steps, in order. 'passport', 'familiarity',
+// 'familiarity-change', 'settings' and 'flashcards-menu' show the real screens
+// with a note over them.
 type TutorialStep =
   | 'welcome'
   | 'home-country'
   | 'flashcards-intro'
   | 'home-card'
   | 'passport'
-  | 'passport-second'
+  | 'familiarity'
+  | 'familiarity-change'
   | 'settings'
   | 'flashcards-menu'
 
@@ -161,8 +164,9 @@ export function Tutorial({
         />
       )
     }
-    // The Passport is explained in two notes, one after the other.
-    if (step === 'passport' || step === 'passport-second') {
+    // The Passport is explained in three notes, one after the other: the
+    // Passport itself, then what Familiarity is and how it changes.
+    if (step === 'passport' || step === 'familiarity' || step === 'familiarity-change') {
       return (
         <>
           {/* `inert` stops the screen's own buttons working. */}
@@ -174,16 +178,25 @@ export function Tutorial({
               onPlayFlashcard={() => {}}
             />
           </div>
-          {step === 'passport' ? (
+          {step === 'passport' && (
             <TutorialNote
               text={PASSPORT_NOTE}
               buttonLabel="Next"
-              onButtonClick={() => setStep('passport-second')}
+              onButtonClick={() => setStep('familiarity')}
               isPinned
             />
-          ) : (
+          )}
+          {step === 'familiarity' && (
             <TutorialNote
-              text={PASSPORT_SECOND_NOTE}
+              text={FAMILIARITY_NOTE}
+              buttonLabel="Next"
+              onButtonClick={() => setStep('familiarity-change')}
+              isPinned
+            />
+          )}
+          {step === 'familiarity-change' && (
+            <TutorialNote
+              text={FAMILIARITY_CHANGE_NOTE}
               buttonLabel="Next"
               onButtonClick={() => {
                 onSaveSettings(SUGGESTED_QUESTION_IDS, countryIcon)

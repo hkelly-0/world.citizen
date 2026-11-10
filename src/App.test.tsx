@@ -427,8 +427,11 @@ describe('Tutorial', () => {
     expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     expect(screen.getByText(/This is your Passport/)).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    // A second note, still over the Passport.
+    // Two notes on Familiarity, still over the Passport.
     expect(screen.getByText(/beside each name is its Familiarity/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.getByText(/Familiarity increases whenever/)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /Passport/ })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
