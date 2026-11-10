@@ -64,6 +64,12 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The IHDI breakdown's bubble is placed against this, so it lines up with the
+   values' left edge. */
+.country-info-panel__ihdi {
+  position: relative;
+}
+
 .country-info-panel__close {
   position: absolute;
   top: 8px;

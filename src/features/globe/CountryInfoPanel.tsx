@@ -1,4 +1,4 @@
-import type { Ref } from 'react'
+import type { ReactNode, Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
 import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
@@ -12,6 +12,7 @@ import {
   type StatValue,
 } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
+import { IhdiBreakdownButton } from './IhdiBreakdownButton'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
@@ -34,10 +35,11 @@ type CountryInfoPanelProps = {
 }
 
 // The range's name with the country's rounded value in place of the bound,
-// e.g. "45M  Moderate". With no data (null), only "No data" is shown.
-function RangeWithValue({ stat }: { stat: StatValue | null }) {
+// e.g. "45M  Moderate". With no data (null), only "No data" is shown, without
+// `afterBound` (e.g. the IHDI breakdown's "?").
+function RangeWithValue({ stat, afterBound }: { stat: StatValue | null; afterBound?: ReactNode }) {
   if (stat === null) return <RangeTitle range={NO_DATA} />
-  return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} />
+  return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} afterBound={afterBound} />
 }
 
 export function CountryInfoPanel({
@@ -111,8 +113,15 @@ export function CountryInfoPanel({
             {learnedQuestionIds.includes('ihdi') && (
               <>
                 <dt>IHDI</dt>
-                <dd>
-                  <RangeWithValue stat={ihdiStat(facts)} />
+                <dd className="country-info-panel__ihdi">
+                  <RangeWithValue
+                    stat={ihdiStat(facts)}
+                    afterBound={
+                      // Not keyed by country, so an open breakdown stays open
+                      // when another country is selected.
+                      <IhdiBreakdownButton breakdown={facts.ihdiBreakdown} />
+                    }
+                  />
                 </dd>
               </>
             )}

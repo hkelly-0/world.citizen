@@ -1,0 +1,68 @@
+/* Not positioned, so the bubble is placed against the info panel's IHDI value
+   (`.country-info-panel__ihdi`) instead. */
+.ihdi-breakdown {
+  margin-left: 8px;
+}
+
+/* Same font size as the value, so the icon's cap unit matches its digits. The
+   padding enlarges the tap area, and the negative margin takes it back out of
+   the layout. */
+.ihdi-breakdown__button {
+  padding: 6px;
+  margin: -6px;
+  border: none;
+  background: transparent;
+  color: #a9b1c2;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ihdi-breakdown__button[aria-expanded='true'] {
+  color: #f2f4f8;
+}
+
+/* Only where hover is real: touch screens keep :hover after a tap, which left
+   the "?" lit after closing. */
+@media (hover: hover) {
+  .ihdi-breakdown__button:hover {
+    color: #f2f4f8;
+  }
+}
+
+/* Looks as tall as the digits beside it. Chosen by eye in Safari and Chrome:
+   Roboto Mono's measured digit height (0.71em) looks too small, as a thin
+   circle reads smaller than digits of the same height and browsers round the
+   digits up to whole pixels. In em, not the cap unit, which some browsers
+   measure from the wrong one of Roboto Mono's font files (Latin, Cyrillic,
+   etc.). An image's bottom sits on the text's baseline; the circle dips just
+   below it, as round letters do. */
+.ihdi-breakdown__icon {
+  display: inline-block;
+  width: 0.96em;
+  height: 0.96em;
+  vertical-align: -0.02em;
+  overflow: visible;
+}
+
+/* Opens downwards from the IHDI value, its left edge in line with the panel's
+   values, and covers the rows below it rather than growing the panel. */
+.ihdi-breakdown__bubble {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1;
+  width: max-content;
+  max-width: 220px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgb(25, 31, 48);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* The panel's own dl rules (a two-column grid) apply here too; only the
+   spacing changes. */
+.ihdi-breakdown__bubble dl {
+  gap: 2px 16px;
+}

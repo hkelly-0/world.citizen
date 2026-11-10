@@ -41,7 +41,40 @@ describe('CountryInfoPanel', () => {
     // Population, area and IHDI show the rounded value with the range's name.
     expect(valueOf('Population')).toHaveTextContent('67M Numerous')
     expect(valueOf('Area')).toHaveTextContent('550K km² Medium')
-    expect(valueOf('IHDI')).toHaveTextContent('8.4 Great')
+    // The "?" after the value opens the IHDI breakdown.
+    expect(valueOf('IHDI')).toHaveTextContent('8.4? Great')
+  })
+
+  it("opens and closes the IHDI's breakdown from the ? beside its value", async () => {
+    render(<CountryInfoPanel {...panelProps} country={france} />)
+    const button = screen.getByRole('button', { name: 'IHDI breakdown' })
+    expect(screen.queryByText('Lifespan')).not.toBeInTheDocument()
+
+    await userEvent.click(button)
+    // France's inequality-adjusted parts, on the IHDI's 0-10 scale.
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('9.4')
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('8.0')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('7.8')
+
+    // Tapping elsewhere in the panel closes it, as does the ? again.
+    await userEvent.click(screen.getByRole('heading', { name: 'France' }))
+    expect(screen.queryByText('Lifespan')).not.toBeInTheDocument()
+    await userEvent.click(button)
+    await userEvent.click(button)
+    expect(screen.queryByText('Lifespan')).not.toBeInTheDocument()
+  })
+
+  it('keeps the IHDI breakdown open on taps outside the panel and on selecting another country', async () => {
+    const { rerender } = render(<CountryInfoPanel {...panelProps} country={france} />)
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    // E.g. a tap on the globe.
+    await userEvent.click(document.body)
+    expect(screen.getByText('Lifespan')).toBeInTheDocument()
+
+    const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
+    rerender(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
+    expect(screen.getByText('Insufficient data for breakdown')).toBeInTheDocument()
   })
 
   it('lists every capital for countries with several', () => {
@@ -58,13 +91,23 @@ describe('CountryInfoPanel', () => {
 
     expect(screen.getByRole('heading', { name: 'Vatican City' })).toBeInTheDocument()
     expect(screen.getByText('No data')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'IHDI breakdown' })).not.toBeInTheDocument()
   })
 
   it('marks an estimated IHDI value with (est.)', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
-    expect(valueOf('IHDI')).toHaveTextContent('8.0 (est.) Great')
+    expect(valueOf('IHDI')).toHaveTextContent('8.0 (est.)? Great')
+  })
+
+  it('says an estimated IHDI has no breakdown', async () => {
+    const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
+    render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    expect(screen.getByText('Insufficient data for breakdown')).toBeInTheDocument()
   })
 
   it('shows the value in place of the bound in the highest population range', () => {
