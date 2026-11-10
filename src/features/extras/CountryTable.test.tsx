@@ -94,10 +94,10 @@ describe('CountryTable', () => {
     expect(screen.getByRole('columnheader', { name: 'Area km²' })).not.toHaveClass('is-ordered-by')
 
     await userEvent.click(headingButton('Population'))
-    expect(bodyRows()[0].slice(0, 2)).toEqual([
-      '1',
-      sortedCountries('population', true)[0].commonName,
-    ])
+    // Still numbered largest first, so the smallest is 195.
+    const smallestFirst = bodyRows()
+    expect(smallestFirst[0].slice(0, 2)).toEqual(['195', 'Vatican City'])
+    expect(smallestFirst[194][0]).toBe('1')
     expect(screen.getByRole('columnheader', { name: 'Population ▲' })).toHaveAttribute(
       'aria-sort',
       'ascending',
@@ -132,7 +132,7 @@ describe('CountryTable', () => {
 
     await userEvent.click(headingButton('IHDI'))
     expect(bodyRows()[0][0]).toBe('')
-    expect(bodyRows()[3][0]).toBe('1')
+    expect(bodyRows()[3][0]).toBe('192')
   })
 
   it('scrolls back to the top row when reordered', async () => {

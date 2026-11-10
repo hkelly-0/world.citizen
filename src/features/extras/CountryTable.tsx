@@ -78,17 +78,19 @@ export function CountryTable({ onBack }: CountryTableProps) {
     }
   }
 
-  // Rows are numbered by their place in the order, but not when ordered by
-  // name. Countries with no value (only some IHDIs) get no number, so the
-  // numbers count only those with one.
-  const ranks: (number | null)[] = []
-  let countWithValue = 0
-  for (const country of countries) {
-    if (orderId === 'name' || statValue(country, orderId) === null) {
-      ranks.push(null)
-    } else {
-      countWithValue += 1
-      ranks.push(countWithValue)
+  // Rows are numbered by their place in the largest-first order, whichever
+  // way the table is ordered, so the smallest country by area is 195 at the
+  // top of the smallest-first order. Not numbered when ordered by name.
+  // Countries with no value (only some IHDIs) get no number, so the numbers
+  // count only those with one. Ranks are keyed by ISO alpha-3 code.
+  const rankByCode = new Map<string, number>()
+  if (orderId !== 'name') {
+    let countWithValue = 0
+    for (const country of sortedCountries(orderId, false)) {
+      if (statValue(country, orderId) !== null) {
+        countWithValue += 1
+        rankByCode.set(country.isoAlpha3, countWithValue)
+      }
     }
   }
 
@@ -134,10 +136,12 @@ export function CountryTable({ onBack }: CountryTableProps) {
               </tr>
             </thead>
             <tbody>
-              {countries.map((country, index) => {
+              {countries.map((country) => {
                 return (
                   <tr key={country.isoAlpha3}>
-                    <td className="country-table__rank">{ranks[index] ?? ''}</td>
+                    <td className="country-table__rank">
+                      {rankByCode.get(country.isoAlpha3) ?? ''}
+                    </td>
                     <td
                       className={
                         orderId === 'name'
