@@ -7,6 +7,9 @@ import { useFitTextToWidth } from './useFitTextToWidth'
 type MainMenuProps = {
   // How many countries are in the Passport, shown as e.g. "42/195".
   passportCount: number
+  // Whether to offer "Play Tutorial" above the options, for new users.
+  showTutorialButton: boolean
+  onPlayTutorial: () => void
   onOpenGlobe: () => void
   onOpenFlashcards: () => void
   onOpenPassport: () => void
@@ -18,6 +21,8 @@ type MainMenuProps = {
 // and the extras, with settings at the bottom.
 export function MainMenu({
   passportCount,
+  showTutorialButton,
+  onPlayTutorial,
   onOpenGlobe,
   onOpenFlashcards,
   onOpenPassport,
@@ -38,6 +43,11 @@ export function MainMenu({
         </span>
       </h1>
       <p className="main-menu__subtitle">learn every country</p>
+      {showTutorialButton && (
+        <button className="main-menu__tutorial arrow-button" onClick={onPlayTutorial}>
+          Play Tutorial
+        </button>
+      )}
       <div className="main-menu__options">
         <button className="main-menu__option arrow-button" onClick={onOpenFlashcards}>
           Flashcards

@@ -215,6 +215,9 @@ export function Tutorial({
         <>
           <div className="tutorial__screen" inert>
             <FlashcardsMenu
+              // The real menu's options, which the note explains.
+              showTutorialButton={false}
+              onPlayTutorial={() => {}}
               onBack={() => {}}
               onOpenClassic={() => {}}
               onOpenCustomPractice={() => {}}

@@ -105,11 +105,10 @@ export default function App() {
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
   // The picture shown for each country in the Passport, chosen in Settings.
   const [countryIcon, setCountryIcon] = useState<CountryIcon>(loadCountryIcon)
-  // Shown instead of any screen. Opens by itself on the first visit (unless
-  // the Passport already has countries), and from Settings' "Replay tutorial".
-  const [isTutorialOpen, setIsTutorialOpen] = useState(
-    () => !loadHasSeenTutorial() && collectedCountries(loadProgress()).length === 0,
-  )
+  // Shown instead of any screen. Opened from the main menu's "Play Tutorial"
+  // (offered until the tutorial is finished or skipped, and never once the
+  // Passport has countries) and from Settings' "Replay tutorial".
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false)
 
   // Going back (or forward) through history shows that entry's screen.
   useEffect(() => {
@@ -176,13 +175,21 @@ export default function App() {
     saveHasSeenTutorial()
     setIsTutorialOpen(false)
   }
-  // Settings was opened from the main menu, so its history entry becomes the
-  // tutorial's guard (see Tutorial.tsx) on top of the main menu's: back asks
-  // "Exit tutorial?", and the main menu is shown once the tutorial closes.
+  // Settings (Replay tutorial) or the Flashcards menu (Play Tutorial) was
+  // opened from the main menu, so its history entry becomes the tutorial's
+  // guard (see Tutorial.tsx) on top of the main menu's: back asks "Exit
+  // tutorial?", and the main menu is shown once the tutorial closes.
   function replayTutorial() {
     history.replaceState({ tutorialGuard: true }, '')
     setScreen('menu')
     setIsTutorialOpen(true)
+  }
+
+  // Whether the main menu and Flashcards menu offer "Play Tutorial": until it
+  // is finished or skipped, and never once the Passport has countries. Read
+  // each time a menu is shown.
+  function isTutorialOffered() {
+    return !loadHasSeenTutorial() && collectedCountries(loadProgress()).length === 0
   }
 
   // Goes up each time a dev tool changes the saved progress. Used as the
@@ -201,6 +208,8 @@ export default function App() {
     if (screen === 'flashcards') {
       return (
         <FlashcardsMenu
+          showTutorialButton={isTutorialOffered()}
+          onPlayTutorial={replayTutorial}
           onBack={goToMenu}
           onOpenClassic={() => replaceScreen('classic-flashcards')}
           onOpenCustomPractice={() => replaceScreen('custom-practice')}
@@ -320,10 +329,14 @@ export default function App() {
         />
       )
     }
+    // Read each time the menu is shown, so it includes countries just studied.
+    const passportCount = collectedCountries(loadProgress()).length
     return (
       <MainMenu
-        // Read each time the menu is shown, so it includes countries just studied.
-        passportCount={collectedCountries(loadProgress()).length}
+        passportCount={passportCount}
+        showTutorialButton={isTutorialOffered()}
+        // The tutorial adds its own guard entry over the main menu's.
+        onPlayTutorial={() => setIsTutorialOpen(true)}
         onOpenGlobe={() => openScreen('globe')}
         onOpenFlashcards={() => openScreen('flashcards')}
         onOpenPassport={() => openScreen('passport')}

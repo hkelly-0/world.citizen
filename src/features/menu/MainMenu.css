@@ -91,6 +91,37 @@
   min-height: 48px;
 }
 
+/* "Play Tutorial", offered to new users above the options: green like the
+   tutorial's Start and the "Ready?" popup's Go, so it stands out from them. */
+.main-menu__tutorial {
+  width: 100%;
+  max-width: 280px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--correct-green);
+  border-radius: 12px;
+  background: var(--correct-green-tint);
+  color: inherit;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.main-menu__tutorial:hover {
+  background: var(--correct-green-tint-hover);
+}
+
+/* Classic Mode and Custom Practice before the tutorial has been played. */
+.main-menu__option:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.main-menu__option:disabled:hover {
+  background: none;
+}
+
 /* Go and Save: centred in the column rather than starting at its left edge. */
 .main-menu__option--centered {
   justify-content: center;

@@ -53,7 +53,7 @@ vi.mock('./features/extras/NameEveryCountry', () => ({
 describe('App', () => {
   // A group of countries is being learned, so Classic goes straight to a new
   // country instead of first asking for a group. The tutorial has been seen,
-  // so the app opens on the main menu.
+  // so the main menu doesn't offer it.
   beforeEach(() => {
     saveLearningGroup('nordic')
     saveHasSeenTutorial()
@@ -302,21 +302,47 @@ describe('Tutorial', () => {
     history.replaceState(null, '')
   })
 
-  it('opens on the first visit, and Skip goes to the main menu for good', async () => {
+  // A first visit shows the main menu with "Play Tutorial", which opens it.
+  async function renderAndPlayTutorial() {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Play Tutorial' }))
+  }
+
+  it('is offered on the first visit, and Skip goes to the main menu without the offer', async () => {
     const { unmount } = render(<App />)
 
+    expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Play Tutorial' }))
     expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
     expect(loadHasSeenTutorial()).toBe(true)
 
     unmount()
     render(<App />)
+    expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
+  })
+
+  it('disables the Flashcards menu options until it is played from there', async () => {
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+
+    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeDisabled()
+    await userEvent.click(screen.getByRole('button', { name: 'Play Tutorial' }))
+    expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()
+
+    // Skip returns to the main menu, and the Flashcards menu is back to normal.
+    await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeEnabled()
+    expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
   })
 
   it('asks "Exit tutorial?" on back; Cancel stays and Yes goes to the main menu for good', async () => {
-    render(<App />)
+    await renderAndPlayTutorial()
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     expect(history.state).toEqual({ tutorialGuard: true })
 
@@ -336,7 +362,7 @@ describe('Tutorial', () => {
   })
 
   it("takes the tutorial's history entry off on Skip, so back doesn't ask", async () => {
-    render(<App />)
+    await renderAndPlayTutorial()
     await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
 
     await vi.waitFor(() => expect(history.state).toBeNull())
@@ -344,7 +370,7 @@ describe('Tutorial', () => {
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
   })
 
-  it("doesn't open for someone with countries in their Passport", () => {
+  it("isn't offered to someone with countries in their Passport", () => {
     const franceArea = {
       stability: 10,
       difficulty: 5,
@@ -357,11 +383,12 @@ describe('Tutorial', () => {
     render(<App />)
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
   })
 
   it('plays the home country, then shows the Passport, Settings and the Flashcards menu', async () => {
     saveLearnedQuestionIds(['globe', 'flag'])
-    render(<App />)
+    await renderAndPlayTutorial()
 
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     await userEvent.type(screen.getByRole('textbox', { name: 'Search countries' }), 'irel')
