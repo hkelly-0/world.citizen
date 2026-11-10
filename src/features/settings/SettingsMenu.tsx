@@ -54,8 +54,8 @@ type SettingsMenuProps = {
   // Opens the Credits screen.
   onOpenCredits: () => void
   // Given when shown as a step of the tutorial: this note, with a Next button
-  // that calls onTutorialNext, replaces the back button and the buttons below
-  // the choices.
+  // that calls onTutorialNext, is shown below the title, and the back button
+  // and the buttons below the choices are left out.
   tutorialNote?: string
   onTutorialNext?: () => void
 }
@@ -107,6 +107,9 @@ export function SettingsMenu({
     <main className="main-menu options-page">
       {tutorialNote === undefined && <BackButton onClick={onBack} />}
       <h1 className="options-page__title">Settings</h1>
+      {tutorialNote !== undefined && (
+        <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
+      )}
       <section className="options-page__section">
         <h2 className="options-page__heading">Information I want to learn</h2>
         <div className="options-page__card">
@@ -163,9 +166,7 @@ export function SettingsMenu({
             ))}
         </div>
       </section>
-      {tutorialNote !== undefined ? (
-        <TutorialNote text={tutorialNote} buttonLabel="Next" onButtonClick={onTutorialNext} />
-      ) : (
+      {tutorialNote === undefined && (
         <>
           <section className="options-page__section">
             <h2 className="options-page__heading">Help</h2>
