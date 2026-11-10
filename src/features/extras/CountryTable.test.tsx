@@ -135,6 +135,16 @@ describe('CountryTable', () => {
     expect(bodyRows()[3][0]).toBe('1')
   })
 
+  it('scrolls back to the top row when reordered', async () => {
+    const { container } = render(<CountryTable onBack={vi.fn()} />)
+    const scroller = container.querySelector('.country-table__scroller')!
+    // jsdom doesn't scroll, so scrollTop is made a plain value to check.
+    Object.defineProperty(scroller, 'scrollTop', { value: 500, writable: true })
+
+    await userEvent.click(headingButton('Population'))
+    expect(scroller.scrollTop).toBe(0)
+  })
+
   it('goes back with the back button', async () => {
     const onBack = vi.fn()
     render(<CountryTable onBack={onBack} />)

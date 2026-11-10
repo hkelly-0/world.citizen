@@ -64,12 +64,17 @@ export function CountryTable({ onBack }: CountryTableProps) {
   const isDescending = orderId === 'name' ? isReversed : !isReversed
 
   // The same heading reverses the order; another starts in its first order.
+  // Either way the table scrolls back to its top row, the new first country.
+  // The sideways scroll is kept, so the tapped heading stays in view.
   function orderBy(nextOrderId: TableOrderId) {
     if (nextOrderId === orderId) {
       setIsReversed(!isReversed)
     } else {
       setOrderId(nextOrderId)
       setIsReversed(false)
+    }
+    if (scrollerRef.current !== null) {
+      scrollerRef.current.scrollTop = 0
     }
   }
 
