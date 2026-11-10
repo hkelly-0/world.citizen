@@ -7,7 +7,7 @@
 // Sources (both SIL Open Font License, which allows subsetting):
 // - ≥ from Roboto Mono itself: the original font has it, but Fontsource's
 //   subsets leave it out. https://github.com/googlefonts/RobotoMono
-// - ← → ✓ from JetBrains Mono, as Roboto Mono has none of them. Its characters
+// - ← → ✓ ▲ ▼ from JetBrains Mono, as Roboto Mono has none of them. Its characters
 //   are the same width as Roboto Mono's. https://github.com/JetBrains/JetBrainsMono
 // The *_COMMIT constants pin the versions, so reruns give the same files.
 //
@@ -34,7 +34,7 @@ const fonts = [
   {
     output: 'jetbrains-mono-symbols.woff2',
     url: `https://raw.githubusercontent.com/JetBrains/JetBrainsMono/${JETBRAINS_MONO_COMMIT}/fonts/ttf/JetBrainsMono-Regular.ttf`,
-    characters: '←→✓',
+    characters: '←→✓▲▼',
   },
 ]
 

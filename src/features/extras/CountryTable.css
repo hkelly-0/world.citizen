@@ -1,0 +1,166 @@
+/* Exactly the screen's height: the page itself doesn't scroll, the table
+   does, inside .country-table__scroller. */
+.country-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  /* Room at the top for the "← Extras" button. */
+  padding: 72px 16px 16px;
+  box-sizing: border-box;
+}
+
+.country-table h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* Fills the screen below the title. It holds the scroller and, over its right
+   edge, the fade that shows more columns are off to the side. */
+.country-table__frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Scrolls the table both ways. The headings and the rank and name columns
+   stick to its edges (position: sticky works against the nearest scrolling
+   box, which is why the table scrolls here and not in #root). */
+.country-table__scroller {
+  height: 100%;
+  overflow: auto;
+}
+
+/* Shown by CountryTable while some columns are hidden off the right edge. */
+.country-table__frame.has-more-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, transparent, #000010);
+  pointer-events: none;
+}
+
+/* No fade on wide screens, even if a narrow window hides some columns. The
+   width is WIDE_SCREEN_MIN_PX in focusZoom.ts, as in index.css. */
+@media (width >= 768px) {
+  .country-table__frame.has-more-right::after {
+    display: none;
+  }
+}
+
+/* At least the frame's width, so on wide screens it fills it (the name column
+   takes the spare room). On phones it is as wide as its columns need and
+   scrolls sideways. Separate borders, as collapsed borders don't move with
+   sticky cells. */
+.country-table__table {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.country-table__table th,
+.country-table__table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  vertical-align: top;
+}
+
+/* The headings stay at the top while the list scrolls, over a background so
+   the rows don't show through. */
+.country-table__table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000010;
+  color: #a9b1c2;
+  font-weight: normal;
+}
+
+/* The rank and name stay at the left while the stats scroll sideways. The
+   rank column has a fixed width (3ch fits "195") so the name column knows
+   where to stick. */
+.country-table__rank,
+.country-table__name {
+  position: sticky;
+  background: #000010;
+}
+
+.country-table__rank {
+  left: 0;
+  width: 3ch;
+  min-width: 3ch;
+  padding-right: 4px;
+  color: #a9b1c2;
+  text-align: right;
+}
+
+/* 3ch for the rank plus its 8px left and 4px right padding. The right border
+   marks where the stats slide under. min-width keeps long names from being
+   squeezed into many lines; they wrap past it. */
+.country-table__name {
+  left: calc(3ch + 12px);
+  min-width: 12ch;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+/* Body cells in the sticky columns sit above the scrolling stats. */
+.country-table__table td.country-table__rank,
+.country-table__table td.country-table__name {
+  z-index: 1;
+}
+
+/* The top-left headings sit above both the headings and the columns that
+   scroll under them. */
+.country-table__table th.country-table__rank,
+.country-table__table th.country-table__name {
+  z-index: 2;
+}
+
+/* Never wrapped: a number on two lines is hard to read, so the table scrolls
+   sideways instead. */
+.country-table__stat {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Each heading is a button that orders the table by its column. It fills
+   the heading so the whole cell can be tapped, and looks like plain text,
+   lined up with its column. */
+.country-table__heading {
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.country-table__name .country-table__heading {
+  text-align: left;
+}
+
+.country-table__stat .country-table__heading {
+  text-align: right;
+}
+
+/* The ▲ or ▼ after the ordered-by heading. */
+.country-table__heading .country-table__arrow {
+  font-weight: normal;
+}
+
+/* The column the table is ordered by. */
+.country-table__table .is-ordered-by {
+  color: var(--accent-blue-text);
+  font-weight: bold;
+}

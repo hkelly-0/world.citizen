@@ -50,7 +50,7 @@ Screens are switched with React state in `src/App.tsx` (no URL routing); each sc
    - `Credits.tsx` and `CREDITS.md` change together. Library licences come from a file the build writes (`build.license` in `vite.config.ts`), so the dev server doesn't list them, and they don't cover the APK's native libraries.
    - Edit Passport (`passportEdit.ts`): Passport membership is just having progress, so removing a country deletes its progress, discovery time and review log entries.
 4. **Passport** (`src/features/passport/`) – countries with any question answered. Familiarity (`familiarity.ts`) is one measure shared by card picking, the ring and the Passport.
-5. **Extras** (`src/features/extras/`) – games that never read or write progress.
+5. **Extras** (`src/features/extras/`) – games and the all-countries table (`CountryTable.tsx`), which never read or write progress.
 6. **Tutorial** (`src/features/tutorial/`, wording in `tutorialNotes.ts`) – shown by `App.tsx` instead of any screen; its steps have no history entries, only one guard entry.
 7. **Dev menu** (`src/features/dev/`) – dev server only (`import.meta.env.DEV`).
 

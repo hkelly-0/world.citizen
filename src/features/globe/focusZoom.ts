@@ -23,8 +23,8 @@ import { latitudeZoomOut } from './latitudeZoom'
 // out by latitudeZoomOut to be drawn the same size as at the equator, e.g.
 // about 0.3 levels for China (37°N), so it goes to about 2.2 on phones.
 //
-// index.css repeats this width in a media query (CSS can't read it), so
-// change both together.
+// index.css and CountryTable.css repeat this width in media queries (CSS
+// can't read it), so change them together.
 export const WIDE_SCREEN_MIN_PX = 768
 
 const PHONE_ZOOM_AT_1000_KM = 3.7944

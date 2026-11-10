@@ -13,6 +13,7 @@ import { collectedCountries } from './features/passport/passport'
 import { PassportFlashcardView } from './features/passport/PassportFlashcardView'
 import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
+import { CountryTable } from './features/extras/CountryTable'
 import { ExtrasMenu } from './features/extras/ExtrasMenu'
 import { NAMING_AREAS } from './features/extras/namingGame'
 import { Credits } from './features/settings/Credits'
@@ -43,7 +44,7 @@ const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry')
 // 'passport' lists the countries seen as flashcards, and
 // 'passport-flashcard' plays one of their cards. 'extras' lists the games
 // outside the flashcards, such as 'name-every-country' (for the world or one
-// continent).
+// continent), and 'country-table' (every country's stats).
 type Screen =
   | 'menu'
   | 'settings'
@@ -58,6 +59,7 @@ type Screen =
   | 'custom-flashcards'
   | 'extras'
   | 'name-every-country'
+  | 'country-table'
 
 // Opening a screen adds a browser history entry (the URL stays the same), so
 // the browser's back button, and Android's, return to the main menu. The main
@@ -264,7 +266,17 @@ export default function App() {
       )
     }
     if (screen === 'extras') {
-      return <ExtrasMenu onBack={goToMenu} onOpenNameEveryCountry={playNameEveryCountry} />
+      return (
+        <ExtrasMenu
+          onBack={goToMenu}
+          onOpenNameEveryCountry={playNameEveryCountry}
+          onOpenCountryTable={() => openScreen('country-table')}
+        />
+      )
+    }
+    if (screen === 'country-table') {
+      // Back to the Extras menu's history entry.
+      return <CountryTable onBack={() => history.back()} />
     }
     if (screen === 'name-every-country') {
       const area = NAMING_AREAS.find((namingArea) => namingArea.id === namingAreaId)

@@ -77,7 +77,7 @@ body {
   font-family: 'JetBrains Mono Symbols';
   font-display: swap;
   src: url('./assets/fonts/jetbrains-mono-symbols.woff2') format('woff2');
-  unicode-range: U+2190, U+2192, U+2713;
+  unicode-range: U+2190, U+2192, U+2713, U+25B2, U+25BC;
 }
 
 /* An arrow after the text of every button that moves on to something else
