@@ -26,7 +26,7 @@ export const FLASHCARDS_INTRO =
   "world.citizen is primarily a flashcard app: you'll get to gradually learn about every country while using spaced repetition to cement the information you've already learned.\n\nNext up is a walkthrough of the flashcard for your home country."
 
 // Shown under the reward once the home country's card is finished.
-export const HOME_CARD_REWARD_NOTE = 'Nice work. The journey begins'
+export const HOME_CARD_REWARD_NOTE = "Nice work. Let's briefly look at the rest of the app."
 
 export const PASSPORT_NOTE =
   "This is your Passport: your collection of every country you've studied in the app.\n\nIt starts small but can grow quickly if you practice persistently."
