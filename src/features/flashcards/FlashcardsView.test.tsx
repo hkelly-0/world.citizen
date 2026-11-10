@@ -345,6 +345,25 @@ describe('FlashcardsView', () => {
       expect(screen.getByText('Area?')).toBeInTheDocument()
       expect(loadUnfinishedCard()!.date).toBe(todayString())
     })
+
+    it('is not resumed before its first answer if its country was played since', () => {
+      saveFranceArea(0.2)
+      playPassportCountriesInClassic()
+      // Chosen when the card before it finished, then played on its Passport card.
+      saveUnfinishedCard({
+        date: todayString(),
+        country: 'FRA',
+        isNewCountry: false,
+        isNameQuestion: false,
+        offeredFlags: ['FRA'],
+        answeredIds: [],
+      })
+      recordPlayedCountry('FRA', todayString(), false)
+      renderClassic()
+
+      expect(shownCountryName()).not.toBe('France')
+      expect(loadUnfinishedCard()!.country).not.toBe('FRA')
+    })
   })
 
   describe('multi-country questions', () => {

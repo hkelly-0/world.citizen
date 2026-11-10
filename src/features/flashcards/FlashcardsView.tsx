@@ -158,12 +158,17 @@ export function FlashcardsView({
   }
 
   // Whether a saved card can carry on: it is from today, has a question left
-  // to ask, and its country is still in the Passport unless it was new.
+  // to ask, and its country is still in the Passport unless it was new. A card
+  // with nothing answered yet also needs its country not played recently: it
+  // was chosen when the card before it finished, so if it is in the list it
+  // was played since (e.g. on its Passport card) and would come again straight
+  // away. A card with answers always carries on, as those put it in the list.
   function canResume(saved: UnfinishedCard): boolean {
     return (
       saved.date === today &&
       questionIds.some((id) => !saved.answeredIds.includes(id)) &&
-      (saved.isNewCountry || Object.keys(progress[saved.country] ?? {}).length > 0)
+      (saved.isNewCountry || Object.keys(progress[saved.country] ?? {}).length > 0) &&
+      (saved.answeredIds.length > 0 || !recentCountryCodes(today).includes(saved.country))
     )
   }
 
