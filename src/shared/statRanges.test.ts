@@ -92,9 +92,12 @@ describe('formatLargeNumber', () => {
     expect(formatLargeNumber(0.44)).toBe('0.44')
   })
 
-  it('moves up a suffix when rounding reaches it, and drops trailing zeros', () => {
-    expect(formatLargeNumber(999_600)).toBe('1M')
-    expect(formatLargeNumber(2_000_000)).toBe('2M')
+  it('moves up a suffix when rounding reaches it, and keeps trailing zeros', () => {
+    expect(formatLargeNumber(999_600)).toBe('1.0M')
+    expect(formatLargeNumber(2_000_000)).toBe('2.0M')
+    expect(formatLargeNumber(9_000_000)).toBe('9.0M')
+    expect(formatLargeNumber(150_000)).toBe('150K')
+    expect(formatLargeNumber(9)).toBe('9.0')
   })
 })
 

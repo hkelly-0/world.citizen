@@ -68,7 +68,8 @@ export function rangeOf(ranges: StatRange[], value: number): StatRange {
 }
 
 // Rounds to 2 significant figures and shortens with K, M or B like the range
-// bounds, e.g. 45_312_000 -> "45M". Trailing zeros are dropped ("1M").
+// bounds, e.g. 45_312_000 -> "45M". Trailing zeros are kept so both figures
+// show ("9.0M", "1.0M").
 export function formatLargeNumber(value: number): string {
   const rounded = Number(value.toPrecision(2))
   const suffixes: [number, string][] = [
@@ -77,9 +78,17 @@ export function formatLargeNumber(value: number): string {
     [1_000, 'K'],
   ]
   for (const [size, suffix] of suffixes) {
-    if (rounded >= size) return `${Number((rounded / size).toPrecision(2))}${suffix}`
+    if (rounded >= size) return `${withTwoFigures(rounded / size)}${suffix}`
   }
-  return String(rounded)
+  return withTwoFigures(rounded)
+}
+
+// Writes a number already rounded to 2 significant figures, keeping a trailing
+// zero below 100 (9 -> "9.0"). From 100 up it is written in full (500 -> "500"),
+// as toPrecision would give "5.0e+2".
+function withTwoFigures(rounded: number): string {
+  if (rounded >= 100) return String(Number(rounded.toPrecision(2)))
+  return rounded.toPrecision(2)
 }
 
 // Multiplied by 10 like the IHDI range bounds and given to 2 significant
