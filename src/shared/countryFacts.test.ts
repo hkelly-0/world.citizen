@@ -56,6 +56,17 @@ describe('countryFacts', () => {
     }
   })
 
+  it('has an IHDI breakdown exactly for countries with an IHDI, whose geometric mean is the IHDI', () => {
+    for (const country of countries) {
+      expect(country.ihdiBreakdown !== null).toBe(country.ihdi !== null)
+      if (country.ihdiBreakdown !== null) {
+        const { lifespan, education, income } = country.ihdiBreakdown
+        // The parts are rounded to 3 decimals, so allow a little more than UNDP's rounding.
+        expect(Math.cbrt(lifespan * education * income)).toBeCloseTo(country.ihdi!, 2)
+      }
+    }
+  })
+
   it('has an IHDI estimate exactly for countries with an HDI but no IHDI', () => {
     for (const country of countries) {
       const needsEstimate = country.hdi !== null && country.ihdi === null

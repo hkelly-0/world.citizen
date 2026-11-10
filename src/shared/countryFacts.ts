@@ -28,6 +28,9 @@ export type CountryFacts = {
   // value for the country, shown as "no data".
   ihdi: number | null
   ihdiYear: number | null
+  // The IHDI's three parts, each adjusted for inequality (0–1), from the same
+  // year; the IHDI is their geometric mean. Null exactly when ihdi is null.
+  ihdiBreakdown: IhdiBreakdown | null
   // Our own estimate of the IHDI, worked out from the HDI, for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
@@ -35,6 +38,14 @@ export type CountryFacts = {
   // hand-written in countryGroups.json.
   groupId: string
   groupName: string
+}
+
+// The inequality-adjusted index of each part of the IHDI (0–1): health (life
+// expectancy), education (years of schooling) and income (per person).
+export type IhdiBreakdown = {
+  lifespan: number
+  education: number
+  income: number
 }
 
 // All 195 countries (193 UN members + Vatican City and Palestine), keyed by

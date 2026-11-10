@@ -20,6 +20,11 @@
     "hdiYear": 2023,
     "ihdi": 0.321,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.53,
+      "education": 0.196,
+      "income": 0.319
+    },
     "ihdiEstimate": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
@@ -42,6 +47,11 @@
     "hdiYear": 2023,
     "ihdi": 0.36,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.498,
+      "education": 0.353,
+      "income": 0.266
+    },
     "ihdiEstimate": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
@@ -64,6 +74,11 @@
     "hdiYear": 2023,
     "ihdi": 0.705,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.859,
+      "education": 0.651,
+      "income": 0.627
+    },
     "ihdiEstimate": null,
     "groupId": "southeastern-europe",
     "groupName": "Southeastern Europe"
@@ -86,6 +101,11 @@
     "hdiYear": 2023,
     "ihdi": 0.837,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.939,
+      "education": 0.747,
+      "income": 0.837
+    },
     "ihdiEstimate": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
@@ -108,6 +128,11 @@
     "hdiYear": 2023,
     "ihdi": 0.866,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.93,
+      "education": 0.786,
+      "income": 0.889
+    },
     "ihdiEstimate": null,
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -131,6 +156,11 @@
     "hdiYear": 2023,
     "ihdi": 0.761,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.818,
+      "education": 0.83,
+      "income": 0.65
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
@@ -153,6 +183,11 @@
     "hdiYear": 2023,
     "ihdi": 0.743,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.799,
+      "education": 0.755,
+      "income": 0.681
+    },
     "ihdiEstimate": null,
     "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
@@ -174,6 +209,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.744,
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -196,6 +232,11 @@
     "hdiYear": 2023,
     "ihdi": 0.873,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.954,
+      "education": 0.889,
+      "income": 0.784
+    },
     "ihdiEstimate": null,
     "groupId": "australasia",
     "groupName": "Australasia"
@@ -218,6 +259,11 @@
     "hdiYear": 2023,
     "ihdi": 0.861,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.923,
+      "education": 0.842,
+      "income": 0.823
+    },
     "ihdiEstimate": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
@@ -242,6 +288,11 @@
     "hdiYear": 2023,
     "ihdi": 0.735,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.75,
+      "education": 0.696,
+      "income": 0.759
+    },
     "ihdiEstimate": null,
     "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
@@ -266,6 +317,11 @@
     "hdiYear": 2023,
     "ihdi": 0.286,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.505,
+      "education": 0.235,
+      "income": 0.196
+    },
     "ihdiEstimate": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
@@ -292,6 +348,11 @@
     "hdiYear": 2023,
     "ihdi": 0.891,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.922,
+      "education": 0.886,
+      "income": 0.865
+    },
     "ihdiEstimate": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
@@ -315,6 +376,11 @@
     "hdiYear": 2023,
     "ihdi": 0.316,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.426,
+      "education": 0.222,
+      "income": 0.334
+    },
     "ihdiEstimate": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
@@ -337,6 +403,11 @@
     "hdiYear": 2023,
     "ihdi": 0.273,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.436,
+      "education": 0.172,
+      "income": 0.271
+    },
     "ihdiEstimate": null,
     "groupId": "sahel",
     "groupName": "Sahel"
@@ -359,6 +430,11 @@
     "hdiYear": 2023,
     "ihdi": 0.482,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.709,
+      "education": 0.368,
+      "income": 0.43
+    },
     "ihdiEstimate": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
@@ -381,6 +457,11 @@
     "hdiYear": 2023,
     "ihdi": 0.748,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.814,
+      "education": 0.772,
+      "income": 0.665
+    },
     "ihdiEstimate": null,
     "groupId": "southeastern-europe",
     "groupName": "Southeastern Europe"
@@ -403,6 +484,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.803,
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -425,6 +507,11 @@
     "hdiYear": 2023,
     "ihdi": 0.67,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.76,
+      "education": 0.732,
+      "income": 0.541
+    },
     "ihdiEstimate": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -447,6 +534,11 @@
     "hdiYear": 2023,
     "ihdi": 0.689,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.848,
+      "education": 0.657,
+      "income": 0.587
+    },
     "ihdiEstimate": null,
     "groupId": "former-yugoslavia",
     "groupName": "Former Yugoslavia"
@@ -471,6 +563,11 @@
     "hdiYear": 2023,
     "ihdi": 0.771,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.808,
+      "education": 0.77,
+      "income": 0.737
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
@@ -493,6 +590,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.583,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
@@ -522,6 +620,11 @@
     "hdiYear": 2023,
     "ihdi": 0.578,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.59,
+      "education": 0.652,
+      "income": 0.502
+    },
     "ihdiEstimate": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
@@ -544,6 +647,11 @@
     "hdiYear": 2023,
     "ihdi": 0.594,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.777,
+      "education": 0.611,
+      "income": 0.441
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
@@ -565,6 +673,11 @@
     "hdiYear": 2023,
     "ihdi": 0.62,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.802,
+      "education": 0.749,
+      "income": 0.397
+    },
     "ihdiEstimate": null,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -587,6 +700,11 @@
     "hdiYear": 2023,
     "ihdi": 0.756,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.792,
+      "education": 0.62,
+      "income": 0.879
+    },
     "ihdiEstimate": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
@@ -609,6 +727,11 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.708,
+      "education": 0.29,
+      "income": 0.532
+    },
     "ihdiEstimate": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
@@ -632,6 +755,11 @@
     "hdiYear": 2023,
     "ihdi": 0.509,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.611,
+      "education": 0.511,
+      "income": 0.423
+    },
     "ihdiEstimate": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
@@ -655,6 +783,11 @@
     "hdiYear": 2023,
     "ihdi": 0.253,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.374,
+      "education": 0.22,
+      "income": 0.198
+    },
     "ihdiEstimate": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
@@ -676,6 +809,11 @@
     "hdiYear": 2023,
     "ihdi": 0.867,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.923,
+      "education": 0.884,
+      "income": 0.8
+    },
     "ihdiEstimate": null,
     "groupId": "north-america",
     "groupName": "North America"
@@ -704,6 +842,11 @@
     "hdiYear": 2023,
     "ihdi": 0.894,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.953,
+      "education": 0.912,
+      "income": 0.823
+    },
     "ihdiEstimate": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
@@ -726,6 +869,11 @@
     "hdiYear": 2023,
     "ihdi": 0.723,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.898,
+      "education": 0.795,
+      "income": 0.53
+    },
     "ihdiEstimate": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
@@ -748,6 +896,11 @@
     "hdiYear": 2023,
     "ihdi": 0.67,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.846,
+      "education": 0.626,
+      "income": 0.568
+    },
     "ihdiEstimate": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
@@ -771,6 +924,11 @@
     "hdiYear": 2023,
     "ihdi": 0.35,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.461,
+      "education": 0.258,
+      "income": 0.36
+    },
     "ihdiEstimate": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
@@ -795,6 +953,11 @@
     "hdiYear": 2023,
     "ihdi": 0.361,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.484,
+      "education": 0.354,
+      "income": 0.275
+    },
     "ihdiEstimate": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
@@ -821,6 +984,11 @@
     "hdiYear": 2023,
     "ihdi": 0.341,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.446,
+      "education": 0.402,
+      "income": 0.222
+    },
     "ihdiEstimate": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
@@ -844,6 +1012,11 @@
     "hdiYear": 2023,
     "ihdi": 0.426,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.563,
+      "education": 0.498,
+      "income": 0.276
+    },
     "ihdiEstimate": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
@@ -866,6 +1039,11 @@
     "hdiYear": 2023,
     "ihdi": 0.593,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.815,
+      "education": 0.579,
+      "income": 0.442
+    },
     "ihdiEstimate": null,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -892,6 +1070,11 @@
     "hdiYear": 2023,
     "ihdi": 0.356,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.56,
+      "education": 0.317,
+      "income": 0.255
+    },
     "ihdiEstimate": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
@@ -914,6 +1097,11 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.797,
+      "education": 0.377,
+      "income": 0.363
+    },
     "ihdiEstimate": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
@@ -936,6 +1124,11 @@
     "hdiYear": 2023,
     "ihdi": 0.678,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.879,
+      "education": 0.667,
+      "income": 0.531
+    },
     "ihdiEstimate": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
@@ -958,6 +1151,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.633,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -982,6 +1176,11 @@
     "hdiYear": 2023,
     "ihdi": 0.841,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.921,
+      "education": 0.822,
+      "income": 0.787
+    },
     "ihdiEstimate": null,
     "groupId": "southeastern-europe",
     "groupName": "Southeastern Europe"
@@ -1004,6 +1203,11 @@
     "hdiYear": 2023,
     "ihdi": 0.867,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.893,
+      "education": 0.888,
+      "income": 0.823
+    },
     "ihdiEstimate": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
@@ -1026,6 +1230,11 @@
     "hdiYear": 2023,
     "ihdi": 0.89,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.914,
+      "education": 0.922,
+      "income": 0.836
+    },
     "ihdiEstimate": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
@@ -1050,6 +1259,11 @@
     "hdiYear": 2023,
     "ihdi": 0.341,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.536,
+      "education": 0.165,
+      "income": 0.447
+    },
     "ihdiEstimate": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
@@ -1072,6 +1286,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.632,
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -1094,6 +1309,11 @@
     "hdiYear": 2023,
     "ihdi": 0.909,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.924,
+      "education": 0.913,
+      "income": 0.89
+    },
     "ihdiEstimate": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
@@ -1115,6 +1335,11 @@
     "hdiYear": 2023,
     "ihdi": 0.634,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.686,
+      "education": 0.592,
+      "income": 0.628
+    },
     "ihdiEstimate": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -1137,6 +1362,11 @@
     "hdiYear": 2023,
     "ihdi": 0.601,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.763,
+      "education": 0.452,
+      "income": 0.631
+    },
     "ihdiEstimate": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -1159,6 +1389,11 @@
     "hdiYear": 2023,
     "ihdi": 0.64,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.809,
+      "education": 0.625,
+      "income": 0.518
+    },
     "ihdiEstimate": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
@@ -1181,6 +1416,11 @@
     "hdiYear": 2023,
     "ihdi": 0.582,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.711,
+      "education": 0.443,
+      "income": 0.625
+    },
     "ihdiEstimate": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
@@ -1207,6 +1447,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.313,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
@@ -1229,6 +1470,11 @@
     "hdiYear": 2023,
     "ihdi": 0.819,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.952,
+      "education": 0.772,
+      "income": 0.749
+    },
     "ihdiEstimate": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
@@ -1251,6 +1497,11 @@
     "hdiYear": 2023,
     "ihdi": 0.841,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.883,
+      "education": 0.881,
+      "income": 0.766
+    },
     "ihdiEstimate": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
@@ -1273,6 +1524,11 @@
     "hdiYear": 2023,
     "ihdi": 0.326,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.565,
+      "education": 0.192,
+      "income": 0.32
+    },
     "ihdiEstimate": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
@@ -1297,6 +1553,11 @@
     "hdiYear": 2023,
     "ihdi": 0.891,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.925,
+      "education": 0.914,
+      "income": 0.836
+    },
     "ihdiEstimate": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
@@ -1323,6 +1584,11 @@
     "hdiYear": 2023,
     "ihdi": 0.626,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.615,
+      "education": 0.667,
+      "income": 0.598
+    },
     "ihdiEstimate": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
@@ -1345,6 +1611,11 @@
     "hdiYear": 2023,
     "ihdi": 0.836,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.938,
+      "education": 0.795,
+      "income": 0.783
+    },
     "ihdiEstimate": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
@@ -1367,6 +1638,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.452,
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -1389,6 +1661,11 @@
     "hdiYear": 2023,
     "ihdi": 0.558,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.602,
+      "education": 0.531,
+      "income": 0.543
+    },
     "ihdiEstimate": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
@@ -1411,6 +1688,11 @@
     "hdiYear": 2023,
     "ihdi": 0.869,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.907,
+      "education": 0.915,
+      "income": 0.792
+    },
     "ihdiEstimate": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
@@ -1432,6 +1714,11 @@
     "hdiYear": 2023,
     "ihdi": 0.754,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.781,
+      "education": 0.867,
+      "income": 0.633
+    },
     "ihdiEstimate": null,
     "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
@@ -1454,6 +1741,11 @@
     "hdiYear": 2023,
     "ihdi": 0.399,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.545,
+      "education": 0.371,
+      "income": 0.313
+    },
     "ihdiEstimate": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
@@ -1476,6 +1768,11 @@
     "hdiYear": 2023,
     "ihdi": 0.302,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.405,
+      "education": 0.185,
+      "income": 0.367
+    },
     "ihdiEstimate": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
@@ -1498,6 +1795,11 @@
     "hdiYear": 2023,
     "ihdi": 0.329,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.549,
+      "education": 0.215,
+      "income": 0.302
+    },
     "ihdiEstimate": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
@@ -1520,6 +1822,11 @@
     "hdiYear": 2023,
     "ihdi": 0.331,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.484,
+      "education": 0.242,
+      "income": 0.311
+    },
     "ihdiEstimate": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
@@ -1546,6 +1853,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.525,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
@@ -1568,6 +1876,11 @@
     "hdiYear": 2023,
     "ihdi": 0.825,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.921,
+      "education": 0.826,
+      "income": 0.739
+    },
     "ihdiEstimate": null,
     "groupId": "southeastern-europe",
     "groupName": "Southeastern Europe"
@@ -1589,6 +1902,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.669,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -1611,6 +1925,11 @@
     "hdiYear": 2023,
     "ihdi": 0.479,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.704,
+      "education": 0.32,
+      "income": 0.49
+    },
     "ihdiEstimate": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
@@ -1633,6 +1952,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.651,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -1655,6 +1975,11 @@
     "hdiYear": 2023,
     "ihdi": 0.496,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.733,
+      "education": 0.418,
+      "income": 0.4
+    },
     "ihdiEstimate": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
@@ -1677,6 +2002,11 @@
     "hdiYear": 2023,
     "ihdi": 0.828,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.869,
+      "education": 0.832,
+      "income": 0.787
+    },
     "ihdiEstimate": null,
     "groupId": "former-yugoslavia",
     "groupName": "Former Yugoslavia"
@@ -1701,6 +2031,11 @@
     "hdiYear": 2023,
     "ihdi": 0.337,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.516,
+      "education": 0.302,
+      "income": 0.245
+    },
     "ihdiEstimate": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -1722,6 +2057,11 @@
     "hdiYear": 2023,
     "ihdi": 0.819,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.845,
+      "education": 0.819,
+      "income": 0.793
+    },
     "ihdiEstimate": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
@@ -1744,6 +2084,11 @@
     "hdiYear": 2023,
     "ihdi": 0.608,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.688,
+      "education": 0.575,
+      "income": 0.568
+    },
     "ihdiEstimate": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
@@ -1770,6 +2115,11 @@
     "hdiYear": 2023,
     "ihdi": 0.475,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.676,
+      "education": 0.372,
+      "income": 0.426
+    },
     "ihdiEstimate": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
@@ -1794,6 +2144,11 @@
     "hdiYear": 2023,
     "ihdi": 0.886,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.93,
+      "education": 0.868,
+      "income": 0.86
+    },
     "ihdiEstimate": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
@@ -1816,6 +2171,11 @@
     "hdiYear": 2023,
     "ihdi": 0.643,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.817,
+      "education": 0.586,
+      "income": 0.556
+    },
     "ihdiEstimate": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
@@ -1842,6 +2202,11 @@
     "hdiYear": 2023,
     "ihdi": 0.534,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.698,
+      "education": 0.4,
+      "income": 0.545
+    },
     "ihdiEstimate": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
@@ -1863,6 +2228,11 @@
     "hdiYear": 2023,
     "ihdi": 0.923,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.945,
+      "education": 0.942,
+      "income": 0.882
+    },
     "ihdiEstimate": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
@@ -1887,6 +2257,11 @@
     "hdiYear": 2023,
     "ihdi": 0.813,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.926,
+      "education": 0.82,
+      "income": 0.709
+    },
     "ihdiEstimate": null,
     "groupId": "levant",
     "groupName": "Levant"
@@ -1909,6 +2284,11 @@
     "hdiYear": 2023,
     "ihdi": 0.817,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.955,
+      "education": 0.763,
+      "income": 0.749
+    },
     "ihdiEstimate": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
@@ -1930,6 +2310,11 @@
     "hdiYear": 2023,
     "ihdi": 0.59,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.7,
+      "education": 0.637,
+      "income": 0.462
+    },
     "ihdiEstimate": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -1952,6 +2337,11 @@
     "hdiYear": 2023,
     "ihdi": 0.637,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.811,
+      "education": 0.614,
+      "income": 0.519
+    },
     "ihdiEstimate": null,
     "groupId": "levant",
     "groupName": "Levant"
@@ -1973,6 +2363,11 @@
     "hdiYear": 2023,
     "ihdi": 0.845,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.97,
+      "education": 0.805,
+      "income": 0.772
+    },
     "ihdiEstimate": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
@@ -1997,6 +2392,11 @@
     "hdiYear": 2023,
     "ihdi": 0.766,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.777,
+      "education": 0.782,
+      "income": 0.739
+    },
     "ihdiEstimate": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
@@ -2019,6 +2419,11 @@
     "hdiYear": 2023,
     "ihdi": 0.456,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.531,
+      "education": 0.487,
+      "income": 0.367
+    },
     "ihdiEstimate": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
@@ -2043,6 +2448,11 @@
     "hdiYear": 2023,
     "ihdi": 0.649,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.713,
+      "education": 0.73,
+      "income": 0.525
+    },
     "ihdiEstimate": null,
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -2065,6 +2475,11 @@
     "hdiYear": 2023,
     "ihdi": 0.444,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.663,
+      "education": 0.348,
+      "income": 0.378
+    },
     "ihdiEstimate": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
@@ -2088,6 +2503,11 @@
     "hdiYear": 2023,
     "ihdi": 0.535,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.538,
+      "education": 0.573,
+      "income": 0.498
+    },
     "ihdiEstimate": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -2110,6 +2530,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.73,
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -2132,6 +2553,11 @@
     "hdiYear": 2023,
     "ihdi": 0.857,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.965,
+      "education": 0.831,
+      "income": 0.784
+    },
     "ihdiEstimate": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
@@ -2154,6 +2580,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.745,
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -2176,6 +2603,11 @@
     "hdiYear": 2023,
     "ihdi": 0.462,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.605,
+      "education": 0.322,
+      "income": 0.507
+    },
     "ihdiEstimate": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
@@ -2200,6 +2632,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.621,
     "groupId": "levant",
     "groupName": "Levant"
@@ -2222,6 +2655,11 @@
     "hdiYear": 2023,
     "ihdi": 0.326,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.459,
+      "education": 0.287,
+      "income": 0.262
+    },
     "ihdiEstimate": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
@@ -2244,6 +2682,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.583,
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -2265,6 +2704,11 @@
     "hdiYear": 2023,
     "ihdi": 0.523,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.725,
+      "education": 0.401,
+      "income": 0.491
+    },
     "ihdiEstimate": null,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -2287,6 +2731,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.851,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
@@ -2312,6 +2757,11 @@
     "hdiYear": 2023,
     "ihdi": 0.63,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.842,
+      "education": 0.642,
+      "income": 0.463
+    },
     "ihdiEstimate": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
@@ -2334,6 +2784,11 @@
     "hdiYear": 2023,
     "ihdi": 0.357,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.403,
+      "education": 0.453,
+      "income": 0.25
+    },
     "ihdiEstimate": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
@@ -2356,6 +2811,11 @@
     "hdiYear": 2023,
     "ihdi": 0.812,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.826,
+      "education": 0.893,
+      "income": 0.726
+    },
     "ihdiEstimate": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
@@ -2382,6 +2842,11 @@
     "hdiYear": 2023,
     "ihdi": 0.838,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.911,
+      "education": 0.774,
+      "income": 0.836
+    },
     "ihdiEstimate": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
@@ -2404,6 +2869,11 @@
     "hdiYear": 2023,
     "ihdi": 0.812,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.828,
+      "education": 0.889,
+      "income": 0.727
+    },
     "ihdiEstimate": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
@@ -2428,6 +2898,11 @@
     "hdiYear": 2023,
     "ihdi": 0.517,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.761,
+      "education": 0.364,
+      "income": 0.499
+    },
     "ihdiEstimate": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -2450,6 +2925,7 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
@@ -2472,6 +2948,11 @@
     "hdiYear": 2023,
     "ihdi": 0.719,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.716,
+      "education": 0.783,
+      "income": 0.662
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
@@ -2496,6 +2977,11 @@
     "hdiYear": 2023,
     "ihdi": 0.319,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.48,
+      "education": 0.29,
+      "income": 0.234
+    },
     "ihdiEstimate": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
@@ -2518,6 +3004,11 @@
     "hdiYear": 2023,
     "ihdi": 0.602,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.904,
+      "education": 0.425,
+      "income": 0.568
+    },
     "ihdiEstimate": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
@@ -2540,6 +3031,11 @@
     "hdiYear": 2023,
     "ihdi": 0.646,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.771,
+      "education": 0.6,
+      "income": 0.582
+    },
     "ihdiEstimate": null,
     "groupId": "north-america",
     "groupName": "North America"
@@ -2563,6 +3059,11 @@
     "hdiYear": 2023,
     "ihdi": 0.626,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.604,
+      "education": 0.809,
+      "income": 0.501
+    },
     "ihdiEstimate": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -2585,6 +3086,11 @@
     "hdiYear": 2023,
     "ihdi": 0.723,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.845,
+      "education": 0.689,
+      "income": 0.649
+    },
     "ihdiEstimate": null,
     "groupId": "southeastern-europe",
     "groupName": "Southeastern Europe"
@@ -2607,6 +3113,11 @@
     "hdiYear": 2023,
     "ihdi": 0.281,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.41,
+      "education": 0.148,
+      "income": 0.367
+    },
     "ihdiEstimate": null,
     "groupId": "sahel",
     "groupName": "Sahel"
@@ -2630,6 +3141,11 @@
     "hdiYear": 2023,
     "ihdi": 0.843,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.923,
+      "education": 0.812,
+      "income": 0.799
+    },
     "ihdiEstimate": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
@@ -2652,6 +3168,11 @@
     "hdiYear": 2023,
     "ihdi": 0.477,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.574,
+      "education": 0.389,
+      "income": 0.485
+    },
     "ihdiEstimate": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
@@ -2673,6 +3194,11 @@
     "hdiYear": 2023,
     "ihdi": 0.771,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.849,
+      "education": 0.79,
+      "income": 0.682
+    },
     "ihdiEstimate": null,
     "groupId": "former-yugoslavia",
     "groupName": "Former Yugoslavia"
@@ -2694,6 +3220,11 @@
     "hdiYear": 2023,
     "ihdi": 0.647,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.726,
+      "education": 0.61,
+      "income": 0.61
+    },
     "ihdiEstimate": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
@@ -2716,6 +3247,11 @@
     "hdiYear": 2023,
     "ihdi": 0.297,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.488,
+      "education": 0.298,
+      "income": 0.18
+    },
     "ihdiEstimate": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
@@ -2738,6 +3274,11 @@
     "hdiYear": 2023,
     "ihdi": 0.374,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.602,
+      "education": 0.214,
+      "income": 0.406
+    },
     "ihdiEstimate": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -2764,6 +3305,11 @@
     "hdiYear": 2023,
     "ihdi": 0.669,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.762,
+      "education": 0.676,
+      "income": 0.581
+    },
     "ihdiEstimate": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
@@ -2788,6 +3334,11 @@
     "hdiYear": 2023,
     "ihdi": 0.365,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.584,
+      "education": 0.324,
+      "income": 0.256
+    },
     "ihdiEstimate": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
@@ -2811,6 +3362,11 @@
     "hdiYear": 2023,
     "ihdi": 0.707,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.819,
+      "education": 0.657,
+      "income": 0.658
+    },
     "ihdiEstimate": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
@@ -2837,6 +3393,11 @@
     "hdiYear": 2023,
     "ihdi": 0.438,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.589,
+      "education": 0.427,
+      "income": 0.333
+    },
     "ihdiEstimate": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
@@ -2859,6 +3420,11 @@
     "hdiYear": 2023,
     "ihdi": 0.265,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.395,
+      "education": 0.181,
+      "income": 0.262
+    },
     "ihdiEstimate": null,
     "groupId": "sahel",
     "groupName": "Sahel"
@@ -2881,6 +3447,11 @@
     "hdiYear": 2023,
     "ihdi": 0.379,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.325,
+      "education": 0.339,
+      "income": 0.494
+    },
     "ihdiEstimate": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
@@ -2903,6 +3474,11 @@
     "hdiYear": 2023,
     "ihdi": 0.535,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.766,
+      "education": 0.483,
+      "income": 0.414
+    },
     "ihdiEstimate": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
@@ -2926,6 +3502,11 @@
     "hdiYear": 2023,
     "ihdi": 0.892,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.925,
+      "education": 0.879,
+      "income": 0.874
+    },
     "ihdiEstimate": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
@@ -2952,6 +3533,11 @@
     "hdiYear": 2023,
     "ihdi": 0.909,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.95,
+      "education": 0.921,
+      "income": 0.857
+    },
     "ihdiEstimate": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
@@ -2974,6 +3560,11 @@
     "hdiYear": 2023,
     "ihdi": 0.437,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.659,
+      "education": 0.32,
+      "income": 0.397
+    },
     "ihdiEstimate": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
@@ -2996,6 +3587,11 @@
     "hdiYear": 2023,
     "ihdi": 0.599,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.539,
+      "education": 0.613,
+      "income": 0.65
+    },
     "ihdiEstimate": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -3018,6 +3614,11 @@
     "hdiYear": 2023,
     "ihdi": 0.853,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.913,
+      "education": 0.892,
+      "income": 0.762
+    },
     "ihdiEstimate": null,
     "groupId": "australasia",
     "groupName": "Australasia"
@@ -3040,6 +3641,11 @@
     "hdiYear": 2023,
     "ihdi": 0.75,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.862,
+      "education": 0.72,
+      "income": 0.679
+    },
     "ihdiEstimate": null,
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
@@ -3064,6 +3670,11 @@
     "hdiYear": 2023,
     "ihdi": 0.364,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.542,
+      "education": 0.205,
+      "income": 0.435
+    },
     "ihdiEstimate": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
@@ -3086,6 +3697,11 @@
     "hdiYear": 2023,
     "ihdi": 0.664,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.825,
+      "education": 0.659,
+      "income": 0.539
+    },
     "ihdiEstimate": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
@@ -3111,6 +3727,11 @@
     "hdiYear": 2023,
     "ihdi": 0.633,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.802,
+      "education": 0.608,
+      "income": 0.52
+    },
     "ihdiEstimate": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
@@ -3135,6 +3756,11 @@
     "hdiYear": 2023,
     "ihdi": 0.597,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.652,
+      "education": 0.606,
+      "income": 0.54
+    },
     "ihdiEstimate": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
@@ -3159,6 +3785,11 @@
     "hdiYear": 2023,
     "ihdi": 0.616,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.655,
+      "education": 0.786,
+      "income": 0.453
+    },
     "ihdiEstimate": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -3184,6 +3815,11 @@
     "hdiYear": 2023,
     "ihdi": 0.423,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.566,
+      "education": 0.329,
+      "income": 0.405
+    },
     "ihdiEstimate": null,
     "groupId": "australasia",
     "groupName": "Australasia"
@@ -3206,6 +3842,11 @@
     "hdiYear": 2023,
     "ihdi": 0.817,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.867,
+      "education": 0.861,
+      "income": 0.732
+    },
     "ihdiEstimate": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
@@ -3228,6 +3869,7 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
@@ -3250,6 +3892,11 @@
     "hdiYear": 2023,
     "ihdi": 0.795,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.929,
+      "education": 0.73,
+      "income": 0.742
+    },
     "ihdiEstimate": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
@@ -3274,6 +3921,11 @@
     "hdiYear": 2023,
     "ihdi": 0.599,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.74,
+      "education": 0.585,
+      "income": 0.497
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
@@ -3296,6 +3948,11 @@
     "hdiYear": 2023,
     "ihdi": 0.538,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.569,
+      "education": 0.632,
+      "income": 0.433
+    },
     "ihdiEstimate": null,
     "groupId": "levant",
     "groupName": "Levant"
@@ -3318,6 +3975,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.787,
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -3339,6 +3997,11 @@
     "hdiYear": 2023,
     "ihdi": 0.758,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.818,
+      "education": 0.746,
+      "income": 0.714
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
@@ -3361,6 +4024,11 @@
     "hdiYear": 2023,
     "ihdi": 0.758,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.771,
+      "education": 0.768,
+      "income": 0.734
+    },
     "ihdiEstimate": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
@@ -3385,6 +4053,11 @@
     "hdiYear": 2023,
     "ihdi": 0.399,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.596,
+      "education": 0.372,
+      "income": 0.285
+    },
     "ihdiEstimate": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
@@ -3407,6 +4080,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.804,
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
@@ -3431,6 +4105,11 @@
     "hdiYear": 2023,
     "ihdi": 0.328,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.541,
+      "education": 0.214,
+      "income": 0.306
+    },
     "ihdiEstimate": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
@@ -3453,6 +4132,11 @@
     "hdiYear": 2023,
     "ihdi": 0.34,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.614,
+      "education": 0.186,
+      "income": 0.343
+    },
     "ihdiEstimate": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
@@ -3481,6 +4165,11 @@
     "hdiYear": 2023,
     "ihdi": 0.823,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.955,
+      "education": 0.79,
+      "income": 0.741
+    },
     "ihdiEstimate": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
@@ -3502,6 +4191,11 @@
     "hdiYear": 2023,
     "ihdi": 0.483,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.686,
+      "education": 0.422,
+      "income": 0.389
+    },
     "ihdiEstimate": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
@@ -3524,6 +4218,11 @@
     "hdiYear": 2023,
     "ihdi": 0.281,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.417,
+      "education": 0.194,
+      "income": 0.275
+    },
     "ihdiEstimate": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
@@ -3546,6 +4245,11 @@
     "hdiYear": 2023,
     "ihdi": 0.555,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.73,
+      "education": 0.435,
+      "income": 0.54
+    },
     "ihdiEstimate": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
@@ -3568,6 +4272,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.823,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
@@ -3592,6 +4297,11 @@
     "hdiYear": 2023,
     "ihdi": 0.229,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.375,
+      "education": 0.15,
+      "income": 0.214
+    },
     "ihdiEstimate": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
@@ -3614,6 +4324,11 @@
     "hdiYear": 2023,
     "ihdi": 0.772,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.836,
+      "education": 0.773,
+      "income": 0.712
+    },
     "ihdiEstimate": null,
     "groupId": "former-yugoslavia",
     "groupName": "Former Yugoslavia"
@@ -3636,6 +4351,11 @@
     "hdiYear": 2023,
     "ihdi": 0.226,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.367,
+      "education": 0.21,
+      "income": 0.149
+    },
     "ihdiEstimate": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
@@ -3658,6 +4378,11 @@
     "hdiYear": 2023,
     "ihdi": 0.478,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.689,
+      "education": 0.453,
+      "income": 0.35
+    },
     "ihdiEstimate": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
@@ -3680,6 +4405,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.584,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -3702,6 +4428,11 @@
     "hdiYear": 2023,
     "ihdi": 0.833,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.857,
+      "education": 0.839,
+      "income": 0.803
+    },
     "ihdiEstimate": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
@@ -3724,6 +4455,11 @@
     "hdiYear": 2023,
     "ihdi": 0.885,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.923,
+      "education": 0.899,
+      "income": 0.834
+    },
     "ihdiEstimate": null,
     "groupId": "former-yugoslavia",
     "groupName": "Former Yugoslavia"
@@ -3746,6 +4482,11 @@
     "hdiYear": 2023,
     "ihdi": 0.886,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.948,
+      "education": 0.901,
+      "income": 0.815
+    },
     "ihdiEstimate": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
@@ -3771,6 +4512,11 @@
     "hdiYear": 2023,
     "ihdi": 0.431,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.518,
+      "education": 0.564,
+      "income": 0.274
+    },
     "ihdiEstimate": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
@@ -3796,6 +4542,11 @@
     "hdiYear": 2023,
     "ihdi": 0.755,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.738,
+      "education": 0.815,
+      "income": 0.715
+    },
     "ihdiEstimate": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
@@ -3818,6 +4569,11 @@
     "hdiYear": 2023,
     "ihdi": 0.419,
     "ihdiYear": 2015,
+    "ihdiBreakdown": {
+      "lifespan": 0.53,
+      "education": 0.293,
+      "income": 0.474
+    },
     "ihdiEstimate": null,
     "groupId": "levant",
     "groupName": "Levant"
@@ -3842,6 +4598,11 @@
     "hdiYear": 2023,
     "ihdi": 0.252,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.338,
+      "education": 0.177,
+      "income": 0.267
+    },
     "ihdiEstimate": null,
     "groupId": "sahel",
     "groupName": "Sahel"
@@ -3864,6 +4625,11 @@
     "hdiYear": 2023,
     "ihdi": 0.363,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.483,
+      "education": 0.348,
+      "income": 0.283
+    },
     "ihdiEstimate": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
@@ -3886,6 +4652,11 @@
     "hdiYear": 2023,
     "ihdi": 0.677,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.804,
+      "education": 0.612,
+      "income": 0.63
+    },
     "ihdiEstimate": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
@@ -3910,6 +4681,11 @@
     "hdiYear": 2023,
     "ihdi": 0.594,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.671,
+      "education": 0.636,
+      "income": 0.49
+    },
     "ihdiEstimate": null,
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -3933,6 +4709,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.636,
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -3957,6 +4734,11 @@
     "hdiYear": 2023,
     "ihdi": 0.451,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.571,
+      "education": 0.317,
+      "income": 0.507
+    },
     "ihdiEstimate": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
@@ -3979,6 +4761,11 @@
     "hdiYear": 2023,
     "ihdi": 0.682,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.749,
+      "education": 0.821,
+      "income": 0.516
+    },
     "ihdiEstimate": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
@@ -4001,6 +4788,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.689,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -4023,6 +4811,11 @@
     "hdiYear": 2023,
     "ihdi": 0.595,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.807,
+      "education": 0.469,
+      "income": 0.558
+    },
     "ihdiEstimate": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -4045,6 +4838,11 @@
     "hdiYear": 2023,
     "ihdi": 0.708,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.808,
+      "education": 0.7,
+      "income": 0.628
+    },
     "ihdiEstimate": null,
     "groupId": "turkey-caucasus",
     "groupName": "Turkey & the Caucasus"
@@ -4066,6 +4864,11 @@
     "hdiYear": 2023,
     "ihdi": 0.578,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.63,
+      "education": 0.638,
+      "income": 0.48
+    },
     "ihdiEstimate": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
@@ -4089,6 +4892,11 @@
     "hdiYear": 2023,
     "ihdi": 0.391,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.579,
+      "education": 0.325,
+      "income": 0.317
+    },
     "ihdiEstimate": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
@@ -4111,6 +4919,11 @@
     "hdiYear": 2023,
     "ihdi": 0.4,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.593,
+      "education": 0.384,
+      "income": 0.282
+    },
     "ihdiEstimate": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
@@ -4132,6 +4945,11 @@
     "hdiYear": 2023,
     "ihdi": 0.715,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.762,
+      "education": 0.714,
+      "income": 0.672
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
@@ -4154,6 +4972,11 @@
     "hdiYear": 2023,
     "ihdi": 0.747,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.842,
+      "education": 0.773,
+      "income": 0.64
+    },
     "ihdiEstimate": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
@@ -4176,6 +4999,11 @@
     "hdiYear": 2023,
     "ihdi": 0.832,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.862,
+      "education": 0.882,
+      "income": 0.759
+    },
     "ihdiEstimate": null,
     "groupId": "north-america",
     "groupName": "North America"
@@ -4200,6 +5028,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.606,
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -4224,6 +5053,7 @@
     "hdiYear": null,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
@@ -4245,6 +5075,7 @@
     "hdiYear": 2023,
     "ihdi": null,
     "ihdiYear": null,
+    "ihdiBreakdown": null,
     "ihdiEstimate": 0.678,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -4267,6 +5098,11 @@
     "hdiYear": 2023,
     "ihdi": 0.605,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.706,
+      "education": 0.616,
+      "income": 0.509
+    },
     "ihdiEstimate": null,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -4289,6 +5125,11 @@
     "hdiYear": 2023,
     "ihdi": 0.641,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.733,
+      "education": 0.618,
+      "income": 0.581
+    },
     "ihdiEstimate": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
@@ -4313,6 +5154,11 @@
     "hdiYear": 2023,
     "ihdi": 0.521,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.704,
+      "education": 0.466,
+      "income": 0.431
+    },
     "ihdiEstimate": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
@@ -4337,6 +5183,11 @@
     "hdiYear": 2023,
     "ihdi": 0.609,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.713,
+      "education": 0.672,
+      "income": 0.471
+    },
     "ihdiEstimate": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
@@ -4359,6 +5210,11 @@
     "hdiYear": 2023,
     "ihdi": 0.325,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.609,
+      "education": 0.209,
+      "income": 0.269
+    },
     "ihdiEstimate": null,
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
@@ -4401,6 +5257,11 @@
     "hdiYear": 2023,
     "ihdi": 0.476,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.569,
+      "education": 0.637,
+      "income": 0.298
+    },
     "ihdiEstimate": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
@@ -4423,6 +5284,11 @@
     "hdiYear": 2023,
     "ihdi": 0.361,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.546,
+      "education": 0.44,
+      "income": 0.196
+    },
     "ihdiEstimate": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
@@ -4445,6 +5311,11 @@
     "hdiYear": 2023,
     "ihdi": 0.406,
     "ihdiYear": 2023,
+    "ihdiBreakdown": {
+      "lifespan": 0.511,
+      "education": 0.517,
+      "income": 0.253
+    },
     "ihdiEstimate": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"

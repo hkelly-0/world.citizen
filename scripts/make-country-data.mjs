@@ -134,6 +134,61 @@ await readCsv(
 // The UNDP file is Latin-1 encoded, not UTF-8.
 const hdis = {}
 const ihdis = {}
+const ihdiBreakdowns = {}
+
+// --- IHDI broken down into its three inequality-adjusted dimension indices ---
+// The UNDP file doesn't list these, so they are worked out as UNDP does (HDR
+// technical notes): each dimension index from its indicators and fixed
+// goalposts, times (1 - that dimension's inequality loss). The IHDI is the
+// geometric mean of the three; this reproduces UNDP's IHDI to 3 decimals.
+const LIFE_EXPECTANCY_GOALPOSTS = { min: 20, max: 85 }
+const EXPECTED_SCHOOLING_MAX = 18
+const MEAN_SCHOOLING_MAX = 15
+const INCOME_GOALPOSTS = { min: 100, max: 75000 }
+const IHDI_BREAKDOWN_TOLERANCE = 0.002
+
+// Values from the same year as the IHDI, or null if any is missing.
+function ihdiBreakdown(row, year) {
+  const valueOf = (prefix) => {
+    const text = row[`${prefix}_${year}`]?.trim()
+    return text ? Number(text) : null
+  }
+  const lifeExpectancy = valueOf('le')
+  const expectedSchooling = valueOf('eys')
+  const meanSchooling = valueOf('mys')
+  const income = valueOf('gnipc')
+  const lifespanLoss = valueOf('ineq_le')
+  const educationLoss = valueOf('ineq_edu')
+  const incomeLoss = valueOf('ineq_inc')
+  const values = [lifeExpectancy, expectedSchooling, meanSchooling, income]
+  const losses = [lifespanLoss, educationLoss, incomeLoss]
+  if ([...values, ...losses].includes(null)) return null
+
+  const lifespanIndex =
+    (lifeExpectancy - LIFE_EXPECTANCY_GOALPOSTS.min) /
+    (LIFE_EXPECTANCY_GOALPOSTS.max - LIFE_EXPECTANCY_GOALPOSTS.min)
+  const educationIndex =
+    (Math.min(expectedSchooling, EXPECTED_SCHOOLING_MAX) / EXPECTED_SCHOOLING_MAX +
+      Math.min(meanSchooling, MEAN_SCHOOLING_MAX) / MEAN_SCHOOLING_MAX) /
+    2
+  const incomeIndex =
+    (Math.log(Math.min(income, INCOME_GOALPOSTS.max)) - Math.log(INCOME_GOALPOSTS.min)) /
+    (Math.log(INCOME_GOALPOSTS.max) - Math.log(INCOME_GOALPOSTS.min))
+  // Losses are percentages.
+  const lifespan = lifespanIndex * (1 - lifespanLoss / 100)
+  const education = educationIndex * (1 - educationLoss / 100)
+  const incomeAdjusted = incomeIndex * (1 - incomeLoss / 100)
+
+  // Check against UNDP's own IHDI, so a changed method in a new report is noticed.
+  const ihdi = Number(row[`ihdi_${year}`])
+  const rebuilt = Math.cbrt(lifespan * education * incomeAdjusted)
+  if (Math.abs(rebuilt - ihdi) > IHDI_BREAKDOWN_TOLERANCE) {
+    throw new Error(`IHDI breakdown for ${row.iso3} gives ${rebuilt}, not UNDP's ${ihdi}`)
+  }
+  const round = (value) => Math.round(value * 1000) / 1000
+  return { lifespan: round(lifespan), education: round(education), income: round(incomeAdjusted) }
+}
+
 await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'latin1' }, (row) => {
   const latestValue = (prefix) => {
     // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
@@ -148,7 +203,11 @@ await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'l
   const hdi = latestValue('hdi')
   if (hdi !== undefined) hdis[row.iso3] = hdi
   const ihdi = latestValue('ihdi')
-  if (ihdi !== undefined) ihdis[row.iso3] = ihdi
+  if (ihdi !== undefined) {
+    ihdis[row.iso3] = ihdi
+    const breakdown = ihdiBreakdown(row, ihdi.year)
+    if (breakdown !== null) ihdiBreakdowns[row.iso3] = breakdown
+  }
 })
 
 // --- Estimated IHDI for countries that have an HDI but no IHDI ---
@@ -234,6 +293,9 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // Null when UNDP has no IHDI for the country; shown as "no data".
     ihdi: ihdi === null ? null : ihdi.value,
     ihdiYear: ihdi === null ? null : ihdi.year,
+    // The IHDI's three inequality-adjusted parts (0–1), from the same year.
+    // Null when there is no IHDI or UNDP lacks a value it is worked out from.
+    ihdiBreakdown: ihdiBreakdowns[code] ?? null,
     // Only for countries with an HDI but no IHDI; null otherwise.
     ihdiEstimate: hdi !== null && ihdi === null ? estimateIhdi(hdi.value) : null,
     groupId: groupOf[code].id,
