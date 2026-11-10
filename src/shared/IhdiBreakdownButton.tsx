@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import type { IhdiBreakdown } from '../../shared/countryFacts'
-import { formatIhdi } from '../../shared/statRanges'
+import type { IhdiBreakdown } from './countryFacts'
+import { formatIhdi } from './statRanges'
 import './IhdiBreakdownButton.css'
 
 // A small "?" beside the info panel's IHDI value that opens a bubble with the

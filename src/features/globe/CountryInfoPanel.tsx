@@ -12,7 +12,7 @@ import {
   type StatValue,
 } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
-import { IhdiBreakdownButton } from './IhdiBreakdownButton'
+import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
