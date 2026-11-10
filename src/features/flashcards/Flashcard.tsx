@@ -1,4 +1,4 @@
-import { Fragment, lazy, Suspense, useEffect, useState, type FormEvent } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useRef, useState, type FormEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { flagImageSrc } from '../../shared/flags'
@@ -178,6 +178,15 @@ export function Flashcard({
   // A click anywhere presses Next while it is showing.
   useClickAnywhereToContinue(answer !== null, goToNext)
 
+  // Next is focused when it appears, so Enter or Space presses it. Not with
+  // autoFocus: that also scrolls Next into view, which on a phone jumps the
+  // page down as soon as an answer is picked. preventScroll keeps the scroll
+  // where it was.
+  const nextButtonRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (answer !== null) nextButtonRef.current?.focus({ preventScroll: true })
+  }, [answer])
+
   return (
     <article className="flashcard" aria-label={`${country.commonName} flashcard`}>
       {/* Covers the screen until the user answers the globe question, then
@@ -273,7 +282,7 @@ export function Flashcard({
           doesn't move when Next appears. Info questions never show Next (their
           rating goes on instead), so they get no space either. */}
       {answer !== null ? (
-        <button className="flashcard__next arrow-button" onClick={goToNext} autoFocus>
+        <button className="flashcard__next arrow-button" ref={nextButtonRef} onClick={goToNext}>
           Next
         </button>
       ) : (
