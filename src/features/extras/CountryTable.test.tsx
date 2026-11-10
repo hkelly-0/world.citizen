@@ -50,6 +50,12 @@ describe('sortedCountries', () => {
   })
 })
 
+describe('sortedCountries by density', () => {
+  it('puts Monaco first, as the most people per km²', () => {
+    expect(sortedCountries('density', false)[0].commonName).toBe('Monaco')
+  })
+})
+
 describe('formatStat', () => {
   it('rounds like the rest of the app, and marks estimated or missing IHDIs', () => {
     expect(formatStat(countryFacts.RUS, 'area')).toBe('17M')
@@ -57,11 +63,12 @@ describe('formatStat', () => {
     expect(formatStat(countryFacts.NOR, 'ihdi')).toMatch(/^\d\.\d$/)
     expect(formatStat(countryFacts.DMA, 'ihdi')).toMatch(/^\d\.\d \(est\.\)$/)
     expect(formatStat(countryFacts.PRK, 'ihdi')).toBe('no data')
+    expect(formatStat(countryFacts.MCO, 'density')).toMatch(/^\d\dK$/)
   })
 })
 
 describe('CountryTable', () => {
-  it('opens with every country and all three stats, ordered by area, largest first', () => {
+  it('opens with every country and all four stats, ordered by area, largest first', () => {
     render(<CountryTable onBack={vi.fn()} />)
     const rows = bodyRows()
     expect(rows).toHaveLength(195)
@@ -71,6 +78,7 @@ describe('CountryTable', () => {
       '17M',
       formatStat(countryFacts.RUS, 'population'),
       formatStat(countryFacts.RUS, 'ihdi'),
+      formatStat(countryFacts.RUS, 'density'),
     ])
     const area = screen.getByRole('columnheader', { name: 'Area km² ▼' })
     expect(area).toHaveClass('is-ordered-by')

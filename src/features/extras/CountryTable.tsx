@@ -14,18 +14,19 @@ type CountryTableProps = {
   onBack: () => void
 }
 
-// The column headings. Area's unit is here rather than in each cell, to
-// keep the column narrow on a phone.
+// The column headings. Area's and Density's units are here rather than in
+// each cell, to keep the columns narrow on a phone.
 const HEADINGS: Record<TableStatId, string> = {
   area: 'Area km²',
   population: 'Population',
   ihdi: 'IHDI',
+  density: 'Density /km²',
 }
 
 // Opened from "Table of all country stats" on the Extras menu: every country
-// with its area, population and IHDI. Tapping a column's heading orders the
-// table by it (names A–Z, stats largest first), and tapping it again reverses
-// that. The ordered-by column is highlighted, and its heading shows ▼ for
+// with its area, population, IHDI and population density. Tapping a column's
+// heading orders the table by it (names A–Z, stats largest first), and
+// tapping it again reverses that. The ordered-by column is highlighted, and its heading shows ▼ for
 // descending (largest first, Z–A) or ▲ for ascending. Rows don't respond to
 // taps.
 //

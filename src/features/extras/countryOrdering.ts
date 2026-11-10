@@ -2,26 +2,28 @@ import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { formatIhdi, formatLargeNumber } from '../../shared/statRanges'
 
 // The stats the country table shows and can be ordered by.
-export type TableStatId = 'area' | 'population' | 'ihdi'
+export type TableStatId = 'area' | 'population' | 'ihdi' | 'density'
 
 // In column order.
-export const TABLE_STATS: TableStatId[] = ['area', 'population', 'ihdi']
+export const TABLE_STATS: TableStatId[] = ['area', 'population', 'ihdi', 'density']
 
 // The number a country is ordered by. The IHDI is UNDP's if it has one,
 // otherwise our estimate, otherwise null (Monaco, North Korea and Vatican
-// City have neither).
+// City have neither). Density is people per km².
 export function statValue(country: CountryFacts, statId: TableStatId): number | null {
   if (statId === 'area') return country.areaKm2
   if (statId === 'population') return country.population
+  if (statId === 'density') return country.population / country.areaKm2
   return country.ihdi ?? country.ihdiEstimate
 }
 
 // The value as shown in the table, rounded like the rest of the app: e.g.
-// "17M" (the km² is in the column heading), "1.5B", and "9.4" or "6.1 (est.)"
-// for the IHDI, multiplied by 10 as everywhere else.
+// "17M" (the km² is in the column heading), "1.5B", "8.6" people per km²,
+// and "9.4" or "6.1 (est.)" for the IHDI, multiplied by 10 as everywhere else.
 export function formatStat(country: CountryFacts, statId: TableStatId): string {
   if (statId === 'area') return formatLargeNumber(country.areaKm2)
   if (statId === 'population') return formatLargeNumber(country.population)
+  if (statId === 'density') return formatLargeNumber(country.population / country.areaKm2)
   if (country.ihdi !== null) return formatIhdi(country.ihdi)
   if (country.ihdiEstimate !== null) return `${formatIhdi(country.ihdiEstimate)} (est.)`
   return 'no data'
