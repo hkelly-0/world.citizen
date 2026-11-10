@@ -45,37 +45,33 @@ export type CountryProgress = Partial<Record<QuestionId, QuestionProgress>>
 // Countries that have never been reviewed have no entry.
 export type DeckProgress = Record<string, CountryProgress>
 
-// Picks a random country from `codes` for the next card, never `previousCode`
-// (the one just shown) unless it is the only one. The less familiar a country
-// is for `questionIds` (`pickingFamiliarity`), the likelier it is: each
-// country's chance is proportional to 1 − its familiarity. Returns null if
-// `codes` is empty. `random` is a parameter so tests can make the choice
-// predictable.
+// Picks a random country from `codes` for the next card (the caller leaves out
+// those played recently). The less familiar a country is for `questionIds`
+// (`pickingFamiliarity`), the likelier it is: each country's chance is
+// proportional to 1 − its familiarity. Returns null if `codes` is empty.
+// `random` is a parameter so tests can make the choice predictable.
 export function chooseRandomCountry(
   codes: string[],
   progress: DeckProgress,
   today: string,
   questionIds: QuestionId[],
-  previousCode: string | null,
   random: () => number = Math.random,
 ): string | null {
-  const otherCodes = codes.filter((code) => code !== previousCode)
-  const choices = otherCodes.length > 0 ? otherCodes : codes
-  if (choices.length === 0) return null
+  if (codes.length === 0) return null
 
-  const weights = choices.map((code) => 1 - pickingFamiliarity(progress[code], questionIds, today))
+  const weights = codes.map((code) => 1 - pickingFamiliarity(progress[code], questionIds, today))
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
   // Every country perfectly familiar: each is equally likely.
-  if (totalWeight <= 0) return choices[Math.floor(random() * choices.length)]
+  if (totalWeight <= 0) return codes[Math.floor(random() * codes.length)]
 
   // Walks along the weights until passing a random point in their total.
   let point = random() * totalWeight
-  for (let i = 0; i < choices.length; i++) {
+  for (let i = 0; i < codes.length; i++) {
     point -= weights[i]
-    if (point < 0) return choices[i]
+    if (point < 0) return codes[i]
   }
   // Only reached through rounding, with `point` at the very end.
-  return choices[choices.length - 1]
+  return codes[codes.length - 1]
 }
 
 // The progress after answering one of a country's questions: that question

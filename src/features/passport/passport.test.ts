@@ -7,6 +7,8 @@ import {
   COUNTRY_COUNT,
   groupProgressLabel,
   groupsToChoose,
+  isNextCardNewCountry,
+  NEW_COUNTRY_WEIGHT,
   isTooUnfamiliarForNewCountry,
   pendingGroupId,
   randomUnseenCountryInGroup,
@@ -138,6 +140,53 @@ describe('sortedCollectedCountries', () => {
 
   it('sorts by date discovered, first discovered first, with undated countries before, A-Z', () => {
     expect(names('date-discovered')).toEqual(['Brazil', 'Chile', 'Japan', 'Peru', 'France'])
+  })
+})
+
+describe('isNextCardNewCountry', () => {
+  // The area is never answered, so each country weighs 1 for ['area'].
+  const progress: DeckProgress = { FRA: { capital: answered }, DEU: { capital: answered } }
+  const pick = (
+    isClassicPlayedToday: boolean,
+    allowedCodes: string[],
+    random: number,
+    deckProgress = progress,
+  ) =>
+    isNextCardNewCountry(
+      deckProgress,
+      isClassicPlayedToday,
+      allowedCodes,
+      ['area'],
+      TODAY,
+      () => random,
+    )
+
+  it("is always new for the day's first Classic card", () => {
+    expect(pick(false, ['FRA'], 0.99)).toBe(true)
+  })
+
+  it('is always new when no Passport country may come', () => {
+    expect(pick(true, [], 0.99)).toBe(true)
+  })
+
+  it('is otherwise one weighted pick, with a new country weighing NEW_COUNTRY_WEIGHT', () => {
+    // Two allowed countries of weight 1 each.
+    const newChance = NEW_COUNTRY_WEIGHT / (NEW_COUNTRY_WEIGHT + 2)
+    expect(pick(true, ['FRA', 'DEU'], newChance - 0.01)).toBe(true)
+    expect(pick(true, ['FRA', 'DEU'], newChance + 0.01)).toBe(false)
+  })
+
+  it('counts only the allowed Passport countries', () => {
+    // DEU was played recently, so only FRA weighs against a new country.
+    const newChance = NEW_COUNTRY_WEIGHT / (NEW_COUNTRY_WEIGHT + 1)
+    expect(pick(true, ['FRA'], newChance - 0.01)).toBe(true)
+  })
+
+  it('is never new once every country is in the Passport', () => {
+    const everyCountry: DeckProgress = Object.fromEntries(
+      Object.keys(countryFacts).map((code) => [code, { area: answered }]),
+    )
+    expect(pick(false, [], 0, everyCountry)).toBe(false)
   })
 })
 

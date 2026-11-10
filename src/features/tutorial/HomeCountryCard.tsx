@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { recordPlayedCountry } from '../../shared/recentCountries'
 import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { CardReward } from '../flashcards/CardReward'
@@ -57,6 +58,7 @@ export function HomeCountryCard({
     const newProgress = reviewAnswer(progress, isoAlpha3, id, result, today)
     saveProgress(newProgress)
     logReview(isoAlpha3, id, result, today)
+    recordPlayedCountry(isoAlpha3, today, false)
     if (isCardFinished) finishCard(newProgress, today)
   }
 

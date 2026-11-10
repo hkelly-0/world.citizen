@@ -35,7 +35,7 @@ describe('chooseRandomCountry', () => {
     const total = weights[0] + weights[1] + weights[2]
     // Just inside each country's share of the total.
     const pickAt = (share: number) =>
-      chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, null, () => share / total)
+      chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, () => share / total)
     expect(pickAt(weights[0] * 0.5)).toBe('FRA')
     expect(pickAt(weights[0] + weights[1] * 0.5)).toBe('PER')
     expect(pickAt(weights[0] + weights[1] + weights[2] * 0.5)).toBe('JPN')
@@ -45,7 +45,7 @@ describe('chooseRandomCountry', () => {
     const counts: Record<string, number> = { FRA: 0, PER: 0, JPN: 0 }
     for (let i = 0; i < 1000; i++) {
       const random = () => i / 1000
-      counts[chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, null, random)!]++
+      counts[chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, random)!]++
     }
     expect(counts.PER).toBeGreaterThan(counts.FRA)
     expect(counts.JPN).toBeGreaterThan(counts.FRA)
@@ -59,28 +59,17 @@ describe('chooseRandomCountry', () => {
     }
     // Practising areas, FRA's weight is almost 0 and PER's 1, so a point
     // halfway along the total lands on PER.
-    expect(chooseRandomCountry(['FRA', 'PER'], mixed, TODAY, ['area'], null, () => 0.5)).toBe('PER')
-  })
-
-  it('never picks the country just shown, unless it is the only one', () => {
-    for (const share of [0, 0.5, 0.999]) {
-      expect(
-        chooseRandomCountry(codes, progress, TODAY, QUESTION_IDS, 'JPN', () => share),
-      ).not.toBe('JPN')
-    }
-    expect(chooseRandomCountry(['JPN'], progress, TODAY, QUESTION_IDS, 'JPN')).toBe('JPN')
+    expect(chooseRandomCountry(['FRA', 'PER'], mixed, TODAY, ['area'], () => 0.5)).toBe('PER')
   })
 
   it('picks evenly when every country is perfectly familiar', () => {
     // With a huge stability, ts-fsrs rounds the chance of remembering to
     // exactly 1, so every weight is 0.
     const known = { FRA: allAnswered(TODAY, 1e12), PER: allAnswered(TODAY, 1e12) }
-    expect(chooseRandomCountry(['FRA', 'PER'], known, TODAY, QUESTION_IDS, null, () => 0.9)).toBe(
-      'PER',
-    )
+    expect(chooseRandomCountry(['FRA', 'PER'], known, TODAY, QUESTION_IDS, () => 0.9)).toBe('PER')
   })
 
   it('returns null when there are no countries', () => {
-    expect(chooseRandomCountry([], progress, TODAY, QUESTION_IDS, null)).toBeNull()
+    expect(chooseRandomCountry([], progress, TODAY, QUESTION_IDS)).toBeNull()
   })
 })

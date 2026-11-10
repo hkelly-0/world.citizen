@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { State } from 'ts-fsrs'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { recordPlayedCountry } from '../../shared/recentCountries'
 import { loadReviewLog } from '../../shared/reviewLog'
 import { loadUnfinishedCard, saveUnfinishedCard } from '../../shared/unfinishedCard'
 import { todayString } from './dates'
@@ -64,9 +65,9 @@ function saveAreas(codes: string[], stability: number) {
   saveProgress(Object.fromEntries(codes.map((code) => [code, { area }])))
 }
 
-// The codes of France and eleven others outside the Nordic Countries: from 12
-// countries in the Passport, new ones only come while the seen ones are
-// familiar.
+// The codes of France and eleven others outside the Nordic Countries: more
+// than the 10 played recently that can't come again, so a Passport country can
+// always come.
 function franceAndOthers(): string[] {
   const others = Object.values(countryFacts)
     .filter((country) => country.isoAlpha3 !== 'FRA' && country.groupId !== 'nordic')
@@ -77,6 +78,14 @@ function franceAndOthers(): string[] {
 
 function saveFranceArea(stability: number) {
   saveAreas(franceAndOthers(), stability)
+}
+
+// Today's first Classic card already played (on a made-up country, so none in
+// the Passport counts as played recently), and every random value 0.9, so
+// Classic's weighted pick lands on a Passport country rather than a new one.
+function playPassportCountriesInClassic() {
+  recordPlayedCountry('ZZZ', todayString(), true)
+  vi.spyOn(Math, 'random').mockReturnValue(0.9)
 }
 
 function renderFlashcards(
@@ -121,19 +130,23 @@ async function answerArea() {
 
 describe('FlashcardsView', () => {
   beforeEach(() => localStorage.clear())
+  afterEach(() => vi.restoreAllMocks())
 
-  it('plays countries from the Passport while the seen ones are unfamiliar', () => {
+  it('plays a country from the Passport when the weighted pick lands on one', () => {
     saveFranceArea(0.2)
     saveLearningGroup('nordic')
+    playPassportCountriesInClassic()
     renderClassic()
 
     expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
     expect(franceAndOthers().map(nameOf)).toContain(shownCountryName())
   })
 
-  it('shows a new country while the seen ones are familiar', async () => {
-    saveFranceArea(10000)
+  it('shows a new country when the weighted pick lands on it', async () => {
+    saveFranceArea(0.2)
     saveLearningGroup('nordic')
+    recordPlayedCountry('ZZZ', todayString(), true)
+    vi.spyOn(Math, 'random').mockReturnValue(0.1)
     renderClassic()
 
     expect(screen.getByText(DISCOVERING)).toHaveTextContent(
@@ -143,12 +156,38 @@ describe('FlashcardsView', () => {
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
-  it('shows new countries while fewer than 12 are in the Passport, however unfamiliar', () => {
-    saveAreas(['FRA'], 0.2)
+  it("shows a new country for the day's first Classic card, whatever the pick", () => {
+    saveFranceArea(0.2)
     saveLearningGroup('nordic')
+    // Played today, but not in Classic.
+    recordPlayedCountry('ZZZ', todayString(), false)
+    vi.spyOn(Math, 'random').mockReturnValue(0.9)
     renderClassic()
 
     expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+  })
+
+  it('shows a new country when every Passport country was played recently', () => {
+    saveAreas(['FRA'], 0.2)
+    saveLearningGroup('nordic')
+    recordPlayedCountry('FRA', todayString(), true)
+    vi.spyOn(Math, 'random').mockReturnValue(0.9)
+    renderClassic()
+
+    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
+  })
+
+  it('never shows a country played in the last 10 today', () => {
+    saveFranceArea(0.2)
+    // All but the first two, which are left to choose from.
+    const [first, second, ...recent] = franceAndOthers()
+    for (const code of recent) recordPlayedCountry(code, todayString(), true)
+    for (const random of [0, 0.5, 0.99]) {
+      vi.spyOn(Math, 'random').mockReturnValue(random)
+      const { unmount } = renderFlashcards(['area'], 'custom')
+      expect([first, second].map(nameOf)).toContain(shownCountryName())
+      unmount()
+    }
   })
 
   it('asks for a region on the globe first, then shows its countries', async () => {
@@ -177,6 +216,8 @@ describe('FlashcardsView', () => {
   it("asks for the next group after the group's last country", async () => {
     saveAreas(['DNK', 'NOR', 'SWE'], 10000)
     saveLearningGroup('nordic')
+    // The weighted pick lands on a new country after the first card too.
+    vi.spyOn(Math, 'random').mockReturnValue(0.1)
     renderClassic()
 
     expect(screen.getByText(DISCOVERING)).toHaveTextContent(
@@ -193,8 +234,9 @@ describe('FlashcardsView', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('does not ask for a region while the seen countries are unfamiliar', () => {
+  it('does not ask for a region when the pick lands on a Passport country', () => {
     saveFranceArea(0.2)
+    playPassportCountriesInClassic()
     renderClassic()
 
     expect(screen.queryByRole('button', { name: /^Discover / })).not.toBeInTheDocument()
@@ -214,6 +256,7 @@ describe('FlashcardsView', () => {
 
   it("shows a seen country's familiarity after its card", async () => {
     saveFranceArea(0.2)
+    playPassportCountriesInClassic()
     renderClassic()
 
     const name = shownCountryName()
@@ -222,33 +265,9 @@ describe('FlashcardsView', () => {
     expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
   })
 
-  it('counts only the questions being asked', () => {
-    // The areas are unfamiliar, but only capitals are being practised, and
-    // they are familiar, so a new country comes.
-    const answeredToday = (stability: number) => ({
-      stability,
-      difficulty: 5,
-      reps: 1,
-      lapses: 0,
-      state: State.Review,
-      lastReview: todayString(),
-    })
-    saveProgress(
-      Object.fromEntries(
-        franceAndOthers().map((code) => [
-          code,
-          { area: answeredToday(0.2), capital: answeredToday(10000) },
-        ]),
-      ),
-    )
-    saveLearningGroup('nordic')
-    renderFlashcards(['capital'], 'classic')
-
-    expect(screen.getByText(DISCOVERING)).toBeInTheDocument()
-  })
-
   it('saves each answer straight away, before the card is finished', async () => {
     saveFranceArea(0.2)
+    playPassportCountriesInClassic()
     renderFlashcards(['area', 'capital'], 'classic')
 
     const code = franceAndOthers().find((code) => nameOf(code) === shownCountryName())!
@@ -267,9 +286,8 @@ describe('FlashcardsView', () => {
   it('picks the kind of globe question at random when both are allowed', async () => {
     saveFranceArea(0.2)
     vi.spyOn(Math, 'random').mockReturnValue(0.1)
-    renderFlashcards(['globe'], 'classic', ['locate', 'name'])
+    renderFlashcards(['globe'], 'custom', ['locate', 'name'])
     expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
-    vi.restoreAllMocks()
   })
 
   it('always asks the one kind of globe question allowed', async () => {
@@ -278,12 +296,12 @@ describe('FlashcardsView', () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.9)
     renderFlashcards(['globe'], 'custom', ['name'])
     expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
-    vi.restoreAllMocks()
   })
 
   describe('an unfinished card in Classic', () => {
     it('is resumed the same day at its next question', async () => {
       saveFranceArea(0.2)
+      playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area', 'capital'], 'classic')
       const name = shownCountryName()
       await answerArea()
@@ -312,6 +330,7 @@ describe('FlashcardsView', () => {
 
     it('is not resumed on a later day', () => {
       saveFranceArea(0.2)
+      playPassportCountriesInClassic()
       saveUnfinishedCard({
         date: '2000-01-01',
         country: 'FRA',
@@ -333,6 +352,7 @@ describe('FlashcardsView', () => {
 
     it('in Classic, carries on the count of cards when opened again the same day', async () => {
       saveFranceArea(0.2)
+      playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
       await answerArea()
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -346,6 +366,7 @@ describe('FlashcardsView', () => {
 
     it('in Classic, asks a due one first when left on the reward before it', async () => {
       saveFranceArea(0.2)
+      playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
       await answerArea()
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
@@ -358,6 +379,7 @@ describe('FlashcardsView', () => {
 
     it('in Classic, asks a due one again when left before it is answered', async () => {
       saveFranceArea(0.2)
+      playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
       for (let card = 0; card < 2; card++) {
         await answerArea()
@@ -376,8 +398,9 @@ describe('FlashcardsView', () => {
     it('skips one the Passport cannot make, and waits another two cards', async () => {
       // Classic's case (the Custom Practice menu disables such questions),
       // tested in Custom Practice so no new countries are discovered.
-      // Islands only, so Borders can't be asked.
-      saveAreas(['ISL', 'JAM'], 0.2)
+      // Islands only, so Borders can't be asked; one for each of the five
+      // cards, as a country played recently can't come again.
+      saveAreas(['ISL', 'JAM', 'CUB', 'MDG', 'NZL'], 0.2)
       renderFlashcards(['area'], 'custom', ['locate'], ['borders'])
 
       for (let card = 0; card < 4; card++) {
@@ -391,12 +414,15 @@ describe('FlashcardsView', () => {
 
   describe('in Custom Practice', () => {
     it('does not resume an unfinished card', async () => {
-      saveAreas(['FRA'], 0.2)
+      // Two countries, as the one left part-way was played recently.
+      saveAreas(['FRA', 'DEU'], 0.2)
       const { unmount } = renderFlashcards(['area', 'capital'], 'custom')
+      const name = shownCountryName()
       await answerArea()
       unmount()
 
       renderFlashcards(['area', 'capital'], 'custom')
+      expect(shownCountryName()).not.toBe(name)
       expect(screen.getByText('Area?')).toBeInTheDocument()
     })
 
@@ -412,9 +438,13 @@ describe('FlashcardsView', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
 
-      // France is the only country in the Passport, so it comes again rather
-      // than a new one.
-      expect(screen.getByRole('heading', { name: 'France' })).toBeInTheDocument()
+      // France is the only country in the Passport and was just played, so
+      // none can come, and Custom Practice never brings a new one.
+      expect(
+        screen.getByText(
+          "You've practised all your Passport countries recently. Discover new countries in Classic Mode.",
+        ),
+      ).toBeInTheDocument()
     })
 
     it('never shows the same country twice in a row', async () => {
@@ -439,7 +469,7 @@ describe('FlashcardsView', () => {
     })
 
     it('asks a multi-country question after every two cards', async () => {
-      saveAreas(['FRA', 'DEU'], 0.2)
+      saveFranceArea(0.2)
       renderFlashcards(['area'], 'custom', ['locate'], ['borders'])
       const BORDERS = /^Name up to 4 countries which border/
 

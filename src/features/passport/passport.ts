@@ -8,7 +8,7 @@ import {
 import type { Discoveries } from '../../shared/discoveries'
 import type { PassportSort } from '../../shared/passportSort'
 import type { DeckProgress, QuestionId } from '../flashcards/deck'
-import { countryRecall } from '../flashcards/familiarity'
+import { countryRecall, pickingFamiliarity } from '../flashcards/familiarity'
 
 // How many countries there are to collect: the 195.
 export const COUNTRY_COUNT = Object.keys(countryFacts).length
@@ -85,6 +85,41 @@ export function randomUnseenCountryInGroup(
   return unseenCodes[Math.floor(random() * unseenCodes.length)]
 }
 
+// The weight of "a new country" when Classic picks its next card, against each
+// Passport country's weight of 1 − its familiarity (as in
+// `chooseRandomCountry`, where a never-answered country weighs 1). So the
+// chance of a new country is NEW_COUNTRY_WEIGHT ÷ (NEW_COUNTRY_WEIGHT + the
+// Passport countries' weights): lower the more Passport countries there are
+// and the less familiar they are.
+export const NEW_COUNTRY_WEIGHT = 5
+
+// Whether Classic's next card should be a new country rather than one from the
+// Passport. Never once all countries are in the Passport. Otherwise always for
+// the first Classic card of the day (`isClassicPlayedToday` false), and when
+// no Passport country may come (`allowedCodes`, those not played recently, is
+// empty); else one weighted pick between "a new country" (NEW_COUNTRY_WEIGHT)
+// and the allowed Passport countries, weighted by `pickingFamiliarity` for
+// `questionIds`. When it lands on the Passport, `chooseRandomCountry` picks
+// which country with the same weights, so together they are one weighted pick
+// over every choice. `random` is a parameter so tests can make the choice
+// predictable.
+export function isNextCardNewCountry(
+  progress: DeckProgress,
+  isClassicPlayedToday: boolean,
+  allowedCodes: string[],
+  questionIds: QuestionId[],
+  today: string,
+  random: () => number = Math.random,
+): boolean {
+  if (collectedCountries(progress).length >= COUNTRY_COUNT) return false
+  if (!isClassicPlayedToday) return true
+  if (allowedCodes.length === 0) return true
+  const passportWeight = allowedCodes
+    .map((code) => 1 - pickingFamiliarity(progress[code], questionIds, today))
+    .reduce((sum, weight) => sum + weight, 0)
+  return random() * (NEW_COUNTRY_WEIGHT + passportWeight) < NEW_COUNTRY_WEIGHT
+}
+
 // A Passport country counts as unfamiliar when its familiarity (`countryRecall`)
 // is below this.
 const UNFAMILIAR_RECALL = 0.75
@@ -106,9 +141,9 @@ const NEW_COUNTRY_WARNING_MIN_COUNTRIES = 12
 // before a new one: at least NEW_COUNTRY_WARNING_MIN_COUNTRIES countries are in
 // the Passport, and more than MAX_UNFAMILIAR_COUNTRIES of them are below
 // UNFAMILIAR_RECALL for `questionIds`. A country with none of `questionIds`
-// answered has no familiarity and counts as unfamiliar. In Classic flashcards a
-// new country comes only when this is false; the Passport's "New country" card
-// warns when it is true.
+// answered has no familiarity and counts as unfamiliar. The Passport's "New
+// country" card warns when it is true (Classic flashcards don't use it; see
+// `isNextCardNewCountry`).
 export function isTooUnfamiliarForNewCountry(
   progress: DeckProgress,
   questionIds: QuestionId[],

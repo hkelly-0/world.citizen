@@ -3,6 +3,7 @@ import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
+import { recordPlayedCountry } from '../../shared/recentCountries'
 import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
@@ -60,6 +61,7 @@ export function PassportFlashcardView({
     const newProgress = reviewAnswer(progress, isoAlpha3, id, result, today)
     saveProgress(newProgress)
     logReview(isoAlpha3, id, result, today)
+    recordPlayedCountry(isoAlpha3, today, false)
     if (isCardFinished) finishCard(newProgress, today)
   }
 

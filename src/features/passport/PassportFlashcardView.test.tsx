@@ -4,6 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { AnswerResult } from '../flashcards/fsrs'
 import { loadDiscoveries } from '../../shared/discoveries'
 import { loadProgress } from '../../shared/progress'
+import { isClassicPlayedToday, recentCountryCodes } from '../../shared/recentCountries'
+import { todayString } from '../flashcards/dates'
 import { PassportFlashcardView } from './PassportFlashcardView'
 
 // The real globes need WebGL, which jsdom doesn't have. The stand-in for the
@@ -49,6 +51,21 @@ describe('PassportFlashcardView', () => {
 
     expect(onBack).toHaveBeenCalled()
     expect(Object.keys(loadProgress().FRA).sort()).toEqual(['area', 'globe'])
+  })
+
+  it('counts as played recently for the flashcards, but not as Classic', async () => {
+    render(
+      <PassportFlashcardView
+        countryIcon="outline"
+        isoAlpha3="FRA"
+        learnedQuestionIds={['area']}
+        onBack={() => {}}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: '300K-1M km² Medium' }))
+    expect(recentCountryCodes(todayString())).toEqual(['FRA'])
+    expect(isClassicPlayedToday(todayString())).toBe(false)
   })
 
   it('shows the familiarity of a country already in the Passport before going back', async () => {
