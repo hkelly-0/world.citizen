@@ -7,7 +7,9 @@ const DRAG_PX = 8
 // While `isActive`, a click anywhere on the page calls `onContinue`, as if the
 // screen's Next button had been pressed. Clicks on buttons, links and inputs are
 // left alone (so the Next button itself, the back button and the dev tab keep
-// working), as are drags and the click that made the button appear.
+// working), as are clicks inside anything marked `data-no-continue` (e.g. the
+// IHDI breakdown's bubble, so it can be tapped while reading it), drags and
+// the click that made the button appear.
 export function useClickAnywhereToContinue(isActive: boolean, onContinue: () => void) {
   // Always the latest callback, so the listener below needn't be re-added.
   const onContinueRef = useRef(onContinue)
@@ -34,7 +36,11 @@ export function useClickAnywhereToContinue(isActive: boolean, onContinue: () => 
       const wasDrag = Math.hypot(event.clientX - pressX, event.clientY - pressY) > DRAG_PX
       if (wasDrag) return
       const target = event.target
-      if (target instanceof Element && target.closest('button, a, input, label')) return
+      if (
+        target instanceof Element &&
+        target.closest('button, a, input, label, [data-no-continue]')
+      )
+        return
       onContinueRef.current()
     }
 

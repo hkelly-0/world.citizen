@@ -214,11 +214,20 @@
 
 /* Shown after an answer when the correct answer is our own estimate. */
 /* A range question's true value, under the correct option once answered. */
+/* Positioned, so the IHDI breakdown's bubble opens just below it. */
 .flashcard__true-value {
+  position: relative;
   margin: 0;
   text-align: center;
   color: #a9b1c2;
   font-size: 0.9rem;
+}
+
+/* Centred under the value, like the value itself. Two classes, so it wins over
+   the bubble's own `left` whichever file loads first. */
+.flashcard__true-value .ihdi-breakdown__bubble {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .flashcard__note {

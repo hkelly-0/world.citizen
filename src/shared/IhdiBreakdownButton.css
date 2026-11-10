@@ -1,5 +1,6 @@
-/* Not positioned, so the bubble is placed against the info panel's IHDI value
-   (`.country-info-panel__ihdi`) instead. */
+/* Not positioned, so the bubble is placed against the IHDI value around it
+   instead, which each user positions (`.country-info-panel__ihdi`,
+   `.flashcard__true-value`). */
 .ihdi-breakdown {
   margin-left: 8px;
 }
@@ -59,10 +60,28 @@
   border-radius: 8px;
   background: rgb(25, 31, 48);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  /* Set here rather than inherited, as the flashcard's value around it is
+     grey and centred. */
+  color: #f2f4f8;
+  text-align: left;
 }
 
-/* The panel's own dl rules (a two-column grid) apply here too; only the
-   spacing changes. */
-.ihdi-breakdown__bubble dl {
+/* Laid out like the info panel's facts, but styled here too, as the flashcard
+   has no such rules. Two classes, so these win over the info panel's own dl
+   rules whichever file loads first. */
+.ihdi-breakdown .ihdi-breakdown__bubble dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
   gap: 2px 16px;
+  margin: 0;
+}
+
+.ihdi-breakdown .ihdi-breakdown__bubble dt {
+  color: #a9b1c2;
+}
+
+.ihdi-breakdown .ihdi-breakdown__bubble dd {
+  margin: 0;
+  /* Equal-width digits so numbers line up. */
+  font-variant-numeric: tabular-nums;
 }

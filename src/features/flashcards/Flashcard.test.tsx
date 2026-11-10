@@ -417,6 +417,70 @@ describe('Flashcard', () => {
     expect(screen.getByText(/Estimated: UNDP has no IHDI/)).toBeInTheDocument()
   })
 
+  it("opens the IHDI's breakdown from a ? after its value, once answered", async () => {
+    const onFinish = vi.fn()
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={france}
+        questionIds={['ihdi']}
+        isNameQuestion={false}
+        offeredFlags={[]}
+        onAnswer={vi.fn()}
+        onFinish={onFinish}
+      />,
+    )
+    expect(screen.queryByRole('button', { name: 'IHDI breakdown' })).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+    // France's inequality-adjusted parts, on the IHDI's 0-10 scale.
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('9.4')
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('8.0')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('7.8')
+
+    // Tapping the ? or its bubble doesn't go on to the next question.
+    await userEvent.click(screen.getByText('Lifespan'))
+    expect(onFinish).not.toHaveBeenCalled()
+  })
+
+  it('says an estimated IHDI has no breakdown', async () => {
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={countryFacts['SAU']}
+        questionIds={['ihdi']}
+        isNameQuestion={false}
+        offeredFlags={[]}
+        onAnswer={vi.fn()}
+        onFinish={() => {}}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    expect(screen.getByText('Insufficient data for breakdown')).toBeInTheDocument()
+  })
+
+  it('has no IHDI breakdown for a country with no IHDI', async () => {
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={countryFacts['VAT']}
+        questionIds={['ihdi']}
+        isNameQuestion={false}
+        offeredFlags={[]}
+        onAnswer={vi.fn()}
+        onFinish={() => {}}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'No data' }))
+
+    expect(screen.queryByRole('button', { name: 'IHDI breakdown' })).not.toBeInTheDocument()
+  })
+
   it('accepts any one capital for countries with several', async () => {
     render(
       <Flashcard

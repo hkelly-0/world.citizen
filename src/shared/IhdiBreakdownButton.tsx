@@ -3,12 +3,14 @@ import type { IhdiBreakdown } from './countryFacts'
 import { formatIhdi } from './statRanges'
 import './IhdiBreakdownButton.css'
 
-// A small "?" beside the info panel's IHDI value that opens a bubble with the
-// IHDI's three inequality-adjusted parts, on the same 0–10 scale as the IHDI.
+// A small "?" beside an IHDI value (in the globe's info panel, and under the
+// IHDI flashcard's answer) that opens a bubble with the IHDI's three
+// inequality-adjusted parts, on the same 0–10 scale as the IHDI.
 // An estimated IHDI has no breakdown (null), so the bubble says so instead.
 // Tapping the "?" again, or anywhere else in the info panel, closes it. Taps
 // outside the panel (e.g. selecting another country on the globe) leave it
-// open, so the breakdowns can be compared.
+// open, so the breakdowns can be compared. On a flashcard there is no panel:
+// a tap anywhere else goes on to the next question, which removes it.
 export function IhdiBreakdownButton({ breakdown }: { breakdown: IhdiBreakdown | null }) {
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLSpanElement>(null)
@@ -53,7 +55,7 @@ export function IhdiBreakdownButton({ breakdown }: { breakdown: IhdiBreakdown | 
         </svg>
       </button>
       {isOpen && (
-        <span id={bubbleId} className="ihdi-breakdown__bubble">
+        <span id={bubbleId} className="ihdi-breakdown__bubble" data-no-continue>
           {breakdown === null ? (
             // Broken by hand, so the bubble is only as wide as "Insufficient data".
             <>

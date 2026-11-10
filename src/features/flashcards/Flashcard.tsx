@@ -1,7 +1,8 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState, type FormEvent } from 'react'
-import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
+import { countryFacts, type CountryFacts, type IhdiBreakdown } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { flagImageSrc } from '../../shared/flags'
+import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
 import { RangeTitle } from '../../shared/RangeTitle'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
@@ -250,6 +251,7 @@ export function Flashcard({
         {rangeQuestion !== undefined && (
           <RangeQuestionView
             question={rangeQuestion}
+            ihdiBreakdown={country.ihdiBreakdown}
             answer={answer}
             onAnswer={(chosen) =>
               submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
@@ -355,6 +357,9 @@ function FlagQuestion({
 
 type RangeQuestionViewProps = {
   question: RangeQuestion
+  // The country's IHDI breakdown, opened from a "?" after the IHDI question's
+  // value. Null when the IHDI is estimated.
+  ihdiBreakdown: IhdiBreakdown | null
   answer: string | null
   onAnswer: (chosen: string) => void
   // Called when an option is clicked after answering, like pressing Next.
@@ -362,7 +367,13 @@ type RangeQuestionViewProps = {
 }
 
 // After answering, clicking any option goes on, like Next.
-function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQuestionViewProps) {
+function RangeQuestionView({
+  question,
+  ihdiBreakdown,
+  answer,
+  onAnswer,
+  onContinue,
+}: RangeQuestionViewProps) {
   const isAnswered = answer !== null
 
   // After answering, the correct option turns green and a wrong pick turns red,
@@ -390,11 +401,16 @@ function RangeQuestionView({ question, answer, onAnswer, onContinue }: RangeQues
             >
               <RangeTitle range={option} />
             </button>
-            {/* Once answered, the country's own value goes under the correct option. */}
+            {/* Once answered, the country's own value goes under the correct
+                option, followed for IHDI by the "?" that opens its breakdown.
+                With no data there is no value, so no "?" either. */}
             {isAnswered &&
               option.name === question.correctAnswer.name &&
               question.trueValue !== null && (
-                <p className="flashcard__true-value">{question.trueValue}</p>
+                <p className="flashcard__true-value">
+                  {question.trueValue}
+                  {question.id === 'ihdi' && <IhdiBreakdownButton breakdown={ihdiBreakdown} />}
+                </p>
               )}
           </Fragment>
         ))}
