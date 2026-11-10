@@ -3,6 +3,7 @@ import { clearDiscoveries, recordDiscovery } from '../../shared/discoveries'
 import { clearLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { clearReviewLog } from '../../shared/reviewLog'
+import { clearHasSeenTutorial } from '../../shared/tutorial'
 import { todayString } from '../flashcards/dates'
 import type { DeckProgress } from '../flashcards/deck'
 import { COUNTRY_GROUPS } from '../../shared/countryFacts'
@@ -64,7 +65,9 @@ export function DevTools({ onChange }: DevToolsProps) {
     clearDiscoveries()
     clearReviewLog()
     clearLearningGroup()
-    finish('Progress, discovery times, review log and chosen group cleared.')
+    // So the main menu offers "Play Tutorial" again, as on a first visit.
+    clearHasSeenTutorial()
+    finish('Progress, discovery times, review log, chosen group and tutorial seen cleared.')
   }
 
   return (

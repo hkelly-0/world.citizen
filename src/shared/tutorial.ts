@@ -22,3 +22,13 @@ export function saveHasSeenTutorial(): void {
     // If storage is unavailable, there is nothing to remember it in.
   }
 }
+
+// Forgets that the tutorial was seen, so the menus offer it again. Used
+// by the dev menu's "Reset progress".
+export function clearHasSeenTutorial(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Nothing was saved if storage is unavailable.
+  }
+}
