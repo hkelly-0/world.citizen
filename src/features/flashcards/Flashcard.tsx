@@ -280,17 +280,13 @@ export function Flashcard({
         )}
       </div>
 
-      {/* Until answered, an empty space keeps Next's spot so the question
-          doesn't move when Next appears. Info questions never show Next (their
-          rating goes on instead), so they get no space either. */}
-      {answer !== null ? (
+      {/* No space is kept for Next before it appears, so the question moves up
+          a little when it does. Info questions never show Next (their rating
+          goes on instead). */}
+      {answer !== null && (
         <button className="flashcard__next arrow-button" ref={nextButtonRef} onClick={goToNext}>
           Next
         </button>
-      ) : (
-        !(stepId !== undefined && isInfoQuestion(stepId)) && (
-          <div className="flashcard__next-space" aria-hidden="true" />
-        )
       )}
     </article>
   )

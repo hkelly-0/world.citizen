@@ -85,14 +85,12 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
         />
       </div>
 
-      {/* Until it is over, an empty space keeps Next's spot so the question
-          doesn't move when Next appears. */}
-      {isRevealed ? (
+      {/* No space is kept for Next before it appears, so the question moves up
+          a little when it does. */}
+      {isRevealed && (
         <button className="flashcard__next arrow-button" onClick={onFinish} autoFocus>
           Next
         </button>
-      ) : (
-        <div className="flashcard__next-space" aria-hidden="true" />
       )}
     </article>
   )

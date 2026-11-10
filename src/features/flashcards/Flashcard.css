@@ -193,13 +193,6 @@
   margin-top: 16px;
 }
 
-/* Keeps the Next button's spot until it appears. */
-.flashcard__next-space {
-  flex-shrink: 0;
-  height: 44px;
-  margin-top: 16px;
-}
-
 /* Stands in for the location globe while its code loads, so the card behind
    isn't visible. Same covering and colour as .locate-globe. */
 .flashcard__globe-loading {
