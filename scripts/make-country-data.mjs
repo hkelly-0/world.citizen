@@ -43,6 +43,14 @@ const AREA_TAKEN_OFF = {
   SRB: 'XKX',
 }
 
+// mledoze's area and WPP's population for Somalia both include Somaliland,
+// which the globe shows as a separate area with its own figures. Those
+// hand-written figures are taken off Somalia's, so the two don't overlap.
+const FIGURES_BY_HAND = 'src/data/territoryFiguresByHand.json'
+const TERRITORY_TAKEN_OFF = {
+  SOM: 'Somaliland',
+}
+
 // WPP 2024 has estimates up to 2023 and projections after that; we use the
 // medium-variant projection for 2025.
 const POPULATION_YEAR = 2025
@@ -287,6 +295,24 @@ function nativeNamesOf(country) {
   return [...new Set(names)]
 }
 
+// --- Area and population, less any territory taken off ---
+const figuresByHand = JSON.parse(readFileSync(FIGURES_BY_HAND, 'utf8'))
+function areaAndPopulationOf(country) {
+  const code = country.cca3
+  let area =
+    AREA_TAKEN_OFF[code] === undefined ? country.area : country.area - areaOf(AREA_TAKEN_OFF[code])
+  let population = populations[code]
+  if (TERRITORY_TAKEN_OFF[code] !== undefined) {
+    const territory = figuresByHand[TERRITORY_TAKEN_OFF[code]]
+    if (territory === undefined) {
+      throw new Error(`${FIGURES_BY_HAND} has no ${TERRITORY_TAKEN_OFF[code]} to take off ${code}`)
+    }
+    area -= territory.areaKm2
+    population -= territory.population
+  }
+  return { area, population }
+}
+
 // --- Join on ISO alpha-3, sorted by code so diffs stay stable ---
 const countries = {}
 for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
@@ -299,6 +325,7 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
   }
   const hdi = hdis[code] ?? null
   const ihdi = ihdis[code] ?? null
+  const { area, population } = areaAndPopulationOf(country)
 
   countries[code] = {
     isoAlpha3: code,
@@ -308,11 +335,8 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // (e.g. "Italia", "Repubblica italiana", "Россия"). Accepted as answers.
     nativeNames: nativeNamesOf(country),
     capitals: EXTRA_CAPITALS[code] ?? country.capital,
-    areaKm2:
-      AREA_TAKEN_OFF[code] === undefined
-        ? country.area
-        : country.area - areaOf(AREA_TAKEN_OFF[code]),
-    population: populations[code],
+    areaKm2: area,
+    population: population,
     populationYear: POPULATION_YEAR,
     // Null when UNDP has no HDI for the country.
     hdi: hdi === null ? null : hdi.value,

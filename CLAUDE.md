@@ -93,7 +93,7 @@ Generated files are committed; each script lists its download links.
 - Land borders: `node scripts/make-country-borders.mjs`; areas outside the 197 are left out, so e.g. Morocco–Mauritania (via Western Sahara) aren't neighbours.
 - App icon: `node scripts/make-app-icon.mjs`. The main menu's `SpinningLogo.tsx` has its own copy of the design's constants, so change both together. Its land is from `node scripts/make-logo-land.mjs`.
 - `src/data/countries.json` from `node scripts/make-country-data.mjs <source-folder>`.
-  - Names, capitals, area: mledoze/countries (Serbia's area has Kosovo's taken off, `AREA_TAKEN_OFF`). Population: UN WPP 2024 (2025, medium). HDI and IHDI: UNDP HDR 2025.
+  - Names, capitals, area: mledoze/countries (Serbia's area has Kosovo's taken off, `AREA_TAKEN_OFF`). Population: UN WPP 2024 (2025, medium). Somalia's area and population have Somaliland's hand-written figures taken off (`TERRITORY_TAKEN_OFF`), so rerun after changing them in `territoryFiguresByHand.json`. HDI and IHDI: UNDP HDR 2025.
   - `ihdiBreakdown` is worked out in the script from UNDP's indicators; it throws if the result stops matching UNDP's IHDI.
   - `ihdiEstimate` is a fit from HDI, kept apart from `ihdi` so real and estimated values never mix.
   - Groups come from the hand-written `src/data/countryGroups.json`. A group's `id` must never change (it is saved); rename by `name`.
