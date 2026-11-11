@@ -102,7 +102,7 @@ Generated files are committed; each script lists its download links.
 - Hand-written: `src/data/continents.json` (transcontinental countries placed by choice), `src/data/countryNameAlternatives.json`, `src/data/capitalNativeNames.json` (by Claude; owner to check), `src/data/territorySubtitles.json` (contested areas get neutral wording).
 - A native name must not match another country's names, as the naming game and Borders take the first match.
 - `src/data/countryInfo/{ISO}.md`: AI-written paragraphs under exactly the headings in `COUNTRY_INFO_HEADINGS`, loaded per country on demand (`loadCountryInfo`) to stay out of the main bundle.
-- `src/data/territoryInfo/{key}.md`: AI-written, one `## Info` section of at most 80 words, named by the area's key in `territorySubtitles.json`. Not shown in the app yet.
+- `src/data/territoryInfo/{key}.md`: AI-written, one `## Info` section of at most 80 words, named by the area's key in `territorySubtitles.json` (tests check both). Loaded on demand (`loadTerritoryInfo`) and shown on the globe's info panel.
 
 ## Status
 - Not yet checked on a real phone: the location and name globe questions, the tutorial and Name every country (especially their bottom panels above the on-screen keyboard), dragging in Matching and Ordering, the Credits screen's links, and Population's smoothness.

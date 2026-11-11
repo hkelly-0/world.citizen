@@ -260,4 +260,44 @@ describe('CountryInfoPanel', () => {
       expect(heading('History')).toHaveAttribute('aria-expanded', 'false')
     })
   })
+
+  describe("a territory's Info paragraph", () => {
+    const hongKong: CountryShape = { ...france, name: 'Hong Kong', isoAlpha3: 'HKG' }
+    const greenland: CountryShape = { ...france, name: 'Greenland', isoAlpha3: 'GRL' }
+    const somaliland: CountryShape = {
+      ...france,
+      name: 'Somaliland',
+      isoNumeric: null,
+      isoAlpha3: null,
+    }
+    const infoHeading = () => screen.getByRole('button', { name: 'Info' })
+
+    it('is only shown when asked for, and only for areas with a file', () => {
+      const { unmount } = render(<CountryInfoPanel {...panelProps} country={hongKong} />)
+      expect(screen.queryByRole('button', { name: 'Info' })).not.toBeInTheDocument()
+      unmount()
+
+      render(<CountryInfoPanel {...panelProps} country={greenland} showCountryInfo />)
+      expect(screen.queryByRole('button', { name: 'Info' })).not.toBeInTheDocument()
+    })
+
+    it('starts closed, and opens and closes when its heading is pressed', async () => {
+      render(<CountryInfoPanel {...panelProps} country={hongKong} showCountryInfo />)
+      expect(infoHeading()).toHaveAttribute('aria-expanded', 'false')
+
+      await userEvent.click(infoHeading())
+      expect(await screen.findByText(/one country, two systems/)).toBeVisible()
+
+      await userEvent.click(infoHeading())
+      expect(infoHeading()).toHaveAttribute('aria-expanded', 'false')
+      expect(screen.getByText(/one country, two systems/)).not.toBeVisible()
+    })
+
+    it('is found by map name for an area with no code', async () => {
+      render(<CountryInfoPanel {...panelProps} country={somaliland} showCountryInfo />)
+
+      await userEvent.click(infoHeading())
+      expect(await screen.findByText(/^Somaliland declared independence/)).toBeVisible()
+    })
+  })
 })

@@ -18,6 +18,8 @@ import {
   type StatValue,
 } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
+import { TerritoryInfoSection } from './TerritoryInfoSection'
+import { hasTerritoryInfo } from '../../shared/territoryInfo'
 import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
 import './CountryInfoPanel.css'
 
@@ -35,6 +37,7 @@ type CountryInfoPanelProps = {
   onSelectCountry?: (isoAlpha3: string) => void
   // Whether to show the paragraphs about the country (History, People, etc.)
   // below the facts, those in learnedQuestionIds. Only the globe shows them.
+  // Also shows a territory's Info paragraph, for areas that have one.
   showCountryInfo?: boolean
   // Lets the globe measure the panel, to centre a country in the space above it.
   ref?: Ref<HTMLElement>
@@ -67,6 +70,8 @@ export function CountryInfoPanel({
   const subtitle = territorySubtitle(country)
   // Area and population for map areas outside the 197 (e.g. Greenland).
   const figures = territoryFigures(country)
+  // Keyed like territorySubtitles.json: by code, or by map name with no code.
+  const territoryKey = country.isoAlpha3 ?? country.name
 
   return (
     <aside ref={ref} className="country-info-panel" aria-label={`${name} details`}>
@@ -117,6 +122,9 @@ export function CountryInfoPanel({
                 </>
               )}
             </dl>
+          )}
+          {showCountryInfo && hasTerritoryInfo(territoryKey) && (
+            <TerritoryInfoSection key={territoryKey} territoryKey={territoryKey} />
           )}
         </>
       ) : (
