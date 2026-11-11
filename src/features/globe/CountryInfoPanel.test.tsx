@@ -64,6 +64,25 @@ describe('CountryInfoPanel', () => {
     expect(screen.queryByText('Lifespan')).not.toBeInTheDocument()
   })
 
+  it("opens a bubble with the country's status from the * after a non-UN member's name", async () => {
+    const taiwan: CountryShape = { ...france, name: 'Taiwan', isoAlpha3: 'TWN' }
+    render(<CountryInfoPanel {...panelProps} country={taiwan} />)
+    const button = screen.getByRole('button', { name: 'Status' })
+    expect(screen.queryByText('Partially recognized state')).not.toBeInTheDocument()
+
+    await userEvent.click(button)
+    expect(screen.getByText('Partially recognized state')).toBeInTheDocument()
+
+    // Tapping elsewhere in the panel closes it.
+    await userEvent.click(screen.getByText('Capital'))
+    expect(screen.queryByText('Partially recognized state')).not.toBeInTheDocument()
+  })
+
+  it("shows no * after a UN member's name", () => {
+    render(<CountryInfoPanel {...panelProps} country={france} />)
+    expect(screen.queryByRole('button', { name: 'Status' })).not.toBeInTheDocument()
+  })
+
   it('keeps the IHDI breakdown open on taps outside the panel and on selecting another country', async () => {
     const { rerender } = render(<CountryInfoPanel {...panelProps} country={france} />)
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))

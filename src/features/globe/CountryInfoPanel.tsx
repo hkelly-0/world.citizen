@@ -21,6 +21,7 @@ import { CountryInfoSections } from './CountryInfoSections'
 import { TerritoryInfoSection } from './TerritoryInfoSection'
 import { hasTerritoryInfo } from '../../shared/territoryInfo'
 import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
+import { CountryStatusAsterisk } from './CountryStatusAsterisk'
 import './CountryInfoPanel.css'
 
 type CountryInfoPanelProps = {
@@ -78,7 +79,12 @@ export function CountryInfoPanel({
       <button className="country-info-panel__close" onClick={onClose} aria-label="Close">
         ×
       </button>
-      <h2>{name}</h2>
+      {/* Labelled so the asterisk's "Status" isn't read as part of the name. */}
+      <h2 aria-label={name}>
+        {name}
+        {/* Keyed by country, so an open bubble closes when another is selected. */}
+        <CountryStatusAsterisk key={country.isoAlpha3} isoAlpha3={country.isoAlpha3} />
+      </h2>
       {facts === undefined ? (
         <>
           <p className="country-info-panel__note">

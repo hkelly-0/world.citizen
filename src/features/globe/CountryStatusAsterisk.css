@@ -1,0 +1,58 @@
+/* Grey like the IHDI's "?", lit while open. The padding enlarges the tap
+   area, and the negative margin takes it back out of the layout. Raised a
+   little above the name's middle, towards where a footnote mark sits;
+   relative positioning moves it without moving the line. */
+.country-status__button {
+  position: relative;
+  top: -0.15em;
+  padding: 6px;
+  margin: -6px;
+  border: none;
+  background: transparent;
+  color: #a9b1c2;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.country-status__button[aria-expanded='true'] {
+  color: #f2f4f8;
+}
+
+/* Only where hover is real: touch screens keep :hover after a tap, which
+   would leave the "*" lit after closing. */
+@media (hover: hover) {
+  .country-status__button:hover {
+    color: #f2f4f8;
+  }
+}
+
+/* The bubble is placed against this. Its left edge is the "*"'s, as the
+   button's negative margin cancels its padding. The margin is a little under
+   half a space from the name (a Roboto Mono space is 0.6em), and is outside
+   the edge the bubble lines up with. */
+.country-status {
+  position: relative;
+  margin-left: 0.25em;
+}
+
+/* Looks like the IHDI breakdown's bubble. Opens upwards from the "*", its left
+   edge in line with the "*", over the flag or picture above the panel. The
+   heading's weight is reset, and the text is small enough for the longest
+   note to fit on one line within max-width. */
+.country-status__bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: 1;
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgb(25, 31, 48);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  color: #f2f4f8;
+  font-size: 0.75rem;
+  font-weight: normal;
+}
