@@ -57,14 +57,19 @@
   { "id": "iberia", "name": "Iberian Peninsula", "countries": ["ESP", "PRT", "AND"] },
   { "id": "visegrad", "name": "Visegrád Group", "countries": ["POL", "CZE", "SVK", "HUN"] },
   {
-    "id": "former-yugoslavia",
-    "name": "Former Yugoslavia",
-    "countries": ["SVN", "HRV", "BIH", "SRB", "MNE", "XKX"]
+    "id": "adriatic-balkans",
+    "name": "Adriatic Balkans",
+    "countries": ["SVN", "HRV", "BIH", "MNE"]
   },
   {
-    "id": "southeastern-europe",
-    "name": "Southeastern Europe",
-    "countries": ["MKD", "ALB", "GRC", "BGR", "CYP"]
+    "id": "central-balkans",
+    "name": "Central Balkans",
+    "countries": ["SRB", "XKX", "MKD", "ALB"]
+  },
+  {
+    "id": "aegean-eastern-mediterranean",
+    "name": "Aegean & Eastern Mediterranean",
+    "countries": ["GRC", "CYP", "TUR", "BGR"]
   },
   {
     "id": "eastern-europe",
@@ -72,9 +77,9 @@
     "countries": ["BLR", "UKR", "MDA", "ROU"]
   },
   {
-    "id": "turkey-caucasus",
-    "name": "Turkey & the Caucasus",
-    "countries": ["TUR", "GEO", "ARM", "AZE"]
+    "id": "caucasus",
+    "name": "Caucasus",
+    "countries": ["GEO", "ARM", "AZE"]
   },
   {
     "id": "iran-neighbours",

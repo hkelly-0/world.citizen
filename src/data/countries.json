@@ -80,8 +80,8 @@
       "income": 0.627
     },
     "ihdiEstimate": null,
-    "groupId": "southeastern-europe",
-    "groupName": "Southeastern Europe"
+    "groupId": "central-balkans",
+    "groupName": "Central Balkans"
   },
   "AND": {
     "isoAlpha3": "AND",
@@ -189,8 +189,8 @@
       "income": 0.681
     },
     "ihdiEstimate": null,
-    "groupId": "turkey-caucasus",
-    "groupName": "Turkey & the Caucasus"
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "ATG": {
     "isoAlpha3": "ATG",
@@ -294,8 +294,8 @@
       "income": 0.759
     },
     "ihdiEstimate": null,
-    "groupId": "turkey-caucasus",
-    "groupName": "Turkey & the Caucasus"
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "BDI": {
     "isoAlpha3": "BDI",
@@ -463,8 +463,8 @@
       "income": 0.665
     },
     "ihdiEstimate": null,
-    "groupId": "southeastern-europe",
-    "groupName": "Southeastern Europe"
+    "groupId": "aegean-eastern-mediterranean",
+    "groupName": "Aegean & Eastern Mediterranean"
   },
   "BHR": {
     "isoAlpha3": "BHR",
@@ -540,8 +540,8 @@
       "income": 0.587
     },
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "adriatic-balkans",
+    "groupName": "Adriatic Balkans"
   },
   "BLR": {
     "isoAlpha3": "BLR",
@@ -1182,8 +1182,8 @@
       "income": 0.787
     },
     "ihdiEstimate": null,
-    "groupId": "southeastern-europe",
-    "groupName": "Southeastern Europe"
+    "groupId": "aegean-eastern-mediterranean",
+    "groupName": "Aegean & Eastern Mediterranean"
   },
   "CZE": {
     "isoAlpha3": "CZE",
@@ -1720,8 +1720,8 @@
       "income": 0.633
     },
     "ihdiEstimate": null,
-    "groupId": "turkey-caucasus",
-    "groupName": "Turkey & the Caucasus"
+    "groupId": "caucasus",
+    "groupName": "Caucasus"
   },
   "GHA": {
     "isoAlpha3": "GHA",
@@ -1882,8 +1882,8 @@
       "income": 0.739
     },
     "ihdiEstimate": null,
-    "groupId": "southeastern-europe",
-    "groupName": "Southeastern Europe"
+    "groupId": "aegean-eastern-mediterranean",
+    "groupName": "Aegean & Eastern Mediterranean"
   },
   "GRD": {
     "isoAlpha3": "GRD",
@@ -2008,8 +2008,8 @@
       "income": 0.787
     },
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "adriatic-balkans",
+    "groupName": "Adriatic Balkans"
   },
   "HTI": {
     "isoAlpha3": "HTI",
@@ -3092,8 +3092,8 @@
       "income": 0.649
     },
     "ihdiEstimate": null,
-    "groupId": "southeastern-europe",
-    "groupName": "Southeastern Europe"
+    "groupId": "central-balkans",
+    "groupName": "Central Balkans"
   },
   "MLI": {
     "isoAlpha3": "MLI",
@@ -3200,8 +3200,8 @@
       "income": 0.682
     },
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "adriatic-balkans",
+    "groupName": "Adriatic Balkans"
   },
   "MNG": {
     "isoAlpha3": "MNG",
@@ -4330,8 +4330,8 @@
       "income": 0.712
     },
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "central-balkans",
+    "groupName": "Central Balkans"
   },
   "SSD": {
     "isoAlpha3": "SSD",
@@ -4461,8 +4461,8 @@
       "income": 0.834
     },
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "adriatic-balkans",
+    "groupName": "Adriatic Balkans"
   },
   "SWE": {
     "isoAlpha3": "SWE",
@@ -4844,8 +4844,8 @@
       "income": 0.628
     },
     "ihdiEstimate": null,
-    "groupId": "turkey-caucasus",
-    "groupName": "Turkey & the Caucasus"
+    "groupId": "aegean-eastern-mediterranean",
+    "groupName": "Aegean & Eastern Mediterranean"
   },
   "TUV": {
     "isoAlpha3": "TUV",
@@ -5237,8 +5237,8 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": null,
-    "groupId": "former-yugoslavia",
-    "groupName": "Former Yugoslavia"
+    "groupId": "central-balkans",
+    "groupName": "Central Balkans"
   },
   "YEM": {
     "isoAlpha3": "YEM",
