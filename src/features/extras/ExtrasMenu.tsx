@@ -10,17 +10,20 @@ type ExtrasMenuProps = {
   onOpenNameEveryCountry: (areaId: string) => void
   // Opens the table of every country's stats.
   onOpenCountryTable: () => void
+  // Opens the page explaining which countries the app counts.
+  onOpenWhatCountsAsCountry: () => void
 }
 
 // Shown when Extras is chosen on the main menu: games outside the flashcards,
 // which don't touch the user's progress. Name every country has one button
 // per area, under a heading that the buttons finish ("Name every country
 // in… Europe"). Above them, one button opens the table of every country's
-// stats.
+// stats, and one the page explaining which countries the app counts.
 export function ExtrasMenu({
   onBack,
   onOpenNameEveryCountry,
   onOpenCountryTable,
+  onOpenWhatCountsAsCountry,
 }: ExtrasMenuProps) {
   return (
     <main className="main-menu">
@@ -29,6 +32,9 @@ export function ExtrasMenu({
       <div className="main-menu__options">
         <button className="main-menu__option arrow-button" onClick={onOpenCountryTable}>
           All country data
+        </button>
+        <button className="main-menu__option arrow-button" onClick={onOpenWhatCountsAsCountry}>
+          What counts as a country?
         </button>
       </div>
       <h2 className="extras-menu__heading">Name every country in…</h2>

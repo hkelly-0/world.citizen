@@ -1,0 +1,13 @@
+/* One paragraph in the card, padded like Credits' entries. */
+.what-counts__paragraph {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  /* Long names and links mustn't widen the card on a phone. */
+  overflow-wrap: anywhere;
+}
+
+.what-counts__paragraph a {
+  color: var(--accent-blue-text);
+}

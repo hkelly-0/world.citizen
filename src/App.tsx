@@ -15,6 +15,7 @@ import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
 import { CountryTable } from './features/extras/CountryTable'
 import { ExtrasMenu } from './features/extras/ExtrasMenu'
+import { WhatCountsAsCountry } from './features/extras/WhatCountsAsCountry'
 import { NAMING_AREAS } from './features/extras/namingGame'
 import { Credits } from './features/settings/Credits'
 import { PassportEditor } from './features/settings/PassportEditor'
@@ -44,7 +45,8 @@ const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry')
 // 'passport' lists the countries seen as flashcards, and
 // 'passport-flashcard' plays one of their cards. 'extras' lists the games
 // outside the flashcards, such as 'name-every-country' (for the world or one
-// continent), and 'country-table' (every country's stats).
+// continent), 'country-table' (every country's stats) and
+// 'what-counts-as-country' (which countries the app counts).
 type Screen =
   | 'menu'
   | 'settings'
@@ -60,6 +62,7 @@ type Screen =
   | 'extras'
   | 'name-every-country'
   | 'country-table'
+  | 'what-counts-as-country'
 
 // Opening a screen adds a browser history entry (the URL stays the same), so
 // the browser's back button, and Android's, return to the main menu. The main
@@ -271,12 +274,17 @@ export default function App() {
           onBack={goToMenu}
           onOpenNameEveryCountry={playNameEveryCountry}
           onOpenCountryTable={() => openScreen('country-table')}
+          onOpenWhatCountsAsCountry={() => openScreen('what-counts-as-country')}
         />
       )
     }
     if (screen === 'country-table') {
       // Back to the Extras menu's history entry.
       return <CountryTable onBack={() => history.back()} />
+    }
+    if (screen === 'what-counts-as-country') {
+      // Back to the Extras menu's history entry.
+      return <WhatCountsAsCountry onBack={() => history.back()} />
     }
     if (screen === 'name-every-country') {
       const area = NAMING_AREAS.find((namingArea) => namingArea.id === namingAreaId)
