@@ -17,7 +17,7 @@ import {
 describe('countryFacts', () => {
   const countries = Object.values(countryFacts)
 
-  it('has the 193 UN members plus the 2 observer states', () => {
+  it('has the 193 UN members plus the 2 observer states, Taiwan and Kosovo', () => {
     expect(countries.length).toBe(197)
     expect(countryFacts['VAT']?.commonName).toBe('Vatican City')
     expect(countryFacts['PSE']?.commonName).toBe('Palestine')
