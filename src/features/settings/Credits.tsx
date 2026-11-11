@@ -1,7 +1,8 @@
-import { useEffect, useLayoutEffect, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import jetBrainsMonoLicence from '../../assets/fonts/jetbrains-mono-OFL.txt?raw'
 import robotoMonoLicence from '../../assets/fonts/roboto-mono-OFL.txt?raw'
 import { BackButton } from '../../shared/BackButton'
+import { ExternalLink } from '../../shared/ExternalLink'
 // The main menu's centred column layout, with the cards shared with Settings.
 import '../menu/MainMenu.css'
 import '../../shared/OptionsPage.css'
@@ -12,16 +13,6 @@ import './Credits.css'
 const LIBRARY_LICENCES_URL = '/third-party-licences.md'
 
 const CC_BY_IGO_URL = 'https://creativecommons.org/licenses/by/3.0/igo/'
-
-// Opens outside the app: in a new tab on the website, in the phone's browser
-// in the APK.
-function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a href={href} target="_blank" rel="noreferrer">
-      {children}
-    </a>
-  )
-}
 
 // A licence's full text, closed until tapped as most are long.
 function LicenceText({ title, text }: { title: string; text: string }) {
