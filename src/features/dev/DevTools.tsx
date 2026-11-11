@@ -67,7 +67,7 @@ export function DevTools({ onChange }: DevToolsProps) {
     clearLearningGroup()
     // So the main menu offers "Play Tutorial" again, as on a first visit.
     clearHasSeenTutorial()
-    finish('Progress, discovery times, review log, chosen group and tutorial seen cleared.')
+    finish('Progress, discovery times, review log, chosen group, and tutorial seen cleared.')
   }
 
   return (

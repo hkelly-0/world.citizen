@@ -41,7 +41,7 @@ describe('CustomPracticeMenu', () => {
     expect(screen.getByRole('button', { name: 'Go' })).toBeDisabled()
   })
 
-  it('splits the options into Fundamentals, Textual info and Multi-Country Questions', () => {
+  it('splits the options into Fundamentals, Textual info, and Multi-Country Questions', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={QUESTION_IDS}

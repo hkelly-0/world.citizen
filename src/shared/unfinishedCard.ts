@@ -1,6 +1,6 @@
 import type { QuestionId } from '../features/flashcards/deck'
 
-// A flashcard being played: which country, how it was set up and how far it
+// A flashcard being played: which country, how it was set up, and how far it
 // got. Classic saves its card whenever it changes, so leaving and coming back
 // the same day resumes it (`FlashcardsView`). The answers themselves are
 // already in the progress and review log, saved as each one is given. Kept in

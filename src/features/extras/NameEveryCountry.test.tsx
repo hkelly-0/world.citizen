@@ -26,7 +26,7 @@ const box = () => screen.getByLabelText('Country name')
 const world = NAMING_AREAS[0]
 const europe = NAMING_AREAS.find((area) => area.id === 'europe')!
 
-// Opens the game, says No to the stopwatch and presses Go on "Ready?".
+// Opens the game, says No to the stopwatch, and presses Go on "Ready?".
 async function startGame(onBack: () => void, area = world) {
   render(<NameEveryCountry area={area} onBack={onBack} />)
   await userEvent.click(screen.getByRole('button', { name: 'No' }))

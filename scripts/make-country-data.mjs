@@ -1,5 +1,5 @@
 // Builds src/data/countries.json: facts for the 193 UN members plus the two
-// observer states (Vatican City and Palestine), Taiwan and Kosovo, keyed by
+// observer states (Vatican City and Palestine), Taiwan, and Kosovo, keyed by
 // ISO alpha-3 code.
 // Run once from the project root; the generated file is bundled with the app.
 //
@@ -138,7 +138,7 @@ async function readCsv(path, { gzipped, encoding }, onRow) {
   }
 }
 
-// --- Names, capitals and area ---
+// --- Names, capitals, and area ---
 const mledoze = JSON.parse(readFileSync(join(sources, 'mledoze-countries.json'), 'utf8'))
 const selected = mledoze
   .filter(

@@ -27,7 +27,7 @@ describe('PassportFlashcardView', () => {
   })
   afterEach(() => vi.restoreAllMocks())
 
-  it('asks the chosen questions, ends with Next, saves the review and goes back', async () => {
+  it('asks the chosen questions, ends with Next, saves the review, and goes back', async () => {
     const onBack = vi.fn()
     render(
       <PassportFlashcardView

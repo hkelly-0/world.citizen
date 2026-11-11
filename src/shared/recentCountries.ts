@@ -2,7 +2,7 @@
 // card (`FlashcardsView`): a country can't come again until RECENT_COUNTRY_GAP
 // other countries have been played since, and the first Classic card of the
 // day is a new country. Every single-country card counts (Classic, Custom
-// Practice, the Passport's cards and the tutorial's home card), from its first
+// Practice, the Passport's cards, and the tutorial's home card), from its first
 // answer; multi-country questions don't. Only kept for one day, so the next
 // day anything can come. Kept in the browser's localStorage, on this device
 // only.

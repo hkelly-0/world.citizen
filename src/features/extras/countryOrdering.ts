@@ -8,7 +8,7 @@ export type TableStatId = 'area' | 'population' | 'ihdi' | 'density'
 export const TABLE_STATS: TableStatId[] = ['area', 'population', 'ihdi', 'density']
 
 // The number a country is ordered by. The IHDI is UNDP's if it has one,
-// otherwise our estimate, otherwise null (Monaco, North Korea and Vatican
+// otherwise our estimate, otherwise null (Monaco, North Korea, and Vatican
 // City have neither). Density is people per km².
 export function statValue(country: CountryFacts, statId: TableStatId): number | null {
   if (statId === 'area') return country.areaKm2

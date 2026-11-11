@@ -24,7 +24,7 @@ const HEADINGS: Record<TableStatId, string> = {
 }
 
 // Opened from "Table of all country stats" on the Extras menu: every country
-// with its area, population, IHDI and population density. Tapping a column's
+// with its area, population, IHDI, and population density. Tapping a column's
 // heading orders the table by it (names A–Z, stats largest first), and
 // tapping it again reverses that. The ordered-by column is highlighted, and its heading shows ▼ for
 // descending (largest first, Z–A) or ▲ for ascending. Rows don't respond to

@@ -32,7 +32,7 @@ describe('NAMING_AREAS', () => {
 })
 
 describe('namedCountry', () => {
-  it('accepts the common name, ignoring case, accents and surrounding spaces', () => {
+  it('accepts the common name, ignoring case, accents, and surrounding spaces', () => {
     expect(namedCountry('  peru ')).toBe('PER')
     expect(namedCountry('turkiye')).toBe('TUR')
   })

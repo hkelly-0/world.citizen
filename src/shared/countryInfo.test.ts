@@ -48,7 +48,7 @@ describe('parseCountryInfo', () => {
     })
   })
 
-  it('rejects a missing, misspelt or reordered heading', () => {
+  it('rejects a missing, misspelt, or reordered heading', () => {
     expect(() => parseCountryInfo(valid.replace('## Economy\nRich.', ''))).toThrow()
     expect(() => parseCountryInfo(valid.replace('## People', '## Peoples'))).toThrow()
     expect(() =>

@@ -87,7 +87,7 @@ function headProjection() {
     .clipAngle(90)
 }
 
-// Draws the person (ring, shoulders and globe head) in design coordinates,
+// Draws the person (ring, shoulders, and globe head) in design coordinates,
 // with nothing behind it.
 function drawPerson(context) {
   // Shoulders, clipped to the inside of the ring.

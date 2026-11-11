@@ -24,7 +24,7 @@ function LicenceText({ title, text }: { title: string; text: string }) {
   )
 }
 
-// Who made the data, imagery, fonts and libraries in the app, with the credit
+// Who made the data, imagery, fonts, and libraries in the app, with the credit
 // and licence notices that their licences ask to go with every copy. CREDITS.md
 // says the same for the repo, so change both together.
 export function Credits({ onBack }: { onBack: () => void }) {
@@ -61,7 +61,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
         <h2 className="options-page__heading">Country data</h2>
         <div className="options-page__card">
           <p className="credits__entry">
-            <strong>Names, capitals and area:</strong> contains information from{' '}
+            <strong>Names, capitals, and area:</strong> contains information from{' '}
             <ExternalLink href="https://github.com/mledoze/countries">
               mledoze/countries
             </ExternalLink>
@@ -83,7 +83,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
           </p>
           <p className="credits__entry">
             <strong>Territories the sources above leave out:</strong> figures from national
-            statistics offices and censuses, e.g. Statistics Netherlands for Bonaire, Saba and Sint
+            statistics offices and censuses, e.g. Statistics Netherlands for Bonaire, Saba, and Sint
             Eustatius.
           </p>
           <p className="credits__entry">
@@ -118,7 +118,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
             . Cut into map tiles for this app. NASA doesn't endorse this app.
           </p>
           <p className="credits__entry">
-            <strong>Population lights:</strong> Schiavina, Freire, Carioli and MacManus (2023),{' '}
+            <strong>Population lights:</strong> Schiavina, Freire, Carioli, and MacManus (2023),{' '}
             <ExternalLink href="https://doi.org/10.2905/2FF68A52-5B5B-4A22-8F40-C41DA8332CFE">
               GHS-POP R2023A
             </ExternalLink>

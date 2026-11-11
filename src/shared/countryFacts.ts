@@ -49,7 +49,7 @@ export type IhdiBreakdown = {
   income: number
 }
 
-// All 197 countries (193 UN members + Vatican City, Palestine, Taiwan and
+// All 197 countries (193 UN members + Vatican City, Palestine, Taiwan, and
 // Kosovo), keyed by ISO alpha-3 code.
 export const countryFacts: Record<string, CountryFacts> = countriesJson
 

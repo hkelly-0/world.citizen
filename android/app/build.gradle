@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 // Release signing details are kept out of git in android/keystore.properties, with the keys
-// storeFile (absolute path to the .jks), storePassword, keyAlias and keyPassword.
+// storeFile (absolute path to the .jks), storePassword, keyAlias, and keyPassword.
 // Without that file, release builds come out unsigned.
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 def keystoreProperties = new Properties()

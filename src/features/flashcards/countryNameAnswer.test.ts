@@ -3,7 +3,7 @@ import { countryFacts } from '../../shared/countryFacts'
 import { isCountryNameCorrect } from './countryNameAnswer'
 
 describe('isCountryNameCorrect', () => {
-  it('accepts the common name, ignoring case, accents and surrounding spaces', () => {
+  it('accepts the common name, ignoring case, accents, and surrounding spaces', () => {
     expect(isCountryNameCorrect('  turkiye ', countryFacts['TUR'])).toBe(true)
   })
 
@@ -36,7 +36,7 @@ describe('isCountryNameCorrect', () => {
     }
   })
 
-  it('rejects misspellings, empty answers and other countries', () => {
+  it('rejects misspellings, empty answers, and other countries', () => {
     expect(isCountryNameCorrect('Turky', countryFacts['TUR'])).toBe(false)
     expect(isCountryNameCorrect('', countryFacts['TUR'])).toBe(false)
     expect(isCountryNameCorrect('Congo', countryFacts['COD'])).toBe(false)

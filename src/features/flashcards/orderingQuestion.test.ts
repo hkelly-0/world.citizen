@@ -47,7 +47,7 @@ describe('orderingCountries', () => {
   })
 
   it('uses adjacent ranges over wider ones', () => {
-    // Population ranges 0, 1, 2, 3 and 6: only 0 to 3 are adjacent, so China
+    // Population ranges 0, 1, 2, 3, and 6: only 0 to 3 are adjacent, so China
     // is never asked.
     const passport = ['VAT', 'ISL', 'NZL', 'CAN', 'CHN']
     for (const point of [0, 0.25, 0.5, 0.75, 0.99]) {
@@ -61,7 +61,7 @@ describe('orderingCountries', () => {
   })
 
   it('uses the closest ranges when none are adjacent', () => {
-    // Population ranges 0, 1, 3, 4 and 6: 0 to 4 is closer than 1 to 6.
+    // Population ranges 0, 1, 3, 4, and 6: 0 to 4 is closer than 1 to 6.
     const passport = ['VAT', 'ISL', 'CAN', 'DEU', 'CHN']
     for (const point of [0, 0.25, 0.5, 0.75, 0.99]) {
       expect(orderingCountries('population', passport, () => point)).toEqual([
@@ -86,7 +86,7 @@ describe('orderingCountries', () => {
   })
 
   it('picks at random among the countries of a range', () => {
-    // Germany, France and Italy are all in population range 4. The first
+    // Germany, France, and Italy are all in population range 4. The first
     // random point picks ranges 1 to 4, and the second the country in range 4.
     const passport = ['VAT', 'ISL', 'NZL', 'CAN', 'DEU', 'FRA', 'ITA']
     const pickAt = (point: number) => {

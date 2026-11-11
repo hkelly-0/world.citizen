@@ -28,7 +28,7 @@
   -webkit-user-select: none;
 }
 
-/* The title, subtitle and buttons form one column as wide as the buttons,
+/* The title, subtitle, and buttons form one column as wide as the buttons,
    centred on the screen, with their text aligned to its left edge. */
 .main-menu h1 {
   width: 100%;

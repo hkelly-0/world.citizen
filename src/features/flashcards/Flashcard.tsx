@@ -66,7 +66,7 @@ type FlashcardProps = {
 }
 
 // One country's card: first a globe question, then the flag (picked from four),
-// then area, population and IHDI (picked from range titles), then the capital
+// then area, population, and IHDI (picked from range titles), then the capital
 // (typed), skipping any not in `questionIds`, then the info questions in
 // `questionIds` (a paragraph revealed and self-rated). The globe
 // question is either finding the country (tapped on the globe) or naming the
@@ -292,7 +292,7 @@ export function Flashcard({
   )
 }
 
-// The globe, flag and capital questions are only right or wrong, never close.
+// The globe, flag, and capital questions are only right or wrong, never close.
 function resultFromCorrect(isCorrect: boolean): AnswerResult {
   return isCorrect ? 'right' : 'wrong'
 }

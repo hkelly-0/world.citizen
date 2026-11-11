@@ -40,7 +40,7 @@ describe('parseTerritoryInfo', () => {
     expect(parseTerritoryInfo('## Info\n\n  Disputed.  \n')).toBe('Disputed.')
   })
 
-  it('rejects a wrong or extra heading, an empty section or text before the heading', () => {
+  it('rejects a wrong or extra heading, an empty section, or text before the heading', () => {
     expect(() => parseTerritoryInfo('## History\nOld.')).toThrow()
     expect(() => parseTerritoryInfo('## Info\nOld.\n## People\nMany.')).toThrow()
     expect(() => parseTerritoryInfo('## Info\n  \n')).toThrow()

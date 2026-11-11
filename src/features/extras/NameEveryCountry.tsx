@@ -81,7 +81,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   // before its latest pause, as each run of the effect below starts afresh.
   const [elapsedMs, setElapsedMs] = useState(0)
   const stopwatchBankedMsRef = useRef(0)
-  // The box can only be typed in once the map has loaded, Go is pressed and
+  // The box can only be typed in once the map has loaded, Go is pressed, and
   // no popup is open.
   const isBoxEnabled = isMapLoaded && hasStarted && confirming === null
   const isStopwatchRunning = isShowingStopwatch === true && isBoxEnabled && !isGameOver

@@ -1,11 +1,11 @@
 # world.citizen
 
-A geography learning app for the 197 countries (193 UN members plus Vatican City, Palestine, Taiwan and Kosovo). It runs as a website and as an Android app, both built from the same web code, and works offline with all its data bundled.
+A geography learning app for the 197 countries (193 UN members plus Vatican City, Palestine, Taiwan, and Kosovo). It runs as a website and as an Android app, both built from the same web code, and works offline with all its data bundled.
 
 ## What's in it
 
-- **Flashcards:** learn each country's location, flag, area, population, inequality-adjusted human development (IHDI), capital and background. Spaced repetition (FSRS) measures how well you know each question, and new countries arrive one group of neighbours at a time.
-- **Multi-country questions:** match flags and capitals, put countries in order by population, area or IHDI, and name a country's land neighbours.
+- **Flashcards:** learn each country's location, flag, area, population, inequality-adjusted human development (IHDI), capital, and background. Spaced repetition (FSRS) measures how well you know each question, and new countries arrive one group of neighbours at a time.
+- **Multi-country questions:** match flags and capitals, put countries in order by population, area, or IHDI, and name a country's land neighbours.
 - **Globe:** explore a satellite globe, search for places, and tap a country to read about it.
 - **Passport:** see the countries you've discovered and how well you know each one.
 - **Name every country:** type every country in the world, or in one continent, against the globe.
@@ -51,7 +51,7 @@ Release builds are only signed if you have the keystore, which isn't in this rep
 - `src/features/`: one folder per screen
 - `src/shared/`: logic and saved data used across screens
 - `src/data/`: country facts and other bundled data
-- `public/`: flags, country pictures and satellite map tiles
+- `public/`: flags, country pictures, and satellite map tiles
 - `scripts/`: the scripts that generate the committed data, each listing its sources
 
 ## About the content
@@ -62,6 +62,6 @@ Release builds are only signed if you have the keystore, which isn't in this rep
 
 ## Licence
 
-This project has no open-source licence. Copyright Hugh Kelly, all rights reserved. You're welcome to read the code and fork it on GitHub, but you may not otherwise copy, change or redistribute it without permission.
+This project has no open-source licence. Copyright Hugh Kelly, all rights reserved. You're welcome to read the code and fork it on GitHub, but you may not otherwise copy, change, or redistribute it without permission.
 
-Third-party data, images, fonts and libraries keep their own licences, and this includes some of the country data. See [CREDITS.md](CREDITS.md).
+Third-party data, images, fonts, and libraries keep their own licences, and this includes some of the country data. See [CREDITS.md](CREDITS.md).

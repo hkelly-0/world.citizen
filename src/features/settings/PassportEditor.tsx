@@ -75,7 +75,7 @@ export function PassportEditor({ learnedQuestionIds, onBack }: PassportEditorPro
         value={searchText}
         onChange={(event) => setSearchText(event.target.value)}
       />
-      {/* Scrolls on its own, so the title, search box and Save stay on screen. */}
+      {/* Scrolls on its own, so the title, search box, and Save stay on screen. */}
       <div className="passport-editor__list">
         <fieldset className="passport-editor__choices">
           {shownCountries.map((country) => (

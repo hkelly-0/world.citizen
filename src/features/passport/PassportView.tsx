@@ -46,7 +46,7 @@ type PassportViewProps = {
 
 // Every country the user has seen as a flashcard, as a grid of pictures with
 // their names and a ring showing how likely the user is to remember each in 14 days,
-// sorted alphabetically, by date discovered or by recall chance (the last choice is
+// sorted alphabetically, by date discovered, or by recall chance (the last choice is
 // remembered). It grows as they study. A "New country" card always comes last
 // (until all 197 are collected) and plays a random unseen country's flashcard
 // from the group of countries being learned (shared with Classic), or first

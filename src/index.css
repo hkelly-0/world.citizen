@@ -27,7 +27,7 @@ body {
   --correct-green: #3fb950;
   --correct-green-tint: rgba(63, 185, 80, 0.25);
   --correct-green-tint-hover: rgba(63, 185, 80, 0.4);
-  /* The app's accent blue: switches, chosen options, the main action button
+  /* The app's accent blue: switches, chosen options, the main action button,
      and the tutorial's notes. Its tint as a chosen option's background, and
      lighter for a button's hover. */
   --accent-blue: #58a6ff;
@@ -57,7 +57,7 @@ body {
 body {
   background: #000010;
   color: #f2f4f8;
-  /* Roboto Mono has no ←, →, ≥ or ✓, so they come from the symbol fonts below. */
+  /* Roboto Mono has no ←, →, ≥, or ✓, so they come from the symbol fonts below. */
   font-family:
     'Roboto Mono', 'Roboto Mono Symbols', 'JetBrains Mono Symbols', ui-monospace, Menlo, Consolas,
     monospace;
@@ -81,7 +81,7 @@ body {
 }
 
 /* An arrow after the text of every button that moves on to something else
-   (not, e.g., Reveal, Done or Saved). */
+   (not, e.g., Reveal, Done, or Saved). */
 .arrow-button::after {
   content: ' →';
 }

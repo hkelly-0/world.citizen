@@ -7,7 +7,7 @@
 // which has one entry per map area outside the 197: an ISO alpha-3 code, or the
 // map's name for areas with none. Each figure comes from the sources below
 // unless src/data/territoryFiguresByHand.json gives it, for areas the sources
-// leave out or only give combined (e.g. Bonaire, Saba and Sint Eustatius).
+// leave out or only give combined (e.g. Bonaire, Saba, and Sint Eustatius).
 //
 // Needs Node 24+ and these two source files, the same as
 // scripts/make-country-data.mjs uses, saved in the folder given as the first

@@ -16,7 +16,7 @@ export type QuestionProgress = {
   // How many times the question has been reviewed, and how many of those failed.
   reps: number
   lapses: number
-  // FSRS's stage for the question: New, Learning, Review or Relearning.
+  // FSRS's stage for the question: New, Learning, Review, or Relearning.
   state: State
   // "YYYY-MM-DD" of the last review.
   lastReview: string
@@ -33,7 +33,7 @@ export type QuestionProgress = {
 // to info questions rated "Partly" (or "Partly new" the first time).
 export type AnswerResult = 'right' | 'close' | 'wrong'
 
-// FSRS rates each review Again, Hard, Good or Easy. A right answer is Good, a
+// FSRS rates each review Again, Hard, Good, or Easy. A right answer is Good, a
 // close one Hard (a weak pass: less stable than Good, and marked more
 // difficult), and a wrong one Again (a fail). Easy isn't used.
 export function ratingFromAnswer(result: AnswerResult): Grade {

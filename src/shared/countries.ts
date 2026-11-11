@@ -38,7 +38,7 @@ export function countryCodeOfShape(
 // The country's whole outline: its own shape and its far-off parts (e.g.
 // France with French Guiana), as one MultiPolygon. Used wherever the parts
 // still count as the country: framing it (mainLandmass), its picture, its
-// nearest countries and its land borders.
+// nearest countries, and its land borders.
 export function wholeCountryGeometry(shapes: CountryShape[], isoAlpha3: string): MultiPolygon {
   const polygons = shapes
     .filter((shape) => countryCodeOfShape(shape) === isoAlpha3)

@@ -12,4 +12,4 @@ Kosovo is one of Europe's poorer economies. Money sent home by emigrants is a la
 
 ## International Relations
 
-Kosovo is not a UN member; it's recognized by about half of UN members, including the US and most EU countries, but not by Serbia, Russia or China. A NATO-led force still keeps the peace. Relations with Serbia remain tense.
+Kosovo is not a UN member; it's recognized by about half of UN members, including the US and most EU countries, but not by Serbia, Russia, or China. A NATO-led force still keeps the peace. Relations with Serbia remain tense.

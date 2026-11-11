@@ -17,7 +17,7 @@ type MainMenuProps = {
   onOpenSettings: () => void
 }
 
-// The first screen: choose between the flashcards, the globe, the passport
+// The first screen: choose between the flashcards, the globe, the passport,
 // and the extras, with settings at the bottom.
 export function MainMenu({
   passportCount,

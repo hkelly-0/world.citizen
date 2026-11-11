@@ -67,7 +67,7 @@ export function rangeOf(ranges: StatRange[], value: number): StatRange {
   return found
 }
 
-// Rounds to 2 significant figures and shortens with K, M or B like the range
+// Rounds to 2 significant figures and shortens with K, M, or B like the range
 // bounds, e.g. 45_312_000 -> "45M". Trailing zeros are kept so both figures
 // show ("9.0M", "1.0M").
 export function formatLargeNumber(value: number): string {

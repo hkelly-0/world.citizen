@@ -106,7 +106,7 @@ export default function App() {
   )
   const [namingAreaId, setNamingAreaId] = useState<string>(namingAreaIdInHistory)
   // The information chosen in Settings. Everything else in the app (info
-  // panel, Classic and Custom Practice) shows or asks only these.
+  // panel, Classic, and Custom Practice) shows or asks only these.
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
   // The picture shown for each country in the Passport, chosen in Settings.
   const [countryIcon, setCountryIcon] = useState<CountryIcon>(loadCountryIcon)

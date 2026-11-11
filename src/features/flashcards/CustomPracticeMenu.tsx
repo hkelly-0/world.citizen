@@ -24,7 +24,7 @@ import '../../shared/OptionsPage.css'
 import './CustomPracticeMenu.css'
 
 // One checkbox each. The two globe options are both the 'globe' question type.
-// The multi-country questions (Borders, Matching and Ordering) aren't question
+// The multi-country questions (Borders, Matching, and Ordering) aren't question
 // types: they have no FSRS progress and aren't in Settings.
 type Choice = GlobeKind | Exclude<QuestionId, 'globe'> | MultiCountryQuestionId
 const CHOICES: { choice: Choice; label: string }[] = [

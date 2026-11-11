@@ -31,7 +31,7 @@ type RegionGlobeProps = {
 // A full-screen globe for choosing the next region (country group) to learn.
 // Each group with countries not yet in the Passport is tinted in its colour;
 // finished groups are left plain and can't be chosen. Hovering a country
-// highlights its whole region; tapping it selects the region, flies to it and
+// highlights its whole region; tapping it selects the region, flies to it, and
 // shows a card with its name, how many of its countries are seen, and
 // "Discover this region →". Tapping elsewhere closes the card.
 export default function RegionGlobe({ progress, onDiscover }: RegionGlobeProps) {

@@ -83,7 +83,7 @@ describe('rangeOf', () => {
 })
 
 describe('formatLargeNumber', () => {
-  it('rounds to 2 significant figures with a K, M or B suffix', () => {
+  it('rounds to 2 significant figures with a K, M, or B suffix', () => {
     expect(formatLargeNumber(45_312_000)).toBe('45M')
     expect(formatLargeNumber(1_416_000_000)).toBe('1.4B')
     expect(formatLargeNumber(9_484_670)).toBe('9.5M')

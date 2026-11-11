@@ -15,7 +15,7 @@ describe('loadCountryShapes', () => {
     const france = shapes.find((shape) => shape.isoAlpha3 === 'FRA')
     expect(frenchGuiana?.isoAlpha3).toBeNull()
     expect(frenchGuiana?.partOf).toBe('FRA')
-    // French Guiana, Guadeloupe and Martinique are split off, so nothing of
+    // French Guiana, Guadeloupe, and Martinique are split off, so nothing of
     // France is left in the Americas (west of 50°W).
     const isInTheAmericas = ([longitude]: Position) => longitude < -50
     if (france === undefined) throw new Error('No shape for FRA')

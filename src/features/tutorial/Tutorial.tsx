@@ -25,7 +25,7 @@ import '../menu/MainMenu.css'
 import './Tutorial.css'
 
 // The tutorial's steps, in order. 'passport', 'familiarity',
-// 'familiarity-change', 'settings' and 'flashcards-menu' show the real screens
+// 'familiarity-change', 'settings', and 'flashcards-menu' show the real screens
 // with a note over them.
 type TutorialStep =
   | 'welcome'
@@ -57,7 +57,7 @@ type TutorialProps = {
   // Saves the information chosen at the Settings step, as Settings does on
   // every change.
   onSaveSettings: (questionIds: QuestionId[], countryIcon: CountryIcon) => void
-  // Called by "Skip tutorial", the last step's "Finish tutorial" or Yes on
+  // Called by "Skip tutorial", the last step's "Finish tutorial", or Yes on
   // "Exit tutorial?"; returns to the main menu.
   onClose: () => void
 }

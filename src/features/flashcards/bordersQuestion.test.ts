@@ -34,7 +34,7 @@ describe('borderingCountries', () => {
 describe('markBorderAnswers', () => {
   const franceBorders = borderingCountries('FRA')
 
-  it('matches names ignoring case, accents and surrounding spaces', () => {
+  it('matches names ignoring case, accents, and surrounding spaces', () => {
     expect(markBorderAnswers([' spain ', 'BELGIUM', 'Italy', 'Germany'], franceBorders)).toEqual([
       'ESP',
       'BEL',

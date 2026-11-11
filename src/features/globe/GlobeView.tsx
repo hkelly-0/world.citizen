@@ -33,7 +33,7 @@ function isPanelOpenInHistory(): boolean {
 }
 
 // With Regions on (in the globe settings), every country is tinted in its
-// region's (country group's) colour, and hovering, tapping or searching for a
+// region's (country group's) colour, and hovering, tapping, or searching for a
 // country highlights and selects its whole region instead. A selected region
 // gets its own info panel, which also uses the panel's history entry.
 
@@ -234,7 +234,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     }
     updateRaise()
     map.on('resize', updateRaise)
-    // Any movement ending (finished, stopped or interrupted by a drag) ends
+    // Any movement ending (finished, stopped, or interrupted by a drag) ends
     // the flight to the selection.
     map.on('moveend', () => {
       flightToSelectionRef.current = null

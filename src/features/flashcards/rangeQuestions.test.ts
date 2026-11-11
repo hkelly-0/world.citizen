@@ -69,7 +69,7 @@ describe('rangeQuestions', () => {
 })
 
 describe('rangeAnswerResult', () => {
-  it('counts the correct range as right, a neighbouring one as close and others as wrong', () => {
+  it('counts the correct range as right, a neighbouring one as close, and others as wrong', () => {
     // France's area is "300K-1M km²" (Medium).
     const area = rangeQuestions(france)[0]
     expect(rangeAnswerResult(area, 'Medium')).toBe('right')

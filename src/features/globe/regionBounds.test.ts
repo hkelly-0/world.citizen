@@ -13,7 +13,7 @@ function groupShapes(groupId: string) {
 describe('regionBounds', () => {
   it('boxes the main landmasses of the countries', () => {
     const [[west, south], [east, north]] = regionBounds(groupShapes('iberia'))
-    // Spain, Portugal and Andorra: roughly 9.5°W to 4.3°E (Spain's main
+    // Spain, Portugal, and Andorra: roughly 9.5°W to 4.3°E (Spain's main
     // landmass includes the Balearic Islands, out to Menorca), 36°N to 44°N.
     expect(west).toBeCloseTo(-9.5, 0)
     expect(east).toBeCloseTo(4.3, 0)
@@ -22,7 +22,7 @@ describe('regionBounds', () => {
   })
 
   it('keeps a region across the 180° meridian narrow', () => {
-    // Samoa, Tonga and Tuvalu lie on both sides of 180°.
+    // Samoa, Tonga, and Tuvalu lie on both sides of 180°.
     const [[west], [east]] = regionBounds(groupShapes('polynesia'))
     expect(east - west).toBeLessThan(30)
   })
@@ -37,7 +37,7 @@ describe('regionWidthKm', () => {
   })
 
   it('stays narrow for a region across the 180° meridian', () => {
-    // Samoa, Tonga and Tuvalu are within about 1500 km of each other.
+    // Samoa, Tonga, and Tuvalu are within about 1500 km of each other.
     expect(regionWidthKm(groupShapes('polynesia'))).toBeLessThan(2500)
   })
 })

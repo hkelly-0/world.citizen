@@ -15,7 +15,7 @@ type MultiCountryPracticeViewProps = {
   onBack: () => void
 }
 
-// Custom Practice with only Borders, Matching and Ordering questions ticked: one
+// Custom Practice with only Borders, Matching, and Ordering questions ticked: one
 // question after another, endlessly, each a random ticked kind
 // (`nextMultiCountryQuestion`). They have no FSRS progress, so nothing is
 // saved and there is no reward between questions.

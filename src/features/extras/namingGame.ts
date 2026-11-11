@@ -18,7 +18,7 @@ export type NamingArea = {
 
 // Each continent's countries, hand-written in continents.json. Every one of
 // the 197 is in exactly one continent, e.g. Russia and Cyprus in Europe,
-// Turkey, the Caucasus and Kazakhstan in Asia, Egypt in Africa.
+// Turkey, the Caucasus, and Kazakhstan in Asia, Egypt in Africa.
 const CONTINENTS: { id: string; name: string; countries: string[] }[] = continentsJson
 
 // Roughly the middle of each continent, so its game starts facing it.
@@ -39,8 +39,8 @@ export const NAMING_AREAS: NamingArea[] = [
 ]
 
 // The ISO alpha-3 code of the country the typed name names, with the same
-// rules as the flashcards' name question (common name, official name or a
-// hand-written alternative, ignoring case, accents and surrounding spaces).
+// rules as the flashcards' name question (common name, official name, or a
+// hand-written alternative, ignoring case, accents, and surrounding spaces).
 // Null if it names no country. No two countries share an accepted name, so at
 // most one can match. Whether it was already named is up to the game.
 export function namedCountry(typed: string): string | null {

@@ -7,7 +7,7 @@ import logoLand from '../../data/logoLand.json' with { type: 'json' }
 // the land is redrawn every frame as the globe turns west to east. It can be
 // swiped left or right: it turns with the finger, then coasts at the speed it
 // was let go, slowing (and if need be reversing) back to its normal spin. The shapes,
-// sizes and colours are the same as in that script, which draws the still
+// sizes, and colours are the same as in that script, which draws the still
 // icons; change both together.
 
 const BACKGROUND_COLOR = '#000010'

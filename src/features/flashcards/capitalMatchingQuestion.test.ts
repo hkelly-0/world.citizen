@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { capitalMatchingCountries, capitalsLabel } from './capitalMatchingQuestion'
 
 describe('capitalMatchingCountries', () => {
-  // France's 8 nearest countries include Switzerland, Spain and Italy; its
-  // 9th to 15th include the UK, the Netherlands and Austria.
+  // France's 8 nearest countries include Switzerland, Spain, and Italy; its
+  // 9th to 15th include the UK, the Netherlands, and Austria.
   it('takes the other countries from the 8 nearest in the Passport first', () => {
     const passport = ['FRA', 'JPN', 'GBR', 'ESP', 'CHE', 'ITA', 'NLD']
     const countries = capitalMatchingCountries(passport, null, () => 0)!

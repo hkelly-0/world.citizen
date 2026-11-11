@@ -65,7 +65,7 @@ describe('App', () => {
     history.replaceState(null, '')
   })
 
-  it('opens on a main menu with the title, subtitle, Globe, Flashcards, Extras and Settings', () => {
+  it('opens on a main menu with the title, subtitle, Globe, Flashcards, Extras, and Settings', () => {
     render(<App />)
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
@@ -277,7 +277,7 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
-    // Straight to the capital: no globe, flag or range questions.
+    // Straight to the capital: no globe, flag, or range questions.
     expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
     expect(screen.queryByText('Flag?')).not.toBeInTheDocument()
     expect(screen.queryByText('Area?')).not.toBeInTheDocument()
@@ -386,7 +386,7 @@ describe('Tutorial', () => {
     expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
   })
 
-  it('plays the home country, then shows the Passport, Settings and the Flashcards menu', async () => {
+  it('plays the home country, then shows the Passport, Settings, and the Flashcards menu', async () => {
     saveLearnedQuestionIds(['globe', 'flag'])
     await renderAndPlayTutorial()
 

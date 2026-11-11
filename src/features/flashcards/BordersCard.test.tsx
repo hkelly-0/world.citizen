@@ -125,7 +125,7 @@ describe('BordersCard', () => {
 
   describe('with more than 4 neighbours, all named right', () => {
     // Germany has 9 neighbours: Austria, Belgium, Czechia, Denmark, France,
-    // Luxembourg, Netherlands, Poland and Switzerland.
+    // Luxembourg, Netherlands, Poland, and Switzerland.
     it('asks for 4 more, then the last 1, then lists them all', async () => {
       const onFinish = vi.fn()
       renderBorders('DEU', onFinish)

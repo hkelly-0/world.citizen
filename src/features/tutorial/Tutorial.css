@@ -31,7 +31,7 @@
   background: #000010;
 }
 
-/* The welcome's title, intro and Start in a column as wide as the menu
+/* The welcome's title, intro, and Start in a column as wide as the menu
    screens' (`.main-menu h1` and `.main-menu__option` in MainMenu.css),
    centred in the card. */
 .tutorial__welcome-card .flashcard__body,
@@ -62,7 +62,7 @@
 
 /* Start on the welcome and Next on the flashcards intro: full width at the
    bottom of the card like a flashcard's Next, but green like Name every
-   country's Go. Includes .flashcard__next to outrank its border, background
+   country's Go. Includes .flashcard__next to outrank its border, background,
    and hover in Flashcard.css. */
 .flashcard__next.tutorial__green-button {
   border-color: var(--correct-green);

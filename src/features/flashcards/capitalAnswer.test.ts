@@ -7,7 +7,7 @@ describe('isCapitalCorrect', () => {
     expect(isCapitalCorrect('Paris', countryFacts['FRA'])).toBe(true)
   })
 
-  it('ignores case, accents and spaces at either end', () => {
+  it('ignores case, accents, and spaces at either end', () => {
     expect(isCapitalCorrect('  bogota ', countryFacts['COL'])).toBe(true)
     expect(isCapitalCorrect('REYKJAVÍK', countryFacts['ISL'])).toBe(true)
   })

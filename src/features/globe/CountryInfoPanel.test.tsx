@@ -38,7 +38,7 @@ describe('CountryInfoPanel', () => {
     )
     expect(screen.getByText('Capital')).toBeInTheDocument()
     expect(screen.getByText('Paris')).toBeInTheDocument()
-    // Population, area and IHDI show the rounded value with the range's name.
+    // Population, area, and IHDI show the rounded value with the range's name.
     expect(valueOf('Population')).toHaveTextContent('67M Numerous')
     expect(valueOf('Area')).toHaveTextContent('550K km² Medium')
     // The "?" after the value opens the IHDI breakdown.
