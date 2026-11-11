@@ -34,6 +34,13 @@
   color: #a9b1c2;
 }
 
+/* A territory's area and population, spaced from its subtitle as a country's
+   facts are from its official name. Scoped to the panel so it outranks the
+   dl's margin: 0 below. */
+.country-info-panel .country-info-panel__note + dl {
+  margin-top: 12px;
+}
+
 .country-info-panel__country-link {
   padding: 0;
   border: none;
