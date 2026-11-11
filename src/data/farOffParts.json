@@ -8,6 +8,5 @@
   { "name": "Saba", "partOf": "NLD", "box": [-63.4, 17.55, -63.1, 17.75] },
   { "name": "Sint Eustatius", "partOf": "NLD", "box": [-63.1, 17.4, -62.9, 17.55] },
   { "name": "Tokelau", "partOf": "NZL", "box": [-173, -10, -171, -8] },
-  { "name": "Hawaii", "partOf": "USA", "box": [-161, 18.5, -154, 23] },
   { "name": "Easter Island", "partOf": "CHL", "box": [-110, -27.5, -109, -26.8] }
 ]
