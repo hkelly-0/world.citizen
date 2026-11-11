@@ -120,7 +120,7 @@ export function CountryTable({ onBack }: CountryTableProps) {
   return (
     <main className="country-table">
       <BackButton onClick={onBack} label="← Extras" />
-      <h1>All countries</h1>
+      <h1>All country data</h1>
       <div
         className={hasMoreRight ? 'country-table__frame has-more-right' : 'country-table__frame'}
       >

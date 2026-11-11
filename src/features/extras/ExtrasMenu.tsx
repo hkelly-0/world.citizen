@@ -28,7 +28,7 @@ export function ExtrasMenu({
       <h1>Extras</h1>
       <div className="main-menu__options">
         <button className="main-menu__option arrow-button" onClick={onOpenCountryTable}>
-          Table of all country stats
+          All country data
         </button>
       </div>
       <h2 className="extras-menu__heading">Name every country in…</h2>
