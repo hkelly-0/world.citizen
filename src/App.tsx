@@ -36,7 +36,7 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry'))
 
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
-// cards, 'custom-practice' the choice of question types to practise, and
+// cards, 'custom-practice' the choice of question types to practice, and
 // 'custom-flashcards' the cards asking only those question types.
 // 'settings' chooses which information is learned at all, and
 // 'passport-editor' (opened from it) adds or removes Passport countries by
@@ -69,7 +69,7 @@ function screenInHistory(): Screen {
 }
 
 // The question types chosen for custom practice are kept in its history entry
-// too, so reloading the website keeps practising the same ones.
+// too, so reloading the website keeps practicing the same ones.
 function customQuestionIdsInHistory(): QuestionId[] {
   return history.state?.questionIds ?? []
 }

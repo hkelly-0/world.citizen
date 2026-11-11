@@ -51,13 +51,13 @@ describe('chooseRandomCountry', () => {
     expect(counts.JPN).toBeGreaterThan(counts.FRA)
   })
 
-  it('only counts the questions being practised', () => {
+  it('only counts the questions being practiced', () => {
     // PER's capital is well known and its area unanswered; FRA's the other way.
     const mixed = {
       FRA: { area: answered(TODAY, 1000) },
       PER: { capital: answered(TODAY, 1000) },
     }
-    // Practising areas, FRA's weight is almost 0 and PER's 1, so a point
+    // Practicing areas, FRA's weight is almost 0 and PER's 1, so a point
     // halfway along the total lands on PER.
     expect(chooseRandomCountry(['FRA', 'PER'], mixed, TODAY, ['area'], () => 0.5)).toBe('PER')
   })

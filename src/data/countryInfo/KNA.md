@@ -8,7 +8,7 @@ Saint Kitts and Nevis is the smallest country in the Americas by area and popula
 
 ## Economy
 
-The sugar industry closed in 2005, and the economy now relies on tourism, offshore finance, and sales of citizenship to foreign investors, a programme it pioneered in 1984.
+The sugar industry closed in 2005, and the economy now relies on tourism, offshore finance, and sales of citizenship to foreign investors, a program it pioneered in 1984.
 
 ## International Relations
 

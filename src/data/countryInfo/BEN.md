@@ -4,7 +4,7 @@ Benin was home to the Kingdom of Dahomey, which grew rich from the slave trade a
 
 ## People
 
-Benin has many ethnic groups, including the Fon and Yoruba. Christianity, Islam, and Vodun, which originated here, are all practised. French is official.
+Benin has many ethnic groups, including the Fon and Yoruba. Christianity, Islam, and Vodun, which originated here, are all practiced. French is official.
 
 ## Economy
 

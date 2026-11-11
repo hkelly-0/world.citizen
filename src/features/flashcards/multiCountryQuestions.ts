@@ -5,7 +5,7 @@ import { flagMatchingCountries } from './flagMatchingQuestion'
 import { orderingCountries, type OrderingStat } from './orderingQuestion'
 
 // The questions about several Passport countries at once, rather than one
-// country's card, plus Borders, which is about one country but is practised
+// country's card, plus Borders, which is about one country but is practiced
 // with them. They aren't QuestionIds: no FSRS progress, review log or Settings
 // tick. Classic mixes them in between the cards; Custom Practice asks the
 // ticked ones one after another, or, with country card questions ticked too,

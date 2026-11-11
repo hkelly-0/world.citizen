@@ -79,7 +79,7 @@ type CustomPracticeMenuProps = {
   ) => void
 }
 
-// Lets the user tick which questions to practise. "Go" needs at least one.
+// Lets the user tick which questions to practice. "Go" needs at least one.
 // The multi-country questions can be ticked alongside the rest, and are then
 // mixed in between the country cards. Opens with the boxes ticked when "Go"
 // was last pressed, leaving out any no longer offered (e.g. a question type

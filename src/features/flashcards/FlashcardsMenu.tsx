@@ -13,7 +13,7 @@ type FlashcardsMenuProps = {
 }
 
 // Shown when Flashcards is chosen on the main menu: full country cards
-// (Classic), or a choice of which question types to practise (Custom Practice).
+// (Classic), or a choice of which question types to practice (Custom Practice).
 export function FlashcardsMenu({
   showTutorialButton,
   onPlayTutorial,

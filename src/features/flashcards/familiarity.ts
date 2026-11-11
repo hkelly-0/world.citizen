@@ -9,19 +9,19 @@ const FAMILIARITY_DAYS_AHEAD = 14
 
 // How much of the gap to 100% a right answer today closes, as a bonus on top of
 // FSRS (see `questionFamiliarity`).
-const PRACTISED_TODAY_BONUS = 0.4
+const PRACTICED_TODAY_BONUS = 0.4
 
 // How well the user knows one question, from 0 to 1: the FSRS chance of still
 // remembering it 14 days after `today`. While its latest answer is a right one
 // given today after the day's first (`latestRepeatAnswer`), a bonus closes
-// PRACTISED_TODAY_BONUS of the gap to 100%, so practising again on a day shows
+// PRACTICED_TODAY_BONUS of the gap to 100%, so practicing again on a day shows
 // (FSRS only counts the first answer of a day, see `reviewQuestion`). The
 // bonus is gone tomorrow, or after a close or wrong answer today.
 export function questionFamiliarity(question: QuestionProgress, today: string): number {
   const chance = recallChance(question, addDays(today, FAMILIARITY_DAYS_AHEAD))
   const repeat = question.latestRepeatAnswer
   const isRightAgainToday = repeat?.date === today && repeat.result === 'right'
-  return isRightAgainToday ? chance + (1 - chance) * PRACTISED_TODAY_BONUS : chance
+  return isRightAgainToday ? chance + (1 - chance) * PRACTICED_TODAY_BONUS : chance
 }
 
 // How well the user knows a country: the average `questionFamiliarity` of its
@@ -42,8 +42,8 @@ export function countryRecall(
 
 // How well the user knows a country, for picking which country's flashcard
 // comes next: like `countryRecall`, but every question in `questionIds` (those
-// being practised) counts, with 0 for one never answered, so a country with a
-// practised question still to learn comes up more often.
+// being practiced) counts, with 0 for one never answered, so a country with a
+// practiced question still to learn comes up more often.
 export function pickingFamiliarity(
   country: CountryProgress | undefined,
   questionIds: QuestionId[],

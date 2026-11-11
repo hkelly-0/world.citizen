@@ -59,7 +59,7 @@ type FlashcardsViewProps = {
   // Which questions to ask: all 5 for Classic, or those ticked for custom practice.
   questionIds: QuestionId[]
   // The information chosen in Settings, which the familiarity reward's ring
-  // covers (as on the Passport), even when only some of it is practised.
+  // covers (as on the Passport), even when only some of it is practiced.
   learnedQuestionIds: QuestionId[]
   // Which kinds of globe question may be asked, if the globe question is.
   globeKinds: GlobeKind[]
@@ -353,7 +353,7 @@ export function FlashcardsView({
           <p className="flashcards-view__done">
             {collectedCountries(progress).length === 0
               ? 'No countries in your Passport yet. Discover new countries in Classic Mode.'
-              : "You've practised all your Passport countries recently. Discover new countries in Classic Mode."}
+              : "You've practiced all your Passport countries recently. Discover new countries in Classic Mode."}
           </p>
         ) : showDiscoveryScreen ? (
           <div className="flashcards-view__discovering">

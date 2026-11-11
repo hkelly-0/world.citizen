@@ -4,7 +4,7 @@ Haiti was France's richest colony, built on the labour of enslaved Africans. In 
 
 ## People
 
-Almost all Haitians are of African descent. Haitian Creole is spoken by everyone, and French by an educated minority. Catholicism and Vodou are both widely practised. Many Haitians live abroad, especially in the US.
+Almost all Haitians are of African descent. Haitian Creole is spoken by everyone, and French by an educated minority. Catholicism and Vodou are both widely practiced. Many Haitians live abroad, especially in the US.
 
 ## Economy
 

@@ -461,7 +461,7 @@ describe('FlashcardsView', () => {
       // none can come, and Custom Practice never brings a new one.
       expect(
         screen.getByText(
-          "You've practised all your Passport countries recently. Discover new countries in Classic Mode.",
+          "You've practiced all your Passport countries recently. Discover new countries in Classic Mode.",
         ),
       ).toBeInTheDocument()
     })

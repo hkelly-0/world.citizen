@@ -178,7 +178,7 @@ describe('territorySubtitle', () => {
       geometry: { type: 'Polygon', coordinates: [] },
     }
     expect(territorySubtitle(shape)).toEqual([
-      { text: 'Self-declared state. Recognised only by ' },
+      { text: 'Self-declared state. Recognized only by ' },
       { isoAlpha3: 'TUR', name: 'Türkiye' },
       { text: ', claimed by ' },
       { isoAlpha3: 'CYP', name: 'Cyprus' },

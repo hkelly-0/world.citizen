@@ -4,7 +4,7 @@ Guinea-Bissau was part of the Mali Empire, then a Portuguese colony and a centre
 
 ## People
 
-Guinea-Bissau has many ethnic groups, including the Balanta, Fula, and Mandinka. Islam, Christianity, and traditional religions are all practised. Portuguese is official, and Kriol is widely spoken.
+Guinea-Bissau has many ethnic groups, including the Balanta, Fula, and Mandinka. Islam, Christianity, and traditional religions are all practiced. Portuguese is official, and Kriol is widely spoken.
 
 ## Economy
 

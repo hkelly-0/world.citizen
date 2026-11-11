@@ -1,6 +1,6 @@
 ## History
 
-Switzerland began as an alliance of Alpine cantons in 1291, gradually expanding. It has been neutral since 1815 and stayed out of both World Wars. Its modern federal state was created in 1848. It practises direct democracy, with frequent national referendums.
+Switzerland began as an alliance of Alpine cantons in 1291, gradually expanding. It has been neutral since 1815 and stayed out of both World Wars. Its modern federal state was created in 1848. It practices direct democracy, with frequent national referendums.
 
 ## People
 

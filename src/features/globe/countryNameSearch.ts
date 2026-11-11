@@ -5,7 +5,7 @@ import {
   type CountryFacts,
 } from '../../shared/countryFacts'
 import type { CountryShape } from '../../shared/countries'
-import { normalise } from '../../shared/normalise'
+import { normalize } from '../../shared/normalize'
 
 // Suggestions appear once this many letters are typed.
 export const MIN_SEARCH_LENGTH = 3
@@ -39,7 +39,7 @@ export function searchPlacesFromShapes(shapes: CountryShape[]): SearchPlace[] {
 // Timor-Leste. Names that start with the text come first.
 // Returns nothing until MIN_SEARCH_LENGTH letters are typed.
 export function searchPlaces(places: SearchPlace[], typed: string): SearchPlace[] {
-  const query = normalise(typed)
+  const query = normalize(typed)
   if (query.length < MIN_SEARCH_LENGTH) return []
 
   const nameStartMatches: SearchPlace[] = []
@@ -57,16 +57,16 @@ export function searchPlaces(places: SearchPlace[], typed: string): SearchPlace[
 // letter typed. Empty text matches every country. Used to filter the Passport
 // editor's checklist.
 export function matchesCountrySearch(country: CountryFacts, typed: string): boolean {
-  const query = normalise(typed)
+  const query = normalize(typed)
   const names = [country.commonName, ...alternativeNames(country.isoAlpha3)]
   return query === '' || nameMatch(names, query) !== null
 }
 
-// How a place's names match `query` (already normalised): 'name-start' if
+// How a place's names match `query` (already normalized): 'name-start' if
 // one starts with it, 'word-start' if a later word in one does (after a space
 // or hyphen), or null if neither.
-function nameMatch(unnormalisedNames: string[], query: string): 'name-start' | 'word-start' | null {
-  const names = unnormalisedNames.map(normalise)
+function nameMatch(unnormalizedNames: string[], query: string): 'name-start' | 'word-start' | null {
+  const names = unnormalizedNames.map(normalize)
   if (names.some((name) => name.startsWith(query))) return 'name-start'
   if (names.some((name) => name.includes(` ${query}`) || name.includes(`-${query}`))) {
     return 'word-start'

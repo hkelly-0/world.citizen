@@ -1,6 +1,6 @@
 // Lower-cases and removes accents, e.g. "Bogotá" -> "bogota", and ignores
 // spaces at either end. Spelling must otherwise match exactly.
-export function normalise(text: string): string {
+export function normalize(text: string): string {
   return (
     text
       .trim()

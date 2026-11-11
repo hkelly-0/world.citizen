@@ -4,7 +4,7 @@ Togo became a German colony in 1884, then was divided between Britain and France
 
 ## People
 
-Togo has about 40 ethnic groups, including the Ewe and Kabye. Christianity, Islam, and traditional religions, including Vodun, are all practised. French is official.
+Togo has about 40 ethnic groups, including the Ewe and Kabye. Christianity, Islam, and traditional religions, including Vodun, are all practiced. French is official.
 
 ## Economy
 

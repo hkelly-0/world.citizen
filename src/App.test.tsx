@@ -208,7 +208,7 @@ describe('App', () => {
     expect(screen.queryByRole('button', { name: 'Answer globe question' })).not.toBeInTheDocument()
   })
 
-  it('practises only the ticked question types, and saves progress for just those', async () => {
+  it('practices only the ticked question types, and saves progress for just those', async () => {
     // Custom Practice only shows countries in the Passport, so put France in
     // it: its area answered today.
     const today = todayString()

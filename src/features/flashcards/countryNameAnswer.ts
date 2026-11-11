@@ -1,5 +1,5 @@
 import { alternativeNames, type CountryFacts } from '../../shared/countryFacts'
-import { normalise } from '../../shared/normalise'
+import { normalize } from '../../shared/normalize'
 
 // True if the typed answer matches the country's common name, official name,
 // one of its hand-written alternatives (e.g. "Turkey" for Türkiye), or one of
@@ -11,5 +11,5 @@ export function isCountryNameCorrect(typed: string, country: CountryFacts): bool
     ...alternativeNames(country.isoAlpha3),
     ...country.nativeNames,
   ]
-  return acceptedNames.some((name) => normalise(name) === normalise(typed))
+  return acceptedNames.some((name) => normalize(name) === normalize(typed))
 }

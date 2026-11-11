@@ -26,7 +26,7 @@ describe('rewardAfterCard', () => {
   })
 
   it('shows the familiarity, for the learned questions, of a country already seen', () => {
-    // Only the area was practised, but the capital is learned too.
+    // Only the area was practiced, but the capital is learned too.
     const after: DeckProgress = { FRA: { capital: answered, area: answered } }
 
     expect(rewardAfterCard('FRA', false, after, ['area', 'capital'], TODAY)).toEqual({

@@ -12,4 +12,4 @@ Iran has some of the world's largest oil and gas reserves. Its economy also incl
 
 ## International Relations
 
-Iran is a regional power, backing groups such as Hezbollah and the Houthis. Its nuclear programme has led to sanctions and conflict with the US and Israel, which bombed its nuclear sites in 2025.
+Iran is a regional power, backing groups such as Hezbollah and the Houthis. Its nuclear program has led to sanctions and conflict with the US and Israel, which bombed its nuclear sites in 2025.
