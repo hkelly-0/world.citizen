@@ -68,7 +68,7 @@ describe('flagOptions', () => {
 })
 
 describe('flag images', () => {
-  it('exist for all 195 countries', () => {
+  it('exist for all 197 countries', () => {
     // Lists the files without loading them.
     const flagFiles = Object.keys(import.meta.glob('/public/flags/*.svg'))
     for (const code of Object.keys(countryFacts)) {

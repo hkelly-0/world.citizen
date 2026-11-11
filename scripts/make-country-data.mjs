@@ -1,5 +1,6 @@
 // Builds src/data/countries.json: facts for the 193 UN members plus the two
-// observer states (Vatican City and Palestine), keyed by ISO alpha-3 code.
+// observer states (Vatican City and Palestine), Taiwan and Kosovo, keyed by
+// ISO alpha-3 code.
 // Run once from the project root; the generated file is bundled with the app.
 //
 // Each country's group comes from the hand-written src/data/countryGroups.json.
@@ -24,6 +25,23 @@ const GROUPS = 'src/data/countryGroups.json'
 
 // UN observer states, included alongside the UN members.
 const OBSERVER_STATES = ['VAT', 'PSE']
+
+// Also included, though neither is a UN member or observer state.
+const OTHER_STATES = ['TWN', 'UNK']
+
+// Kosovo has no ISO code. mledoze calls it UNK; we use XKX instead, the code
+// the UN population data (and the EU and World Bank) use for it. Progress is
+// saved under it, so it must never change.
+const CODES = {
+  UNK: 'XKX',
+}
+
+// mledoze's area for Serbia includes Kosovo, which is now a country of its
+// own here (Serbia's UN population already leaves Kosovo out). So Kosovo's
+// area is taken off Serbia's.
+const AREA_TAKEN_OFF = {
+  SRB: 'XKX',
+}
 
 // WPP 2024 has estimates up to 2023 and projections after that; we use the
 // medium-variant projection for 2025.
@@ -114,9 +132,15 @@ async function readCsv(path, { gzipped, encoding }, onRow) {
 
 // --- Names, capitals and area ---
 const mledoze = JSON.parse(readFileSync(join(sources, 'mledoze-countries.json'), 'utf8'))
-const selected = mledoze.filter(
-  (country) => country.unMember || OBSERVER_STATES.includes(country.cca3),
-)
+const selected = mledoze
+  .filter(
+    (country) =>
+      country.unMember ||
+      OBSERVER_STATES.includes(country.cca3) ||
+      OTHER_STATES.includes(country.cca3),
+  )
+  .map((country) => ({ ...country, cca3: CODES[country.cca3] ?? country.cca3 }))
+const areaOf = (code) => selected.find((country) => country.cca3 === code).area
 
 // --- Population (WPP values are in thousands) ---
 const populations = {}
@@ -235,16 +259,16 @@ console.log(
   `IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`,
 )
 
-// --- Country groups: every country in exactly one group of 3 to 5 ---
+// --- Country groups: every country in exactly one group of 3 to 6 ---
 const groups = JSON.parse(readFileSync(GROUPS, 'utf8'))
 const groupOf = {}
 for (const group of groups) {
-  if (group.countries.length < 3 || group.countries.length > 5) {
-    throw new Error(`Group ${group.id} has ${group.countries.length} countries, not 3 to 5`)
+  if (group.countries.length < 3 || group.countries.length > 6) {
+    throw new Error(`Group ${group.id} has ${group.countries.length} countries, not 3 to 6`)
   }
   for (const code of group.countries) {
     if (!selected.some((country) => country.cca3 === code)) {
-      throw new Error(`Group ${group.id} lists ${code}, which is not one of the 195`)
+      throw new Error(`Group ${group.id} lists ${code}, which is not one of the 197`)
     }
     if (groupOf[code] !== undefined) {
       throw new Error(`${code} is in both ${groupOf[code].id} and ${group.id}`)
@@ -284,7 +308,10 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // (e.g. "Italia", "Repubblica italiana", "Россия"). Accepted as answers.
     nativeNames: nativeNamesOf(country),
     capitals: EXTRA_CAPITALS[code] ?? country.capital,
-    areaKm2: country.area,
+    areaKm2:
+      AREA_TAKEN_OFF[code] === undefined
+        ? country.area
+        : country.area - areaOf(AREA_TAKEN_OFF[code]),
     population: populations[code],
     populationYear: POPULATION_YEAR,
     // Null when UNDP has no HDI for the country.

@@ -32,7 +32,7 @@ export function formatStat(country: CountryFacts, statId: TableStatId): string {
 // What the table is ordered by: a country's name or one of the stats.
 export type TableOrderId = 'name' | TableStatId
 
-// All 195 countries in the table's order. Not reversed, names are A–Z and
+// All 197 countries in the table's order. Not reversed, names are A–Z and
 // stats largest first; reversed, names are Z–A and stats smallest first.
 // Countries with no value count as the smallest, so they come last when
 // largest first and first when smallest first. Equal values are in

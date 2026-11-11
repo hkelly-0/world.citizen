@@ -111,7 +111,7 @@ describe('collectedCountries', () => {
     ])
   })
 
-  it('leaves out codes that are not one of the 195', () => {
+  it('leaves out codes that are not one of the 197', () => {
     expect(collectedCountries({ GRL: { globe: answered } })).toEqual([])
   })
 })
@@ -259,7 +259,7 @@ describe('sorting by recall', () => {
 })
 
 describe('COUNTRY_COUNT', () => {
-  it('is 195', () => {
-    expect(COUNTRY_COUNT).toBe(195)
+  it('is 197', () => {
+    expect(COUNTRY_COUNT).toBe(197)
   })
 })

@@ -48,7 +48,7 @@ type PassportViewProps = {
 // their names and a ring showing how likely the user is to remember each in 14 days,
 // sorted alphabetically, by date discovered or by recall chance (the last choice is
 // remembered). It grows as they study. A "New country" card always comes last
-// (until all 195 are collected) and plays a random unseen country's flashcard
+// (until all 197 are collected) and plays a random unseen country's flashcard
 // from the group of countries being learned (shared with Classic), or first
 // opens a globe of the regions (country groups) to choose the next one if none
 // is pending. It warns first if the countries already seen aren't familiar

@@ -12,14 +12,14 @@ describe('PassportEditor', () => {
     localStorage.clear()
   })
 
-  it('lists all 195 countries, ticked if in the Passport', () => {
+  it('lists all 197 countries, ticked if in the Passport', () => {
     saveProgress({ FRA: { globe: answered } })
     render(<PassportEditor learnedQuestionIds={['globe']} onBack={vi.fn()} />)
 
-    expect(screen.getAllByRole('checkbox')).toHaveLength(195)
+    expect(screen.getAllByRole('checkbox')).toHaveLength(197)
     expect(screen.getByRole('checkbox', { name: 'France' })).toBeChecked()
     expect(screen.getByRole('checkbox', { name: 'Peru' })).not.toBeChecked()
-    expect(screen.getByText('1/195')).toBeInTheDocument()
+    expect(screen.getByText('1/197')).toBeInTheDocument()
   })
 
   it('shows only the countries matching the search', async () => {

@@ -50,8 +50,8 @@ export function CountryInfoPanel({
   showCountryInfo = false,
   ref,
 }: CountryInfoPanelProps) {
-  // Facts exist only for the 195 countries; other map areas (e.g. Greenland,
-  // Kosovo) have none, either because they have no ISO code or aren't included.
+  // Facts exist only for the 197 countries; other map areas (e.g. Greenland,
+  // Somaliland) have none, either because they have no ISO code or aren't included.
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = countryDisplayName(country)
   const subtitle = territorySubtitle(country)
@@ -65,7 +65,7 @@ export function CountryInfoPanel({
       {facts === undefined ? (
         <p className="country-info-panel__note">
           {subtitle === undefined
-            ? 'Not one of the 195 countries in this app.'
+            ? 'Not one of the 197 countries in this app.'
             : subtitle.map((part, i) =>
                 'text' in part ? (
                   part.text

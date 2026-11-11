@@ -30,7 +30,7 @@ A geography learning app shipped as **both an Android APK and a website** with i
 ## Features
 The code is the source of truth; this lists where things live and the rules that are easy to break.
 
-Screens are switched with React state in `src/App.tsx` (no URL routing); each screen and the globe's info panel push a same-URL history entry so back steps through them (Android back via `@capacitor/app` in `src/main.tsx`). Features link up via ISO alpha-3 codes. Scope: 195 countries (193 UN members + Vatican and Palestine).
+Screens are switched with React state in `src/App.tsx` (no URL routing); each screen and the globe's info panel push a same-URL history entry so back steps through them (Android back via `@capacitor/app` in `src/main.tsx`). Features link up via ISO alpha-3 codes. Scope: 197 countries (193 UN members + Vatican, Palestine, Taiwan and Kosovo).
 
 1. **Flashcards** (`src/features/flashcards/`) – one card per country; Classic and Custom Practice modes.
    - Info question ids (`INFO_QUESTION_IDS`) are `CountryInfo`'s keys; they are saved, so never rename them.
@@ -78,7 +78,7 @@ Screens are switched with React state in `src/App.tsx` (no URL routing); each sc
 ## Data
 Generated files are committed; each script lists its download links.
 
-- Borders: Natural Earth 1:50m from `world-atlas`, ISO numeric IDs converted to alpha-3 with `i18n-iso-countries`. Some areas (Kosovo, Somaliland, N. Cyprus, etc.) have no ISO code.
+- Borders: Natural Earth 1:50m from `world-atlas`, ISO numeric IDs converted to alpha-3 with `i18n-iso-countries`. Some areas (Kosovo, Somaliland, N. Cyprus, etc.) have no ISO code; Kosovo is a country, given `XKX` by name (`CODES_OF_UNCODED_COUNTRIES`), a code that must never change.
   - 50m leaves out Tuvalu, so `node scripts/make-tuvalu-outline.mjs` writes it from 1:10m.
   - Shapes crossing 180° or surrounding the South Pole are converted for MapLibre in `flatMapGeometry.ts`.
 - Background imagery: NASA Blue Marble Next Generation (public domain), from `scripts/make-background-tiles.sh <source-folder>` (needs GDAL).
@@ -90,10 +90,10 @@ Generated files are committed; each script lists its download links.
   - Flag similarity: `node scripts/make-flag-similarity.mjs` (comparison in `flagSimilarity.ts`); rerun after changing the flags or the comparison. Matching designs regardless of colour was tried and dropped, as every vertical tricolour tied.
 - Nearest countries: `node scripts/make-country-neighbours.mjs`, measured between main landmasses.
 - Far-off parts (`src/data/farOffParts.json`) are shown as territories on the globe but count as their country everywhere else. Only areas several thousand km from their mainland are listed, on purpose. After editing the list, rerun the pictures, nearest countries and borders scripts.
-- Land borders: `node scripts/make-country-borders.mjs`; areas outside the 195 are left out, so e.g. Serbia–Albania (via Kosovo) aren't neighbours.
+- Land borders: `node scripts/make-country-borders.mjs`; areas outside the 197 are left out, so e.g. Morocco–Mauritania (via Western Sahara) aren't neighbours.
 - App icon: `node scripts/make-app-icon.mjs`. The main menu's `SpinningLogo.tsx` has its own copy of the design's constants, so change both together. Its land is from `node scripts/make-logo-land.mjs`.
 - `src/data/countries.json` from `node scripts/make-country-data.mjs <source-folder>`.
-  - Names, capitals, area: mledoze/countries. Population: UN WPP 2024 (2025, medium). HDI and IHDI: UNDP HDR 2025.
+  - Names, capitals, area: mledoze/countries (Serbia's area has Kosovo's taken off, `AREA_TAKEN_OFF`). Population: UN WPP 2024 (2025, medium). HDI and IHDI: UNDP HDR 2025.
   - `ihdiBreakdown` is worked out in the script from UNDP's indicators; it throws if the result stops matching UNDP's IHDI.
   - `ihdiEstimate` is a fit from HDI, kept apart from `ihdi` so real and estimated values never mix.
   - Groups come from the hand-written `src/data/countryGroups.json`. A group's `id` must never change (it is saved); rename by `name`.

@@ -3,10 +3,10 @@
 //
 // Every part of a country counts, overseas ones included (e.g. France borders
 // Brazil via French Guiana, which loadCountryShapes splits into a shape of its
-// own with France as its partOf). Areas outside the 195 countries (e.g. Kosovo,
+// own with France as its partOf). Areas outside the 197 countries (e.g.
 // Western Sahara, Sint Maarten) are left out, so countries that only meet
-// through one aren't neighbours (e.g. Serbia and Albania, or the Netherlands
-// and France on Saint Martin).
+// through one aren't neighbours (e.g. Morocco and Mauritania, or the
+// Netherlands and France on Saint Martin).
 //
 // The borders come from TopoJSON, which stores each shared border once, so
 // both countries' outlines have exactly the same points along it. Two

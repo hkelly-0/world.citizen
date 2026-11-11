@@ -3,7 +3,7 @@ import { countriesWithInfo, loadCountryInfo, parseCountryInfo } from './countryI
 import { countryFacts } from './countryFacts'
 
 describe('country info files', () => {
-  it('exist for exactly the 195 countries', () => {
+  it('exist for exactly the 197 countries', () => {
     expect(countriesWithInfo().sort()).toEqual(Object.keys(countryFacts).sort())
   })
 

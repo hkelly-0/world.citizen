@@ -117,7 +117,7 @@ describe('saved flag similarity', () => {
   const codes = Object.keys(savedSimilarity)
 
   it('lists every other country for each country, most similar first', () => {
-    expect(codes).toHaveLength(195)
+    expect(codes).toHaveLength(197)
     for (const code of codes) {
       const matches = Object.keys(savedSimilarity[code])
       const similarities = Object.values(savedSimilarity[code])

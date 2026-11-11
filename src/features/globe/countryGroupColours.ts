@@ -1,8 +1,8 @@
 import { neighbors } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
-import isoCountries from 'i18n-iso-countries'
 import worldAtlas50m from 'world-atlas/countries-50m.json' with { type: 'json' }
 import countryGroupsJson from '../../data/countryGroups.json' with { type: 'json' }
+import { worldAtlasAlpha3 } from '../../shared/countries.ts'
 
 // Picks the colours of the country groups (src/data/countryGroups.json): the
 // tint of the region globe, where new regions are chosen, and of the globe
@@ -56,7 +56,9 @@ export function borderingGroups(): Map<string, Set<string>> {
   // neighbors() lists, for each shape, the positions of the shapes it shares
   // a border with.
   const groupOfShape = shapes.map((shape) => {
-    const alpha3 = shape.id === undefined ? undefined : isoCountries.numericToAlpha3(shape.id)
+    // Every world-atlas shape has a name.
+    const { name } = shape.properties as { name: string }
+    const alpha3 = worldAtlasAlpha3(shape.id, name)
     return alpha3 === undefined ? undefined : groupOfCountry.get(alpha3)
   })
   neighbors(shapes).forEach((bordering, index) => {

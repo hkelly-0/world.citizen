@@ -34,7 +34,7 @@ export type CountryFacts = {
   // Our own estimate of the IHDI, worked out from the HDI, for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
-  // The group of 3 to 5 similar neighbouring countries this one belongs to,
+  // The group of 3 to 6 similar neighbouring countries this one belongs to,
   // hand-written in countryGroups.json.
   groupId: string
   groupName: string
@@ -48,11 +48,11 @@ export type IhdiBreakdown = {
   income: number
 }
 
-// All 195 countries (193 UN members + Vatican City and Palestine), keyed by
-// ISO alpha-3 code.
+// All 197 countries (193 UN members + Vatican City, Palestine, Taiwan and
+// Kosovo), keyed by ISO alpha-3 code.
 export const countryFacts: Record<string, CountryFacts> = countriesJson
 
-// A group of 3 to 5 similar neighbouring countries, hand-written in
+// A group of 3 to 6 similar neighbouring countries, hand-written in
 // countryGroups.json. New countries are learned one group at a time.
 export type CountryGroup = {
   id: string
@@ -61,11 +61,11 @@ export type CountryGroup = {
   countries: string[]
 }
 
-// Every group; together they hold each of the 195 countries exactly once.
+// Every group; together they hold each of the 197 countries exactly once.
 export const COUNTRY_GROUPS: CountryGroup[] = countryGroupsJson
 
 // The name to show for a country outline on the globe: our common name for the
-// 195 countries, otherwise the map data's name (e.g. Greenland, Kosovo).
+// 197 countries, otherwise the map data's name (e.g. Greenland, Somaliland).
 export function countryDisplayName(shape: Pick<CountryShape, 'name' | 'isoAlpha3'>): string {
   const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
   return facts?.commonName ?? shape.name
@@ -97,10 +97,10 @@ export function nativeCapitalNames(isoAlpha3: string): string[] {
   return capitalNativeNames[isoAlpha3] ?? []
 }
 
-// What each map area outside the 195 countries is, e.g. "Autonomous
+// What each map area outside the 197 countries is, e.g. "Autonomous
 // territory of {DNK}" for Greenland, hand-written in territorySubtitles.json.
 // Keyed by ISO alpha-3 code, or by the map data's name for areas with no code
-// (Kosovo, etc.). A country's ISO code in braces stands for its common name,
+// (Somaliland, etc.). A country's ISO code in braces stands for its common name,
 // shown as a link to that country.
 const territorySubtitles: Record<string, string> = territorySubtitlesJson
 
@@ -109,7 +109,7 @@ export type SubtitlePart = { text: string } | { isoAlpha3: string; name: string 
 
 // Splits a territory's subtitle into text and the countries it names, e.g.
 // [{ text: 'Autonomous territory of ' }, { isoAlpha3: 'DNK', name: 'Denmark' }].
-// Returns undefined for the 195 countries and areas with no subtitle.
+// Returns undefined for the 197 countries and areas with no subtitle.
 export function territorySubtitle(
   shape: Pick<CountryShape, 'name' | 'isoAlpha3'>,
 ): SubtitlePart[] | undefined {

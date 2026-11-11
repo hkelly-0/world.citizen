@@ -10,7 +10,7 @@ import type { PassportSort } from '../../shared/passportSort'
 import type { DeckProgress, QuestionId } from '../flashcards/deck'
 import { countryRecall, pickingFamiliarity } from '../flashcards/familiarity'
 
-// How many countries there are to collect: the 195.
+// How many countries there are to collect: the 197.
 export const COUNTRY_COUNT = Object.keys(countryFacts).length
 
 // The countries in the Passport: those with at least one flashcard question

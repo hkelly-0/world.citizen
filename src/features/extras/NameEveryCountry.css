@@ -12,7 +12,7 @@
   touch-action: none;
 }
 
-/* The top-right corner: the stopwatch, if shown, above "12/195". */
+/* The top-right corner: the stopwatch, if shown, above "12/197". */
 .name-every-country__corner {
   position: absolute;
   top: 16px;

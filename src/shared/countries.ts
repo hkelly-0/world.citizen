@@ -18,7 +18,7 @@ export type CountryShape = {
   // ISO 3166-1 alpha-3 code, e.g. "PER". This is the key that will link
   // the globe to flashcards and the country facts dataset.
   isoAlpha3: string | null
-  // For a far-off part split from one of the 195 (farOffParts.json, e.g.
+  // For a far-off part split from one of the 197 (farOffParts.json, e.g.
   // French Guiana), that country's ISO alpha-3 code; otherwise null. Such a
   // part has no codes of its own, so the globe treats it as a territory, but
   // the flashcards and the land borders count it as its country.
@@ -26,7 +26,7 @@ export type CountryShape = {
   geometry: Geometry
 }
 
-// The country a shape counts as in the flashcards: one of the 195, the
+// The country a shape counts as in the flashcards: one of the 197, the
 // country a far-off part belongs to, or another area's own code (null for
 // areas without one).
 export function countryCodeOfShape(
@@ -60,8 +60,8 @@ type FarOffPart = { name: string; partOf: string; box: GeoBox }
 const FAR_OFF_PARTS = farOffPartsJson as unknown as FarOffPart[]
 
 // Natural Earth abbreviates some map names, e.g. "Falkland Is."; these are
-// shown in full instead. Only areas outside the 195 countries need this, as
-// the 195 show their name from the country facts.
+// shown in full instead. Only areas outside the 197 countries need this, as
+// the 197 show their name from the country facts.
 const FULL_MAP_NAMES: Record<string, string> = {
   'N. Mariana Is.': 'Northern Mariana Islands',
   'U.S. Virgin Is.': 'U.S. Virgin Islands',
@@ -93,6 +93,23 @@ const FULL_MAP_NAMES: Record<string, string> = {
 // by code). They get no code instead, like the other territories.
 const TERRITORIES_WITH_COUNTRY_CODES = new Set(['Ashmore and Cartier Is.'])
 
+// Countries with no ISO code (and so none in the map data), by map name, and
+// the alpha-3 code the app uses for them instead (see make-country-data.mjs).
+export const CODES_OF_UNCODED_COUNTRIES: Record<string, string> = {
+  Kosovo: 'XKX',
+}
+
+// The ISO alpha-3 code of a world-atlas shape, from its numeric id or, for a
+// country with no ISO code, its name. Undefined for areas without either.
+export function worldAtlasAlpha3(
+  id: string | number | undefined,
+  name: string,
+): string | undefined {
+  if (CODES_OF_UNCODED_COUNTRIES[name] !== undefined) return CODES_OF_UNCODED_COUNTRIES[name]
+  if (id === undefined || TERRITORIES_WITH_COUNTRY_CODES.has(name)) return undefined
+  return isoCountries.numericToAlpha3(String(id))
+}
+
 type WorldAtlasTopology = Topology<{
   countries: GeometryCollection<{ name: string }>
 }>
@@ -112,8 +129,7 @@ export function loadCountryShapes(): CountryShape[] {
       country.id === undefined || TERRITORIES_WITH_COUNTRY_CODES.has(country.properties.name)
         ? null
         : String(country.id)
-    const isoAlpha3 =
-      isoNumeric === null ? null : (isoCountries.numericToAlpha3(isoNumeric) ?? null)
+    const isoAlpha3 = worldAtlasAlpha3(country.id, country.properties.name) ?? null
 
     return {
       name: FULL_MAP_NAMES[country.properties.name] ?? country.properties.name,

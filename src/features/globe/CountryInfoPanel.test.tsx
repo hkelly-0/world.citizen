@@ -126,28 +126,33 @@ describe('CountryInfoPanel', () => {
     )
     unmount()
 
-    const kosovo: CountryShape = { ...france, name: 'Kosovo', isoNumeric: null, isoAlpha3: null }
-    render(<CountryInfoPanel {...panelProps} country={kosovo} />)
-    expect(screen.getByText(/^Partially recognised state/)).toHaveTextContent(
-      'Partially recognised state. Claimed by Serbia',
+    const somaliland: CountryShape = {
+      ...france,
+      name: 'Somaliland',
+      isoNumeric: null,
+      isoAlpha3: null,
+    }
+    render(<CountryInfoPanel {...panelProps} country={somaliland} />)
+    expect(screen.getByText(/^Self-declared state/)).toHaveTextContent(
+      'Self-declared state. Claimed by Somalia',
     )
   })
 
   it("selects a country when its name in a territory's subtitle is clicked", async () => {
     const onSelectCountry = vi.fn()
-    const taiwan: CountryShape = { ...france, name: 'Taiwan', isoAlpha3: 'TWN' }
-    render(<CountryInfoPanel {...panelProps} country={taiwan} onSelectCountry={onSelectCountry} />)
+    const guam: CountryShape = { ...france, name: 'Guam', isoAlpha3: 'GUM' }
+    render(<CountryInfoPanel {...panelProps} country={guam} onSelectCountry={onSelectCountry} />)
 
-    await userEvent.click(screen.getByRole('button', { name: 'China' }))
+    await userEvent.click(screen.getByRole('button', { name: 'United States' }))
 
-    expect(onSelectCountry).toHaveBeenCalledWith('CHN')
+    expect(onSelectCountry).toHaveBeenCalledWith('USA')
   })
 
   it('shows a note for map areas with no subtitle', () => {
     const unknown: CountryShape = { ...france, name: 'Nowhere', isoNumeric: null, isoAlpha3: null }
     render(<CountryInfoPanel {...panelProps} country={unknown} />)
 
-    expect(screen.getByText('Not one of the 195 countries in this app.')).toBeInTheDocument()
+    expect(screen.getByText('Not one of the 197 countries in this app.')).toBeInTheDocument()
   })
 
   it('hides facts not learned in Settings, but keeps the names', () => {

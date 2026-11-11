@@ -59,7 +59,7 @@
   {
     "id": "former-yugoslavia",
     "name": "Former Yugoslavia",
-    "countries": ["SVN", "HRV", "BIH", "SRB", "MNE"]
+    "countries": ["SVN", "HRV", "BIH", "SRB", "MNE", "XKX"]
   },
   {
     "id": "southeastern-europe",
@@ -90,7 +90,7 @@
     "countries": ["UZB", "TKM", "TJK", "KGZ"]
   },
   { "id": "russia-steppe", "name": "Russia & the Steppe", "countries": ["RUS", "KAZ", "MNG"] },
-  { "id": "east-asia", "name": "East Asia", "countries": ["CHN", "JPN", "KOR", "PRK"] },
+  { "id": "east-asia", "name": "East Asia", "countries": ["CHN", "JPN", "KOR", "PRK", "TWN"] },
   {
     "id": "indian-subcontinent",
     "name": "Indian Subcontinent",

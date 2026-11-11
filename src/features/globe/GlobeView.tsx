@@ -112,7 +112,7 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
   }
 
   // A tapped or searched-for country selects itself, or its region while
-  // Regions is on. Map areas outside the 195 have no region, so with
+  // Regions is on. Map areas outside the 197 have no region, so with
   // Regions on they close the panel when tapped and do nothing when searched for.
   function selectCountryOrRegion(index: number, isTap: boolean) {
     if (!isShowingRegionsRef.current) {

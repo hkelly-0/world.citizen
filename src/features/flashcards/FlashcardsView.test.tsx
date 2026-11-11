@@ -249,9 +249,9 @@ describe('FlashcardsView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     await answerArea()
-    expect(screen.getByLabelText('1/195')).toBeInTheDocument()
+    expect(screen.getByLabelText('1/197')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-    expect(screen.queryByLabelText('1/195')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('1/197')).not.toBeInTheDocument()
   })
 
   it("shows a seen country's familiarity after its card", async () => {
@@ -325,7 +325,7 @@ describe('FlashcardsView', () => {
       expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
-      expect(screen.getByLabelText('1/195')).toBeInTheDocument()
+      expect(screen.getByLabelText('1/197')).toBeInTheDocument()
     })
 
     it('is not resumed on a later day', () => {

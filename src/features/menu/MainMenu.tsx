@@ -5,7 +5,7 @@ import { SpinningLogo } from './SpinningLogo'
 import { useFitTextToWidth } from './useFitTextToWidth'
 
 type MainMenuProps = {
-  // How many countries are in the Passport, shown as e.g. "42/195".
+  // How many countries are in the Passport, shown as e.g. "42/197".
   passportCount: number
   // Whether to offer "Play Tutorial" above the options, for new users.
   showTutorialButton: boolean

@@ -10,7 +10,7 @@
 // other countries are drawn, only this country's outline as a thick line.
 //
 // Usage: node scripts/make-country-images.mjs [ISO alpha-3 codes...]
-//   With no codes, draws all 195 countries.
+//   With no codes, draws all 197 countries.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { createCanvas, loadImage } from '@napi-rs/canvas'

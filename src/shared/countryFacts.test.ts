@@ -17,7 +17,7 @@ describe('countryFacts', () => {
   const countries = Object.values(countryFacts)
 
   it('has the 193 UN members plus the 2 observer states', () => {
-    expect(countries.length).toBe(195)
+    expect(countries.length).toBe(197)
     expect(countryFacts['VAT']?.commonName).toBe('Vatican City')
     expect(countryFacts['PSE']?.commonName).toBe('Palestine')
   })
@@ -78,7 +78,7 @@ describe('countryFacts', () => {
     }
   })
 
-  it('puts every country in a group of 3 to 5, with one name per group', () => {
+  it('puts every country in a group of 3 to 6, with one name per group', () => {
     const groupSizes: Record<string, number> = {}
     const groupNames: Record<string, string> = {}
     for (const country of countries) {
@@ -88,7 +88,7 @@ describe('countryFacts', () => {
     }
     for (const size of Object.values(groupSizes)) {
       expect(size).toBeGreaterThanOrEqual(3)
-      expect(size).toBeLessThanOrEqual(5)
+      expect(size).toBeLessThanOrEqual(6)
     }
     expect(countryFacts['NOR']?.groupName).toBe('Nordic Countries')
   })
@@ -110,7 +110,7 @@ describe('countryDisplayName', () => {
     }
   }
 
-  it("uses our common name for the 195 countries, not the map data's name", () => {
+  it("uses our common name for the 197 countries, not the map data's name", () => {
     expect(countryDisplayName(shape('Vatican', 'VAT'))).toBe('Vatican City')
   })
 
@@ -139,7 +139,7 @@ describe('alternativeNames', () => {
     expect(alternativeNames('FRA')).toEqual([])
   })
 
-  it('only lists alternatives for the 195 countries', () => {
+  it('only lists alternatives for the 197 countries', () => {
     for (const code of Object.keys(nameAlternativesJson)) {
       expect(countryFacts[code]).toBeDefined()
     }
@@ -152,7 +152,7 @@ describe('nativeCapitalNames', () => {
     expect(nativeCapitalNames('FRA')).toEqual([])
   })
 
-  it('only lists native capital names for the 195 countries', () => {
+  it('only lists native capital names for the 197 countries', () => {
     for (const code of Object.keys(capitalNativeNamesJson)) {
       expect(countryFacts[code]).toBeDefined()
     }
@@ -160,7 +160,7 @@ describe('nativeCapitalNames', () => {
 })
 
 describe('territorySubtitle', () => {
-  it('has a subtitle for every map area outside the 195 countries, and none for the 195', () => {
+  it('has a subtitle for every map area outside the 197 countries, and none for the 197', () => {
     for (const shape of loadCountryShapes()) {
       const isCountry = shape.isoAlpha3 !== null && countryFacts[shape.isoAlpha3] !== undefined
       if (isCountry) expect(territorySubtitle(shape), shape.name).toBeUndefined()
@@ -184,7 +184,7 @@ describe('territorySubtitle', () => {
     ])
   })
 
-  it('names only the 195 countries in subtitles', () => {
+  it('names only the 197 countries in subtitles', () => {
     for (const subtitle of Object.values(territorySubtitlesJson)) {
       for (const [, code] of subtitle.matchAll(/\{([A-Z]{3})\}/g)) {
         expect(countryFacts[code], code).toBeDefined()

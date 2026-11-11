@@ -84,7 +84,7 @@ describe('NameEveryCountry', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Give up' }))
     fireEvent.click(screen.getByRole('button', { name: 'Yes' }))
     act(() => vi.advanceTimersByTime(10_000))
-    expect(screen.getByRole('dialog', { name: 'Score: 0/195' })).toHaveTextContent('Time: 1:07')
+    expect(screen.getByRole('dialog', { name: 'Score: 0/197' })).toHaveTextContent('Time: 1:07')
   })
 
   it('leaves straight away on back before Go', async () => {
@@ -102,7 +102,7 @@ describe('NameEveryCountry', () => {
       { source: 'countries', id: 'TUR' },
       { selected: true },
     )
-    expect(screen.getByText('0/195')).toBeInTheDocument()
+    expect(screen.getByText('0/197')).toBeInTheDocument()
 
     await userEvent.type(box(), 'Turkey{Enter}')
 
@@ -111,7 +111,7 @@ describe('NameEveryCountry', () => {
       { selected: false },
     )
     expect(box()).toHaveValue('')
-    expect(screen.getByText('1/195')).toBeInTheDocument()
+    expect(screen.getByText('1/197')).toBeInTheDocument()
   })
 
   it('floats a right name up as it was typed, until its animation ends', async () => {
@@ -138,7 +138,7 @@ describe('NameEveryCountry', () => {
     await userEvent.type(box(), 'peru{Enter}')
     expect(box()).toHaveValue('peru')
     expect(box()).toHaveClass('name-every-country__box--shaking')
-    expect(screen.getByText('1/195')).toBeInTheDocument()
+    expect(screen.getByText('1/197')).toBeInTheDocument()
   })
 
   it('floats up "Already named" in red for a country named again, but not for a wrong name', async () => {
@@ -177,10 +177,10 @@ describe('NameEveryCountry', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Give up' }))
     await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
-    const remaining = screen.getByRole('dialog', { name: 'Score: 1/195' })
+    const remaining = screen.getByRole('dialog', { name: 'Score: 1/197' })
     expect(screen.getByRole('heading', { name: 'Remaining Countries' })).toBeInTheDocument()
     const names = [...remaining.querySelectorAll('li')].map((item) => item.textContent)
-    expect(names).toHaveLength(194)
+    expect(names).toHaveLength(196)
     expect(names[0]).toBe('Albania')
     expect(screen.queryByLabelText('Country name')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Done' }))
@@ -258,7 +258,7 @@ describe('NameEveryCountry', () => {
       fireEvent.submit(box())
     }
 
-    expect(screen.getByRole('dialog', { name: '195/195! You win' })).toBeInTheDocument()
+    expect(screen.getByRole('dialog', { name: '197/197! You win' })).toBeInTheDocument()
     expect(screen.queryByLabelText('Country name')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Done' }))
     expect(go).toHaveBeenCalledWith(-2)

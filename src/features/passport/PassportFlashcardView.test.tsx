@@ -45,7 +45,7 @@ describe('PassportFlashcardView', () => {
 
     // France is new, so the Passport count goes up before going back.
     expect(screen.getByText('France ✓')).toBeInTheDocument()
-    expect(screen.getByLabelText('1/195')).toBeInTheDocument()
+    expect(screen.getByLabelText('1/197')).toBeInTheDocument()
     expect(onBack).not.toHaveBeenCalled()
     await userEvent.click(screen.getByRole('button', { name: 'Done' }))
 

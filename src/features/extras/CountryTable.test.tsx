@@ -23,9 +23,9 @@ function headingButton(text: string) {
 }
 
 describe('sortedCountries', () => {
-  it('lists all 195 countries, largest first or, reversed, smallest first', () => {
+  it('lists all 197 countries, largest first or, reversed, smallest first', () => {
     const largest = sortedCountries('area', false)
-    expect(largest).toHaveLength(195)
+    expect(largest).toHaveLength(197)
     expect(largest[0].commonName).toBe('Russia')
     expect(sortedCountries('area', true)[0].commonName).toBe('Vatican City')
   })
@@ -36,15 +36,15 @@ describe('sortedCountries', () => {
   })
 
   it('puts countries with no IHDI last when largest first, and first when smallest first', () => {
-    const noIhdi = ['Monaco', 'North Korea', 'Vatican City']
+    const noIhdi = ['Kosovo', 'Monaco', 'North Korea', 'Taiwan', 'Vatican City']
     expect(
       sortedCountries('ihdi', false)
-        .slice(-3)
+        .slice(-5)
         .map((country) => country.commonName),
     ).toEqual(noIhdi)
     expect(
       sortedCountries('ihdi', true)
-        .slice(0, 3)
+        .slice(0, 5)
         .map((country) => country.commonName),
     ).toEqual(noIhdi)
   })
@@ -71,7 +71,7 @@ describe('CountryTable', () => {
   it('opens with every country and all four stats, ordered by area, largest first', () => {
     render(<CountryTable onBack={vi.fn()} />)
     const rows = bodyRows()
-    expect(rows).toHaveLength(195)
+    expect(rows).toHaveLength(197)
     expect(rows[0]).toEqual([
       '1',
       'Russia',
@@ -94,10 +94,10 @@ describe('CountryTable', () => {
     expect(screen.getByRole('columnheader', { name: 'Area km²' })).not.toHaveClass('is-ordered-by')
 
     await userEvent.click(headingButton('Population'))
-    // Still numbered largest first, so the smallest is 195.
+    // Still numbered largest first, so the smallest is 197.
     const smallestFirst = bodyRows()
-    expect(smallestFirst[0].slice(0, 2)).toEqual(['195', 'Vatican City'])
-    expect(smallestFirst[194][0]).toBe('1')
+    expect(smallestFirst[0].slice(0, 2)).toEqual(['197', 'Vatican City'])
+    expect(smallestFirst[196][0]).toBe('1')
     expect(screen.getByRole('columnheader', { name: 'Population ▲' })).toHaveAttribute(
       'aria-sort',
       'ascending',
@@ -128,11 +128,11 @@ describe('CountryTable', () => {
     await userEvent.click(headingButton('IHDI'))
     const rows = bodyRows()
     expect(rows[191][0]).toBe('192')
-    expect(rows[192]).toEqual(expect.arrayContaining(['', 'Monaco', 'no data']))
+    expect(rows[192]).toEqual(expect.arrayContaining(['', 'Kosovo', 'no data']))
 
     await userEvent.click(headingButton('IHDI'))
     expect(bodyRows()[0][0]).toBe('')
-    expect(bodyRows()[3][0]).toBe('192')
+    expect(bodyRows()[5][0]).toBe('192')
   })
 
   it('scrolls back to the top row when reordered', async () => {

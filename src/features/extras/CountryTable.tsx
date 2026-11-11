@@ -79,7 +79,7 @@ export function CountryTable({ onBack }: CountryTableProps) {
   }
 
   // Rows are numbered by their place in the largest-first order, whichever
-  // way the table is ordered, so the smallest country by area is 195 at the
+  // way the table is ordered, so the smallest country by area is 197 at the
   // top of the smallest-first order. Not numbered when ordered by name.
   // Countries with no value (only some IHDIs) get no number, so the numbers
   // count only those with one. Ranks are keyed by ISO alpha-3 code.

@@ -12,7 +12,7 @@ import { passportCodes, savePassport } from './passportEdit'
 import '../menu/MainMenu.css'
 import './PassportEditor.css'
 
-// All 195 countries, A–Z by name.
+// All 197 countries, A–Z by name.
 const COUNTRIES_BY_NAME = Object.values(countryFacts).sort((a, b) =>
   compareNames(a.commonName, b.commonName),
 )

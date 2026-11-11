@@ -1,6 +1,6 @@
 # world.citizen
 
-A geography learning app for the 195 countries (193 UN members plus Vatican City and Palestine). It runs as a website and as an Android app, both built from the same web code, and works offline with all its data bundled.
+A geography learning app for the 197 countries (193 UN members plus Vatican City, Palestine, Taiwan and Kosovo). It runs as a website and as an Android app, both built from the same web code, and works offline with all its data bundled.
 
 ## What's in it
 

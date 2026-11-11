@@ -19,7 +19,7 @@ describe('NAMING_AREAS', () => {
     expect(world.countries).toHaveLength(COUNTRY_COUNT)
   })
 
-  it('puts each of the 195 countries in exactly one continent', () => {
+  it('puts each of the 197 countries in exactly one continent', () => {
     const continentCountries = NAMING_AREAS.slice(1).flatMap((area) => area.countries)
     expect([...continentCountries].sort()).toEqual(Object.keys(countryFacts).sort())
   })

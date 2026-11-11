@@ -4317,7 +4317,7 @@
     "capitals": [
       "Belgrade"
     ],
-    "areaKm2": 88361,
+    "areaKm2": 77453,
     "population": 6689039,
     "populationYear": 2025,
     "hdi": 0.833,
@@ -4873,6 +4873,29 @@
     "groupId": "polynesia",
     "groupName": "Polynesia"
   },
+  "TWN": {
+    "isoAlpha3": "TWN",
+    "commonName": "Taiwan",
+    "officialName": "Republic of China (Taiwan)",
+    "nativeNames": [
+      "台灣",
+      "中華民國"
+    ],
+    "capitals": [
+      "Taipei"
+    ],
+    "areaKm2": 36193,
+    "population": 23112793,
+    "populationYear": 2025,
+    "hdi": null,
+    "hdiYear": null,
+    "ihdi": null,
+    "ihdiYear": null,
+    "ihdiBreakdown": null,
+    "ihdiEstimate": null,
+    "groupId": "east-asia",
+    "groupName": "East Asia"
+  },
   "TZA": {
     "isoAlpha3": "TZA",
     "commonName": "Tanzania",
@@ -5191,6 +5214,31 @@
     "ihdiEstimate": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
+  },
+  "XKX": {
+    "isoAlpha3": "XKX",
+    "commonName": "Kosovo",
+    "officialName": "Republic of Kosovo",
+    "nativeNames": [
+      "Kosova",
+      "Republika e Kosovës",
+      "Косово",
+      "Република Косово"
+    ],
+    "capitals": [
+      "Pristina"
+    ],
+    "areaKm2": 10908,
+    "population": 1674125,
+    "populationYear": 2025,
+    "hdi": null,
+    "hdiYear": null,
+    "ihdi": null,
+    "ihdiYear": null,
+    "ihdiBreakdown": null,
+    "ihdiEstimate": null,
+    "groupId": "former-yugoslavia",
+    "groupName": "Former Yugoslavia"
   },
   "YEM": {
     "isoAlpha3": "YEM",

@@ -65,7 +65,7 @@ export function CardReward({
   )
 }
 
-// "X/195", with X rolling down to X + 1. Only the digits that change roll; the
+// "X/197", with X rolling down to X + 1. Only the digits that change roll; the
 // others stay still (12 → 13 rolls only the 2 to a 3).
 function PassportCount({ countBefore }: { countBefore: number }) {
   const countAfter = countBefore + 1

@@ -12,7 +12,7 @@
 // detailed flags (e.g. Nepal, Afghanistan).
 //
 // Usage: node scripts/make-flags.mjs [ISO alpha-3 codes...]
-//   With no codes, downloads all 195 countries.
+//   With no codes, downloads all 197 countries.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import isoCountries from 'i18n-iso-countries'
 import countries from '../src/data/countries.json' with { type: 'json' }
@@ -21,14 +21,20 @@ const OUTPUT = 'public/flags'
 const SOURCE_COMMIT = 'c09927e63705529bbf59ca6684cd9b23225dddad'
 const SOURCE_URL = `https://raw.githubusercontent.com/hampusborgos/country-flags/${SOURCE_COMMIT}/svg`
 
+// Alpha-2 codes for countries with no ISO code, as the source names them.
+const ALPHA_2_OF_UNCODED_COUNTRIES = {
+  XKX: 'XK',
+}
+
 const requestedCodes = process.argv.slice(2)
 const codes = requestedCodes.length > 0 ? requestedCodes : Object.keys(countries)
 
 mkdirSync(OUTPUT, { recursive: true })
 for (const isoAlpha3 of codes) {
   if (countries[isoAlpha3] === undefined)
-    throw new Error(`${isoAlpha3} is not one of the 195 countries`)
-  const isoAlpha2 = isoCountries.alpha3ToAlpha2(isoAlpha3)
+    throw new Error(`${isoAlpha3} is not one of the 197 countries`)
+  const isoAlpha2 =
+    ALPHA_2_OF_UNCODED_COUNTRIES[isoAlpha3] ?? isoCountries.alpha3ToAlpha2(isoAlpha3)
   if (isoAlpha2 === undefined) throw new Error(`No ISO alpha-2 code for ${isoAlpha3}`)
 
   const url = `${SOURCE_URL}/${isoAlpha2.toLowerCase()}.svg`

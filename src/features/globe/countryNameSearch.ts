@@ -11,8 +11,8 @@ import { normalise } from '../../shared/normalise'
 export const MIN_SEARCH_LENGTH = 3
 const MAX_SUGGESTIONS = 6
 
-// One area on the globe that the search box can find: one of the 195
-// countries or a territory (e.g. Greenland, Kosovo).
+// One area on the globe that the search box can find: one of the 197
+// countries or a territory (e.g. Greenland, Somaliland).
 export type SearchPlace = {
   name: string
   // Alternatives that also match, e.g. "Turkey" for Türkiye. Territories have none.

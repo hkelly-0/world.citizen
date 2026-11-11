@@ -66,7 +66,7 @@ describe('PassportView', () => {
       />,
     )
 
-    expect(screen.getByRole('heading', { name: 'Passport 0/195' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Passport 0/197' })).toBeInTheDocument()
     expect(screen.getByText(/No countries yet/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'New Country' })).toBeInTheDocument()
   })
@@ -205,7 +205,7 @@ describe('PassportView', () => {
       />,
     )
 
-    expect(screen.getByRole('heading', { name: 'Passport 195/195' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Passport 197/197' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'New Country' })).not.toBeInTheDocument()
   })
 
@@ -220,7 +220,7 @@ describe('PassportView', () => {
       />,
     )
 
-    expect(screen.getByRole('heading', { name: 'Passport 1/195' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Passport 1/197' })).toBeInTheDocument()
     expect(screen.getByText('France')).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Map of France' })).toHaveAttribute(
       'src',

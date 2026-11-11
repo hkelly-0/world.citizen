@@ -43,9 +43,15 @@ describe('loadCountryShapes', () => {
   })
 
   it('uses null codes for areas without an ISO code', () => {
+    const somaliland = shapes.find((shape) => shape.name === 'Somaliland')
+    expect(somaliland?.isoNumeric).toBeNull()
+    expect(somaliland?.isoAlpha3).toBeNull()
+  })
+
+  it('gives Kosovo, which has no ISO code, our code for it', () => {
     const kosovo = shapes.find((shape) => shape.name === 'Kosovo')
     expect(kosovo?.isoNumeric).toBeNull()
-    expect(kosovo?.isoAlpha3).toBeNull()
+    expect(kosovo?.isoAlpha3).toBe('XKX')
   })
 
   it('gives each country code to only one shape', () => {

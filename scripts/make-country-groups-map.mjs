@@ -2,7 +2,7 @@
 // checking the groups by eye (not used by the app). Mercator, cropped to
 // MAP_NORTH..MAP_SOUTH so Antarctica doesn't fill the picture. Each group has
 // its colour on the globe (src/data/countryGroupColours.json); map areas
-// outside the 195 countries (Greenland, Kosovo, etc.) are grey.
+// outside the 197 countries (Greenland, Somaliland, etc.) are grey.
 //
 // Usage: node scripts/make-country-groups-map.mjs
 import { readFileSync, writeFileSync } from 'node:fs'

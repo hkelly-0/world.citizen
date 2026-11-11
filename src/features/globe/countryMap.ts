@@ -120,7 +120,7 @@ const LOWEST_IHDI = Math.min(...IHDI_VALUES)
 const HIGHEST_IHDI = Math.max(...IHDI_VALUES)
 
 // MapLibre needs GeoJSON. Each feature's id is its index in COUNTRY_SHAPES, so
-// a tapped feature can be turned back into its CountryShape. The 195 countries
+// a tapped feature can be turned back into its CountryShape. The 197 countries
 // carry their group's id and colour as "groupId" and "groupColour", and their
 // real or else estimated IHDI as "ihdi" (null if they have neither); other map
 // areas have none of these.
@@ -184,7 +184,7 @@ function framedGeometry(countryIndex: number): Geometry {
 }
 
 // The group id of the country at this position in COUNTRY_SHAPES, or null
-// for map areas outside the 195 countries.
+// for map areas outside the 197 countries.
 export function groupIdOfCountry(countryIndex: number): string | null {
   const isoAlpha3 = COUNTRY_SHAPES[countryIndex].isoAlpha3
   return (isoAlpha3 === null ? undefined : countryFacts[isoAlpha3]?.groupId) ?? null

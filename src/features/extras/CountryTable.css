@@ -84,7 +84,7 @@
 }
 
 /* The rank and name stay at the left while the stats scroll sideways. The
-   rank column has a fixed width (3ch fits "195") so the name column knows
+   rank column has a fixed width (3ch fits "197") so the name column knows
    where to stick. */
 .country-table__rank,
 .country-table__name {

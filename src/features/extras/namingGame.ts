@@ -17,7 +17,7 @@ export type NamingArea = {
 }
 
 // Each continent's countries, hand-written in continents.json. Every one of
-// the 195 is in exactly one continent, e.g. Russia and Cyprus in Europe,
+// the 197 is in exactly one continent, e.g. Russia and Cyprus in Europe,
 // Turkey, the Caucasus and Kazakhstan in Asia, Egypt in Africa.
 const CONTINENTS: { id: string; name: string; countries: string[] }[] = continentsJson
 

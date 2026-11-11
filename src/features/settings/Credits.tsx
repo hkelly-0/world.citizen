@@ -78,7 +78,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
             <ExternalLink href="https://opendatacommons.org/licenses/odbl/1-0/">
               Open Database License (ODbL) 1.0
             </ExternalLink>
-            . Only the 195 countries are kept, and a few missing second capitals are added.
+            . Only the 197 countries are kept, and a few missing second capitals are added.
           </p>
           <p className="credits__entry">
             <strong>Population:</strong> United Nations, Department of Economic and Social Affairs,
