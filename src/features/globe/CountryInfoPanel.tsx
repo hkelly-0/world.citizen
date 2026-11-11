@@ -1,6 +1,11 @@
 import type { ReactNode, Ref } from 'react'
 import type { CountryShape } from '../../shared/countries'
-import { countryDisplayName, countryFacts, territorySubtitle } from '../../shared/countryFacts'
+import {
+  countryDisplayName,
+  countryFacts,
+  territoryFigures,
+  territorySubtitle,
+} from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import { RangeTitle } from '../../shared/RangeTitle'
@@ -9,6 +14,7 @@ import {
   ihdiStat,
   NO_DATA,
   populationStat,
+  type RangeLabel,
   type StatValue,
 } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
@@ -42,6 +48,10 @@ function RangeWithValue({ stat, afterBound }: { stat: StatValue | null; afterBou
   return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} afterBound={afterBound} />
 }
 
+// Shown instead of a population for map areas where nobody lives permanently
+// (e.g. Antarctica). It isn't a range.
+const NO_PERMANENT_POPULATION: RangeLabel = { bound: null, name: 'No permanent population' }
+
 export function CountryInfoPanel({
   country,
   learnedQuestionIds,
@@ -55,6 +65,8 @@ export function CountryInfoPanel({
   const facts = country.isoAlpha3 === null ? undefined : countryFacts[country.isoAlpha3]
   const name = countryDisplayName(country)
   const subtitle = territorySubtitle(country)
+  // Area and population for map areas outside the 197 (e.g. Greenland).
+  const figures = territoryFigures(country)
 
   return (
     <aside ref={ref} className="country-info-panel" aria-label={`${name} details`}>
@@ -63,23 +75,50 @@ export function CountryInfoPanel({
       </button>
       <h2>{name}</h2>
       {facts === undefined ? (
-        <p className="country-info-panel__note">
-          {subtitle === undefined
-            ? 'Not one of the 197 countries in this app.'
-            : subtitle.map((part, i) =>
-                'text' in part ? (
-                  part.text
-                ) : (
-                  <button
-                    key={i}
-                    className="country-info-panel__country-link"
-                    onClick={() => onSelectCountry?.(part.isoAlpha3)}
-                  >
-                    {part.name}
-                  </button>
-                ),
+        <>
+          <p className="country-info-panel__note">
+            {subtitle === undefined
+              ? 'Not one of the 197 countries in this app.'
+              : subtitle.map((part, i) =>
+                  'text' in part ? (
+                    part.text
+                  ) : (
+                    <button
+                      key={i}
+                      className="country-info-panel__country-link"
+                      onClick={() => onSelectCountry?.(part.isoAlpha3)}
+                    >
+                      {part.name}
+                    </button>
+                  ),
+                )}
+          </p>
+          {/* Shown like a country's, against the same ranges. */}
+          {figures !== undefined && (
+            <dl>
+              {learnedQuestionIds.includes('area') && (
+                <>
+                  <dt>Area</dt>
+                  <dd>
+                    <RangeWithValue stat={areaStat(figures)} />
+                  </dd>
+                </>
               )}
-        </p>
+              {learnedQuestionIds.includes('population') && (
+                <>
+                  <dt>Population</dt>
+                  <dd>
+                    {figures.population === null ? (
+                      <RangeTitle range={NO_PERMANENT_POPULATION} />
+                    ) : (
+                      <RangeWithValue stat={populationStat({ population: figures.population })} />
+                    )}
+                  </dd>
+                </>
+              )}
+            </dl>
+          )}
+        </>
       ) : (
         <>
           {/* Skip the official name when it's the same, e.g. "Japan". */}

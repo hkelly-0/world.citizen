@@ -78,7 +78,8 @@ export function Credits({ onBack }: { onBack: () => void }) {
             <ExternalLink href="https://opendatacommons.org/licenses/odbl/1-0/">
               Open Database License (ODbL) 1.0
             </ExternalLink>
-            . Only the 197 countries are kept, and a few missing second capitals are added.
+            . Only the 197 countries and the areas of the territories on the globe are kept, and a
+            few missing second capitals are added.
           </p>
           <p className="credits__entry">
             <strong>Population:</strong> United Nations, Department of Economic and Social Affairs,
@@ -88,6 +89,11 @@ export function Credits({ onBack }: { onBack: () => void }) {
             </ExternalLink>
             , under <ExternalLink href={CC_BY_IGO_URL}>CC BY 3.0 IGO</ExternalLink>. Uses the 2025
             medium-variant projection, shown rounded and as named ranges.
+          </p>
+          <p className="credits__entry">
+            <strong>Territories the sources above leave out:</strong> figures from national
+            statistics offices and censuses, e.g. Statistics Netherlands for Bonaire, Saba and Sint
+            Eustatius.
           </p>
           <p className="credits__entry">
             <strong>HDI and IHDI:</strong> United Nations Development Programme,{' '}

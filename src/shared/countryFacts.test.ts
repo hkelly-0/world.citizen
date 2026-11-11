@@ -10,6 +10,7 @@ import {
   countryDisplayName,
   countryFacts,
   nativeCapitalNames,
+  territoryFigures,
   territorySubtitle,
 } from './countryFacts'
 
@@ -189,6 +190,25 @@ describe('territorySubtitle', () => {
       for (const [, code] of subtitle.matchAll(/\{([A-Z]{3})\}/g)) {
         expect(countryFacts[code], code).toBeDefined()
       }
+    }
+  })
+})
+
+describe('territoryFigures', () => {
+  it('has figures for every map area outside the 197 countries, and none for the 197', () => {
+    for (const shape of loadCountryShapes()) {
+      const isCountry = shape.isoAlpha3 !== null && countryFacts[shape.isoAlpha3] !== undefined
+      if (isCountry) expect(territoryFigures(shape), shape.name).toBeUndefined()
+      else expect(territoryFigures(shape), shape.name).toBeDefined()
+    }
+  })
+
+  it('gives every map area a positive area, and a positive population or none', () => {
+    for (const shape of loadCountryShapes()) {
+      const figures = territoryFigures(shape)
+      if (figures === undefined) continue
+      expect(figures.areaKm2, shape.name).toBeGreaterThan(0)
+      if (figures.population !== null) expect(figures.population, shape.name).toBeGreaterThan(0)
     }
   })
 })

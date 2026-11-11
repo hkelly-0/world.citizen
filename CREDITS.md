@@ -4,10 +4,11 @@ world.citizen is built on the work below. Each item keeps its own licence, whate
 
 ## Country data
 
-`src/data/countries.json` combines these sources:
+`src/data/countries.json` and `src/data/territories.json` combine these sources:
 
-- **Names, native names, capitals and area:** [mledoze/countries](https://github.com/mledoze/countries). Contains information from mledoze/countries, which is made available here under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Changes: only the 197 countries are kept, and a few missing second capitals are added (`EXTRA_CAPITALS` in `scripts/make-country-data.mjs`). This data stays available under the ODbL, and the rest of this repo's licence status doesn't restrict it.
+- **Names, native names, capitals and area:** [mledoze/countries](https://github.com/mledoze/countries). Contains information from mledoze/countries, which is made available here under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Changes: only the 197 countries and the areas of the territories on the globe are kept, and a few missing second capitals are added (`EXTRA_CAPITALS` in `scripts/make-country-data.mjs`). This data stays available under the ODbL, and the rest of this repo's licence status doesn't restrict it.
 - **Population:** United Nations, Department of Economic and Social Affairs, Population Division (2024), [World Population Prospects 2024](https://population.un.org/wpp/), used under [CC BY 3.0 IGO](https://creativecommons.org/licenses/by/3.0/igo/). Changes: uses the 2025 medium-variant projection, shown rounded and as named ranges.
+- **Territories the sources above leave out:** figures from national statistics offices and censuses, each source listed in `src/data/territoryFiguresByHand.json`.
 - **HDI and IHDI:** United Nations Development Programme, [Human Development Report 2025](https://hdr.undp.org/), used under [CC BY 3.0 IGO](https://creativecommons.org/licenses/by/3.0/igo/). Changes: uses each country's latest year, shown rounded and as named ranges. `ihdiEstimate` is this project's own least-squares estimate from HDI, not a UNDP figure, and the UNDP doesn't endorse this project.
 
 The UN and UNDP sources don't endorse this project either, and its data may not reflect their latest updates.

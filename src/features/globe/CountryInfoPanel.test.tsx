@@ -138,6 +138,21 @@ describe('CountryInfoPanel', () => {
     )
   })
 
+  it("shows a territory's area and population against the countries' ranges", () => {
+    const greenland: CountryShape = { ...france, name: 'Greenland', isoAlpha3: 'GRL' }
+    render(<CountryInfoPanel {...panelProps} country={greenland} />)
+
+    expect(valueOf('Area')).toHaveTextContent('2.2M km² Large')
+    expect(valueOf('Population')).toHaveTextContent('56K Minute')
+  })
+
+  it('shows "No permanent population" for areas where nobody lives', () => {
+    const antarctica: CountryShape = { ...france, name: 'Antarctica', isoAlpha3: 'ATA' }
+    render(<CountryInfoPanel {...panelProps} country={antarctica} />)
+
+    expect(valueOf('Population')).toHaveTextContent('No permanent population')
+  })
+
   it("selects a country when its name in a territory's subtitle is clicked", async () => {
     const onSelectCountry = vi.fn()
     const guam: CountryShape = { ...france, name: 'Guam', isoAlpha3: 'GUM' }

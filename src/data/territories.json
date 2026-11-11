@@ -1,0 +1,222 @@
+{
+  "ABW": {
+    "areaKm2": 180,
+    "population": 108147
+  },
+  "AIA": {
+    "areaKm2": 91,
+    "population": 14728
+  },
+  "ALA": {
+    "areaKm2": 1580,
+    "population": 30654
+  },
+  "Ashmore and Cartier Islands": {
+    "areaKm2": 5,
+    "population": null
+  },
+  "ASM": {
+    "areaKm2": 199,
+    "population": 46029
+  },
+  "ATA": {
+    "areaKm2": 14000000,
+    "population": null
+  },
+  "ATF": {
+    "areaKm2": 7747,
+    "population": null
+  },
+  "Australian Indian Ocean Territories": {
+    "areaKm2": 149,
+    "population": 2285
+  },
+  "BLM": {
+    "areaKm2": 21,
+    "population": 11414
+  },
+  "BMU": {
+    "areaKm2": 54,
+    "population": 64555
+  },
+  "Bonaire": {
+    "areaKm2": 288,
+    "population": 26552
+  },
+  "COK": {
+    "areaKm2": 236,
+    "population": 13263
+  },
+  "CUW": {
+    "areaKm2": 444,
+    "population": 185487
+  },
+  "CYM": {
+    "areaKm2": 264,
+    "population": 75844
+  },
+  "Easter Island": {
+    "areaKm2": 164,
+    "population": 7750
+  },
+  "ESH": {
+    "areaKm2": 266000,
+    "population": 600904
+  },
+  "FLK": {
+    "areaKm2": 12173,
+    "population": 3469
+  },
+  "French Guiana": {
+    "areaKm2": 83534,
+    "population": 313666
+  },
+  "FRO": {
+    "areaKm2": 1393,
+    "population": 56002
+  },
+  "GGY": {
+    "areaKm2": 78,
+    "population": 64477
+  },
+  "GRL": {
+    "areaKm2": 2166086,
+    "population": 55745
+  },
+  "Guadeloupe": {
+    "areaKm2": 1628,
+    "population": 373791
+  },
+  "GUM": {
+    "areaKm2": 549,
+    "population": 168999
+  },
+  "HKG": {
+    "areaKm2": 1104,
+    "population": 7396076
+  },
+  "HMD": {
+    "areaKm2": 412,
+    "population": null
+  },
+  "IMN": {
+    "areaKm2": 572,
+    "population": 84118
+  },
+  "IOT": {
+    "areaKm2": 60,
+    "population": null
+  },
+  "JEY": {
+    "areaKm2": 116,
+    "population": 103989
+  },
+  "MAC": {
+    "areaKm2": 30,
+    "population": 722007
+  },
+  "MAF": {
+    "areaKm2": 53,
+    "population": 24941
+  },
+  "Martinique": {
+    "areaKm2": 1128,
+    "population": 340439
+  },
+  "Mayotte": {
+    "areaKm2": 374,
+    "population": 337011
+  },
+  "MNP": {
+    "areaKm2": 464,
+    "population": 43541
+  },
+  "MSR": {
+    "areaKm2": 102,
+    "population": 4359
+  },
+  "NCL": {
+    "areaKm2": 18575,
+    "population": 295333
+  },
+  "NFK": {
+    "areaKm2": 36,
+    "population": 2188
+  },
+  "NIU": {
+    "areaKm2": 260,
+    "population": 1821
+  },
+  "North Cyprus": {
+    "areaKm2": 3355,
+    "population": 476214
+  },
+  "PCN": {
+    "areaKm2": 47,
+    "population": 35
+  },
+  "PRI": {
+    "areaKm2": 8870,
+    "population": 3235289
+  },
+  "PYF": {
+    "areaKm2": 4167,
+    "population": 282465
+  },
+  "Réunion": {
+    "areaKm2": 2511,
+    "population": 882405
+  },
+  "Saba": {
+    "areaKm2": 13,
+    "population": 2158
+  },
+  "SGS": {
+    "areaKm2": 3903,
+    "population": null
+  },
+  "SHN": {
+    "areaKm2": 394,
+    "population": 5197
+  },
+  "Siachen Glacier": {
+    "areaKm2": 2128,
+    "population": null
+  },
+  "Sint Eustatius": {
+    "areaKm2": 21,
+    "population": 3270
+  },
+  "Somaliland": {
+    "areaKm2": 176120,
+    "population": 5900000
+  },
+  "SPM": {
+    "areaKm2": 242,
+    "population": 5574
+  },
+  "SXM": {
+    "areaKm2": 34,
+    "population": 43923
+  },
+  "TCA": {
+    "areaKm2": 948,
+    "population": 46855
+  },
+  "Tokelau": {
+    "areaKm2": 12,
+    "population": 2608
+  },
+  "VGB": {
+    "areaKm2": 151,
+    "population": 39732
+  },
+  "VIR": {
+    "areaKm2": 347,
+    "population": 84138
+  },
+  "WLF": {
+    "areaKm2": 142,
+    "population": 11194
+  }
+}

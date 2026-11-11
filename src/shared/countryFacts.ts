@@ -2,6 +2,7 @@ import capitalNativeNamesJson from '../data/capitalNativeNames.json'
 import countriesJson from '../data/countries.json'
 import countryGroupsJson from '../data/countryGroups.json'
 import nameAlternativesJson from '../data/countryNameAlternatives.json'
+import territoriesJson from '../data/territories.json'
 import territorySubtitlesJson from '../data/territorySubtitles.json'
 import type { CountryShape } from './countries'
 
@@ -124,4 +125,21 @@ export function territorySubtitle(
     else if (piece !== '') parts.push({ text: piece })
   })
   return parts
+}
+
+// The area and population of a map area outside the 197 countries, generated
+// by scripts/make-territory-data.mjs. Keyed like territorySubtitles.json.
+export type TerritoryFigures = {
+  areaKm2: number
+  // Null for areas with no permanent population (e.g. Antarctica).
+  population: number | null
+}
+
+const territoryFiguresByKey: Record<string, TerritoryFigures> = territoriesJson
+
+// Returns undefined for the 197 countries.
+export function territoryFigures(
+  shape: Pick<CountryShape, 'name' | 'isoAlpha3'>,
+): TerritoryFigures | undefined {
+  return territoryFiguresByKey[shape.isoAlpha3 ?? shape.name]
 }

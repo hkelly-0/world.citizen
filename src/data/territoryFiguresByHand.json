@@ -1,0 +1,39 @@
+{
+  "SGS": { "population": null, "source": "No permanent population" },
+  "IOT": { "population": null, "source": "No permanent population: only military and contract staff" },
+  "ATF": { "population": null, "source": "No permanent population" },
+  "HMD": { "population": null, "source": "No permanent population" },
+  "ATA": { "population": null, "source": "No permanent population" },
+  "PCN": { "population": 35, "source": "Government of Pitcairn, 2023" },
+  "ALA": { "population": 30654, "source": "Statistics and Research Åland (ÅSUB), 31 December 2024" },
+  "NFK": { "population": 2188, "source": "Australian census 2021" },
+  "Australian Indian Ocean Territories": {
+    "areaKm2": 149,
+    "population": 2285,
+    "source": "Christmas Island (135 km², 1,692 people) plus the Cocos (Keeling) Islands (14 km², 593 people); Australian census 2021"
+  },
+  "Ashmore and Cartier Islands": {
+    "areaKm2": 5,
+    "population": null,
+    "source": "CIA World Factbook area; no permanent population"
+  },
+  "Siachen Glacier": {
+    "areaKm2": 2128,
+    "population": null,
+    "source": "Area measured from the Natural Earth outline on the map; no permanent population, only soldiers"
+  },
+  "Somaliland": {
+    "areaKm2": 176120,
+    "population": 5900000,
+    "source": "Somaliland government: claimed area, and its Ministry of Planning projection from the 2014 PESS survey. Estimates range from about 4.5 to 6.2 million"
+  },
+  "North Cyprus": {
+    "areaKm2": 3355,
+    "population": 476214,
+    "source": "Northern Cyprus Statistics Institute projection for the end of 2023 (last census 2011); other estimates are far higher"
+  },
+  "Easter Island": { "areaKm2": 164, "population": 7750, "source": "Chilean census 2017" },
+  "Bonaire": { "areaKm2": 288, "population": 26552, "source": "Statistics Netherlands (CBS), 1 January 2025" },
+  "Saba": { "areaKm2": 13, "population": 2158, "source": "Statistics Netherlands (CBS), 1 January 2025" },
+  "Sint Eustatius": { "areaKm2": 21, "population": 3270, "source": "Statistics Netherlands (CBS), 1 January 2025" }
+}

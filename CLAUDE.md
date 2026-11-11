@@ -97,6 +97,7 @@ Generated files are committed; each script lists its download links.
   - `ihdiBreakdown` is worked out in the script from UNDP's indicators; it throws if the result stops matching UNDP's IHDI.
   - `ihdiEstimate` is a fit from HDI, kept apart from `ihdi` so real and estimated values never mix.
   - Groups come from the hand-written `src/data/countryGroups.json`. A group's `id` must never change (it is saved); rename by `name`.
+- Territory area and population (`src/data/territories.json`, shown on the globe's info panel): `node scripts/make-territory-data.mjs <source-folder>`, from the same mledoze and WPP files. Its list of map areas is the keys of `territorySubtitles.json`; figures the sources lack are hand-written in `src/data/territoryFiguresByHand.json`, where a null population means no permanent population. Rerun after editing either file.
 - Group colours: `node scripts/make-country-group-colours.mjs` (rerun after editing groups; `--all` repicks). `node scripts/make-country-groups-map.mjs` redraws `docs/country-groups.png`.
 - Hand-written: `src/data/continents.json` (transcontinental countries placed by choice), `src/data/countryNameAlternatives.json`, `src/data/capitalNativeNames.json` (by Claude; owner to check), `src/data/territorySubtitles.json` (contested areas get neutral wording).
 - A native name must not match another country's names, as the naming game and Borders take the first match.
