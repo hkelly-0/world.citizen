@@ -71,6 +71,12 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* "No data" and "No permanent population" sit at the right, where the other
+   rows' range names are, rather than centred as elsewhere. */
+.country-info-panel .range-title--whole {
+  justify-content: flex-end;
+}
+
 /* The IHDI breakdown's bubble is placed against this, so it lines up with the
    values' left edge. */
 .country-info-panel__ihdi {
