@@ -94,12 +94,13 @@
   {
     "id": "indian-subcontinent",
     "name": "Indian Subcontinent",
-    "countries": ["IND", "PAK", "BGD", "NPL", "BTN"]
+    "countries": ["IND", "PAK", "LKA"]
   },
+  { "id": "himalayas-bengal", "name": "Himalayas & Bengal", "countries": ["NPL", "BTN", "BGD"] },
   {
     "id": "indian-ocean-islands",
     "name": "Indian Ocean Islands",
-    "countries": ["LKA", "MDV", "MUS", "SYC"]
+    "countries": ["MDV", "MUS", "SYC"]
   },
   {
     "id": "mainland-southeast-asia",

@@ -68,7 +68,7 @@ describe('groupsToChoose', () => {
     })
     const names = choices.map((choice) => choice.name)
     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
-    expect(choices.length).toBe(49)
+    expect(choices.length).toBe(50)
   })
 })
 
