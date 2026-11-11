@@ -62,7 +62,7 @@ Screens are switched with React state in `src/App.tsx` (no URL routing); each sc
 - **Build tool:** Vite. Needs npm 11+ (npm 10 crashes on Vitest 5's peer dependencies; use `npx npm@11 install`).
 - **UI:** React + TypeScript, plain CSS one file per component, shared colours as CSS variables in `src/index.css`. Font Roboto Mono; missing symbols come from fallback fonts written by `node scripts/make-symbol-fonts.mjs`, so a new symbol must be added to both the script and the `unicode-range` in `src/index.css`.
 - **Formatting and linting:** Prettier (`npm run format`), oxlint (`npm run lint`); a husky pre-commit hook formats staged files.
-- **Tests:** Vitest + Testing Library (`npm test`). The WebGL map isn't unit-tested. CI (`.github/workflows/ci.yml`) runs lint, format check, build and tests.
+- **Tests:** Vitest + Testing Library (`npm test`). The WebGL map isn't unit-tested. Vitest's module cache doesn't notice files added to an `import.meta.glob` folder (e.g. a new `countryInfo/` file); run `npx vitest --clearCache`. CI (`.github/workflows/ci.yml`) runs lint, format check, build and tests.
 - **Globe:** MapLibre GL JS (`countryMap.ts` creates every globe). Borders are a GeoJSON source; highlights use feature state (no data rebuilds).
   - MapLibre's worker script is imported with `?url` and passed to `setWorkerUrl`, as MapLibre can't find it after bundling.
   - Rejected: `globe.gl` (too slow on phones, blurry zoomed in), CesiumJS (too heavy), raw three.js (too much work).
