@@ -15,6 +15,11 @@ import type { FeatureCollection, Geometry, Position } from 'geojson'
 import { loadCountryShapes, wholeCountryGeometry } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import groupColoursJson from '../../data/countryGroupColours.json'
+import {
+  borderLineFeatures,
+  DISPUTED_BORDERS,
+  SHAPES_WITH_DISPUTED_BORDERS,
+} from './disputedBorders'
 import { prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
@@ -50,6 +55,16 @@ const CORRECT_COLOR = '#3fb950'
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
+const BORDER_WIDTH = 0.8
+// Disputed borders (DISPUTED_BORDERS in disputedBorders.ts) are dashed: dash
+// and gap lengths in line widths.
+const DISPUTED_BORDER_DASH = [4, 3]
+// Every land border is drawn twice, once from each side, so it shows at about
+// 0.91 opacity (two layers of 0.7). A dashed border is drawn once, so it
+// starts there to look as bright.
+const DISPUTED_BORDER_COLOR = 'rgba(255, 255, 255, 0.91)'
+// Every layer that draws borders, for dimming and hiding them together.
+const BORDER_LAYER_IDS = ['country-borders', 'border-lines-solid', 'border-lines-dashed']
 // The country group tint over the satellite imagery (the region globe and the
 // globe screen's Regions setting), stronger for the region under the
 // pointer and the one selected.
@@ -123,7 +138,8 @@ const HIGHEST_IHDI = Math.max(...IHDI_VALUES)
 // a tapped feature can be turned back into its CountryShape. The 197 countries
 // carry their group's id and colour as "groupId" and "groupColour", and their
 // real or else estimated IHDI as "ihdi" (null if they have neither); other map
-// areas have none of these.
+// areas have none of these. Shapes with a disputed border carry
+// "bordersDrawnSeparately", as BORDER_LINE_FEATURES draws their outlines.
 const COUNTRY_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
   features: COUNTRY_SHAPES.map((shape, index) => {
@@ -132,16 +148,32 @@ const COUNTRY_FEATURES: FeatureCollection = {
       type: 'Feature',
       id: index,
       geometry: prepareGeometryForFlatMap(shape.geometry),
-      properties:
-        facts === undefined
+      properties: {
+        ...(facts === undefined
           ? {}
           : {
               groupId: facts.groupId,
               groupColour: GROUP_COLOURS[facts.groupId],
               ihdi: facts.ihdi ?? facts.ihdiEstimate,
-            },
+            }),
+        ...(SHAPES_WITH_DISPUTED_BORDERS.has(shape.name) ? { bordersDrawnSeparately: true } : {}),
+      },
     }
   }),
+}
+
+// The outlines of the shapes with a disputed border, with those borders
+// dashed and drawn once (see borderLineFeatures). Made from the same prepared
+// outlines as COUNTRY_FEATURES, so they line up exactly.
+const BORDER_LINE_FEATURES: FeatureCollection = {
+  type: 'FeatureCollection',
+  features: borderLineFeatures(
+    COUNTRY_SHAPES.map((shape, index) => ({
+      name: shape.name,
+      geometry: COUNTRY_FEATURES.features[index].geometry,
+    })),
+    DISPUTED_BORDERS,
+  ),
 }
 
 // The positions in COUNTRY_SHAPES of each group's countries, by group id.
@@ -214,6 +246,11 @@ const MAP_STYLE: StyleSpecification = {
     countries: {
       type: 'geojson',
       data: COUNTRY_FEATURES,
+      maxzoom: BORDERS_MAX_DETAIL_ZOOM,
+    },
+    'border-lines': {
+      type: 'geojson',
+      data: BORDER_LINE_FEATURES,
       maxzoom: BORDERS_MAX_DETAIL_ZOOM,
     },
     satellite: {
@@ -303,10 +340,31 @@ const MAP_STYLE: StyleSpecification = {
       },
     },
     {
+      // Every outline but those of the shapes with a disputed border, which
+      // the two layers below draw.
       id: 'country-borders',
       type: 'line',
       source: 'countries',
-      paint: { 'line-color': BORDER_COLOR, 'line-width': 0.8 },
+      filter: ['!=', ['get', 'bordersDrawnSeparately'], true],
+      paint: { 'line-color': BORDER_COLOR, 'line-width': BORDER_WIDTH },
+    },
+    {
+      id: 'border-lines-solid',
+      type: 'line',
+      source: 'border-lines',
+      filter: ['==', ['get', 'disputed'], false],
+      paint: { 'line-color': BORDER_COLOR, 'line-width': BORDER_WIDTH },
+    },
+    {
+      id: 'border-lines-dashed',
+      type: 'line',
+      source: 'border-lines',
+      filter: ['==', ['get', 'disputed'], true],
+      paint: {
+        'line-color': DISPUTED_BORDER_COLOR,
+        'line-width': BORDER_WIDTH,
+        'line-dasharray': DISPUTED_BORDER_DASH,
+      },
     },
   ],
 }
@@ -363,17 +421,19 @@ export function setPopulationShown(map: MapLibreMap, shown: boolean) {
     shown ? POPULATION_SATELLITE_BRIGHTNESS : FULL_SATELLITE_BRIGHTNESS,
   )
   map.setPaintProperty('ocean', 'background-color', shown ? POPULATION_OCEAN_COLOR : OCEAN_COLOR)
-  map.setPaintProperty(
-    'country-borders',
-    'line-opacity',
-    shown ? POPULATION_BORDER_OPACITY : FULL_BORDER_OPACITY,
-  )
+  for (const layerId of BORDER_LAYER_IDS) {
+    map.setPaintProperty(
+      layerId,
+      'line-opacity',
+      shown ? POPULATION_BORDER_OPACITY : FULL_BORDER_OPACITY,
+    )
+  }
 }
 
 // Hides the white country borders (Name every country), so neighbouring
 // highlights join seamlessly. Call once the map has loaded.
 export function hideBorders(map: MapLibreMap) {
-  map.setLayoutProperty('country-borders', 'visibility', 'none')
+  for (const layerId of BORDER_LAYER_IDS) map.setLayoutProperty(layerId, 'visibility', 'none')
   // Antialiasing softens each fill's edge, so where two see-through
   // highlights meet, their soft edges overlap into a brighter line. Without
   // it they meet exactly, at the cost of slightly jagged coastlines.
