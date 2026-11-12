@@ -1,8 +1,8 @@
 // Also used by scripts/make-country-images.mjs, which Node runs directly, so
 // this file must only use TypeScript that Node can strip (no enums etc.).
-import { feature } from 'topojson-client'
+import { feature, merge } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
-import type { Geometry, MultiPolygon, Polygon } from 'geojson'
+import type { Geometry, MultiPolygon, Polygon, Position } from 'geojson'
 import isoCountries from 'i18n-iso-countries'
 import worldAtlas50m from 'world-atlas/countries-50m.json' with { type: 'json' }
 import tuvaluOutline from '../data/tuvaluOutline.json' with { type: 'json' }
@@ -114,9 +114,84 @@ type WorldAtlasTopology = Topology<{
   countries: GeometryCollection<{ name: string }>
 }>
 
+// Cuts a closed ring in two along a line of latitude: the part north of it
+// and the part south of it, each closed along the line. A point exactly on
+// the line goes into both; where an edge crosses the line, the crossing point
+// is added to both. The ring must meet the line exactly twice, so that each
+// part is one piece; this throws otherwise.
+export function splitRingAtLatitude(
+  ring: Position[],
+  latitude: number,
+): { north: Position[]; south: Position[] } {
+  const north: Position[] = []
+  const south: Position[] = []
+  let timesMet = 0
+  // A closed ring repeats its first point at the end; leave that out here.
+  const points = ring.slice(0, -1)
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i]
+    const next = points[(i + 1) % points.length]
+    if (point[1] > latitude) north.push(point)
+    else if (point[1] < latitude) south.push(point)
+    else {
+      north.push(point)
+      south.push(point)
+      timesMet++
+    }
+    // The edge to the next point crosses the line between its two ends.
+    if ((point[1] - latitude) * (next[1] - latitude) < 0) {
+      const fraction = (latitude - point[1]) / (next[1] - point[1])
+      const crossing = [point[0] + fraction * (next[0] - point[0]), latitude]
+      north.push(crossing)
+      south.push(crossing)
+      timesMet++
+    }
+  }
+  if (timesMet !== 2) throw new Error(`Ring meets latitude ${latitude} ${timesMet} times, not 2`)
+  return { north: [...north, north[0]], south: [...south, south[0]] }
+}
+
+// Natural Earth draws Morocco down to the Moroccan berm, with Western Sahara
+// only the strip east of it. Most maps draw the border at 27°40'N instead,
+// so Morocco and Western Sahara are joined and cut along that line. The line
+// is at Western Sahara's northernmost point in the data, Natural Earth's own
+// Algeria–Morocco–Western Sahara corner (27°39'25"N), so Algeria's border
+// keeps exactly its points. Returns the two new outlines.
+function moroccoAndWesternSaharaAt27Degrees40(topology: WorldAtlasTopology): {
+  morocco: Polygon
+  westernSahara: Polygon
+} {
+  const geometries = topology.objects.countries.geometries
+  // Every world-atlas shape has a name.
+  const nameOf = (geometry: (typeof geometries)[number]) =>
+    (geometry.properties as { name: string }).name
+  const morocco = geometries.find((geometry) => nameOf(geometry) === 'Morocco')
+  const westernSahara = geometries.find((geometry) => nameOf(geometry) === 'W. Sahara')
+  // Each is a single polygon in the 1:50m data.
+  if (morocco?.type !== 'Polygon' || westernSahara?.type !== 'Polygon') {
+    throw new Error('Morocco or W. Sahara is not one polygon')
+  }
+
+  const westernSaharaGeometry = feature(topology, westernSahara).geometry
+  if (westernSaharaGeometry.type !== 'Polygon') throw new Error('W. Sahara is not one polygon')
+  const borderLatitude = Math.max(...westernSaharaGeometry.coordinates[0].map((point) => point[1]))
+
+  const joined = merge(topology, [morocco, westernSahara])
+  if (joined.coordinates.length !== 1 || joined.coordinates[0].length !== 1) {
+    throw new Error('Morocco and W. Sahara joined are not one polygon with no holes')
+  }
+  const { north, south } = splitRingAtLatitude(joined.coordinates[0][0], borderLatitude)
+  return {
+    morocco: { type: 'Polygon', coordinates: [north] },
+    westernSahara: { type: 'Polygon', coordinates: [south] },
+  }
+}
+
 // Returns the full-detail 1:50m outlines, plus Tuvalu from the 1:10m data
 // (scripts/make-tuvalu-outline.mjs), because the 1:50m data leaves it out,
-// and with the far-off parts (FAR_OFF_PARTS) split from their countries.
+// with the Morocco–Western Sahara border moved to 27°40'N
+// (moroccoAndWesternSaharaAt27Degrees40), and with the far-off parts
+// (FAR_OFF_PARTS) split from their countries.
 // MapLibre simplifies them itself for each zoom level, so they don't need
 // simplifying here.
 export function loadCountryShapes(): CountryShape[] {
@@ -139,6 +214,12 @@ export function loadCountryShapes(): CountryShape[] {
       geometry: country.geometry,
     }
   })
+
+  const { morocco, westernSahara } = moroccoAndWesternSaharaAt27Degrees40(topology)
+  for (const shape of shapes) {
+    if (shape.isoAlpha3 === 'MAR') shape.geometry = morocco
+    if (shape.isoAlpha3 === 'ESH') shape.geometry = westernSahara
+  }
 
   shapes.push({
     name: 'Tuvalu',

@@ -15,7 +15,7 @@ The UN and UNDP sources don't endorse this project either, and its data may not 
 
 ## Maps and imagery
 
-- **Country borders:** [Natural Earth](https://www.naturalearthdata.com/) 4.1.0 (public domain), by way of [world-atlas](https://github.com/topojson/world-atlas) (ISC licence, copyright 2013-2019 Michael Bostock). Made with Natural Earth.
+- **Country borders:** [Natural Earth](https://www.naturalearthdata.com/) 4.1.0 (public domain), by way of [world-atlas](https://github.com/topojson/world-atlas) (ISC licence, copyright 2013-2019 Michael Bostock). Made with Natural Earth. Changes: the Morocco–Western Sahara border is moved to 27°40'N.
 - **Satellite imagery:** Blue Marble: Next Generation, June 2004, by Reto Stöckli, [NASA Earth Observatory](https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/). Cut into map tiles for this app. NASA doesn't endorse this project.
 - **Population lights:** Schiavina, Freire, Carioli, and MacManus (2023), [GHS-POP R2023A](https://doi.org/10.2905/2FF68A52-5B5B-4A22-8F40-C41DA8332CFE), European Commission, Joint Research Centre, used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes: the 2025 grid at 30 arcseconds is drawn as randomly placed dots of light and cut into map tiles. The European Commission doesn't endorse this project.
 - **Flags:** [hampusborgos/country-flags](https://github.com/hampusborgos/country-flags), described by that project as public domain and sourced from Wikimedia Commons. National flags can have other legal restrictions on how they're used.

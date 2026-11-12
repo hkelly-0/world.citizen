@@ -108,6 +108,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
             <ExternalLink href="https://www.naturalearthdata.com/">Natural Earth</ExternalLink>{' '}
             (public domain), by way of{' '}
             <ExternalLink href="https://github.com/topojson/world-atlas">world-atlas</ExternalLink>.
+            The Morocco–Western Sahara border is moved to 27°40'N.
           </p>
           <p className="credits__entry">
             <strong>Satellite imagery:</strong> Blue Marble: Next Generation, June 2004, by Reto

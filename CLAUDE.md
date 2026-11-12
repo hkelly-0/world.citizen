@@ -80,6 +80,7 @@ Generated files are committed; each script lists its download links.
 
 - Borders: Natural Earth 1:50m from `world-atlas`, ISO numeric IDs converted to alpha-3 with `i18n-iso-countries`. Some areas (Kosovo, Somaliland, N. Cyprus, etc.) have no ISO code; Kosovo is a country, given `XKX` by name (`CODES_OF_UNCODED_COUNTRIES`), a code that must never change.
   - 50m leaves out Tuvalu, so `node scripts/make-tuvalu-outline.mjs` writes it from 1:10m.
+  - Natural Earth draws Morocco down to the berm; `loadCountryShapes` moves the Morocco–Western Sahara border to Natural Earth's 27°40'N corner, so Algeria's border keeps its points (the land borders script relies on shared points).
   - Shapes crossing 180° or surrounding the South Pole are converted for MapLibre in `flatMapGeometry.ts`.
 - Background imagery: NASA Blue Marble Next Generation (public domain), from `scripts/make-background-tiles.sh <source-folder>` (needs GDAL).
 - Population lights: GHS-POP R2023A (CC BY 4.0), from `python3 -I scripts/make-population-lights.py <source-folder>` (needs GDAL, numpy, Pillow). Chosen over NASA night lights because it maps people, not electric light. For looks only. Empty tiles aren't written, so those requests fail by design.

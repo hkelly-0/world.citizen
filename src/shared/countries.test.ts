@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import type { MultiPolygon, Position } from 'geojson'
+import type { MultiPolygon, Polygon, Position } from 'geojson'
 import farOffParts from '../data/farOffParts.json'
-import { countryCodeOfShape, loadCountryShapes } from './countries'
+import { countryCodeOfShape, loadCountryShapes, splitRingAtLatitude } from './countries'
 
 describe('loadCountryShapes', () => {
   const shapes = loadCountryShapes()
@@ -22,6 +22,20 @@ describe('loadCountryShapes', () => {
     expect(france.geometry.type).toBe('MultiPolygon')
     const franceRings = (france.geometry as MultiPolygon).coordinates.map((polygon) => polygon[0])
     expect(franceRings.some((ring) => ring.some(isInTheAmericas))).toBe(false)
+  })
+
+  it("moves the Morocco–Western Sahara border to Natural Earth's 27°40'N corner", () => {
+    const morocco = shapes.find((shape) => shape.isoAlpha3 === 'MAR')
+    const westernSahara = shapes.find((shape) => shape.isoAlpha3 === 'ESH')
+    if (morocco === undefined || westernSahara === undefined) throw new Error('No MAR or ESH')
+    const latitudes = (shape: typeof morocco) =>
+      (shape.geometry as Polygon).coordinates[0].map((point) => point[1])
+    // The corner is at 27°39'25"N.
+    expect(Math.min(...latitudes(morocco))).toBeCloseTo(27.657, 3)
+    expect(Math.max(...latitudes(westernSahara))).toBeCloseTo(27.657, 3)
+    // Western Sahara reaches the Mauritanian border at Lagouira, near 21°N.
+    expect(Math.min(...latitudes(westernSahara))).toBeLessThan(21)
+    expect(westernSahara.name).toBe('Western Sahara')
   })
 
   it('includes Tuvalu, which the 1:50m dataset leaves out', () => {
@@ -68,6 +82,68 @@ describe('loadCountryShapes', () => {
   it('gives every shape its own name, so far-off parts can be told apart', () => {
     const names = shapes.map((shape) => shape.name)
     expect(names.length).toBe(new Set(names).size)
+  })
+})
+
+describe('splitRingAtLatitude', () => {
+  it('cuts a ring in two along the line, adding the crossing points to both', () => {
+    const square = [
+      [0, 0],
+      [2, 0],
+      [2, 2],
+      [0, 2],
+      [0, 0],
+    ]
+    expect(splitRingAtLatitude(square, 1)).toEqual({
+      north: [
+        [2, 1],
+        [2, 2],
+        [0, 2],
+        [0, 1],
+        [2, 1],
+      ],
+      south: [
+        [0, 0],
+        [2, 0],
+        [2, 1],
+        [0, 1],
+        [0, 0],
+      ],
+    })
+  })
+
+  it('puts a point exactly on the line in both parts', () => {
+    const diamond = [
+      [0, 1],
+      [1, 0],
+      [2, 1],
+      [1, 2],
+      [0, 1],
+    ]
+    const { north, south } = splitRingAtLatitude(diamond, 1)
+    expect(north).toEqual([
+      [0, 1],
+      [2, 1],
+      [1, 2],
+      [0, 1],
+    ])
+    expect(south).toEqual([
+      [0, 1],
+      [1, 0],
+      [2, 1],
+      [0, 1],
+    ])
+  })
+
+  it('throws if the ring meets the line other than twice', () => {
+    const square = [
+      [0, 0],
+      [2, 0],
+      [2, 2],
+      [0, 2],
+      [0, 0],
+    ]
+    expect(() => splitRingAtLatitude(square, 3)).toThrow()
   })
 })
 
