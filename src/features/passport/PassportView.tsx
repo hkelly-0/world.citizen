@@ -155,7 +155,7 @@ export function PassportView({
                 onChange={(event) => changeSort(event.target.value as PassportSort)}
               >
                 <option value="alphabetical">Alphabetical</option>
-                <option value="date-discovered">Date discovered</option>
+                <option value="date-discovered">Recently discovered</option>
                 <option value="recall">Familiarity</option>
               </select>
             </label>

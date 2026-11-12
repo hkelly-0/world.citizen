@@ -175,9 +175,10 @@ export function sortedCollectedCountries(
   // Already alphabetical, and sort() keeps that order between equal values.
   const countries = collectedCountries(progress)
   if (sort === 'date-discovered') {
-    // '' sorts before every time.
+    // Last discovered first. '' sorts before every time, so undated countries
+    // (discovered before dates were saved) come last.
     const discoveredAt = (country: CountryFacts) => discoveries[country.isoAlpha3] ?? ''
-    return countries.sort((a, b) => discoveredAt(a).localeCompare(discoveredAt(b)))
+    return countries.sort((a, b) => discoveredAt(b).localeCompare(discoveredAt(a)))
   }
   if (sort === 'recall') {
     // Infinity sorts after every recall chance.

@@ -138,8 +138,8 @@ describe('sortedCollectedCountries', () => {
     expect(names('alphabetical')).toEqual(['Brazil', 'Chile', 'France', 'Japan', 'Peru'])
   })
 
-  it('sorts by date discovered, first discovered first, with undated countries before, A-Z', () => {
-    expect(names('date-discovered')).toEqual(['Brazil', 'Chile', 'Japan', 'Peru', 'France'])
+  it('sorts by date discovered, last discovered first, with undated countries after, A-Z', () => {
+    expect(names('date-discovered')).toEqual(['France', 'Peru', 'Japan', 'Brazil', 'Chile'])
   })
 })
 

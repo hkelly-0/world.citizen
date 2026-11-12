@@ -55,7 +55,7 @@ export function DevTools({ onChange }: DevToolsProps) {
     const progress = loadProgress()
     const codes = unseenCountriesInRandomGroups(progress, groupCount)
     saveProgress(addCountries(progress, codes, kind, todayString()))
-    // So they sort by Date discovered like countries found in the flashcards.
+    // So they sort by Recently discovered like countries found in the flashcards.
     for (const code of codes) recordDiscovery(code, new Date())
     finish(`Added ${codes.length} ${kind} countries.`)
   }

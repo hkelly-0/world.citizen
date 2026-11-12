@@ -289,8 +289,8 @@ describe('PassportView', () => {
 
   it('sorts by date discovered when chosen, and remembers the choice', async () => {
     saveProgress({ FRA: { globe: answered }, PER: { globe: answered } })
-    recordDiscovery('PER', new Date('2026-10-20T09:00:00Z'))
-    recordDiscovery('FRA', new Date('2026-10-21T09:00:00Z'))
+    recordDiscovery('FRA', new Date('2026-10-20T09:00:00Z'))
+    recordDiscovery('PER', new Date('2026-10-21T09:00:00Z'))
     render(
       <PassportView
         learnedQuestionIds={QUESTION_IDS}
@@ -304,7 +304,7 @@ describe('PassportView', () => {
     expect(names()).toEqual(['France', 'Peru', 'New Country'])
     await userEvent.selectOptions(
       screen.getByRole('combobox', { name: 'Sort by' }),
-      'Date discovered',
+      'Recently discovered',
     )
     expect(names()).toEqual(['Peru', 'France', 'New Country'])
     expect(loadPassportSort()).toBe('date-discovered')
