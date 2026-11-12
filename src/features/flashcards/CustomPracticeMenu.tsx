@@ -60,9 +60,8 @@ function isMultiCountry(choice: Choice): choice is MultiCountryQuestionId {
 
 type CustomPracticeMenuProps = {
   // The question types chosen in Settings; only these are offered (both globe
-  // options if 'globe' is one of them), plus Borders, which is always offered,
-  // and each other multi-country question whose LEARNED_QUESTION_NEEDED is one
-  // of them.
+  // options if 'globe' is one of them), plus each multi-country question whose
+  // LEARNED_QUESTION_NEEDED is one of them.
   learnedQuestionIds: QuestionId[]
   // The Passport's countries (ISO alpha-3 codes). A multi-country question
   // they can't make is disabled.

@@ -21,11 +21,9 @@ export const MULTI_COUNTRY_QUESTION_IDS = [
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
 // Each is only offered (asked in Classic, tickable in Custom Practice) when
-// this question type is learned in Settings. Borders needs none, so it is always offered.
-export const LEARNED_QUESTION_NEEDED: Record<
-  Exclude<MultiCountryQuestionId, 'borders'>,
-  QuestionId
-> = {
+// this question type is learned in Settings. Borders needs Location ('globe').
+export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId> = {
+  borders: 'globe',
   'flag-matching': 'flag',
   'capital-matching': 'capital',
   'population-ordering': 'population',
@@ -34,13 +32,13 @@ export const LEARNED_QUESTION_NEEDED: Record<
 }
 
 // The multi-country questions offered when `learnedQuestionIds` are learned
-// in Settings: Borders, and each other whose LEARNED_QUESTION_NEEDED is one of
-// them. Classic asks all of these; Custom Practice offers them to tick.
+// in Settings: each whose LEARNED_QUESTION_NEEDED is one of them. Classic asks
+// all of these; Custom Practice offers them to tick.
 export function offeredMultiCountryQuestionIds(
   learnedQuestionIds: QuestionId[],
 ): MultiCountryQuestionId[] {
-  return MULTI_COUNTRY_QUESTION_IDS.filter(
-    (id) => id === 'borders' || learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[id]),
+  return MULTI_COUNTRY_QUESTION_IDS.filter((id) =>
+    learnedQuestionIds.includes(LEARNED_QUESTION_NEEDED[id]),
   )
 }
 

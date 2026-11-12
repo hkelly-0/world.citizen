@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { nextMultiCountryQuestion } from './multiCountryQuestions'
+import { nextMultiCountryQuestion, offeredMultiCountryQuestionIds } from './multiCountryQuestions'
 
 // Four different population and IHDI titles, and enough for Flag Matching.
 const PASSPORT = ['USA', 'DEU', 'CAN', 'ISL']
@@ -51,5 +51,12 @@ describe('nextMultiCountryQuestion', () => {
       codes: ['FRA'],
     })
     expect(nextMultiCountryQuestion(['borders'], ['ISL'], null)).toBeNull()
+  })
+})
+
+describe('offeredMultiCountryQuestionIds', () => {
+  it('offers Borders only when Location is learned', () => {
+    expect(offeredMultiCountryQuestionIds(['globe', 'flag'])).toEqual(['borders', 'flag-matching'])
+    expect(offeredMultiCountryQuestionIds(['flag'])).toEqual(['flag-matching'])
   })
 })

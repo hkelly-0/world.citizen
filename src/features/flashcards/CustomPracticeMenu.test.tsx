@@ -75,7 +75,7 @@ describe('CustomPracticeMenu', () => {
     ])
   })
 
-  it('leaves out Fundamentals and Textual info when none of them is offered', () => {
+  it('leaves out each group when none of it is offered', () => {
     render(
       <CustomPracticeMenu
         learnedQuestionIds={[]}
@@ -87,7 +87,7 @@ describe('CustomPracticeMenu', () => {
 
     expect(screen.queryByRole('group', { name: 'Fundamentals' })).toBeNull()
     expect(screen.queryByRole('group', { name: 'Textual info' })).toBeNull()
-    expect(screen.getByRole('group', { name: 'Multi-Country Questions' })).toBeInTheDocument()
+    expect(screen.queryByRole('group', { name: 'Multi-Country Questions' })).toBeNull()
   })
 
   it('passes the ticked question types to onGo, in the usual question order', async () => {
@@ -164,9 +164,9 @@ describe('CustomPracticeMenu', () => {
     expect(onGo).toHaveBeenCalledWith(['area'], [], ['borders', 'ihdi-ordering'])
   })
 
-  it('offers only the question types learned in Settings, plus Borders', () => {
+  it('offers only the question types learned in Settings', () => {
     // Flag Matching isn't offered, as the flag question isn't learned, but
-    // Capital Matching is.
+    // Borders and Capital Matching are, as Location and Capital are.
     render(
       <CustomPracticeMenu
         learnedQuestionIds={['globe', 'capital']}
@@ -196,7 +196,6 @@ describe('CustomPracticeMenu', () => {
 
     expect(screen.getAllByRole('checkbox').map((box) => box.parentElement!.textContent)).toEqual([
       'Area',
-      'Borders',
       'Ordering - Area',
     ])
   })
@@ -287,7 +286,7 @@ describe('CustomPracticeMenu', () => {
     // are too few for Matching.
     render(
       <CustomPracticeMenu
-        learnedQuestionIds={['flag']}
+        learnedQuestionIds={['globe', 'flag']}
         passportCodes={['ISL', 'FJI', 'JAM']}
         onBack={vi.fn()}
         onGo={vi.fn()}
