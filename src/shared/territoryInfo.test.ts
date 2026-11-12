@@ -37,14 +37,14 @@ describe('loadTerritoryInfo', () => {
 
 describe('parseTerritoryInfo', () => {
   it('gives the paragraph, trimming surrounding whitespace', () => {
-    expect(parseTerritoryInfo('## Info\n\n  Disputed.  \n')).toBe('Disputed.')
+    expect(parseTerritoryInfo('## More info\n\n  Disputed.  \n')).toBe('Disputed.')
   })
 
   it('rejects a wrong or extra heading, an empty section, or text before the heading', () => {
     expect(() => parseTerritoryInfo('## History\nOld.')).toThrow()
-    expect(() => parseTerritoryInfo('## Info\nOld.\n## People\nMany.')).toThrow()
-    expect(() => parseTerritoryInfo('## Info\n  \n')).toThrow()
-    expect(() => parseTerritoryInfo('Intro.\n## Info\nOld.')).toThrow()
+    expect(() => parseTerritoryInfo('## More info\nOld.\n## People\nMany.')).toThrow()
+    expect(() => parseTerritoryInfo('## More info\n  \n')).toThrow()
+    expect(() => parseTerritoryInfo('Intro.\n## More info\nOld.')).toThrow()
     expect(() => parseTerritoryInfo('No heading.')).toThrow()
   })
 })

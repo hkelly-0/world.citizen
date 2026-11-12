@@ -280,7 +280,7 @@ describe('CountryInfoPanel', () => {
     })
   })
 
-  describe("a territory's Info paragraph", () => {
+  describe("a territory's More info paragraph", () => {
     const hongKong: CountryShape = { ...france, name: 'Hong Kong', isoAlpha3: 'HKG' }
     const greenland: CountryShape = { ...france, name: 'Greenland', isoAlpha3: 'GRL' }
     const somaliland: CountryShape = {
@@ -289,15 +289,15 @@ describe('CountryInfoPanel', () => {
       isoNumeric: null,
       isoAlpha3: null,
     }
-    const infoHeading = () => screen.getByRole('button', { name: 'Info' })
+    const infoHeading = () => screen.getByRole('button', { name: 'More info' })
 
     it('is only shown when asked for, and only for areas with a file', () => {
       const { unmount } = render(<CountryInfoPanel {...panelProps} country={hongKong} />)
-      expect(screen.queryByRole('button', { name: 'Info' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'More info' })).not.toBeInTheDocument()
       unmount()
 
       render(<CountryInfoPanel {...panelProps} country={greenland} showCountryInfo />)
-      expect(screen.queryByRole('button', { name: 'Info' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'More info' })).not.toBeInTheDocument()
     })
 
     it('starts closed, and opens and closes when its heading is pressed', async () => {

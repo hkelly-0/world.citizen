@@ -4,7 +4,7 @@
 // no code. Plain text for now.
 
 // The one heading every file must have. Its paragraph is at most 80 words.
-export const TERRITORY_INFO_HEADING = 'Info'
+export const TERRITORY_INFO_HEADING = 'More info'
 
 // Each area's file, keyed by its path (e.g. "/src/data/territoryInfo/HKG.md").
 // Each is a separate chunk, loaded only when asked for, so the text stays out

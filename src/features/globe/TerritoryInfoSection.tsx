@@ -10,7 +10,7 @@ type TerritoryInfoSectionProps = {
 }
 
 // The hand-written paragraph about a map area outside the 197 countries,
-// under an "Info" heading that opens and closes it, like a country's
+// under a "More info" heading that opens and closes it, like a country's
 // paragraphs (CountryInfoSections). Starts closed. The parent should key this
 // by area, so a newly selected area starts closed again.
 export function TerritoryInfoSection({ territoryKey }: TerritoryInfoSectionProps) {
