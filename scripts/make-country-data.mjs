@@ -217,27 +217,38 @@ function dimensionIndices(row, year) {
   return { lifespan, education, income }
 }
 
+// UNDP's IHDI formula, shared by the breakdown and the estimates below: each
+// dimension index times (1 - its inequality loss), and the IHDI as the
+// geometric mean of the three. Losses are percentages.
+function inequalityAdjusted(indices, losses) {
+  const lifespan = indices.lifespan * (1 - losses.lifespan / 100)
+  const education = indices.education * (1 - losses.education / 100)
+  const income = indices.income * (1 - losses.income / 100)
+  return { lifespan, education, income, ihdi: Math.cbrt(lifespan * education * income) }
+}
+
 // Values from the same year as the IHDI, or null if any is missing.
 function ihdiBreakdown(row, year) {
   const indices = dimensionIndices(row, year)
-  const lifespanLoss = undpValue(row, 'ineq_le', year)
-  const educationLoss = undpValue(row, 'ineq_edu', year)
-  const incomeLoss = undpValue(row, 'ineq_inc', year)
-  if (indices === null || [lifespanLoss, educationLoss, incomeLoss].includes(null)) return null
-
-  // Losses are percentages.
-  const lifespan = indices.lifespan * (1 - lifespanLoss / 100)
-  const education = indices.education * (1 - educationLoss / 100)
-  const incomeAdjusted = indices.income * (1 - incomeLoss / 100)
+  const losses = {
+    lifespan: undpValue(row, 'ineq_le', year),
+    education: undpValue(row, 'ineq_edu', year),
+    income: undpValue(row, 'ineq_inc', year),
+  }
+  if (indices === null || Object.values(losses).includes(null)) return null
+  const adjusted = inequalityAdjusted(indices, losses)
 
   // Check against UNDP's own IHDI, so a changed method in a new report is noticed.
   const ihdi = Number(row[`ihdi_${year}`])
-  const rebuilt = Math.cbrt(lifespan * education * incomeAdjusted)
-  if (Math.abs(rebuilt - ihdi) > IHDI_BREAKDOWN_TOLERANCE) {
-    throw new Error(`IHDI breakdown for ${row.iso3} gives ${rebuilt}, not UNDP's ${ihdi}`)
+  if (Math.abs(adjusted.ihdi - ihdi) > IHDI_BREAKDOWN_TOLERANCE) {
+    throw new Error(`IHDI breakdown for ${row.iso3} gives ${adjusted.ihdi}, not UNDP's ${ihdi}`)
   }
   const round = (value) => Math.round(value * 1000) / 1000
-  return { lifespan: round(lifespan), education: round(education), income: round(incomeAdjusted) }
+  return {
+    lifespan: round(adjusted.lifespan),
+    education: round(adjusted.education),
+    income: round(adjusted.income),
+  }
 }
 
 // The latest year with a value, as { value, year }, or undefined if none.
@@ -389,19 +400,6 @@ const LOSS_PARTS = [
   ['income', 'ineq_inc'],
 ]
 
-// UNDP's IHDI formula (as in ihdiBreakdown) from dimension indices and losses
-// given as percentages.
-function ihdiFromLosses(indices, losses) {
-  return Math.cbrt(
-    indices.lifespan *
-      (1 - losses.lifespan / 100) *
-      indices.education *
-      (1 - losses.education / 100) *
-      indices.income *
-      (1 - losses.income / 100),
-  )
-}
-
 function ihdiFromNearestFit(code) {
   const nearest = nearestWith(
     code,
@@ -457,7 +455,7 @@ function estimateIhdi(code) {
       filled.push(`${part} loss ${losses[part].toFixed(1)}%`)
     }
     return {
-      value: ihdiFromLosses(indices, losses),
+      value: inequalityAdjusted(indices, losses).ihdi,
       method: `${group.name} group's average ${filled.join(', ')}`,
     }
   }
@@ -472,7 +470,7 @@ function estimateIhdi(code) {
         .filter((loss) => loss !== null),
     )
     return {
-      value: ihdiFromLosses(indices, losses),
+      value: inequalityAdjusted(indices, losses).ihdi,
       method: `every country's average income loss ${losses.income.toFixed(1)}%`,
     }
   }
@@ -485,7 +483,7 @@ function estimateIhdi(code) {
       filled.push(`${part} loss ${losses[part].toFixed(1)}% (nearest ${nearest.length})`)
     }
     return {
-      value: ihdiFromLosses(indices, losses),
+      value: inequalityAdjusted(indices, losses).ihdi,
       method: `nearest countries' average ${filled.join(', ')}`,
     }
   }
