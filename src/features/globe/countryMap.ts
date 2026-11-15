@@ -590,6 +590,9 @@ export function createCountryMap(
     style: tintedGroupIds !== undefined ? styleWithGroups(tintedGroupIds, isTintShown) : MAP_STYLE,
     center: [0, 20],
     zoom: 1.5,
+    // Stops every way of tilting the map (e.g. a two-finger drag on phones,
+    // or right-drag on desktop), so the map is always seen from straight above.
+    maxPitch: 0,
     pixelRatio: Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO),
     attributionControl: false,
   })
