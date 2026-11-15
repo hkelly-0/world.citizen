@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BackButton } from '../../shared/BackButton'
 // Same layout and buttons as the main menu.
 import '../menu/MainMenu.css'
@@ -21,6 +22,17 @@ export function FlashcardsMenu({
   onOpenClassic,
   onOpenCustomPractice,
 }: FlashcardsMenuProps) {
+  // Starts loading the globes a flashcard screen opens with (lazy-loaded in
+  // Flashcard.tsx and FlashcardsView.tsx) while the user picks a mode, so the
+  // first card's globe doesn't wait for MapLibre and the border data. Each
+  // import is shared with its lazy component, so it is only fetched once. A
+  // failure is ignored here: the lazy load tries again when the globe is shown.
+  useEffect(() => {
+    import('../globe/LocateCountryGlobe').catch(() => {})
+    import('../globe/NameCountryGlobe').catch(() => {})
+    import('../globe/RegionGlobe').catch(() => {})
+  }, [])
+
   return (
     <main className="main-menu">
       <BackButton onClick={onBack} />
