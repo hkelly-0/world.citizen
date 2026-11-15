@@ -127,7 +127,7 @@ describe('CountryInfoPanel', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
-    expect(valueOf('IHDI')).toHaveTextContent('8.0 (est.)? Great')
+    expect(valueOf('IHDI')).toHaveTextContent('7.9 (est.)? Great')
   })
 
   it('says an estimated IHDI has no breakdown', async () => {

@@ -148,7 +148,7 @@ describe('country stats', () => {
   })
 
   it('marks an estimated IHDI, and gives null with no data', () => {
-    expect(ihdiStat(countryFacts['SAU'])).toMatchObject({ value: '8.0 (est.)', isEstimate: true })
+    expect(ihdiStat(countryFacts['SAU'])).toMatchObject({ value: '7.9 (est.)', isEstimate: true })
     expect(ihdiStat(countryFacts['VAT'])).toBeNull()
   })
 })

@@ -42,7 +42,7 @@ describe('rangeQuestions', () => {
   })
 
   it('uses the estimated IHDI for a country that has an HDI but no IHDI', () => {
-    // Saudi Arabia: no IHDI from UNDP, HDI 0.9, so an estimate of 0.804.
+    // Saudi Arabia: no IHDI from UNDP, HDI 0.9, so an estimate of 0.794.
     const saudiArabia = countryFacts['SAU']
     expect(saudiArabia.ihdi).toBeNull()
     expect(saudiArabia.ihdiEstimate).not.toBeNull()
@@ -63,7 +63,7 @@ describe('rangeQuestions', () => {
       '67M',
       '8.4',
     ])
-    expect(rangeQuestions(countryFacts['SAU'])[2].trueValue).toBe('8.0 (est.)')
+    expect(rangeQuestions(countryFacts['SAU'])[2].trueValue).toBe('7.9 (est.)')
     expect(rangeQuestions(countryFacts['VAT'])[2].trueValue).toBeNull()
   })
 })

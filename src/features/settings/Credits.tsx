@@ -91,7 +91,8 @@ export function Credits({ onBack }: { onBack: () => void }) {
             <ExternalLink href="https://hdr.undp.org/">Human Development Report 2025</ExternalLink>,
             under <ExternalLink href={CC_BY_IGO_URL}>CC BY 3.0 IGO</ExternalLink>. Uses each
             country's latest year, shown rounded and as named ranges. Values marked as estimated are
-            this app's own estimates from HDI, not UNDP figures.
+            this app's own estimates from the country's other figures and those of similar
+            countries, not UNDP figures.
           </p>
           <p className="credits__entry">
             <strong>Kosovo's HDI:</strong> Global Data Lab,{' '}

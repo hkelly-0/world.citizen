@@ -4,6 +4,8 @@
 // Run once from the project root; the generated file is bundled with the app.
 //
 // Each country's group comes from the hand-written src/data/countryGroups.json.
+// Estimated IHDIs use the nearest countries from src/data/countryNeighbours.json,
+// so rerun this after that file changes.
 //
 // Needs Node 24+ and these two source files, saved in the folder given as
 // the first argument:
@@ -25,6 +27,7 @@ import { join } from 'node:path'
 
 const OUTPUT = 'src/data/countries.json'
 const GROUPS = 'src/data/countryGroups.json'
+const NEIGHBOURS = 'src/data/countryNeighbours.json'
 const UNDP_FILE = 'data-sources/hdr-composite.csv'
 
 // UN observer states, included alongside the UN members.
@@ -171,6 +174,8 @@ await readCsv(
 const hdis = {}
 const ihdis = {}
 const ihdiBreakdowns = {}
+// Every row of the UNDP file, kept for estimating missing IHDIs.
+const undpRows = {}
 
 // --- IHDI broken down into its three inequality-adjusted dimension indices ---
 // The UNDP file doesn't list these, so they are worked out as UNDP does (HDR
@@ -248,6 +253,7 @@ function latestUndpValue(row, prefix) {
 }
 
 await readCsv(UNDP_FILE, { gzipped: false, encoding: 'latin1' }, (row) => {
+  undpRows[row.iso3] = row
   const hdi = latestUndpValue(row, 'hdi')
   if (hdi !== undefined) hdis[row.iso3] = hdi
   const ihdi = latestUndpValue(row, 'ihdi')
@@ -266,8 +272,8 @@ await readCsv(UNDP_FILE, { gzipped: false, encoding: 'latin1' }, (row) => {
 // - Taiwan: Taiwan's statistics office (DGBAS) puts its own figures into the
 //   UNDP's formula and compares them against the same report as the UNDP file:
 //   https://data.gov.tw/dataset/25711
-// Added after the UNDP file is read and before the IHDI fit below, so these
-// countries get an estimated IHDI without changing the fit.
+// Added after the UNDP file is read and before the IHDI estimates below, so
+// these countries get an estimated IHDI.
 const HDI_BY_HAND = {
   XKX: { value: 0.797, year: 2023 },
   TWN: { value: 0.934, year: 2023 },
@@ -280,29 +286,219 @@ for (const [code, hdi] of Object.entries(HDI_BY_HAND)) {
 }
 
 // --- Estimated IHDI for countries that have an HDI but no IHDI ---
-// IHDI is closely tied to HDI, and lower HDIs lose proportionally more to
-// inequality. So fit a straight line (ordinary least squares) through the
-// countries that have both, and apply it to the ones missing an IHDI.
-const bothCodes = selected
-  .map((country) => country.cca3)
-  .filter((code) => hdis[code] !== undefined && ihdis[code] !== undefined)
-const meanHdi = bothCodes.reduce((sum, code) => sum + hdis[code].value, 0) / bothCodes.length
-const meanIhdi = bothCodes.reduce((sum, code) => sum + ihdis[code].value, 0) / bothCodes.length
-let hdiTimesIhdi = 0
-let hdiSquared = 0
-for (const code of bothCodes) {
-  const hdiOffset = hdis[code].value - meanHdi
-  hdiTimesIhdi += hdiOffset * (ihdis[code].value - meanIhdi)
-  hdiSquared += hdiOffset * hdiOffset
+// Methods were chosen by estimating the IHDI of each country that has one,
+// with its own IHDI hidden (leave-one-out). Keeping a country's real
+// inequality losses and estimating only the missing ones (tested on income)
+// beat fitting IHDI from HDI. Only losses from the same year as a country's
+// HDI count, both its own and those averaged from other countries, so an
+// older loss (e.g. Equatorial Guinea's 2015 income loss) is treated as
+// missing. Each country uses the first that applies:
+// 1. In a comparison group (COMPARISON_GROUPS): each missing loss is the
+//    average over the group countries that have it.
+// 2. Missing only the income loss, and in GLOBAL_INCOME_LOSS: the average
+//    income loss of every country.
+// 3. Missing one or two losses: each missing loss is the average of that loss
+//    over the nearest countries that have it, so the countries averaged can
+//    differ between losses.
+// 4. Otherwise (missing all three, or not in the UNDP file): a straight line
+//    (ordinary least squares) through the nearest countries' HDIs and IHDIs.
+// "Nearest" is by distance between main landmasses, from countryNeighbours.json.
+
+// Hand-picked by economic history, for countries whose nearest countries with
+// data are poor matches.
+const COMPARISON_GROUPS = [
+  {
+    // Former British sugar colonies, now small tourism and service economies,
+    // with Trinidad, Guyana, and Suriname (indentured Indian labour after
+    // slavery, now oil, gas, and mining), which have no income loss of their
+    // own. Haiti and the Dominican Republic are left out as poor matches.
+    name: 'Caribbean',
+    countries: ['ATG', 'BRB', 'DMA', 'GRD', 'GUY', 'KNA', 'LCA', 'SUR', 'TTO', 'VCT'],
+  },
+  {
+    // Belize resembles Central America more than the islands.
+    name: 'Central America',
+    countries: ['BLZ', 'CRI', 'GTM', 'HND', 'NIC', 'PAN', 'SLV'],
+  },
+  {
+    // Oil and gas states with large migrant workforces, unlike their poorer
+    // neighbours. Only the UAE and Oman have an income loss; averaging the two
+    // hedges against the UAE's, which is low for the region.
+    name: 'Gulf',
+    countries: ['ARE', 'BHR', 'KWT', 'OMN', 'QAT', 'SAU'],
+  },
+  {
+    // Eritrea's nearest countries include the Gulf states, Jordan, and Kenya,
+    // whose losses are far lower than its poorer neighbours around the Red Sea.
+    name: 'Horn of Africa',
+    countries: ['DJI', 'ERI', 'ETH', 'SDN', 'SOM', 'SSD', 'YEM'],
+  },
+  {
+    // Libya's nearest countries include southern Europe across the
+    // Mediterranean; it is matched with the other North African Arab states
+    // instead, leaving out the poorer Sahel.
+    name: 'North Africa',
+    countries: ['DZA', 'EGY', 'LBY', 'MAR', 'TUN'],
+  },
+  {
+    // Lebanon's nearest countries include Israel, Cyprus, Greece, and the
+    // Caucasus, whose education losses are far lower than its Arab neighbours'.
+    // Syria is left out, as it has no education loss.
+    name: 'Levant',
+    countries: ['EGY', 'IRQ', 'JOR', 'LBN', 'PSE'],
+  },
+]
+// Cuba has had a planned economy since 1959, so no nearby country is a good
+// match for its income inequality.
+const GLOBAL_INCOME_LOSS = ['CUB']
+const NEAREST_COUNT = 12
+
+const neighbours = JSON.parse(readFileSync(NEIGHBOURS, 'utf8'))
+const selectedCodes = selected.map((country) => country.cca3)
+for (const code of [
+  ...COMPARISON_GROUPS.flatMap((group) => group.countries),
+  ...GLOBAL_INCOME_LOSS,
+]) {
+  if (!selectedCodes.includes(code)) throw new Error(`${code} is not one of the 197`)
 }
-const slope = hdiTimesIhdi / hdiSquared
-const intercept = meanIhdi - slope * meanHdi
-function estimateIhdi(hdi) {
-  return Math.round((slope * hdi + intercept) * 1000) / 1000
+
+const average = (values) => values.reduce((sum, value) => sum + value, 0) / values.length
+
+// A country's loss from the same year as its HDI, or null if missing.
+function lossInHdiYear(code, prefix) {
+  const row = undpRows[code]
+  if (row === undefined || hdis[code] === undefined) return null
+  return undpValue(row, prefix, hdis[code].year)
 }
-console.log(
-  `IHDI estimate: ${slope.toFixed(4)} x HDI + ${intercept.toFixed(4)} (fitted on ${bothCodes.length} countries)`,
-)
+
+// Up to NEAREST_COUNT of the nearest countries that have the data needed.
+// countryNeighbours.json lists only a few more than that per country, so
+// throw if too few have data for a fair average or fit.
+function nearestWith(code, hasData) {
+  const nearest = Object.keys(neighbours[code]).filter(hasData).slice(0, NEAREST_COUNT)
+  if (nearest.length < NEAREST_COUNT / 2) {
+    throw new Error(`Only ${nearest.length} nearby countries have data to estimate ${code}'s IHDI`)
+  }
+  return nearest
+}
+
+// Each inequality loss's part name (as in dimensionIndices) and UNDP column.
+const LOSS_PARTS = [
+  ['lifespan', 'ineq_le'],
+  ['education', 'ineq_edu'],
+  ['income', 'ineq_inc'],
+]
+
+// UNDP's IHDI formula (as in ihdiBreakdown) from dimension indices and losses
+// given as percentages.
+function ihdiFromLosses(indices, losses) {
+  return Math.cbrt(
+    indices.lifespan *
+      (1 - losses.lifespan / 100) *
+      indices.education *
+      (1 - losses.education / 100) *
+      indices.income *
+      (1 - losses.income / 100),
+  )
+}
+
+function ihdiFromNearestFit(code) {
+  const nearest = nearestWith(
+    code,
+    (other) => hdis[other] !== undefined && ihdis[other] !== undefined,
+  )
+  const meanHdi = average(nearest.map((other) => hdis[other].value))
+  const meanIhdi = average(nearest.map((other) => ihdis[other].value))
+  let hdiTimesIhdi = 0
+  let hdiSquared = 0
+  for (const other of nearest) {
+    const hdiOffset = hdis[other].value - meanHdi
+    hdiTimesIhdi += hdiOffset * (ihdis[other].value - meanIhdi)
+    hdiSquared += hdiOffset * hdiOffset
+  }
+  const slope = hdiTimesIhdi / hdiSquared
+  return meanIhdi + slope * (hdis[code].value - meanHdi)
+}
+
+// Returns the estimate and a description of how it was made, for the log.
+function estimateIhdi(code) {
+  const row = undpRows[code]
+  const year = hdis[code].year
+  const indices = row === undefined ? null : dimensionIndices(row, year)
+  // Losses from the HDI's year; null when missing.
+  const losses = {
+    lifespan: lossInHdiYear(code, 'ineq_le'),
+    education: lossInHdiYear(code, 'ineq_edu'),
+    income: lossInHdiYear(code, 'ineq_inc'),
+  }
+
+  // A country may supply figures to several groups (e.g. Egypt), but one being
+  // estimated must have only one way to be estimated.
+  const groupsOfCountry = COMPARISON_GROUPS.filter((comparison) =>
+    comparison.countries.includes(code),
+  )
+  if (groupsOfCountry.length > 1) {
+    throw new Error(`${code} is in more than one comparison group, so its estimate is unclear`)
+  }
+  if (groupsOfCountry.length === 1 && GLOBAL_INCOME_LOSS.includes(code)) {
+    throw new Error(`${code} is in both a comparison group and GLOBAL_INCOME_LOSS`)
+  }
+  const group = groupsOfCountry[0]
+  if (group !== undefined) {
+    if (indices === null) throw new Error(`No HDI indicators for ${code} to use its group's losses`)
+    const filled = []
+    for (const [part, prefix] of LOSS_PARTS) {
+      if (losses[part] !== null) continue
+      const groupLosses = group.countries
+        .map((other) => lossInHdiYear(other, prefix))
+        .filter((loss) => loss !== null)
+      if (groupLosses.length === 0) throw new Error(`No ${group.name} country has a ${part} loss`)
+      losses[part] = average(groupLosses)
+      filled.push(`${part} loss ${losses[part].toFixed(1)}%`)
+    }
+    return {
+      value: ihdiFromLosses(indices, losses),
+      method: `${group.name} group's average ${filled.join(', ')}`,
+    }
+  }
+
+  const missingOnlyIncome =
+    indices !== null && losses.lifespan !== null && losses.education !== null
+  if (GLOBAL_INCOME_LOSS.includes(code)) {
+    if (!missingOnlyIncome) throw new Error(`${code} is missing more than its income loss`)
+    losses.income = average(
+      selectedCodes
+        .map((other) => lossInHdiYear(other, 'ineq_inc'))
+        .filter((loss) => loss !== null),
+    )
+    return {
+      value: ihdiFromLosses(indices, losses),
+      method: `every country's average income loss ${losses.income.toFixed(1)}%`,
+    }
+  }
+  const missingParts = LOSS_PARTS.filter(([part]) => losses[part] === null)
+  if (indices !== null && missingParts.length <= 2) {
+    const filled = []
+    for (const [part, prefix] of missingParts) {
+      const nearest = nearestWith(code, (other) => lossInHdiYear(other, prefix) !== null)
+      losses[part] = average(nearest.map((other) => lossInHdiYear(other, prefix)))
+      filled.push(`${part} loss ${losses[part].toFixed(1)}% (nearest ${nearest.length})`)
+    }
+    return {
+      value: ihdiFromLosses(indices, losses),
+      method: `nearest countries' average ${filled.join(', ')}`,
+    }
+  }
+  return { value: ihdiFromNearestFit(code), method: `line through nearest countries' HDI and IHDI` }
+}
+
+const ihdiEstimates = {}
+for (const code of selectedCodes.toSorted()) {
+  if (hdis[code] === undefined || ihdis[code] !== undefined) continue
+  const { value, method } = estimateIhdi(code)
+  ihdiEstimates[code] = Math.round(value * 1000) / 1000
+  console.log(`IHDI estimate for ${code}: ${ihdiEstimates[code]} (${method})`)
+}
 
 // --- Country groups: every country in exactly one group of 3 to 6 ---
 const groups = JSON.parse(readFileSync(GROUPS, 'utf8'))
@@ -385,7 +581,7 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // Null when there is no IHDI or UNDP lacks a value it is worked out from.
     ihdiBreakdown: ihdiBreakdowns[code] ?? null,
     // Only for countries with an HDI but no IHDI; null otherwise.
-    ihdiEstimate: hdi !== null && ihdi === null ? estimateIhdi(hdi.value) : null,
+    ihdiEstimate: ihdiEstimates[code] ?? null,
     groupId: groupOf[code].id,
     groupName: groupOf[code].name,
   }

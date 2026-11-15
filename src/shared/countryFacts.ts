@@ -32,7 +32,8 @@ export type CountryFacts = {
   // The IHDI's three parts, each adjusted for inequality (0–1), from the same
   // year; the IHDI is their geometric mean. Null exactly when ihdi is null.
   ihdiBreakdown: IhdiBreakdown | null
-  // Our own estimate of the IHDI, worked out from the HDI, for countries that
+  // Our own estimate of the IHDI, from the country's other UNDP figures and
+  // those of similar countries (see make-country-data.mjs), for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
   // The group of 3 to 6 similar neighbouring countries this one belongs to,
