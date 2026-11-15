@@ -94,7 +94,7 @@ Generated files are committed; each script lists its download links.
 - Far-off parts (`src/data/farOffParts.json`) are shown as territories on the globe but count as their country everywhere else. Only areas several thousand km from their mainland are listed, on purpose. After editing the list, rerun the pictures, nearest countries, and borders scripts.
 - Land borders: `node scripts/make-country-borders.mjs`; areas outside the 197 are left out, so e.g. Morocco–Mauritania (via Western Sahara) aren't neighbours.
 - App icon: `node scripts/make-app-icon.mjs`. The main menu's `SpinningLogo.tsx` has its own copy of the design's constants, so change both together. Its land is from `node scripts/make-logo-land.mjs`.
-- `src/data/countries.json` from `node scripts/make-country-data.mjs <source-folder>`.
+- `src/data/countries.json` from `node scripts/make-country-data.mjs <source-folder>`. Its UNDP source is committed in `data-sources/`, unlike other sources, because the IHDI figures use much of it; replace it when moving to a new report.
   - Names, capitals, area: mledoze/countries (Serbia's area has Kosovo's taken off, `AREA_TAKEN_OFF`). Population: UN WPP 2024 (2025, medium). Somalia's area and population have Somaliland's hand-written figures taken off (`TERRITORY_TAKEN_OFF`), so rerun after changing them in `territoryFiguresByHand.json`. HDI and IHDI: UNDP HDR 2025; Kosovo and Taiwan, which UNDP leaves out, have hand-written HDIs (`HDI_BY_HAND`, sources in its comment).
   - `ihdiBreakdown` is worked out in the script from UNDP's indicators; it throws if the result stops matching UNDP's IHDI.
   - `ihdiEstimate` is a fit from HDI, kept apart from `ihdi` so real and estimated values never mix.

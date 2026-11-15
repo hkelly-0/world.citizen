@@ -5,13 +5,16 @@
 //
 // Each country's group comes from the hand-written src/data/countryGroups.json.
 //
-// Needs Node 24+ and these three source files, saved in the folder given as
+// Needs Node 24+ and these two source files, saved in the folder given as
 // the first argument:
 //   mledoze-countries.json   Names, capitals, total area (ODbL)
 //     https://raw.githubusercontent.com/mledoze/countries/master/countries.json
 //   wpp-population.csv.gz    UN World Population Prospects 2024 (CC BY 3.0 IGO)
 //     https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_TotalPopulationBySex.csv.gz
-//   hdr-composite.csv        UNDP Human Development Report 2025 (CC BY 3.0 IGO)
+//
+// The UNDP file is committed (UNDP_FILE), as the IHDI figures use many of
+// its columns and its link is tied to one year's report:
+//   UNDP Human Development Report 2025 (CC BY 3.0 IGO)
 //     https://hdr.undp.org/sites/default/files/2025_HDR/HDR25_Composite_indices_complete_time_series.csv
 //
 // Usage: node scripts/make-country-data.mjs <source-folder>
@@ -22,6 +25,7 @@ import { join } from 'node:path'
 
 const OUTPUT = 'src/data/countries.json'
 const GROUPS = 'src/data/countryGroups.json'
+const UNDP_FILE = 'data-sources/hdr-composite.csv'
 
 // UN observer states, included alongside the UN members.
 const OBSERVER_STATES = ['VAT', 'PSE']
@@ -243,7 +247,7 @@ function latestUndpValue(row, prefix) {
   return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
 }
 
-await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'latin1' }, (row) => {
+await readCsv(UNDP_FILE, { gzipped: false, encoding: 'latin1' }, (row) => {
   const hdi = latestUndpValue(row, 'hdi')
   if (hdi !== undefined) hdis[row.iso3] = hdi
   const ihdi = latestUndpValue(row, 'ihdi')
