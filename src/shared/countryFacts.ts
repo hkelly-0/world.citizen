@@ -36,6 +36,10 @@ export type CountryFacts = {
   // those of similar countries (see make-country-data.mjs), for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
+  // The estimate's three parts, for estimates made from the country's own
+  // UNDP figures with some inequality losses filled in. Null otherwise (no
+  // estimate, or one fitted from other countries' IHDIs, e.g. Kosovo).
+  ihdiEstimateBreakdown: IhdiEstimateBreakdown | null
   // The group of 3 to 6 similar neighbouring countries this one belongs to,
   // hand-written in countryGroups.json.
   groupId: string
@@ -48,6 +52,13 @@ export type IhdiBreakdown = {
   lifespan: number
   education: number
   income: number
+}
+
+// An estimated IHDI's parts, with the names of those (e.g. "income") worked
+// out from a filled-in inequality loss. Strings rather than the part names'
+// type, as the JSON import types them as strings.
+export type IhdiEstimateBreakdown = IhdiBreakdown & {
+  estimatedParts: string[]
 }
 
 // All 197 countries (193 UN members + Vatican City, Palestine, Taiwan, and

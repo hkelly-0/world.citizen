@@ -26,6 +26,7 @@
       "income": 0.319
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
@@ -53,6 +54,7 @@
       "income": 0.266
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
   },
@@ -80,6 +82,7 @@
       "income": 0.627
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-balkans",
     "groupName": "Central Balkans"
   },
@@ -107,6 +110,7 @@
       "income": 0.837
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
   },
@@ -134,6 +138,7 @@
       "income": 0.889
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "gulf-states",
     "groupName": "Gulf States"
   },
@@ -162,6 +167,7 @@
       "income": 0.65
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
   },
@@ -189,6 +195,7 @@
       "income": 0.681
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "caucasus",
     "groupName": "Caucasus"
   },
@@ -211,6 +218,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.661,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.826,
+      "education": 0.738,
+      "income": 0.474,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
   },
@@ -238,6 +253,7 @@
       "income": 0.784
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "australasia",
     "groupName": "Australasia"
   },
@@ -265,6 +281,7 @@
       "income": 0.823
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
   },
@@ -294,6 +311,7 @@
       "income": 0.759
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "caucasus",
     "groupName": "Caucasus"
   },
@@ -323,6 +341,7 @@
       "income": 0.196
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
   },
@@ -354,6 +373,7 @@
       "income": 0.865
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
   },
@@ -382,6 +402,7 @@
       "income": 0.334
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
   },
@@ -409,6 +430,7 @@
       "income": 0.271
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "sahel",
     "groupName": "Sahel"
   },
@@ -436,6 +458,7 @@
       "income": 0.43
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "himalayas-bengal",
     "groupName": "Himalayas & Bengal"
   },
@@ -463,6 +486,7 @@
       "income": 0.665
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "aegean-eastern-mediterranean",
     "groupName": "Aegean & Eastern Mediterranean"
   },
@@ -486,6 +510,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.793,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.898,
+      "education": 0.706,
+      "income": 0.786,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
   },
@@ -513,6 +545,7 @@
       "income": 0.541
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
   },
@@ -540,6 +573,7 @@
       "income": 0.587
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "adriatic-balkans",
     "groupName": "Adriatic Balkans"
   },
@@ -569,6 +603,7 @@
       "income": 0.737
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
   },
@@ -592,6 +627,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.581,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.764,
+      "education": 0.532,
+      "income": 0.483,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
   },
@@ -626,6 +669,7 @@
       "income": 0.502
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
   },
@@ -653,6 +697,7 @@
       "income": 0.441
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
   },
@@ -679,6 +724,7 @@
       "income": 0.397
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
   },
@@ -706,6 +752,7 @@
       "income": 0.879
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
   },
@@ -733,6 +780,7 @@
       "income": 0.532
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "himalayas-bengal",
     "groupName": "Himalayas & Bengal"
   },
@@ -761,6 +809,7 @@
       "income": 0.423
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
   },
@@ -789,6 +838,7 @@
       "income": 0.198
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
   },
@@ -815,6 +865,7 @@
       "income": 0.8
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-america",
     "groupName": "North America"
   },
@@ -848,6 +899,7 @@
       "income": 0.823
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
   },
@@ -875,6 +927,7 @@
       "income": 0.53
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
   },
@@ -902,6 +955,7 @@
       "income": 0.568
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
   },
@@ -930,6 +984,7 @@
       "income": 0.36
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
   },
@@ -959,6 +1014,7 @@
       "income": 0.275
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
   },
@@ -990,6 +1046,7 @@
       "income": 0.222
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
   },
@@ -1018,6 +1075,7 @@
       "income": 0.276
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "congo-basin",
     "groupName": "Congo Basin"
   },
@@ -1045,6 +1103,7 @@
       "income": 0.442
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
   },
@@ -1076,6 +1135,7 @@
       "income": 0.255
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
   },
@@ -1103,6 +1163,7 @@
       "income": 0.363
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
   },
@@ -1130,6 +1191,7 @@
       "income": 0.531
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
   },
@@ -1153,6 +1215,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.65,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.851,
+      "education": 0.673,
+      "income": 0.481,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
   },
@@ -1182,6 +1252,7 @@
       "income": 0.787
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "aegean-eastern-mediterranean",
     "groupName": "Aegean & Eastern Mediterranean"
   },
@@ -1209,6 +1280,7 @@
       "income": 0.823
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
   },
@@ -1236,6 +1308,7 @@
       "income": 0.836
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
   },
@@ -1265,6 +1338,7 @@
       "income": 0.447
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
   },
@@ -1288,6 +1362,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.555,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.651,
+      "education": 0.612,
+      "income": 0.429,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
   },
@@ -1315,6 +1397,7 @@
       "income": 0.89
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
   },
@@ -1341,6 +1424,7 @@
       "income": 0.628
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
   },
@@ -1368,6 +1452,7 @@
       "income": 0.631
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
   },
@@ -1395,6 +1480,7 @@
       "income": 0.518
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
   },
@@ -1422,6 +1508,7 @@
       "income": 0.625
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
   },
@@ -1449,6 +1536,15 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.331,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.603,
+      "education": 0.211,
+      "income": 0.285,
+      "estimatedParts": [
+        "education",
+        "income"
+      ]
+    },
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
   },
@@ -1476,6 +1572,7 @@
       "income": 0.749
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
   },
@@ -1503,6 +1600,7 @@
       "income": 0.766
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
   },
@@ -1530,6 +1628,7 @@
       "income": 0.32
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
   },
@@ -1559,6 +1658,7 @@
       "income": 0.836
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
   },
@@ -1590,6 +1690,7 @@
       "income": 0.598
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
   },
@@ -1617,6 +1718,7 @@
       "income": 0.783
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
   },
@@ -1640,6 +1742,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.507,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.622,
+      "education": 0.5,
+      "income": 0.42,
+      "estimatedParts": [
+        "education"
+      ]
+    },
     "groupId": "micronesia",
     "groupName": "Micronesia"
   },
@@ -1667,6 +1777,7 @@
       "income": 0.543
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
   },
@@ -1694,6 +1805,7 @@
       "income": 0.792
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
   },
@@ -1720,6 +1832,7 @@
       "income": 0.633
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "caucasus",
     "groupName": "Caucasus"
   },
@@ -1747,6 +1860,7 @@
       "income": 0.313
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
   },
@@ -1774,6 +1888,7 @@
       "income": 0.367
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
   },
@@ -1801,6 +1916,7 @@
       "income": 0.302
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
   },
@@ -1828,6 +1944,7 @@
       "income": 0.311
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
   },
@@ -1855,6 +1972,15 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.438,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.478,
+      "education": 0.424,
+      "income": 0.414,
+      "estimatedParts": [
+        "education",
+        "income"
+      ]
+    },
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
   },
@@ -1882,6 +2008,7 @@
       "income": 0.739
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "aegean-eastern-mediterranean",
     "groupName": "Aegean & Eastern Mediterranean"
   },
@@ -1904,6 +2031,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.613,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.763,
+      "education": 0.721,
+      "income": 0.42,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
   },
@@ -1931,6 +2066,7 @@
       "income": 0.49
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
   },
@@ -1954,6 +2090,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.584,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.657,
+      "education": 0.584,
+      "income": 0.52,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
   },
@@ -1981,6 +2125,7 @@
       "income": 0.4
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
   },
@@ -2008,6 +2153,7 @@
       "income": 0.787
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "adriatic-balkans",
     "groupName": "Adriatic Balkans"
   },
@@ -2037,6 +2183,7 @@
       "income": 0.245
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
   },
@@ -2063,6 +2210,7 @@
       "income": 0.793
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
   },
@@ -2090,6 +2238,7 @@
       "income": 0.568
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
   },
@@ -2121,6 +2270,7 @@
       "income": 0.426
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
   },
@@ -2150,6 +2300,7 @@
       "income": 0.86
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
   },
@@ -2177,6 +2328,7 @@
       "income": 0.556
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
@@ -2208,6 +2360,7 @@
       "income": 0.545
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iran-neighbours",
     "groupName": "Iran & Its Neighbours"
   },
@@ -2234,6 +2387,7 @@
       "income": 0.882
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-atlantic-islands",
     "groupName": "North Atlantic Islands"
   },
@@ -2263,6 +2417,7 @@
       "income": 0.709
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "levant",
     "groupName": "Levant"
   },
@@ -2290,6 +2445,7 @@
       "income": 0.749
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
   },
@@ -2316,6 +2472,7 @@
       "income": 0.462
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
   },
@@ -2343,6 +2500,7 @@
       "income": 0.519
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "levant",
     "groupName": "Levant"
   },
@@ -2369,6 +2527,7 @@
       "income": 0.772
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
   },
@@ -2398,6 +2557,7 @@
       "income": 0.739
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
@@ -2425,6 +2585,7 @@
       "income": 0.367
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
   },
@@ -2454,6 +2615,7 @@
       "income": 0.525
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-asia",
     "groupName": "Central Asia"
   },
@@ -2481,6 +2643,7 @@
       "income": 0.378
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
   },
@@ -2509,6 +2672,7 @@
       "income": 0.498
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
   },
@@ -2532,6 +2696,15 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.638,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.723,
+      "education": 0.75,
+      "income": 0.479,
+      "estimatedParts": [
+        "education",
+        "income"
+      ]
+    },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
   },
@@ -2559,6 +2732,7 @@
       "income": 0.784
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
   },
@@ -2582,6 +2756,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.722,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.876,
+      "education": 0.541,
+      "income": 0.794,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
   },
@@ -2609,6 +2791,7 @@
       "income": 0.507
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
   },
@@ -2634,6 +2817,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.617,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.792,
+      "education": 0.521,
+      "income": 0.57,
+      "estimatedParts": [
+        "education"
+      ]
+    },
     "groupId": "levant",
     "groupName": "Levant"
   },
@@ -2661,6 +2852,7 @@
       "income": 0.262
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
   },
@@ -2684,6 +2876,15 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.542,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.631,
+      "education": 0.4,
+      "income": 0.631,
+      "estimatedParts": [
+        "education",
+        "income"
+      ]
+    },
     "groupId": "maghreb",
     "groupName": "Maghreb"
   },
@@ -2710,6 +2911,7 @@
       "income": 0.491
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
   },
@@ -2733,6 +2935,15 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.865,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.931,
+      "education": 0.81,
+      "income": 0.857,
+      "estimatedParts": [
+        "education",
+        "income"
+      ]
+    },
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
   },
@@ -2763,6 +2974,7 @@
       "income": 0.463
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
   },
@@ -2790,6 +3002,7 @@
       "income": 0.25
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
   },
@@ -2817,6 +3030,7 @@
       "income": 0.726
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
   },
@@ -2848,6 +3062,7 @@
       "income": 0.836
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
   },
@@ -2875,6 +3090,7 @@
       "income": 0.727
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "baltic-states",
     "groupName": "Baltic States"
   },
@@ -2904,6 +3120,7 @@
       "income": 0.499
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
   },
@@ -2927,6 +3144,7 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
   },
@@ -2954,6 +3172,7 @@
       "income": 0.662
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
   },
@@ -2983,6 +3202,7 @@
       "income": 0.234
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
   },
@@ -3010,6 +3230,7 @@
       "income": 0.568
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
   },
@@ -3037,6 +3258,7 @@
       "income": 0.582
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-america",
     "groupName": "North America"
   },
@@ -3065,6 +3287,7 @@
       "income": 0.501
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
   },
@@ -3092,6 +3315,7 @@
       "income": 0.649
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-balkans",
     "groupName": "Central Balkans"
   },
@@ -3119,6 +3343,7 @@
       "income": 0.367
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "sahel",
     "groupName": "Sahel"
   },
@@ -3147,6 +3372,7 @@
       "income": 0.799
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
   },
@@ -3174,6 +3400,7 @@
       "income": 0.485
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
   },
@@ -3200,6 +3427,7 @@
       "income": 0.682
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "adriatic-balkans",
     "groupName": "Adriatic Balkans"
   },
@@ -3226,6 +3454,7 @@
       "income": 0.61
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
@@ -3253,6 +3482,7 @@
       "income": 0.18
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mozambique-channel",
     "groupName": "Mozambique Channel"
   },
@@ -3280,6 +3510,7 @@
       "income": 0.406
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
   },
@@ -3311,6 +3542,7 @@
       "income": 0.581
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
   },
@@ -3340,6 +3572,7 @@
       "income": 0.256
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
   },
@@ -3368,6 +3601,7 @@
       "income": 0.658
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
   },
@@ -3399,6 +3633,7 @@
       "income": 0.333
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
   },
@@ -3426,6 +3661,7 @@
       "income": 0.262
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "sahel",
     "groupName": "Sahel"
   },
@@ -3453,6 +3689,7 @@
       "income": 0.494
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
   },
@@ -3480,6 +3717,7 @@
       "income": 0.414
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
   },
@@ -3508,6 +3746,7 @@
       "income": 0.874
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "western-europe",
     "groupName": "Western Europe"
   },
@@ -3539,6 +3778,7 @@
       "income": 0.857
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
   },
@@ -3566,6 +3806,7 @@
       "income": 0.397
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "himalayas-bengal",
     "groupName": "Himalayas & Bengal"
   },
@@ -3593,6 +3834,7 @@
       "income": 0.65
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
   },
@@ -3620,6 +3862,7 @@
       "income": 0.762
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "australasia",
     "groupName": "Australasia"
   },
@@ -3647,6 +3890,7 @@
       "income": 0.679
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
   },
@@ -3676,6 +3920,7 @@
       "income": 0.435
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-subcontinent",
     "groupName": "Indian Subcontinent"
   },
@@ -3703,6 +3948,7 @@
       "income": 0.539
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-central-america",
     "groupName": "Southern Central America"
   },
@@ -3733,6 +3979,7 @@
       "income": 0.52
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "andes",
     "groupName": "Andean Countries"
   },
@@ -3762,6 +4009,7 @@
       "income": 0.54
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
   },
@@ -3791,6 +4039,7 @@
       "income": 0.453
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "micronesia",
     "groupName": "Micronesia"
   },
@@ -3821,6 +4070,7 @@
       "income": 0.405
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "australasia",
     "groupName": "Australasia"
   },
@@ -3848,6 +4098,7 @@
       "income": 0.732
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
   },
@@ -3871,6 +4122,7 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
   },
@@ -3898,6 +4150,7 @@
       "income": 0.742
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "iberia",
     "groupName": "Iberian Peninsula"
   },
@@ -3927,6 +4180,7 @@
       "income": 0.497
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
   },
@@ -3954,6 +4208,7 @@
       "income": 0.433
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "levant",
     "groupName": "Levant"
   },
@@ -3977,6 +4232,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.793,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.924,
+      "education": 0.651,
+      "income": 0.829,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
   },
@@ -4003,6 +4266,7 @@
       "income": 0.714
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
   },
@@ -4030,6 +4294,7 @@
       "income": 0.734
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "russia-steppe",
     "groupName": "Russia & the Steppe"
   },
@@ -4059,6 +4324,7 @@
       "income": 0.285
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
   },
@@ -4082,6 +4348,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.794,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.857,
+      "education": 0.748,
+      "income": 0.779,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
   },
@@ -4111,6 +4385,7 @@
       "income": 0.306
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
   },
@@ -4138,6 +4413,7 @@
       "income": 0.343
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "atlantic-west-africa",
     "groupName": "Atlantic West Africa"
   },
@@ -4171,6 +4447,7 @@
       "income": 0.741
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "malay-peninsula-borneo",
     "groupName": "Malay Peninsula & Borneo"
   },
@@ -4197,6 +4474,7 @@
       "income": 0.389
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
   },
@@ -4224,6 +4502,7 @@
       "income": 0.275
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "upper-guinea-coast",
     "groupName": "Upper Guinea Coast"
   },
@@ -4251,6 +4530,7 @@
       "income": 0.54
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
   },
@@ -4274,6 +4554,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.849,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.993,
+      "education": 0.752,
+      "income": 0.821,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
   },
@@ -4303,6 +4591,7 @@
       "income": 0.214
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
   },
@@ -4330,6 +4619,7 @@
       "income": 0.712
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-balkans",
     "groupName": "Central Balkans"
   },
@@ -4357,6 +4647,7 @@
       "income": 0.149
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nile-valley",
     "groupName": "Nile Valley"
   },
@@ -4384,6 +4675,7 @@
       "income": 0.35
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
   },
@@ -4407,6 +4699,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.535,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.736,
+      "education": 0.478,
+      "income": 0.436,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
   },
@@ -4434,6 +4734,7 @@
       "income": 0.803
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "visegrad",
     "groupName": "Visegrád Group"
   },
@@ -4461,6 +4762,7 @@
       "income": 0.834
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "adriatic-balkans",
     "groupName": "Adriatic Balkans"
   },
@@ -4488,6 +4790,7 @@
       "income": 0.815
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "nordic",
     "groupName": "Nordic Countries"
   },
@@ -4518,6 +4821,7 @@
       "income": 0.274
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
   },
@@ -4548,6 +4852,7 @@
       "income": 0.715
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "indian-ocean-islands",
     "groupName": "Indian Ocean Islands"
   },
@@ -4575,6 +4880,7 @@
       "income": 0.474
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "levant",
     "groupName": "Levant"
   },
@@ -4604,6 +4910,7 @@
       "income": 0.267
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "sahel",
     "groupName": "Sahel"
   },
@@ -4631,6 +4938,7 @@
       "income": 0.283
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "gulf-of-guinea",
     "groupName": "Gulf of Guinea"
   },
@@ -4658,6 +4966,7 @@
       "income": 0.63
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
   },
@@ -4687,6 +4996,7 @@
       "income": 0.49
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-asia",
     "groupName": "Central Asia"
   },
@@ -4711,6 +5021,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.651,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.622,
+      "education": 0.72,
+      "income": 0.616,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "central-asia",
     "groupName": "Central Asia"
   },
@@ -4740,6 +5058,7 @@
       "income": 0.507
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maritime-southeast-asia",
     "groupName": "Maritime Southeast Asia"
   },
@@ -4767,6 +5086,7 @@
       "income": 0.516
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
   },
@@ -4790,6 +5110,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.628,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.735,
+      "education": 0.711,
+      "income": 0.473,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
   },
@@ -4817,6 +5145,7 @@
       "income": 0.558
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "maghreb",
     "groupName": "Maghreb"
   },
@@ -4844,6 +5173,7 @@
       "income": 0.628
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "aegean-eastern-mediterranean",
     "groupName": "Aegean & Eastern Mediterranean"
   },
@@ -4870,6 +5200,7 @@
       "income": 0.48
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
   },
@@ -4893,6 +5224,7 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.853,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-asia",
     "groupName": "East Asia"
   },
@@ -4921,6 +5253,7 @@
       "income": 0.317
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
   },
@@ -4948,6 +5281,7 @@
       "income": 0.282
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "east-africa",
     "groupName": "East Africa"
   },
@@ -4974,6 +5308,7 @@
       "income": 0.672
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-europe",
     "groupName": "Eastern Europe"
   },
@@ -5001,6 +5336,7 @@
       "income": 0.64
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "eastern-south-america",
     "groupName": "Eastern South America"
   },
@@ -5028,6 +5364,7 @@
       "income": 0.759
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "north-america",
     "groupName": "North America"
   },
@@ -5053,6 +5390,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.657,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.735,
+      "education": 0.73,
+      "income": 0.528,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "central-asia",
     "groupName": "Central Asia"
   },
@@ -5078,6 +5423,7 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
   },
@@ -5100,6 +5446,14 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.621,
+    "ihdiEstimateBreakdown": {
+      "lifespan": 0.707,
+      "education": 0.778,
+      "income": 0.435,
+      "estimatedParts": [
+        "income"
+      ]
+    },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
   },
@@ -5127,6 +5481,7 @@
       "income": 0.509
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
   },
@@ -5154,6 +5509,7 @@
       "income": 0.581
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "mainland-southeast-asia",
     "groupName": "Mainland Southeast Asia"
   },
@@ -5183,6 +5539,7 @@
       "income": 0.431
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "melanesia",
     "groupName": "Melanesia"
   },
@@ -5212,6 +5569,7 @@
       "income": 0.471
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "polynesia",
     "groupName": "Polynesia"
   },
@@ -5237,6 +5595,7 @@
     "ihdiYear": null,
     "ihdiBreakdown": null,
     "ihdiEstimate": 0.695,
+    "ihdiEstimateBreakdown": null,
     "groupId": "central-balkans",
     "groupName": "Central Balkans"
   },
@@ -5264,6 +5623,7 @@
       "income": 0.269
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
   },
@@ -5311,6 +5671,7 @@
       "income": 0.298
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "southern-africa",
     "groupName": "Southern Africa"
   },
@@ -5338,6 +5699,7 @@
       "income": 0.196
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
   },
@@ -5365,6 +5727,7 @@
       "income": 0.253
     },
     "ihdiEstimate": null,
+    "ihdiEstimateBreakdown": null,
     "groupId": "south-central-africa",
     "groupName": "South-Central Africa"
   }

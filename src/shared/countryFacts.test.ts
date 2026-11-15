@@ -79,6 +79,25 @@ describe('countryFacts', () => {
     }
   })
 
+  it("has an estimate's breakdown only for estimates, whose geometric mean is the estimate", () => {
+    for (const country of countries) {
+      const breakdown = country.ihdiEstimateBreakdown
+      if (country.ihdiEstimate === null) expect(breakdown).toBeNull()
+      if (breakdown !== null) {
+        const { lifespan, education, income, estimatedParts } = breakdown
+        expect(Math.cbrt(lifespan * education * income)).toBeCloseTo(country.ihdiEstimate!, 2)
+        // Otherwise the IHDI would be real, not estimated.
+        expect(estimatedParts.length).toBeGreaterThan(0)
+        for (const part of estimatedParts) {
+          expect(['lifespan', 'education', 'income']).toContain(part)
+        }
+      }
+    }
+    // Fitted from other countries' IHDIs, as UNDP has no figures for either.
+    expect(countryFacts['XKX'].ihdiEstimateBreakdown).toBeNull()
+    expect(countryFacts['TWN'].ihdiEstimateBreakdown).toBeNull()
+  })
+
   it('puts every country in a group of 3 to 6, with one name per group', () => {
     const groupSizes: Record<string, number> = {}
     const groupNames: Record<string, string> = {}

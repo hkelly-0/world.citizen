@@ -243,6 +243,11 @@ function ihdiBreakdown(row, year) {
   if (Math.abs(adjusted.ihdi - ihdi) > IHDI_BREAKDOWN_TOLERANCE) {
     throw new Error(`IHDI breakdown for ${row.iso3} gives ${adjusted.ihdi}, not UNDP's ${ihdi}`)
   }
+  return roundedParts(adjusted)
+}
+
+// The three parts of an inequalityAdjusted result, rounded to 3 decimals.
+function roundedParts(adjusted) {
   const round = (value) => Math.round(value * 1000) / 1000
   return {
     lifespan: round(adjusted.lifespan),
@@ -418,7 +423,20 @@ function ihdiFromNearestFit(code) {
   return meanIhdi + slope * (hdis[code].value - meanHdi)
 }
 
-// Returns the estimate and a description of how it was made, for the log.
+// The estimate from a country's own dimension indices and its losses, some of
+// them filled in (estimatedParts, in LOSS_PARTS order). Its parts are kept as
+// the estimate's breakdown, marking which ones used a filled-in loss.
+function fromLosses(indices, losses, estimatedParts, method) {
+  const adjusted = inequalityAdjusted(indices, losses)
+  return {
+    value: adjusted.ihdi,
+    breakdown: { ...roundedParts(adjusted), estimatedParts },
+    method,
+  }
+}
+
+// Returns the estimate, its breakdown (null when it isn't made from the
+// country's own losses), and a description of how it was made, for the log.
 function estimateIhdi(code) {
   const row = undpRows[code]
   const year = hdis[code].year
@@ -445,8 +463,10 @@ function estimateIhdi(code) {
   if (group !== undefined) {
     if (indices === null) throw new Error(`No HDI indicators for ${code} to use its group's losses`)
     const filled = []
+    const estimatedParts = []
     for (const [part, prefix] of LOSS_PARTS) {
       if (losses[part] !== null) continue
+      estimatedParts.push(part)
       const groupLosses = group.countries
         .map((other) => lossInHdiYear(other, prefix))
         .filter((loss) => loss !== null)
@@ -454,10 +474,12 @@ function estimateIhdi(code) {
       losses[part] = average(groupLosses)
       filled.push(`${part} loss ${losses[part].toFixed(1)}%`)
     }
-    return {
-      value: inequalityAdjusted(indices, losses).ihdi,
-      method: `${group.name} group's average ${filled.join(', ')}`,
-    }
+    return fromLosses(
+      indices,
+      losses,
+      estimatedParts,
+      `${group.name} group's average ${filled.join(', ')}`,
+    )
   }
 
   const missingOnlyIncome =
@@ -469,10 +491,12 @@ function estimateIhdi(code) {
         .map((other) => lossInHdiYear(other, 'ineq_inc'))
         .filter((loss) => loss !== null),
     )
-    return {
-      value: inequalityAdjusted(indices, losses).ihdi,
-      method: `every country's average income loss ${losses.income.toFixed(1)}%`,
-    }
+    return fromLosses(
+      indices,
+      losses,
+      ['income'],
+      `every country's average income loss ${losses.income.toFixed(1)}%`,
+    )
   }
   const missingParts = LOSS_PARTS.filter(([part]) => losses[part] === null)
   if (indices !== null && missingParts.length <= 2) {
@@ -482,19 +506,27 @@ function estimateIhdi(code) {
       losses[part] = average(nearest.map((other) => lossInHdiYear(other, prefix)))
       filled.push(`${part} loss ${losses[part].toFixed(1)}% (nearest ${nearest.length})`)
     }
-    return {
-      value: inequalityAdjusted(indices, losses).ihdi,
-      method: `nearest countries' average ${filled.join(', ')}`,
-    }
+    return fromLosses(
+      indices,
+      losses,
+      missingParts.map(([part]) => part),
+      `nearest countries' average ${filled.join(', ')}`,
+    )
   }
-  return { value: ihdiFromNearestFit(code), method: `line through nearest countries' HDI and IHDI` }
+  return {
+    value: ihdiFromNearestFit(code),
+    breakdown: null,
+    method: `line through nearest countries' HDI and IHDI`,
+  }
 }
 
 const ihdiEstimates = {}
+const ihdiEstimateBreakdowns = {}
 for (const code of selectedCodes.toSorted()) {
   if (hdis[code] === undefined || ihdis[code] !== undefined) continue
-  const { value, method } = estimateIhdi(code)
+  const { value, breakdown, method } = estimateIhdi(code)
   ihdiEstimates[code] = Math.round(value * 1000) / 1000
+  if (breakdown !== null) ihdiEstimateBreakdowns[code] = breakdown
   console.log(`IHDI estimate for ${code}: ${ihdiEstimates[code]} (${method})`)
 }
 
@@ -580,6 +612,11 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     ihdiBreakdown: ihdiBreakdowns[code] ?? null,
     // Only for countries with an HDI but no IHDI; null otherwise.
     ihdiEstimate: ihdiEstimates[code] ?? null,
+    // The estimate's three parts, as in ihdiBreakdown, with estimatedParts
+    // naming those that used a filled-in loss. Kept apart from ihdiBreakdown
+    // so real and estimated values never mix. Null when there is no estimate,
+    // or it wasn't made from the country's own figures (e.g. Kosovo).
+    ihdiEstimateBreakdown: ihdiEstimateBreakdowns[code] ?? null,
     groupId: groupOf[code].id,
     groupName: groupOf[code].name,
   }
