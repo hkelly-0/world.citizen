@@ -75,6 +75,16 @@ export function remainingBorders(earlierRounds: string[][], borderCodes: string[
   return remaining
 }
 
+// The bordering countries named across all `rounds` (each a round's typed
+// boxes), in the order typed.
+export function namedBorders(rounds: string[][], borderCodes: string[]): string[] {
+  return rounds
+    .flatMap((round, index) =>
+      markBorderAnswers(round, remainingBorders(rounds.slice(0, index), borderCodes)),
+    )
+    .filter((code) => code !== null)
+}
+
 // After a round's boxes `typed` are revealed, how many boxes the next round
 // offers: as many neighbours as are left, up to BORDER_ANSWER_BOXES. 0 ends
 // the question: every neighbour is named, or a box is wrong (`borderBoxResults`).

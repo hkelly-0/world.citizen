@@ -3,6 +3,25 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { BordersCard } from './BordersCard'
 
+// The real globe needs WebGL, which jsdom doesn't have. This stand-in lists
+// what it was given.
+vi.mock('../globe/BordersGlobe', () => ({
+  default: ({
+    code,
+    namedCodes,
+    onNext,
+  }: {
+    code: string
+    namedCodes: string[]
+    onNext: () => void
+  }) => (
+    <div>
+      <p>Borders globe: {[code, ...namedCodes].join(' ')}</p>
+      <button onClick={onNext}>Globe Next</button>
+    </div>
+  ),
+}))
+
 function renderBorders(code = 'FRA', onFinish = vi.fn()) {
   render(<BordersCard code={code} countryIcon="outline" onFinish={onFinish} />)
 }
@@ -56,8 +75,12 @@ describe('BordersCard', () => {
       'flashcard__border--named',
     )
 
-    expect(onFinish).not.toHaveBeenCalled()
+    // Next shows the globe, with Spain the only neighbour named; the globe's
+    // own Next finishes.
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(await screen.findByText('Borders globe: FRA ESP')).toBeInTheDocument()
+    expect(onFinish).not.toHaveBeenCalled()
+    await userEvent.click(screen.getByRole('button', { name: 'Globe Next' }))
     expect(onFinish).toHaveBeenCalled()
   })
 
@@ -147,6 +170,11 @@ describe('BordersCard', () => {
       const list = screen.getByRole('list', { name: 'Countries bordering Germany' })
       expect(list.querySelectorAll('.flashcard__border--named')).toHaveLength(9)
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      // Every round's named neighbours, in the order typed.
+      expect(
+        await screen.findByText('Borders globe: DEU AUT BEL CZE DNK FRA LUX NLD POL CHE'),
+      ).toBeInTheDocument()
+      await userEvent.click(screen.getByRole('button', { name: 'Globe Next' }))
       expect(onFinish).toHaveBeenCalled()
     })
 

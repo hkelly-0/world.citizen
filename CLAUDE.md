@@ -46,7 +46,7 @@ Screens are switched with React state in `src/App.tsx` (no URL routing); each sc
    - Search takes the shapes as an argument (`searchPlacesFromShapes`) so the Passport editor, which shares `countryNameSearch.ts`, doesn't load the map data.
    - The map's handlers are set up once, so they read the Regions mode from `isShowingRegionsRef`.
    - Phones raise the globe (`PHONE_GLOBE_RAISE`); `flyToCountry` and `flyToGroup` don't correct for it, by choice.
-  - Disputed borders (`DISPUTED_BORDERS` in `disputedBorders.ts`, by map name) are dashed. The shapes they touch are drawn from a separate line source, because the polygon outlines draw each border once per side, and two dashed copies would fill each other's gaps. Border dimming and hiding must cover every layer in `BORDER_LAYER_IDS`.
+  - Disputed borders (`DISPUTED_BORDERS` in `disputedBorders.ts`, by map name) are dashed. The shapes they touch are drawn from a separate line source, because the polygon outlines draw each border once per side, and two dashed copies would fill each other's gaps. Border dimming, hiding, and thickening must cover every layer in `BORDER_LAYER_IDS`.
 3. **Settings** (`src/features/settings/`, `src/shared/settings.ts`) – which question types are learned. A saved choice is kept as is, so a question type added later starts unticked for existing users.
    - `Credits.tsx` and `CREDITS.md` change together. Library licences come from a file the build writes (`build.license` in `vite.config.ts`), so the dev server doesn't list them, and they don't cover the APK's native libraries.
    - Edit Passport (`passportEdit.ts`): Passport membership is just having progress, so removing a country deletes its progress, discovery time, and review log entries.
@@ -107,7 +107,7 @@ Generated files are committed; each script lists its download links.
 - `src/data/territoryInfo/{key}.md`: AI-written, one `## More info` section of at most 80 words, named by the area's key in `territorySubtitles.json` (tests check both). Loaded on demand (`loadTerritoryInfo`) and shown on the globe's info panel.
 
 ## Status
-- Not yet checked on a real phone: the location and name globe questions, the tutorial and Name every country (especially their bottom panels above the on-screen keyboard), dragging in Matching and Ordering, the Credits screen's links, and Population's smoothness.
+- Not yet checked on a real phone: the location, name, and borders globes, the tutorial and Name every country (especially their bottom panels above the on-screen keyboard), dragging in Matching and Ordering, the Credits screen's links, and Population's smoothness.
 - Next: range boundaries page.
 - Todo: add notices for the APK's native Android libraries (Capacitor Android, AndroidX) to the Credits screen.
 - Possible later: more facts (region, languages, etc.); ship the website as a PWA.

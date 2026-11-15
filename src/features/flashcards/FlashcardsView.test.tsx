@@ -48,6 +48,11 @@ vi.mock('../globe/NameCountryGlobe', () => ({
     <button onClick={() => onAnswer(true)}>Name</button>
   ),
 }))
+vi.mock('../globe/BordersGlobe', () => ({
+  default: ({ onNext }: { onNext: () => void }) => (
+    <button onClick={onNext}>Borders globe Next</button>
+  ),
+}))
 
 const DISCOVERING = /^Discovering a new country/
 
@@ -411,6 +416,7 @@ describe('FlashcardsView', () => {
       expect(screen.getByText(BORDERS)).toBeInTheDocument()
       await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
       await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      await userEvent.click(await screen.findByRole('button', { name: 'Borders globe Next' }))
       expect(screen.getByText('Area?')).toBeInTheDocument()
     })
 
@@ -502,6 +508,7 @@ describe('FlashcardsView', () => {
 
         await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
         await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+        await userEvent.click(await screen.findByRole('button', { name: 'Borders globe Next' }))
         expect(screen.getByText('Area?')).toBeInTheDocument()
       }
     })

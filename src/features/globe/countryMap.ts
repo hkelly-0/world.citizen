@@ -54,8 +54,14 @@ const CORRECT_COLOR = '#3fb950'
 // The same red as --wrong-red in index.css (MapLibre can't read CSS variables).
 const WRONG_COLOR = '#f85149'
 const ANSWER_OPACITY = 0.55
+// The borders globe's country: a yellow closer to white than the selection's
+// SELECTED_COLOR, and fainter.
+const HIGHLIGHTED_COLOR = '#ffde3c'
+const HIGHLIGHTED_OPACITY = SELECTED_OPACITY * 0.75
 const BORDER_COLOR = 'rgba(255, 255, 255, 0.7)'
 const BORDER_WIDTH = 0.8
+// The borders globe's country (thickenBorders).
+const THICK_BORDER_WIDTH = BORDER_WIDTH * 2
 // Disputed borders (DISPUTED_BORDERS in disputedBorders.ts) are dashed: dash
 // and gap lengths in line widths.
 const DISPUTED_BORDER_DASH = [4, 3]
@@ -319,6 +325,8 @@ const MAP_STYLE: StyleSpecification = {
           CORRECT_COLOR,
           ['boolean', ['feature-state', 'wrong'], false],
           WRONG_COLOR,
+          ['boolean', ['feature-state', 'highlighted'], false],
+          HIGHLIGHTED_COLOR,
           ['boolean', ['feature-state', 'selected'], false],
           SELECTED_COLOR,
           HOVERED_COLOR,
@@ -331,6 +339,8 @@ const MAP_STYLE: StyleSpecification = {
           // "wrongFadeIn" (0 to 1) lets the red fade in; MapLibre doesn't
           // animate feature-state changes itself.
           ['*', ANSWER_OPACITY, ['coalesce', ['feature-state', 'wrongFadeIn'], 1]],
+          ['boolean', ['feature-state', 'highlighted'], false],
+          HIGHLIGHTED_OPACITY,
           ['boolean', ['feature-state', 'selected'], false],
           SELECTED_OPACITY,
           ['boolean', ['feature-state', 'hovered'], false],
@@ -440,6 +450,34 @@ export function hideBorders(map: MapLibreMap) {
   map.setPaintProperty('country-fills', 'fill-antialias', false)
 }
 
+// Draws the outline of the country (and its far-off parts) THICK_BORDER_WIDTH
+// wide, the rest staying BORDER_WIDTH. Covers every layer in
+// BORDER_LAYER_IDS: the polygon outlines by feature id, and the separately
+// drawn lines by the shapes they separate, as a dashed border is drawn from
+// only one of its two shapes. Call once the map has loaded.
+export function thickenBorders(map: MapLibreMap, isoAlpha3: string) {
+  const indices = shapeIndicesOfCountry(isoAlpha3)
+  const names = indices.map((index) => COUNTRY_SHAPES[index].name)
+  map.setPaintProperty('country-borders', 'line-width', [
+    'case',
+    ['in', ['id'], ['literal', indices]],
+    THICK_BORDER_WIDTH,
+    BORDER_WIDTH,
+  ])
+  for (const layerId of ['border-lines-solid', 'border-lines-dashed']) {
+    map.setPaintProperty(layerId, 'line-width', [
+      'case',
+      [
+        'any',
+        ['in', ['get', 'shape'], ['literal', names]],
+        ['in', ['get', 'partner'], ['literal', names]],
+      ],
+      THICK_BORDER_WIDTH,
+      BORDER_WIDTH,
+    ])
+  }
+}
+
 // Sets a feature state (e.g. { groupHovered: true }) on every country of the
 // group, so the whole region is highlighted together.
 export function setGroupFeatureState(
@@ -465,9 +503,26 @@ export function flyToGroup(
   sidePadding: number,
   durationMs: number,
 ) {
-  const shapes = countryIndicesInGroup(groupId).map((index) => ({
-    isoAlpha3: COUNTRY_SHAPES[index].isoAlpha3,
-    geometry: framedGeometry(index),
+  const codes = countryIndicesInGroup(groupId).flatMap(
+    (index) => COUNTRY_SHAPES[index].isoAlpha3 ?? [],
+  )
+  flyToCountries(map, codes, topPadding, bottomPadding, sidePadding, durationMs)
+}
+
+// Like flyToGroup, for any list of countries (ISO alpha-3 codes). Longitudes
+// are measured from the first country (see regionBounds), so it should be the
+// one the view is about.
+export function flyToCountries(
+  map: MapLibreMap,
+  isoAlpha3Codes: string[],
+  topPadding: number,
+  bottomPadding: number,
+  sidePadding: number,
+  durationMs: number,
+) {
+  const shapes = isoAlpha3Codes.map((isoAlpha3) => ({
+    isoAlpha3,
+    geometry: wholeCountryGeometry(COUNTRY_SHAPES, isoAlpha3),
   }))
   map.fitBounds(regionBounds(shapes), {
     padding: { top: topPadding, bottom: bottomPadding, left: sidePadding, right: sidePadding },
@@ -530,6 +585,12 @@ export function findTappedCountryIndex(map: MapLibreMap, point: PointLike): numb
 function toScreen(map: MapLibreMap, [longitude, latitude]: Position): ScreenPoint {
   const { x, y } = map.project([longitude, latitude])
   return { x, y }
+}
+
+// The [longitude, latitude] where a country's name is put on the map: the
+// centre of its main landmass, the point flyToCountry centres on.
+export function countryLabelPosition(isoAlpha3: string): [number, number] {
+  return mainLandmassCentre(wholeCountryGeometry(COUNTRY_SHAPES, isoAlpha3), isoAlpha3)
 }
 
 // Turns the globe to centre the country's main landmass in the space between

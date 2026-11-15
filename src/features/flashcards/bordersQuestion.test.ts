@@ -3,6 +3,7 @@ import {
   borderBoxResults,
   borderingCountries,
   markBorderAnswers,
+  namedBorders,
   nextRoundBoxCount,
   nextRoundPrompt,
   remainingBorders,
@@ -135,6 +136,21 @@ describe('remainingBorders', () => {
     expect(
       remainingBorders([['austria', 'Belgium', 'Czechia', 'Denmark']], germanyBorders),
     ).toEqual(['FRA', 'LUX', 'NLD', 'POL', 'CHE'])
+  })
+})
+
+describe('namedBorders', () => {
+  it("lists every round's named neighbours in the order typed, skipping wrong boxes", () => {
+    const germanyBorders = borderingCountries('DEU')
+    expect(
+      namedBorders(
+        [
+          ['Poland', 'Austria', 'Belgium', 'Czechia'],
+          ['France', 'Austria', 'Spain', ''],
+        ],
+        germanyBorders,
+      ),
+    ).toEqual(['POL', 'AUT', 'BEL', 'CZE', 'FRA'])
   })
 })
 

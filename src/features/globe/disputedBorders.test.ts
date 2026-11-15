@@ -89,4 +89,12 @@ describe('borderLineFeatures', () => {
       ],
     ])
   })
+
+  it('names the shape each line outlines, and the partner a dashed line separates it from', () => {
+    expect(features.map((feature) => feature.properties)).toEqual([
+      { disputed: true, shape: 'Left', partner: 'Right' },
+      { disputed: false, shape: 'Left', partner: '' },
+      { disputed: false, shape: 'Right', partner: '' },
+    ])
+  })
 })

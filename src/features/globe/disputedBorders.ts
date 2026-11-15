@@ -59,7 +59,11 @@ type EdgeKind = 'solid' | 'dashed' | 'skipped'
 // The outlines of the shapes in `pairs` (DISPUTED_BORDERS on the globe), as
 // lines with a "disputed" property: true for dashed runs of edges, false for
 // solid ones. Solid borders between two of these shapes are drawn from both
-// sides, like every other border in the polygon outlines.
+// sides, like every other border in the polygon outlines. Each line also has
+// "shape", the name of the shape whose outline it is, and "partner", the
+// name of the other shape a dashed line separates it from ('' on solid
+// lines), so a shape's whole outline can be found though its dashed borders
+// are only drawn from one side.
 export function borderLineFeatures(
   shapes: NamedGeometry[],
   pairs: [string, string][],
@@ -76,43 +80,59 @@ export function borderLineFeatures(
     // The edges this shape shares with each of its partners in a pair, and
     // whether it is that pair's first shape.
     const partners = pairs.flatMap(([first, second]) => {
-      if (first === name) return [{ edges: edgeKeysOf(geometryOf(second)), isFirst: true }]
-      if (second === name) return [{ edges: edgeKeysOf(geometryOf(first)), isFirst: false }]
+      if (first === name) {
+        return [{ name: second, edges: edgeKeysOf(geometryOf(second)), isFirst: true }]
+      }
+      if (second === name) {
+        return [{ name: first, edges: edgeKeysOf(geometryOf(first)), isFirst: false }]
+      }
       return []
     })
-    const kindOf = (from: Position, to: Position): EdgeKind => {
+    // How the edge is drawn, and the partner it is shared with ('' if none).
+    const edgeOf = (from: Position, to: Position): { kind: EdgeKind; partner: string } => {
       const key = edgeKey(from, to)
       const partner = partners.find(({ edges }) => edges.has(key))
-      if (partner === undefined) return 'solid'
-      return partner.isFirst ? 'dashed' : 'skipped'
+      if (partner === undefined) return { kind: 'solid', partner: '' }
+      return { kind: partner.isFirst ? 'dashed' : 'skipped', partner: partner.name }
     }
 
     for (const ring of ringsOf(geometryOf(name))) {
       // A closed ring repeats its first point at the end, so edge i runs from
       // point i to point i + 1.
       const edgeCount = ring.length - 1
-      const kinds = Array.from({ length: edgeCount }, (_, i) => kindOf(ring[i], ring[i + 1]))
-      // Start where the kind changes, so a run isn't split where the ring
+      const edges = Array.from({ length: edgeCount }, (_, i) => edgeOf(ring[i], ring[i + 1]))
+      // A run of edges is drawn as one line. It ends where the kind changes,
+      // or the partner does (e.g. Siachen Glacier's dashed outline is split
+      // where India's side meets China's).
+      const isSameRun = (a: (typeof edges)[number], b: (typeof edges)[number]) =>
+        a.kind === b.kind && a.partner === b.partner
+      // Start where a run changes, so a run isn't split where the ring
       // happens to start (which would restart its dashes).
-      const changeAt = kinds.findIndex((kind, i) => kind !== kinds[(i + edgeCount - 1) % edgeCount])
+      const changeAt = edges.findIndex(
+        (edge, i) => !isSameRun(edge, edges[(i + edgeCount - 1) % edgeCount]),
+      )
       const start = changeAt === -1 ? 0 : changeAt
 
-      let runKind = kinds[start]
+      let runEdge = edges[start]
       let runPoints: Position[] = [ring[start]]
       const endRun = () => {
-        if (runKind !== 'skipped') {
+        if (runEdge.kind !== 'skipped') {
           features.push({
             type: 'Feature',
             geometry: { type: 'LineString', coordinates: runPoints },
-            properties: { disputed: runKind === 'dashed' },
+            properties: {
+              disputed: runEdge.kind === 'dashed',
+              shape: name,
+              partner: runEdge.partner,
+            },
           })
         }
       }
       for (let step = 0; step < edgeCount; step++) {
         const i = (start + step) % edgeCount
-        if (kinds[i] !== runKind) {
+        if (!isSameRun(edges[i], runEdge)) {
           endRun()
-          runKind = kinds[i]
+          runEdge = edges[i]
           runPoints = [ring[i]]
         }
         runPoints.push(ring[i + 1])

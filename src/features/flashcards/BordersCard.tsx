@@ -1,4 +1,4 @@
-import { Fragment, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { Fragment, lazy, Suspense, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
@@ -7,7 +7,7 @@ import {
   BORDER_ANSWER_BOXES,
   borderingCountries,
   borderBoxResults,
-  markBorderAnswers,
+  namedBorders,
   nextRoundBoxCount,
   nextRoundPrompt,
   remainingBorders,
@@ -19,6 +19,9 @@ import './Flashcard.css'
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
+// The map (MapLibre + border data) is large, so it is loaded only when shown.
+const BordersGlobe = lazy(() => import('../globe/BordersGlobe'))
+
 type BordersCardProps = {
   // A country with land neighbours (`bordersQuestionCountry`).
   code: string
@@ -29,13 +32,15 @@ type BordersCardProps = {
 
 // One borders question (Custom Practice only), laid out like a country's
 // flashcard: the country's picture and name, then the question, then Next once
-// it is over. It has no FSRS progress.
+// it is over. Next then shows the answer on a globe (BordersGlobe), whose own
+// Next finishes the question. It has no FSRS progress.
 export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
   const country = countryFacts[code]
   const borderCodes = borderingCountries(code)
   // Each round's typed boxes; the last is the round being answered.
   const [rounds, setRounds] = useState<string[][]>(() => [Array(BORDER_ANSWER_BOXES).fill('')])
   const [isRevealed, setIsRevealed] = useState(false)
+  const [isGlobeShown, setIsGlobeShown] = useState(false)
 
   // Reveals the current round: either the question is over, or another round
   // of boxes is added (`nextRoundBoxCount`).
@@ -53,8 +58,20 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
     setRounds([...rounds.slice(0, -1), typed])
   }
 
-  // A click anywhere presses Next while it is showing.
-  useClickAnywhereToContinue(isRevealed, onFinish)
+  // A click anywhere presses Next while it is showing (the globe has its own).
+  useClickAnywhereToContinue(isRevealed && !isGlobeShown, () => setIsGlobeShown(true))
+
+  if (isGlobeShown) {
+    return (
+      <Suspense fallback={<div className="flashcard__globe-loading">Loading globe…</div>}>
+        <BordersGlobe
+          code={code}
+          namedCodes={namedBorders(rounds, borderCodes)}
+          onNext={onFinish}
+        />
+      </Suspense>
+    )
+  }
 
   return (
     <article className="flashcard" aria-label={`${country.commonName} borders`}>
@@ -88,7 +105,11 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
       {/* No space is kept for Next before it appears, so the question moves up
           a little when it does. */}
       {isRevealed && (
-        <button className="flashcard__next arrow-button" onClick={onFinish} autoFocus>
+        <button
+          className="flashcard__next arrow-button"
+          onClick={() => setIsGlobeShown(true)}
+          autoFocus
+        >
           Next
         </button>
       )}
@@ -133,9 +154,7 @@ function BordersQuestion({
   const remainingByRound = rounds.map((_, index) =>
     remainingBorders(rounds.slice(0, index), borderCodes),
   )
-  const namedCodes = rounds
-    .flatMap((round, index) => markBorderAnswers(round, remainingByRound[index]))
-    .filter((code) => code !== null)
+  const namedCodes = namedBorders(rounds, borderCodes)
   const unnamedCodes = borderCodes.filter((code) => !namedCodes.includes(code))
   // The boxes are numbered on through the rounds, and so are their ids.
   const firstBoxNumbers = rounds.map((_, index) =>
