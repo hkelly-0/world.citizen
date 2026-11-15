@@ -4,6 +4,7 @@ import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../
 import { flagImageSrc } from '../../shared/flags'
 import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
 import { RangeTitle } from '../../shared/RangeTitle'
+import { IHDI_ROUGH_ESTIMATES } from '../../shared/statRanges'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { isCapitalCorrect } from './capitalAnswer'
@@ -252,6 +253,7 @@ export function Flashcard({
           <RangeQuestionView
             question={rangeQuestion}
             ihdiBreakdown={country.ihdiBreakdown}
+            ihdiRoughEstimate={IHDI_ROUGH_ESTIMATES[country.isoAlpha3]}
             answer={answer}
             onAnswer={(chosen) =>
               submitAnswer(rangeQuestion.id, chosen, rangeAnswerResult(rangeQuestion, chosen))
@@ -356,6 +358,9 @@ type RangeQuestionViewProps = {
   // The country's IHDI breakdown, opened from a "?" after the IHDI question's
   // value. Null when the IHDI is estimated.
   ihdiBreakdown: IhdiBreakdown | null
+  // The country's rough IHDI range from IHDI_ROUGH_ESTIMATES (e.g. "3.8-5.6"),
+  // noted after the IHDI question is answered. Undefined for most countries.
+  ihdiRoughEstimate: string | undefined
   answer: string | null
   onAnswer: (chosen: string) => void
   // Called when an option is clicked after answering, like pressing Next.
@@ -366,6 +371,7 @@ type RangeQuestionViewProps = {
 function RangeQuestionView({
   question,
   ihdiBreakdown,
+  ihdiRoughEstimate,
   answer,
   onAnswer,
   onContinue,
@@ -413,6 +419,9 @@ function RangeQuestionView({
       </div>
       {isAnswered && question.isEstimate && (
         <p className="flashcard__note">Estimated: UNDP has no IHDI for this country.</p>
+      )}
+      {isAnswered && question.id === 'ihdi' && ihdiRoughEstimate !== undefined && (
+        <p className="flashcard__note">Est. {ihdiRoughEstimate}, significantly limited data</p>
       )}
     </>
   )

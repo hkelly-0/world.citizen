@@ -417,6 +417,29 @@ describe('Flashcard', () => {
     expect(screen.getByText(/Estimated: UNDP has no IHDI/)).toBeInTheDocument()
   })
 
+  it('notes a rough IHDI range for a country with no IHDI, once answered', async () => {
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={countryFacts['PRK']}
+        questionIds={FACT_QUESTION_IDS}
+        isNameQuestion={false}
+        offeredFlags={flagOptions('PRK')}
+        onAnswer={vi.fn()}
+        onFinish={() => {}}
+      />,
+    )
+
+    await answerLocation('Tap right country')
+    await answerFlag('PRK', true)
+    await answerRangeQuestion('100-300K km² Small')
+    await answerRangeQuestion('10-50M Moderate')
+    expect(screen.queryByText(/Est\./)).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'No data' }))
+
+    expect(screen.getByText('Est. 3.8-5.6, significantly limited data')).toBeInTheDocument()
+  })
+
   it("opens the IHDI's breakdown from a ? after its value, once answered", async () => {
     const onFinish = vi.fn()
     render(

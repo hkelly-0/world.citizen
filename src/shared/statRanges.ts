@@ -97,6 +97,18 @@ export function formatIhdi(ihdi: number): string {
   return (ihdi * 10).toPrecision(2)
 }
 
+// Rough IHDI ranges, on the IHDI's 0-10 scale, for countries with neither an
+// IHDI nor an estimate, by ISO alpha-3 code. Shown as notes, in the globe's
+// info panel and after the IHDI flashcard is answered; the country stays
+// "No data" everywhere else.
+// North Korea's range is this app's own rough estimate: an HDI of 0.55-0.70,
+// from UNDP's life expectancy and expected schooling for it plus guessed mean
+// schooling (9-12 years) and income ($1,000-3,000 PPP), converted to an IHDI
+// with the same fit as the other estimates (scripts/make-country-data.mjs).
+export const IHDI_ROUGH_ESTIMATES: Record<string, string> = {
+  PRK: '3.8-5.6',
+}
+
 // A country's statistic: the range it falls in, and its rounded value as
 // shown to the user (e.g. "45M").
 export type StatValue = {

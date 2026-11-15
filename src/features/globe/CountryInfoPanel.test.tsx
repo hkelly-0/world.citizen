@@ -113,6 +113,16 @@ describe('CountryInfoPanel', () => {
     expect(screen.queryByRole('button', { name: 'IHDI breakdown' })).not.toBeInTheDocument()
   })
 
+  it('opens a note from a ? after "No data" for a country with an IHDI note', async () => {
+    const northKorea: CountryShape = { ...france, name: 'North Korea', isoAlpha3: 'PRK' }
+    render(<CountryInfoPanel {...panelProps} country={northKorea} />)
+    expect(valueOf('IHDI')).toHaveTextContent('No data?')
+    expect(screen.queryByText(/Significantly limited data/)).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI note' }))
+    expect(screen.getByText('Est. 3.8-5.6 Significantly limited data')).toBeInTheDocument()
+  })
+
   it('marks an estimated IHDI value with (est.)', () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)

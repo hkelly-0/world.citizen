@@ -66,6 +66,16 @@
   text-align: left;
 }
 
+/* A no-data note lines up with the value's right edge, where its "?" is, and
+   grows leftwards as far as its lines need. Placed from the left like the
+   breakdown, it ran past the values to the panel's edge on phones, where the
+   values are narrower. */
+.ihdi-breakdown__bubble--note {
+  left: auto;
+  right: 0;
+  max-width: none;
+}
+
 /* Laid out like the info panel's facts, but styled here too, as the flashcard
    has no such rules. Two classes, so these win over the info panel's own dl
    rules whichever file loads first. */

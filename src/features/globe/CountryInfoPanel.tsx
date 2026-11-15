@@ -11,6 +11,7 @@ import { INFO_QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import { RangeTitle } from '../../shared/RangeTitle'
 import {
   areaStat,
+  IHDI_ROUGH_ESTIMATES,
   ihdiStat,
   NO_DATA,
   populationStat,
@@ -46,9 +47,18 @@ type CountryInfoPanelProps = {
 
 // The range's name with the country's rounded value in place of the bound,
 // e.g. "45M  Moderate". With no data (null), only "No data" is shown, without
-// `afterBound` (e.g. the IHDI breakdown's "?").
-function RangeWithValue({ stat, afterBound }: { stat: StatValue | null; afterBound?: ReactNode }) {
-  if (stat === null) return <RangeTitle range={NO_DATA} />
+// `afterBound` (e.g. the IHDI breakdown's "?"), but followed by `afterNoData`
+// if given (e.g. the "?" of a rough estimate from IHDI_ROUGH_ESTIMATES).
+function RangeWithValue({
+  stat,
+  afterBound,
+  afterNoData,
+}: {
+  stat: StatValue | null
+  afterBound?: ReactNode
+  afterNoData?: ReactNode
+}) {
+  if (stat === null) return <RangeTitle range={NO_DATA} afterBound={afterNoData} />
   return <RangeTitle range={{ bound: stat.value, name: stat.range.name }} afterBound={afterBound} />
 }
 
@@ -173,6 +183,22 @@ export function CountryInfoPanel({
                       // Not keyed by country, so an open breakdown stays open
                       // when another country is selected.
                       <IhdiBreakdownButton breakdown={facts.ihdiBreakdown} />
+                    }
+                    afterNoData={
+                      IHDI_ROUGH_ESTIMATES[facts.isoAlpha3] !== undefined && (
+                        // Keyed by country, so an open note closes when
+                        // another country is selected. Broken by hand into
+                        // short lines, to keep the bubble narrow.
+                        <IhdiBreakdownButton
+                          key={facts.isoAlpha3}
+                          breakdown={null}
+                          noDataNote={[
+                            `Est. ${IHDI_ROUGH_ESTIMATES[facts.isoAlpha3]}`,
+                            'Significantly',
+                            'limited data',
+                          ]}
+                        />
+                      )
                     }
                   />
                 </dd>

@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { Fragment, useEffect, useId, useRef, useState } from 'react'
 import type { IhdiBreakdown } from './countryFacts'
 import { formatIhdi } from './statRanges'
 import './IhdiBreakdownButton.css'
@@ -7,11 +7,19 @@ import './IhdiBreakdownButton.css'
 // IHDI flashcard's answer) that opens a bubble with the IHDI's three
 // inequality-adjusted parts, on the same 0–10 scale as the IHDI.
 // An estimated IHDI has no breakdown (null), so the bubble says so instead.
+// For a country with no IHDI, the info panel passes `noDataNote`, its lines,
+// instead (e.g. a rough estimate), which the bubble shows in place of either.
 // Tapping the "?" again, or anywhere else in the info panel, closes it. Taps
 // outside the panel (e.g. selecting another country on the globe) leave it
 // open, so the breakdowns can be compared. On a flashcard there is no panel:
 // a tap anywhere else goes on to the next question, which removes it.
-export function IhdiBreakdownButton({ breakdown }: { breakdown: IhdiBreakdown | null }) {
+export function IhdiBreakdownButton({
+  breakdown,
+  noDataNote,
+}: {
+  breakdown: IhdiBreakdown | null
+  noDataNote?: string[]
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLSpanElement>(null)
   const bubbleId = useId()
@@ -32,7 +40,7 @@ export function IhdiBreakdownButton({ breakdown }: { breakdown: IhdiBreakdown | 
     <span ref={wrapperRef} className="ihdi-breakdown">
       <button
         className="ihdi-breakdown__button"
-        aria-label="IHDI breakdown"
+        aria-label={noDataNote === undefined ? 'IHDI breakdown' : 'IHDI note'}
         aria-expanded={isOpen}
         aria-controls={bubbleId}
         onClick={() => setIsOpen(!isOpen)}
@@ -55,8 +63,26 @@ export function IhdiBreakdownButton({ breakdown }: { breakdown: IhdiBreakdown | 
         </svg>
       </button>
       {isOpen && (
-        <span id={bubbleId} className="ihdi-breakdown__bubble" data-no-continue>
-          {breakdown === null ? (
+        <span
+          id={bubbleId}
+          className={
+            noDataNote === undefined
+              ? 'ihdi-breakdown__bubble'
+              : 'ihdi-breakdown__bubble ihdi-breakdown__bubble--note'
+          }
+          data-no-continue
+        >
+          {noDataNote !== undefined ? (
+            // A space before each break, so screen readers and tests read the
+            // lines as separate words.
+            noDataNote.map((line, i) => (
+              <Fragment key={i}>
+                {i > 0 && ' '}
+                {i > 0 && <br />}
+                {line}
+              </Fragment>
+            ))
+          ) : breakdown === null ? (
             // Broken by hand, so the bubble is only as wide as "Insufficient data".
             <>
               Insufficient data <br />
