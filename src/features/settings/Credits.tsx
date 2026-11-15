@@ -94,6 +94,13 @@ export function Credits({ onBack }: { onBack: () => void }) {
             this app's own estimates from HDI, not UNDP figures.
           </p>
           <p className="credits__entry">
+            <strong>Kosovo's HDI:</strong> Global Data Lab,{' '}
+            <ExternalLink href="https://globaldatalab.org/shdi/">
+              Subnational Human Development Index
+            </ExternalLink>
+            , Radboud University, as the UNDP doesn't list Kosovo.
+          </p>
+          <p className="credits__entry">
             The UN and UNDP don't endorse this app, and its data may not reflect their latest
             updates.
           </p>

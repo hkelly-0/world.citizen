@@ -242,6 +242,22 @@ await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'l
   }
 })
 
+// --- HDIs written by hand, for countries the UNDP file leaves out ---
+// The UNDP doesn't list Kosovo, as it isn't a UN member. Its value is the
+// national total from Global Data Lab's Subnational HDI (v10.2), which uses
+// the UNDP's method: https://globaldatalab.org/shdi/table/shdi/XKO/
+// Added after the UNDP file is read and before the IHDI fit below, so these
+// countries get an estimated IHDI without changing the fit.
+const HDI_BY_HAND = {
+  XKX: { value: 0.797, year: 2023 },
+}
+for (const [code, hdi] of Object.entries(HDI_BY_HAND)) {
+  if (hdis[code] !== undefined) {
+    throw new Error(`The UNDP file now has an HDI for ${code}; remove it from HDI_BY_HAND`)
+  }
+  hdis[code] = hdi
+}
+
 // --- Estimated IHDI for countries that have an HDI but no IHDI ---
 // IHDI is closely tied to HDI, and lower HDIs lose proportionally more to
 // inequality. So fit a straight line (ordinary least squares) through the

@@ -10,6 +10,7 @@ world.citizen is built on the work below. Each item keeps its own licence, whate
 - **Population:** United Nations, Department of Economic and Social Affairs, Population Division (2024), [World Population Prospects 2024](https://population.un.org/wpp/), used under [CC BY 3.0 IGO](https://creativecommons.org/licenses/by/3.0/igo/). Changes: uses the 2025 medium-variant projection, shown rounded and as named ranges.
 - **Territories the sources above leave out:** figures from national statistics offices and censuses, each source listed in `src/data/territoryFiguresByHand.json`.
 - **HDI and IHDI:** United Nations Development Programme, [Human Development Report 2025](https://hdr.undp.org/), used under [CC BY 3.0 IGO](https://creativecommons.org/licenses/by/3.0/igo/). Changes: uses each country's latest year, shown rounded and as named ranges. `ihdiEstimate` is this project's own least-squares estimate from HDI, not a UNDP figure, and the UNDP doesn't endorse this project.
+- **Kosovo's HDI:** Global Data Lab, [Subnational Human Development Index (v10.2)](https://globaldatalab.org/shdi/), Radboud University, as the UNDP doesn't list Kosovo. Changes: uses Kosovo's national total for 2023 (`HDI_BY_HAND` in `scripts/make-country-data.mjs`); its IHDI is this project's estimate from that HDI.
 
 The UN and UNDP sources don't endorse this project either, and its data may not reflect their latest updates.
 
