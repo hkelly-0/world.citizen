@@ -275,6 +275,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
       mapRef.current = null
       hoveredGroupIdRef.current = null
     }
+    // The map is set up once, so initialCountryCode is only read when it is
+    // created, by design: a change to it shouldn't rebuild the map.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Highlight the selected country, and un-highlight it when the selection changes.
