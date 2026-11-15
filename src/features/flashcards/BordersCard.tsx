@@ -1,4 +1,12 @@
-import { Fragment, lazy, Suspense, useState, type FormEvent, type KeyboardEvent } from 'react'
+import {
+  Fragment,
+  lazy,
+  Suspense,
+  useEffect,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+} from 'react'
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
@@ -20,8 +28,10 @@ import './Flashcard.css'
 // Pictures made by scripts/make-country-images.mjs.
 const COUNTRY_IMAGES = '/country-images'
 
-// The map (MapLibre + border data) is large, so it is loaded only when shown.
-const BordersGlobe = lazy(() => import('../globe/BordersGlobe'))
+// The map (MapLibre + border data) is large, so it is kept out of the main
+// bundle. The card starts loading it as soon as it opens (see BordersCard).
+const loadBordersGlobe = () => import('../globe/BordersGlobe')
+const BordersGlobe = lazy(loadBordersGlobe)
 
 type BordersCardProps = {
   // A country with land neighbours (`bordersQuestionCountry`).
@@ -42,6 +52,14 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
   const [rounds, setRounds] = useState<string[][]>(() => [Array(BORDER_ANSWER_BOXES).fill('')])
   const [isRevealed, setIsRevealed] = useState(false)
   const [isGlobeShown, setIsGlobeShown] = useState(false)
+
+  // Loads the globe's code and border data while the user answers, so it is
+  // usually ready by the time Next is pressed. The same import is shared with
+  // the lazy BordersGlobe above, so it is only fetched once. A failure is
+  // ignored here: the lazy load tries again when the globe is shown.
+  useEffect(() => {
+    loadBordersGlobe().catch(() => {})
+  }, [])
 
   // Reveals the current round: either the question is over, or another round
   // of boxes is added (`nextRoundBoxCount`).
