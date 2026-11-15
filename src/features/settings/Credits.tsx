@@ -101,6 +101,13 @@ export function Credits({ onBack }: { onBack: () => void }) {
             , Radboud University, as the UNDP doesn't list Kosovo.
           </p>
           <p className="credits__entry">
+            <strong>Taiwan's HDI:</strong> Directorate-General of Budget, Accounting and Statistics,{' '}
+            <ExternalLink href="https://data.gov.tw/dataset/25711">
+              Human Development Index (HDI)
+            </ExternalLink>
+            , as the UNDP doesn't list Taiwan.
+          </p>
+          <p className="credits__entry">
             The UN and UNDP don't endorse this app, and its data may not reflect their latest
             updates.
           </p>

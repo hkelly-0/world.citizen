@@ -36,15 +36,15 @@ describe('sortedCountries', () => {
   })
 
   it('puts countries with no IHDI last when largest first, and first when smallest first', () => {
-    const noIhdi = ['Monaco', 'North Korea', 'Taiwan', 'Vatican City']
+    const noIhdi = ['Monaco', 'North Korea', 'Vatican City']
     expect(
       sortedCountries('ihdi', false)
-        .slice(-4)
+        .slice(-3)
         .map((country) => country.commonName),
     ).toEqual(noIhdi)
     expect(
       sortedCountries('ihdi', true)
-        .slice(0, 4)
+        .slice(0, 3)
         .map((country) => country.commonName),
     ).toEqual(noIhdi)
   })
@@ -127,12 +127,12 @@ describe('CountryTable', () => {
     render(<CountryTable onBack={vi.fn()} />)
     await userEvent.click(headingButton('IHDI'))
     const rows = bodyRows()
-    expect(rows[192][0]).toBe('193')
-    expect(rows[193]).toEqual(expect.arrayContaining(['', 'Monaco', 'no data']))
+    expect(rows[193][0]).toBe('194')
+    expect(rows[194]).toEqual(expect.arrayContaining(['', 'Monaco', 'no data']))
 
     await userEvent.click(headingButton('IHDI'))
     expect(bodyRows()[0][0]).toBe('')
-    expect(bodyRows()[4][0]).toBe('193')
+    expect(bodyRows()[3][0]).toBe('194')
   })
 
   it('scrolls back to the top row when reordered', async () => {

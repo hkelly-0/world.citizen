@@ -243,13 +243,18 @@ await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'l
 })
 
 // --- HDIs written by hand, for countries the UNDP file leaves out ---
-// The UNDP doesn't list Kosovo, as it isn't a UN member. Its value is the
-// national total from Global Data Lab's Subnational HDI (v10.2), which uses
-// the UNDP's method: https://globaldatalab.org/shdi/table/shdi/XKO/
+// The UNDP doesn't list Kosovo or Taiwan, as neither is a UN member.
+// - Kosovo: the national total from Global Data Lab's Subnational HDI
+//   (v10.2), which uses the UNDP's method:
+//   https://globaldatalab.org/shdi/table/shdi/XKO/
+// - Taiwan: Taiwan's statistics office (DGBAS) puts its own figures into the
+//   UNDP's formula and compares them against the same report as the UNDP file:
+//   https://data.gov.tw/dataset/25711
 // Added after the UNDP file is read and before the IHDI fit below, so these
 // countries get an estimated IHDI without changing the fit.
 const HDI_BY_HAND = {
   XKX: { value: 0.797, year: 2023 },
+  TWN: { value: 0.934, year: 2023 },
 }
 for (const [code, hdi] of Object.entries(HDI_BY_HAND)) {
   if (hdis[code] !== undefined) {
