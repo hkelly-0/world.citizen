@@ -95,3 +95,11 @@
   /* Equal-width digits so numbers line up. */
   font-variant-numeric: tabular-nums;
 }
+
+/* Smaller on phones, so a part marked "(est.)" keeps the bubble narrow. The
+   width is WIDE_SCREEN_MIN_PX in focusZoom.ts, as in index.css. */
+@media (width < 768px) {
+  .ihdi-breakdown__estimated {
+    font-size: 75%;
+  }
+}

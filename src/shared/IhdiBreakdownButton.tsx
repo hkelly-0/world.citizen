@@ -1,12 +1,14 @@
 import { Fragment, useEffect, useId, useRef, useState } from 'react'
-import type { IhdiBreakdown } from './countryFacts'
+import type { IhdiBreakdown, IhdiEstimateBreakdown } from './countryFacts'
 import { formatIhdi } from './statRanges'
 import './IhdiBreakdownButton.css'
 
 // A small "?" beside an IHDI value (in the globe's info panel, and under the
 // IHDI flashcard's answer) that opens a bubble with the IHDI's three
 // inequality-adjusted parts, on the same 0–10 scale as the IHDI.
-// An estimated IHDI has no breakdown (null), so the bubble says so instead.
+// An estimated IHDI's breakdown marks each part worked out from a filled-in
+// inequality loss with "(est.)". An estimate with no breakdown (null) gets a
+// line saying so instead.
 // For a country with no IHDI, the info panel passes `noDataNote`, its lines,
 // instead (e.g. a rough estimate), which the bubble shows in place of either.
 // Tapping the "?" again, or anywhere else in the info panel, closes it. Taps
@@ -17,12 +19,24 @@ export function IhdiBreakdownButton({
   breakdown,
   noDataNote,
 }: {
-  breakdown: IhdiBreakdown | null
+  breakdown: IhdiBreakdown | IhdiEstimateBreakdown | null
   noDataNote?: string[]
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<HTMLSpanElement>(null)
   const bubbleId = useId()
+
+  // A part's value, marked "(est.)" if it was estimated.
+  function partValue(part: 'lifespan' | 'education' | 'income') {
+    if (breakdown === null) return ''
+    const isEstimated = 'estimatedParts' in breakdown && breakdown.estimatedParts.includes(part)
+    if (!isEstimated) return formatIhdi(breakdown[part])
+    return (
+      <>
+        {formatIhdi(breakdown[part])} <span className="ihdi-breakdown__estimated">(est.)</span>
+      </>
+    )
+  }
 
   useEffect(() => {
     if (!isOpen) return
@@ -91,11 +105,11 @@ export function IhdiBreakdownButton({
           ) : (
             <dl>
               <dt>Lifespan</dt>
-              <dd>{formatIhdi(breakdown.lifespan)}</dd>
+              <dd>{partValue('lifespan')}</dd>
               <dt>Education</dt>
-              <dd>{formatIhdi(breakdown.education)}</dd>
+              <dd>{partValue('education')}</dd>
               <dt>Income</dt>
-              <dd>{formatIhdi(breakdown.income)}</dd>
+              <dd>{partValue('income')}</dd>
             </dl>
           )}
         </span>

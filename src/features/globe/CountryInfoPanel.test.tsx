@@ -93,7 +93,7 @@ describe('CountryInfoPanel', () => {
 
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     rerender(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
-    expect(screen.getByText('Insufficient data for breakdown')).toBeInTheDocument()
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('7.8 (est.)')
   })
 
   it('lists every capital for countries with several', () => {
@@ -130,9 +130,21 @@ describe('CountryInfoPanel', () => {
     expect(valueOf('IHDI')).toHaveTextContent('7.9 (est.)? Great')
   })
 
-  it('says an estimated IHDI has no breakdown', async () => {
+  it("marks the estimated parts of an estimated IHDI's breakdown with (est.)", async () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    // Only Saudi Arabia's income loss is filled in.
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^8\.6$/)
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^7\.5$/)
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('7.8 (est.)')
+  })
+
+  it('says an estimated IHDI with no breakdown has insufficient data', async () => {
+    const kosovo: CountryShape = { ...france, name: 'Kosovo', isoAlpha3: 'XKX' }
+    render(<CountryInfoPanel {...panelProps} country={kosovo} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
 

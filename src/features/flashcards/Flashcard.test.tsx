@@ -467,7 +467,7 @@ describe('Flashcard', () => {
     expect(onFinish).not.toHaveBeenCalled()
   })
 
-  it('says an estimated IHDI has no breakdown', async () => {
+  it("marks the estimated parts of an estimated IHDI's breakdown with (est.)", async () => {
     render(
       <Flashcard
         countryIcon="outline"
@@ -481,6 +481,27 @@ describe('Flashcard', () => {
     )
 
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    // Only Saudi Arabia's income loss is filled in.
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^8\.6$/)
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('7.8 (est.)')
+  })
+
+  it('says an estimated IHDI with no breakdown has insufficient data', async () => {
+    render(
+      <Flashcard
+        countryIcon="outline"
+        country={countryFacts['XKX']}
+        questionIds={['ihdi']}
+        isNameQuestion={false}
+        offeredFlags={[]}
+        onAnswer={vi.fn()}
+        onFinish={() => {}}
+      />,
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: '7 Good' }))
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
 
     expect(screen.getByText('Insufficient data for breakdown')).toBeInTheDocument()

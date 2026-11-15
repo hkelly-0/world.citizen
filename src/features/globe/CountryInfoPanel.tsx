@@ -182,7 +182,9 @@ export function CountryInfoPanel({
                     afterBound={
                       // Not keyed by country, so an open breakdown stays open
                       // when another country is selected.
-                      <IhdiBreakdownButton breakdown={facts.ihdiBreakdown} />
+                      <IhdiBreakdownButton
+                        breakdown={facts.ihdiBreakdown ?? facts.ihdiEstimateBreakdown}
+                      />
                     }
                     afterNoData={
                       IHDI_ROUGH_ESTIMATES[facts.isoAlpha3] !== undefined && (
