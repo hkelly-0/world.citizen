@@ -23,6 +23,8 @@ type BordersGlobeProps = {
   code: string
   // The bordering countries the user named.
   namedCodes: string[]
+  // The countries the user typed that don't border `code`.
+  wrongGuessCodes: string[]
   onNext: () => void
 }
 
@@ -32,10 +34,15 @@ type BordersGlobeProps = {
 // country and all its neighbours, and can be spun and zoomed; tapping a
 // country does nothing (only Next continues, so the user can look around
 // freely). A country's far-off parts are coloured with it. Each coloured
-// country's name is written over its main landmass (not its far-off parts).
-// Names are always all shown, so small neighbours' may overlap until the user
-// zooms in.
-export default function BordersGlobe({ code, namedCodes, onNext }: BordersGlobeProps) {
+// country's name is written over its main landmass (not its far-off parts),
+// as is each wrong guess's, smaller and dimmer (its country stays plain).
+// Names are always all shown, so they may overlap until the user zooms in.
+export default function BordersGlobe({
+  code,
+  namedCodes,
+  wrongGuessCodes,
+  onNext,
+}: BordersGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -74,18 +81,24 @@ export default function BordersGlobe({ code, namedCodes, onNext }: BordersGlobeP
     // HTML labels rather than a MapLibre text layer, which would need font
     // files from a server (the app works offline). They are hidden, not
     // faded, while on the far side of the globe.
-    for (const country of [code, ...borderCodes]) {
+    function addLabel(country: string, className: string) {
       const label = document.createElement('div')
-      label.className = 'borders-globe__label'
+      label.className = className
       label.textContent = countryFacts[country].commonName
       new Marker({ element: label, opacityWhenCovered: 0 })
         .setLngLat(countryLabelPosition(country))
         .addTo(map)
     }
+    // The wrong guesses first, so the highlighted names are drawn on top
+    // where they overlap.
+    for (const country of wrongGuessCodes) {
+      addLabel(country, 'borders-globe__label borders-globe__label--wrong-guess')
+    }
+    for (const country of [code, ...borderCodes]) addLabel(country, 'borders-globe__label')
 
     return () => map.remove()
     // The globe is shown once per question, so the props are only read when
-    // the map is created, by design: a new namedCodes array each render
+    // the map is created, by design: new code arrays each render
     // shouldn't rebuild the map.
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])

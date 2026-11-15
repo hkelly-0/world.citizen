@@ -11,6 +11,7 @@ import {
   nextRoundBoxCount,
   nextRoundPrompt,
   remainingBorders,
+  wrongBorderGuesses,
 } from './bordersQuestion'
 // The boxes' styles, loaded before Flashcard.css as on the regular card.
 import './TypedAnswerReveal.css'
@@ -67,6 +68,7 @@ export function BordersCard({ code, countryIcon, onFinish }: BordersCardProps) {
         <BordersGlobe
           code={code}
           namedCodes={namedBorders(rounds, borderCodes)}
+          wrongGuessCodes={wrongBorderGuesses(rounds, code)}
           onNext={onFinish}
         />
       </Suspense>

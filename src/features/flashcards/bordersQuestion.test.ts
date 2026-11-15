@@ -7,6 +7,7 @@ import {
   nextRoundBoxCount,
   nextRoundPrompt,
   remainingBorders,
+  wrongBorderGuesses,
 } from './bordersQuestion'
 
 describe('borderingCountries', () => {
@@ -181,5 +182,19 @@ describe('nextRoundPrompt', () => {
     expect(nextRoundPrompt(5)).toBe('Nice. 4 more?')
     expect(nextRoundPrompt(4)).toBe('Nice. Last 4?')
     expect(nextRoundPrompt(1)).toBe('Nice. Last 1?')
+  })
+})
+
+describe('wrongBorderGuesses', () => {
+  it('lists the countries typed that are neither neighbours nor the country, once each', () => {
+    expect(
+      wrongBorderGuesses(
+        [
+          ['Spain', 'portugal', 'France', 'Atlantis'],
+          ['Portugal', 'Britain', '', 'Italy'],
+        ],
+        'FRA',
+      ),
+    ).toEqual(['PRT', 'GBR'])
   })
 })

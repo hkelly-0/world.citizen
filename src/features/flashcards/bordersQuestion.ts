@@ -1,5 +1,6 @@
 import countryBordersJson from '../../data/countryBorders.json'
 import { compareNames, countryFacts } from '../../shared/countryFacts'
+import { namedCountry } from '../extras/namingGame'
 import { isCountryNameCorrect } from './countryNameAnswer'
 
 // How many text boxes the borders question offers. Countries with fewer
@@ -83,6 +84,16 @@ export function namedBorders(rounds: string[][], borderCodes: string[]): string[
       markBorderAnswers(round, remainingBorders(rounds.slice(0, index), borderCodes)),
     )
     .filter((code) => code !== null)
+}
+
+// The countries typed in any of `rounds` (each a round's typed boxes) that
+// don't border `code` and aren't it, each once, in the order typed. Typed text
+// that names no country is left out.
+export function wrongBorderGuesses(rounds: string[][], code: string): string[] {
+  const guessed = rounds.flat().flatMap((typed) => namedCountry(typed) ?? [])
+  return [...new Set(guessed)].filter(
+    (guess) => guess !== code && !COUNTRY_BORDERS[code].includes(guess),
+  )
 }
 
 // After a round's boxes `typed` are revealed, how many boxes the next round

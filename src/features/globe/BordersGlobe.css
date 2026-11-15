@@ -55,3 +55,10 @@
   /* Lets taps and drags reach the globe underneath. */
   pointer-events: none;
 }
+
+/* The names of the countries guessed wrongly: slightly smaller and dimmer, so
+   the highlighted ones stand out. */
+.borders-globe__label--wrong-guess {
+  color: rgba(242, 244, 248, 0.75);
+  font-size: 0.75rem;
+}

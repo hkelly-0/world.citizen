@@ -9,14 +9,17 @@ vi.mock('../globe/BordersGlobe', () => ({
   default: ({
     code,
     namedCodes,
+    wrongGuessCodes,
     onNext,
   }: {
     code: string
     namedCodes: string[]
+    wrongGuessCodes: string[]
     onNext: () => void
   }) => (
     <div>
       <p>Borders globe: {[code, ...namedCodes].join(' ')}</p>
+      <p>Wrong guesses: {wrongGuessCodes.join(' ')}</p>
       <button onClick={onNext}>Globe Next</button>
     </div>
   ),
@@ -79,6 +82,8 @@ describe('BordersCard', () => {
     // own Next finishes.
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(await screen.findByText('Borders globe: FRA ESP')).toBeInTheDocument()
+    // Portugal doesn't border France.
+    expect(screen.getByText('Wrong guesses: PRT')).toBeInTheDocument()
     expect(onFinish).not.toHaveBeenCalled()
     await userEvent.click(screen.getByRole('button', { name: 'Globe Next' }))
     expect(onFinish).toHaveBeenCalled()
