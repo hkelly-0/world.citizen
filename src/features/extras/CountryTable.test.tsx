@@ -1,20 +1,17 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { CountryTable } from './CountryTable'
 import { formatStat, sortedCountries } from './countryOrdering'
 
-// The table's body rows, as their cells' text.
+// The table's body rows, as their cells' text. Read from the DOM directly, as
+// role queries on all 197 rows are slow enough to time out in CI.
 function bodyRows() {
   const [, body] = screen.getAllByRole('rowgroup')
-  return within(body)
-    .getAllByRole('row')
-    .map((row) =>
-      within(row)
-        .getAllByRole('cell')
-        .map((cell) => cell.textContent),
-    )
+  return Array.from(body.querySelectorAll('tr')).map((row) =>
+    Array.from(row.cells).map((cell) => cell.textContent),
+  )
 }
 
 // A column heading's button, found by the heading's text (its arrow aside).
