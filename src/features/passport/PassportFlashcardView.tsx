@@ -13,7 +13,8 @@ import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
 import { CardReward } from '../flashcards/CardReward'
 import { rewardAfterCard, type CardRewardDetails } from '../flashcards/rewardAfterCard'
-import { SeeOnGlobeButton, SeeOnGlobeScreen, useSeeOnGlobe } from '../flashcards/SeeOnGlobe'
+import { SeeOnGlobeButton, SeeOnGlobeScreen } from '../flashcards/SeeOnGlobe'
+import { useSeeOnGlobe } from '../flashcards/useSeeOnGlobe'
 import '../flashcards/FlashcardsView.css'
 
 type PassportFlashcardViewProps = {

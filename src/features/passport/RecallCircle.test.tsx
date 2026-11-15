@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { RecallCircle, recallColour, recallFraction } from './RecallCircle'
+import { RecallCircle } from './RecallCircle'
+import { recallColour, recallFraction } from './recallCircleFill'
 
 describe('recallFraction', () => {
   it('fills 1/6 at a recall chance of 50% or less and all of it at 100%', () => {

@@ -44,7 +44,8 @@ import {
   type MultiCountryQuestionId,
 } from './multiCountryQuestions'
 import { rewardAfterCard, type CardRewardDetails } from './rewardAfterCard'
-import { SeeOnGlobeButton, SeeOnGlobeScreen, useSeeOnGlobe } from './SeeOnGlobe'
+import { SeeOnGlobeButton, SeeOnGlobeScreen } from './SeeOnGlobe'
+import { useSeeOnGlobe } from './useSeeOnGlobe'
 import './FlashcardsView.css'
 
 // The globe (MapLibre + border data) is large, so it is loaded only when a new

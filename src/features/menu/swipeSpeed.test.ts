@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { swipeSpeed } from './SpinningLogo'
+import { swipeSpeed } from './swipeSpeed'
 
 describe('swipeSpeed', () => {
   it('is the speed over the last moments of the drag', () => {
