@@ -415,10 +415,11 @@ function RangeQuestionView({
             {isAnswered &&
               option.name === question.correctAnswer.name &&
               question.trueValue !== null && (
-                <p className="flashcard__true-value">
+                // A div, not a p, as the IHDI breakdown's bubble holds a <dl>.
+                <div className="flashcard__true-value">
                   {question.trueValue}
                   {question.id === 'ihdi' && <IhdiBreakdownButton breakdown={ihdiBreakdown} />}
-                </p>
+                </div>
               )}
           </Fragment>
         ))}
