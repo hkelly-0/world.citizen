@@ -179,37 +179,47 @@ const MEAN_SCHOOLING_MAX = 15
 const INCOME_GOALPOSTS = { min: 100, max: 75000 }
 const IHDI_BREAKDOWN_TOLERANCE = 0.002
 
-// Values from the same year as the IHDI, or null if any is missing.
-function ihdiBreakdown(row, year) {
-  const valueOf = (prefix) => {
-    const text = row[`${prefix}_${year}`]?.trim()
-    return text ? Number(text) : null
-  }
-  const lifeExpectancy = valueOf('le')
-  const expectedSchooling = valueOf('eys')
-  const meanSchooling = valueOf('mys')
-  const income = valueOf('gnipc')
-  const lifespanLoss = valueOf('ineq_le')
-  const educationLoss = valueOf('ineq_edu')
-  const incomeLoss = valueOf('ineq_inc')
-  const values = [lifeExpectancy, expectedSchooling, meanSchooling, income]
-  const losses = [lifespanLoss, educationLoss, incomeLoss]
-  if ([...values, ...losses].includes(null)) return null
+// A value from the UNDP file for one year, or null if it is blank.
+function undpValue(row, prefix, year) {
+  const text = row[`${prefix}_${year}`]?.trim()
+  return text ? Number(text) : null
+}
 
-  const lifespanIndex =
+// The HDI's three dimension indices (0–1) for one year, before any inequality
+// adjustment, or null if any indicator is missing.
+function dimensionIndices(row, year) {
+  const lifeExpectancy = undpValue(row, 'le', year)
+  const expectedSchooling = undpValue(row, 'eys', year)
+  const meanSchooling = undpValue(row, 'mys', year)
+  const incomePerPerson = undpValue(row, 'gnipc', year)
+  if ([lifeExpectancy, expectedSchooling, meanSchooling, incomePerPerson].includes(null))
+    return null
+
+  const lifespan =
     (lifeExpectancy - LIFE_EXPECTANCY_GOALPOSTS.min) /
     (LIFE_EXPECTANCY_GOALPOSTS.max - LIFE_EXPECTANCY_GOALPOSTS.min)
-  const educationIndex =
+  const education =
     (Math.min(expectedSchooling, EXPECTED_SCHOOLING_MAX) / EXPECTED_SCHOOLING_MAX +
       Math.min(meanSchooling, MEAN_SCHOOLING_MAX) / MEAN_SCHOOLING_MAX) /
     2
-  const incomeIndex =
-    (Math.log(Math.min(income, INCOME_GOALPOSTS.max)) - Math.log(INCOME_GOALPOSTS.min)) /
+  const income =
+    (Math.log(Math.min(incomePerPerson, INCOME_GOALPOSTS.max)) - Math.log(INCOME_GOALPOSTS.min)) /
     (Math.log(INCOME_GOALPOSTS.max) - Math.log(INCOME_GOALPOSTS.min))
+  return { lifespan, education, income }
+}
+
+// Values from the same year as the IHDI, or null if any is missing.
+function ihdiBreakdown(row, year) {
+  const indices = dimensionIndices(row, year)
+  const lifespanLoss = undpValue(row, 'ineq_le', year)
+  const educationLoss = undpValue(row, 'ineq_edu', year)
+  const incomeLoss = undpValue(row, 'ineq_inc', year)
+  if (indices === null || [lifespanLoss, educationLoss, incomeLoss].includes(null)) return null
+
   // Losses are percentages.
-  const lifespan = lifespanIndex * (1 - lifespanLoss / 100)
-  const education = educationIndex * (1 - educationLoss / 100)
-  const incomeAdjusted = incomeIndex * (1 - incomeLoss / 100)
+  const lifespan = indices.lifespan * (1 - lifespanLoss / 100)
+  const education = indices.education * (1 - educationLoss / 100)
+  const incomeAdjusted = indices.income * (1 - incomeLoss / 100)
 
   // Check against UNDP's own IHDI, so a changed method in a new report is noticed.
   const ihdi = Number(row[`ihdi_${year}`])
@@ -221,20 +231,22 @@ function ihdiBreakdown(row, year) {
   return { lifespan: round(lifespan), education: round(education), income: round(incomeAdjusted) }
 }
 
+// The latest year with a value, as { value, year }, or undefined if none.
+function latestUndpValue(row, prefix) {
+  // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
+  const yearColumn = new RegExp(`^${prefix}_\\d{4}$`)
+  const years = Object.keys(row)
+    .filter((column) => yearColumn.test(column) && row[column].trim() !== '')
+    .map((column) => Number(column.slice(prefix.length + 1)))
+  if (years.length === 0) return undefined
+  const latestYear = Math.max(...years)
+  return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
+}
+
 await readCsv(join(sources, 'hdr-composite.csv'), { gzipped: false, encoding: 'latin1' }, (row) => {
-  const latestValue = (prefix) => {
-    // Only "<prefix>_<year>" columns: the file also has e.g. "hdi_rank_2023".
-    const yearColumn = new RegExp(`^${prefix}_\\d{4}$`)
-    const years = Object.keys(row)
-      .filter((column) => yearColumn.test(column) && row[column].trim() !== '')
-      .map((column) => Number(column.slice(prefix.length + 1)))
-    if (years.length === 0) return undefined
-    const latestYear = Math.max(...years)
-    return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
-  }
-  const hdi = latestValue('hdi')
+  const hdi = latestUndpValue(row, 'hdi')
   if (hdi !== undefined) hdis[row.iso3] = hdi
-  const ihdi = latestValue('ihdi')
+  const ihdi = latestUndpValue(row, 'ihdi')
   if (ihdi !== undefined) {
     ihdis[row.iso3] = ihdi
     const breakdown = ihdiBreakdown(row, ihdi.year)
