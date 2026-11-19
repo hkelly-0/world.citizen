@@ -84,7 +84,9 @@ body {
   font-family: 'Noto Sans Mono Symbols';
   font-display: swap;
   src: url('./assets/fonts/noto-sans-mono-symbols.woff2') format('woff2');
-  unicode-range: U+20B9, U+20AA, U+20A9, U+20B1;
+  unicode-range:
+    U+20B9, U+20AA, U+20A9, U+20B1, U+20BC, U+20A1, U+20B5, U+20B8, U+20C0, U+20AD, U+20BE, U+20AE,
+    U+20A6, U+20B2, U+20BD, U+20BA, U+20B4;
 }
 
 /* An arrow after the text of every button that moves on to something else

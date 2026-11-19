@@ -9,7 +9,8 @@
 //   subsets leave it out. https://github.com/googlefonts/RobotoMono
 // - ← → ✓ ▲ ▼ from JetBrains Mono, as Roboto Mono has none of them. Its characters
 //   are the same width as Roboto Mono's. https://github.com/JetBrains/JetBrainsMono
-// - ₹ ₪ ₩ ₱ (currency signs in Settings and the IHDI breakdown) from Noto Sans
+// - ₹ ₪ ₩ ₱ ₼ ₡ ₵ ₸ ⃀ ₭ ₾ ₮ ₦ ₲ ₽ ₺ ₴ (currency signs in Settings and the IHDI
+//   breakdown, from scripts/make-currencies.mjs) from Noto Sans
 //   Mono, as neither font above has them. Its characters are also the same
 //   width. https://github.com/notofonts/notofonts.github.io
 // The *_COMMIT constants pin the versions, so reruns give the same files.
@@ -43,7 +44,7 @@ const fonts = [
   {
     output: 'noto-sans-mono-symbols.woff2',
     url: `https://raw.githubusercontent.com/notofonts/notofonts.github.io/${NOTO_SANS_MONO_COMMIT}/fonts/NotoSansMono/hinted/ttf/NotoSansMono-Regular.ttf`,
-    characters: '₹₪₩₱',
+    characters: '₹₪₩₱₼₡₵₸⃀₭₾₮₦₲₽₺₴',
   },
 ]
 
