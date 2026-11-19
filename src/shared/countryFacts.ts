@@ -48,10 +48,18 @@ export type CountryFacts = {
 
 // The inequality-adjusted index of each part of the IHDI (0–1): health (life
 // expectancy), education (years of schooling) and income (per person).
+// lifespanYears is the inequality-adjusted life expectancy in years (the
+// geometric mean of lifespans), educationYears the inequality-adjusted
+// average of expected and mean years of schooling, and incomeDollars the
+// geometric mean of incomes (PPP dollars per person per year), shown in place
+// of the indices.
 export type IhdiBreakdown = {
   lifespan: number
   education: number
   income: number
+  lifespanYears: number
+  educationYears: number
+  incomeDollars: number
 }
 
 // An estimated IHDI's parts, with the names of those (e.g. "income") worked

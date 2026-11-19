@@ -195,7 +195,8 @@ function undpValue(row, prefix, year) {
 }
 
 // The HDI's three dimension indices (0–1) for one year, before any inequality
-// adjustment, or null if any indicator is missing.
+// adjustment, with the life expectancy, years of schooling, and income the
+// indices are made from, or null if any indicator is missing.
 function dimensionIndices(row, year) {
   const lifeExpectancy = undpValue(row, 'le', year)
   const expectedSchooling = undpValue(row, 'eys', year)
@@ -214,17 +215,48 @@ function dimensionIndices(row, year) {
   const income =
     (Math.log(Math.min(incomePerPerson, INCOME_GOALPOSTS.max)) - Math.log(INCOME_GOALPOSTS.min)) /
     (Math.log(INCOME_GOALPOSTS.max) - Math.log(INCOME_GOALPOSTS.min))
-  return { lifespan, education, income }
+  return {
+    lifespan,
+    education,
+    income,
+    lifeExpectancy,
+    expectedSchooling,
+    meanSchooling,
+    incomePerPerson,
+  }
 }
 
 // UNDP's IHDI formula, shared by the breakdown and the estimates below: each
 // dimension index times (1 - its inequality loss), and the IHDI as the
 // geometric mean of the three. Losses are percentages.
+// Also the inequality-adjusted life expectancy in years, shown instead of the
+// lifespan index: UNDP's loss is an Atkinson measure (1 - geometric mean /
+// mean), so the life expectancy times (1 - its loss) is the geometric mean of
+// lifespans. Likewise the years of schooling, shown instead of the education
+// index: the average of expected and mean years of schooling (uncapped, unlike
+// the index), times (1 - the education loss). And the income in dollars,
+// shown instead of the income index: income per person times (1 - its loss),
+// the geometric mean of incomes, as for lifespan. This leaves out the index's
+// log scale, so it is far higher than the income the adjusted index stands
+// for (UNDP shrinks the log index itself by the loss). None of these is used
+// in the IHDI itself, which adjusts the indices instead.
 function inequalityAdjusted(indices, losses) {
   const lifespan = indices.lifespan * (1 - losses.lifespan / 100)
   const education = indices.education * (1 - losses.education / 100)
   const income = indices.income * (1 - losses.income / 100)
-  return { lifespan, education, income, ihdi: Math.cbrt(lifespan * education * income) }
+  const lifespanYears = indices.lifeExpectancy * (1 - losses.lifespan / 100)
+  const educationYears =
+    ((indices.expectedSchooling + indices.meanSchooling) / 2) * (1 - losses.education / 100)
+  const incomeDollars = indices.incomePerPerson * (1 - losses.income / 100)
+  return {
+    lifespan,
+    education,
+    income,
+    lifespanYears,
+    educationYears,
+    incomeDollars,
+    ihdi: Math.cbrt(lifespan * education * income),
+  }
 }
 
 // Values from the same year as the IHDI, or null if any is missing.
@@ -246,13 +278,18 @@ function ihdiBreakdown(row, year) {
   return roundedParts(adjusted)
 }
 
-// The three parts of an inequalityAdjusted result, rounded to 3 decimals.
+// The three parts of an inequalityAdjusted result, rounded to 3 decimals, and
+// its lifespan and schooling in years, rounded to 1, and income in whole
+// dollars.
 function roundedParts(adjusted) {
   const round = (value) => Math.round(value * 1000) / 1000
   return {
     lifespan: round(adjusted.lifespan),
     education: round(adjusted.education),
     income: round(adjusted.income),
+    lifespanYears: Math.round(adjusted.lifespanYears * 10) / 10,
+    educationYears: Math.round(adjusted.educationYears * 10) / 10,
+    incomeDollars: Math.round(adjusted.incomeDollars),
   }
 }
 
