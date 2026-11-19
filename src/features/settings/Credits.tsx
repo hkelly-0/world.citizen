@@ -62,7 +62,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
         <h2 className="options-page__heading">Country data</h2>
         <div className="options-page__card">
           <p className="credits__entry">
-            <strong>Names, capitals, and area:</strong> contains information from{' '}
+            <strong>Names, capitals, area, and currencies:</strong> contains information from{' '}
             <ExternalLink href="https://github.com/mledoze/countries">
               mledoze/countries
             </ExternalLink>
@@ -108,6 +108,22 @@ export function Credits({ onBack }: { onBack: () => void }) {
               Human Development Index (HDI)
             </ExternalLink>
             , as the UNDP doesn't list Taiwan.
+          </p>
+          <p className="credits__entry">
+            <strong>Currency conversion:</strong> World Bank,{' '}
+            <ExternalLink href="https://data.worldbank.org/indicator/PA.NUS.PPP">
+              PPP conversion factor, GDP
+            </ExternalLink>{' '}
+            and{' '}
+            <ExternalLink href="https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD">
+              GDP, PPP
+            </ExternalLink>
+            , World Development Indicators, under{' '}
+            <ExternalLink href="https://creativecommons.org/licenses/by/4.0/">
+              CC BY 4.0
+            </ExternalLink>
+            . Uses each currency's latest year; a currency shared by a monetary union (e.g. the
+            euro) gets its members' average, weighted by GDP.
           </p>
           <p className="credits__entry">
             The UN and UNDP don't endorse this app, and its data may not reflect their latest

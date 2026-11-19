@@ -1,12 +1,13 @@
 import { Fragment, useEffect, useId, useRef, useState } from 'react'
 import type { IhdiBreakdown, IhdiEstimateBreakdown } from './countryFacts'
-import { formatLargeNumber } from './statRanges'
+import { formatIncome } from './currencies'
+import { loadCurrency } from './settings'
 import './IhdiBreakdownButton.css'
 
 // A small "?" beside an IHDI value (in the globe's info panel, and under the
 // IHDI flashcard's answer) that opens a bubble with the IHDI's three
 // inequality-adjusted parts: lifespan and education in whole years, and
-// income in dollars per year.
+// income per year in the currency chosen in Settings.
 // An estimated IHDI's breakdown marks each part worked out from a filled-in
 // inequality loss with "(est.)". An estimate with no breakdown (null) gets a
 // line saying so instead.
@@ -31,7 +32,8 @@ export function IhdiBreakdownButton({
   function partValue(part: 'lifespan' | 'education' | 'income') {
     if (breakdown === null) return ''
     const isEstimated = 'estimatedParts' in breakdown && breakdown.estimatedParts.includes(part)
-    let value = `${formatLargeNumber(breakdown.incomeDollars)} $/yr`
+    // Read each time, so a currency just chosen in Settings is used.
+    let value = formatIncome(breakdown.incomeDollars, loadCurrency())
     if (part === 'lifespan') value = `${Math.round(breakdown.lifespanYears)} yrs`
     if (part === 'education') value = `${Math.round(breakdown.educationYears)} yrs`
     if (!isEstimated) return value

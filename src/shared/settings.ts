@@ -1,4 +1,5 @@
 import { QUESTION_IDS, type QuestionId } from '../features/flashcards/deck'
+import { currencyByCode, defaultCurrencyCode, type Currency } from './currencies'
 
 // The information the user wants to learn, chosen in Settings and kept in the
 // browser's localStorage, on this device only. Information left out isn't
@@ -51,6 +52,33 @@ export function loadCountryIcon(): CountryIcon {
 export function saveCountryIcon(icon: CountryIcon): void {
   try {
     localStorage.setItem(COUNTRY_ICON_STORAGE_KEY, icon)
+  } catch {
+    // If storage is unavailable, the choice lasts only until the page closes.
+  }
+}
+
+// The currency incomes are shown in (the IHDI breakdown's), chosen in
+// Settings. Read straight from storage where it's shown, as nothing else needs
+// it.
+const CURRENCY_STORAGE_KEY = 'geography-app/currency'
+
+// The device's region's currency until the user changes it. A saved currency
+// that has since been left out of the list is treated as unsaved.
+export function loadCurrency(): Currency {
+  try {
+    const saved = localStorage.getItem(CURRENCY_STORAGE_KEY)
+    const savedCurrency = saved === null ? undefined : currencyByCode(saved)
+    if (savedCurrency !== undefined) return savedCurrency
+  } catch {
+    // Storage can be blocked (e.g. some private browsing modes).
+  }
+  // Always in the list, as the fallback is.
+  return currencyByCode(defaultCurrencyCode(navigator.language))!
+}
+
+export function saveCurrency(code: string): void {
+  try {
+    localStorage.setItem(CURRENCY_STORAGE_KEY, code)
   } catch {
     // If storage is unavailable, the choice lasts only until the page closes.
   }

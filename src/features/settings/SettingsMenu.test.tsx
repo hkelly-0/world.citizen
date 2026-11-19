@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import { describe, expect, it, vi } from 'vitest'
-import type { CountryIcon } from '../../shared/settings'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { loadCurrency, type CountryIcon } from '../../shared/settings'
 import { QUESTION_IDS, type QuestionId } from '../flashcards/deck'
 import { SettingsMenu } from './SettingsMenu'
 
@@ -34,6 +34,10 @@ function SavingSettingsMenu({
 }
 
 describe('SettingsMenu', () => {
+  afterEach(() => {
+    localStorage.clear()
+  })
+
   it('lists the 6 kinds of information, ticked if learned', () => {
     render(
       <SettingsMenu
@@ -89,6 +93,17 @@ describe('SettingsMenu', () => {
     expect(screen.getByRole('button', { name: 'Flag' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Outline' })).toHaveAttribute('aria-pressed', 'false')
     expect(onSave).toHaveBeenCalledWith(QUESTION_IDS, 'flag')
+  })
+
+  it('saves the currency as soon as it is chosen', async () => {
+    render(<SavingSettingsMenu learnedQuestionIds={QUESTION_IDS} onSave={vi.fn()} />)
+    const currency = screen.getByRole('combobox', { name: 'Currency' })
+    // The test environment's locale is en-US.
+    expect(currency).toHaveDisplayValue('United States dollar ($)')
+
+    await userEvent.selectOptions(currency, 'CAD')
+    expect(currency).toHaveDisplayValue('Canadian dollar (CA$)')
+    expect(loadCurrency().code).toBe('CAD')
   })
 
   it('asks "Are you sure?" before opening the Passport editor, and can be cancelled', async () => {

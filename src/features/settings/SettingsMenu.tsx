@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { SwitchRow } from '../../shared/SwitchRow'
-import type { CountryIcon } from '../../shared/settings'
+import { CURRENCIES } from '../../shared/currencies'
+import { loadCurrency, saveCurrency, type CountryIcon } from '../../shared/settings'
 import {
   INFO_QUESTION_IDS,
   QUESTION_IDS,
@@ -60,8 +61,9 @@ type SettingsMenuProps = {
   onTutorialNext?: () => void
 }
 
-// Lets the user choose which information to learn, and whether the Passport
-// shows each country's outline or flag. Every change is saved straight away.
+// Lets the user choose which information to learn, whether the Passport
+// shows each country's outline or flag, and the currency incomes are shown in.
+// Every change is saved straight away.
 // At least one box stays ticked: the last ticked one is disabled. Below,
 // "Manually edit Passport" asks "Are you sure?" before opening the Passport
 // editor, "Replay tutorial" starts the tutorial again, and "Credits" opens the
@@ -80,6 +82,14 @@ export function SettingsMenu({
   onTutorialNext,
 }: SettingsMenuProps) {
   const [isConfirmingEdit, setIsConfirmingEdit] = useState(false)
+  // Kept here rather than in App, as only the IHDI breakdown shows it, and it
+  // reads the saved choice itself.
+  const [currencyCode, setCurrencyCode] = useState(() => loadCurrency().code)
+
+  function changeCurrency(code: string) {
+    saveCurrency(code)
+    setCurrencyCode(code)
+  }
 
   function toggle(id: QuestionId) {
     const isTicked = learnedQuestionIds.includes(id)
@@ -164,6 +174,23 @@ export function SettingsMenu({
                 Manually edit Passport
               </button>
             ))}
+        </div>
+      </section>
+      <section className="options-page__section">
+        <h2 className="options-page__heading">Units</h2>
+        <div className="options-page__card">
+          <label className="options-page__row settings__currency-choice">
+            Currency
+            <select value={currencyCode} onChange={(event) => changeCurrency(event.target.value)}>
+              {CURRENCIES.map((currency) => (
+                <option key={currency.code} value={currency.code}>
+                  {currency.symbol === currency.code
+                    ? `${currency.name} (${currency.code})`
+                    : `${currency.name} (${currency.symbol})`}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       </section>
       {tutorialNote === undefined && (

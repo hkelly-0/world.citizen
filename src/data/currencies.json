@@ -1,0 +1,1016 @@
+{
+  "currencies": [
+    {
+      "code": "AFN",
+      "name": "Afghan afghani",
+      "symbol": "AFN",
+      "pppFactor": 13.23
+    },
+    {
+      "code": "ALL",
+      "name": "Albanian lek",
+      "symbol": "ALL",
+      "pppFactor": 39.98
+    },
+    {
+      "code": "DZD",
+      "name": "Algerian dinar",
+      "symbol": "DZD",
+      "pppFactor": 42.85
+    },
+    {
+      "code": "AOA",
+      "name": "Angolan kwanza",
+      "symbol": "AOA",
+      "pppFactor": 323
+    },
+    {
+      "code": "ARS",
+      "name": "Argentine peso",
+      "symbol": "ARS",
+      "pppFactor": 567.3
+    },
+    {
+      "code": "AMD",
+      "name": "Armenian dram",
+      "symbol": "AMD",
+      "pppFactor": 148.1
+    },
+    {
+      "code": "AUD",
+      "name": "Australian dollar",
+      "symbol": "A$",
+      "pppFactor": 1.399
+    },
+    {
+      "code": "AZN",
+      "name": "Azerbaijani manat",
+      "symbol": "AZN",
+      "pppFactor": 0.4825
+    },
+    {
+      "code": "BSD",
+      "name": "Bahamian dollar",
+      "symbol": "BSD",
+      "pppFactor": 0.9563
+    },
+    {
+      "code": "BHD",
+      "name": "Bahraini dinar",
+      "symbol": "BHD",
+      "pppFactor": 0.162
+    },
+    {
+      "code": "BDT",
+      "name": "Bangladeshi taka",
+      "symbol": "BDT",
+      "pppFactor": 30.92
+    },
+    {
+      "code": "BBD",
+      "name": "Barbadian dollar",
+      "symbol": "BBD",
+      "pppFactor": 2.191
+    },
+    {
+      "code": "BYN",
+      "name": "Belarusian ruble",
+      "symbol": "BYN",
+      "pppFactor": 0.9088
+    },
+    {
+      "code": "BZD",
+      "name": "Belize dollar",
+      "symbol": "BZD",
+      "pppFactor": 1.051
+    },
+    {
+      "code": "BTN",
+      "name": "Bhutanese ngultrum",
+      "symbol": "BTN",
+      "pppFactor": 19.98
+    },
+    {
+      "code": "BOB",
+      "name": "Bolivian boliviano",
+      "symbol": "BOB",
+      "pppFactor": 2.763
+    },
+    {
+      "code": "BAM",
+      "name": "Bosnia and Herzegovina convertible mark",
+      "symbol": "BAM",
+      "pppFactor": 0.6976
+    },
+    {
+      "code": "BWP",
+      "name": "Botswana pula",
+      "symbol": "BWP",
+      "pppFactor": 5.074
+    },
+    {
+      "code": "BRL",
+      "name": "Brazilian real",
+      "symbol": "R$",
+      "pppFactor": 2.554
+    },
+    {
+      "code": "GBP",
+      "name": "British pound",
+      "symbol": "£",
+      "pppFactor": 0.6771
+    },
+    {
+      "code": "BND",
+      "name": "Brunei dollar",
+      "symbol": "BND",
+      "pppFactor": 0.456
+    },
+    {
+      "code": "MMK",
+      "name": "Burmese kyat",
+      "symbol": "MMK",
+      "pppFactor": 520.1
+    },
+    {
+      "code": "BIF",
+      "name": "Burundian franc",
+      "symbol": "BIF",
+      "pppFactor": 999.6
+    },
+    {
+      "code": "KHR",
+      "name": "Cambodian riel",
+      "symbol": "KHR",
+      "pppFactor": 1349
+    },
+    {
+      "code": "CAD",
+      "name": "Canadian dollar",
+      "symbol": "CA$",
+      "pppFactor": 1.167
+    },
+    {
+      "code": "CVE",
+      "name": "Cape Verdean escudo",
+      "symbol": "CVE",
+      "pppFactor": 46.63
+    },
+    {
+      "code": "XAF",
+      "name": "Central African CFA franc",
+      "symbol": "FCFA",
+      "pppFactor": 206.9
+    },
+    {
+      "code": "CLP",
+      "name": "Chilean peso",
+      "symbol": "CLP",
+      "pppFactor": 453.2
+    },
+    {
+      "code": "CNY",
+      "name": "Chinese yuan",
+      "symbol": "CN¥",
+      "pppFactor": 3.398
+    },
+    {
+      "code": "COP",
+      "name": "Colombian peso",
+      "symbol": "COP",
+      "pppFactor": 1533
+    },
+    {
+      "code": "KMF",
+      "name": "Comorian franc",
+      "symbol": "KMF",
+      "pppFactor": 211.7
+    },
+    {
+      "code": "CDF",
+      "name": "Congolese franc",
+      "symbol": "CDF",
+      "pppFactor": 1125
+    },
+    {
+      "code": "CRC",
+      "name": "Costa Rican colón",
+      "symbol": "CRC",
+      "pppFactor": 297.4
+    },
+    {
+      "code": "CZK",
+      "name": "Czech koruna",
+      "symbol": "CZK",
+      "pppFactor": 12.99
+    },
+    {
+      "code": "GMD",
+      "name": "dalasi",
+      "symbol": "GMD",
+      "pppFactor": 17.79
+    },
+    {
+      "code": "DKK",
+      "name": "Danish krone",
+      "symbol": "DKK",
+      "pppFactor": 6.125
+    },
+    {
+      "code": "MKD",
+      "name": "denar",
+      "symbol": "MKD",
+      "pppFactor": 20.45
+    },
+    {
+      "code": "DJF",
+      "name": "Djiboutian franc",
+      "symbol": "DJF",
+      "pppFactor": 82.12
+    },
+    {
+      "code": "DOP",
+      "name": "Dominican peso",
+      "symbol": "DOP",
+      "pppFactor": 23.87
+    },
+    {
+      "code": "XCD",
+      "name": "Eastern Caribbean dollar",
+      "symbol": "EC$",
+      "pppFactor": 1.563
+    },
+    {
+      "code": "EGP",
+      "name": "Egyptian pound",
+      "symbol": "EGP",
+      "pppFactor": 7.584
+    },
+    {
+      "code": "ETB",
+      "name": "Ethiopian birr",
+      "symbol": "ETB",
+      "pppFactor": 30.77
+    },
+    {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "pppFactor": 0.6579
+    },
+    {
+      "code": "FJD",
+      "name": "Fijian dollar",
+      "symbol": "FJD",
+      "pppFactor": 0.9347
+    },
+    {
+      "code": "GHS",
+      "name": "Ghanaian cedi",
+      "symbol": "GHS",
+      "pppFactor": 4.75
+    },
+    {
+      "code": "GTQ",
+      "name": "Guatemalan quetzal",
+      "symbol": "GTQ",
+      "pppFactor": 3.335
+    },
+    {
+      "code": "GNF",
+      "name": "Guinean franc",
+      "symbol": "GNF",
+      "pppFactor": 3286
+    },
+    {
+      "code": "GYD",
+      "name": "Guyanese dollar",
+      "symbol": "GYD",
+      "pppFactor": 69.03
+    },
+    {
+      "code": "HTG",
+      "name": "Haitian gourde",
+      "symbol": "HTG",
+      "pppFactor": 112.4
+    },
+    {
+      "code": "HNL",
+      "name": "Honduran lempira",
+      "symbol": "HNL",
+      "pppFactor": 11.86
+    },
+    {
+      "code": "HUF",
+      "name": "Hungarian forint",
+      "symbol": "HUF",
+      "pppFactor": 183.6
+    },
+    {
+      "code": "ISK",
+      "name": "Icelandic króna",
+      "symbol": "ISK",
+      "pppFactor": 151.4
+    },
+    {
+      "code": "INR",
+      "name": "Indian rupee",
+      "symbol": "₹",
+      "pppFactor": 20.09
+    },
+    {
+      "code": "IDR",
+      "name": "Indonesian rupiah",
+      "symbol": "IDR",
+      "pppFactor": 4721
+    },
+    {
+      "code": "IRR",
+      "name": "Iranian rial",
+      "symbol": "IRR",
+      "pppFactor": 147900
+    },
+    {
+      "code": "IQD",
+      "name": "Iraqi dinar",
+      "symbol": "IQD",
+      "pppFactor": 492.9
+    },
+    {
+      "code": "ILS",
+      "name": "Israeli new shekel",
+      "symbol": "₪",
+      "pppFactor": 3.488
+    },
+    {
+      "code": "JMD",
+      "name": "Jamaican dollar",
+      "symbol": "JMD",
+      "pppFactor": 95.8
+    },
+    {
+      "code": "JPY",
+      "name": "Japanese yen",
+      "symbol": "¥",
+      "pppFactor": 97.08
+    },
+    {
+      "code": "JOD",
+      "name": "Jordanian dinar",
+      "symbol": "JOD",
+      "pppFactor": 0.3006
+    },
+    {
+      "code": "KZT",
+      "name": "Kazakhstani tenge",
+      "symbol": "KZT",
+      "pppFactor": 172.8
+    },
+    {
+      "code": "KES",
+      "name": "Kenyan shilling",
+      "symbol": "KES",
+      "pppFactor": 43.55
+    },
+    {
+      "code": "KID",
+      "name": "Kiribati dollar",
+      "symbol": "KID",
+      "pppFactor": 1.009
+    },
+    {
+      "code": "KWD",
+      "name": "Kuwaiti dinar",
+      "symbol": "KWD",
+      "pppFactor": 0.1754
+    },
+    {
+      "code": "KGS",
+      "name": "Kyrgyzstani som",
+      "symbol": "KGS",
+      "pppFactor": 29.19
+    },
+    {
+      "code": "LAK",
+      "name": "Lao kip",
+      "symbol": "LAK",
+      "pppFactor": 4577
+    },
+    {
+      "code": "GEL",
+      "name": "lari",
+      "symbol": "GEL",
+      "pppFactor": 0.9035
+    },
+    {
+      "code": "LBP",
+      "name": "Lebanese pound",
+      "symbol": "LBP",
+      "pppFactor": 33590
+    },
+    {
+      "code": "LSL",
+      "name": "Lesotho loti",
+      "symbol": "LSL",
+      "pppFactor": 6.118
+    },
+    {
+      "code": "LRD",
+      "name": "Liberian dollar",
+      "symbol": "LRD",
+      "pppFactor": 0.462
+    },
+    {
+      "code": "LYD",
+      "name": "Libyan dinar",
+      "symbol": "LYD",
+      "pppFactor": 2.071
+    },
+    {
+      "code": "MGA",
+      "name": "Malagasy ariary",
+      "symbol": "MGA",
+      "pppFactor": 1390
+    },
+    {
+      "code": "MWK",
+      "name": "Malawian kwacha",
+      "symbol": "MWK",
+      "pppFactor": 619
+    },
+    {
+      "code": "MYR",
+      "name": "Malaysian ringgit",
+      "symbol": "MYR",
+      "pppFactor": 1.355
+    },
+    {
+      "code": "MVR",
+      "name": "Maldivian rufiyaa",
+      "symbol": "MVR",
+      "pppFactor": 7.89
+    },
+    {
+      "code": "MRU",
+      "name": "Mauritanian ouguiya",
+      "symbol": "MRU",
+      "pppFactor": 11.39
+    },
+    {
+      "code": "MUR",
+      "name": "Mauritian rupee",
+      "symbol": "MUR",
+      "pppFactor": 17.75
+    },
+    {
+      "code": "MXN",
+      "name": "Mexican peso",
+      "symbol": "MX$",
+      "pppFactor": 10.33
+    },
+    {
+      "code": "MDL",
+      "name": "Moldovan leu",
+      "symbol": "MDL",
+      "pppFactor": 7.49
+    },
+    {
+      "code": "MNT",
+      "name": "Mongolian tögrög",
+      "symbol": "MNT",
+      "pppFactor": 1212
+    },
+    {
+      "code": "MAD",
+      "name": "Moroccan dirham",
+      "symbol": "MAD",
+      "pppFactor": 3.932
+    },
+    {
+      "code": "MZN",
+      "name": "Mozambican metical",
+      "symbol": "MZN",
+      "pppFactor": 23.66
+    },
+    {
+      "code": "NAD",
+      "name": "Namibian dollar",
+      "symbol": "NAD",
+      "pppFactor": 7.277
+    },
+    {
+      "code": "NPR",
+      "name": "Nepalese rupee",
+      "symbol": "NPR",
+      "pppFactor": 33.9
+    },
+    {
+      "code": "NZD",
+      "name": "New Zealand dollar",
+      "symbol": "NZ$",
+      "pppFactor": 1.473
+    },
+    {
+      "code": "NIO",
+      "name": "Nicaraguan córdoba",
+      "symbol": "NIO",
+      "pppFactor": 12.52
+    },
+    {
+      "code": "NGN",
+      "name": "Nigerian naira",
+      "symbol": "NGN",
+      "pppFactor": 195
+    },
+    {
+      "code": "NOK",
+      "name": "Norwegian krone",
+      "symbol": "NOK",
+      "pppFactor": 9.452
+    },
+    {
+      "code": "OMR",
+      "name": "Omani rial",
+      "symbol": "OMR",
+      "pppFactor": 0.1813
+    },
+    {
+      "code": "PKR",
+      "name": "Pakistani rupee",
+      "symbol": "PKR",
+      "pppFactor": 67.84
+    },
+    {
+      "code": "PAB",
+      "name": "Panamanian balboa",
+      "symbol": "PAB",
+      "pppFactor": 0.4508
+    },
+    {
+      "code": "PGK",
+      "name": "Papua New Guinean kina",
+      "symbol": "PGK",
+      "pppFactor": 2.387
+    },
+    {
+      "code": "PYG",
+      "name": "Paraguayan guaraní",
+      "symbol": "PYG",
+      "pppFactor": 2627
+    },
+    {
+      "code": "PEN",
+      "name": "Peruvian sol",
+      "symbol": "PEN",
+      "pppFactor": 1.836
+    },
+    {
+      "code": "PHP",
+      "name": "Philippine peso",
+      "symbol": "₱",
+      "pppFactor": 19.07
+    },
+    {
+      "code": "PLN",
+      "name": "Polish złoty",
+      "symbol": "PLN",
+      "pppFactor": 1.97
+    },
+    {
+      "code": "QAR",
+      "name": "Qatari riyal",
+      "symbol": "QAR",
+      "pppFactor": 2.048
+    },
+    {
+      "code": "RON",
+      "name": "Romanian leu",
+      "symbol": "RON",
+      "pppFactor": 1.98
+    },
+    {
+      "code": "RUB",
+      "name": "Russian ruble",
+      "symbol": "RUB",
+      "pppFactor": 29.61
+    },
+    {
+      "code": "RWF",
+      "name": "Rwandan franc",
+      "symbol": "RWF",
+      "pppFactor": 385.5
+    },
+    {
+      "code": "WST",
+      "name": "Samoan tālā",
+      "symbol": "WST",
+      "pppFactor": 1.754
+    },
+    {
+      "code": "STN",
+      "name": "São Tomé and Príncipe dobra",
+      "symbol": "STN",
+      "pppFactor": 13.87
+    },
+    {
+      "code": "SAR",
+      "name": "Saudi riyal",
+      "symbol": "SAR",
+      "pppFactor": 1.755
+    },
+    {
+      "code": "RSD",
+      "name": "Serbian dinar",
+      "symbol": "RSD",
+      "pppFactor": 46.8
+    },
+    {
+      "code": "SCR",
+      "name": "Seychellois rupee",
+      "symbol": "SCR",
+      "pppFactor": 7.988
+    },
+    {
+      "code": "SLE",
+      "name": "Sierra Leonean leone",
+      "symbol": "SLE",
+      "pppFactor": 5.159
+    },
+    {
+      "code": "SGD",
+      "name": "Singapore dollar",
+      "symbol": "SGD",
+      "pppFactor": 0.7909
+    },
+    {
+      "code": "SBD",
+      "name": "Solomon Islands dollar",
+      "symbol": "SBD",
+      "pppFactor": 6.232
+    },
+    {
+      "code": "SOS",
+      "name": "Somali shilling",
+      "symbol": "SOS",
+      "pppFactor": 12120
+    },
+    {
+      "code": "ZAR",
+      "name": "South African rand",
+      "symbol": "ZAR",
+      "pppFactor": 7.42
+    },
+    {
+      "code": "KRW",
+      "name": "South Korean won",
+      "symbol": "₩",
+      "pppFactor": 816.3
+    },
+    {
+      "code": "LKR",
+      "name": "Sri Lankan rupee",
+      "symbol": "LKR",
+      "pppFactor": 88.21
+    },
+    {
+      "code": "SDG",
+      "name": "Sudanese pound",
+      "symbol": "SDG",
+      "pppFactor": 1176
+    },
+    {
+      "code": "SRD",
+      "name": "Surinamese dollar",
+      "symbol": "SRD",
+      "pppFactor": 11.63
+    },
+    {
+      "code": "SZL",
+      "name": "Swazi lilangeni",
+      "symbol": "SZL",
+      "pppFactor": 5.866
+    },
+    {
+      "code": "SEK",
+      "name": "Swedish krona",
+      "symbol": "SEK",
+      "pppFactor": 8.548
+    },
+    {
+      "code": "CHF",
+      "name": "Swiss franc",
+      "symbol": "CHF",
+      "pppFactor": 0.9307
+    },
+    {
+      "code": "TJS",
+      "name": "Tajikistani somoni",
+      "symbol": "TJS",
+      "pppFactor": 2.769
+    },
+    {
+      "code": "TZS",
+      "name": "Tanzanian shilling",
+      "symbol": "TZS",
+      "pppFactor": 749.5
+    },
+    {
+      "code": "THB",
+      "name": "Thai baht",
+      "symbol": "THB",
+      "pppFactor": 10.09
+    },
+    {
+      "code": "TOP",
+      "name": "Tongan paʻanga",
+      "symbol": "TOP",
+      "pppFactor": 1.808
+    },
+    {
+      "code": "TTD",
+      "name": "Trinidad and Tobago dollar",
+      "symbol": "TTD",
+      "pppFactor": 3.448
+    },
+    {
+      "code": "TND",
+      "name": "Tunisian dinar",
+      "symbol": "TND",
+      "pppFactor": 0.916
+    },
+    {
+      "code": "TRY",
+      "name": "Turkish lira",
+      "symbol": "TRY",
+      "pppFactor": 16.2
+    },
+    {
+      "code": "TMT",
+      "name": "Turkmenistan manat",
+      "symbol": "TMT",
+      "pppFactor": 1.573
+    },
+    {
+      "code": "TVD",
+      "name": "Tuvaluan dollar",
+      "symbol": "TVD",
+      "pppFactor": 1.387
+    },
+    {
+      "code": "UGX",
+      "name": "Ugandan shilling",
+      "symbol": "UGX",
+      "pppFactor": 1272
+    },
+    {
+      "code": "UAH",
+      "name": "Ukrainian hryvnia",
+      "symbol": "UAH",
+      "pppFactor": 12.94
+    },
+    {
+      "code": "AED",
+      "name": "United Arab Emirates dirham",
+      "symbol": "AED",
+      "pppFactor": 2.327
+    },
+    {
+      "code": "USD",
+      "name": "United States dollar",
+      "symbol": "$",
+      "pppFactor": 1
+    },
+    {
+      "code": "UYU",
+      "name": "Uruguayan peso",
+      "symbol": "UYU",
+      "pppFactor": 27.11
+    },
+    {
+      "code": "UZS",
+      "name": "Uzbekistani soʻm",
+      "symbol": "UZS",
+      "pppFactor": 3670
+    },
+    {
+      "code": "VUV",
+      "name": "Vanuatu vatu",
+      "symbol": "VUV",
+      "pppFactor": 107.4
+    },
+    {
+      "code": "VND",
+      "name": "Vietnamese đồng",
+      "symbol": "₫",
+      "pppFactor": 6991
+    },
+    {
+      "code": "XOF",
+      "name": "West African CFA franc",
+      "symbol": "F CFA",
+      "pppFactor": 209.5
+    },
+    {
+      "code": "ZMW",
+      "name": "Zambian kwacha",
+      "symbol": "ZMW",
+      "pppFactor": 7.561
+    },
+    {
+      "code": "ZWG",
+      "name": "Zimbabwe Gold",
+      "symbol": "ZWG",
+      "pppFactor": 14.85
+    }
+  ],
+  "defaultByRegion": {
+    "AF": "AFN",
+    "AO": "AOA",
+    "AL": "ALL",
+    "AD": "EUR",
+    "AE": "AED",
+    "AR": "ARS",
+    "AM": "AMD",
+    "AG": "XCD",
+    "AU": "AUD",
+    "AT": "EUR",
+    "AZ": "AZN",
+    "BI": "BIF",
+    "BE": "EUR",
+    "BJ": "XOF",
+    "BF": "XOF",
+    "BD": "BDT",
+    "BG": "EUR",
+    "BH": "BHD",
+    "BS": "BSD",
+    "BA": "BAM",
+    "BY": "BYN",
+    "BZ": "BZD",
+    "BO": "BOB",
+    "BR": "BRL",
+    "BB": "BBD",
+    "BN": "BND",
+    "BT": "BTN",
+    "BW": "BWP",
+    "CF": "XAF",
+    "CA": "CAD",
+    "CH": "CHF",
+    "CL": "CLP",
+    "CN": "CNY",
+    "CI": "XOF",
+    "CM": "XAF",
+    "CD": "CDF",
+    "CG": "XAF",
+    "CO": "COP",
+    "KM": "KMF",
+    "CV": "CVE",
+    "CR": "CRC",
+    "CY": "EUR",
+    "CZ": "CZK",
+    "DE": "EUR",
+    "DJ": "DJF",
+    "DM": "XCD",
+    "DK": "DKK",
+    "DO": "DOP",
+    "DZ": "DZD",
+    "EC": "USD",
+    "EG": "EGP",
+    "ES": "EUR",
+    "EE": "EUR",
+    "ET": "ETB",
+    "FI": "EUR",
+    "FJ": "FJD",
+    "FR": "EUR",
+    "GA": "XAF",
+    "GB": "GBP",
+    "GE": "GEL",
+    "GH": "GHS",
+    "GN": "GNF",
+    "GM": "GMD",
+    "GW": "XOF",
+    "GQ": "XAF",
+    "GR": "EUR",
+    "GD": "XCD",
+    "GT": "GTQ",
+    "GY": "GYD",
+    "HN": "HNL",
+    "HR": "EUR",
+    "HT": "HTG",
+    "HU": "HUF",
+    "ID": "IDR",
+    "IN": "INR",
+    "IE": "EUR",
+    "IR": "IRR",
+    "IQ": "IQD",
+    "IS": "ISK",
+    "IL": "ILS",
+    "IT": "EUR",
+    "JM": "JMD",
+    "JO": "JOD",
+    "JP": "JPY",
+    "KZ": "KZT",
+    "KE": "KES",
+    "KG": "KGS",
+    "KH": "KHR",
+    "KI": "AUD",
+    "KN": "XCD",
+    "KR": "KRW",
+    "XK": "EUR",
+    "KW": "KWD",
+    "LA": "LAK",
+    "LB": "LBP",
+    "LR": "LRD",
+    "LY": "LYD",
+    "LC": "XCD",
+    "LI": "CHF",
+    "LK": "LKR",
+    "LS": "LSL",
+    "LT": "EUR",
+    "LU": "EUR",
+    "LV": "EUR",
+    "MA": "MAD",
+    "MC": "EUR",
+    "MD": "MDL",
+    "MG": "MGA",
+    "MV": "MVR",
+    "MX": "MXN",
+    "MH": "USD",
+    "MK": "MKD",
+    "ML": "XOF",
+    "MT": "EUR",
+    "MM": "MMK",
+    "ME": "EUR",
+    "MN": "MNT",
+    "MZ": "MZN",
+    "MR": "MRU",
+    "MU": "MUR",
+    "MW": "MWK",
+    "MY": "MYR",
+    "NA": "NAD",
+    "NE": "XOF",
+    "NG": "NGN",
+    "NI": "NIO",
+    "NL": "EUR",
+    "NO": "NOK",
+    "NP": "NPR",
+    "NR": "AUD",
+    "NZ": "NZD",
+    "OM": "OMR",
+    "PK": "PKR",
+    "PA": "PAB",
+    "PE": "PEN",
+    "PH": "PHP",
+    "PW": "USD",
+    "PG": "PGK",
+    "PL": "PLN",
+    "PT": "EUR",
+    "PY": "PYG",
+    "PS": "ILS",
+    "QA": "QAR",
+    "RO": "RON",
+    "RU": "RUB",
+    "RW": "RWF",
+    "SA": "SAR",
+    "SD": "SDG",
+    "SN": "XOF",
+    "SG": "SGD",
+    "SB": "SBD",
+    "SL": "SLE",
+    "SV": "USD",
+    "SM": "EUR",
+    "SO": "SOS",
+    "RS": "RSD",
+    "ST": "STN",
+    "SR": "SRD",
+    "SK": "EUR",
+    "SI": "EUR",
+    "SE": "SEK",
+    "SZ": "SZL",
+    "SC": "SCR",
+    "TD": "XAF",
+    "TG": "XOF",
+    "TH": "THB",
+    "TJ": "TJS",
+    "TM": "TMT",
+    "TL": "USD",
+    "TO": "TOP",
+    "TT": "TTD",
+    "TN": "TND",
+    "TR": "TRY",
+    "TV": "AUD",
+    "TZ": "TZS",
+    "UG": "UGX",
+    "UA": "UAH",
+    "UY": "UYU",
+    "US": "USD",
+    "UZ": "UZS",
+    "VA": "EUR",
+    "VC": "XCD",
+    "VN": "VND",
+    "VU": "VUV",
+    "WS": "WST",
+    "ZA": "ZAR",
+    "ZM": "ZMW",
+    "ZW": "ZWG"
+  }
+}

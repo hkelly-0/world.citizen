@@ -1,9 +1,11 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { QUESTION_IDS } from '../features/flashcards/deck'
 import {
   loadCountryIcon,
+  loadCurrency,
   loadLearnedQuestionIds,
   saveCountryIcon,
+  saveCurrency,
   saveLearnedQuestionIds,
 } from './settings'
 
@@ -45,5 +47,28 @@ describe('settings storage', () => {
     expect(loadCountryIcon()).toBe('flag')
     localStorage.setItem('geography-app/country-icon', 'not an icon')
     expect(loadCountryIcon()).toBe('outline')
+  })
+})
+
+describe('currency storage', () => {
+  afterEach(() => {
+    localStorage.clear()
+    vi.restoreAllMocks()
+  })
+
+  it("uses the device's region's currency when nothing is saved", () => {
+    vi.spyOn(navigator, 'language', 'get').mockReturnValue('en-CA')
+    expect(loadCurrency().code).toBe('CAD')
+  })
+
+  it('loads what was saved', () => {
+    saveCurrency('JPY')
+    expect(loadCurrency().code).toBe('JPY')
+  })
+
+  it("uses the device's region's currency when the saved one is no longer listed", () => {
+    vi.spyOn(navigator, 'language', 'get').mockReturnValue('en-GB')
+    saveCurrency('XYZ')
+    expect(loadCurrency().code).toBe('GBP')
   })
 })

@@ -37,6 +37,27 @@
   color: #f2f4f8;
 }
 
+/* The label above its list of currencies, which takes the row's width, as
+   some names are long (e.g. "Bosnia and Herzegovina convertible mark"). */
+.settings__currency-choice {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  padding: 12px 16px 16px;
+}
+
+/* As the Passport's sort list. */
+.settings__currency-choice select {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  cursor: pointer;
+}
+
 /* A row that opens something else, with the arrow from .arrow-button at the
    right-hand edge. */
 .settings__action {

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { saveCurrency } from '../../shared/settings'
 import type { CountryShape } from '../../shared/countries'
 import { QUESTION_IDS } from '../flashcards/deck'
 import { CountryInfoPanel } from './CountryInfoPanel'
@@ -27,6 +28,10 @@ function valueOf(label: string): HTMLElement {
 }
 
 describe('CountryInfoPanel', () => {
+  afterEach(() => {
+    localStorage.clear()
+  })
+
   it("shows the country's names and facts", () => {
     render(<CountryInfoPanel {...panelProps} country={france} />)
 
@@ -128,6 +133,14 @@ describe('CountryInfoPanel', () => {
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
     expect(valueOf('IHDI')).toHaveTextContent('7.9 (est.)? Great')
+  })
+
+  it("shows the IHDI breakdown's income in the currency chosen in Settings", async () => {
+    saveCurrency('EUR')
+    render(<CountryInfoPanel {...panelProps} country={france} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('37K €/yr')
   })
 
   it("marks the estimated parts of an estimated IHDI's breakdown with (est.)", async () => {
