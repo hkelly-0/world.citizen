@@ -21,13 +21,13 @@
     {
       "code": "AOA",
       "name": "Angolan kwanza",
-      "symbol": "AOA",
+      "symbol": "Kz",
       "pppFactor": 323
     },
     {
       "code": "ARS",
       "name": "Argentine peso",
-      "symbol": "ARS",
+      "symbol": "$",
       "pppFactor": 567.3
     },
     {
@@ -39,19 +39,19 @@
     {
       "code": "AUD",
       "name": "Australian dollar",
-      "symbol": "A$",
+      "symbol": "$",
       "pppFactor": 1.399
     },
     {
       "code": "AZN",
       "name": "Azerbaijani manat",
-      "symbol": "AZN",
+      "symbol": "₼",
       "pppFactor": 0.4825
     },
     {
       "code": "BSD",
       "name": "Bahamian dollar",
-      "symbol": "BSD",
+      "symbol": "$",
       "pppFactor": 0.9563
     },
     {
@@ -69,7 +69,7 @@
     {
       "code": "BBD",
       "name": "Barbadian dollar",
-      "symbol": "BBD",
+      "symbol": "$",
       "pppFactor": 2.191
     },
     {
@@ -81,7 +81,7 @@
     {
       "code": "BZD",
       "name": "Belize dollar",
-      "symbol": "BZD",
+      "symbol": "$",
       "pppFactor": 1.051
     },
     {
@@ -93,19 +93,19 @@
     {
       "code": "BOB",
       "name": "Bolivian boliviano",
-      "symbol": "BOB",
+      "symbol": "Bs",
       "pppFactor": 2.763
     },
     {
       "code": "BAM",
       "name": "Bosnia and Herzegovina convertible mark",
-      "symbol": "BAM",
+      "symbol": "KM",
       "pppFactor": 0.6976
     },
     {
       "code": "BWP",
       "name": "Botswana pula",
-      "symbol": "BWP",
+      "symbol": "P",
       "pppFactor": 5.074
     },
     {
@@ -123,13 +123,13 @@
     {
       "code": "BND",
       "name": "Brunei dollar",
-      "symbol": "BND",
+      "symbol": "$",
       "pppFactor": 0.456
     },
     {
       "code": "MMK",
       "name": "Burmese kyat",
-      "symbol": "MMK",
+      "symbol": "K",
       "pppFactor": 520.1
     },
     {
@@ -147,7 +147,7 @@
     {
       "code": "CAD",
       "name": "Canadian dollar",
-      "symbol": "CA$",
+      "symbol": "$",
       "pppFactor": 1.167
     },
     {
@@ -165,25 +165,25 @@
     {
       "code": "CLP",
       "name": "Chilean peso",
-      "symbol": "CLP",
+      "symbol": "$",
       "pppFactor": 453.2
     },
     {
       "code": "CNY",
       "name": "Chinese yuan",
-      "symbol": "CN¥",
+      "symbol": "¥",
       "pppFactor": 3.398
     },
     {
       "code": "COP",
       "name": "Colombian peso",
-      "symbol": "COP",
+      "symbol": "$",
       "pppFactor": 1533
     },
     {
       "code": "KMF",
       "name": "Comorian franc",
-      "symbol": "KMF",
+      "symbol": "CF",
       "pppFactor": 211.7
     },
     {
@@ -195,13 +195,13 @@
     {
       "code": "CRC",
       "name": "Costa Rican colón",
-      "symbol": "CRC",
+      "symbol": "₡",
       "pppFactor": 297.4
     },
     {
       "code": "CZK",
       "name": "Czech koruna",
-      "symbol": "CZK",
+      "symbol": "Kč",
       "pppFactor": 12.99
     },
     {
@@ -213,7 +213,7 @@
     {
       "code": "DKK",
       "name": "Danish krone",
-      "symbol": "DKK",
+      "symbol": "kr",
       "pppFactor": 6.125
     },
     {
@@ -231,19 +231,19 @@
     {
       "code": "DOP",
       "name": "Dominican peso",
-      "symbol": "DOP",
+      "symbol": "$",
       "pppFactor": 23.87
     },
     {
       "code": "XCD",
       "name": "Eastern Caribbean dollar",
-      "symbol": "EC$",
+      "symbol": "$",
       "pppFactor": 1.563
     },
     {
       "code": "EGP",
       "name": "Egyptian pound",
-      "symbol": "EGP",
+      "symbol": "E£",
       "pppFactor": 7.584
     },
     {
@@ -261,31 +261,31 @@
     {
       "code": "FJD",
       "name": "Fijian dollar",
-      "symbol": "FJD",
+      "symbol": "$",
       "pppFactor": 0.9347
     },
     {
       "code": "GHS",
       "name": "Ghanaian cedi",
-      "symbol": "GHS",
+      "symbol": "GH₵",
       "pppFactor": 4.75
     },
     {
       "code": "GTQ",
       "name": "Guatemalan quetzal",
-      "symbol": "GTQ",
+      "symbol": "Q",
       "pppFactor": 3.335
     },
     {
       "code": "GNF",
       "name": "Guinean franc",
-      "symbol": "GNF",
+      "symbol": "FG",
       "pppFactor": 3286
     },
     {
       "code": "GYD",
       "name": "Guyanese dollar",
-      "symbol": "GYD",
+      "symbol": "$",
       "pppFactor": 69.03
     },
     {
@@ -297,19 +297,19 @@
     {
       "code": "HNL",
       "name": "Honduran lempira",
-      "symbol": "HNL",
+      "symbol": "L",
       "pppFactor": 11.86
     },
     {
       "code": "HUF",
       "name": "Hungarian forint",
-      "symbol": "HUF",
+      "symbol": "Ft",
       "pppFactor": 183.6
     },
     {
       "code": "ISK",
       "name": "Icelandic króna",
-      "symbol": "ISK",
+      "symbol": "kr",
       "pppFactor": 151.4
     },
     {
@@ -321,7 +321,7 @@
     {
       "code": "IDR",
       "name": "Indonesian rupiah",
-      "symbol": "IDR",
+      "symbol": "Rp",
       "pppFactor": 4721
     },
     {
@@ -345,7 +345,7 @@
     {
       "code": "JMD",
       "name": "Jamaican dollar",
-      "symbol": "JMD",
+      "symbol": "$",
       "pppFactor": 95.8
     },
     {
@@ -363,7 +363,7 @@
     {
       "code": "KZT",
       "name": "Kazakhstani tenge",
-      "symbol": "KZT",
+      "symbol": "₸",
       "pppFactor": 172.8
     },
     {
@@ -387,25 +387,25 @@
     {
       "code": "KGS",
       "name": "Kyrgyzstani som",
-      "symbol": "KGS",
+      "symbol": "⃀",
       "pppFactor": 29.19
     },
     {
       "code": "LAK",
       "name": "Lao kip",
-      "symbol": "LAK",
+      "symbol": "₭",
       "pppFactor": 4577
     },
     {
       "code": "GEL",
       "name": "lari",
-      "symbol": "GEL",
+      "symbol": "₾",
       "pppFactor": 0.9035
     },
     {
       "code": "LBP",
       "name": "Lebanese pound",
-      "symbol": "LBP",
+      "symbol": "L£",
       "pppFactor": 33590
     },
     {
@@ -417,7 +417,7 @@
     {
       "code": "LRD",
       "name": "Liberian dollar",
-      "symbol": "LRD",
+      "symbol": "$",
       "pppFactor": 0.462
     },
     {
@@ -429,7 +429,7 @@
     {
       "code": "MGA",
       "name": "Malagasy ariary",
-      "symbol": "MGA",
+      "symbol": "Ar",
       "pppFactor": 1390
     },
     {
@@ -441,7 +441,7 @@
     {
       "code": "MYR",
       "name": "Malaysian ringgit",
-      "symbol": "MYR",
+      "symbol": "RM",
       "pppFactor": 1.355
     },
     {
@@ -459,13 +459,13 @@
     {
       "code": "MUR",
       "name": "Mauritian rupee",
-      "symbol": "MUR",
+      "symbol": "Rs",
       "pppFactor": 17.75
     },
     {
       "code": "MXN",
       "name": "Mexican peso",
-      "symbol": "MX$",
+      "symbol": "$",
       "pppFactor": 10.33
     },
     {
@@ -477,7 +477,7 @@
     {
       "code": "MNT",
       "name": "Mongolian tögrög",
-      "symbol": "MNT",
+      "symbol": "₮",
       "pppFactor": 1212
     },
     {
@@ -495,37 +495,37 @@
     {
       "code": "NAD",
       "name": "Namibian dollar",
-      "symbol": "NAD",
+      "symbol": "$",
       "pppFactor": 7.277
     },
     {
       "code": "NPR",
       "name": "Nepalese rupee",
-      "symbol": "NPR",
+      "symbol": "Rs",
       "pppFactor": 33.9
     },
     {
       "code": "NZD",
       "name": "New Zealand dollar",
-      "symbol": "NZ$",
+      "symbol": "$",
       "pppFactor": 1.473
     },
     {
       "code": "NIO",
       "name": "Nicaraguan córdoba",
-      "symbol": "NIO",
+      "symbol": "C$",
       "pppFactor": 12.52
     },
     {
       "code": "NGN",
       "name": "Nigerian naira",
-      "symbol": "NGN",
+      "symbol": "₦",
       "pppFactor": 195
     },
     {
       "code": "NOK",
       "name": "Norwegian krone",
-      "symbol": "NOK",
+      "symbol": "kr",
       "pppFactor": 9.452
     },
     {
@@ -537,7 +537,7 @@
     {
       "code": "PKR",
       "name": "Pakistani rupee",
-      "symbol": "PKR",
+      "symbol": "Rs",
       "pppFactor": 67.84
     },
     {
@@ -555,7 +555,7 @@
     {
       "code": "PYG",
       "name": "Paraguayan guaraní",
-      "symbol": "PYG",
+      "symbol": "₲",
       "pppFactor": 2627
     },
     {
@@ -573,7 +573,7 @@
     {
       "code": "PLN",
       "name": "Polish złoty",
-      "symbol": "PLN",
+      "symbol": "zł",
       "pppFactor": 1.97
     },
     {
@@ -585,19 +585,19 @@
     {
       "code": "RON",
       "name": "Romanian leu",
-      "symbol": "RON",
+      "symbol": "lei",
       "pppFactor": 1.98
     },
     {
       "code": "RUB",
       "name": "Russian ruble",
-      "symbol": "RUB",
+      "symbol": "₽",
       "pppFactor": 29.61
     },
     {
       "code": "RWF",
       "name": "Rwandan franc",
-      "symbol": "RWF",
+      "symbol": "RF",
       "pppFactor": 385.5
     },
     {
@@ -609,7 +609,7 @@
     {
       "code": "STN",
       "name": "São Tomé and Príncipe dobra",
-      "symbol": "STN",
+      "symbol": "Db",
       "pppFactor": 13.87
     },
     {
@@ -639,13 +639,13 @@
     {
       "code": "SGD",
       "name": "Singapore dollar",
-      "symbol": "SGD",
+      "symbol": "$",
       "pppFactor": 0.7909
     },
     {
       "code": "SBD",
       "name": "Solomon Islands dollar",
-      "symbol": "SBD",
+      "symbol": "$",
       "pppFactor": 6.232
     },
     {
@@ -657,7 +657,7 @@
     {
       "code": "ZAR",
       "name": "South African rand",
-      "symbol": "ZAR",
+      "symbol": "R",
       "pppFactor": 7.42
     },
     {
@@ -669,7 +669,7 @@
     {
       "code": "LKR",
       "name": "Sri Lankan rupee",
-      "symbol": "LKR",
+      "symbol": "Rs",
       "pppFactor": 88.21
     },
     {
@@ -681,7 +681,7 @@
     {
       "code": "SRD",
       "name": "Surinamese dollar",
-      "symbol": "SRD",
+      "symbol": "$",
       "pppFactor": 11.63
     },
     {
@@ -693,7 +693,7 @@
     {
       "code": "SEK",
       "name": "Swedish krona",
-      "symbol": "SEK",
+      "symbol": "kr",
       "pppFactor": 8.548
     },
     {
@@ -723,13 +723,13 @@
     {
       "code": "TOP",
       "name": "Tongan paʻanga",
-      "symbol": "TOP",
+      "symbol": "T$",
       "pppFactor": 1.808
     },
     {
       "code": "TTD",
       "name": "Trinidad and Tobago dollar",
-      "symbol": "TTD",
+      "symbol": "$",
       "pppFactor": 3.448
     },
     {
@@ -741,7 +741,7 @@
     {
       "code": "TRY",
       "name": "Turkish lira",
-      "symbol": "TRY",
+      "symbol": "₺",
       "pppFactor": 16.2
     },
     {
@@ -765,7 +765,7 @@
     {
       "code": "UAH",
       "name": "Ukrainian hryvnia",
-      "symbol": "UAH",
+      "symbol": "₴",
       "pppFactor": 12.94
     },
     {
@@ -783,7 +783,7 @@
     {
       "code": "UYU",
       "name": "Uruguayan peso",
-      "symbol": "UYU",
+      "symbol": "$",
       "pppFactor": 27.11
     },
     {
@@ -813,7 +813,7 @@
     {
       "code": "ZMW",
       "name": "Zambian kwacha",
-      "symbol": "ZMW",
+      "symbol": "ZK",
       "pppFactor": 7.561
     },
     {

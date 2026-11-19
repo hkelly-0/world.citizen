@@ -3,12 +3,12 @@ import currenciesJson from '../data/currencies.json'
 import { CURRENCIES, currencyByCode, defaultCurrencyCode, formatIncome } from './currencies'
 
 // Characters outside Roboto Mono's bundled subsets, drawn by the fonts from
-// scripts/make-symbol-fonts.mjs: ₹ ₪ ₩ ₱.
-const SYMBOL_FONT_CHARACTERS = '₹₪₩₱'
+// scripts/make-symbol-fonts.mjs.
+const SYMBOL_FONT_CHARACTERS = '₹₪₩₱₼₡₵₸⃀₭₾₮₦₲₽₺₴'
 // Roboto Mono's bundled subsets: Basic Latin and Latin-1 (e.g. £, ¥, and the
-// no-break space in "F CFA"), €, and ₫.
+// no-break space in "F CFA"), and the signs used from its other subsets.
 function isInRobotoMono(character: string): boolean {
-  return character.codePointAt(0)! <= 0xff || '€₫'.includes(character)
+  return character.codePointAt(0)! <= 0xff || '€₫čł'.includes(character)
 }
 
 describe('currencies', () => {
@@ -65,7 +65,7 @@ describe('currencies', () => {
     expect(formatIncome(dollars, currencyByCode('USD')!)).toBe('50K $/yr')
     const canadianDollar = currencyByCode('CAD')!
     expect(formatIncome(dollars, canadianDollar)).toBe(
-      `${Math.round((dollars * canadianDollar.pppFactor) / 1000)}K CA$/yr`,
+      `${Math.round((dollars * canadianDollar.pppFactor) / 1000)}K $/yr`,
     )
   })
 })

@@ -102,7 +102,7 @@ describe('SettingsMenu', () => {
     expect(currency).toHaveDisplayValue('United States dollar ($)')
 
     await userEvent.selectOptions(currency, 'CAD')
-    expect(currency).toHaveDisplayValue('Canadian dollar (CA$)')
+    expect(currency).toHaveDisplayValue('Canadian dollar ($)')
     expect(loadCurrency().code).toBe('CAD')
   })
 
