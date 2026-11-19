@@ -54,7 +54,7 @@ describe('CountryInfoPanel', () => {
     // France's inequality-adjusted parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('80 yrs')
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('13 yrs')
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('45K $/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('56K $/yr')
 
     // Tapping elsewhere in the panel closes it, as does the ? again.
     await userEvent.click(screen.getByRole('heading', { name: 'France' }))
@@ -93,7 +93,7 @@ describe('CountryInfoPanel', () => {
 
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     rerender(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('42K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
   })
 
   it('lists every capital for countries with several', () => {
@@ -139,7 +139,7 @@ describe('CountryInfoPanel', () => {
     // Only Saudi Arabia's income loss is filled in.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^75 yrs$/)
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^13 yrs$/)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('42K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
   })
 
   it('says an estimated IHDI with no breakdown has insufficient data', async () => {

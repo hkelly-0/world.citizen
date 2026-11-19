@@ -188,6 +188,13 @@ const MEAN_SCHOOLING_MAX = 15
 const INCOME_GOALPOSTS = { min: 100, max: 75000 }
 const IHDI_BREAKDOWN_TOLERANCE = 0.002
 
+// The breakdown's income in dollars is brought from UNDP's 2021 PPP dollars
+// to recent US prices, by the US consumer price index (CPI-U, not seasonally
+// adjusted, 1982-84 = 100) from the BLS. Update CPI_RECENT by hand, from the
+// latest monthly release: https://www.bls.gov/cpi/
+const CPI_2021_AVERAGE = 270.97 // 2021's annual average
+const CPI_RECENT = 337.511 // October 2026
+
 // A value from the UNDP file for one year, or null if it is blank.
 function undpValue(row, prefix, year) {
   const text = row[`${prefix}_${year}`]?.trim()
@@ -236,7 +243,8 @@ function dimensionIndices(row, year) {
 // index: the average of expected and mean years of schooling (uncapped, unlike
 // the index), times (1 - the education loss). And the income in dollars,
 // shown instead of the income index: income per person times (1 - its loss),
-// the geometric mean of incomes, as for lifespan. This leaves out the index's
+// the geometric mean of incomes, as for lifespan, adjusted for inflation since
+// 2021 (CPI_RECENT). This leaves out the index's
 // log scale, so it is far higher than the income the adjusted index stands
 // for (UNDP shrinks the log index itself by the loss). None of these is used
 // in the IHDI itself, which adjusts the indices instead.
@@ -247,7 +255,8 @@ function inequalityAdjusted(indices, losses) {
   const lifespanYears = indices.lifeExpectancy * (1 - losses.lifespan / 100)
   const educationYears =
     ((indices.expectedSchooling + indices.meanSchooling) / 2) * (1 - losses.education / 100)
-  const incomeDollars = indices.incomePerPerson * (1 - losses.income / 100)
+  const incomeDollars =
+    indices.incomePerPerson * (1 - losses.income / 100) * (CPI_RECENT / CPI_2021_AVERAGE)
   return {
     lifespan,
     education,

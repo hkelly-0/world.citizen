@@ -51,8 +51,9 @@ export type CountryFacts = {
 // lifespanYears is the inequality-adjusted life expectancy in years (the
 // geometric mean of lifespans), educationYears the inequality-adjusted
 // average of expected and mean years of schooling, and incomeDollars the
-// geometric mean of incomes (PPP dollars per person per year), shown in place
-// of the indices.
+// geometric mean of incomes (PPP dollars per person per year, at the recent
+// US prices given by CPI_RECENT in make-country-data.mjs), shown in place of
+// the indices.
 export type IhdiBreakdown = {
   lifespan: number
   education: number
