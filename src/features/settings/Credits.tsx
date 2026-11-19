@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import jetBrainsMonoLicence from '../../assets/fonts/jetbrains-mono-OFL.txt?raw'
+import notoSansMonoLicence from '../../assets/fonts/noto-sans-mono-OFL.txt?raw'
 import robotoMonoLicence from '../../assets/fonts/roboto-mono-OFL.txt?raw'
 import { BackButton } from '../../shared/BackButton'
 import { ExternalLink } from '../../shared/ExternalLink'
@@ -171,6 +172,7 @@ export function Credits({ onBack }: { onBack: () => void }) {
           <LicenceText title="Libraries and Roboto Mono" text={libraryLicences} />
           <LicenceText title="Roboto Mono symbols" text={robotoMonoLicence} />
           <LicenceText title="JetBrains Mono symbols" text={jetBrainsMonoLicence} />
+          <LicenceText title="Noto Sans Mono symbols" text={notoSansMonoLicence} />
         </div>
       </section>
     </main>

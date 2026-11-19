@@ -4,11 +4,14 @@
 // src/index.css lists them after Roboto Mono in font-family, limited to these
 // characters with unicode-range.
 //
-// Sources (both SIL Open Font License, which allows subsetting):
+// Sources (all SIL Open Font License, which allows subsetting):
 // - ≥ from Roboto Mono itself: the original font has it, but Fontsource's
 //   subsets leave it out. https://github.com/googlefonts/RobotoMono
 // - ← → ✓ ▲ ▼ from JetBrains Mono, as Roboto Mono has none of them. Its characters
 //   are the same width as Roboto Mono's. https://github.com/JetBrains/JetBrainsMono
+// - ₹ ₪ ₩ ₱ (currency signs in Settings and the IHDI breakdown) from Noto Sans
+//   Mono, as neither font above has them. Its characters are also the same
+//   width. https://github.com/notofonts/notofonts.github.io
 // The *_COMMIT constants pin the versions, so reruns give the same files.
 //
 // Only the regular weight is made, as none of the symbols are shown in bold.
@@ -22,6 +25,7 @@ import subsetFont from 'subset-font'
 const OUTPUT = 'src/assets/fonts'
 const ROBOTO_MONO_COMMIT = '895ec691990d041dd727c7b5afa3ce56525d98e6'
 const JETBRAINS_MONO_COMMIT = '19371302b95d218af43299bce79ddbddd0bc364d'
+const NOTO_SANS_MONO_COMMIT = 'ebbf5a34c2aaac39770e02d24afcfe9a8ad55e3e'
 
 const fonts = [
   {
@@ -35,6 +39,11 @@ const fonts = [
     output: 'jetbrains-mono-symbols.woff2',
     url: `https://raw.githubusercontent.com/JetBrains/JetBrainsMono/${JETBRAINS_MONO_COMMIT}/fonts/ttf/JetBrainsMono-Regular.ttf`,
     characters: '←→✓▲▼',
+  },
+  {
+    output: 'noto-sans-mono-symbols.woff2',
+    url: `https://raw.githubusercontent.com/notofonts/notofonts.github.io/${NOTO_SANS_MONO_COMMIT}/fonts/NotoSansMono/hinted/ttf/NotoSansMono-Regular.ttf`,
+    characters: '₹₪₩₱',
   },
 ]
 
