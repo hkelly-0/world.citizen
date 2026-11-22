@@ -12,14 +12,12 @@
   touch-action: none;
 }
 
-/* The top-right corner: the stopwatch, if shown, above "12/197". */
+/* The top-right corner: the stopwatch, if shown, to the left of "12/197". */
 .name-every-country__corner {
   position: absolute;
   top: 16px;
   right: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
   pointer-events: none;
 }
