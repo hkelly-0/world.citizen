@@ -121,3 +121,19 @@ export function startsWithTypos(name: string, query: string): boolean {
   }
   return false
 }
+
+// The accepted name a correct answer matched (`matchAnswer`), written in the
+// typed answer's style: all lower case if it was typed that way (e.g. "turky"
+// -> "turkey", "turkiye" -> "türkiye"), all capitals if typed in capitals,
+// otherwise as written in the data (e.g. "Turky" -> "Turkey"). So the answer
+// shows with its accents and typos fixed but the player's capital letters kept.
+export function correctedSpelling(typed: string, acceptedName: string): string {
+  const trimmed = typed.trim()
+  const isAllLowerCase = trimmed === trimmed.toLowerCase()
+  const isAllCapitals = trimmed === trimmed.toUpperCase()
+  // Text with no letters that have a case (e.g. Chinese) counts as both, so is left as in the data.
+  if (isAllLowerCase && isAllCapitals) return acceptedName
+  if (isAllLowerCase) return acceptedName.toLowerCase()
+  if (isAllCapitals) return acceptedName.toUpperCase()
+  return acceptedName
+}

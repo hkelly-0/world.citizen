@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { allowedTypos, answerOption, matchAnswer, startsWithTypos, typoDistance } from './typoMatch'
+import {
+  allowedTypos,
+  answerOption,
+  correctedSpelling,
+  matchAnswer,
+  startsWithTypos,
+  typoDistance,
+} from './typoMatch'
 
 describe('typoDistance', () => {
   it('is 0 for the same text', () => {
@@ -80,5 +87,25 @@ describe('startsWithTypos', () => {
 
   it('rejects text too far from the start of the name', () => {
     expect(startsWithTypos('australia', 'brazil')).toBe(false)
+  })
+})
+
+describe('correctedSpelling', () => {
+  it('keeps text typed in lower case in lower case', () => {
+    expect(correctedSpelling('turky', 'Turkey')).toBe('turkey')
+    expect(correctedSpelling(' turkiye ', 'Türkiye')).toBe('türkiye')
+  })
+
+  it('keeps text typed in capitals in capitals', () => {
+    expect(correctedSpelling('TURKY', 'Turkey')).toBe('TURKEY')
+  })
+
+  it("otherwise uses the data's capitals", () => {
+    expect(correctedSpelling('Turky', 'Turkey')).toBe('Turkey')
+    expect(correctedSpelling('tURKEY', 'Turkey')).toBe('Turkey')
+  })
+
+  it('leaves names without upper and lower case as in the data', () => {
+    expect(correctedSpelling('北京', '北京')).toBe('北京')
   })
 })

@@ -10,6 +10,7 @@ import {
 import { countryFacts, type CountryFacts } from '../../shared/countryFacts'
 import { flagImageSrc } from '../../shared/flags'
 import type { CountryIcon } from '../../shared/settings'
+import { correctedSpelling } from '../../shared/typoMatch'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import {
   BORDER_ANSWER_BOXES,
@@ -21,6 +22,7 @@ import {
   remainingBorders,
   wrongBorderGuesses,
 } from './bordersQuestion'
+import { countryNameMatch } from './countryNameAnswer'
 // The boxes' styles, loaded before Flashcard.css as on the regular card.
 import './TypedAnswerReveal.css'
 import './Flashcard.css'
@@ -230,6 +232,11 @@ function BordersQuestion({
                 )
               }
               const isCorrect = boxResults[index]
+              // A right name shows with its accents and typos fixed (`correctedSpelling`).
+              const match = countryNameMatch(typed)
+              let shownText = typed
+              if (typed.trim() === '') shownText = BLANK_BORDER_BOX_TEXT
+              else if (isCorrect && match !== null) shownText = correctedSpelling(typed, match.name)
               const answered = 'typed-answer__box typed-answer__box--answered'
               const className = isCorrect
                 ? `${answered} typed-answer__box--correct`
@@ -237,7 +244,7 @@ function BordersQuestion({
               return (
                 <div key={index} className={className} aria-label={label}>
                   <span className={isCorrect ? 'typed-answer__green' : 'typed-answer__red'}>
-                    {typed.trim() === '' ? BLANK_BORDER_BOX_TEXT : typed}
+                    {shownText}
                   </span>
                 </div>
               )

@@ -40,24 +40,23 @@ describe('NameCountryGlobe', () => {
     expect(onAnswer).toHaveBeenCalledWith(true)
   })
 
-  it('counts a typo as correct and shows the right spelling underneath', async () => {
+  it('counts a typo as correct and shows the name with it fixed', async () => {
     const onAnswer = vi.fn()
     render(<NameCountryGlobe country={turkey} fadesOut={false} onAnswer={onAnswer} />)
 
-    await userEvent.type(screen.getByLabelText('This is'), 'turky')
+    await userEvent.type(screen.getByLabelText('This is'), 'Turky')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
-    expect(screen.getByLabelText('turky')).toHaveClass('typed-answer__green')
-    expect(screen.getByText('Spelling: Turkey')).toBeInTheDocument()
+    expect(screen.getByLabelText('Turkey')).toHaveClass('typed-answer__green')
     await userEvent.click(screen.getByRole('button', { name: 'Next' }))
     expect(onAnswer).toHaveBeenCalledWith(true)
   })
 
-  it('shows no spelling for a correct name with only case or accents changed', async () => {
+  it("fixes a correct name's accents but keeps it in lower case if typed that way", async () => {
     render(<NameCountryGlobe country={turkey} fadesOut={false} onAnswer={vi.fn()} />)
 
     await userEvent.type(screen.getByLabelText('This is'), 'turkiye')
     await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
-    expect(screen.queryByText(/Spelling:/)).not.toBeInTheDocument()
+    expect(screen.getByLabelText('türkiye')).toHaveClass('typed-answer__green')
   })
 
   it('turns a wrong name red, types out the correct one, then enables Next', async () => {

@@ -44,13 +44,6 @@
   animation: typed-answer-fade-to-red 600ms ease;
 }
 
-/* The right spelling, on its own line under a correct answer that had typos. */
-.typed-answer__spelling {
-  display: block;
-  font-size: 0.85rem;
-  opacity: 0.8;
-}
-
 /* A correct answer's letters each hop up and back down, one after another
    (the delay is set per letter in TypedAnswerReveal.tsx). pre keeps spaces. */
 .typed-answer__jump-letter {
