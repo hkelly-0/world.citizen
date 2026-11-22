@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import type { Map as MapLibreMap } from 'maplibre-gl'
+import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl'
 import { BackButton } from '../../shared/BackButton'
+import { countryCodeOfShape } from '../../shared/countries'
 import { Popup } from '../../shared/Popup'
 import {
+  COUNTRY_SHAPES,
   createCountryMap,
+  findTappedCountryIndex,
   hideBorders,
   shapeIndicesOfCountry,
+  showBordersOnlyOf,
   stopHoverHighlight,
 } from '../globe/countryMap'
 import {
@@ -43,7 +47,11 @@ type Confirming = 'exit' | 'end-game' | null
 // French Guiana for France) and clears the box; a wrong one, or one already
 // named, shakes the box and stays, and one already named also floats up
 // "Already named". The user can spin and zoom the globe, but
-// taps on it do nothing. Each visit starts again; only the round's score is
+// taps on it do nothing, except after Hint (beside Give up): it shows "Tap a
+// country", and tapping one of the area's unnamed countries shows its white
+// border until it is named. Each Hint gives one country; pressing it again
+// first cancels. The hints given are counted at the end and on the
+// scoreboard. Each visit starts again; only the round's score is
 // saved, for the menu of areas' scoreboard (namingScores.ts), once the game
 // is over or is left midway after Go.
 // It starts by asking "Show stopwatch?", then shows "Ready?". Until Go, the
@@ -77,6 +85,13 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   const [hasStarted, setHasStarted] = useState(false)
   const [hasGivenUp, setHasGivenUp] = useState(false)
   const [confirming, setConfirming] = useState<Confirming>(null)
+  // True from Hint until a country is tapped, or Hint is pressed again.
+  const [isWaitingForHint, setIsWaitingForHint] = useState(false)
+  // ISO alpha-3 codes of the hinted countries not yet named, whose borders
+  // show.
+  const [hintedCodes, setHintedCodes] = useState<string[]>([])
+  // Every hint given this round, including those since named.
+  const [hintCount, setHintCount] = useState(0)
   const countryCount = area.countries.length
   const hasWon = namedCodes.length === countryCount
   const isGameOver = hasWon || hasGivenUp
@@ -141,6 +156,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       namedCount: namedCodes.length,
       countryCount,
       elapsedMs: isShowingStopwatch ? stopwatchBankedMsRef.current : null,
+      hintCount,
     })
   }
 
@@ -170,7 +186,52 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   function endGame() {
     setConfirming(null)
     setHasGivenUp(true)
+    setIsWaitingForHint(false)
   }
+
+  // Hint starts waiting for a tap, or cancels it. Either way the box keeps
+  // focus once a hint is given or cancelled.
+  function toggleHint() {
+    if (isWaitingForHint) inputRef.current?.focus()
+    setIsWaitingForHint(!isWaitingForHint)
+  }
+
+  // While waiting for a hint, a tap on one of the area's unnamed countries
+  // (or its far-off parts) shows its border. Taps on the ocean, other
+  // countries, or one already named or hinted do nothing, and it keeps
+  // waiting.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!isWaitingForHint || map === null) return
+    function giveHint(event: MapMouseEvent) {
+      if (map === null) return
+      const index = findTappedCountryIndex(map, event.point)
+      if (index === null) return
+      const isoAlpha3 = countryCodeOfShape(COUNTRY_SHAPES[index])
+      if (
+        isoAlpha3 === null ||
+        !area.countries.includes(isoAlpha3) ||
+        namedCodes.includes(isoAlpha3) ||
+        hintedCodes.includes(isoAlpha3)
+      ) {
+        return
+      }
+      setHintedCodes([...hintedCodes, isoAlpha3])
+      setHintCount(hintCount + 1)
+      setIsWaitingForHint(false)
+      inputRef.current?.focus()
+    }
+    map.on('click', giveHint)
+    return () => {
+      map.off('click', giveHint)
+    }
+  }, [isWaitingForHint, area, namedCodes, hintedCodes, hintCount])
+
+  // Shows the borders of the hinted countries not yet named.
+  useEffect(() => {
+    const map = mapRef.current
+    if (isMapLoaded && map !== null) showBordersOnlyOf(map, hintedCodes)
+  }, [isMapLoaded, hintedCodes])
 
   useEffect(() => {
     const container = containerRef.current
@@ -179,8 +240,8 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     const map = createCountryMap(container)
     map.jumpTo({ center: area.centre })
     mapRef.current = map
-    // Taps don't do anything in this game, so there is no hover highlight or
-    // pointer cursor.
+    // Taps don't do anything in this game (except after Hint), so there is no
+    // hover highlight or pointer cursor.
     stopHoverHighlight(map)
     // The country outlines only exist once the map has loaded.
     map.once('load', () => {
@@ -221,6 +282,8 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       mapRef.current?.setFeatureState({ source: 'countries', id: index }, { selected: false })
     }
     setNamedCodes([...namedCodes, isoAlpha3])
+    // A hinted country's border goes once it is named.
+    setHintedCodes(hintedCodes.filter((code) => code !== isoAlpha3))
     floatText(typedName.trim(), false)
     setTypedName('')
   }
@@ -236,10 +299,21 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     >
       <div className="name-every-country__canvas" ref={containerRef} />
       {hasStarted ? (
-        <BackButton label="Give up" onClick={() => setConfirming('end-game')} />
+        <div className="name-every-country__top-left">
+          <BackButton label="Give up" onClick={() => setConfirming('end-game')} />
+          {/* Styled as the back button beside it. */}
+          <button
+            className="back-button name-every-country__hint"
+            aria-pressed={isWaitingForHint}
+            onClick={toggleHint}
+          >
+            Hint
+          </button>
+        </div>
       ) : (
         <BackButton onClick={leave} />
       )}
+      {isWaitingForHint && <p className="name-every-country__hint-prompt">Tap a country</p>}
       <div className="name-every-country__corner">
         {isShowingStopwatch === true && (
           <p className="name-every-country__corner-box" aria-label="Stopwatch">
@@ -332,6 +406,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
           buttons={[{ label: 'Done', onClick: leave }]}
         >
           {isShowingStopwatch && <ElapsedTime elapsedMs={elapsedMs} />}
+          <HintCount hintCount={hintCount} />
         </Popup>
       )}
       {hasGivenUp && (
@@ -341,6 +416,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
           buttons={[{ label: 'Done', onClick: leave }]}
         >
           {isShowingStopwatch && <ElapsedTime elapsedMs={elapsedMs} />}
+          <HintCount hintCount={hintCount} />
           <h3 className="name-every-country__remaining-heading">Remaining Countries</h3>
           <ul className="name-every-country__remaining">
             {remainingCountryNames(area, namedCodes).map((name) => (
@@ -357,4 +433,10 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
 // Give up.
 function ElapsedTime({ elapsedMs }: { elapsedMs: number }) {
   return <p className="name-every-country__time">Time: {formatElapsedTime(elapsedMs)}</p>
+}
+
+// The hints given, under the time (if shown) on "You win" or the score after
+// Give up.
+function HintCount({ hintCount }: { hintCount: number }) {
+  return <p className="name-every-country__hint-count">Hints: {hintCount}</p>
 }

@@ -7,7 +7,7 @@ import {
 } from './namingScores'
 
 function score(areaId: string, endedAt: number): NamingScore {
-  return { areaId, endedAt, namedCount: 3, countryCount: 44, elapsedMs: null }
+  return { areaId, endedAt, namedCount: 3, countryCount: 44, elapsedMs: null, hintCount: 0 }
 }
 
 describe('namingScores', () => {

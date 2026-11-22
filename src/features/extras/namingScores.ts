@@ -12,6 +12,8 @@ export type NamingScore = {
   // The stopwatch's final time, or null if it wasn't shown (a hyphen on the
   // scoreboard).
   elapsedMs: number | null
+  // How many hints were given.
+  hintCount: number
 }
 
 const STORAGE_KEY = 'geography-app/naming-scores'

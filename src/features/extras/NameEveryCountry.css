@@ -31,6 +31,42 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Give up and Hint side by side, where the back button usually sits, and
+   above the map as it is (BackButton.css). */
+.name-every-country__top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+/* Placed by the row above rather than in the corner on their own. */
+.name-every-country__top-left .back-button {
+  position: static;
+}
+
+/* Lighter while waiting for a tap, as the back button is on hover. */
+.name-every-country__hint[aria-pressed='true'] {
+  background: rgba(40, 48, 70, 0.95);
+}
+
+/* "Tap a country": centred across the screen, below the buttons and the
+   corner boxes (16px from the top, 40px tall), in the same kind of box. */
+.name-every-country__hint-prompt {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 /* The text box along the bottom of the screen, as in the flashcards' name
    question (.name-globe__panel). */
 .name-every-country__panel {
@@ -104,8 +140,9 @@
   z-index: 6;
 }
 
-/* "Time: 12:45" on "You win" and the score after Give up. */
-.name-every-country__time {
+/* "Time: 12:45" and "Hints: 3" on "You win" and the score after Give up. */
+.name-every-country__time,
+.name-every-country__hint-count {
   margin: 0;
   font-variant-numeric: tabular-nums;
 }

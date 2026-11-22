@@ -7,20 +7,45 @@ import { NAMING_AREAS } from './namingGame'
 import { loadNamingScores } from './namingScores'
 
 // The real map needs WebGL, which jsdom doesn't have. This one loads straight
-// away and gives each country one shape, numbered by its ISO code.
+// away and gives each country one shape, numbered by its ISO code. Its only
+// tappable shapes are France, French Guiana (part of France), and Japan:
+// tapGlobe(index) taps COUNTRY_SHAPES[index], or the ocean for null.
 const setFeatureState = vi.fn()
 const jumpTo = vi.fn()
+const showBordersOnlyOf = vi.fn()
+let clickHandlers: ((event: { point: number | null }) => void)[] = []
 vi.mock('../globe/countryMap', () => ({
+  COUNTRY_SHAPES: [
+    { isoAlpha3: 'FRA', partOf: null },
+    { isoAlpha3: null, partOf: 'FRA' },
+    { isoAlpha3: 'JPN', partOf: null },
+  ],
   createCountryMap: () => ({
     once: (_event: string, onLoad: () => void) => onLoad(),
+    on: (_event: string, handler: (event: { point: number | null }) => void) =>
+      clickHandlers.push(handler),
+    off: (_event: string, handler: (event: { point: number | null }) => void) => {
+      clickHandlers = clickHandlers.filter((clickHandler) => clickHandler !== handler)
+    },
     setFeatureState,
     jumpTo,
     remove: vi.fn(),
   }),
+  findTappedCountryIndex: (_map: unknown, point: number | null) => point,
   hideBorders: vi.fn(),
   shapeIndicesOfCountry: (isoAlpha3: string) => [isoAlpha3],
+  showBordersOnlyOf: (_map: unknown, isoAlpha3Codes: string[]) => showBordersOnlyOf(isoAlpha3Codes),
   stopHoverHighlight: vi.fn(),
 }))
+
+function tapGlobe(index: number | null) {
+  act(() => {
+    for (const handler of clickHandlers) handler({ point: index })
+  })
+}
+
+// The borders shown most recently.
+const shownBorders = () => showBordersOnlyOf.mock.lastCall?.[0]
 
 const box = () => screen.getByLabelText('Country name')
 
@@ -39,6 +64,8 @@ describe('NameEveryCountry', () => {
   beforeEach(() => {
     history.replaceState({ screen: 'name-every-country' }, '')
     localStorage.clear()
+    clickHandlers = []
+    showBordersOnlyOf.mockClear()
   })
 
   afterEach(() => {
@@ -109,8 +136,63 @@ describe('NameEveryCountry', () => {
         namedCount: 1,
         countryCount: europe.countries.length,
         elapsedMs: null,
+        hintCount: 0,
       },
     ])
+  })
+
+  it('shows "Tap a country" on Hint, and Hint again cancels it', async () => {
+    await startGame(vi.fn(), europe)
+    expect(screen.queryByText('Tap a country')).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    expect(screen.getByText('Tap a country')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Hint' })).toHaveAttribute('aria-pressed', 'true')
+
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    expect(screen.queryByText('Tap a country')).not.toBeInTheDocument()
+    expect(box()).toHaveFocus()
+    tapGlobe(0)
+    expect(shownBorders()).toEqual([])
+  })
+
+  it("shows a tapped country's border, one per Hint, until it is named", async () => {
+    await startGame(vi.fn(), europe)
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    // A far-off part hints its country.
+    tapGlobe(1)
+    expect(shownBorders()).toEqual(['FRA'])
+    expect(screen.queryByText('Tap a country')).not.toBeInTheDocument()
+    expect(box()).toHaveFocus()
+
+    await userEvent.type(box(), 'France{Enter}')
+    expect(shownBorders()).toEqual([])
+  })
+
+  it('keeps waiting after a tap on the ocean, outside the area, or on a named country', async () => {
+    await startGame(vi.fn(), europe)
+    await userEvent.type(box(), 'France{Enter}')
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+
+    tapGlobe(null)
+    tapGlobe(2)
+    tapGlobe(0)
+    expect(screen.getByText('Tap a country')).toBeInTheDocument()
+    expect(shownBorders()).toEqual([])
+  })
+
+  it('counts the hints given at the end and in the saved round', async () => {
+    await startGame(vi.fn(), europe)
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    tapGlobe(0)
+    // Cancelled, so not counted.
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Give up' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
+
+    expect(screen.getByRole('dialog', { name: /^Score/ })).toHaveTextContent('Hints: 1')
+    expect(loadNamingScores('europe')).toEqual([expect.objectContaining({ hintCount: 1 })])
   })
 
   it('saves nothing when left before Go', async () => {

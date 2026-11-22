@@ -16,7 +16,8 @@ type NamingAreaMenuProps = {
 // the area to play it in, starting on The World, and Go to start the game.
 // The title finishes in the list ("Name Every Country in… Europe"), so it
 // labels it. Below, "Previous Scores: Europe" (for example) lists the chosen
-// area's rounds, most recent first.
+// area's rounds, most recent first, with their date, hints, score, and
+// stopwatch time.
 export function NamingAreaMenu({ onBack, onOpenNameEveryCountry }: NamingAreaMenuProps) {
   const [areaId, setAreaId] = useState(NAMING_AREAS[0].id)
   const scores = loadNamingScores(areaId)
@@ -53,6 +54,7 @@ export function NamingAreaMenu({ onBack, onOpenNameEveryCountry }: NamingAreaMen
             <thead>
               <tr>
                 <th>Date</th>
+                <th>Hints</th>
                 <th>Score</th>
                 <th>Time</th>
               </tr>
@@ -61,6 +63,7 @@ export function NamingAreaMenu({ onBack, onOpenNameEveryCountry }: NamingAreaMen
               {scores.map((score) => (
                 <tr key={score.endedAt}>
                   <td>{formatScoreDate(score.endedAt)}</td>
+                  <td>{score.hintCount}</td>
                   <td>
                     {score.namedCount}/{score.countryCount}
                   </td>

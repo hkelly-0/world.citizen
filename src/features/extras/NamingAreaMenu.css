@@ -70,8 +70,10 @@
   font-weight: normal;
 }
 
-/* The score and time line up on their right edges. */
+/* The hints, score, and time line up on their right edges, apart from the
+   column before. */
 .naming-area-menu__scores th:not(:first-child),
 .naming-area-menu__scores td:not(:first-child) {
+  padding-left: 8px;
   text-align: right;
 }

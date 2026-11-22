@@ -102,7 +102,7 @@ describe('App', () => {
     expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
   })
 
-  it("lists the chosen area's previous scores, most recent first, with the stopwatch's time or a hyphen", async () => {
+  it("lists the chosen area's previous scores, most recent first, with hints and the stopwatch's time or a hyphen", async () => {
     const scores = [
       {
         areaId: 'europe',
@@ -110,6 +110,7 @@ describe('App', () => {
         namedCount: 12,
         countryCount: 44,
         elapsedMs: null,
+        hintCount: 0,
       },
       {
         areaId: 'asia',
@@ -117,6 +118,7 @@ describe('App', () => {
         namedCount: 5,
         countryCount: 47,
         elapsedMs: null,
+        hintCount: 0,
       },
       {
         areaId: 'europe',
@@ -124,6 +126,7 @@ describe('App', () => {
         namedCount: 30,
         countryCount: 44,
         elapsedMs: 125_000,
+        hintCount: 2,
       },
     ]
     localStorage.setItem('geography-app/naming-scores', JSON.stringify(scores))
@@ -137,7 +140,7 @@ describe('App', () => {
 
     expect(screen.getByRole('heading', { name: 'Previous Scores: Europe' })).toBeInTheDocument()
     const rows = screen.getAllByRole('row').map((row) => row.textContent)
-    expect(rows).toEqual(['DateScoreTime', '22 Nov 202630/442:05', '1 Nov 202612/44-'])
+    expect(rows).toEqual(['DateHintsScoreTime', '22 Nov 2026230/442:05', '1 Nov 2026012/44-'])
   })
 
   it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {
