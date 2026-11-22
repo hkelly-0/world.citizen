@@ -82,11 +82,14 @@ describe('App', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
     await userEvent.click(screen.getByRole('button', { name: 'Game: Name Every Country' }))
     expect(screen.getByRole('heading', { name: 'Name Every Country in' })).toBeInTheDocument()
-    const areaButtons = ['The World', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
-    for (const name of areaButtons) {
-      expect(screen.getByRole('button', { name })).toBeInTheDocument()
+    const areaList = screen.getByRole('combobox', { name: 'Name Every Country in' })
+    expect(areaList).toHaveDisplayValue('The World')
+    const areaNames = ['The World', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
+    for (const name of areaNames) {
+      expect(screen.getByRole('option', { name })).toBeInTheDocument()
     }
-    await userEvent.click(screen.getByRole('button', { name: 'Europe' }))
+    await userEvent.selectOptions(areaList, 'Europe')
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(history.state).toEqual({ screen: 'name-every-country', namingAreaId: 'europe' })
     await userEvent.click(await screen.findByRole('button', { name: 'Finish game in Europe' }))
 

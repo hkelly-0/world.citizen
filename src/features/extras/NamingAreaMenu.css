@@ -1,0 +1,35 @@
+/* As the Settings' currency list, but as wide as the main menu's column and
+   as tall as its buttons. */
+.naming-area-menu__choice {
+  width: 100%;
+  max-width: 280px;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* As Custom Practice's Go: filled in blue, so it stands out as the action. */
+.naming-area-menu__go {
+  width: 100%;
+  max-width: 280px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent-blue);
+  color: #000010;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.naming-area-menu__go:hover {
+  background: var(--accent-blue-hover);
+}
