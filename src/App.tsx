@@ -15,6 +15,7 @@ import { PassportView } from './features/passport/PassportView'
 import { DevTools } from './features/dev/DevTools'
 import { CountryTable } from './features/extras/CountryTable'
 import { ExtrasMenu } from './features/extras/ExtrasMenu'
+import { NamingAreaMenu } from './features/extras/NamingAreaMenu'
 import { WhatCountsAsCountry } from './features/extras/WhatCountsAsCountry'
 import { NAMING_AREAS } from './features/extras/namingGame'
 import { Credits } from './features/settings/Credits'
@@ -44,8 +45,8 @@ const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry')
 // hand, and 'credits' (also from it) lists who made the data and libraries.
 // 'passport' lists the countries seen as flashcards, and
 // 'passport-flashcard' plays one of their cards. 'extras' lists the games
-// outside the flashcards, such as 'name-every-country' (for the world or one
-// continent), 'country-table' (every country's stats) and
+// outside the flashcards, such as 'name-every-country-menu' (choosing the
+// world or one continent), which opens 'name-every-country', 'country-table' (every country's stats) and
 // 'what-counts-as-country' (which countries the app counts).
 type Screen =
   | 'menu'
@@ -60,6 +61,7 @@ type Screen =
   | 'custom-practice'
   | 'custom-flashcards'
   | 'extras'
+  | 'name-every-country-menu'
   | 'name-every-country'
   | 'country-table'
   | 'what-counts-as-country'
@@ -162,7 +164,7 @@ export default function App() {
     setScreen('passport-flashcard')
   }
   // Opens Name every country for one area, with its own history entry, so
-  // back returns to the Extras menu.
+  // back returns to the menu of areas.
   function playNameEveryCountry(areaId: string) {
     history.pushState({ screen: 'name-every-country', namingAreaId: areaId }, '')
     setNamingAreaId(areaId)
@@ -272,9 +274,18 @@ export default function App() {
       return (
         <ExtrasMenu
           onBack={goToMenu}
-          onOpenNameEveryCountry={playNameEveryCountry}
+          onOpenNameEveryCountry={() => openScreen('name-every-country-menu')}
           onOpenCountryTable={() => openScreen('country-table')}
           onOpenWhatCountsAsCountry={() => openScreen('what-counts-as-country')}
+        />
+      )
+    }
+    if (screen === 'name-every-country-menu') {
+      // Back to the Extras menu's history entry.
+      return (
+        <NamingAreaMenu
+          onBack={() => history.back()}
+          onOpenNameEveryCountry={playNameEveryCountry}
         />
       )
     }
@@ -290,7 +301,7 @@ export default function App() {
       const area = NAMING_AREAS.find((namingArea) => namingArea.id === namingAreaId)
       return (
         <Suspense fallback={<p className="loading">Loading globe…</p>}>
-          {/* Back to the Extras menu's history entry. Keyed by area so that
+          {/* Back to the menu of areas' history entry. Keyed by area so that
               each area starts a fresh game. */}
           <NameEveryCountry
             key={namingAreaId}

@@ -76,11 +76,12 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 
-  it('opens Name every country for an area from the Extras menu, and its Done goes back to the Extras menu', async () => {
+  it('opens Name every country for an area from the Extras menu, and its Done goes back to the menu of areas', async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
-    expect(screen.getByRole('heading', { name: 'Name every country in…' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Game: Name Every Country' }))
+    expect(screen.getByRole('heading', { name: 'Name Every Country in' })).toBeInTheDocument()
     const areaButtons = ['The World', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
     for (const name of areaButtons) {
       expect(screen.getByRole('button', { name })).toBeInTheDocument()
@@ -89,6 +90,10 @@ describe('App', () => {
     expect(history.state).toEqual({ screen: 'name-every-country', namingAreaId: 'europe' })
     await userEvent.click(await screen.findByRole('button', { name: 'Finish game in Europe' }))
 
+    expect(
+      await screen.findByRole('heading', { name: 'Name Every Country in' }),
+    ).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
   })
 
