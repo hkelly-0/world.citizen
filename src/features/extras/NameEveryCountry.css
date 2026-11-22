@@ -87,8 +87,11 @@
   pointer-events: auto;
 }
 
-.name-every-country__zoom-hint:hover {
-  background: rgba(40, 48, 70, 0.95);
+/* Only where hover is real, as for the back button (BackButton.css). */
+@media (hover: hover) {
+  .name-every-country__zoom-hint:hover {
+    background: rgba(40, 48, 70, 0.95);
+  }
 }
 
 /* The text box along the bottom of the screen, as in the flashcards' name
