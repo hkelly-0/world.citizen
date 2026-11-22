@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { loadNamingAreaChoice, saveNamingAreaChoice } from './namingAreaChoice'
 import { formatElapsedTime, NAMING_AREAS } from './namingGame'
 import { formatScoreDate, loadNamingScores } from './namingScores'
 // Same layout as the main menu.
@@ -13,13 +14,14 @@ type NamingAreaMenuProps = {
 }
 
 // Shown when Name Every Country is chosen on the Extras menu: a list to pick
-// the area to play it in, starting on The World, and Go to start the game.
+// the area to play it in, starting on the one last chosen (namingAreaChoice.ts),
+// else The World, and Go to start the game.
 // The title finishes in the list ("Name Every Country in… Europe"), so it
 // labels it. Below, "Previous Scores: Europe" (for example) lists the chosen
 // area's rounds, most recent first, with their date, hints, score, and
 // stopwatch time.
 export function NamingAreaMenu({ onBack, onOpenNameEveryCountry }: NamingAreaMenuProps) {
-  const [areaId, setAreaId] = useState(NAMING_AREAS[0].id)
+  const [areaId, setAreaId] = useState(loadNamingAreaChoice)
   const scores = loadNamingScores(areaId)
   const areaName = NAMING_AREAS.find((area) => area.id === areaId)?.name
 
@@ -31,7 +33,10 @@ export function NamingAreaMenu({ onBack, onOpenNameEveryCountry }: NamingAreaMen
         className="naming-area-menu__choice"
         aria-labelledby="naming-area-menu-title"
         value={areaId}
-        onChange={(event) => setAreaId(event.target.value)}
+        onChange={(event) => {
+          setAreaId(event.target.value)
+          saveNamingAreaChoice(event.target.value)
+        }}
       >
         {NAMING_AREAS.map((area) => (
           <option key={area.id} value={area.id}>

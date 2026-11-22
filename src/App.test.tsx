@@ -76,7 +76,7 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 
-  it('opens Name every country for an area from the Extras menu, and its Done goes back to the menu of areas', async () => {
+  it('opens Name every country for an area from the Extras menu, and its Done goes back to the menu of areas, still on that area', async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
@@ -98,6 +98,9 @@ describe('App', () => {
     expect(
       await screen.findByRole('heading', { name: 'Name Every Country in' }),
     ).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'Name Every Country in' })).toHaveDisplayValue(
+      'Europe',
+    )
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
   })
