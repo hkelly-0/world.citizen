@@ -35,10 +35,11 @@
   background: var(--correct-green-tint-hover);
 }
 
-/* Previous Scores: below Go, in the main menu's column. */
+/* Previous Scores: below Go, centred under the main menu's column but wider
+   (360px rather than 280px), so each row fits on one line. */
 .naming-area-menu__scores {
   width: 100%;
-  max-width: 280px;
+  max-width: 360px;
   margin-top: 16px;
 }
 
