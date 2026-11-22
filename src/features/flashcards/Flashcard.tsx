@@ -12,7 +12,7 @@ import { RangeTitle } from '../../shared/RangeTitle'
 import { IHDI_ROUGH_ESTIMATES } from '../../shared/statRanges'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
-import { isCapitalCorrect } from './capitalAnswer'
+import { isCapitalCorrect, matchedCapital } from './capitalAnswer'
 import {
   INFO_QUESTION_IDS,
   isInfoQuestion,
@@ -463,6 +463,7 @@ function CapitalQuestion({
             typed={answer}
             isCorrect={isCapitalCorrect(answer, country)}
             correctAnswer={country.capitals.join(', ')}
+            acceptedName={matchedCapital(answer, country)}
           />
         ) : (
           <input

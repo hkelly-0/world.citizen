@@ -24,7 +24,18 @@ describe('searchPlaces', () => {
 
   it('matches the start of any word, after a space or hyphen', () => {
     expect(namesFound('kor')).toEqual(['North Korea', 'South Korea'])
-    expect(namesFound('leste')).toEqual(['Timor-Leste'])
+    // Western Sahara follows as a typo match ("weste").
+    expect(namesFound('leste')[0]).toBe('Timor-Leste')
+  })
+
+  it('lists names or words starting with a typo of the text after other matches', () => {
+    expect(namesFound('frnace')).toEqual(['France'])
+    expect(namesFound('austrl')[0]).toBe('Australia')
+    expect(namesFound('koera')).toEqual(['North Korea', 'South Korea'])
+  })
+
+  it('allows no typos until 5 letters are typed', () => {
+    expect(namesFound('asut')).toEqual([])
   })
 
   it('also matches alternative names, but lists the common name', () => {
@@ -78,5 +89,6 @@ describe('matchesCountrySearch', () => {
     expect(matchesCountrySearch(countryFacts.KOR, 'kor')).toBe(true)
     expect(matchesCountrySearch(countryFacts.TUR, 'turkey')).toBe(true)
     expect(matchesCountrySearch(countryFacts.FRA, 'ance')).toBe(false)
+    expect(matchesCountrySearch(countryFacts.FRA, 'frnace')).toBe(true)
   })
 })

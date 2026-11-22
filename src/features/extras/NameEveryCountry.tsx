@@ -17,10 +17,10 @@ import { countryFacts } from '../../shared/countryFacts'
 import {
   firstLetterOfName,
   formatElapsedTime,
-  namedCountry,
   remainingCountryNames,
   type NamingArea,
 } from './namingGame'
+import { countryNameMatch } from '../flashcards/countryNameAnswer'
 import { saveNamingScore } from './namingScores'
 // The text box's styles (.typed-answer__box), shared with the name question.
 import '../flashcards/TypedAnswerReveal.css'
@@ -310,11 +310,12 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     // An empty box has no letters to shake.
     if (typedName.trim() === '') return
 
-    const isoAlpha3 = namedCountry(typedName)
-    if (isoAlpha3 === null || !area.countries.includes(isoAlpha3)) {
+    const match = countryNameMatch(typedName)
+    if (match === null || !area.countries.includes(match.key)) {
       setIsShaking(true)
       return
     }
+    const isoAlpha3 = match.key
     // The box shakes and keeps the name, as for a wrong one, but says why.
     if (namedCodes.includes(isoAlpha3)) {
       setIsShaking(true)
@@ -328,7 +329,8 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     // A hinted country's border goes once it is named.
     setHintedCodes(hintedCodes.filter((code) => code !== isoAlpha3))
     if (isoAlpha3 === latestHintCode) setLatestHintCode(null)
-    floatText(typedName.trim(), false)
+    // The name floats up as written in the data, so a typo shows corrected.
+    floatText(match.name, false)
     setTypedName('')
   }
 

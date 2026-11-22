@@ -38,6 +38,7 @@ Screens are switched with React state in `src/App.tsx` (no URL routing); each sc
    - Multi-country questions (`multiCountryQuestions.ts`) aren't `QuestionId`s: no FSRS progress, review log, or Settings tick.
      - Flag Matching relies on `flagSimilarity.json` listing every pair, not just the closest.
      - Capital Matching relies on `countryNeighbours.json` keeping at least `CAPITAL_NEIGHBOURS_LATER`.
+   - Typed country and capital answers allow a few typos (`matchAnswer` in `src/shared/typoMatch.ts`), checked against every country's names or capitals, never just the right one: an exact match wins, and a typo as close to two countries is wrong. Search boxes add typo matches after the usual ones (`startsWithTypos`).
    - Card CSS that colours a reveal must not rely on load order against `Flashcard.css` or `TypedAnswerReveal.css`: Matching and Ordering load `Flashcard.css` first, so same-specificity rules can flip.
    - FSRS (`fsrs.ts`) only measures familiarity: no due dates, endless sessions. Only a question's first answer of a day is an FSRS review (`reviewQuestion`).
    - Each answer is saved as it is given (`Flashcard`'s `onAnswer`), so a country joins the Passport at its first answer. The card's random picks are made by the screen, not `Flashcard`, so a resumed card (`src/shared/unfinishedCard.ts`) keeps them.

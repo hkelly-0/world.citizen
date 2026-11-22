@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import type { CountryFacts } from '../../shared/countryFacts'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
-import { isCountryNameCorrect } from '../flashcards/countryNameAnswer'
+import { countryNameMatch, isCountryNameCorrect } from '../flashcards/countryNameAnswer'
 import { TYPING_MS_PER_LETTER, TypedAnswerReveal } from '../flashcards/TypedAnswerReveal'
 import {
   createCountryMap,
@@ -131,6 +131,7 @@ export default function NameCountryGlobe({ country, fadesOut, onAnswer }: NameCo
             typed={answer}
             isCorrect={isCountryNameCorrect(answer, country)}
             correctAnswer={country.commonName}
+            acceptedName={countryNameMatch(answer)?.name}
           />
         )}
         {answer !== null && (

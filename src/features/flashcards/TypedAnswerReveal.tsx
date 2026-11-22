@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { normalize } from '../../shared/normalize'
 import './TypedAnswerReveal.css'
 
 // How long each letter of the correct answer takes to appear.
@@ -12,14 +13,28 @@ type TypedAnswerRevealProps = {
   isCorrect: boolean
   // The answer to type out after a wrong one, e.g. "Pretoria, Bloemfontein, Cape Town".
   correctAnswer: string
+  // For a correct answer, the accepted name it matched (e.g. "Ouagadougou").
+  // Shown underneath if the answer was a typo of it.
+  acceptedName?: string | null
 }
 
 // Replaces a text box once a typed question is answered. A correct answer fades
 // to green with the box highlighted green, and its letters jump up and down
-// one after another. A wrong answer fades to red, and
-// the correct answer is then typed out in green beside it.
-export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnswerRevealProps) {
+// one after another, with the right spelling underneath if it had typos. A
+// wrong answer fades to red, and the correct answer is then typed out in
+// green beside it.
+export function TypedAnswerReveal({
+  typed,
+  isCorrect,
+  correctAnswer,
+  acceptedName = null,
+}: TypedAnswerRevealProps) {
   const [lettersTyped, setLettersTyped] = useState(0)
+  // Differences of case or accents alone aren't typos, so aren't corrected.
+  const spellingFix =
+    isCorrect && acceptedName !== null && normalize(acceptedName) !== normalize(typed)
+      ? acceptedName
+      : null
 
   useEffect(() => {
     if (isCorrect) return
@@ -57,6 +72,9 @@ export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnsw
           </span>
         ) : (
           <span className="typed-answer__red">{typed}</span>
+        )}
+        {spellingFix !== null && (
+          <span className="typed-answer__spelling">Spelling: {spellingFix}</span>
         )}
         {!isCorrect && lettersTyped > 0 && (
           <>

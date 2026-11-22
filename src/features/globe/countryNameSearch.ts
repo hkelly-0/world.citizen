@@ -6,6 +6,7 @@ import {
 } from '../../shared/countryFacts'
 import type { CountryShape } from '../../shared/countries'
 import { normalize } from '../../shared/normalize'
+import { startsWithTypos } from '../../shared/typoMatch'
 
 // Suggestions appear once this many letters are typed.
 export const MIN_SEARCH_LENGTH = 3
@@ -36,7 +37,9 @@ export function searchPlacesFromShapes(shapes: CountryShape[]): SearchPlace[] {
 // The places whose name, or one of its alternatives (e.g. "Turkey" for
 // Türkiye), has a word starting with the typed text, ignoring case and
 // accents, e.g. "kor" finds North Korea and South Korea, and "leste" finds
-// Timor-Leste. Names that start with the text come first.
+// Timor-Leste. Names that start with the text come first, then words that do,
+// then names or words that start with it allowing a few typos
+// (`startsWithTypos`, e.g. "austrl" finds Australia).
 // Returns nothing until MIN_SEARCH_LENGTH letters are typed.
 export function searchPlaces(places: SearchPlace[], typed: string): SearchPlace[] {
   const query = normalize(typed)
@@ -44,18 +47,20 @@ export function searchPlaces(places: SearchPlace[], typed: string): SearchPlace[
 
   const nameStartMatches: SearchPlace[] = []
   const wordStartMatches: SearchPlace[] = []
+  const typoMatches: SearchPlace[] = []
   for (const place of places) {
     const match = nameMatch([place.name, ...place.otherNames], query)
     if (match === 'name-start') nameStartMatches.push(place)
     else if (match === 'word-start') wordStartMatches.push(place)
+    else if (match === 'typo') typoMatches.push(place)
   }
-  return [...nameStartMatches, ...wordStartMatches].slice(0, MAX_SUGGESTIONS)
+  return [...nameStartMatches, ...wordStartMatches, ...typoMatches].slice(0, MAX_SUGGESTIONS)
 }
 
 // Whether the country's common name, or one of its alternatives, has a word
 // starting with the typed text, ignoring case and accents, from the first
-// letter typed. Empty text matches every country. Used to filter the Passport
-// editor's checklist.
+// letter typed, or with a few typos (`startsWithTypos`). Empty text matches
+// every country. Used to filter the Passport editor's checklist.
 export function matchesCountrySearch(country: CountryFacts, typed: string): boolean {
   const query = normalize(typed)
   const names = [country.commonName, ...alternativeNames(country.isoAlpha3)]
@@ -64,12 +69,18 @@ export function matchesCountrySearch(country: CountryFacts, typed: string): bool
 
 // How a place's names match `query` (already normalized): 'name-start' if
 // one starts with it, 'word-start' if a later word in one does (after a space
-// or hyphen), or null if neither.
-function nameMatch(unnormalizedNames: string[], query: string): 'name-start' | 'word-start' | null {
+// or hyphen), 'typo' if a name or word starts with it allowing a few typos
+// (`startsWithTypos`), or null if none of these.
+function nameMatch(
+  unnormalizedNames: string[],
+  query: string,
+): 'name-start' | 'word-start' | 'typo' | null {
   const names = unnormalizedNames.map(normalize)
   if (names.some((name) => name.startsWith(query))) return 'name-start'
   if (names.some((name) => name.includes(` ${query}`) || name.includes(`-${query}`))) {
     return 'word-start'
   }
+  const namesAndWords = names.flatMap((name) => [name, ...name.split(/[ -]/).slice(1)])
+  if (namesAndWords.some((name) => startsWithTypos(name, query))) return 'typo'
   return null
 }

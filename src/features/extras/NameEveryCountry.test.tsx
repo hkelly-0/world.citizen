@@ -266,14 +266,14 @@ describe('NameEveryCountry', () => {
     expect(screen.getByText('1/197')).toBeInTheDocument()
   })
 
-  it('floats a right name up as it was typed, until its animation ends', async () => {
+  it('floats a right name up as written in the data, typos corrected, until its animation ends', async () => {
     await startGame(vi.fn())
 
-    await userEvent.type(box(), ' türkiye {Enter}')
-    const floatingName = screen.getByText('türkiye')
+    await userEvent.type(box(), ' turky {Enter}')
+    const floatingName = screen.getByText('Turkey')
     expect(floatingName).toHaveClass('name-every-country__floating-name')
     fireEvent.animationEnd(floatingName)
-    expect(screen.queryByText('türkiye')).not.toBeInTheDocument()
+    expect(screen.queryByText('Turkey')).not.toBeInTheDocument()
   })
 
   it('shakes and keeps a wrong name, or one already named', async () => {

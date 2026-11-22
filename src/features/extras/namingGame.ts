@@ -1,6 +1,6 @@
 import continentsJson from '../../data/continents.json'
 import { compareNames, countryFacts } from '../../shared/countryFacts'
-import { isCountryNameCorrect } from '../flashcards/countryNameAnswer'
+import { countryNameMatch } from '../flashcards/countryNameAnswer'
 
 // The part of the world one game asks for: the whole world or one continent,
 // chosen on the Extras menu.
@@ -39,13 +39,12 @@ export const NAMING_AREAS: NamingArea[] = [
 ]
 
 // The ISO alpha-3 code of the country the typed name names, with the same
-// rules as the flashcards' name question (common name, official name, or a
-// hand-written alternative, ignoring case, accents, and surrounding spaces).
-// Null if it names no country. No two countries share an accepted name, so at
-// most one can match. Whether it was already named is up to the game.
+// rules as the flashcards' name question (`countryNameMatch`: common name,
+// official name, a hand-written alternative, or a native name, ignoring case,
+// accents, and surrounding spaces, with a few typos allowed). Null if it names
+// no country. Whether it was already named is up to the game.
 export function namedCountry(typed: string): string | null {
-  const country = Object.values(countryFacts).find((facts) => isCountryNameCorrect(typed, facts))
-  return country?.isoAlpha3 ?? null
+  return countryNameMatch(typed)?.key ?? null
 }
 
 // The common names of the area's countries not yet named, A–Z (ignoring a
