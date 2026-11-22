@@ -53,18 +53,42 @@
 }
 
 /* "Tap a country", then the hint's "First Letter: G": centred across the screen, below the buttons and the
-   corner boxes (16px from the top, 40px tall), in the same kind of box. */
-.name-every-country__hint-prompt {
+   corner boxes (16px from the top, 40px tall), in the same kind of box.
+   "Or: Zoom to a remaining country" sits in a box of its own below "Tap a
+   country". Must match HINT_PROMPT_SPACE_PX in NameEveryCountry.tsx. */
+.name-every-country__hint-area {
   position: absolute;
   top: 72px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.name-every-country__hint-prompt {
   margin: 0;
   padding: 8px 14px;
   border-radius: 8px;
   background: rgba(15, 20, 35, 0.9);
   white-space: nowrap;
-  pointer-events: none;
+}
+
+/* A button in the prompt's box; the area around it lets taps through to the
+   globe. */
+.name-every-country__zoom-hint {
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.name-every-country__zoom-hint:hover {
+  background: rgba(40, 48, 70, 0.95);
 }
 
 /* The text box along the bottom of the screen, as in the flashcards' name

@@ -7,6 +7,7 @@ import {
   COUNTRY_SHAPES,
   createCountryMap,
   findTappedCountryIndex,
+  flyToCountry,
   hideBorders,
   shapeIndicesOfCountry,
   showBordersOnlyOf,
@@ -24,6 +25,13 @@ import { saveNamingScore } from './namingScores'
 // The text box's styles (.typed-answer__box), shared with the name question.
 import '../flashcards/TypedAnswerReveal.css'
 import './NameEveryCountry.css'
+
+// How long the globe takes to fly to the country picked by "Zoom to a
+// remaining country", as after a flashcard location answer.
+const FLY_TO_HINT_MS = 1500
+// The picked country is centred in the space between "First Letter: G" (its
+// box is 72px from the top, about 40px tall) and the text box. In pixels.
+const HINT_PROMPT_SPACE_PX = 112
 
 // The game adds a history entry of its own on top of its screen's, so that
 // browser or Android back pops it and asks "Exit?" instead of leaving.
@@ -52,7 +60,9 @@ type Confirming = 'exit' | 'end-game' | null
 // taps on it do nothing, except after Hint (beside Give up): it shows "Tap a
 // country", and tapping one of the area's unnamed countries shows its white
 // border, and "First Letter: G" (for example) in place of "Tap a country",
-// until it is named. Each Hint gives one country; pressing it again
+// until it is named. Below "Tap a country", "Or: Zoom to a remaining country"
+// gives the same hint for a random unnamed, unhinted country and flies the
+// globe to it; it isn't shown when every unnamed country is already hinted. Each Hint gives one country; pressing it again
 // first cancels. The hints given are counted at the end and on the
 // scoreboard. Each visit starts again; only the round's score is
 // saved, for the menu of areas' scoreboard (namingScores.ts), once the game
@@ -66,6 +76,7 @@ type Confirming = 'exit' | 'end-game' | null
 export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const panelRef = useRef<HTMLFormElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   // The highlights can only be changed once the map has loaded, so the box
   // is disabled until then.
@@ -99,6 +110,10 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   // Every hint given this round, including those since named.
   const [hintCount, setHintCount] = useState(0)
   const countryCount = area.countries.length
+  // The countries "Zoom to a remaining country" can pick from.
+  const unhintedRemainingCodes = area.countries.filter(
+    (isoAlpha3) => !namedCodes.includes(isoAlpha3) && !hintedCodes.includes(isoAlpha3),
+  )
   const hasWon = namedCodes.length === countryCount
   const isGameOver = hasWon || hasGivenUp
   // The stopwatch's time so far. stopwatchBankedMsRef holds the time from
@@ -202,6 +217,29 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     setIsWaitingForHint(!isWaitingForHint)
   }
 
+  // Shows the country's border and first letter, and stops waiting for a tap.
+  function giveHint(isoAlpha3: string) {
+    setHintedCodes([...hintedCodes, isoAlpha3])
+    setLatestHintCode(isoAlpha3)
+    setHintCount(hintCount + 1)
+    setIsWaitingForHint(false)
+    inputRef.current?.focus()
+  }
+
+  // "Or: Zoom to a remaining country": hints a random unnamed, unhinted
+  // country and flies the globe to it.
+  function zoomToRemainingCountry() {
+    const map = mapRef.current
+    if (map === null || unhintedRemainingCodes.length === 0) return
+    const isoAlpha3 =
+      unhintedRemainingCodes[Math.floor(Math.random() * unhintedRemainingCodes.length)]
+    // The country's own shape comes first, then its far-off parts.
+    const countryIndex = shapeIndicesOfCountry(isoAlpha3)[0]
+    const panelHeight = panelRef.current?.offsetHeight ?? 0
+    flyToCountry(map, countryIndex, HINT_PROMPT_SPACE_PX, panelHeight, FLY_TO_HINT_MS)
+    giveHint(isoAlpha3)
+  }
+
   // While waiting for a hint, a tap on one of the area's unnamed countries
   // (or its far-off parts) shows its border. Taps on the ocean, other
   // countries, or one already named or hinted do nothing, and it keeps
@@ -209,7 +247,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   useEffect(() => {
     const map = mapRef.current
     if (!isWaitingForHint || map === null) return
-    function giveHint(event: MapMouseEvent) {
+    function hintTappedCountry(event: MapMouseEvent) {
       if (map === null) return
       const index = findTappedCountryIndex(map, event.point)
       if (index === null) return
@@ -222,16 +260,14 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       ) {
         return
       }
-      setHintedCodes([...hintedCodes, isoAlpha3])
-      setLatestHintCode(isoAlpha3)
-      setHintCount(hintCount + 1)
-      setIsWaitingForHint(false)
-      inputRef.current?.focus()
+      giveHint(isoAlpha3)
     }
-    map.on('click', giveHint)
+    map.on('click', hintTappedCountry)
     return () => {
-      map.off('click', giveHint)
+      map.off('click', hintTappedCountry)
     }
+    // giveHint only reads the state listed here.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [isWaitingForHint, area, namedCodes, hintedCodes, hintCount])
 
   // Shows the borders of the hinted countries not yet named.
@@ -321,18 +357,31 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       ) : (
         <BackButton onClick={leave} />
       )}
-      {/* "Tap a country" while waiting, else the latest hint's first letter.
-          Gone once the game is over, behind its popup. */}
-      {isWaitingForHint ? (
-        <p className="name-every-country__hint-prompt">Tap a country</p>
-      ) : (
-        latestHintCode !== null &&
-        !isGameOver && (
-          <p className="name-every-country__hint-prompt">
-            First Letter: {firstLetterOfName(countryFacts[latestHintCode].commonName)}
-          </p>
-        )
-      )}
+      {/* "Tap a country" (with "Or: Zoom to a remaining country" below it)
+          while waiting, else the latest hint's first letter. Gone once the
+          game is over, behind its popup. */}
+      <div className="name-every-country__hint-area">
+        {isWaitingForHint ? (
+          <>
+            <p className="name-every-country__hint-prompt">Tap a country</p>
+            {unhintedRemainingCodes.length > 0 && (
+              <button
+                className="name-every-country__hint-prompt name-every-country__zoom-hint"
+                onClick={zoomToRemainingCountry}
+              >
+                Or: Zoom to a remaining country
+              </button>
+            )}
+          </>
+        ) : (
+          latestHintCode !== null &&
+          !isGameOver && (
+            <p className="name-every-country__hint-prompt">
+              First Letter: {firstLetterOfName(countryFacts[latestHintCode].commonName)}
+            </p>
+          )
+        )}
+      </div>
       <div className="name-every-country__corner">
         {isShowingStopwatch === true && (
           <p className="name-every-country__corner-box" aria-label="Stopwatch">
@@ -346,7 +395,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       {/* Gone once the game is over, behind "You win" or the remaining
           countries. */}
       {!isGameOver && (
-        <form className="name-every-country__panel" onSubmit={submitName}>
+        <form className="name-every-country__panel" onSubmit={submitName} ref={panelRef}>
           {floatingNames.map((floatingName) => (
             <span
               key={floatingName.id}

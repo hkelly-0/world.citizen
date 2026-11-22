@@ -13,6 +13,7 @@ import { loadNamingScores } from './namingScores'
 const setFeatureState = vi.fn()
 const jumpTo = vi.fn()
 const showBordersOnlyOf = vi.fn()
+const flyToCountry = vi.fn()
 let clickHandlers: ((event: { point: number | null }) => void)[] = []
 vi.mock('../globe/countryMap', () => ({
   COUNTRY_SHAPES: [
@@ -32,6 +33,7 @@ vi.mock('../globe/countryMap', () => ({
     remove: vi.fn(),
   }),
   findTappedCountryIndex: (_map: unknown, point: number | null) => point,
+  flyToCountry: (_map: unknown, countryIndex: string) => flyToCountry(countryIndex),
   hideBorders: vi.fn(),
   shapeIndicesOfCountry: (isoAlpha3: string) => [isoAlpha3],
   showBordersOnlyOf: (_map: unknown, isoAlpha3Codes: string[]) => showBordersOnlyOf(isoAlpha3Codes),
@@ -66,6 +68,7 @@ describe('NameEveryCountry', () => {
     localStorage.clear()
     clickHandlers = []
     showBordersOnlyOf.mockClear()
+    flyToCountry.mockClear()
   })
 
   afterEach(() => {
@@ -189,18 +192,43 @@ describe('NameEveryCountry', () => {
     expect(shownBorders()).toEqual([])
   })
 
+  it('zooms to a random unnamed, unhinted country, hinting it, until none is left', async () => {
+    // A small made-up area, so every pick can be checked.
+    const area = { ...europe, countries: ['FRA', 'DEU'] }
+    await startGame(vi.fn(), area)
+    await userEvent.type(box(), 'France{Enter}')
+
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Or: Zoom to a remaining country' }))
+    // The mock's shapes are numbered by ISO code.
+    expect(flyToCountry).toHaveBeenCalledWith('DEU')
+    expect(shownBorders()).toEqual(['DEU'])
+    expect(screen.getByText('First Letter: G')).toBeInTheDocument()
+    expect(screen.queryByText('Tap a country')).not.toBeInTheDocument()
+    expect(box()).toHaveFocus()
+
+    // Germany is hinted and France named, so there is nothing left to zoom to.
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    expect(screen.getByText('Tap a country')).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Or: Zoom to a remaining country' }),
+    ).not.toBeInTheDocument()
+  })
+
   it('counts the hints given at the end and in the saved round', async () => {
     await startGame(vi.fn(), europe)
     await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
     tapGlobe(0)
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Or: Zoom to a remaining country' }))
     // Cancelled, so not counted.
     await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
     await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
     await userEvent.click(screen.getByRole('button', { name: 'Give up' }))
     await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
-    expect(screen.getByRole('dialog', { name: /^Score/ })).toHaveTextContent('Hints: 1')
-    expect(loadNamingScores('europe')).toEqual([expect.objectContaining({ hintCount: 1 })])
+    expect(screen.getByRole('dialog', { name: /^Score/ })).toHaveTextContent('Hints: 2')
+    expect(loadNamingScores('europe')).toEqual([expect.objectContaining({ hintCount: 2 })])
   })
 
   it('saves nothing when left before Go', async () => {
