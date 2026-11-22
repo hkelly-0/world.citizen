@@ -163,10 +163,18 @@ describe('NameEveryCountry', () => {
     tapGlobe(1)
     expect(shownBorders()).toEqual(['FRA'])
     expect(screen.queryByText('Tap a country')).not.toBeInTheDocument()
+    expect(screen.getByText('First Letter: F')).toBeInTheDocument()
     expect(box()).toHaveFocus()
+
+    // Hint again puts "Tap a country" in its place; cancelling brings it back.
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    expect(screen.queryByText('First Letter: F')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Hint' }))
+    expect(screen.getByText('First Letter: F')).toBeInTheDocument()
 
     await userEvent.type(box(), 'France{Enter}')
     expect(shownBorders()).toEqual([])
+    expect(screen.queryByText('First Letter: F')).not.toBeInTheDocument()
   })
 
   it('keeps waiting after a tap on the ocean, outside the area, or on a named country', async () => {

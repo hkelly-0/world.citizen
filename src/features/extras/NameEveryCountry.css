@@ -52,7 +52,7 @@
   background: rgba(40, 48, 70, 0.95);
 }
 
-/* "Tap a country": centred across the screen, below the buttons and the
+/* "Tap a country", then the hint's "First Letter: G": centred across the screen, below the buttons and the
    corner boxes (16px from the top, 40px tall), in the same kind of box. */
 .name-every-country__hint-prompt {
   position: absolute;

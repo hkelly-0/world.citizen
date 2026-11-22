@@ -57,6 +57,12 @@ export function remainingCountryNames(area: NamingArea, namedCodes: string[]): s
     .sort(compareNames)
 }
 
+// The first letter of a country's common name, for a hint, ignoring a
+// leading "The" as compareNames does: "G" for The Gambia.
+export function firstLetterOfName(commonName: string): string {
+  return commonName.replace(/^The /, '')[0]
+}
+
 // The stopwatch's time as m:ss, or h:mm:ss from an hour, in whole seconds
 // rounded down (e.g. 0:07, 12:45, 1:02:03).
 export function formatElapsedTime(elapsedMs: number): string {

@@ -12,7 +12,9 @@ import {
   showBordersOnlyOf,
   stopHoverHighlight,
 } from '../globe/countryMap'
+import { countryFacts } from '../../shared/countryFacts'
 import {
+  firstLetterOfName,
   formatElapsedTime,
   namedCountry,
   remainingCountryNames,
@@ -49,7 +51,8 @@ type Confirming = 'exit' | 'end-game' | null
 // "Already named". The user can spin and zoom the globe, but
 // taps on it do nothing, except after Hint (beside Give up): it shows "Tap a
 // country", and tapping one of the area's unnamed countries shows its white
-// border until it is named. Each Hint gives one country; pressing it again
+// border, and "First Letter: G" (for example) in place of "Tap a country",
+// until it is named. Each Hint gives one country; pressing it again
 // first cancels. The hints given are counted at the end and on the
 // scoreboard. Each visit starts again; only the round's score is
 // saved, for the menu of areas' scoreboard (namingScores.ts), once the game
@@ -90,6 +93,9 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
   // ISO alpha-3 codes of the hinted countries not yet named, whose borders
   // show.
   const [hintedCodes, setHintedCodes] = useState<string[]>([])
+  // The country of the latest hint, until it is named, whose first letter
+  // shows. Null before any hint, and once it is named.
+  const [latestHintCode, setLatestHintCode] = useState<string | null>(null)
   // Every hint given this round, including those since named.
   const [hintCount, setHintCount] = useState(0)
   const countryCount = area.countries.length
@@ -217,6 +223,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
         return
       }
       setHintedCodes([...hintedCodes, isoAlpha3])
+      setLatestHintCode(isoAlpha3)
       setHintCount(hintCount + 1)
       setIsWaitingForHint(false)
       inputRef.current?.focus()
@@ -284,6 +291,7 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     setNamedCodes([...namedCodes, isoAlpha3])
     // A hinted country's border goes once it is named.
     setHintedCodes(hintedCodes.filter((code) => code !== isoAlpha3))
+    if (isoAlpha3 === latestHintCode) setLatestHintCode(null)
     floatText(typedName.trim(), false)
     setTypedName('')
   }
@@ -313,7 +321,18 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
       ) : (
         <BackButton onClick={leave} />
       )}
-      {isWaitingForHint && <p className="name-every-country__hint-prompt">Tap a country</p>}
+      {/* "Tap a country" while waiting, else the latest hint's first letter.
+          Gone once the game is over, behind its popup. */}
+      {isWaitingForHint ? (
+        <p className="name-every-country__hint-prompt">Tap a country</p>
+      ) : (
+        latestHintCode !== null &&
+        !isGameOver && (
+          <p className="name-every-country__hint-prompt">
+            First Letter: {firstLetterOfName(countryFacts[latestHintCode].commonName)}
+          </p>
+        )
+      )}
       <div className="name-every-country__corner">
         {isShowingStopwatch === true && (
           <p className="name-every-country__corner-box" aria-label="Stopwatch">
