@@ -19,17 +19,17 @@
   opacity: 0.4;
 }
 
-/* The main action, filled in the switches' blue so it stands out below the
-   cards. */
+/* The main action, green like "Play Tutorial" and the "Ready?" popup's Go,
+   so it stands out below the cards. */
 .custom-practice__go {
   width: 100%;
   max-width: 320px;
   min-height: 52px;
   padding: 0 16px;
-  border: none;
+  border: 1px solid var(--correct-green);
   border-radius: 12px;
-  background: var(--accent-blue);
-  color: #000010;
+  background: var(--correct-green-tint);
+  color: inherit;
   font: inherit;
   font-size: 1.2rem;
   font-weight: bold;
@@ -37,7 +37,7 @@
 }
 
 .custom-practice__go:hover {
-  background: var(--accent-blue-hover);
+  background: var(--correct-green-tint-hover);
 }
 
 .custom-practice__go:disabled {
@@ -46,5 +46,5 @@
 }
 
 .custom-practice__go:disabled:hover {
-  background: var(--accent-blue);
+  background: var(--correct-green-tint);
 }

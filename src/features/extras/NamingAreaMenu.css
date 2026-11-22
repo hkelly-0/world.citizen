@@ -14,16 +14,17 @@
   cursor: pointer;
 }
 
-/* As Custom Practice's Go: filled in blue, so it stands out as the action. */
+/* As Custom Practice's Go: green like "Play Tutorial", so it stands out as
+   the action. */
 .naming-area-menu__go {
   width: 100%;
   max-width: 280px;
   min-height: 52px;
   padding: 0 16px;
-  border: none;
+  border: 1px solid var(--correct-green);
   border-radius: 12px;
-  background: var(--accent-blue);
-  color: #000010;
+  background: var(--correct-green-tint);
+  color: inherit;
   font: inherit;
   font-size: 1.2rem;
   font-weight: bold;
@@ -31,5 +32,5 @@
 }
 
 .naming-area-menu__go:hover {
-  background: var(--accent-blue-hover);
+  background: var(--correct-green-tint-hover);
 }
