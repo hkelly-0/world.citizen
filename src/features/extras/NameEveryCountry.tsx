@@ -14,6 +14,7 @@ import {
   remainingCountryNames,
   type NamingArea,
 } from './namingGame'
+import { saveNamingScore } from './namingScores'
 // The text box's styles (.typed-answer__box), shared with the name question.
 import '../flashcards/TypedAnswerReveal.css'
 import './NameEveryCountry.css'
@@ -42,7 +43,9 @@ type Confirming = 'exit' | 'end-game' | null
 // French Guiana for France) and clears the box; a wrong one, or one already
 // named, shakes the box and stays, and one already named also floats up
 // "Already named". The user can spin and zoom the globe, but
-// taps on it do nothing. Nothing is saved: each visit starts again.
+// taps on it do nothing. Each visit starts again; only the round's score is
+// saved, for the menu of areas' scoreboard (namingScores.ts), once the game
+// is over or is left midway after Go.
 // It starts by asking "Show stopwatch?", then shows "Ready?". Until Go, the
 // corner button is Menu rather than Give up. The stopwatch, if shown, runs
 // from Go (once the map has loaded) to the end of the game, pausing while
@@ -129,8 +132,30 @@ export default function NameEveryCountry({ area, onBack }: NameEveryCountryProps
     if (isBoxEnabled) inputRef.current?.focus()
   }, [isBoxEnabled])
 
+  // Saves the round for the scoreboard. Called once the stopwatch has
+  // stopped, so its banked time is the final one.
+  function saveRound() {
+    saveNamingScore({
+      areaId: area.id,
+      endedAt: Date.now(),
+      namedCount: namedCodes.length,
+      countryCount,
+      elapsedMs: isShowingStopwatch ? stopwatchBankedMsRef.current : null,
+    })
+  }
+
+  // Saves the round when the game is won or given up. Runs after the
+  // stopwatch effect's cleanup has banked its time.
+  useEffect(() => {
+    if (isGameOver) saveRound()
+    // Only when the game ends; the round's other values don't change after.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGameOver])
+
   // Leaves for the Extras menu, skipping the exit guard if it is still there.
+  // A round left midway ("Exit?" then Yes) is saved first.
   function leave() {
+    if (hasStarted && !isGameOver) saveRound()
     if (isExitGuardInHistory()) history.go(-2)
     else onBack()
   }

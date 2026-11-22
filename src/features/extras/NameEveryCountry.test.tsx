@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import NameEveryCountry from './NameEveryCountry'
 import { NAMING_AREAS } from './namingGame'
+import { loadNamingScores } from './namingScores'
 
 // The real map needs WebGL, which jsdom doesn't have. This one loads straight
 // away and gives each country one shape, numbered by its ISO code.
@@ -35,7 +36,10 @@ async function startGame(onBack: () => void, area = world) {
 
 describe('NameEveryCountry', () => {
   // The game's screen has its own history entry, as App gives it.
-  beforeEach(() => history.replaceState({ screen: 'name-every-country' }, ''))
+  beforeEach(() => {
+    history.replaceState({ screen: 'name-every-country' }, '')
+    localStorage.clear()
+  })
 
   afterEach(() => {
     vi.restoreAllMocks()
@@ -85,6 +89,36 @@ describe('NameEveryCountry', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Yes' }))
     act(() => vi.advanceTimersByTime(10_000))
     expect(screen.getByRole('dialog', { name: 'Score: 0/197' })).toHaveTextContent('Time: 1:07')
+    expect(loadNamingScores('world')).toEqual([
+      expect.objectContaining({ namedCount: 0, countryCount: 197, elapsedMs: 67_000 }),
+    ])
+  })
+
+  it('saves the round when given up, without a time if the stopwatch was off', async () => {
+    vi.spyOn(history, 'go').mockImplementation(() => {})
+    await startGame(vi.fn(), europe)
+    await userEvent.type(box(), 'France{Enter}')
+    await userEvent.click(screen.getByRole('button', { name: 'Give up' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Done' }))
+
+    expect(loadNamingScores('europe')).toEqual([
+      {
+        areaId: 'europe',
+        endedAt: expect.any(Number),
+        namedCount: 1,
+        countryCount: europe.countries.length,
+        elapsedMs: null,
+      },
+    ])
+  })
+
+  it('saves nothing when left before Go', async () => {
+    vi.spyOn(history, 'go').mockImplementation(() => {})
+    render(<NameEveryCountry area={world} onBack={vi.fn()} />)
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+
+    expect(loadNamingScores('world')).toEqual([])
   })
 
   it('leaves straight away on back before Go', async () => {
@@ -204,6 +238,8 @@ describe('NameEveryCountry', () => {
     await screen.findByRole('dialog', { name: 'Exit?' })
     await userEvent.click(screen.getByRole('button', { name: 'Yes' }))
     expect(onBack).toHaveBeenCalled()
+    // A round left midway is saved too.
+    expect(loadNamingScores('world')).toEqual([expect.objectContaining({ namedCount: 0 })])
   })
 
   it('leaves straight away on back once the game is over', async () => {
@@ -247,6 +283,9 @@ describe('NameEveryCountry', () => {
 
     const count = europe.countries.length
     expect(screen.getByRole('dialog', { name: `${count}/${count}! You win` })).toBeInTheDocument()
+    expect(loadNamingScores('europe')).toEqual([
+      expect.objectContaining({ namedCount: count, countryCount: count }),
+    ])
   })
 
   it('says the user wins once every country is named', async () => {

@@ -88,6 +88,8 @@ describe('App', () => {
     for (const name of areaNames) {
       expect(screen.getByRole('option', { name })).toBeInTheDocument()
     }
+    expect(screen.getByRole('heading', { name: 'Previous Scores: The World' })).toBeInTheDocument()
+    expect(screen.getByText('No games yet')).toBeInTheDocument()
     await userEvent.selectOptions(areaList, 'Europe')
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(history.state).toEqual({ screen: 'name-every-country', namingAreaId: 'europe' })
@@ -98,6 +100,44 @@ describe('App', () => {
     ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
+  })
+
+  it("lists the chosen area's previous scores, most recent first, with the stopwatch's time or a hyphen", async () => {
+    const scores = [
+      {
+        areaId: 'europe',
+        endedAt: new Date(2026, 10, 1).getTime(),
+        namedCount: 12,
+        countryCount: 44,
+        elapsedMs: null,
+      },
+      {
+        areaId: 'asia',
+        endedAt: new Date(2026, 10, 2).getTime(),
+        namedCount: 5,
+        countryCount: 47,
+        elapsedMs: null,
+      },
+      {
+        areaId: 'europe',
+        endedAt: new Date(2026, 10, 22).getTime(),
+        namedCount: 30,
+        countryCount: 44,
+        elapsedMs: 125_000,
+      },
+    ]
+    localStorage.setItem('geography-app/naming-scores', JSON.stringify(scores))
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Game: Name Every Country' }))
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: 'Name Every Country in' }),
+      'Europe',
+    )
+
+    expect(screen.getByRole('heading', { name: 'Previous Scores: Europe' })).toBeInTheDocument()
+    const rows = screen.getAllByRole('row').map((row) => row.textContent)
+    expect(rows).toEqual(['DateScoreTime', '22 Nov 202630/442:05', '1 Nov 202612/44-'])
   })
 
   it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {

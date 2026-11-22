@@ -34,3 +34,44 @@
 .naming-area-menu__go:hover {
   background: var(--correct-green-tint-hover);
 }
+
+/* Previous Scores: below Go, in the main menu's column. */
+.naming-area-menu__scores {
+  width: 100%;
+  max-width: 280px;
+  margin-top: 16px;
+}
+
+/* As the end of a game's "Remaining Countries" heading. */
+.naming-area-menu__scores h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.naming-area-menu__no-scores {
+  margin: 0;
+  color: #a9b1c2;
+}
+
+.naming-area-menu__scores table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.naming-area-menu__scores th,
+.naming-area-menu__scores td {
+  padding: 4px 0;
+  text-align: left;
+}
+
+.naming-area-menu__scores th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #a9b1c2;
+  font-weight: normal;
+}
+
+/* The score and time line up on their right edges. */
+.naming-area-menu__scores th:not(:first-child),
+.naming-area-menu__scores td:not(:first-child) {
+  text-align: right;
+}
