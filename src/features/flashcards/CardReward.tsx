@@ -25,10 +25,10 @@ type CardRewardProps = {
 
 // The reward shown after every finished card, in green with the country's
 // name. For a new country (with a ✓), the Passport count before it joined
-// rolls down to the new count. Otherwise, the country's familiarity ring fills
-// clockwise from empty. "Perfect" goes under the name when every question on
+// rolls down to the new count. Otherwise, the country's familiarity ring
+// starts a little below its fill before the card and moves to its new fill. "Perfect" goes under the name when every question on
 // the card was answered right. Both wait a moment first (the timing is in
-// CardReward.css and RecallCircle.css).
+// CardReward.css and RecallCircle.tsx).
 export function CardReward({
   reward,
   continueLabel,
@@ -50,7 +50,12 @@ export function CardReward({
         <>
           <p className="card-reward__country">{countryName}</p>
           {reward.isPerfect && <Perfect />}
-          <RecallCircle recall={reward.recall} size={RING_SIZE} isAnimated={true} />
+          <RecallCircle
+            recall={reward.recall}
+            previousRecall={reward.recallBefore}
+            size={RING_SIZE}
+            isAnimated={true}
+          />
         </>
       )}
       {note !== undefined && <TutorialNote text={note} />}

@@ -17,6 +17,24 @@ export function recallFraction(recall: number): number {
 // The circle's colour: a hue from red (0°) at the smallest fill, through orange
 // and yellow, to green (120°) when full.
 export function recallColour(recall: number): string {
-  const fullness = (recallFraction(recall) - 1 / 6) / (5 / 6)
+  return fractionColour(recallFraction(recall))
+}
+
+// The colour for a fill of `fraction` of the circle, as in `recallColour`. A
+// fill below the smallest one (only while animating) stays red.
+export function fractionColour(fraction: number): string {
+  const fullness = Math.max(0, (fraction - 1 / 6) / (5 / 6))
   return `hsl(${Math.round(fullness * 120)}, 80%, 50%)`
+}
+
+// How much less of the circle than the previous recall chance's fill the
+// reward's animation starts from, so the ring always moves, even when the
+// recall chance hasn't changed.
+const START_BELOW_PREVIOUS = 0.1
+
+// Where the reward's animation starts: a little below `previousRecall`'s fill,
+// or empty when there was no recall chance before.
+export function animationStartFraction(previousRecall: number | null): number {
+  if (previousRecall === null) return 0
+  return Math.max(0, recallFraction(previousRecall) - START_BELOW_PREVIOUS)
 }

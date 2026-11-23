@@ -33,6 +33,7 @@ import {
   type GlobeKind,
   type QuestionId,
 } from './deck'
+import { countryRecall } from './familiarity'
 import { flagOptions } from './flagQuestion'
 import { Flashcard } from './Flashcard'
 import { CardReward } from './CardReward'
@@ -266,6 +267,10 @@ export function FlashcardsView({
       ...card,
       answeredIds: [...card.answeredIds, id],
       hasOnlyRightAnswers: card.hasOnlyRightAnswers === true && result === 'right',
+      recallBefore:
+        card.answeredIds.length === 0
+          ? countryRecall(progress[code], learnedQuestionIds, today)
+          : card.recallBefore,
     }
     if (isCardFinished) {
       // Passed the new progress, as `progress` doesn't update until the next render.
@@ -284,6 +289,7 @@ export function FlashcardsView({
         card.isNewCountry,
         card.hasOnlyRightAnswers === true,
         newProgress,
+        card.recallBefore ?? null,
         learnedQuestionIds,
         today,
       ),

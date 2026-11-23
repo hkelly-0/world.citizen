@@ -1,7 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { RecallCircle } from './RecallCircle'
-import { recallColour, recallFraction } from './recallCircleFill'
+import {
+  animationStartFraction,
+  fractionColour,
+  recallColour,
+  recallFraction,
+} from './recallCircleFill'
 
 describe('recallFraction', () => {
   it('fills 1/6 at a recall chance of 50% or less and all of it at 100%', () => {
@@ -34,5 +39,19 @@ describe('RecallCircle', () => {
     )
     expect(screen.getByRole('img', { name: 'Familiarity 87%' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'No familiarity yet' })).toBeInTheDocument()
+  })
+})
+
+describe('animationStartFraction', () => {
+  it('starts a little below the previous fill, or empty with no previous recall chance', () => {
+    expect(animationStartFraction(1)).toBeCloseTo(0.9)
+    expect(animationStartFraction(0.5)).toBeCloseTo(1 / 6 - 0.1)
+    expect(animationStartFraction(null)).toBe(0)
+  })
+})
+
+describe('fractionColour', () => {
+  it('stays red below the smallest fill', () => {
+    expect(fractionColour(0)).toBe('hsl(0, 80%, 50%)')
   })
 })

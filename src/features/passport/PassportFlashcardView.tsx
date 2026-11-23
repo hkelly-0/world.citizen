@@ -8,6 +8,7 @@ import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
 import { reviewAnswer, type DeckProgress, type QuestionId } from '../flashcards/deck'
+import { countryRecall } from '../flashcards/familiarity'
 import { flagOptions } from '../flashcards/flagQuestion'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
@@ -78,6 +79,7 @@ export function PassportFlashcardView({
         isNewCountry,
         hasOnlyRightAnswers.current,
         newProgress,
+        countryRecall(countryProgress, learnedQuestionIds, today),
         learnedQuestionIds,
         today,
       ),

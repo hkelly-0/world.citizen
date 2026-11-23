@@ -18,7 +18,7 @@ describe('rewardAfterCard', () => {
   it("shows the Passport count for a country's first card", () => {
     const after: DeckProgress = { PER: { area: answered }, FRA: { area: answered } }
 
-    expect(rewardAfterCard('FRA', true, false, after, ['area'], TODAY)).toEqual({
+    expect(rewardAfterCard('FRA', true, false, after, null, ['area'], TODAY)).toEqual({
       kind: 'new-country',
       code: 'FRA',
       isPerfect: false,
@@ -30,11 +30,12 @@ describe('rewardAfterCard', () => {
     // Only the area was practiced, but the capital is learned too.
     const after: DeckProgress = { FRA: { capital: answered, area: answered } }
 
-    expect(rewardAfterCard('FRA', false, true, after, ['area', 'capital'], TODAY)).toEqual({
+    expect(rewardAfterCard('FRA', false, true, after, 0.6, ['area', 'capital'], TODAY)).toEqual({
       kind: 'familiarity',
       code: 'FRA',
       isPerfect: true,
       recall: countryRecall(after.FRA, ['area', 'capital'], TODAY),
+      recallBefore: 0.6,
     })
   })
 })
