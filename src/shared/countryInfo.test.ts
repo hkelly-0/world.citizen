@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { countriesWithInfo, loadCountryInfo, parseCountryInfo } from './countryInfo'
 import { countryFacts } from './countryFacts'
+import { linkedCountryCodes, withoutLinks } from './countryLinks'
 
 describe('country info files', () => {
   it('exist for exactly the 197 countries', () => {
@@ -10,6 +11,19 @@ describe('country info files', () => {
   it('each have the four headings in order, with no empty section', async () => {
     for (const code of countriesWithInfo()) {
       await expect(loadCountryInfo(code), code).resolves.toBeDefined()
+    }
+  })
+
+  it('link other countries only, each at most once per paragraph, with no stray brackets', async () => {
+    for (const code of countriesWithInfo()) {
+      const info = (await loadCountryInfo(code))!
+      for (const paragraph of Object.values(info)) {
+        const linked = linkedCountryCodes(paragraph)
+        for (const linkedCode of linked) expect(countryFacts, code).toHaveProperty(linkedCode)
+        expect(linked, code).not.toContain(code)
+        expect(new Set(linked).size, `${code}: ${paragraph}`).toBe(linked.length)
+        expect(withoutLinks(paragraph), code).not.toMatch(/[[\]{}]/)
+      }
     }
   })
 })

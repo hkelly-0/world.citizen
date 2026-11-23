@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import territorySubtitles from '../data/territorySubtitles.json'
+import { countryFacts } from './countryFacts'
+import { linkedCountryCodes, withoutLinks } from './countryLinks'
 import {
   hasTerritoryInfo,
   loadTerritoryInfo,
@@ -18,7 +20,17 @@ describe('territory info files', () => {
     for (const key of territoriesWithInfo()) {
       const info = await loadTerritoryInfo(key)
       expect(info, key).toBeDefined()
-      expect(info!.split(/\s+/).length, key).toBeLessThanOrEqual(80)
+      expect(withoutLinks(info!).split(/\s+/).length, key).toBeLessThanOrEqual(80)
+    }
+  })
+
+  it('link countries, each at most once, with no stray brackets', async () => {
+    for (const key of territoriesWithInfo()) {
+      const info = (await loadTerritoryInfo(key))!
+      const linked = linkedCountryCodes(info)
+      for (const code of linked) expect(countryFacts, key).toHaveProperty(code)
+      expect(new Set(linked).size, key).toBe(linked.length)
+      expect(withoutLinks(info), key).not.toMatch(/[[\]{}]/)
     }
   })
 })

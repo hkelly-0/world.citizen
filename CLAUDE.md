@@ -105,6 +105,7 @@ Generated files are committed; each script lists its download links.
 - Hand-written: `src/data/continents.json` (transcontinental countries placed by choice), `src/data/countryNameAlternatives.json`, `src/data/capitalNativeNames.json` (by Claude; owner to check), `src/data/territorySubtitles.json` (contested areas get neutral wording).
 - A native name must not match another country's names, as the naming game and Borders take the first match.
 - `src/data/countryInfo/{ISO}.md`: AI-written paragraphs under exactly the headings in `COUNTRY_INFO_HEADINGS`, loaded per country on demand (`loadCountryInfo`) to stay out of the main bundle.
+- Both info folders write the countries they name as links, `[shown text]{ISO}` (`countryLinks.ts`): the first mention in each paragraph only, never the file's own country, and not inside place names (Lake Chad, New Guinea, Mali Empire). Tests check codes and repeats, not meaning. Flashcards show them as plain text (`withoutLinks`).
 - `src/data/territoryInfo/{key}.md`: AI-written, one `## More info` section of at most 80 words, named by the area's key in `territorySubtitles.json` (tests check both). Loaded on demand (`loadTerritoryInfo`) and shown on the globe's info panel.
 
 ## Status

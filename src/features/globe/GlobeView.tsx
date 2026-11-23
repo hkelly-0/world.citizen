@@ -181,8 +181,9 @@ export default function GlobeView({ onBack, initialCountryCode, backLabel }: Glo
     selectCountry(index)
   }
 
-  // Clicking a country's name in a territory's info panel works like tapping
-  // it on the globe, as does choosing a place in the search box.
+  // Clicking a country's name in the info panel (a territory's subtitle or a
+  // paragraph) works like tapping it on the globe, as does choosing a place in
+  // the search box.
   function selectCountryByCode(isoAlpha3: string) {
     const index = COUNTRY_SHAPES.findIndex((shape) => shape.isoAlpha3 === isoAlpha3)
     if (index !== -1) selectCountry(index)
