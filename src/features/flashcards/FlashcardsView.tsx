@@ -155,6 +155,7 @@ export function FlashcardsView({
       isNameQuestion: globeKinds.length === 1 ? globeKinds[0] === 'name' : Math.random() < 0.5,
       offeredFlags: flagOptions(code),
       answeredIds: [],
+      hasOnlyRightAnswers: true,
     }
   }
 
@@ -261,18 +262,32 @@ export function FlashcardsView({
     saveProgress(newProgress)
     logReview(code, id, result, today)
     recordPlayedCountry(code, today, mode === 'classic')
+    const answeredCard: UnfinishedCard = {
+      ...card,
+      answeredIds: [...card.answeredIds, id],
+      hasOnlyRightAnswers: card.hasOnlyRightAnswers === true && result === 'right',
+    }
     if (isCardFinished) {
       // Passed the new progress, as `progress` doesn't update until the next render.
-      finishCard(card, newProgress)
+      finishCard(answeredCard, newProgress)
     } else {
-      setCard({ ...card, answeredIds: [...card.answeredIds, id] })
+      setCard(answeredCard)
     }
   }
 
   // The answers are already saved; this shows the reward and picks the next card.
   function finishCard(card: UnfinishedCard, newProgress: DeckProgress) {
     const code = card.country
-    setReward(rewardAfterCard(code, card.isNewCountry, newProgress, learnedQuestionIds, today))
+    setReward(
+      rewardAfterCard(
+        code,
+        card.isNewCountry,
+        card.hasOnlyRightAnswers === true,
+        newProgress,
+        learnedQuestionIds,
+        today,
+      ),
+    )
     const cardCount = cardsSinceMultiCountryQuestion + 1
     if (isMultiCountryQuestionDue(cardCount)) {
       const question = newMultiCountryQuestion(newProgress, multiCountryQuestion)

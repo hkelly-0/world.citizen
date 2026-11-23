@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
 import { loadProgress, saveProgress } from '../../shared/progress'
@@ -46,10 +46,14 @@ export function HomeCountryCard({
   const [offeredFlags] = useState(() => flagOptions(isoAlpha3))
   // Replaying the tutorial can choose a country already in the Passport.
   const isNewCountry = Object.keys(countryProgress ?? {}).length === 0
+  // Whether every answer so far was right (not close), so the reward says
+  // "Perfect". A ref, as the last answer finishes the card in the same call.
+  const hasOnlyRightAnswers = useRef(true)
 
   // Saved straight away, as in PassportFlashcardView. The country joins the
   // Passport, and is discovered, at its first answer.
   function answerQuestion(id: QuestionId, result: AnswerResult, isCardFinished: boolean) {
+    if (result !== 'right') hasOnlyRightAnswers.current = false
     const today = todayString()
     const progress = loadProgress()
     if (Object.keys(progress[isoAlpha3] ?? {}).length === 0) {
@@ -63,7 +67,16 @@ export function HomeCountryCard({
   }
 
   function finishCard(newProgress: DeckProgress, today: string) {
-    setReward(rewardAfterCard(isoAlpha3, isNewCountry, newProgress, learnedQuestionIds, today))
+    setReward(
+      rewardAfterCard(
+        isoAlpha3,
+        isNewCountry,
+        hasOnlyRightAnswers.current,
+        newProgress,
+        learnedQuestionIds,
+        today,
+      ),
+    )
   }
 
   return (

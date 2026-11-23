@@ -20,6 +20,9 @@ export type UnfinishedCard = {
   offeredFlags: string[]
   // The questions answered so far on this card.
   answeredIds: QuestionId[]
+  // Whether every answer so far was right (not close), so the reward says
+  // "Perfect". Missing on cards saved before it was added, which then don't.
+  hasOnlyRightAnswers?: boolean
 }
 
 const STORAGE_KEY = 'geography-app/unfinished-card'

@@ -270,6 +270,26 @@ describe('FlashcardsView', () => {
     expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
   })
 
+  it('says "Perfect" after a card with every answer right', async () => {
+    saveFranceArea(0.2)
+    renderFlashcards(['globe'], 'custom')
+
+    // The globe stand-in always answers right.
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
+    expect(screen.getByText('Perfect')).toBeInTheDocument()
+  })
+
+  it('does not say "Perfect" after a card with a wrong answer', async () => {
+    saveFranceArea(0.2)
+    playPassportCountriesInClassic()
+    renderClassic()
+
+    // None of the Passport countries is that big.
+    await answerArea()
+    expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
+    expect(screen.queryByText('Perfect')).not.toBeInTheDocument()
+  })
+
   it('saves each answer straight away, before the card is finished', async () => {
     saveFranceArea(0.2)
     playPassportCountriesInClassic()
