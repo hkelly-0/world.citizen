@@ -51,10 +51,11 @@ export type CountryFacts = {
 // expectancy), education (years of schooling) and income (per person).
 // lifespanYears is the (mean) life expectancy in years, educationYears the
 // average of expected and mean years of schooling, neither
-// inequality-adjusted, and incomeDollars the
-// geometric mean of incomes (PPP dollars per person per year, at the recent
-// US prices given by CPI_RECENT in make-country-data.mjs), shown in place of
-// the indices.
+// inequality-adjusted, and incomeDollars the World Bank's median household
+// income or spending (PPP dollars per person per year, at the recent US
+// prices given by CPI_RECENT in make-country-data.mjs), shown in place of the
+// indices. isIncomeEstimated is true when that median is the World Bank's
+// model estimate for a country with no survey.
 export type IhdiBreakdown = {
   lifespan: number
   education: number
@@ -62,6 +63,7 @@ export type IhdiBreakdown = {
   lifespanYears: number
   educationYears: number
   incomeDollars: number
+  isIncomeEstimated: boolean
 }
 
 // An estimated IHDI's parts, with the names of those (e.g. "income") worked

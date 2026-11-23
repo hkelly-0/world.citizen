@@ -110,6 +110,19 @@ export function Credits({ onBack }: { onBack: () => void }) {
             , as the UNDP doesn't list Taiwan.
           </p>
           <p className="credits__entry">
+            <strong>Median income (IHDI breakdown):</strong> World Bank,{' '}
+            <ExternalLink href="https://pip.worldbank.org/">
+              Poverty and Inequality Platform
+            </ExternalLink>
+            , under{' '}
+            <ExternalLink href="https://creativecommons.org/licenses/by/4.0/">
+              CC BY 4.0
+            </ExternalLink>
+            . Uses the 2024 median of household income or spending per person, per year at recent US
+            prices. Values marked as estimated are the World Bank's model estimates for countries
+            with no survey.
+          </p>
+          <p className="credits__entry">
             <strong>Currency conversion:</strong> World Bank,{' '}
             <ExternalLink href="https://data.worldbank.org/indicator/PA.NUS.PPP">
               PPP conversion factor, GDP

@@ -7,12 +7,15 @@
 // Estimated IHDIs use the nearest countries from src/data/countryNeighbours.json,
 // so rerun this after that file changes.
 //
-// Needs Node 24+ and these two source files, saved in the folder given as
+// Needs Node 24+ and these three source files, saved in the folder given as
 // the first argument:
 //   mledoze-countries.json   Names, capitals, total area (ODbL)
 //     https://raw.githubusercontent.com/mledoze/countries/master/countries.json
 //   wpp-population.csv.gz    UN World Population Prospects 2024 (CC BY 3.0 IGO)
 //     https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_TotalPopulationBySex.csv.gz
+//   pip-median-2024.json     World Bank Poverty and Inequality Platform (CC BY 4.0),
+//                            pinned to one release (PIP_RELEASE)
+//     https://api.worldbank.org/pip/v1/pip?country=all&year=2024&fill_gaps=true&ppp_version=2021&release_version=20260922&format=json
 //
 // The UNDP file is committed (UNDP_FILE), as the IHDI figures use many of
 // its columns and its link is tied to one year's report:
@@ -188,8 +191,8 @@ const MEAN_SCHOOLING_MAX = 15
 const INCOME_GOALPOSTS = { min: 100, max: 75000 }
 const IHDI_BREAKDOWN_TOLERANCE = 0.002
 
-// The breakdown's income in dollars is brought from UNDP's 2021 PPP dollars
-// to recent US prices, by the US consumer price index (CPI-U, not seasonally
+// The breakdown's income in dollars is brought from the World Bank's 2021 PPP
+// dollars to recent US prices, by the US consumer price index (CPI-U, not seasonally
 // adjusted, 1982-84 = 100) from the BLS. Update CPI_RECENT by hand, from the
 // latest monthly release: https://www.bls.gov/cpi/
 const CPI_2021_AVERAGE = 270.97 // 2021's annual average
@@ -242,29 +245,22 @@ function dimensionIndices(row, year) {
 // deaths pull it far below a typical lifespan (around 34 years in Chad and
 // Nigeria). The years of schooling, shown instead of the education index,
 // are just the average of expected and mean years of schooling (uncapped,
-// unlike the index), with no inequality adjustment. And the income in dollars,
-// shown instead of the income index: income per person times (1 - its loss),
-// which is the geometric mean of incomes, as UNDP's loss is an Atkinson
-// measure (1 - geometric mean / mean), adjusted for inflation since
-// 2021 (CPI_RECENT). This leaves out the index's
-// log scale, so it is far higher than the income the adjusted index stands
-// for (UNDP shrinks the log index itself by the loss). None of these is used
-// in the IHDI itself, which adjusts the indices instead.
+// unlike the index), with no inequality adjustment. The income shown instead
+// of the income index isn't from UNDP: it is the World Bank's median, added
+// by withMedianIncome. Neither years figure is used in the IHDI itself, which
+// adjusts the indices instead.
 function inequalityAdjusted(indices, losses) {
   const lifespan = indices.lifespan * (1 - losses.lifespan / 100)
   const education = indices.education * (1 - losses.education / 100)
   const income = indices.income * (1 - losses.income / 100)
   const lifespanYears = indices.lifeExpectancy
   const educationYears = (indices.expectedSchooling + indices.meanSchooling) / 2
-  const incomeDollars =
-    indices.incomePerPerson * (1 - losses.income / 100) * (CPI_RECENT / CPI_2021_AVERAGE)
   return {
     lifespan,
     education,
     income,
     lifespanYears,
     educationYears,
-    incomeDollars,
     ihdi: Math.cbrt(lifespan * education * income),
   }
 }
@@ -289,8 +285,7 @@ function ihdiBreakdown(row, year) {
 }
 
 // The three parts of an inequalityAdjusted result, rounded to 3 decimals, and
-// its lifespan and schooling in years, rounded to 1, and income in whole
-// dollars.
+// its lifespan and schooling in years, rounded to 1.
 function roundedParts(adjusted) {
   const round = (value) => Math.round(value * 1000) / 1000
   return {
@@ -299,7 +294,6 @@ function roundedParts(adjusted) {
     income: round(adjusted.income),
     lifespanYears: Math.round(adjusted.lifespanYears * 10) / 10,
     educationYears: Math.round(adjusted.educationYears * 10) / 10,
-    incomeDollars: Math.round(adjusted.incomeDollars),
   }
 }
 
@@ -577,6 +571,44 @@ for (const code of selectedCodes.toSorted()) {
   console.log(`IHDI estimate for ${code}: ${ihdiEstimates[code]} (${method})`)
 }
 
+// --- Median income, from the World Bank, shown in the IHDI breakdown ---
+// Median household income or spending (consumption) per person, as each
+// country's surveys measure one or the other; spending usually comes out lower.
+// The World Bank's figure for MEDIAN_INCOME_YEAR: from a survey that year,
+// else moved from the surveys either side or the latest one, else (for
+// countries with no survey, e.g. Saudi Arabia) the World Bank's model
+// estimate, marked as estimated. Per day in 2021 PPP dollars, turned into per
+// year at recent US prices (CPI_RECENT).
+const PIP_RELEASE = '20260922'
+const MEDIAN_INCOME_YEAR = 2024
+const MODEL_ESTIMATE = 'CMD estimation'
+// Argentina's survey covers only cities, so it has no national figure.
+const URBAN_ONLY = ['ARG']
+
+const medianIncomes = {}
+for (const row of JSON.parse(readFileSync(join(sources, 'pip-median-2024.json'), 'utf8'))) {
+  const level = URBAN_ONLY.includes(row.country_code) ? 'urban' : 'national'
+  if (row.reporting_level !== level || row.median === null) continue
+  if (row.reporting_year !== MEDIAN_INCOME_YEAR) {
+    throw new Error(`World Bank median for ${row.country_code} is from ${row.reporting_year}`)
+  }
+  medianIncomes[row.country_code] = {
+    dollars: Math.round(row.median * 365 * (CPI_RECENT / CPI_2021_AVERAGE)),
+    isEstimated: row.estimation_type === MODEL_ESTIMATE,
+  }
+}
+
+// A breakdown with its income: the World Bank's median per year, and whether
+// it is a model estimate. Every country with a breakdown must have a median.
+function withMedianIncome(breakdown, code) {
+  if (breakdown === null) return null
+  const median = medianIncomes[code]
+  if (median === undefined) {
+    throw new Error(`No World Bank median income for ${code} (release ${PIP_RELEASE})`)
+  }
+  return { ...breakdown, incomeDollars: median.dollars, isIncomeEstimated: median.isEstimated }
+}
+
 // --- Country groups: every country in exactly one group of 3 to 6 ---
 const groups = JSON.parse(readFileSync(GROUPS, 'utf8'))
 const groupOf = {}
@@ -654,16 +686,17 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // Null when UNDP has no IHDI for the country; shown as "no data".
     ihdi: ihdi === null ? null : ihdi.value,
     ihdiYear: ihdi === null ? null : ihdi.year,
-    // The IHDI's three inequality-adjusted parts (0–1), from the same year.
-    // Null when there is no IHDI or UNDP lacks a value it is worked out from.
-    ihdiBreakdown: ihdiBreakdowns[code] ?? null,
+    // The IHDI's three inequality-adjusted parts (0–1), from the same year,
+    // with the World Bank's median income. Null when there is no IHDI or UNDP
+    // lacks a value it is worked out from.
+    ihdiBreakdown: withMedianIncome(ihdiBreakdowns[code] ?? null, code),
     // Only for countries with an HDI but no IHDI; null otherwise.
     ihdiEstimate: ihdiEstimates[code] ?? null,
     // The estimate's three parts, as in ihdiBreakdown, with estimatedParts
     // naming those that used a filled-in loss. Kept apart from ihdiBreakdown
     // so real and estimated values never mix. Null when there is no estimate,
     // or it wasn't made from the country's own figures (e.g. Kosovo).
-    ihdiEstimateBreakdown: ihdiEstimateBreakdowns[code] ?? null,
+    ihdiEstimateBreakdown: withMedianIncome(ihdiEstimateBreakdowns[code] ?? null, code),
     groupId: groupOf[code].id,
     groupName: groupOf[code].name,
   }

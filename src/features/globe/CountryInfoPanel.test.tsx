@@ -59,7 +59,7 @@ describe('CountryInfoPanel', () => {
     // France's parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('83 yrs')
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('56K $/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('26K $/yr')
 
     // Tapping elsewhere in the panel closes it, as does the ? again.
     await userEvent.click(screen.getByRole('heading', { name: 'France' }))
@@ -98,7 +98,7 @@ describe('CountryInfoPanel', () => {
 
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     rerender(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K $/yr (est.)')
   })
 
   it('lists every capital for countries with several', () => {
@@ -140,19 +140,19 @@ describe('CountryInfoPanel', () => {
     render(<CountryInfoPanel {...panelProps} country={france} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('37K €/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('17K €/yr')
   })
 
-  it("marks the estimated parts of an estimated IHDI's breakdown with (est.)", async () => {
+  it('marks a model-estimated median income with (est.)', async () => {
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     render(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
 
-    // Only Saudi Arabia's income loss is filled in.
+    // Saudi Arabia has no World Bank survey, so its median income is a model estimate.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^79 yrs$/)
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^14 yrs$/)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K $/yr (est.)')
   })
 
   it("doesn't mark education with (est.), as its years don't use the filled-in loss", async () => {
@@ -163,6 +163,25 @@ describe('CountryInfoPanel', () => {
 
     // Only Lebanon's education loss is filled in.
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^11 yrs$/)
+  })
+
+  it("doesn't mark income with (est.) when only its IHDI income loss is filled in", async () => {
+    const qatar: CountryShape = { ...france, name: 'Qatar', isoAlpha3: 'QAT' }
+    render(<CountryInfoPanel {...panelProps} country={qatar} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    // The median is from Qatar's World Bank surveys, so it isn't estimated.
+    expect(screen.getByText('Income').nextElementSibling).not.toHaveTextContent('(est.)')
+  })
+
+  it('marks a model-estimated median income with (est.) even when the IHDI is real', async () => {
+    const newZealand: CountryShape = { ...france, name: 'New Zealand', isoAlpha3: 'NZL' }
+    render(<CountryInfoPanel {...panelProps} country={newZealand} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent(/\(est\.\)$/)
   })
 
   it('says an estimated IHDI with no breakdown has insufficient data', async () => {

@@ -26,7 +26,8 @@
       "income": 0.319,
       "lifespanYears": 66,
       "educationYears": 6.7,
-      "incomeDollars": 1738
+      "incomeDollars": 1428,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -57,7 +58,8 @@
       "income": 0.266,
       "lifespanYears": 64.6,
       "educationYears": 9.1,
-      "incomeDollars": 3464
+      "incomeDollars": 1634,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -88,7 +90,8 @@
       "income": 0.627,
       "lifespanYears": 79.6,
       "educationYears": 12.3,
-      "incomeDollars": 17623
+      "incomeDollars": 6853,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -119,7 +122,8 @@
       "income": 0.837,
       "lifespanYears": 84,
       "educationYears": 13.1,
-      "incomeDollars": 68908
+      "incomeDollars": 26949,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -150,7 +154,8 @@
       "income": 0.889,
       "lifespanYears": 82.9,
       "educationYears": 14.3,
-      "incomeDollars": 79380
+      "incomeDollars": 45263,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -182,7 +187,8 @@
       "income": 0.65,
       "lifespanYears": 77.4,
       "educationYears": 15,
-      "incomeDollars": 24948
+      "incomeDollars": 8699,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -213,7 +219,8 @@
       "income": 0.681,
       "lifespanYears": 75.7,
       "educationYears": 12.9,
-      "incomeDollars": 21378
+      "incomeDollars": 3885,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -245,10 +252,11 @@
       "income": 0.474,
       "lifespanYears": 77.6,
       "educationYears": 13.6,
-      "incomeDollars": 19078,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 9608,
+      "isIncomeEstimated": true
     },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -277,7 +285,8 @@
       "income": 0.784,
       "lifespanYears": 83.9,
       "educationYears": 16.8,
-      "incomeDollars": 59166
+      "incomeDollars": 28864,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -308,7 +317,8 @@
       "income": 0.823,
       "lifespanYears": 82,
       "educationYears": 14.3,
-      "incomeDollars": 66727
+      "incomeDollars": 32098,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -341,7 +351,8 @@
       "income": 0.759,
       "lifespanYears": 74.4,
       "educationYears": 12,
-      "incomeDollars": 24275
+      "incomeDollars": 7485,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -374,7 +385,8 @@
       "income": 0.196,
       "lifespanYears": 63.7,
       "educationYears": 6.7,
-      "incomeDollars": 647
+      "incomeDollars": 925,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -409,7 +421,8 @@
       "income": 0.865,
       "lifespanYears": 82.1,
       "educationYears": 15.8,
-      "incomeDollars": 70234
+      "incomeDollars": 28705,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -441,7 +454,8 @@
       "income": 0.334,
       "lifespanYears": 60.8,
       "educationYears": 6.8,
-      "incomeDollars": 2879
+      "incomeDollars": 2037,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -472,7 +486,8 @@
       "income": 0.271,
       "lifespanYears": 61.1,
       "educationYears": 5.5,
-      "incomeDollars": 1686
+      "incomeDollars": 1565,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -503,7 +518,8 @@
       "income": 0.43,
       "lifespanYears": 74.7,
       "educationYears": 9.6,
-      "incomeDollars": 6780
+      "incomeDollars": 2944,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -534,7 +550,8 @@
       "income": 0.665,
       "lifespanYears": 75.6,
       "educationYears": 13.4,
-      "incomeDollars": 30572
+      "incomeDollars": 14412,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -567,10 +584,11 @@
       "income": 0.786,
       "lifespanYears": 81.3,
       "educationYears": 13.5,
-      "incomeDollars": 54571,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 24100,
+      "isIncomeEstimated": true
     },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -599,7 +617,8 @@
       "income": 0.541,
       "lifespanYears": 74.6,
       "educationYears": 12.4,
-      "incomeDollars": 24092
+      "incomeDollars": 12274,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -630,7 +649,8 @@
       "income": 0.587,
       "lifespanYears": 77.9,
       "educationYears": 12.1,
-      "incomeDollars": 18152
+      "incomeDollars": 8029,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -663,7 +683,8 @@
       "income": 0.737,
       "lifespanYears": 74.4,
       "educationYears": 13,
-      "incomeDollars": 29060
+      "incomeDollars": 10089,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -696,10 +717,11 @@
       "income": 0.483,
       "lifespanYears": 73.6,
       "educationYears": 10.4,
-      "incomeDollars": 10213,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 7319,
+      "isIncomeEstimated": false
     },
     "groupId": "northern-central-america",
     "groupName": "Northern Central America"
@@ -735,7 +757,8 @@
       "income": 0.502,
       "lifespanYears": 68.6,
       "educationYears": 12.8,
-      "incomeDollars": 8598
+      "incomeDollars": 7646,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -766,7 +789,8 @@
       "income": 0.441,
       "lifespanYears": 75.8,
       "educationYears": 12.1,
-      "incomeDollars": 12625
+      "incomeDollars": 7687,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -796,7 +820,8 @@
       "income": 0.397,
       "lifespanYears": 76.2,
       "educationYears": 13.3,
-      "incomeDollars": 11011
+      "incomeDollars": 7294,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -827,7 +852,8 @@
       "income": 0.879,
       "lifespanYears": 75.3,
       "educationYears": 11.5,
-      "incomeDollars": 82997
+      "incomeDollars": 25059,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -858,7 +884,8 @@
       "income": 0.532,
       "lifespanYears": 73,
       "educationYears": 9.5,
-      "incomeDollars": 12315
+      "incomeDollars": 7894,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -890,7 +917,8 @@
       "income": 0.423,
       "lifespanYears": 69.2,
       "educationYears": 11,
-      "incomeDollars": 11533
+      "incomeDollars": 2905,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -922,7 +950,8 @@
       "income": 0.198,
       "lifespanYears": 57.4,
       "educationYears": 5.7,
-      "incomeDollars": 747
+      "incomeDollars": 866,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -952,7 +981,8 @@
       "income": 0.8,
       "lifespanYears": 82.6,
       "educationYears": 14.9,
-      "incomeDollars": 57231
+      "incomeDollars": 28687,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -989,7 +1019,8 @@
       "income": 0.823,
       "lifespanYears": 84,
       "educationYears": 15.3,
-      "incomeDollars": 84038
+      "incomeDollars": 32642,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1020,7 +1051,8 @@
       "income": 0.53,
       "lifespanYears": 81.2,
       "educationYears": 14.1,
-      "incomeDollars": 21750
+      "incomeDollars": 11170,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1051,7 +1083,8 @@
       "income": 0.568,
       "lifespanYears": 78,
       "educationYears": 11.8,
-      "incomeDollars": 19128
+      "incomeDollars": 6784,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1083,7 +1116,8 @@
       "income": 0.36,
       "lifespanYears": 61.9,
       "educationYears": 8.1,
-      "incomeDollars": 4745
+      "incomeDollars": 2292,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1116,7 +1150,8 @@
       "income": 0.275,
       "lifespanYears": 63.7,
       "educationYears": 8.7,
-      "incomeDollars": 2787
+      "incomeDollars": 2296,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1151,7 +1186,8 @@
       "income": 0.222,
       "lifespanYears": 61.9,
       "educationYears": 9.1,
-      "incomeDollars": 984
+      "incomeDollars": 671,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1183,7 +1219,8 @@
       "income": 0.276,
       "lifespanYears": 65.8,
       "educationYears": 10.5,
-      "incomeDollars": 3300
+      "incomeDollars": 1333,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1214,7 +1251,8 @@
       "income": 0.442,
       "lifespanYears": 77.7,
       "educationYears": 11.7,
-      "incomeDollars": 13022
+      "incomeDollars": 5127,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1249,7 +1287,8 @@
       "income": 0.255,
       "lifespanYears": 66.8,
       "educationYears": 9.7,
-      "incomeDollars": 2062
+      "incomeDollars": 2945,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1280,7 +1319,8 @@
       "income": 0.363,
       "lifespanYears": 76.1,
       "educationYears": 8.7,
-      "incomeDollars": 5555
+      "incomeDollars": 3455,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1311,7 +1351,8 @@
       "income": 0.531,
       "lifespanYears": 80.8,
       "educationYears": 12.6,
-      "incomeDollars": 18788
+      "incomeDollars": 9507,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1344,10 +1385,11 @@
       "income": 0.481,
       "lifespanYears": 78.1,
       "educationYears": 12.3,
-      "incomeDollars": 7525,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 8904,
+      "isIncomeEstimated": true
     },
     "groupId": "greater-antilles-bahamas",
     "groupName": "Greater Antilles & Bahamas"
@@ -1378,7 +1420,8 @@
       "income": 0.787,
       "lifespanYears": 81.6,
       "educationYears": 14.4,
-      "incomeDollars": 48146
+      "incomeDollars": 24261,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1409,7 +1452,8 @@
       "income": 0.823,
       "lifespanYears": 79.8,
       "educationYears": 14.9,
-      "incomeDollars": 50808
+      "incomeDollars": 17913,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1440,7 +1484,8 @@
       "income": 0.836,
       "lifespanYears": 81.4,
       "educationYears": 15.8,
-      "incomeDollars": 68337
+      "incomeDollars": 28737,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1473,7 +1518,8 @@
       "income": 0.447,
       "lifespanYears": 66,
       "educationYears": 5.1,
-      "incomeDollars": 5656
+      "incomeDollars": 2527,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1506,10 +1552,11 @@
       "income": 0.429,
       "lifespanYears": 71.1,
       "educationYears": 12.1,
-      "incomeDollars": 11147,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 4993,
+      "isIncomeEstimated": true
     },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -1538,7 +1585,8 @@
       "income": 0.89,
       "lifespanYears": 81.9,
       "educationYears": 15.9,
-      "incomeDollars": 84241
+      "incomeDollars": 28423,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1568,7 +1616,8 @@
       "income": 0.628,
       "lifespanYears": 73.7,
       "educationYears": 11.5,
-      "incomeDollars": 21136
+      "incomeDollars": 7946,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1599,7 +1648,8 @@
       "income": 0.631,
       "lifespanYears": 76.3,
       "educationYears": 11.5,
-      "incomeDollars": 15661
+      "incomeDollars": 4625,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1630,7 +1680,8 @@
       "income": 0.518,
       "lifespanYears": 77.4,
       "educationYears": 11.9,
-      "incomeDollars": 12089
+      "incomeDollars": 5497,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1661,7 +1712,8 @@
       "income": 0.625,
       "lifespanYears": 71.6,
       "educationYears": 11.6,
-      "incomeDollars": 16428
+      "incomeDollars": 3521,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1698,11 +1750,12 @@
       "income": 0.285,
       "lifespanYears": 68.6,
       "educationYears": 6.2,
-      "incomeDollars": 1584,
       "estimatedParts": [
         "education",
         "income"
-      ]
+      ],
+      "incomeDollars": 2144,
+      "isIncomeEstimated": true
     },
     "groupId": "horn-of-africa",
     "groupName": "Horn of Africa"
@@ -1731,7 +1784,8 @@
       "income": 0.749,
       "lifespanYears": 83.7,
       "educationYears": 14.3,
-      "incomeDollars": 46314
+      "incomeDollars": 22023,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1762,7 +1816,8 @@
       "income": 0.766,
       "lifespanYears": 79.2,
       "educationYears": 14.8,
-      "incomeDollars": 42939
+      "incomeDollars": 16565,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1793,7 +1848,8 @@
       "income": 0.32,
       "lifespanYears": 67.3,
       "educationYears": 5.8,
-      "incomeDollars": 2213
+      "incomeDollars": 1733,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1826,7 +1882,8 @@
       "income": 0.836,
       "lifespanYears": 81.9,
       "educationYears": 16.2,
-      "incomeDollars": 62017
+      "incomeDollars": 25618,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1861,7 +1918,8 @@
       "income": 0.598,
       "lifespanYears": 67.3,
       "educationYears": 12.1,
-      "incomeDollars": 13035
+      "incomeDollars": 3437,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1892,7 +1950,8 @@
       "income": 0.783,
       "lifespanYears": 83.3,
       "educationYears": 13.9,
-      "incomeDollars": 56314
+      "incomeDollars": 26250,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1925,10 +1984,11 @@
       "income": 0.42,
       "lifespanYears": 67.2,
       "educationYears": 9.4,
-      "incomeDollars": 3924,
       "estimatedParts": [
         "education"
-      ]
+      ],
+      "incomeDollars": 2200,
+      "isIncomeEstimated": false
     },
     "groupId": "micronesia",
     "groupName": "Micronesia"
@@ -1957,7 +2017,8 @@
       "income": 0.543,
       "lifespanYears": 68.3,
       "educationYears": 11.1,
-      "incomeDollars": 16106
+      "incomeDollars": 4662,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -1988,7 +2049,8 @@
       "income": 0.792,
       "lifespanYears": 81.3,
       "educationYears": 15.7,
-      "incomeDollars": 56411
+      "incomeDollars": 25568,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2018,7 +2080,8 @@
       "income": 0.633,
       "lifespanYears": 74.5,
       "educationYears": 14.7,
-      "incomeDollars": 20304
+      "incomeDollars": 3988,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2049,7 +2112,8 @@
       "income": 0.313,
       "lifespanYears": 65.5,
       "educationYears": 9.3,
-      "incomeDollars": 4183
+      "incomeDollars": 1917,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2080,7 +2144,8 @@
       "income": 0.367,
       "lifespanYears": 60.7,
       "educationYears": 6.4,
-      "incomeDollars": 2976
+      "incomeDollars": 2827,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2111,7 +2176,8 @@
       "income": 0.302,
       "lifespanYears": 65.9,
       "educationYears": 6.8,
-      "incomeDollars": 2098
+      "incomeDollars": 2405,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2142,7 +2208,8 @@
       "income": 0.311,
       "lifespanYears": 64.1,
       "educationYears": 7.2,
-      "incomeDollars": 1936
+      "incomeDollars": 1636,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2179,11 +2246,12 @@
       "income": 0.414,
       "lifespanYears": 63.7,
       "educationYears": 10.4,
-      "incomeDollars": 8992,
       "estimatedParts": [
         "education",
         "income"
-      ]
+      ],
+      "incomeDollars": 3161,
+      "isIncomeEstimated": false
     },
     "groupId": "central-african-coast",
     "groupName": "Central African Coast"
@@ -2212,7 +2280,8 @@
       "income": 0.739,
       "lifespanYears": 81.9,
       "educationYears": 16.2,
-      "incomeDollars": 37048
+      "incomeDollars": 13421,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2244,10 +2313,11 @@
       "income": 0.42,
       "lifespanYears": 75.2,
       "educationYears": 13,
-      "incomeDollars": 9996,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 6549,
+      "isIncomeEstimated": false
     },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -2276,7 +2346,8 @@
       "income": 0.49,
       "lifespanYears": 72.6,
       "educationYears": 8.3,
-      "incomeDollars": 10428
+      "incomeDollars": 4127,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2309,10 +2380,11 @@
       "income": 0.52,
       "lifespanYears": 70.2,
       "educationYears": 10.9,
-      "incomeDollars": 32713,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 31196,
+      "isIncomeEstimated": false
     },
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -2341,7 +2413,8 @@
       "income": 0.4,
       "lifespanYears": 72.9,
       "educationYears": 8.8,
-      "incomeDollars": 4867
+      "incomeDollars": 3797,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2372,7 +2445,8 @@
       "income": 0.787,
       "lifespanYears": 78.6,
       "educationYears": 14.2,
-      "incomeDollars": 44562
+      "incomeDollars": 17675,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2405,7 +2479,8 @@
       "income": 0.245,
       "lifespanYears": 64.9,
       "educationYears": 8.1,
-      "incomeDollars": 1752
+      "incomeDollars": 1440,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2435,7 +2510,8 @@
       "income": 0.793,
       "lifespanYears": 77,
       "educationYears": 13.9,
-      "incomeDollars": 41122
+      "incomeDollars": 12320,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2466,7 +2542,8 @@
       "income": 0.568,
       "lifespanYears": 71.1,
       "educationYears": 11,
-      "incomeDollars": 13031
+      "incomeDollars": 2882,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2501,7 +2578,8 @@
       "income": 0.426,
       "lifespanYears": 72,
       "educationYears": 9.9,
-      "incomeDollars": 7058
+      "incomeDollars": 2748,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2534,7 +2612,8 @@
       "income": 0.86,
       "lifespanYears": 82.4,
       "educationYears": 15.5,
-      "incomeDollars": 97397
+      "incomeDollars": 23182,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2565,7 +2644,8 @@
       "income": 0.556,
       "lifespanYears": 77.7,
       "educationYears": 12.4,
-      "incomeDollars": 14532
+      "incomeDollars": 4681,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2600,7 +2680,8 @@
       "income": 0.545,
       "lifespanYears": 72.3,
       "educationYears": 9.6,
-      "incomeDollars": 11746
+      "incomeDollars": 4825,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2630,7 +2711,8 @@
       "income": 0.882,
       "lifespanYears": 82.7,
       "educationYears": 16.4,
-      "incomeDollars": 76897
+      "incomeDollars": 28708,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2663,7 +2745,8 @@
       "income": 0.709,
       "lifespanYears": 82.4,
       "educationYears": 14.2,
-      "incomeDollars": 45473
+      "incomeDollars": 16377,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2694,7 +2777,8 @@
       "income": 0.749,
       "lifespanYears": 83.7,
       "educationYears": 13.8,
-      "incomeDollars": 51650
+      "incomeDollars": 22347,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2724,7 +2808,8 @@
       "income": 0.462,
       "lifespanYears": 71.5,
       "educationYears": 11.2,
-      "incomeDollars": 8307
+      "incomeDollars": 6893,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2755,7 +2840,8 @@
       "income": 0.519,
       "lifespanYears": 77.8,
       "educationYears": 11.7,
-      "incomeDollars": 8717
+      "incomeDollars": 5655,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2785,7 +2871,8 @@
       "income": 0.772,
       "lifespanYears": 84.7,
       "educationYears": 14.1,
-      "incomeDollars": 49317
+      "incomeDollars": 20431,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2818,7 +2905,8 @@
       "income": 0.739,
       "lifespanYears": 74.4,
       "educationYears": 13.3,
-      "incomeDollars": 32921
+      "incomeDollars": 6117,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2849,7 +2937,8 @@
       "income": 0.367,
       "lifespanYears": 63.6,
       "educationYears": 10,
-      "incomeDollars": 4216
+      "incomeDollars": 1502,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2882,7 +2971,8 @@
       "income": 0.525,
       "lifespanYears": 71.7,
       "educationYears": 12.4,
-      "incomeDollars": 6410
+      "incomeDollars": 3117,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2913,7 +3003,8 @@
       "income": 0.378,
       "lifespanYears": 70.7,
       "educationYears": 8.2,
-      "incomeDollars": 3942
+      "incomeDollars": 3136,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2945,7 +3036,8 @@
       "income": 0.498,
       "lifespanYears": 66.5,
       "educationYears": 10.5,
-      "incomeDollars": 5204
+      "incomeDollars": 3715,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -2978,11 +3070,12 @@
       "income": 0.479,
       "lifespanYears": 72.1,
       "educationYears": 14.6,
-      "incomeDollars": 20276,
       "estimatedParts": [
         "education",
         "income"
-      ]
+      ],
+      "incomeDollars": 8780,
+      "isIncomeEstimated": true
     },
     "groupId": "leeward-islands",
     "groupName": "Leeward Islands"
@@ -3011,7 +3104,8 @@
       "income": 0.784,
       "lifespanYears": 84.3,
       "educationYears": 14.7,
-      "incomeDollars": 51766
+      "incomeDollars": 26532,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3044,10 +3138,11 @@
       "income": 0.794,
       "lifespanYears": 80.4,
       "educationYears": 11.7,
-      "incomeDollars": 58490,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 18667,
+      "isIncomeEstimated": true
     },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -3076,7 +3171,8 @@
       "income": 0.507,
       "lifespanYears": 69,
       "educationYears": 7.8,
-      "incomeDollars": 7718
+      "incomeDollars": 2805,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3111,10 +3207,11 @@
       "income": 0.57,
       "lifespanYears": 77.8,
       "educationYears": 11,
-      "incomeDollars": 11225,
       "estimatedParts": [
         "education"
-      ]
+      ],
+      "incomeDollars": 3521,
+      "isIncomeEstimated": false
     },
     "groupId": "levant",
     "groupName": "Levant"
@@ -3143,7 +3240,8 @@
       "income": 0.262,
       "lifespanYears": 62.2,
       "educationYears": 8.3,
-      "incomeDollars": 1218
+      "incomeDollars": 1756,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3176,11 +3274,12 @@
       "income": 0.631,
       "lifespanYears": 69.3,
       "educationYears": 10.4,
-      "incomeDollars": 19494,
       "estimatedParts": [
         "education",
         "income"
-      ]
+      ],
+      "incomeDollars": 4897,
+      "isIncomeEstimated": true
     },
     "groupId": "maghreb",
     "groupName": "Maghreb"
@@ -3208,7 +3307,8 @@
       "income": 0.491,
       "lifespanYears": 72.7,
       "educationYears": 10.7,
-      "incomeDollars": 15838
+      "incomeDollars": 11584,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3241,11 +3341,12 @@
       "income": 0.857,
       "lifespanYears": 83.6,
       "educationYears": 13.9,
-      "incomeDollars": 178083,
       "estimatedParts": [
         "education",
         "income"
-      ]
+      ],
+      "incomeDollars": 11787,
+      "isIncomeEstimated": true
     },
     "groupId": "german-speaking-europe",
     "groupName": "German-speaking Europe"
@@ -3277,7 +3378,8 @@
       "income": 0.463,
       "lifespanYears": 77.5,
       "educationYears": 11.9,
-      "incomeDollars": 9966
+      "incomeDollars": 3445,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3308,7 +3410,8 @@
       "income": 0.25,
       "lifespanYears": 57.4,
       "educationYears": 9.4,
-      "incomeDollars": 1833
+      "incomeDollars": 1521,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3339,7 +3442,8 @@
       "income": 0.726,
       "lifespanYears": 76,
       "educationYears": 15,
-      "incomeDollars": 41576
+      "incomeDollars": 17464,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3374,7 +3478,8 @@
       "income": 0.836,
       "lifespanYears": 82.2,
       "educationYears": 13.5,
-      "incomeDollars": 88953
+      "incomeDollars": 40191,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3405,7 +3510,8 @@
       "income": 0.727,
       "lifespanYears": 76.2,
       "educationYears": 14.9,
-      "incomeDollars": 38323
+      "incomeDollars": 15114,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3438,7 +3544,8 @@
       "income": 0.499,
       "lifespanYears": 75.3,
       "educationYears": 10.6,
-      "incomeDollars": 7984
+      "incomeDollars": 4262,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3493,7 +3600,8 @@
       "income": 0.662,
       "lifespanYears": 71.2,
       "educationYears": 13.2,
-      "incomeDollars": 17085
+      "incomeDollars": 5293,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3526,7 +3634,8 @@
       "income": 0.234,
       "lifespanYears": 63.6,
       "educationYears": 6.8,
-      "incomeDollars": 1137
+      "incomeDollars": 1045,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3557,7 +3666,8 @@
       "income": 0.568,
       "lifespanYears": 81,
       "educationYears": 10.1,
-      "incomeDollars": 17188
+      "incomeDollars": 8319,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3588,7 +3698,8 @@
       "income": 0.582,
       "lifespanYears": 75.1,
       "educationYears": 11.9,
-      "incomeDollars": 19447
+      "incomeDollars": 6497,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3620,7 +3731,8 @@
       "income": 0.501,
       "lifespanYears": 66.9,
       "educationYears": 14,
-      "incomeDollars": 6974
+      "incomeDollars": 5011,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3651,7 +3763,8 @@
       "income": 0.649,
       "lifespanYears": 77.4,
       "educationYears": 12.5,
-      "incomeDollars": 21917
+      "incomeDollars": 8324,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3682,7 +3795,8 @@
       "income": 0.367,
       "lifespanYears": 60.4,
       "educationYears": 4.3,
-      "incomeDollars": 2247
+      "incomeDollars": 1714,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3714,7 +3828,8 @@
       "income": 0.799,
       "lifespanYears": 83.3,
       "educationYears": 14.2,
-      "incomeDollars": 54885
+      "incomeDollars": 26281,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3745,7 +3860,8 @@
       "income": 0.485,
       "lifespanYears": 66.9,
       "educationYears": 8.9,
-      "incomeDollars": 5051
+      "incomeDollars": 2271,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3775,7 +3891,8 @@
       "income": 0.682,
       "lifespanYears": 77.1,
       "educationYears": 14.2,
-      "incomeDollars": 27956
+      "incomeDollars": 10864,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3805,7 +3922,8 @@
       "income": 0.61,
       "lifespanYears": 71.7,
       "educationYears": 11.5,
-      "incomeDollars": 14883
+      "incomeDollars": 6260,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3836,7 +3954,8 @@
       "income": 0.18,
       "lifespanYears": 63.6,
       "educationYears": 7.7,
-      "incomeDollars": 770
+      "incomeDollars": 679,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3867,7 +3986,8 @@
       "income": 0.406,
       "lifespanYears": 68.5,
       "educationYears": 6.4,
-      "incomeDollars": 5074
+      "incomeDollars": 2895,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3902,7 +4022,8 @@
       "income": 0.581,
       "lifespanYears": 74.9,
       "educationYears": 12.1,
-      "incomeDollars": 23295
+      "incomeDollars": 6351,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3935,7 +4056,8 @@
       "income": 0.256,
       "lifespanYears": 67.4,
       "educationYears": 7.6,
-      "incomeDollars": 1236
+      "incomeDollars": 858,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -3967,7 +4089,8 @@
       "income": 0.658,
       "lifespanYears": 76.7,
       "educationYears": 11.9,
-      "incomeDollars": 30508
+      "incomeDollars": 15165,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4002,7 +4125,8 @@
       "income": 0.333,
       "lifespanYears": 67.4,
       "educationYears": 9.5,
-      "incomeDollars": 6392
+      "incomeDollars": 2842,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4033,7 +4157,8 @@
       "income": 0.262,
       "lifespanYears": 61.2,
       "educationYears": 4.9,
-      "incomeDollars": 1240
+      "incomeDollars": 1288,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4064,7 +4189,8 @@
       "income": 0.494,
       "lifespanYears": 54.5,
       "educationYears": 9.1,
-      "incomeDollars": 5645
+      "incomeDollars": 1564,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4095,7 +4221,8 @@
       "income": 0.414,
       "lifespanYears": 74.9,
       "educationYears": 10.7,
-      "incomeDollars": 5547
+      "incomeDollars": 4619,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4127,7 +4254,8 @@
       "income": 0.874,
       "lifespanYears": 82.2,
       "educationYears": 15.6,
-      "incomeDollars": 75443
+      "incomeDollars": 33099,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4162,7 +4290,8 @@
       "income": 0.857,
       "lifespanYears": 83.3,
       "educationYears": 16,
-      "incomeDollars": 120354
+      "incomeDollars": 35750,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4193,7 +4322,8 @@
       "income": 0.397,
       "lifespanYears": 70.4,
       "educationYears": 9.1,
-      "incomeDollars": 4008
+      "incomeDollars": 3787,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4224,7 +4354,8 @@
       "income": 0.65,
       "lifespanYears": 62.1,
       "educationYears": 11.1,
-      "incomeDollars": 19946
+      "incomeDollars": 3282,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4255,7 +4386,8 @@
       "income": 0.762,
       "lifespanYears": 82.1,
       "educationYears": 16.1,
-      "incomeDollars": 48214
+      "incomeDollars": 20899,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4286,7 +4418,8 @@
       "income": 0.679,
       "lifespanYears": 80,
       "educationYears": 12.7,
-      "incomeDollars": 34311
+      "incomeDollars": 13814,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4319,7 +4452,8 @@
       "income": 0.435,
       "lifespanYears": 67.6,
       "educationYears": 6.1,
-      "incomeDollars": 4923
+      "incomeDollars": 1970,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4350,7 +4484,8 @@
       "income": 0.539,
       "lifespanYears": 79.6,
       "educationYears": 12.1,
-      "incomeDollars": 26180
+      "incomeDollars": 8445,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4384,7 +4519,8 @@
       "income": 0.52,
       "lifespanYears": 77.7,
       "educationYears": 12.5,
-      "incomeDollars": 12392
+      "incomeDollars": 4851,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4417,7 +4553,8 @@
       "income": 0.54,
       "lifespanYears": 69.8,
       "educationYears": 11.4,
-      "incomeDollars": 10218
+      "incomeDollars": 2664,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4450,7 +4587,8 @@
       "income": 0.453,
       "lifespanYears": 69.3,
       "educationYears": 13.7,
-      "incomeDollars": 11800
+      "incomeDollars": 5412,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4484,7 +4622,8 @@
       "income": 0.405,
       "lifespanYears": 66.1,
       "educationYears": 8.2,
-      "incomeDollars": 3602
+      "incomeDollars": 1519,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4515,7 +4654,8 @@
       "income": 0.732,
       "lifespanYears": 78.6,
       "educationYears": 14.9,
-      "incomeDollars": 42172
+      "incomeDollars": 18251,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4570,7 +4710,8 @@
       "income": 0.742,
       "lifespanYears": 82.4,
       "educationYears": 13.6,
-      "incomeDollars": 41759
+      "incomeDollars": 15469,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4603,7 +4744,8 @@
       "income": 0.497,
       "lifespanYears": 73.8,
       "educationYears": 11.5,
-      "incomeDollars": 12430
+      "incomeDollars": 6784,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4634,7 +4776,8 @@
       "income": 0.433,
       "lifespanYears": 65.2,
       "educationYears": 11.6,
-      "incomeDollars": 5590
+      "incomeDollars": 4394,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4667,10 +4810,11 @@
       "income": 0.829,
       "lifespanYears": 82.4,
       "educationYears": 12,
-      "incomeDollars": 108848,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 32164,
+      "isIncomeEstimated": false
     },
     "groupId": "gulf-states",
     "groupName": "Gulf States"
@@ -4698,7 +4842,8 @@
       "income": 0.714,
       "lifespanYears": 75.9,
       "educationYears": 12.8,
-      "incomeDollars": 38808
+      "incomeDollars": 14353,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4729,7 +4874,8 @@
       "income": 0.734,
       "lifespanYears": 73.2,
       "educationYears": 12.8,
-      "incomeDollars": 39730
+      "incomeDollars": 16142,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4762,7 +4908,8 @@
       "income": 0.285,
       "lifespanYears": 67.8,
       "educationYears": 8.7,
-      "incomeDollars": 2060
+      "incomeDollars": 1612,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4795,10 +4942,11 @@
       "income": 0.779,
       "lifespanYears": 78.7,
       "educationYears": 14.3,
-      "incomeDollars": 51967,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 22954,
+      "isIncomeEstimated": true
     },
     "groupId": "arabian-peninsula",
     "groupName": "Arabian Peninsula"
@@ -4829,7 +4977,8 @@
       "income": 0.306,
       "lifespanYears": 66.3,
       "educationYears": 6.3,
-      "incomeDollars": 2123
+      "incomeDollars": 1548,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4860,7 +5009,8 @@
       "income": 0.343,
       "lifespanYears": 68.7,
       "educationYears": 6,
-      "incomeDollars": 3178
+      "incomeDollars": 2383,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4897,7 +5047,8 @@
       "income": 0.741,
       "lifespanYears": 83.7,
       "educationYears": 14.4,
-      "incomeDollars": 102621
+      "incomeDollars": 58774,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4927,7 +5078,8 @@
       "income": 0.389,
       "lifespanYears": 70.5,
       "educationYears": 8.6,
-      "incomeDollars": 2679
+      "incomeDollars": 1391,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4958,7 +5110,8 @@
       "income": 0.275,
       "lifespanYears": 61.8,
       "educationYears": 6.3,
-      "incomeDollars": 1368
+      "incomeDollars": 1654,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -4989,7 +5142,8 @@
       "income": 0.54,
       "lifespanYears": 72.1,
       "educationYears": 9.2,
-      "incomeDollars": 10118
+      "incomeDollars": 5549,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5022,10 +5176,11 @@
       "income": 0.821,
       "lifespanYears": 85.7,
       "educationYears": 13,
-      "incomeDollars": 67685,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 37765,
+      "isIncomeEstimated": true
     },
     "groupId": "italy-malta",
     "groupName": "Italian Peninsula & Malta"
@@ -5056,7 +5211,8 @@
       "income": 0.214,
       "lifespanYears": 58.8,
       "educationYears": 4.7,
-      "incomeDollars": 966
+      "incomeDollars": 1089,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5087,7 +5243,8 @@
       "income": 0.712,
       "lifespanYears": 76.8,
       "educationYears": 13.3,
-      "incomeDollars": 24916
+      "incomeDollars": 10126,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5118,7 +5275,8 @@
       "income": 0.149,
       "lifespanYears": 57.6,
       "educationYears": 5.7,
-      "incomeDollars": 439
+      "incomeDollars": 500,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5149,7 +5307,8 @@
       "income": 0.35,
       "lifespanYears": 69.7,
       "educationYears": 9.4,
-      "incomeDollars": 4009
+      "incomeDollars": 2703,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5182,10 +5341,11 @@
       "income": 0.436,
       "lifespanYears": 73.6,
       "educationYears": 9.7,
-      "incomeDollars": 12083,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 6670,
+      "isIncomeEstimated": false
     },
     "groupId": "northern-south-america",
     "groupName": "Northern South America"
@@ -5214,7 +5374,8 @@
       "income": 0.803,
       "lifespanYears": 78.3,
       "educationYears": 14,
-      "incomeDollars": 41242
+      "incomeDollars": 11347,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5245,7 +5406,8 @@
       "income": 0.834,
       "lifespanYears": 81.6,
       "educationYears": 15.2,
-      "incomeDollars": 51961
+      "incomeDollars": 22698,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5276,7 +5438,8 @@
       "income": 0.815,
       "lifespanYears": 83.3,
       "educationYears": 15.9,
-      "incomeDollars": 68385
+      "incomeDollars": 25407,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5310,7 +5473,8 @@
       "income": 0.274,
       "lifespanYears": 64.1,
       "educationYears": 12,
-      "incomeDollars": 4881
+      "incomeDollars": 1644,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5344,7 +5508,8 @@
       "income": 0.715,
       "lifespanYears": 72.9,
       "educationYears": 14.7,
-      "incomeDollars": 30342
+      "incomeDollars": 9597,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5375,7 +5540,8 @@
       "income": 0.474,
       "lifespanYears": 63.3,
       "educationYears": 7.1,
-      "incomeDollars": 4774
+      "incomeDollars": 1982,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5408,7 +5574,8 @@
       "income": 0.267,
       "lifespanYears": 55.1,
       "educationYears": 5.3,
-      "incomeDollars": 1345
+      "incomeDollars": 1647,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5439,7 +5606,8 @@
       "income": 0.283,
       "lifespanYears": 62.7,
       "educationYears": 9.5,
-      "incomeDollars": 1989
+      "incomeDollars": 1867,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5470,7 +5638,8 @@
       "income": 0.63,
       "lifespanYears": 76.4,
       "educationYears": 12.2,
-      "incomeDollars": 20059
+      "incomeDollars": 7146,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5503,7 +5672,8 @@
       "income": 0.49,
       "lifespanYears": 71.8,
       "educationYears": 11.1,
-      "incomeDollars": 5731
+      "incomeDollars": 3461,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5537,10 +5707,11 @@
       "income": 0.616,
       "lifespanYears": 70.1,
       "educationYears": 12.2,
-      "incomeDollars": 17377,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 4905,
+      "isIncomeEstimated": false
     },
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -5571,7 +5742,8 @@
       "income": 0.507,
       "lifespanYears": 67.7,
       "educationYears": 9.7,
-      "incomeDollars": 5681
+      "incomeDollars": 1360,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5602,7 +5774,8 @@
       "income": 0.516,
       "lifespanYears": 72.9,
       "educationYears": 14.4,
-      "incomeDollars": 7344
+      "incomeDollars": 5442,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5635,10 +5808,11 @@
       "income": 0.473,
       "lifespanYears": 73.5,
       "educationYears": 12.5,
-      "incomeDollars": 18809,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 13329,
+      "isIncomeEstimated": false
     },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -5667,7 +5841,8 @@
       "income": 0.558,
       "lifespanYears": 76.5,
       "educationYears": 11.1,
-      "incomeDollars": 11532
+      "incomeDollars": 6018,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5698,7 +5873,8 @@
       "income": 0.628,
       "lifespanYears": 77.2,
       "educationYears": 14.4,
-      "incomeDollars": 30557
+      "incomeDollars": 13129,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5728,7 +5904,8 @@
       "income": 0.48,
       "lifespanYears": 67.1,
       "educationYears": 11.6,
-      "incomeDollars": 6532
+      "incomeDollars": 4695,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5784,7 +5961,8 @@
       "income": 0.317,
       "lifespanYears": 67,
       "educationYears": 7.3,
-      "incomeDollars": 2578
+      "incomeDollars": 1435,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5815,7 +5993,8 @@
       "income": 0.282,
       "lifespanYears": 68.3,
       "educationYears": 8.9,
-      "incomeDollars": 1922
+      "incomeDollars": 1297,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5845,7 +6024,8 @@
       "income": 0.672,
       "lifespanYears": 73.4,
       "educationYears": 12.2,
-      "incomeDollars": 18290
+      "incomeDollars": 6195,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5876,7 +6056,8 @@
       "income": 0.64,
       "lifespanYears": 78.1,
       "educationYears": 14,
-      "incomeDollars": 26715
+      "incomeDollars": 12203,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5907,7 +6088,8 @@
       "income": 0.759,
       "lifespanYears": 79.3,
       "educationYears": 14.9,
-      "incomeDollars": 69785
+      "incomeDollars": 32789,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -5942,10 +6124,11 @@
       "income": 0.528,
       "lifespanYears": 72.4,
       "educationYears": 12.2,
-      "incomeDollars": 8579,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 6263,
+      "isIncomeEstimated": false
     },
     "groupId": "central-asia",
     "groupName": "Central Asia"
@@ -6001,10 +6184,11 @@
       "income": 0.435,
       "lifespanYears": 71.2,
       "educationYears": 13.8,
-      "incomeDollars": 12015,
       "estimatedParts": [
         "income"
-      ]
+      ],
+      "incomeDollars": 5272,
+      "isIncomeEstimated": true
     },
     "groupId": "southern-caribbean",
     "groupName": "Southern Caribbean"
@@ -6033,7 +6217,8 @@
       "income": 0.509,
       "lifespanYears": 72.5,
       "educationYears": 11.3,
-      "incomeDollars": 7030
+      "incomeDollars": 6514,
+      "isIncomeEstimated": true
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6064,7 +6249,8 @@
       "income": 0.581,
       "lifespanYears": 74.6,
       "educationYears": 12.2,
-      "incomeDollars": 12815
+      "incomeDollars": 6521,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6097,7 +6283,8 @@
       "income": 0.431,
       "lifespanYears": 71.5,
       "educationYears": 9.5,
-      "incomeDollars": 3428
+      "incomeDollars": 2213,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6130,7 +6317,8 @@
       "income": 0.471,
       "lifespanYears": 71.7,
       "educationYears": 11.9,
-      "incomeDollars": 5654
+      "incomeDollars": 4403,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6187,7 +6375,8 @@
       "income": 0.269,
       "lifespanYears": 69.3,
       "educationYears": 6.5,
-      "incomeDollars": 974
+      "incomeDollars": 961,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6238,7 +6427,8 @@
       "income": 0.298,
       "lifespanYears": 66.1,
       "educationYears": 12.7,
-      "incomeDollars": 6834
+      "incomeDollars": 2972,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6269,7 +6459,8 @@
       "income": 0.196,
       "lifespanYears": 66.3,
       "educationYears": 9.2,
-      "incomeDollars": 1571
+      "incomeDollars": 782,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
@@ -6300,7 +6491,8 @@
       "income": 0.253,
       "lifespanYears": 62.8,
       "educationYears": 10,
-      "incomeDollars": 2061
+      "incomeDollars": 1430,
+      "isIncomeEstimated": false
     },
     "ihdiEstimate": null,
     "ihdiEstimateBreakdown": null,
