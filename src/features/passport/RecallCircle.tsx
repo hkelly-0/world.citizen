@@ -10,13 +10,16 @@ const STROKE_WIDTH_RATIO = 0.2
 // takes to reach `recall`, in milliseconds.
 const ANIMATION_PAUSE_MS = 600
 const ANIMATION_FILL_MS = 1000
+// The animated ring's size at the start, as a share of `size`. It grows to its
+// full size while it fills, within its full-size space so nothing else moves.
+const ANIMATION_START_SCALE = 0.8
 
 type RecallCircleProps = {
   recall: number | null
   size?: number
   // When first shown, starts a little below `previousRecall` (or empty when it
   // is null), waits a moment, then moves to `recall`, up or down, its colour
-  // changing with it.
+  // changing with it, and growing from a smaller size.
   isAnimated?: boolean
   previousRecall?: number | null
 }
@@ -37,8 +40,9 @@ export function RecallCircle({
 
   const endFraction = recall === null ? 0 : recallFraction(recall)
   const startFraction = animationStartFraction(previousRecall)
-  // The animated ring's fill so far, updated every animation frame.
-  const [animatedFraction, setAnimatedFraction] = useState(startFraction)
+  // How far the animated ring has got, from 0 to 1 (already eased), updated
+  // every animation frame. Its fill and size follow it.
+  const [animationProgress, setAnimationProgress] = useState(0)
   useEffect(() => {
     if (!isAnimated) return
     let frame = 0
@@ -47,13 +51,18 @@ export function RecallCircle({
       if (firstFrameTime === null) firstFrameTime = now
       const elapsed = now - firstFrameTime - ANIMATION_PAUSE_MS
       const progress = Math.min(1, Math.max(0, elapsed / ANIMATION_FILL_MS))
-      setAnimatedFraction(startFraction + (endFraction - startFraction) * easeInOut(progress))
+      setAnimationProgress(easeInOut(progress))
       if (progress < 1) frame = requestAnimationFrame(step)
     }
     frame = requestAnimationFrame(step)
     return () => cancelAnimationFrame(frame)
-  }, [isAnimated, startFraction, endFraction])
-  const shownFraction = isAnimated ? animatedFraction : endFraction
+  }, [isAnimated])
+  const shownFraction = isAnimated
+    ? startFraction + (endFraction - startFraction) * animationProgress
+    : endFraction
+  const shownScale = isAnimated
+    ? ANIMATION_START_SCALE + (1 - ANIMATION_START_SCALE) * animationProgress
+    : 1
 
   return (
     <svg
@@ -63,6 +72,9 @@ export function RecallCircle({
       viewBox={`0 0 ${size} ${size}`}
       role="img"
       aria-label={label}
+      // The `scale` property, not `transform`, which RecallCircle.css uses to
+      // turn the ring.
+      style={{ scale: shownScale }}
     >
       <circle
         className="recall-circle__track"
