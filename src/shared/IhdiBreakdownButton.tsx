@@ -34,12 +34,11 @@ export function IhdiBreakdownButton({
   // A part's value, marked "(est.)" if it was estimated.
   function partValue(part: 'lifespan' | 'education' | 'income') {
     if (breakdown === null) return ''
-    const isEstimated = part === 'income' && breakdown.isIncomeEstimated
+    if (part === 'lifespan') return `${Math.round(breakdown.lifespanYears)} yrs`
+    if (part === 'education') return `${Math.round(breakdown.educationYears)} yrs`
     // Read each time, so a currency just chosen in Settings is used.
-    let value = formatIncome(breakdown.incomeDollars, loadCurrency())
-    if (part === 'lifespan') value = `${Math.round(breakdown.lifespanYears)} yrs`
-    if (part === 'education') value = `${Math.round(breakdown.educationYears)} yrs`
-    if (!isEstimated) return value
+    const value = formatIncome(breakdown.incomeDollars, loadCurrency())
+    if (!breakdown.isIncomeEstimated) return value
     return (
       <>
         {value} <span className="ihdi-breakdown__estimated">(est.)</span>
