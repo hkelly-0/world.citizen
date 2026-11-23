@@ -12,7 +12,8 @@
   margin: 0;
   /* The green of a right answer. */
   color: var(--correct-green);
-  font-size: 1.4rem;
+  font-size: 1.7rem;
+  font-weight: bold;
 }
 
 /* In the normal text colour, smaller than the country's name. Relative so
@@ -22,7 +23,7 @@
   position: relative;
   z-index: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 /* A point at one side of "Perfect", half way up, that that side's sparks fly
