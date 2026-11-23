@@ -59,8 +59,8 @@ body {
   color: #f2f4f8;
   /* Roboto Mono has no ←, →, ≥, or ✓, so they come from the symbol fonts below. */
   font-family:
-    'Roboto Mono', 'Roboto Mono Symbols', 'JetBrains Mono Symbols', 'Noto Sans Mono Symbols',
-    ui-monospace, Menlo, Consolas, monospace;
+    'Roboto Mono', 'Roboto Mono Symbols', 'JetBrains Mono Symbols', ui-monospace, Menlo, Consolas,
+    monospace;
 }
 
 /* Tiny fonts holding only symbols Roboto Mono lacks, from
@@ -78,15 +78,6 @@ body {
   font-display: swap;
   src: url('./assets/fonts/jetbrains-mono-symbols.woff2') format('woff2');
   unicode-range: U+2190, U+2192, U+2713, U+25B2, U+25BC;
-}
-
-@font-face {
-  font-family: 'Noto Sans Mono Symbols';
-  font-display: swap;
-  src: url('./assets/fonts/noto-sans-mono-symbols.woff2') format('woff2');
-  unicode-range:
-    U+20B9, U+20AA, U+20A9, U+20B1, U+20BC, U+20A1, U+20B5, U+20B8, U+20C0, U+20AD, U+20BE, U+20AE,
-    U+20A6, U+20B2, U+20BD, U+20BA, U+20B4;
 }
 
 /* An arrow after the text of every button that moves on to something else

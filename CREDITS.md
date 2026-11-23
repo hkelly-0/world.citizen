@@ -29,7 +29,6 @@ The UN and UNDP sources don't endorse this project either, and its data may not 
 
 - **[Roboto Mono](https://github.com/googlefonts/RobotoMono):** Copyright 2015 The Roboto Mono Project Authors. Licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/). Used through [@fontsource/roboto-mono](https://github.com/fontsource/font-files), and subset for `src/assets/fonts/roboto-mono-symbols.woff2`.
 - **[JetBrains Mono](https://github.com/JetBrains/JetBrainsMono):** Copyright 2020 The JetBrains Mono Project Authors. Licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/). Subset for `src/assets/fonts/jetbrains-mono-symbols.woff2`.
-- **[Noto Sans Mono](https://github.com/notofonts/latin-greek-cyrillic):** Copyright 2022 The Noto Project Authors. Licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/). Subset for `src/assets/fonts/noto-sans-mono-symbols.woff2`.
 
 ## Libraries
 

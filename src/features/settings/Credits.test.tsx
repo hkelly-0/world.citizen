@@ -29,7 +29,6 @@ describe('Credits', () => {
     render(<Credits onBack={vi.fn()} />)
     expect(screen.getByText(/The Roboto Mono Project Authors/)).toBeInTheDocument()
     expect(screen.getByText(/The JetBrains Mono Project Authors/)).toBeInTheDocument()
-    expect(screen.getByText(/The Noto Project Authors/)).toBeInTheDocument()
   })
 
   it('opens scrolled to the top, whatever Settings was scrolled to', () => {

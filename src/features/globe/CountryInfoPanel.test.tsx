@@ -59,7 +59,7 @@ describe('CountryInfoPanel', () => {
     // France's parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('83 yrs')
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('26K $/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('26K USD/yr')
 
     // Tapping elsewhere in the panel closes it, as does the ? again.
     await userEvent.click(screen.getByRole('heading', { name: 'France' }))
@@ -98,7 +98,7 @@ describe('CountryInfoPanel', () => {
 
     const saudiArabia: CountryShape = { ...france, name: 'Saudi Arabia', isoAlpha3: 'SAU' }
     rerender(<CountryInfoPanel {...panelProps} country={saudiArabia} />)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K USD/yr (est.)')
   })
 
   it('lists every capital for countries with several', () => {
@@ -140,7 +140,7 @@ describe('CountryInfoPanel', () => {
     render(<CountryInfoPanel {...panelProps} country={france} />)
 
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('17K €/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('17K EUR/yr')
   })
 
   it('marks a model-estimated median income with (est.)', async () => {
@@ -152,7 +152,7 @@ describe('CountryInfoPanel', () => {
     // Saudi Arabia has no World Bank survey, so its median income is a model estimate.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^79 yrs$/)
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^14 yrs$/)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K USD/yr (est.)')
   })
 
   it("doesn't mark education with (est.), as its years don't use the filled-in loss", async () => {

@@ -8,9 +8,6 @@ export type Currency = {
   code: string
   // e.g. "Canadian dollar"
   name: string
-  // As written in its own countries, e.g. "$" (also for the Canadian dollar),
-  // "€", "₦", or the code itself ("KES").
-  symbol: string
   // Local currency per PPP dollar: what a PPP dollar buys, priced in the
   // currency's own country.
   pppFactor: number
@@ -42,7 +39,8 @@ export function defaultCurrencyCode(locale: string): string {
   }
 }
 
-// A yearly income in PPP dollars, in the given currency, e.g. "70K $/yr".
+// A yearly income in PPP dollars, in the given currency, e.g. "70K CAD/yr".
+// Shown by code rather than sign, as many currencies share "$".
 export function formatIncome(dollars: number, currency: Currency): string {
-  return `${formatLargeNumber(dollars * currency.pppFactor)} ${currency.symbol}/yr`
+  return `${formatLargeNumber(dollars * currency.pppFactor)} ${currency.code}/yr`
 }

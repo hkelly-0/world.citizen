@@ -460,7 +460,7 @@ describe('Flashcard', () => {
     // France's parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('83 yrs')
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('26K $/yr')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('26K USD/yr')
 
     // Tapping the ? or its bubble doesn't go on to the next question.
     await userEvent.click(screen.getByText('Lifespan'))
@@ -485,7 +485,7 @@ describe('Flashcard', () => {
 
     // Saudi Arabia has no World Bank survey, so its median income is a model estimate.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^79 yrs$/)
-    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K $/yr (est.)')
+    expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('23K USD/yr (est.)')
   })
 
   it('says an estimated IHDI with no breakdown has insufficient data', async () => {

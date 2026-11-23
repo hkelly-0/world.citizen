@@ -8,8 +8,7 @@
 // currency's PPP conversion factor (local currency per PPP dollar): what that
 // income buys, priced in the currency's own country.
 //
-// Needs Node 24+ (for its full set of currency symbols) and these three source
-// files, saved in the folder given as the first argument:
+// Needs these three source files, saved in the folder given as the first argument:
 //   mledoze-countries.json   Each country's currencies and their names (ODbL),
 //                            the same file as scripts/make-country-data.mjs uses
 //     https://raw.githubusercontent.com/mledoze/countries/master/countries.json
@@ -155,28 +154,6 @@ function currencyFactor(code) {
   return recentFactor(ISSUERS[code] ?? users[0])?.value
 }
 
-// The currency's symbol as written in its own countries, from Node's Unicode
-// CLDR data (English's narrow symbols): e.g. "$" for both the US and Canadian
-// dollars, "€", "₦", or the ISO code itself where there's none ("KES").
-// CLDR's narrow no-break space (in "F CFA") is made an ordinary no-break
-// space, as Roboto Mono has no narrow one. Any other character outside Roboto
-// Mono must be added to scripts/make-symbol-fonts.mjs.
-// Signs no monospace font has (only fonts for their own scripts do), so their
-// currencies show their ISO code instead: the Afghan afghani, Armenian dram,
-// Bangladeshi taka, Cambodian riel, and Thai baht.
-const SIGNS_WITHOUT_FONT = '؋֏৳៛฿'
-
-function symbolOf(code) {
-  const parts = new Intl.NumberFormat('en', {
-    style: 'currency',
-    currency: code,
-    currencyDisplay: 'narrowSymbol',
-  }).formatToParts(1)
-  const symbol = parts.find((part) => part.type === 'currency').value.replaceAll('\u202f', '\u00a0')
-  if ([...SIGNS_WITHOUT_FONT].some((sign) => symbol.includes(sign))) return code
-  return symbol
-}
-
 const currencies = []
 for (const code of Object.keys(usersOf)) {
   const factor = currencyFactor(code)
@@ -189,7 +166,6 @@ for (const code of Object.keys(usersOf)) {
   currencies.push({
     code,
     name: nameOf[code],
-    symbol: symbolOf(code),
     pppFactor: Number(factor.toPrecision(4)),
   })
 }

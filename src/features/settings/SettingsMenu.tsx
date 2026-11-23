@@ -184,9 +184,7 @@ export function SettingsMenu({
             <select value={currencyCode} onChange={(event) => changeCurrency(event.target.value)}>
               {CURRENCIES.map((currency) => (
                 <option key={currency.code} value={currency.code}>
-                  {currency.symbol === currency.code
-                    ? `${currency.name} (${currency.code})`
-                    : `${currency.name} (${currency.symbol})`}
+                  {`${currency.name} (${currency.code})`}
                 </option>
               ))}
             </select>

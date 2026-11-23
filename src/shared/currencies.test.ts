@@ -2,21 +2,11 @@ import { describe, expect, it } from 'vitest'
 import currenciesJson from '../data/currencies.json'
 import { CURRENCIES, currencyByCode, defaultCurrencyCode, formatIncome } from './currencies'
 
-// Characters outside Roboto Mono's bundled subsets, drawn by the fonts from
-// scripts/make-symbol-fonts.mjs.
-const SYMBOL_FONT_CHARACTERS = '₹₪₩₱₼₡₵₸⃀₭₾₮₦₲₽₺₴'
-// Roboto Mono's bundled subsets: Basic Latin and Latin-1 (e.g. £, ¥, and the
-// no-break space in "F CFA"), and the signs used from its other subsets.
-function isInRobotoMono(character: string): boolean {
-  return character.codePointAt(0)! <= 0xff || '€₫čł'.includes(character)
-}
-
 describe('currencies', () => {
   it('has the US dollar at exactly 1, as the incomes are in PPP dollars', () => {
     expect(currencyByCode('USD')).toEqual({
       code: 'USD',
       name: 'United States dollar',
-      symbol: '$',
       pppFactor: 1,
     })
   })
@@ -26,17 +16,6 @@ describe('currencies', () => {
     expect(new Set(codes).size).toBe(codes.length)
     const names = CURRENCIES.map((currency) => currency.name)
     expect(names).toEqual(names.toSorted((a, b) => a.localeCompare(b)))
-  })
-
-  it('has a font for every character of every symbol', () => {
-    for (const { symbol } of CURRENCIES) {
-      for (const character of symbol) {
-        expect(
-          isInRobotoMono(character) || SYMBOL_FONT_CHARACTERS.includes(character),
-          `${character} in ${symbol}`,
-        ).toBe(true)
-      }
-    }
   })
 
   it('offers every default currency', () => {
@@ -62,10 +41,10 @@ describe('currencies', () => {
 
   it('converts an income with the PPP factor and shortens it', () => {
     const dollars = 50_000
-    expect(formatIncome(dollars, currencyByCode('USD')!)).toBe('50K $/yr')
+    expect(formatIncome(dollars, currencyByCode('USD')!)).toBe('50K USD/yr')
     const canadianDollar = currencyByCode('CAD')!
     expect(formatIncome(dollars, canadianDollar)).toBe(
-      `${Math.round((dollars * canadianDollar.pppFactor) / 1000)}K $/yr`,
+      `${Math.round((dollars * canadianDollar.pppFactor) / 1000)}K CAD/yr`,
     )
   })
 })

@@ -99,10 +99,10 @@ describe('SettingsMenu', () => {
     render(<SavingSettingsMenu learnedQuestionIds={QUESTION_IDS} onSave={vi.fn()} />)
     const currency = screen.getByRole('combobox', { name: 'Currency' })
     // The test environment's locale is en-US.
-    expect(currency).toHaveDisplayValue('United States dollar ($)')
+    expect(currency).toHaveDisplayValue('United States dollar (USD)')
 
     await userEvent.selectOptions(currency, 'CAD')
-    expect(currency).toHaveDisplayValue('Canadian dollar ($)')
+    expect(currency).toHaveDisplayValue('Canadian dollar (CAD)')
     expect(loadCurrency().code).toBe('CAD')
   })
 
