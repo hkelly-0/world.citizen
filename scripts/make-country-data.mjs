@@ -236,14 +236,16 @@ function dimensionIndices(row, year) {
 // UNDP's IHDI formula, shared by the breakdown and the estimates below: each
 // dimension index times (1 - its inequality loss), and the IHDI as the
 // geometric mean of the three. Losses are percentages.
-// Also the inequality-adjusted life expectancy in years, shown instead of the
-// lifespan index: UNDP's loss is an Atkinson measure (1 - geometric mean /
-// mean), so the life expectancy times (1 - its loss) is the geometric mean of
-// lifespans. The years of schooling, shown instead of the education index,
+// Also the life expectancy in years, shown instead of the lifespan index: just
+// UNDP's (mean) life expectancy, with no inequality adjustment. The loss-
+// adjusted figure (the geometric mean of lifespans) was dropped, as early
+// deaths pull it far below a typical lifespan (around 34 years in Chad and
+// Nigeria). The years of schooling, shown instead of the education index,
 // are just the average of expected and mean years of schooling (uncapped,
 // unlike the index), with no inequality adjustment. And the income in dollars,
 // shown instead of the income index: income per person times (1 - its loss),
-// the geometric mean of incomes, as for lifespan, adjusted for inflation since
+// which is the geometric mean of incomes, as UNDP's loss is an Atkinson
+// measure (1 - geometric mean / mean), adjusted for inflation since
 // 2021 (CPI_RECENT). This leaves out the index's
 // log scale, so it is far higher than the income the adjusted index stands
 // for (UNDP shrinks the log index itself by the loss). None of these is used
@@ -252,7 +254,7 @@ function inequalityAdjusted(indices, losses) {
   const lifespan = indices.lifespan * (1 - losses.lifespan / 100)
   const education = indices.education * (1 - losses.education / 100)
   const income = indices.income * (1 - losses.income / 100)
-  const lifespanYears = indices.lifeExpectancy * (1 - losses.lifespan / 100)
+  const lifespanYears = indices.lifeExpectancy
   const educationYears = (indices.expectedSchooling + indices.meanSchooling) / 2
   const incomeDollars =
     indices.incomePerPerson * (1 - losses.income / 100) * (CPI_RECENT / CPI_2021_AVERAGE)

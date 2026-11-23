@@ -458,7 +458,7 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
     // France's parts: lifespan and education in years, income in dollars.
-    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('80 yrs')
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('83 yrs')
     expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
     expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('56K $/yr')
 
@@ -484,7 +484,7 @@ describe('Flashcard', () => {
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
 
     // Only Saudi Arabia's income loss is filled in.
-    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^75 yrs$/)
+    expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^79 yrs$/)
     expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
   })
 
