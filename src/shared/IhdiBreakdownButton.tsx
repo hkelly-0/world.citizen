@@ -5,12 +5,13 @@ import { loadCurrency } from './settings'
 import './IhdiBreakdownButton.css'
 
 // A small "?" beside an IHDI value (in the globe's info panel, and under the
-// IHDI flashcard's answer) that opens a bubble with the IHDI's three
-// inequality-adjusted parts: lifespan and education in whole years, and
-// income per year in the currency chosen in Settings.
+// IHDI flashcard's answer) that opens a bubble with the IHDI's three parts:
+// lifespan and education in whole years, and income per year in the currency
+// chosen in Settings. Lifespan and income are inequality-adjusted; education
+// is the plain average of expected and mean years of schooling.
 // An estimated IHDI's breakdown marks each part worked out from a filled-in
-// inequality loss with "(est.)". An estimate with no breakdown (null) gets a
-// line saying so instead.
+// inequality loss with "(est.)", except education, whose years don't use the
+// loss. An estimate with no breakdown (null) gets a line saying so instead.
 // For a country with no IHDI, the info panel passes `noDataNote`, its lines,
 // instead (e.g. a rough estimate), which the bubble shows in place of either.
 // Tapping the "?" again, or anywhere else in the info panel, closes it. Taps
@@ -31,7 +32,11 @@ export function IhdiBreakdownButton({
   // A part's value, marked "(est.)" if it was estimated.
   function partValue(part: 'lifespan' | 'education' | 'income') {
     if (breakdown === null) return ''
-    const isEstimated = 'estimatedParts' in breakdown && breakdown.estimatedParts.includes(part)
+    // Education's years are UNDP's own figures even when its loss was filled in.
+    const isEstimated =
+      part !== 'education' &&
+      'estimatedParts' in breakdown &&
+      breakdown.estimatedParts.includes(part)
     // Read each time, so a currency just chosen in Settings is used.
     let value = formatIncome(breakdown.incomeDollars, loadCurrency())
     if (part === 'lifespan') value = `${Math.round(breakdown.lifespanYears)} yrs`

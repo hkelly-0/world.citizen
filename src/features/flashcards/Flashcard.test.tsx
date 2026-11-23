@@ -457,9 +457,9 @@ describe('Flashcard', () => {
 
     await userEvent.click(screen.getByRole('button', { name: '8 Great' }))
     await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
-    // France's inequality-adjusted parts: lifespan and education in years, income in dollars.
+    // France's parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('80 yrs')
-    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('13 yrs')
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
     expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('56K $/yr')
 
     // Tapping the ? or its bubble doesn't go on to the next question.

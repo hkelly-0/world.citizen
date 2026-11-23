@@ -56,9 +56,9 @@ describe('CountryInfoPanel', () => {
     expect(screen.queryByText('Lifespan')).not.toBeInTheDocument()
 
     await userEvent.click(button)
-    // France's inequality-adjusted parts: lifespan and education in years, income in dollars.
+    // France's parts: lifespan and education in years, income in dollars.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent('80 yrs')
-    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('13 yrs')
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent('14 yrs')
     expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('56K $/yr')
 
     // Tapping elsewhere in the panel closes it, as does the ? again.
@@ -151,8 +151,18 @@ describe('CountryInfoPanel', () => {
 
     // Only Saudi Arabia's income loss is filled in.
     expect(screen.getByText('Lifespan').nextElementSibling).toHaveTextContent(/^75 yrs$/)
-    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^13 yrs$/)
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^14 yrs$/)
     expect(screen.getByText('Income').nextElementSibling).toHaveTextContent('52K $/yr (est.)')
+  })
+
+  it("doesn't mark education with (est.), as its years don't use the filled-in loss", async () => {
+    const lebanon: CountryShape = { ...france, name: 'Lebanon', isoAlpha3: 'LBN' }
+    render(<CountryInfoPanel {...panelProps} country={lebanon} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'IHDI breakdown' }))
+
+    // Only Lebanon's education loss is filled in.
+    expect(screen.getByText('Education').nextElementSibling).toHaveTextContent(/^11 yrs$/)
   })
 
   it('says an estimated IHDI with no breakdown has insufficient data', async () => {

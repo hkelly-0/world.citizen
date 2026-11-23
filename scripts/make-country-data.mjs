@@ -239,9 +239,9 @@ function dimensionIndices(row, year) {
 // Also the inequality-adjusted life expectancy in years, shown instead of the
 // lifespan index: UNDP's loss is an Atkinson measure (1 - geometric mean /
 // mean), so the life expectancy times (1 - its loss) is the geometric mean of
-// lifespans. Likewise the years of schooling, shown instead of the education
-// index: the average of expected and mean years of schooling (uncapped, unlike
-// the index), times (1 - the education loss). And the income in dollars,
+// lifespans. The years of schooling, shown instead of the education index,
+// are just the average of expected and mean years of schooling (uncapped,
+// unlike the index), with no inequality adjustment. And the income in dollars,
 // shown instead of the income index: income per person times (1 - its loss),
 // the geometric mean of incomes, as for lifespan, adjusted for inflation since
 // 2021 (CPI_RECENT). This leaves out the index's
@@ -253,8 +253,7 @@ function inequalityAdjusted(indices, losses) {
   const education = indices.education * (1 - losses.education / 100)
   const income = indices.income * (1 - losses.income / 100)
   const lifespanYears = indices.lifeExpectancy * (1 - losses.lifespan / 100)
-  const educationYears =
-    ((indices.expectedSchooling + indices.meanSchooling) / 2) * (1 - losses.education / 100)
+  const educationYears = (indices.expectedSchooling + indices.meanSchooling) / 2
   const incomeDollars =
     indices.incomePerPerson * (1 - losses.income / 100) * (CPI_RECENT / CPI_2021_AVERAGE)
   return {

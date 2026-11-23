@@ -25,7 +25,7 @@
       "education": 0.196,
       "income": 0.319,
       "lifespanYears": 49.4,
-      "educationYears": 3.4,
+      "educationYears": 6.7,
       "incomeDollars": 1738
     },
     "ihdiEstimate": null,
@@ -56,7 +56,7 @@
       "education": 0.353,
       "income": 0.266,
       "lifespanYears": 46.9,
-      "educationYears": 6,
+      "educationYears": 9.1,
       "incomeDollars": 3464
     },
     "ihdiEstimate": null,
@@ -87,7 +87,7 @@
       "education": 0.651,
       "income": 0.627,
       "lifespanYears": 74.5,
-      "educationYears": 10.8,
+      "educationYears": 12.3,
       "incomeDollars": 17623
     },
     "ihdiEstimate": null,
@@ -118,7 +118,7 @@
       "education": 0.747,
       "income": 0.837,
       "lifespanYears": 80.1,
-      "educationYears": 12.3,
+      "educationYears": 13.1,
       "incomeDollars": 68908
     },
     "ihdiEstimate": null,
@@ -149,7 +149,7 @@
       "education": 0.786,
       "income": 0.889,
       "lifespanYears": 79.7,
-      "educationYears": 13,
+      "educationYears": 14.3,
       "incomeDollars": 79380
     },
     "ihdiEstimate": null,
@@ -181,7 +181,7 @@
       "education": 0.83,
       "income": 0.65,
       "lifespanYears": 71.7,
-      "educationYears": 14.3,
+      "educationYears": 15,
       "incomeDollars": 24948
     },
     "ihdiEstimate": null,
@@ -212,7 +212,7 @@
       "education": 0.755,
       "income": 0.681,
       "lifespanYears": 70.6,
-      "educationYears": 12.5,
+      "educationYears": 12.9,
       "incomeDollars": 21378
     },
     "ihdiEstimate": null,
@@ -244,7 +244,7 @@
       "education": 0.738,
       "income": 0.474,
       "lifespanYears": 72.3,
-      "educationYears": 12.2,
+      "educationYears": 13.6,
       "incomeDollars": 19078,
       "estimatedParts": [
         "income"
@@ -276,7 +276,7 @@
       "education": 0.889,
       "income": 0.784,
       "lifespanYears": 81.4,
-      "educationYears": 16,
+      "educationYears": 16.8,
       "incomeDollars": 59166
     },
     "ihdiEstimate": null,
@@ -307,7 +307,7 @@
       "education": 0.842,
       "income": 0.823,
       "lifespanYears": 79.3,
-      "educationYears": 13.9,
+      "educationYears": 14.3,
       "incomeDollars": 66727
     },
     "ihdiEstimate": null,
@@ -340,7 +340,7 @@
       "education": 0.696,
       "income": 0.759,
       "lifespanYears": 66.7,
-      "educationYears": 11.5,
+      "educationYears": 12,
       "incomeDollars": 24275
     },
     "ihdiEstimate": null,
@@ -373,7 +373,7 @@
       "education": 0.235,
       "income": 0.196,
       "lifespanYears": 47.9,
-      "educationYears": 4,
+      "educationYears": 6.7,
       "incomeDollars": 647
     },
     "ihdiEstimate": null,
@@ -408,7 +408,7 @@
       "education": 0.886,
       "income": 0.865,
       "lifespanYears": 79.2,
-      "educationYears": 15.2,
+      "educationYears": 15.8,
       "incomeDollars": 70234
     },
     "ihdiEstimate": null,
@@ -440,7 +440,7 @@
       "education": 0.222,
       "income": 0.334,
       "lifespanYears": 41.2,
-      "educationYears": 3.8,
+      "educationYears": 6.8,
       "incomeDollars": 2879
     },
     "ihdiEstimate": null,
@@ -471,7 +471,7 @@
       "education": 0.172,
       "income": 0.271,
       "lifespanYears": 42.1,
-      "educationYears": 3,
+      "educationYears": 5.5,
       "incomeDollars": 1686
     },
     "ihdiEstimate": null,
@@ -502,7 +502,7 @@
       "education": 0.368,
       "income": 0.43,
       "lifespanYears": 62.9,
-      "educationYears": 6.2,
+      "educationYears": 9.6,
       "incomeDollars": 6780
     },
     "ihdiEstimate": null,
@@ -533,7 +533,7 @@
       "education": 0.772,
       "income": 0.665,
       "lifespanYears": 72,
-      "educationYears": 12.8,
+      "educationYears": 13.4,
       "incomeDollars": 30572
     },
     "ihdiEstimate": null,
@@ -566,7 +566,7 @@
       "education": 0.706,
       "income": 0.786,
       "lifespanYears": 77.4,
-      "educationYears": 11.7,
+      "educationYears": 13.5,
       "incomeDollars": 54571,
       "estimatedParts": [
         "income"
@@ -598,7 +598,7 @@
       "education": 0.732,
       "income": 0.541,
       "lifespanYears": 67.5,
-      "educationYears": 11.9,
+      "educationYears": 12.4,
       "incomeDollars": 24092
     },
     "ihdiEstimate": null,
@@ -629,7 +629,7 @@
       "education": 0.657,
       "income": 0.587,
       "lifespanYears": 74.2,
-      "educationYears": 10.8,
+      "educationYears": 12.1,
       "incomeDollars": 18152
     },
     "ihdiEstimate": null,
@@ -662,7 +662,7 @@
       "education": 0.77,
       "income": 0.737,
       "lifespanYears": 71.8,
-      "educationYears": 12.7,
+      "educationYears": 13,
       "incomeDollars": 29060
     },
     "ihdiEstimate": null,
@@ -695,7 +695,7 @@
       "education": 0.532,
       "income": 0.483,
       "lifespanYears": 68.2,
-      "educationYears": 8.8,
+      "educationYears": 10.4,
       "incomeDollars": 10213,
       "estimatedParts": [
         "income"
@@ -734,7 +734,7 @@
       "education": 0.652,
       "income": 0.502,
       "lifespanYears": 54.2,
-      "educationYears": 10.9,
+      "educationYears": 12.8,
       "incomeDollars": 8598
     },
     "ihdiEstimate": null,
@@ -765,7 +765,7 @@
       "education": 0.611,
       "income": 0.441,
       "lifespanYears": 68.6,
-      "educationYears": 10.3,
+      "educationYears": 12.1,
       "incomeDollars": 12625
     },
     "ihdiEstimate": null,
@@ -795,7 +795,7 @@
       "education": 0.749,
       "income": 0.397,
       "lifespanYears": 70.7,
-      "educationYears": 12.5,
+      "educationYears": 13.3,
       "incomeDollars": 11011
     },
     "ihdiEstimate": null,
@@ -826,7 +826,7 @@
       "education": 0.62,
       "income": 0.879,
       "lifespanYears": 70.1,
-      "educationYears": 10.3,
+      "educationYears": 11.5,
       "incomeDollars": 82997
     },
     "ihdiEstimate": null,
@@ -857,7 +857,7 @@
       "education": 0.29,
       "income": 0.532,
       "lifespanYears": 63.4,
-      "educationYears": 4.9,
+      "educationYears": 9.5,
       "incomeDollars": 12315
     },
     "ihdiEstimate": null,
@@ -889,7 +889,7 @@
       "education": 0.511,
       "income": 0.423,
       "lifespanYears": 55.9,
-      "educationYears": 8.4,
+      "educationYears": 11,
       "incomeDollars": 11533
     },
     "ihdiEstimate": null,
@@ -921,7 +921,7 @@
       "education": 0.22,
       "income": 0.198,
       "lifespanYears": 37.3,
-      "educationYears": 3.7,
+      "educationYears": 5.7,
       "incomeDollars": 747
     },
     "ihdiEstimate": null,
@@ -951,7 +951,7 @@
       "education": 0.884,
       "income": 0.8,
       "lifespanYears": 79.1,
-      "educationYears": 14.5,
+      "educationYears": 14.9,
       "incomeDollars": 57231
     },
     "ihdiEstimate": null,
@@ -988,7 +988,7 @@
       "education": 0.912,
       "income": 0.823,
       "lifespanYears": 81.3,
-      "educationYears": 15,
+      "educationYears": 15.3,
       "incomeDollars": 84038
     },
     "ihdiEstimate": null,
@@ -1019,7 +1019,7 @@
       "education": 0.795,
       "income": 0.53,
       "lifespanYears": 77.4,
-      "educationYears": 13.3,
+      "educationYears": 14.1,
       "incomeDollars": 21750
     },
     "ihdiEstimate": null,
@@ -1050,7 +1050,7 @@
       "education": 0.626,
       "income": 0.568,
       "lifespanYears": 73.9,
-      "educationYears": 10.5,
+      "educationYears": 11.8,
       "incomeDollars": 19128
     },
     "ihdiEstimate": null,
@@ -1082,7 +1082,7 @@
       "education": 0.258,
       "income": 0.36,
       "lifespanYears": 44.3,
-      "educationYears": 4.4,
+      "educationYears": 8.1,
       "incomeDollars": 4745
     },
     "ihdiEstimate": null,
@@ -1115,7 +1115,7 @@
       "education": 0.354,
       "income": 0.275,
       "lifespanYears": 45.9,
-      "educationYears": 5.9,
+      "educationYears": 8.7,
       "incomeDollars": 2787
     },
     "ihdiEstimate": null,
@@ -1150,7 +1150,7 @@
       "education": 0.402,
       "income": 0.222,
       "lifespanYears": 42.8,
-      "educationYears": 6.7,
+      "educationYears": 9.1,
       "incomeDollars": 984
     },
     "ihdiEstimate": null,
@@ -1182,7 +1182,7 @@
       "education": 0.498,
       "income": 0.276,
       "lifespanYears": 52.6,
-      "educationYears": 8.3,
+      "educationYears": 10.5,
       "incomeDollars": 3300
     },
     "ihdiEstimate": null,
@@ -1213,7 +1213,7 @@
       "education": 0.579,
       "income": 0.442,
       "lifespanYears": 71.3,
-      "educationYears": 9.7,
+      "educationYears": 11.7,
       "incomeDollars": 13022
     },
     "ihdiEstimate": null,
@@ -1248,7 +1248,7 @@
       "education": 0.317,
       "income": 0.255,
       "lifespanYears": 51.9,
-      "educationYears": 5.4,
+      "educationYears": 9.7,
       "incomeDollars": 2062
     },
     "ihdiEstimate": null,
@@ -1279,7 +1279,7 @@
       "education": 0.377,
       "income": 0.363,
       "lifespanYears": 70.2,
-      "educationYears": 6.3,
+      "educationYears": 8.7,
       "incomeDollars": 5555
     },
     "ihdiEstimate": null,
@@ -1310,7 +1310,7 @@
       "education": 0.667,
       "income": 0.531,
       "lifespanYears": 75.9,
-      "educationYears": 11.2,
+      "educationYears": 12.6,
       "incomeDollars": 18788
     },
     "ihdiEstimate": null,
@@ -1343,7 +1343,7 @@
       "education": 0.673,
       "income": 0.481,
       "lifespanYears": 74.4,
-      "educationYears": 11.1,
+      "educationYears": 12.3,
       "incomeDollars": 7525,
       "estimatedParts": [
         "income"
@@ -1377,7 +1377,7 @@
       "education": 0.822,
       "income": 0.787,
       "lifespanYears": 79.2,
-      "educationYears": 13.6,
+      "educationYears": 14.4,
       "incomeDollars": 48146
     },
     "ihdiEstimate": null,
@@ -1408,7 +1408,7 @@
       "education": 0.888,
       "income": 0.823,
       "lifespanYears": 77.4,
-      "educationYears": 14.7,
+      "educationYears": 14.9,
       "incomeDollars": 50808
     },
     "ihdiEstimate": null,
@@ -1439,7 +1439,7 @@
       "education": 0.922,
       "income": 0.836,
       "lifespanYears": 78.7,
-      "educationYears": 15.2,
+      "educationYears": 15.8,
       "incomeDollars": 68337
     },
     "ihdiEstimate": null,
@@ -1472,7 +1472,7 @@
       "education": 0.165,
       "income": 0.447,
       "lifespanYears": 50,
-      "educationYears": 2.8,
+      "educationYears": 5.1,
       "incomeDollars": 5656
     },
     "ihdiEstimate": null,
@@ -1505,7 +1505,7 @@
       "education": 0.612,
       "income": 0.429,
       "lifespanYears": 58.8,
-      "educationYears": 10.2,
+      "educationYears": 12.1,
       "incomeDollars": 11147,
       "estimatedParts": [
         "income"
@@ -1537,7 +1537,7 @@
       "education": 0.913,
       "income": 0.89,
       "lifespanYears": 79.4,
-      "educationYears": 15.5,
+      "educationYears": 15.9,
       "incomeDollars": 84241
     },
     "ihdiEstimate": null,
@@ -1567,7 +1567,7 @@
       "education": 0.592,
       "income": 0.628,
       "lifespanYears": 61.2,
-      "educationYears": 9.8,
+      "educationYears": 11.5,
       "incomeDollars": 21136
     },
     "ihdiEstimate": null,
@@ -1598,7 +1598,7 @@
       "education": 0.452,
       "income": 0.631,
       "lifespanYears": 67.2,
-      "educationYears": 7.6,
+      "educationYears": 11.5,
       "incomeDollars": 15661
     },
     "ihdiEstimate": null,
@@ -1629,7 +1629,7 @@
       "education": 0.625,
       "income": 0.518,
       "lifespanYears": 70.9,
-      "educationYears": 10.5,
+      "educationYears": 11.9,
       "incomeDollars": 12089
     },
     "ihdiEstimate": null,
@@ -1660,7 +1660,7 @@
       "education": 0.443,
       "income": 0.625,
       "lifespanYears": 64.2,
-      "educationYears": 7.3,
+      "educationYears": 11.6,
       "incomeDollars": 16428
     },
     "ihdiEstimate": null,
@@ -1697,7 +1697,7 @@
       "education": 0.211,
       "income": 0.285,
       "lifespanYears": 55.3,
-      "educationYears": 3.5,
+      "educationYears": 6.2,
       "incomeDollars": 1584,
       "estimatedParts": [
         "education",
@@ -1730,7 +1730,7 @@
       "education": 0.772,
       "income": 0.749,
       "lifespanYears": 81.4,
-      "educationYears": 12.9,
+      "educationYears": 14.3,
       "incomeDollars": 46314
     },
     "ihdiEstimate": null,
@@ -1761,7 +1761,7 @@
       "education": 0.881,
       "income": 0.766,
       "lifespanYears": 76.8,
-      "educationYears": 14.5,
+      "educationYears": 14.8,
       "incomeDollars": 42939
     },
     "ihdiEstimate": null,
@@ -1792,7 +1792,7 @@
       "education": 0.192,
       "income": 0.32,
       "lifespanYears": 52.3,
-      "educationYears": 3.3,
+      "educationYears": 5.8,
       "incomeDollars": 2213
     },
     "ihdiEstimate": null,
@@ -1825,7 +1825,7 @@
       "education": 0.914,
       "income": 0.836,
       "lifespanYears": 79.5,
-      "educationYears": 15.9,
+      "educationYears": 16.2,
       "incomeDollars": 62017
     },
     "ihdiEstimate": null,
@@ -1860,7 +1860,7 @@
       "education": 0.667,
       "income": 0.598,
       "lifespanYears": 56.9,
-      "educationYears": 11.1,
+      "educationYears": 12.1,
       "incomeDollars": 13035
     },
     "ihdiEstimate": null,
@@ -1891,7 +1891,7 @@
       "education": 0.795,
       "income": 0.783,
       "lifespanYears": 80.2,
-      "educationYears": 13.2,
+      "educationYears": 13.9,
       "incomeDollars": 56314
     },
     "ihdiEstimate": null,
@@ -1924,7 +1924,7 @@
       "education": 0.5,
       "income": 0.42,
       "lifespanYears": 57.5,
-      "educationYears": 8.3,
+      "educationYears": 9.4,
       "incomeDollars": 3924,
       "estimatedParts": [
         "education"
@@ -1956,7 +1956,7 @@
       "education": 0.531,
       "income": 0.543,
       "lifespanYears": 55.3,
-      "educationYears": 8.8,
+      "educationYears": 11.1,
       "incomeDollars": 16106
     },
     "ihdiEstimate": null,
@@ -1987,7 +1987,7 @@
       "education": 0.915,
       "income": 0.792,
       "lifespanYears": 78.2,
-      "educationYears": 15.2,
+      "educationYears": 15.7,
       "incomeDollars": 56411
     },
     "ihdiEstimate": null,
@@ -2017,7 +2017,7 @@
       "education": 0.867,
       "income": 0.633,
       "lifespanYears": 69.4,
-      "educationYears": 14.4,
+      "educationYears": 14.7,
       "incomeDollars": 20304
     },
     "ihdiEstimate": null,
@@ -2048,7 +2048,7 @@
       "education": 0.371,
       "income": 0.313,
       "lifespanYears": 51,
-      "educationYears": 6.2,
+      "educationYears": 9.3,
       "incomeDollars": 4183
     },
     "ihdiEstimate": null,
@@ -2079,7 +2079,7 @@
       "education": 0.185,
       "income": 0.367,
       "lifespanYears": 39.3,
-      "educationYears": 3.2,
+      "educationYears": 6.4,
       "incomeDollars": 2976
     },
     "ihdiEstimate": null,
@@ -2110,7 +2110,7 @@
       "education": 0.215,
       "income": 0.302,
       "lifespanYears": 51.2,
-      "educationYears": 3.6,
+      "educationYears": 6.8,
       "incomeDollars": 2098
     },
     "ihdiEstimate": null,
@@ -2141,7 +2141,7 @@
       "education": 0.242,
       "income": 0.311,
       "lifespanYears": 45.8,
-      "educationYears": 4.1,
+      "educationYears": 7.2,
       "incomeDollars": 1936
     },
     "ihdiEstimate": null,
@@ -2178,7 +2178,7 @@
       "education": 0.424,
       "income": 0.414,
       "lifespanYears": 45.3,
-      "educationYears": 7.1,
+      "educationYears": 10.4,
       "incomeDollars": 8992,
       "estimatedParts": [
         "education",
@@ -2211,7 +2211,7 @@
       "education": 0.826,
       "income": 0.739,
       "lifespanYears": 79.2,
-      "educationYears": 15.1,
+      "educationYears": 16.2,
       "incomeDollars": 37048
     },
     "ihdiEstimate": null,
@@ -2243,7 +2243,7 @@
       "education": 0.721,
       "income": 0.42,
       "lifespanYears": 67.6,
-      "educationYears": 12.1,
+      "educationYears": 13,
       "incomeDollars": 9996,
       "estimatedParts": [
         "income"
@@ -2275,7 +2275,7 @@
       "education": 0.32,
       "income": 0.49,
       "lifespanYears": 63.1,
-      "educationYears": 5.4,
+      "educationYears": 8.3,
       "incomeDollars": 10428
     },
     "ihdiEstimate": null,
@@ -2308,7 +2308,7 @@
       "education": 0.584,
       "income": 0.52,
       "lifespanYears": 59.7,
-      "educationYears": 9.7,
+      "educationYears": 10.9,
       "incomeDollars": 32713,
       "estimatedParts": [
         "income"
@@ -2340,7 +2340,7 @@
       "education": 0.418,
       "income": 0.4,
       "lifespanYears": 65.7,
-      "educationYears": 6.9,
+      "educationYears": 8.8,
       "incomeDollars": 4867
     },
     "ihdiEstimate": null,
@@ -2371,7 +2371,7 @@
       "education": 0.832,
       "income": 0.787,
       "lifespanYears": 75.7,
-      "educationYears": 13.8,
+      "educationYears": 14.2,
       "incomeDollars": 44562
     },
     "ihdiEstimate": null,
@@ -2404,7 +2404,7 @@
       "education": 0.302,
       "income": 0.245,
       "lifespanYears": 48.5,
-      "educationYears": 5.1,
+      "educationYears": 8.1,
       "incomeDollars": 1752
     },
     "ihdiEstimate": null,
@@ -2434,7 +2434,7 @@
       "education": 0.819,
       "income": 0.793,
       "lifespanYears": 74.2,
-      "educationYears": 13.5,
+      "educationYears": 13.9,
       "incomeDollars": 41122
     },
     "ihdiEstimate": null,
@@ -2465,7 +2465,7 @@
       "education": 0.575,
       "income": 0.568,
       "lifespanYears": 62.2,
-      "educationYears": 9.6,
+      "educationYears": 11,
       "incomeDollars": 13031
     },
     "ihdiEstimate": null,
@@ -2500,7 +2500,7 @@
       "education": 0.372,
       "income": 0.426,
       "lifespanYears": 60.9,
-      "educationYears": 6.3,
+      "educationYears": 9.9,
       "incomeDollars": 7058
     },
     "ihdiEstimate": null,
@@ -2533,7 +2533,7 @@
       "education": 0.868,
       "income": 0.86,
       "lifespanYears": 79.8,
-      "educationYears": 15.1,
+      "educationYears": 15.5,
       "incomeDollars": 97397
     },
     "ihdiEstimate": null,
@@ -2564,7 +2564,7 @@
       "education": 0.586,
       "income": 0.556,
       "lifespanYears": 71.6,
-      "educationYears": 9.7,
+      "educationYears": 12.4,
       "incomeDollars": 14532
     },
     "ihdiEstimate": null,
@@ -2599,7 +2599,7 @@
       "education": 0.4,
       "income": 0.545,
       "lifespanYears": 62.7,
-      "educationYears": 6.7,
+      "educationYears": 9.6,
       "incomeDollars": 11746
     },
     "ihdiEstimate": null,
@@ -2629,7 +2629,7 @@
       "education": 0.942,
       "income": 0.882,
       "lifespanYears": 81,
-      "educationYears": 16,
+      "educationYears": 16.4,
       "incomeDollars": 76897
     },
     "ihdiEstimate": null,
@@ -2662,7 +2662,7 @@
       "education": 0.82,
       "income": 0.709,
       "lifespanYears": 79.5,
-      "educationYears": 13.5,
+      "educationYears": 14.2,
       "incomeDollars": 45473
     },
     "ihdiEstimate": null,
@@ -2693,7 +2693,7 @@
       "education": 0.763,
       "income": 0.749,
       "lifespanYears": 81.5,
-      "educationYears": 12.7,
+      "educationYears": 13.8,
       "incomeDollars": 51650
     },
     "ihdiEstimate": null,
@@ -2723,7 +2723,7 @@
       "education": 0.637,
       "income": 0.462,
       "lifespanYears": 63.2,
-      "educationYears": 10.5,
+      "educationYears": 11.2,
       "incomeDollars": 8307
     },
     "ihdiEstimate": null,
@@ -2754,7 +2754,7 @@
       "education": 0.614,
       "income": 0.519,
       "lifespanYears": 71,
-      "educationYears": 10.2,
+      "educationYears": 11.7,
       "incomeDollars": 8717
     },
     "ihdiEstimate": null,
@@ -2784,7 +2784,7 @@
       "education": 0.805,
       "income": 0.772,
       "lifespanYears": 82.6,
-      "educationYears": 13.3,
+      "educationYears": 14.1,
       "incomeDollars": 49317
     },
     "ihdiEstimate": null,
@@ -2817,7 +2817,7 @@
       "education": 0.782,
       "income": 0.739,
       "lifespanYears": 69.1,
-      "educationYears": 12.9,
+      "educationYears": 13.3,
       "incomeDollars": 32921
     },
     "ihdiEstimate": null,
@@ -2848,7 +2848,7 @@
       "education": 0.487,
       "income": 0.367,
       "lifespanYears": 50.3,
-      "educationYears": 8.1,
+      "educationYears": 10,
       "incomeDollars": 4216
     },
     "ihdiEstimate": null,
@@ -2881,7 +2881,7 @@
       "education": 0.73,
       "income": 0.525,
       "lifespanYears": 64.3,
-      "educationYears": 12,
+      "educationYears": 12.4,
       "incomeDollars": 6410
     },
     "ihdiEstimate": null,
@@ -2912,7 +2912,7 @@
       "education": 0.348,
       "income": 0.378,
       "lifespanYears": 60.1,
-      "educationYears": 5.9,
+      "educationYears": 8.2,
       "incomeDollars": 3942
     },
     "ihdiEstimate": null,
@@ -2944,7 +2944,7 @@
       "education": 0.573,
       "income": 0.498,
       "lifespanYears": 50,
-      "educationYears": 9.5,
+      "educationYears": 10.5,
       "incomeDollars": 5204
     },
     "ihdiEstimate": null,
@@ -2977,7 +2977,7 @@
       "education": 0.75,
       "income": 0.479,
       "lifespanYears": 65,
-      "educationYears": 12.7,
+      "educationYears": 14.6,
       "incomeDollars": 20276,
       "estimatedParts": [
         "education",
@@ -3010,7 +3010,7 @@
       "education": 0.831,
       "income": 0.784,
       "lifespanYears": 82.3,
-      "educationYears": 13.8,
+      "educationYears": 14.7,
       "incomeDollars": 51766
     },
     "ihdiEstimate": null,
@@ -3043,7 +3043,7 @@
       "education": 0.541,
       "income": 0.794,
       "lifespanYears": 75.8,
-      "educationYears": 9.1,
+      "educationYears": 11.7,
       "incomeDollars": 58490,
       "estimatedParts": [
         "income"
@@ -3075,7 +3075,7 @@
       "education": 0.322,
       "income": 0.507,
       "lifespanYears": 55.4,
-      "educationYears": 5.4,
+      "educationYears": 7.8,
       "incomeDollars": 7718
     },
     "ihdiEstimate": null,
@@ -3110,7 +3110,7 @@
       "education": 0.521,
       "income": 0.57,
       "lifespanYears": 69.3,
-      "educationYears": 8.6,
+      "educationYears": 11,
       "incomeDollars": 11225,
       "estimatedParts": [
         "education"
@@ -3142,7 +3142,7 @@
       "education": 0.287,
       "income": 0.262,
       "lifespanYears": 44,
-      "educationYears": 4.8,
+      "educationYears": 8.3,
       "incomeDollars": 1218
     },
     "ihdiEstimate": null,
@@ -3175,7 +3175,7 @@
       "education": 0.4,
       "income": 0.631,
       "lifespanYears": 57.7,
-      "educationYears": 6.7,
+      "educationYears": 10.4,
       "incomeDollars": 19494,
       "estimatedParts": [
         "education",
@@ -3207,7 +3207,7 @@
       "education": 0.401,
       "income": 0.491,
       "lifespanYears": 65,
-      "educationYears": 6.7,
+      "educationYears": 10.7,
       "incomeDollars": 15838
     },
     "ihdiEstimate": null,
@@ -3240,7 +3240,7 @@
       "education": 0.81,
       "income": 0.857,
       "lifespanYears": 79.5,
-      "educationYears": 13.4,
+      "educationYears": 13.9,
       "incomeDollars": 178083,
       "estimatedParts": [
         "education",
@@ -3276,7 +3276,7 @@
       "education": 0.642,
       "income": 0.463,
       "lifespanYears": 73.8,
-      "educationYears": 10.6,
+      "educationYears": 11.9,
       "incomeDollars": 9966
     },
     "ihdiEstimate": null,
@@ -3307,7 +3307,7 @@
       "education": 0.453,
       "income": 0.25,
       "lifespanYears": 40.2,
-      "educationYears": 7.5,
+      "educationYears": 9.4,
       "incomeDollars": 1833
     },
     "ihdiEstimate": null,
@@ -3338,7 +3338,7 @@
       "education": 0.893,
       "income": 0.726,
       "lifespanYears": 72.9,
-      "educationYears": 14.7,
+      "educationYears": 15,
       "incomeDollars": 41576
     },
     "ihdiEstimate": null,
@@ -3373,7 +3373,7 @@
       "education": 0.774,
       "income": 0.836,
       "lifespanYears": 78.2,
-      "educationYears": 12.7,
+      "educationYears": 13.5,
       "incomeDollars": 88953
     },
     "ihdiEstimate": null,
@@ -3404,7 +3404,7 @@
       "education": 0.889,
       "income": 0.727,
       "lifespanYears": 73,
-      "educationYears": 14.7,
+      "educationYears": 14.9,
       "incomeDollars": 38323
     },
     "ihdiEstimate": null,
@@ -3437,7 +3437,7 @@
       "education": 0.364,
       "income": 0.499,
       "lifespanYears": 67.3,
-      "educationYears": 6.2,
+      "educationYears": 10.6,
       "incomeDollars": 7984
     },
     "ihdiEstimate": null,
@@ -3492,7 +3492,7 @@
       "education": 0.783,
       "income": 0.662,
       "lifespanYears": 64.7,
-      "educationYears": 12.9,
+      "educationYears": 13.2,
       "incomeDollars": 17085
     },
     "ihdiEstimate": null,
@@ -3525,7 +3525,7 @@
       "education": 0.29,
       "income": 0.234,
       "lifespanYears": 45.5,
-      "educationYears": 4.9,
+      "educationYears": 6.8,
       "incomeDollars": 1137
     },
     "ihdiEstimate": null,
@@ -3556,7 +3556,7 @@
       "education": 0.425,
       "income": 0.568,
       "lifespanYears": 78,
-      "educationYears": 7.1,
+      "educationYears": 10.1,
       "incomeDollars": 17188
     },
     "ihdiEstimate": null,
@@ -3587,7 +3587,7 @@
       "education": 0.6,
       "income": 0.582,
       "lifespanYears": 68.3,
-      "educationYears": 10,
+      "educationYears": 11.9,
       "incomeDollars": 19447
     },
     "ihdiEstimate": null,
@@ -3619,7 +3619,7 @@
       "education": 0.809,
       "income": 0.501,
       "lifespanYears": 55.9,
-      "educationYears": 13.5,
+      "educationYears": 14,
       "incomeDollars": 6974
     },
     "ihdiEstimate": null,
@@ -3650,7 +3650,7 @@
       "education": 0.689,
       "income": 0.649,
       "lifespanYears": 74.1,
-      "educationYears": 11.5,
+      "educationYears": 12.5,
       "incomeDollars": 21917
     },
     "ihdiEstimate": null,
@@ -3681,7 +3681,7 @@
       "education": 0.148,
       "income": 0.367,
       "lifespanYears": 39.9,
-      "educationYears": 2.6,
+      "educationYears": 4.3,
       "incomeDollars": 2247
     },
     "ihdiEstimate": null,
@@ -3713,7 +3713,7 @@
       "education": 0.812,
       "income": 0.799,
       "lifespanYears": 79,
-      "educationYears": 13.4,
+      "educationYears": 14.2,
       "incomeDollars": 54885
     },
     "ihdiEstimate": null,
@@ -3744,7 +3744,7 @@
       "education": 0.389,
       "income": 0.485,
       "lifespanYears": 53.2,
-      "educationYears": 6.5,
+      "educationYears": 8.9,
       "incomeDollars": 5051
     },
     "ihdiEstimate": null,
@@ -3774,7 +3774,7 @@
       "education": 0.79,
       "income": 0.682,
       "lifespanYears": 74.5,
-      "educationYears": 13,
+      "educationYears": 14.2,
       "incomeDollars": 27956
     },
     "ihdiEstimate": null,
@@ -3804,7 +3804,7 @@
       "education": 0.61,
       "income": 0.61,
       "lifespanYears": 65.4,
-      "educationYears": 10.2,
+      "educationYears": 11.5,
       "incomeDollars": 14883
     },
     "ihdiEstimate": null,
@@ -3835,7 +3835,7 @@
       "education": 0.298,
       "income": 0.18,
       "lifespanYears": 46.2,
-      "educationYears": 5.1,
+      "educationYears": 7.7,
       "incomeDollars": 770
     },
     "ihdiEstimate": null,
@@ -3866,7 +3866,7 @@
       "education": 0.214,
       "income": 0.406,
       "lifespanYears": 55.2,
-      "educationYears": 3.6,
+      "educationYears": 6.4,
       "incomeDollars": 5074
     },
     "ihdiEstimate": null,
@@ -3901,7 +3901,7 @@
       "education": 0.676,
       "income": 0.581,
       "lifespanYears": 67.6,
-      "educationYears": 11.2,
+      "educationYears": 12.1,
       "incomeDollars": 23295
     },
     "ihdiEstimate": null,
@@ -3934,7 +3934,7 @@
       "education": 0.324,
       "income": 0.256,
       "lifespanYears": 54,
-      "educationYears": 5.5,
+      "educationYears": 7.6,
       "incomeDollars": 1236
     },
     "ihdiEstimate": null,
@@ -3966,7 +3966,7 @@
       "education": 0.657,
       "income": 0.658,
       "lifespanYears": 72,
-      "educationYears": 10.8,
+      "educationYears": 11.9,
       "incomeDollars": 30508
     },
     "ihdiEstimate": null,
@@ -4001,7 +4001,7 @@
       "education": 0.427,
       "income": 0.333,
       "lifespanYears": 54.4,
-      "educationYears": 7.1,
+      "educationYears": 9.5,
       "incomeDollars": 6392
     },
     "ihdiEstimate": null,
@@ -4032,7 +4032,7 @@
       "education": 0.181,
       "income": 0.262,
       "lifespanYears": 38.1,
-      "educationYears": 3.2,
+      "educationYears": 4.9,
       "incomeDollars": 1240
     },
     "ihdiEstimate": null,
@@ -4063,7 +4063,7 @@
       "education": 0.339,
       "income": 0.494,
       "lifespanYears": 33.4,
-      "educationYears": 5.6,
+      "educationYears": 9.1,
       "incomeDollars": 5645
     },
     "ihdiEstimate": null,
@@ -4094,7 +4094,7 @@
       "education": 0.483,
       "income": 0.414,
       "lifespanYears": 67.9,
-      "educationYears": 8,
+      "educationYears": 10.7,
       "incomeDollars": 5547
     },
     "ihdiEstimate": null,
@@ -4126,7 +4126,7 @@
       "education": 0.879,
       "income": 0.874,
       "lifespanYears": 79.4,
-      "educationYears": 14.9,
+      "educationYears": 15.6,
       "incomeDollars": 75443
     },
     "ihdiEstimate": null,
@@ -4161,7 +4161,7 @@
       "education": 0.921,
       "income": 0.857,
       "lifespanYears": 81.3,
-      "educationYears": 15.7,
+      "educationYears": 16,
       "incomeDollars": 120354
     },
     "ihdiEstimate": null,
@@ -4192,7 +4192,7 @@
       "education": 0.32,
       "income": 0.397,
       "lifespanYears": 59.8,
-      "educationYears": 5.5,
+      "educationYears": 9.1,
       "incomeDollars": 4008
     },
     "ihdiEstimate": null,
@@ -4223,7 +4223,7 @@
       "education": 0.613,
       "income": 0.65,
       "lifespanYears": 51.7,
-      "educationYears": 10.2,
+      "educationYears": 11.1,
       "incomeDollars": 19946
     },
     "ihdiEstimate": null,
@@ -4254,7 +4254,7 @@
       "education": 0.892,
       "income": 0.762,
       "lifespanYears": 78.5,
-      "educationYears": 15.4,
+      "educationYears": 16.1,
       "incomeDollars": 48214
     },
     "ihdiEstimate": null,
@@ -4285,7 +4285,7 @@
       "education": 0.72,
       "income": 0.679,
       "lifespanYears": 74.7,
-      "educationYears": 11.8,
+      "educationYears": 12.7,
       "incomeDollars": 34311
     },
     "ihdiEstimate": null,
@@ -4318,7 +4318,7 @@
       "education": 0.205,
       "income": 0.435,
       "lifespanYears": 50,
-      "educationYears": 3.4,
+      "educationYears": 6.1,
       "incomeDollars": 4923
     },
     "ihdiEstimate": null,
@@ -4349,7 +4349,7 @@
       "education": 0.659,
       "income": 0.539,
       "lifespanYears": 71.6,
-      "educationYears": 10.9,
+      "educationYears": 12.1,
       "incomeDollars": 26180
     },
     "ihdiEstimate": null,
@@ -4383,7 +4383,7 @@
       "education": 0.608,
       "income": 0.52,
       "lifespanYears": 70.2,
-      "educationYears": 10.1,
+      "educationYears": 12.5,
       "incomeDollars": 12392
     },
     "ihdiEstimate": null,
@@ -4416,7 +4416,7 @@
       "education": 0.606,
       "income": 0.54,
       "lifespanYears": 59.4,
-      "educationYears": 10,
+      "educationYears": 11.4,
       "incomeDollars": 10218
     },
     "ihdiEstimate": null,
@@ -4449,7 +4449,7 @@
       "education": 0.786,
       "income": 0.453,
       "lifespanYears": 59.9,
-      "educationYears": 12.9,
+      "educationYears": 13.7,
       "incomeDollars": 11800
     },
     "ihdiEstimate": null,
@@ -4483,7 +4483,7 @@
       "education": 0.329,
       "income": 0.405,
       "lifespanYears": 52.7,
-      "educationYears": 5.6,
+      "educationYears": 8.2,
       "incomeDollars": 3602
     },
     "ihdiEstimate": null,
@@ -4514,7 +4514,7 @@
       "education": 0.861,
       "income": 0.732,
       "lifespanYears": 75.5,
-      "educationYears": 14.2,
+      "educationYears": 14.9,
       "incomeDollars": 42172
     },
     "ihdiEstimate": null,
@@ -4569,7 +4569,7 @@
       "education": 0.73,
       "income": 0.742,
       "lifespanYears": 79.8,
-      "educationYears": 12.3,
+      "educationYears": 13.6,
       "incomeDollars": 41759
     },
     "ihdiEstimate": null,
@@ -4602,7 +4602,7 @@
       "education": 0.585,
       "income": 0.497,
       "lifespanYears": 66,
-      "educationYears": 9.8,
+      "educationYears": 11.5,
       "incomeDollars": 12430
     },
     "ihdiEstimate": null,
@@ -4633,7 +4633,7 @@
       "education": 0.632,
       "income": 0.433,
       "lifespanYears": 53.3,
-      "educationYears": 10.5,
+      "educationYears": 11.6,
       "incomeDollars": 5590
     },
     "ihdiEstimate": null,
@@ -4666,7 +4666,7 @@
       "education": 0.651,
       "income": 0.829,
       "lifespanYears": 79.3,
-      "educationYears": 10.8,
+      "educationYears": 12,
       "incomeDollars": 108848,
       "estimatedParts": [
         "income"
@@ -4697,7 +4697,7 @@
       "education": 0.746,
       "income": 0.714,
       "lifespanYears": 72.2,
-      "educationYears": 12.3,
+      "educationYears": 12.8,
       "incomeDollars": 38808
     },
     "ihdiEstimate": null,
@@ -4728,7 +4728,7 @@
       "education": 0.768,
       "income": 0.734,
       "lifespanYears": 69,
-      "educationYears": 12.6,
+      "educationYears": 12.8,
       "incomeDollars": 39730
     },
     "ihdiEstimate": null,
@@ -4761,7 +4761,7 @@
       "education": 0.372,
       "income": 0.285,
       "lifespanYears": 55,
-      "educationYears": 6.3,
+      "educationYears": 8.7,
       "incomeDollars": 2060
     },
     "ihdiEstimate": null,
@@ -4794,7 +4794,7 @@
       "education": 0.748,
       "income": 0.779,
       "lifespanYears": 74.7,
-      "educationYears": 12.5,
+      "educationYears": 14.3,
       "incomeDollars": 51967,
       "estimatedParts": [
         "income"
@@ -4828,7 +4828,7 @@
       "education": 0.214,
       "income": 0.306,
       "lifespanYears": 50.4,
-      "educationYears": 3.6,
+      "educationYears": 6.3,
       "incomeDollars": 2123
     },
     "ihdiEstimate": null,
@@ -4859,7 +4859,7 @@
       "education": 0.186,
       "income": 0.343,
       "lifespanYears": 56.3,
-      "educationYears": 3.2,
+      "educationYears": 6,
       "incomeDollars": 3178
     },
     "ihdiEstimate": null,
@@ -4896,7 +4896,7 @@
       "education": 0.79,
       "income": 0.741,
       "lifespanYears": 81.5,
-      "educationYears": 13.1,
+      "educationYears": 14.4,
       "incomeDollars": 102621
     },
     "ihdiEstimate": null,
@@ -4926,7 +4926,7 @@
       "education": 0.422,
       "income": 0.389,
       "lifespanYears": 62.2,
-      "educationYears": 7.1,
+      "educationYears": 8.6,
       "incomeDollars": 2679
     },
     "ihdiEstimate": null,
@@ -4957,7 +4957,7 @@
       "education": 0.194,
       "income": 0.275,
       "lifespanYears": 40.1,
-      "educationYears": 3.3,
+      "educationYears": 6.3,
       "incomeDollars": 1368
     },
     "ihdiEstimate": null,
@@ -4988,7 +4988,7 @@
       "education": 0.435,
       "income": 0.54,
       "lifespanYears": 65.7,
-      "educationYears": 7.2,
+      "educationYears": 9.2,
       "incomeDollars": 10118
     },
     "ihdiEstimate": null,
@@ -5021,7 +5021,7 @@
       "education": 0.752,
       "income": 0.821,
       "lifespanYears": 84.2,
-      "educationYears": 12.4,
+      "educationYears": 13,
       "incomeDollars": 67685,
       "estimatedParts": [
         "income"
@@ -5055,7 +5055,7 @@
       "education": 0.15,
       "income": 0.214,
       "lifespanYears": 36.9,
-      "educationYears": 2.6,
+      "educationYears": 4.7,
       "incomeDollars": 966
     },
     "ihdiEstimate": null,
@@ -5086,7 +5086,7 @@
       "education": 0.773,
       "income": 0.712,
       "lifespanYears": 73.5,
-      "educationYears": 12.8,
+      "educationYears": 13.3,
       "incomeDollars": 24916
     },
     "ihdiEstimate": null,
@@ -5117,7 +5117,7 @@
       "education": 0.21,
       "income": 0.149,
       "lifespanYears": 36.5,
-      "educationYears": 3.4,
+      "educationYears": 5.7,
       "incomeDollars": 439
     },
     "ihdiEstimate": null,
@@ -5148,7 +5148,7 @@
       "education": 0.453,
       "income": 0.35,
       "lifespanYears": 62.8,
-      "educationYears": 7.7,
+      "educationYears": 9.4,
       "incomeDollars": 4009
     },
     "ihdiEstimate": null,
@@ -5181,7 +5181,7 @@
       "education": 0.478,
       "income": 0.436,
       "lifespanYears": 65.7,
-      "educationYears": 7.9,
+      "educationYears": 9.7,
       "incomeDollars": 12083,
       "estimatedParts": [
         "income"
@@ -5213,7 +5213,7 @@
       "education": 0.839,
       "income": 0.803,
       "lifespanYears": 74.8,
-      "educationYears": 13.8,
+      "educationYears": 14,
       "incomeDollars": 41242
     },
     "ihdiEstimate": null,
@@ -5244,7 +5244,7 @@
       "education": 0.899,
       "income": 0.834,
       "lifespanYears": 79.5,
-      "educationYears": 14.9,
+      "educationYears": 15.2,
       "incomeDollars": 51961
     },
     "ihdiEstimate": null,
@@ -5275,7 +5275,7 @@
       "education": 0.901,
       "income": 0.815,
       "lifespanYears": 81.1,
-      "educationYears": 15.5,
+      "educationYears": 15.9,
       "incomeDollars": 68385
     },
     "ihdiEstimate": null,
@@ -5309,7 +5309,7 @@
       "education": 0.564,
       "income": 0.274,
       "lifespanYears": 48.9,
-      "educationYears": 9.5,
+      "educationYears": 12,
       "incomeDollars": 4881
     },
     "ihdiEstimate": null,
@@ -5343,7 +5343,7 @@
       "education": 0.815,
       "income": 0.715,
       "lifespanYears": 66.1,
-      "educationYears": 13.7,
+      "educationYears": 14.7,
       "incomeDollars": 30342
     },
     "ihdiEstimate": null,
@@ -5374,7 +5374,7 @@
       "education": 0.293,
       "income": 0.474,
       "lifespanYears": 50.3,
-      "educationYears": 4.9,
+      "educationYears": 7.1,
       "incomeDollars": 4774
     },
     "ihdiEstimate": null,
@@ -5407,7 +5407,7 @@
       "education": 0.177,
       "income": 0.267,
       "lifespanYears": 34.5,
-      "educationYears": 3,
+      "educationYears": 5.3,
       "incomeDollars": 1345
     },
     "ihdiEstimate": null,
@@ -5438,7 +5438,7 @@
       "education": 0.348,
       "income": 0.283,
       "lifespanYears": 46.1,
-      "educationYears": 5.9,
+      "educationYears": 9.5,
       "incomeDollars": 1989
     },
     "ihdiEstimate": null,
@@ -5469,7 +5469,7 @@
       "education": 0.612,
       "income": 0.63,
       "lifespanYears": 70.8,
-      "educationYears": 10.3,
+      "educationYears": 12.2,
       "incomeDollars": 20059
     },
     "ihdiEstimate": null,
@@ -5502,7 +5502,7 @@
       "education": 0.636,
       "income": 0.49,
       "lifespanYears": 60.5,
-      "educationYears": 10.4,
+      "educationYears": 11.1,
       "incomeDollars": 5731
     },
     "ihdiEstimate": null,
@@ -5536,7 +5536,7 @@
       "education": 0.72,
       "income": 0.616,
       "lifespanYears": 56.5,
-      "educationYears": 11.9,
+      "educationYears": 12.2,
       "incomeDollars": 17377,
       "estimatedParts": [
         "income"
@@ -5570,7 +5570,7 @@
       "education": 0.317,
       "income": 0.507,
       "lifespanYears": 52.7,
-      "educationYears": 5.4,
+      "educationYears": 9.7,
       "incomeDollars": 5681
     },
     "ihdiEstimate": null,
@@ -5601,7 +5601,7 @@
       "education": 0.821,
       "income": 0.516,
       "lifespanYears": 67.1,
-      "educationYears": 13.7,
+      "educationYears": 14.4,
       "incomeDollars": 7344
     },
     "ihdiEstimate": null,
@@ -5634,7 +5634,7 @@
       "education": 0.711,
       "income": 0.473,
       "lifespanYears": 65.7,
-      "educationYears": 11.8,
+      "educationYears": 12.5,
       "incomeDollars": 18809,
       "estimatedParts": [
         "income"
@@ -5666,7 +5666,7 @@
       "education": 0.469,
       "income": 0.558,
       "lifespanYears": 71,
-      "educationYears": 7.9,
+      "educationYears": 11.1,
       "incomeDollars": 11532
     },
     "ihdiEstimate": null,
@@ -5697,7 +5697,7 @@
       "education": 0.7,
       "income": 0.628,
       "lifespanYears": 70.9,
-      "educationYears": 12.6,
+      "educationYears": 14.4,
       "incomeDollars": 30557
     },
     "ihdiEstimate": null,
@@ -5727,7 +5727,7 @@
       "education": 0.638,
       "income": 0.48,
       "lifespanYears": 58.3,
-      "educationYears": 10.5,
+      "educationYears": 11.6,
       "incomeDollars": 6532
     },
     "ihdiEstimate": null,
@@ -5783,7 +5783,7 @@
       "education": 0.325,
       "income": 0.317,
       "lifespanYears": 53.7,
-      "educationYears": 5.4,
+      "educationYears": 7.3,
       "incomeDollars": 2578
     },
     "ihdiEstimate": null,
@@ -5814,7 +5814,7 @@
       "education": 0.384,
       "income": 0.282,
       "lifespanYears": 54.5,
-      "educationYears": 6.4,
+      "educationYears": 8.9,
       "incomeDollars": 1922
     },
     "ihdiEstimate": null,
@@ -5844,7 +5844,7 @@
       "education": 0.714,
       "income": 0.672,
       "lifespanYears": 68.1,
-      "educationYears": 11.8,
+      "educationYears": 12.2,
       "incomeDollars": 18290
     },
     "ihdiEstimate": null,
@@ -5875,7 +5875,7 @@
       "education": 0.773,
       "income": 0.64,
       "lifespanYears": 73.6,
-      "educationYears": 12.9,
+      "educationYears": 14,
       "incomeDollars": 26715
     },
     "ihdiEstimate": null,
@@ -5906,7 +5906,7 @@
       "education": 0.882,
       "income": 0.759,
       "lifespanYears": 74.9,
-      "educationYears": 14.5,
+      "educationYears": 14.9,
       "incomeDollars": 69785
     },
     "ihdiEstimate": null,
@@ -5941,7 +5941,7 @@
       "education": 0.73,
       "income": 0.528,
       "lifespanYears": 66,
-      "educationYears": 12,
+      "educationYears": 12.2,
       "incomeDollars": 8579,
       "estimatedParts": [
         "income"
@@ -6000,7 +6000,7 @@
       "education": 0.778,
       "income": 0.435,
       "lifespanYears": 63.9,
-      "educationYears": 12.9,
+      "educationYears": 13.8,
       "incomeDollars": 12015,
       "estimatedParts": [
         "income"
@@ -6032,7 +6032,7 @@
       "education": 0.616,
       "income": 0.509,
       "lifespanYears": 63.4,
-      "educationYears": 10.2,
+      "educationYears": 11.3,
       "incomeDollars": 7030
     },
     "ihdiEstimate": null,
@@ -6063,7 +6063,7 @@
       "education": 0.618,
       "income": 0.581,
       "lifespanYears": 65.1,
-      "educationYears": 10.4,
+      "educationYears": 12.2,
       "incomeDollars": 12815
     },
     "ihdiEstimate": null,
@@ -6096,7 +6096,7 @@
       "education": 0.466,
       "income": 0.431,
       "lifespanYears": 63.6,
-      "educationYears": 7.8,
+      "educationYears": 9.5,
       "incomeDollars": 3428
     },
     "ihdiEstimate": null,
@@ -6129,7 +6129,7 @@
       "education": 0.672,
       "income": 0.471,
       "lifespanYears": 64.3,
-      "educationYears": 11,
+      "educationYears": 11.9,
       "incomeDollars": 5654
     },
     "ihdiEstimate": null,
@@ -6186,7 +6186,7 @@
       "education": 0.209,
       "income": 0.269,
       "lifespanYears": 55.6,
-      "educationYears": 3.5,
+      "educationYears": 6.5,
       "incomeDollars": 974
     },
     "ihdiEstimate": null,
@@ -6237,7 +6237,7 @@
       "education": 0.637,
       "income": 0.298,
       "lifespanYears": 53,
-      "educationYears": 10.5,
+      "educationYears": 12.7,
       "incomeDollars": 6834
     },
     "ihdiEstimate": null,
@@ -6268,7 +6268,7 @@
       "education": 0.44,
       "income": 0.196,
       "lifespanYears": 50.8,
-      "educationYears": 7.3,
+      "educationYears": 9.2,
       "incomeDollars": 1571
     },
     "ihdiEstimate": null,
@@ -6299,7 +6299,7 @@
       "education": 0.517,
       "income": 0.253,
       "lifespanYears": 48.8,
-      "educationYears": 8.5,
+      "educationYears": 10,
       "incomeDollars": 2061
     },
     "ihdiEstimate": null,
