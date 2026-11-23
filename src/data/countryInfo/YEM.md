@@ -12,4 +12,4 @@ Yemen is the poorest country in the Arab world. Its economy, once based on oil, 
 
 ## International Relations
 
-The Houthis, backed by Iran, control the north, while the internationally recognized government holds the south with Saudi and Emirati support. Houthi attacks on Red Sea shipping since 2023 led to US and Israeli strikes.
+The Houthis, backed by [Iran]{IRN}, control the north, while the internationally recognized government holds the south with Saudi and Emirati support. Houthi attacks on Red Sea shipping since 2023 led to [US]{USA} and Israeli strikes.

@@ -21,6 +21,10 @@
   position: fixed;
 }
 
-.back-button:hover {
-  background: rgba(40, 48, 70, 0.95);
+/* Only where hover is real: touch screens keep :hover after a tap, which left
+   Name every country's Hint lit after cancelling it. */
+@media (hover: hover) {
+  .back-button:hover {
+    background: rgba(40, 48, 70, 0.95);
+  }
 }

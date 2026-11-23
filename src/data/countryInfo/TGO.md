@@ -1,6 +1,6 @@
 ## History
 
-Togo became a German colony in 1884, then was divided between Britain and France after World War I. The British part joined Ghana, and French Togoland became independent in 1960. Gnassingbé Eyadéma seized power in 1967, and his son Faure Gnassingbé succeeded him in 2005. A new constitution in 2024 created a new top post without term limits.
+Togo became a German colony in 1884, then was divided between [Britain]{GBR} and [France]{FRA} after World War I. The British part joined [Ghana]{GHA}, and French Togoland became independent in 1960. Gnassingbé Eyadéma seized power in 1967, and his son Faure Gnassingbé succeeded him in 2005. A new constitution in 2024 created a new top post without term limits.
 
 ## People
 

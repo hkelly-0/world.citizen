@@ -1,6 +1,6 @@
 ## History
 
-Libya was ruled by Greeks, Romans, Arabs, and Ottomans. Italy colonized it in 1911, and it became independent in 1951. Muammar Gaddafi ruled from 1969 until he was overthrown and killed in 2011, with NATO support. Since then, rival governments have competed for power.
+Libya was ruled by Greeks, Romans, Arabs, and Ottomans. [Italy]{ITA} colonized it in 1911, and it became independent in 1951. Muammar Gaddafi ruled from 1969 until he was overthrown and killed in 2011, with NATO support. Since then, rival governments have competed for power.
 
 ## People
 
@@ -12,4 +12,4 @@ Libya has Africa's largest proven oil reserves, which provide almost all its inc
 
 ## International Relations
 
-Libya is divided between a UN-recognized government in the west and rival forces in the east. Turkey, Russia, Egypt, and the UAE have all backed sides. It is a major route for migrants to Europe.
+Libya is divided between a UN-recognized government in the west and rival forces in the east. [Turkey]{TUR}, [Russia]{RUS}, [Egypt]{EGY}, and the [UAE]{ARE} have all backed sides. It is a major route for migrants to Europe.

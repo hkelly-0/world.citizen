@@ -1,6 +1,6 @@
 ## History
 
-France was one of Europe's great powers for centuries. The French Revolution of 1789 overthrew the monarchy, and Napoleon then conquered much of Europe. France built a large empire in Africa and Asia, and was a major battleground in both World Wars. Most colonies became independent around 1960, some after bitter wars, notably in Algeria.
+France was one of Europe's great powers for centuries. The French Revolution of 1789 overthrew the monarchy, and Napoleon then conquered much of Europe. France built a large empire in Africa and Asia, and was a major battleground in both World Wars. Most colonies became independent around 1960, some after bitter wars, notably in [Algeria]{DZA}.
 
 ## People
 
@@ -12,4 +12,4 @@ France has one of the largest economies in the world. Key sectors include aerosp
 
 ## International Relations
 
-France is a nuclear power and a permanent member of the UN Security Council. It founded the EU alongside Germany and belongs to NATO and the G7. Its influence in its former West African colonies has declined.
+France is a nuclear power and a permanent member of the UN Security Council. It founded the EU alongside [Germany]{DEU} and belongs to NATO and the G7. Its influence in its former West African colonies has declined.

@@ -1,6 +1,6 @@
 ## History
 
-Montenegro's mountains helped it resist Ottoman rule, and it was recognized as independent in 1878. It joined Yugoslavia after World War I, then stayed in a union with Serbia after Yugoslavia broke up. It became independent after a referendum in 2006.
+Montenegro's mountains helped it resist Ottoman rule, and it was recognized as independent in 1878. It joined Yugoslavia after World War I, then stayed in a union with [Serbia]{SRB} after Yugoslavia broke up. It became independent after a referendum in 2006.
 
 ## People
 

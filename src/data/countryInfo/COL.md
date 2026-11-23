@@ -1,6 +1,6 @@
 ## History
 
-Colombia was colonized by Spain and won independence under Simón Bolívar in 1819, initially as part of Gran Colombia. Panama broke away in 1903. A long conflict between the government, left-wing guerrillas such as FARC, paramilitaries, and drug cartels killed hundreds of thousands. A peace deal with FARC was signed in 2016.
+Colombia was colonized by [Spain]{ESP} and won independence under Simón Bolívar in 1819, initially as part of Gran Colombia. [Panama]{PAN} broke away in 1903. A long conflict between the government, left-wing guerrillas such as FARC, paramilitaries, and drug cartels killed hundreds of thousands. A peace deal with FARC was signed in 2016.
 
 ## People
 
@@ -12,4 +12,4 @@ Colombia has an upper-middle-income economy. Oil, coal, coffee, cut flowers, and
 
 ## International Relations
 
-Colombia has long been a close US ally, especially in the war on drugs, and is a NATO global partner. It belongs to the Pacific Alliance and Andean Community, and its relations with Venezuela shift with each government.
+Colombia has long been a close [US]{USA} ally, especially in the war on drugs, and is a NATO global partner. It belongs to the Pacific Alliance and Andean Community, and its relations with [Venezuela]{VEN} shift with each government.

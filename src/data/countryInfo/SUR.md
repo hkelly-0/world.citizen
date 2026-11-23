@@ -1,6 +1,6 @@
 ## History
 
-The Netherlands took Suriname from England in 1667, in exchange for New Amsterdam (New York). Enslaved Africans worked its plantations, and many escaped to found Maroon communities in the interior. Later, labourers were brought from India and Java. Suriname gained independence in 1975 and was under military rule for much of the 1980s.
+[The Netherlands]{NLD} took Suriname from England in 1667, in exchange for New Amsterdam (New York). Enslaved Africans worked its plantations, and many escaped to found Maroon communities in the interior. Later, labourers were brought from [India]{IND} and Java. Suriname gained independence in 1975 and was under military rule for much of the 1980s.
 
 ## People
 
@@ -12,4 +12,4 @@ Suriname's economy relies on gold, oil, and bauxite. Major offshore oil discover
 
 ## International Relations
 
-Suriname has close ties with the Netherlands, where a large Surinamese community lives. It is a member of CARICOM, and has border disputes with Guyana and French Guiana.
+Suriname has close ties with the [Netherlands]{NLD}, where a large Surinamese community lives. It is a member of CARICOM, and has border disputes with [Guyana]{GUY} and French Guiana.

@@ -1,6 +1,6 @@
 ## History
 
-Burundi was a kingdom ruled by Tutsi aristocrats before being colonized by Germany and then Belgium, which deepened divisions between Hutu and Tutsi. It became independent in 1962. Ethnic massacres followed, and a civil war (1993–2005) killed about 300,000 people. Pierre Nkurunziza's bid for a third term in 2015 sparked a crisis.
+Burundi was a kingdom ruled by Tutsi aristocrats before being colonized by [Germany]{DEU} and then [Belgium]{BEL}, which deepened divisions between Hutu and Tutsi. It became independent in 1962. Ethnic massacres followed, and a civil war (1993–2005) killed about 300,000 people. Pierre Nkurunziza's bid for a third term in 2015 sparked a crisis.
 
 ## People
 
@@ -12,4 +12,4 @@ Burundi is one of the world's poorest countries. Most people are farmers, and co
 
 ## International Relations
 
-Burundi is a member of the East African Community. It has tense relations with Rwanda, and its troops have fought in the Democratic Republic of the Congo and Somalia.
+Burundi is a member of the East African Community. It has tense relations with [Rwanda]{RWA}, and its troops have fought in the [Democratic Republic of the Congo]{COD} and [Somalia]{SOM}.

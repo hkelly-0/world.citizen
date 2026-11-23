@@ -4,7 +4,7 @@ German states were united in 1871. Germany was defeated in World War I, and unde
 
 ## People
 
-Germany is the EU's most populous country. Most people speak German, and many have roots in Turkey, Poland, Syria, and other countries. Religion is split between Catholics, Protestants, and a growing non-religious majority.
+Germany is the EU's most populous country. Most people speak German, and many have roots in [Turkey]{TUR}, [Poland]{POL}, [Syria]{SYR}, and other countries. Religion is split between Catholics, Protestants, and a growing non-religious majority.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Germany has Europe's largest economy, built on engineering, cars, chemicals, and
 
 ## International Relations
 
-Germany is a founding member of the EU and a member of NATO and the G7. After World War II, it favoured diplomacy over military power, but has expanded its defences since Russia's invasion of Ukraine.
+Germany is a founding member of the EU and a member of NATO and the G7. After World War II, it favoured diplomacy over military power, but has expanded its defences since [Russia]{RUS}'s invasion of [Ukraine]{UKR}.

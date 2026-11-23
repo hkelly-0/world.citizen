@@ -1,5 +1,7 @@
 // Paragraphs about one country, hand-written in src/data/countryInfo/{ISO}.md.
-// Plain text for now.
+// Other countries named in them are written as links ("[the US]{USA}", see
+// countryLinks.ts): only the first mention in each paragraph, and never the
+// file's own country.
 export type CountryInfo = {
   history: string
   people: string

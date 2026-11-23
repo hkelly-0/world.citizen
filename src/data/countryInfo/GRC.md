@@ -12,4 +12,4 @@ Greece's economy is based on tourism, shipping, and agriculture. It suffered a s
 
 ## International Relations
 
-Greece joined NATO in 1952 and the EU in 1981. It has a long rivalry with Turkey over airspace, islands, and Cyprus. Thousands of migrants cross from Turkey to its islands.
+Greece joined NATO in 1952 and the EU in 1981. It has a long rivalry with [Turkey]{TUR} over airspace, islands, and [Cyprus]{CYP}. Thousands of migrants cross from Turkey to its islands.

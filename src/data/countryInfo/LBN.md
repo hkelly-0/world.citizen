@@ -1,6 +1,6 @@
 ## History
 
-Lebanon's coast was home to the ancient Phoenicians. After Ottoman and French rule, it became independent in 1943. A civil war (1975–90) killed about 150,000 people, and Syria and Israel occupied parts of the country. In 2020, a huge explosion devastated Beirut's port.
+Lebanon's coast was home to the ancient Phoenicians. After Ottoman and French rule, it became independent in 1943. A civil war (1975–90) killed about 150,000 people, and [Syria]{SYR} and [Israel]{ISR} occupied parts of the country. In 2020, a huge explosion devastated Beirut's port.
 
 ## People
 
@@ -12,4 +12,4 @@ Lebanon was once a regional banking and tourism centre, but since 2019 has suffe
 
 ## International Relations
 
-Lebanon is shaped by its neighbours. Hezbollah, a powerful armed group backed by Iran, fought a war with Israel in 2024. Relations with Syria have been close but strained.
+Lebanon is shaped by its neighbours. Hezbollah, a powerful armed group backed by [Iran]{IRN}, fought a war with [Israel]{ISR} in 2024. Relations with [Syria]{SYR} have been close but strained.

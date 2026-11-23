@@ -1,7 +1,8 @@
 // A paragraph about a map area outside the 197 countries (e.g. Somaliland),
 // hand-written in src/data/territoryInfo/{key}.md. Keyed like
 // territorySubtitles.json: by ISO alpha-3 code, or by map name for areas with
-// no code. Plain text for now.
+// no code. Countries named in it are written as links ("[Morocco]{MAR}", see
+// countryLinks.ts), only the first mention of each.
 
 // The one heading every file must have. Its paragraph is at most 80 words.
 export const TERRITORY_INFO_HEADING = 'More info'

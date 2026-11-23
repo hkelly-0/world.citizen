@@ -1,6 +1,6 @@
 ## History
 
-Spain and Portugal fought over Uruguay, which became independent in 1828 as a buffer between Argentina and Brazil. In the early 1900s it became one of the first welfare states in the Americas. A military dictatorship ruled from 1973 to 1985.
+[Spain]{ESP} and [Portugal]{PRT} fought over Uruguay, which became independent in 1828 as a buffer between [Argentina]{ARG} and [Brazil]{BRA}. In the early 1900s it became one of the first welfare states in the Americas. A military dictatorship ruled from 1973 to 1985.
 
 ## People
 
@@ -12,4 +12,4 @@ Uruguay is one of the wealthiest countries in South America. It exports beef, so
 
 ## International Relations
 
-Uruguay is a founding member of Mercosur, headquartered in Montevideo, and has close ties with Argentina and Brazil. It is known as one of the most stable democracies in Latin America.
+Uruguay is a founding member of Mercosur, headquartered in Montevideo, and has close ties with [Argentina]{ARG} and [Brazil]{BRA}. It is known as one of the most stable democracies in Latin America.

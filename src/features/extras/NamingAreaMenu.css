@@ -1,0 +1,80 @@
+/* As the Settings' currency list, but as wide as the main menu's column and
+   as tall as its buttons. */
+.naming-area-menu__choice {
+  width: 100%;
+  max-width: 280px;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  color: #f2f4f8;
+  font: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* As Custom Practice's Go: green like "Play Tutorial", so it stands out as
+   the action. */
+.naming-area-menu__go {
+  width: 100%;
+  max-width: 280px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid var(--correct-green);
+  border-radius: 12px;
+  background: var(--correct-green-tint);
+  color: inherit;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.naming-area-menu__go:hover {
+  background: var(--correct-green-tint-hover);
+}
+
+/* Previous Scores: below Go, centred under the main menu's column but wider
+   (360px rather than 280px), so each row fits on one line. */
+.naming-area-menu__scores {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 16px;
+}
+
+/* As the end of a game's "Remaining Countries" heading. */
+.naming-area-menu__scores h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.naming-area-menu__no-scores {
+  margin: 0;
+  color: #a9b1c2;
+}
+
+.naming-area-menu__scores table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.naming-area-menu__scores th,
+.naming-area-menu__scores td {
+  padding: 4px 0;
+  text-align: left;
+}
+
+.naming-area-menu__scores th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #a9b1c2;
+  font-weight: normal;
+}
+
+/* The hints, score, and time line up on their right edges, apart from the
+   column before. */
+.naming-area-menu__scores th:not(:first-child),
+.naming-area-menu__scores td:not(:first-child) {
+  padding-left: 8px;
+  text-align: right;
+}

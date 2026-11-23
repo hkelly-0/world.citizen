@@ -12,4 +12,4 @@ Sri Lanka's economy is based on tea, clothing, tourism, and money sent home by m
 
 ## International Relations
 
-Sri Lanka balances ties with India and China, which has funded major ports and infrastructure. It is a member of the Commonwealth.
+Sri Lanka balances ties with [India]{IND} and [China]{CHN}, which has funded major ports and infrastructure. It is a member of the Commonwealth.

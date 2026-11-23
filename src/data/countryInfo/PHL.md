@@ -1,6 +1,6 @@
 ## History
 
-The Philippines was ruled by Spain from 1565 to 1898, then by the US. Japan occupied it in World War II, and it became independent in 1946. Ferdinand Marcos ruled as a dictator until the People Power Revolution of 1986.
+The Philippines was ruled by [Spain]{ESP} from 1565 to 1898, then by the [US]{USA}. [Japan]{JPN} occupied it in World War II, and it became independent in 1946. Ferdinand Marcos ruled as a dictator until the People Power Revolution of 1986.
 
 ## People
 
@@ -12,4 +12,4 @@ The Philippines has a fast-growing economy, based on services such as call centr
 
 ## International Relations
 
-The Philippines is a long-standing US ally and a founding member of ASEAN. It disputes China's claims in the South China Sea, leading to frequent clashes.
+The Philippines is a long-standing [US]{USA} ally and a founding member of ASEAN. It disputes [China]{CHN}'s claims in the South China Sea, leading to frequent clashes.

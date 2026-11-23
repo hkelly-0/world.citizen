@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { correctedSpelling } from '../../shared/typoMatch'
 import './TypedAnswerReveal.css'
 
 // How long each letter of the correct answer takes to appear.
@@ -12,14 +13,25 @@ type TypedAnswerRevealProps = {
   isCorrect: boolean
   // The answer to type out after a wrong one, e.g. "Pretoria, Bloemfontein, Cape Town".
   correctAnswer: string
+  // For a correct answer, the accepted name it matched (e.g. "Ouagadougou"),
+  // shown in place of the answer with its accents and typos fixed
+  // (`correctedSpelling`).
+  acceptedName?: string | null
 }
 
 // Replaces a text box once a typed question is answered. A correct answer fades
 // to green with the box highlighted green, and its letters jump up and down
-// one after another. A wrong answer fades to red, and
-// the correct answer is then typed out in green beside it.
-export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnswerRevealProps) {
+// one after another, its accents and typos fixed. A wrong answer fades to
+// red, and the correct answer is then typed out in green beside it.
+export function TypedAnswerReveal({
+  typed,
+  isCorrect,
+  correctAnswer,
+  acceptedName = null,
+}: TypedAnswerRevealProps) {
   const [lettersTyped, setLettersTyped] = useState(0)
+  const shownAnswer =
+    isCorrect && acceptedName !== null ? correctedSpelling(typed, acceptedName) : typed
 
   useEffect(() => {
     if (isCorrect) return
@@ -43,8 +55,8 @@ export function TypedAnswerReveal({ typed, isCorrect, correctAnswer }: TypedAnsw
       <span>
         {isCorrect ? (
           // Each letter is hidden from screen readers; the label reads the whole answer.
-          <span className="typed-answer__green" aria-label={typed}>
-            {[...typed].map((letter, index) => (
+          <span className="typed-answer__green" aria-label={shownAnswer}>
+            {[...shownAnswer].map((letter, index) => (
               <span
                 key={index}
                 className="typed-answer__jump-letter"

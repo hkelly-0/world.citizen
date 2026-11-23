@@ -1,6 +1,6 @@
 ## History
 
-Iceland was settled by Norse Vikings around 870, and its parliament, the Althing, founded in 930, is one of the oldest in the world. It was ruled by Norway and then Denmark, and became fully independent in 1944.
+Iceland was settled by Norse Vikings around 870, and its parliament, the Althing, founded in 930, is one of the oldest in the world. It was ruled by [Norway]{NOR} and then [Denmark]{DNK}, and became fully independent in 1944.
 
 ## People
 
@@ -12,4 +12,4 @@ Iceland's economy relies on fishing, tourism, and aluminium smelting powered by 
 
 ## International Relations
 
-Iceland is a founding member of NATO but has no army. It is not in the EU but takes part in its single market. Disputes with Britain over fishing rights led to the "Cod Wars" between 1958 and 1976.
+Iceland is a founding member of NATO but has no army. It is not in the EU but takes part in its single market. Disputes with [Britain]{GBR} over fishing rights led to the "Cod Wars" between 1958 and 1976.

@@ -12,4 +12,4 @@ Thailand has a large, upper-middle-income economy, led by car and electronics ma
 
 ## International Relations
 
-Thailand is a founding member of ASEAN and a long-standing US ally, while also close to China. It had a border conflict with Cambodia in 2025.
+Thailand is a founding member of ASEAN and a long-standing [US]{USA} ally, while also close to [China]{CHN}. It had a border conflict with [Cambodia]{KHM} in 2025.

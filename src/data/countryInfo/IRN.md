@@ -1,6 +1,6 @@
 ## History
 
-Iran, long known as Persia, was home to great empires, beginning with the Achaemenids in the 500s BC. It became Muslim after Arab conquest in the 600s and Shia under the Safavids around 1500. In 1953 a UK and US-backed coup restored the Shah, who was overthrown in the 1979 Islamic Revolution.
+Iran, long known as Persia, was home to great empires, beginning with the Achaemenids in the 500s BC. It became Muslim after Arab conquest in the 600s and Shia under the Safavids around 1500. In 1953 a [UK]{GBR} and US-backed coup restored the Shah, who was overthrown in the 1979 Islamic Revolution.
 
 ## People
 
@@ -12,4 +12,4 @@ Iran has some of the world's largest oil and gas reserves. Its economy also incl
 
 ## International Relations
 
-Iran is a regional power, backing groups such as Hezbollah and the Houthis. Its nuclear program has led to sanctions and conflict with the US and Israel, which bombed its nuclear sites in 2025.
+Iran is a regional power, backing groups such as Hezbollah and the Houthis. Its nuclear program has led to sanctions and conflict with the [US]{USA} and [Israel]{ISR}, which bombed its nuclear sites in 2025.

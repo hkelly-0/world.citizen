@@ -19,6 +19,7 @@ import {
   type StatValue,
 } from '../../shared/statRanges'
 import { CountryInfoSections } from './CountryInfoSections'
+import { CountryLinkedText } from './CountryLinkedText'
 import { TerritoryInfoSection } from './TerritoryInfoSection'
 import { hasTerritoryInfo } from '../../shared/territoryInfo'
 import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
@@ -34,8 +35,9 @@ type CountryInfoPanelProps = {
   learnedQuestionIds: QuestionId[]
   onClose: () => void
   // Called with a country's ISO alpha-3 code when its name in a territory's
-  // subtitle is clicked, to select that country instead. Only the globe shows
-  // territories, so only it passes this.
+  // subtitle or in an info paragraph is clicked, to select that country
+  // instead. Only the globe shows territories and paragraphs, so only it
+  // passes this.
   onSelectCountry?: (isoAlpha3: string) => void
   // Whether to show the paragraphs about the country (History, People, etc.)
   // below the facts, those in learnedQuestionIds. Only the globe shows them.
@@ -98,21 +100,11 @@ export function CountryInfoPanel({
       {facts === undefined ? (
         <>
           <p className="country-info-panel__note">
-            {subtitle === undefined
-              ? 'Not one of the 197 countries in this app.'
-              : subtitle.map((part, i) =>
-                  'text' in part ? (
-                    part.text
-                  ) : (
-                    <button
-                      key={i}
-                      className="country-info-panel__country-link"
-                      onClick={() => onSelectCountry?.(part.isoAlpha3)}
-                    >
-                      {part.name}
-                    </button>
-                  ),
-                )}
+            {subtitle === undefined ? (
+              'Not one of the 197 countries in this app.'
+            ) : (
+              <CountryLinkedText parts={subtitle} onSelectCountry={onSelectCountry} />
+            )}
           </p>
           {/* Shown like a country's, against the same ranges. */}
           {figures !== undefined && (
@@ -140,7 +132,11 @@ export function CountryInfoPanel({
             </dl>
           )}
           {showCountryInfo && hasTerritoryInfo(territoryKey) && (
-            <TerritoryInfoSection key={territoryKey} territoryKey={territoryKey} />
+            <TerritoryInfoSection
+              key={territoryKey}
+              territoryKey={territoryKey}
+              onSelectCountry={onSelectCountry}
+            />
           )}
         </>
       ) : (
@@ -218,6 +214,7 @@ export function CountryInfoPanel({
               key={facts.isoAlpha3}
               isoAlpha3={facts.isoAlpha3}
               learnedQuestionIds={learnedQuestionIds}
+              onSelectCountry={onSelectCountry}
             />
           )}
         </>

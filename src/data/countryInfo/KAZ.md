@@ -12,4 +12,4 @@ Kazakhstan has Central Asia's largest economy, based on oil, gas, uranium, and m
 
 ## International Relations
 
-Kazakhstan balances ties with Russia, China, and the West. It is part of the Eurasian Economic Union, and hosts the Baikonur Cosmodrome, which Russia leases for space launches.
+Kazakhstan balances ties with [Russia]{RUS}, [China]{CHN}, and the West. It is part of the Eurasian Economic Union, and hosts the Baikonur Cosmodrome, which Russia leases for space launches.

@@ -1,6 +1,6 @@
 ## History
 
-Saint Kitts was the site of the first English and French settlements in the Caribbean in the 1620s, and both nations shared it. Britain took full control in 1783, and sugar plantations worked by enslaved Africans dominated. The islands gained independence in 1983.
+Saint Kitts was the site of the first English and French settlements in the Caribbean in the 1620s, and both nations shared it. [Britain]{GBR} took full control in 1783, and sugar plantations worked by enslaved Africans dominated. The islands gained independence in 1983.
 
 ## People
 
@@ -12,4 +12,4 @@ The sugar industry closed in 2005, and the economy now relies on tourism, offsho
 
 ## International Relations
 
-Saint Kitts and Nevis is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It recognizes Taiwan instead of China.
+Saint Kitts and Nevis is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It recognizes [Taiwan]{TWN} instead of [China]{CHN}.

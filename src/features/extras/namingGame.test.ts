@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { COUNTRY_COUNT } from '../passport/passport'
-import { formatElapsedTime, NAMING_AREAS, namedCountry, remainingCountryNames } from './namingGame'
+import {
+  firstLetterOfName,
+  formatElapsedTime,
+  NAMING_AREAS,
+  namedCountry,
+  remainingCountryNames,
+} from './namingGame'
 
 const world = NAMING_AREAS[0]
 const europe = NAMING_AREAS.find((area) => area.id === 'europe')!
@@ -78,5 +84,12 @@ describe('formatElapsedTime', () => {
     expect(formatElapsedTime(7_999)).toBe('0:07')
     expect(formatElapsedTime(765_000)).toBe('12:45')
     expect(formatElapsedTime(3_723_000)).toBe('1:02:03')
+  })
+})
+
+describe('firstLetterOfName', () => {
+  it('gives the first letter, ignoring a leading "The"', () => {
+    expect(firstLetterOfName('France')).toBe('F')
+    expect(firstLetterOfName('The Gambia')).toBe('G')
   })
 })

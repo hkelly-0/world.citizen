@@ -1,6 +1,6 @@
 ## History
 
-Dominica's mountains and forests helped the Indigenous Kalinago resist European settlement longer than on other islands. France and Britain fought over it, with Britain taking control in 1763. It gained independence in 1978.
+Dominica's mountains and forests helped the Indigenous Kalinago resist European settlement longer than on other islands. [France]{FRA} and [Britain]{GBR} fought over it, with Britain taking control in 1763. It gained independence in 1978.
 
 ## People
 
@@ -12,4 +12,4 @@ Dominica relies on agriculture, especially bananas, eco-tourism, and selling cit
 
 ## International Relations
 
-Dominica is a republic within the Commonwealth and a member of CARICOM and the Organisation of Eastern Caribbean States. It has close ties with China, which has funded much of its infrastructure, and with Venezuela.
+Dominica is a republic within the Commonwealth and a member of CARICOM and the Organisation of Eastern Caribbean States. It has close ties with [China]{CHN}, which has funded much of its infrastructure, and with [Venezuela]{VEN}.

@@ -89,6 +89,16 @@ describe('BordersCard', () => {
     expect(onFinish).toHaveBeenCalled()
   })
 
+  it('shows a right box with its accents and typos fixed, in the typed style', async () => {
+    renderBorders('FRA')
+    await answerRound(1, ['spian', 'Germny', 'BELGIUM', 'Switzerland'])
+
+    expect(screen.getByLabelText('Bordering country 1')).toHaveTextContent('spain')
+    expect(screen.getByLabelText('Bordering country 2')).toHaveTextContent('Germany')
+    expect(screen.getByLabelText('Bordering country 3')).toHaveTextContent('BELGIUM')
+    expect(screen.getByLabelText('Bordering country 4')).toHaveTextContent('Switzerland')
+  })
+
   it('moves to the next box on Enter, and reveals on Enter in the last box', async () => {
     renderBorders()
 

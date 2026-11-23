@@ -1,10 +1,10 @@
 ## History
 
-Columbus landed on Hispaniola in 1492, and Santo Domingo became the first European city in the Americas. The Dominican Republic became independent in 1844 after Haitian rule. The dictator Rafael Trujillo ruled brutally from 1930 to 1961, and the US occupied the country twice, in 1916 and 1965.
+Columbus landed on Hispaniola in 1492, and Santo Domingo became the first European city in the Americas. The Dominican Republic became independent in 1844 after Haitian rule. The dictator Rafael Trujillo ruled brutally from 1930 to 1961, and the [US]{USA} occupied the country twice, in 1916 and 1965.
 
 ## People
 
-Most Dominicans are of mixed European and African descent and speak Spanish. Most are Catholic. There is a large Haitian immigrant community, and many Dominicans live in the United States.
+Most Dominicans are of mixed European and African descent and speak Spanish. Most are Catholic. There is a large Haitian immigrant community, and many Dominicans live in the [United States]{USA}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ The Dominican Republic has one of the fastest-growing economies in Latin America
 
 ## International Relations
 
-The Dominican Republic has close ties with the United States, its main trading partner, and is part of the Central America free-trade agreement with it. Relations with Haiti are tense over migration and border security.
+The Dominican Republic has close ties with the [United States]{USA}, its main trading partner, and is part of the Central America free-trade agreement with it. Relations with [Haiti]{HTI} are tense over migration and border security.

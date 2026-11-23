@@ -76,20 +76,74 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
   })
 
-  it('opens Name every country for an area from the Extras menu, and its Done goes back to the Extras menu', async () => {
+  it('opens Name every country for an area from the Extras menu, and its Done goes back to the menu of areas, still on that area', async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
-    expect(screen.getByRole('heading', { name: 'Name every country in…' })).toBeInTheDocument()
-    const areaButtons = ['The World', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
-    for (const name of areaButtons) {
-      expect(screen.getByRole('button', { name })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Game: Name Every Country' }))
+    expect(screen.getByRole('heading', { name: 'Name Every Country in' })).toBeInTheDocument()
+    const areaList = screen.getByRole('combobox', { name: 'Name Every Country in' })
+    expect(areaList).toHaveDisplayValue('The World')
+    const areaNames = ['The World', 'Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
+    for (const name of areaNames) {
+      expect(screen.getByRole('option', { name })).toBeInTheDocument()
     }
-    await userEvent.click(screen.getByRole('button', { name: 'Europe' }))
+    expect(screen.getByRole('heading', { name: 'Previous Scores: The World' })).toBeInTheDocument()
+    expect(screen.getByText('No games yet')).toBeInTheDocument()
+    await userEvent.selectOptions(areaList, 'Europe')
+    await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(history.state).toEqual({ screen: 'name-every-country', namingAreaId: 'europe' })
     await userEvent.click(await screen.findByRole('button', { name: 'Finish game in Europe' }))
 
+    expect(
+      await screen.findByRole('heading', { name: 'Name Every Country in' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'Name Every Country in' })).toHaveDisplayValue(
+      'Europe',
+    )
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     expect(await screen.findByRole('heading', { name: 'Extras' })).toBeInTheDocument()
+  })
+
+  it("lists the chosen area's previous scores, most recent first, with hints and the stopwatch's time or a hyphen", async () => {
+    const scores = [
+      {
+        areaId: 'europe',
+        endedAt: new Date(2026, 10, 1).getTime(),
+        namedCount: 12,
+        countryCount: 44,
+        elapsedMs: null,
+        hintCount: 0,
+      },
+      {
+        areaId: 'asia',
+        endedAt: new Date(2026, 10, 2).getTime(),
+        namedCount: 5,
+        countryCount: 47,
+        elapsedMs: null,
+        hintCount: 0,
+      },
+      {
+        areaId: 'europe',
+        endedAt: new Date(2026, 10, 22).getTime(),
+        namedCount: 30,
+        countryCount: 44,
+        elapsedMs: 125_000,
+        hintCount: 2,
+      },
+    ]
+    localStorage.setItem('geography-app/naming-scores', JSON.stringify(scores))
+    render(<App />)
+    await userEvent.click(screen.getByRole('button', { name: 'Extras' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Game: Name Every Country' }))
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: 'Name Every Country in' }),
+      'Europe',
+    )
+
+    expect(screen.getByRole('heading', { name: 'Previous Scores: Europe' })).toBeInTheDocument()
+    const rows = screen.getAllByRole('row').map((row) => row.textContent)
+    expect(rows).toEqual(['DateHintsScoreTime', '22 Nov 2026230/442:05', '1 Nov 2026012/44-'])
   })
 
   it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {

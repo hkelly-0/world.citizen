@@ -4,7 +4,7 @@ Muslims ruled much of Spain from 711 until 1492, when Spain also began building 
 
 ## People
 
-Spanish is dominant, while Catalan, Basque, and Galician are co-official in their regions. Catalonia has a strong independence movement. Many residents are immigrants from Latin America, Morocco, and Romania.
+Spanish is dominant, while Catalan, Basque, and Galician are co-official in their regions. Catalonia has a strong independence movement. Many residents are immigrants from Latin America, [Morocco]{MAR}, and [Romania]{ROU}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Spain has a large economy based on tourism, services, cars, and agriculture, esp
 
 ## International Relations
 
-Spain joined NATO in 1982 and the EU in 1986, and has strong ties with Latin America. It claims Gibraltar from the UK, while its own cities of Ceuta and Melilla in North Africa are claimed by Morocco.
+Spain joined NATO in 1982 and the EU in 1986, and has strong ties with Latin America. It claims Gibraltar from the [UK]{GBR}, while its own cities of Ceuta and Melilla in North Africa are claimed by [Morocco]{MAR}.

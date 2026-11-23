@@ -12,4 +12,4 @@ Qatar has one of the world's highest incomes per person, thanks to its huge natu
 
 ## International Relations
 
-Qatar hosts the largest US military base in the Middle East and the news network Al Jazeera. It is a key mediator in conflicts, including Gaza. Its neighbours blockaded it from 2017 to 2021.
+Qatar hosts the largest [US]{USA} military base in the Middle East and the news network Al Jazeera. It is a key mediator in conflicts, including Gaza. Its neighbours blockaded it from 2017 to 2021.

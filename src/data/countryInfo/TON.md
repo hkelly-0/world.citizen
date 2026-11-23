@@ -4,7 +4,7 @@ Tonga was the centre of a powerful maritime empire from around the 900s. It was 
 
 ## People
 
-Almost all people are Tongan and Christian. More Tongans live abroad than in Tonga, mainly in New Zealand, Australia, and the US.
+Almost all people are Tongan and Christian. More Tongans live abroad than in Tonga, mainly in [New Zealand]{NZL}, [Australia]{AUS}, and the [US]{USA}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Tonga's economy relies on money sent home by Tongans abroad, agriculture, fishin
 
 ## International Relations
 
-Tonga is a member of the Commonwealth and the Pacific Islands Forum. China is a major lender.
+Tonga is a member of the Commonwealth and the Pacific Islands Forum. [China]{CHN} is a major lender.

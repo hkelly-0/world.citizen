@@ -2,6 +2,7 @@ import {
   Map as MapLibreMap,
   Point,
   setWorkerUrl,
+  type ExpressionSpecification,
   type LayerSpecification,
   type PointLike,
   type StyleSpecification,
@@ -71,6 +72,14 @@ const DISPUTED_BORDER_DASH = [4, 3]
 const DISPUTED_BORDER_COLOR = 'rgba(255, 255, 255, 0.91)'
 // Every layer that draws borders, for dimming and hiding them together.
 const BORDER_LAYER_IDS = ['country-borders', 'border-lines-solid', 'border-lines-dashed']
+// Each border layer's filter, kept here so showBordersOnlyOf can narrow them.
+const COUNTRY_BORDERS_FILTER: ExpressionSpecification = [
+  '!=',
+  ['get', 'bordersDrawnSeparately'],
+  true,
+]
+const SOLID_BORDER_LINES_FILTER: ExpressionSpecification = ['==', ['get', 'disputed'], false]
+const DASHED_BORDER_LINES_FILTER: ExpressionSpecification = ['==', ['get', 'disputed'], true]
 // The country group tint over the satellite imagery (the region globe and the
 // globe screen's Regions setting), stronger for the region under the
 // pointer and the one selected.
@@ -355,21 +364,21 @@ const MAP_STYLE: StyleSpecification = {
       id: 'country-borders',
       type: 'line',
       source: 'countries',
-      filter: ['!=', ['get', 'bordersDrawnSeparately'], true],
+      filter: COUNTRY_BORDERS_FILTER,
       paint: { 'line-color': BORDER_COLOR, 'line-width': BORDER_WIDTH },
     },
     {
       id: 'border-lines-solid',
       type: 'line',
       source: 'border-lines',
-      filter: ['==', ['get', 'disputed'], false],
+      filter: SOLID_BORDER_LINES_FILTER,
       paint: { 'line-color': BORDER_COLOR, 'line-width': BORDER_WIDTH },
     },
     {
       id: 'border-lines-dashed',
       type: 'line',
       source: 'border-lines',
-      filter: ['==', ['get', 'disputed'], true],
+      filter: DASHED_BORDER_LINES_FILTER,
       paint: {
         'line-color': DISPUTED_BORDER_COLOR,
         'line-width': BORDER_WIDTH,
@@ -448,6 +457,28 @@ export function hideBorders(map: MapLibreMap) {
   // highlights meet, their soft edges overlap into a brighter line. Without
   // it they meet exactly, at the cost of slightly jagged coastlines.
   map.setPaintProperty('country-fills', 'fill-antialias', false)
+}
+
+// After hideBorders, shows the white borders of only these countries (and
+// their far-off parts), e.g. Name every country's hints; none for an empty
+// list. Covers every layer in BORDER_LAYER_IDS, matched as thickenBorders
+// does. Call once the map has loaded.
+export function showBordersOnlyOf(map: MapLibreMap, isoAlpha3Codes: string[]) {
+  const indices = isoAlpha3Codes.flatMap(shapeIndicesOfCountry)
+  const names = indices.map((index) => COUNTRY_SHAPES[index].name)
+  map.setFilter('country-borders', [
+    'all',
+    COUNTRY_BORDERS_FILTER,
+    ['in', ['id'], ['literal', indices]],
+  ])
+  const isLineOfShown: ExpressionSpecification = [
+    'any',
+    ['in', ['get', 'shape'], ['literal', names]],
+    ['in', ['get', 'partner'], ['literal', names]],
+  ]
+  map.setFilter('border-lines-solid', ['all', SOLID_BORDER_LINES_FILTER, isLineOfShown])
+  map.setFilter('border-lines-dashed', ['all', DASHED_BORDER_LINES_FILTER, isLineOfShown])
+  for (const layerId of BORDER_LAYER_IDS) map.setLayoutProperty(layerId, 'visibility', 'visible')
 }
 
 // Draws the outline of the country (and its far-off parts) THICK_BORDER_WIDTH

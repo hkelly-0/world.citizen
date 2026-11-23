@@ -1,6 +1,6 @@
 ## History
 
-Argentina was colonized by Spain and won independence in 1816. Huge numbers of European immigrants arrived around 1900, when it was one of the richest countries in the world. The 1900s brought Juan Perón, military coups, and a dictatorship (1976–83) during which thousands of people "disappeared".
+Argentina was colonized by [Spain]{ESP} and won independence in 1816. Huge numbers of European immigrants arrived around 1900, when it was one of the richest countries in the world. The 1900s brought Juan Perón, military coups, and a dictatorship (1976–83) during which thousands of people "disappeared".
 
 ## People
 
@@ -12,4 +12,4 @@ Argentina has rich farmland and is a major exporter of soybeans, beef, and wheat
 
 ## International Relations
 
-Argentina is a founding member of Mercosur and belongs to the G20. It claims the British-ruled Falkland Islands (Malvinas), over which it fought a war with the UK in 1982. It also claims part of Antarctica.
+Argentina is a founding member of Mercosur and belongs to the G20. It claims the British-ruled Falkland Islands (Malvinas), over which it fought a war with the [UK]{GBR} in 1982. It also claims part of Antarctica.

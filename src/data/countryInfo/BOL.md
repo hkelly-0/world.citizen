@@ -1,6 +1,6 @@
 ## History
 
-Bolivia was part of the Inca Empire and, under Spain, the source of enormous silver wealth from Potosí. It gained independence in 1825 and was named after Simón Bolívar. It lost its coastline to Chile in 1884 and land to Brazil and Paraguay. In 2006, Evo Morales became its first Indigenous president.
+Bolivia was part of the Inca Empire and, under [Spain]{ESP}, the source of enormous silver wealth from Potosí. It gained independence in 1825 and was named after Simón Bolívar. It lost its coastline to [Chile]{CHL} in 1884 and land to [Brazil]{BRA} and [Paraguay]{PRY}. In 2006, Evo Morales became its first Indigenous president.
 
 ## People
 

@@ -12,4 +12,4 @@ Oman's economy relies on oil and gas, which are smaller than its neighbours' res
 
 ## International Relations
 
-Oman follows a neutral foreign policy and is known as a mediator, including between the US and Iran. It is a member of the Gulf Cooperation Council.
+Oman follows a neutral foreign policy and is known as a mediator, including between the [US]{USA} and [Iran]{IRN}. It is a member of the Gulf Cooperation Council.

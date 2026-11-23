@@ -20,6 +20,14 @@ export type UnfinishedCard = {
   offeredFlags: string[]
   // The questions answered so far on this card.
   answeredIds: QuestionId[]
+  // Whether every answer so far was right (not close), so the reward says
+  // "Perfect". Missing on cards saved before it was added, which then don't.
+  hasOnlyRightAnswers?: boolean
+  // The country's familiarity (`countryRecall`) just before the card's first
+  // answer, null if it had none, so the reward's ring shows the change. Set at
+  // the first answer. Missing on cards saved before it was added, whose ring
+  // then starts from empty.
+  recallBefore?: number | null
 }
 
 const STORAGE_KEY = 'geography-app/unfinished-card'

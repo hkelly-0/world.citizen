@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { BackButton } from '../../shared/BackButton'
 import { countryFacts } from '../../shared/countryFacts'
 import { recordDiscovery } from '../../shared/discoveries'
@@ -8,6 +8,7 @@ import { logReview } from '../../shared/reviewLog'
 import type { CountryIcon } from '../../shared/settings'
 import { todayString } from '../flashcards/dates'
 import { reviewAnswer, type DeckProgress, type QuestionId } from '../flashcards/deck'
+import { countryRecall } from '../flashcards/familiarity'
 import { flagOptions } from '../flashcards/flagQuestion'
 import { Flashcard } from '../flashcards/Flashcard'
 import type { AnswerResult } from '../flashcards/fsrs'
@@ -49,10 +50,14 @@ export function PassportFlashcardView({
   const [offeredFlags] = useState(() => flagOptions(isoAlpha3))
   // Opened from "New country": no question answered yet.
   const isNewCountry = Object.keys(countryProgress ?? {}).length === 0
+  // Whether every answer so far was right (not close), so the reward says
+  // "Perfect". A ref, as the last answer finishes the card in the same call.
+  const hasOnlyRightAnswers = useRef(true)
 
   // Saved straight away. The country joins the Passport, and is discovered,
   // at its first answer.
   function answerQuestion(id: QuestionId, result: AnswerResult, isCardFinished: boolean) {
+    if (result !== 'right') hasOnlyRightAnswers.current = false
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
     const progress = loadProgress()
@@ -68,7 +73,17 @@ export function PassportFlashcardView({
 
   // The answers are already saved; this shows the reward.
   function finishCard(newProgress: DeckProgress, today: string) {
-    setReward(rewardAfterCard(isoAlpha3, isNewCountry, newProgress, learnedQuestionIds, today))
+    setReward(
+      rewardAfterCard(
+        isoAlpha3,
+        isNewCountry,
+        hasOnlyRightAnswers.current,
+        newProgress,
+        countryRecall(countryProgress, learnedQuestionIds, today),
+        learnedQuestionIds,
+        today,
+      ),
+    )
   }
 
   const seeOnGlobe = useSeeOnGlobe()

@@ -302,6 +302,23 @@ describe('CountryInfoPanel', () => {
       expect(paragraph('Economy')).not.toBeVisible()
     })
 
+    it('select a country when its name in a paragraph is clicked', async () => {
+      const onSelectCountry = vi.fn()
+      render(
+        <CountryInfoPanel
+          {...panelProps}
+          country={canada}
+          onSelectCountry={onSelectCountry}
+          showCountryInfo
+        />,
+      )
+
+      await userEvent.click(heading('Economy'))
+      await userEvent.click(await screen.findByRole('button', { name: 'United States' }))
+
+      expect(onSelectCountry).toHaveBeenCalledWith('USA')
+    })
+
     it('close again when another country is selected', async () => {
       const { rerender } = render(
         <CountryInfoPanel {...panelProps} country={canada} showCountryInfo />,
@@ -345,6 +362,23 @@ describe('CountryInfoPanel', () => {
       await userEvent.click(infoHeading())
       expect(infoHeading()).toHaveAttribute('aria-expanded', 'false')
       expect(screen.getByText(/one country, two systems/)).not.toBeVisible()
+    })
+
+    it('selects a country when its name in the paragraph is clicked', async () => {
+      const onSelectCountry = vi.fn()
+      render(
+        <CountryInfoPanel
+          {...panelProps}
+          country={hongKong}
+          onSelectCountry={onSelectCountry}
+          showCountryInfo
+        />,
+      )
+
+      await userEvent.click(infoHeading())
+      await userEvent.click(await screen.findByRole('button', { name: 'Britain' }))
+
+      expect(onSelectCountry).toHaveBeenCalledWith('GBR')
     })
 
     it('is found by map name for an area with no code', async () => {

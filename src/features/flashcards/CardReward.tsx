@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { countryFacts } from '../../shared/countryFacts'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
 import { RecallCircle } from '../passport/RecallCircle'
@@ -24,9 +25,10 @@ type CardRewardProps = {
 
 // The reward shown after every finished card, in green with the country's
 // name. For a new country (with a ✓), the Passport count before it joined
-// rolls down to the new count. Otherwise, the country's familiarity ring fills
-// clockwise from empty. Both wait a moment first (the timing is in
-// CardReward.css and RecallCircle.css).
+// rolls down to the new count. Otherwise, the country's familiarity ring
+// starts a little below its fill before the card and moves to its new fill. "Perfect" goes under the name when every question on
+// the card was answered right. Both wait a moment first (the timing is in
+// CardReward.css and RecallCircle.tsx).
 export function CardReward({
   reward,
   continueLabel,
@@ -41,12 +43,19 @@ export function CardReward({
       {reward.kind === 'new-country' ? (
         <>
           <p className="card-reward__country">{countryName} ✓</p>
-          <PassportCount countBefore={reward.countBefore} />
+          {reward.isPerfect && <Perfect />}
+          <PassportCount countBefore={reward.countBefore} isAfterFirework={reward.isPerfect} />
         </>
       ) : (
         <>
           <p className="card-reward__country">{countryName}</p>
-          <RecallCircle recall={reward.recall} size={RING_SIZE} isAnimated={true} />
+          {reward.isPerfect && <Perfect />}
+          <RecallCircle
+            recall={reward.recall}
+            previousRecall={reward.recallBefore}
+            size={RING_SIZE}
+            isAnimated={true}
+          />
         </>
       )}
       {note !== undefined && <TutorialNote text={note} />}
@@ -65,15 +74,64 @@ export function CardReward({
   )
 }
 
+// The directions of the sparks from "Perfect"'s right edge, in CSS rotation
+// (clockwise from pointing right): evenly from 10° below horizontal to 10°
+// short of straight up.
+const RIGHT_SPARK_ANGLES = [10, -20, -50, -80]
+// The left edge's sparks, mirroring the right's.
+const LEFT_SPARK_ANGLES = RIGHT_SPARK_ANGLES.map((angle) => 180 - angle)
+
+// "Perfect", with one burst of white sparks flying out from each side of it,
+// which fades out (the timing is in CardReward.css).
+function Perfect() {
+  return (
+    <p className="card-reward__perfect">
+      <Sparks side="left" angles={LEFT_SPARK_ANGLES} />
+      Perfect
+      <Sparks side="right" angles={RIGHT_SPARK_ANGLES} />
+    </p>
+  )
+}
+
+// One side's sparks, starting from that edge of "Perfect".
+function Sparks({ side, angles }: { side: 'left' | 'right'; angles: number[] }) {
+  return (
+    <span className={`card-reward__firework card-reward__firework--${side}`} aria-hidden="true">
+      {angles.map((angle) => (
+        <span
+          key={angle}
+          className="card-reward__spark"
+          // Read by the spark's CSS, which turns it to face its direction.
+          style={{ '--spark-angle': `${angle}deg` } as CSSProperties}
+        />
+      ))}
+    </span>
+  )
+}
+
 // "X/197", with X rolling down to X + 1. Only the digits that change roll; the
-// others stay still (12 → 13 rolls only the 2 to a 3).
-function PassportCount({ countBefore }: { countBefore: number }) {
+// others stay still (12 → 13 rolls only the 2 to a 3). `isAfterFirework`
+// holds the roll until "Perfect"'s sparks have finished.
+function PassportCount({
+  countBefore,
+  isAfterFirework,
+}: {
+  countBefore: number
+  isAfterFirework: boolean
+}) {
   const countAfter = countBefore + 1
   const afterDigits = String(countAfter)
   // Padded on the left so the digits line up, e.g. 9 → 10 compares " 9" with "10".
   const beforeDigits = String(countBefore).padStart(afterDigits.length, ' ')
   return (
-    <p className="card-reward__count" aria-label={`${countAfter}/${COUNTRY_TOTAL}`}>
+    <p
+      className={
+        isAfterFirework
+          ? 'card-reward__count card-reward__count--after-firework'
+          : 'card-reward__count'
+      }
+      aria-label={`${countAfter}/${COUNTRY_TOTAL}`}
+    >
       {afterDigits.split('').map((afterDigit, position) => {
         const beforeDigit = beforeDigits[position]
         if (beforeDigit === afterDigit) {

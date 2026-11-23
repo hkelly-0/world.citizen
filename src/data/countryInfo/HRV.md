@@ -1,6 +1,6 @@
 ## History
 
-Croatia was a medieval kingdom that joined in union with Hungary and later the Habsburg Empire. It became part of Yugoslavia after World War I, and was a fascist puppet state in World War II. It declared independence in 1991, followed by a war with Serb forces that lasted until 1995.
+Croatia was a medieval kingdom that joined in union with [Hungary]{HUN} and later the Habsburg Empire. It became part of Yugoslavia after World War I, and was a fascist puppet state in World War II. It declared independence in 1991, followed by a war with Serb forces that lasted until 1995.
 
 ## People
 
@@ -12,4 +12,4 @@ Tourism along the Adriatic coast is a major part of Croatia's economy, along wit
 
 ## International Relations
 
-Croatia joined NATO in 2009 and the EU in 2013, and entered the Schengen area in 2023. Its relations with Serbia remain sensitive due to the 1990s war.
+Croatia joined NATO in 2009 and the EU in 2013, and entered the Schengen area in 2023. Its relations with [Serbia]{SRB} remain sensitive due to the 1990s war.

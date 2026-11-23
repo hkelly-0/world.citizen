@@ -1,6 +1,6 @@
 ## History
 
-Belgium became independent from the Netherlands in 1830. King Leopold II ruled the Congo as his personal colony, where millions died under forced labour, before Belgium took it over in 1908. Germany occupied Belgium in both World Wars. Since the 1970s, power has been shared between its regions.
+Belgium became independent from the [Netherlands]{NLD} in 1830. King Leopold II ruled the [Congo]{COD} as his personal colony, where millions died under forced labour, before Belgium took it over in 1908. [Germany]{DEU} occupied Belgium in both World Wars. Since the 1970s, power has been shared between its regions.
 
 ## People
 
@@ -12,4 +12,4 @@ Belgium has a wealthy economy, with major ports such as Antwerp, chemicals, phar
 
 ## International Relations
 
-Belgium is a founding member of the EU and NATO, both of which have their headquarters in Brussels. It works closely with the Netherlands and Luxembourg in the Benelux union.
+Belgium is a founding member of the EU and NATO, both of which have their headquarters in Brussels. It works closely with the [Netherlands]{NLD} and [Luxembourg]{LUX} in the Benelux union.

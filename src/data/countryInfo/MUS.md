@@ -1,6 +1,6 @@
 ## History
 
-Mauritius was uninhabited until the Dutch settled it in 1638; the dodo became extinct soon after. France and then Britain ruled it, bringing enslaved Africans and, later, indentured labourers from India. It became independent in 1968.
+Mauritius was uninhabited until the Dutch settled it in 1638; the dodo became extinct soon after. [France]{FRA} and then [Britain]{GBR} ruled it, bringing enslaved Africans and, later, indentured labourers from [India]{IND}. It became independent in 1968.
 
 ## People
 
@@ -12,4 +12,4 @@ Mauritius has one of Africa's highest incomes per person, having moved from suga
 
 ## International Relations
 
-Mauritius is a member of the Commonwealth and the African Union. In 2025 the UK agreed to hand it the Chagos Islands, while keeping the US military base on Diego Garcia.
+Mauritius is a member of the Commonwealth and the African Union. In 2025 the [UK]{GBR} agreed to hand it the Chagos Islands, while keeping the [US]{USA} military base on Diego Garcia.

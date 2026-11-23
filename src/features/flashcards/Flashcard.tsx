@@ -6,13 +6,14 @@ import {
   type IhdiEstimateBreakdown,
 } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
+import { withoutLinks } from '../../shared/countryLinks'
 import { flagImageSrc } from '../../shared/flags'
 import { IhdiBreakdownButton } from '../../shared/IhdiBreakdownButton'
 import { RangeTitle } from '../../shared/RangeTitle'
 import { IHDI_ROUGH_ESTIMATES } from '../../shared/statRanges'
 import type { CountryIcon } from '../../shared/settings'
 import { useClickAnywhereToContinue } from '../../shared/useClickAnywhereToContinue'
-import { isCapitalCorrect } from './capitalAnswer'
+import { isCapitalCorrect, matchedCapital } from './capitalAnswer'
 import {
   INFO_QUESTION_IDS,
   isInfoQuestion,
@@ -280,7 +281,9 @@ export function Flashcard({
             // Keyed so the next info question starts hidden again.
             key={stepId}
             heading={COUNTRY_INFO_HEADINGS[stepId]}
-            text={info?.[stepId]}
+            // Cards show the paragraph as plain text, without the links the
+            // globe's info panel shows.
+            text={info === undefined ? undefined : withoutLinks(info[stepId])}
             isFirstTime={progress[stepId] === undefined}
             onRate={(result) => rateInfo(stepId, result)}
           />
@@ -463,6 +466,7 @@ function CapitalQuestion({
             typed={answer}
             isCorrect={isCapitalCorrect(answer, country)}
             correctAnswer={country.capitals.join(', ')}
+            acceptedName={matchedCapital(answer, country)}
           />
         ) : (
           <input

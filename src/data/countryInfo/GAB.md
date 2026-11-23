@@ -12,4 +12,4 @@ Gabon is one of Africa's wealthier countries per person, relying on oil, mangane
 
 ## International Relations
 
-Gabon has close ties with France and joined the Commonwealth in 2022, despite having no British colonial history.
+Gabon has close ties with [France]{FRA} and joined the Commonwealth in 2022, despite having no British colonial history.

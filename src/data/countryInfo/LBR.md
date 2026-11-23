@@ -12,4 +12,4 @@ Liberia is one of the world's poorest countries. It relies on iron ore, rubber, 
 
 ## International Relations
 
-Liberia has close historical ties with the US, and used the US dollar alongside its own currency. It is a member of ECOWAS.
+Liberia has close historical ties with the [US]{USA}, and used the US dollar alongside its own currency. It is a member of ECOWAS.

@@ -12,4 +12,4 @@ Cambodia's economy relies on clothing, tourism, construction, and agriculture. C
 
 ## International Relations
 
-Cambodia is a member of ASEAN and one of China's closest partners in the region. It had a border conflict with Thailand in 2025.
+Cambodia is a member of ASEAN and one of [China]{CHN}'s closest partners in the region. It had a border conflict with [Thailand]{THA} in 2025.

@@ -1,10 +1,10 @@
 ## History
 
-Portugal has had largely the same borders since the 1200s. It led the Age of Discovery, building an empire in Brazil, Africa, and Asia. A dictatorship ruled from 1926 until the Carnation Revolution of 1974, after which its African colonies became independent.
+Portugal has had largely the same borders since the 1200s. It led the Age of Discovery, building an empire in [Brazil]{BRA}, Africa, and Asia. A dictatorship ruled from 1926 until the Carnation Revolution of 1974, after which its African colonies became independent.
 
 ## People
 
-Most people speak Portuguese and are Catholic. Many have roots in former colonies such as Brazil, Angola, and Cape Verde. Millions of Portuguese live abroad.
+Most people speak Portuguese and are Catholic. Many have roots in former colonies such as [Brazil]{BRA}, [Angola]{AGO}, and [Cape Verde]{CPV}. Millions of Portuguese live abroad.
 
 ## Economy
 

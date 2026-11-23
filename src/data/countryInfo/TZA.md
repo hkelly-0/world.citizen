@@ -1,6 +1,6 @@
 ## History
 
-Tanzania's coast was a centre of Swahili trade, and Zanzibar was ruled by Omani sultans and became a hub for the slave trade. Germany and then Britain ruled the mainland. Tanganyika became independent in 1961 under Julius Nyerere, and united with Zanzibar in 1964. Nyerere promoted African socialism and national unity.
+Tanzania's coast was a centre of Swahili trade, and Zanzibar was ruled by Omani sultans and became a hub for the slave trade. [Germany]{DEU} and then [Britain]{GBR} ruled the mainland. Tanganyika became independent in 1961 under Julius Nyerere, and united with Zanzibar in 1964. Nyerere promoted African socialism and national unity.
 
 ## People
 

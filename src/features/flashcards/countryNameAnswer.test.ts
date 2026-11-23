@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
-import { isCountryNameCorrect } from './countryNameAnswer'
+import { countryNameMatch, isCountryNameCorrect } from './countryNameAnswer'
 
 describe('isCountryNameCorrect', () => {
   it('accepts the common name, ignoring case, accents, and surrounding spaces', () => {
@@ -36,9 +36,39 @@ describe('isCountryNameCorrect', () => {
     }
   })
 
-  it('rejects misspellings, empty answers, and other countries', () => {
-    expect(isCountryNameCorrect('Turky', countryFacts['TUR'])).toBe(false)
+  it('accepts a few typos', () => {
+    expect(isCountryNameCorrect('Turky', countryFacts['TUR'])).toBe(true)
+    expect(isCountryNameCorrect('Australa', countryFacts['AUS'])).toBe(true)
+    expect(isCountryNameCorrect('Kazakstan', countryFacts['KAZ'])).toBe(true)
+    expect(isCountryNameCorrect('Liechtenstien', countryFacts['LIE'])).toBe(true)
+  })
+
+  it('rejects too many typos, empty answers, and other countries', () => {
+    expect(isCountryNameCorrect('Trky', countryFacts['TUR'])).toBe(false)
     expect(isCountryNameCorrect('', countryFacts['TUR'])).toBe(false)
     expect(isCountryNameCorrect('Congo', countryFacts['COD'])).toBe(false)
+  })
+
+  it("never accepts a country one typo from another's name for that other country", () => {
+    expect(isCountryNameCorrect('Iraq', countryFacts['IRN'])).toBe(false)
+    expect(isCountryNameCorrect('Niger', countryFacts['NGA'])).toBe(false)
+    expect(isCountryNameCorrect('Nigeria', countryFacts['NER'])).toBe(false)
+    expect(isCountryNameCorrect('Mali', countryFacts['MLT'])).toBe(false)
+    expect(isCountryNameCorrect('Malta', countryFacts['MLI'])).toBe(false)
+    expect(isCountryNameCorrect('Austria', countryFacts['AUS'])).toBe(false)
+    expect(isCountryNameCorrect('Guyana', countryFacts['GIN'])).toBe(false)
+    expect(isCountryNameCorrect('Guinea', countryFacts['GUY'])).toBe(false)
+  })
+
+  it('rejects a typo as close to two countries', () => {
+    // One letter from both Niger and Nigeria, and from both Australia and Austria.
+    expect(countryNameMatch('Nigera')).toBeNull()
+    expect(countryNameMatch('Austrlia')).toBeNull()
+  })
+})
+
+describe('countryNameMatch', () => {
+  it('gives the accepted name a typo was of', () => {
+    expect(countryNameMatch('turky')).toEqual({ key: 'TUR', name: 'Turkey' })
   })
 })

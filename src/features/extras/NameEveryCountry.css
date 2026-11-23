@@ -12,14 +12,12 @@
   touch-action: none;
 }
 
-/* The top-right corner: the stopwatch, if shown, above "12/197". */
+/* The top-right corner: the stopwatch, if shown, to the left of "12/197". */
 .name-every-country__corner {
   position: absolute;
   top: 16px;
   right: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
   pointer-events: none;
 }
@@ -31,6 +29,69 @@
   border-radius: 8px;
   background: rgba(15, 20, 35, 0.9);
   font-variant-numeric: tabular-nums;
+}
+
+/* Give up and Hint side by side, where the back button usually sits, and
+   above the map as it is (BackButton.css). */
+.name-every-country__top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+/* Placed by the row above rather than in the corner on their own. */
+.name-every-country__top-left .back-button {
+  position: static;
+}
+
+/* Lighter while waiting for a tap, as the back button is on hover. */
+.name-every-country__hint[aria-pressed='true'] {
+  background: rgba(40, 48, 70, 0.95);
+}
+
+/* "Tap a country", then the hint's "First Letter: G": centred across the screen, below the buttons and the
+   corner boxes (16px from the top, 40px tall), in the same kind of box.
+   "Or: Zoom to a remaining country" sits in a box of its own below "Tap a
+   country". Must match HINT_PROMPT_SPACE_PX in NameEveryCountry.tsx. */
+.name-every-country__hint-area {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.name-every-country__hint-prompt {
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(15, 20, 35, 0.9);
+  white-space: nowrap;
+}
+
+/* A button in the prompt's box; the area around it lets taps through to the
+   globe. */
+.name-every-country__zoom-hint {
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Only where hover is real, as for the back button (BackButton.css). */
+@media (hover: hover) {
+  .name-every-country__zoom-hint:hover {
+    background: rgba(40, 48, 70, 0.95);
+  }
 }
 
 /* The text box along the bottom of the screen, as in the flashcards' name
@@ -106,8 +167,9 @@
   z-index: 6;
 }
 
-/* "Time: 12:45" on "You win" and the score after Give up. */
-.name-every-country__time {
+/* "Time: 12:45" and "Hints: 3" on "You win" and the score after Give up. */
+.name-every-country__time,
+.name-every-country__hint-count {
   margin: 0;
   font-variant-numeric: tabular-nums;
 }

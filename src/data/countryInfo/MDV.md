@@ -12,4 +12,4 @@ Tourism, especially luxury island resorts, dominates the economy, along with fis
 
 ## International Relations
 
-The Maldives is the world's lowest-lying country, and rising seas threaten its existence, making it a leading voice on climate change. It balances ties between India and China.
+The Maldives is the world's lowest-lying country, and rising seas threaten its existence, making it a leading voice on climate change. It balances ties between [India]{IND} and [China]{CHN}.

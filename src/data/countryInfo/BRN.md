@@ -1,6 +1,6 @@
 ## History
 
-Brunei was once a powerful sultanate ruling much of Borneo and parts of the Philippines. It lost most of its territory in the 1800s and became a British protectorate in 1888. Oil was found in 1929, and it became independent in 1984.
+Brunei was once a powerful sultanate ruling much of Borneo and parts of the [Philippines]{PHL}. It lost most of its territory in the 1800s and became a British protectorate in 1888. Oil was found in 1929, and it became independent in 1984.
 
 ## People
 

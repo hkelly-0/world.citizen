@@ -1,6 +1,6 @@
 ## History
 
-Lithuania was the last pagan state in Europe and, in union with Poland, became one of Europe's largest countries. It was later absorbed by Russia. It became independent in 1918, but was occupied by the Soviet Union in 1940. Most of its Jews were killed in the Holocaust. It regained independence in 1990.
+Lithuania was the last pagan state in Europe and, in union with [Poland]{POL}, became one of Europe's largest countries. It was later absorbed by [Russia]{RUS}. It became independent in 1918, but was occupied by the Soviet Union in 1940. Most of its Jews were killed in the Holocaust. It regained independence in 1990.
 
 ## People
 
@@ -12,4 +12,4 @@ Lithuania has a high-income economy based on services, manufacturing, transport,
 
 ## International Relations
 
-Lithuania joined the EU and NATO in 2004 and uses the euro. It strongly supports Ukraine and sees Russia as a major security threat. Relations with China are tense after it allowed a Taiwanese office to open in Vilnius.
+Lithuania joined the EU and NATO in 2004 and uses the euro. It strongly supports [Ukraine]{UKR} and sees [Russia]{RUS} as a major security threat. Relations with [China]{CHN} are tense after it allowed a Taiwanese office to open in Vilnius.

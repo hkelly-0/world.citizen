@@ -4,7 +4,7 @@ Costa Rica was a sparsely settled Spanish colony and became independent in 1821.
 
 ## People
 
-Most Costa Ricans are of mixed or European descent and speak Spanish, with an Afro-Caribbean community on the Caribbean coast. Many immigrants come from Nicaragua. Life expectancy is among the highest in the Americas.
+Most Costa Ricans are of mixed or European descent and speak Spanish, with an Afro-Caribbean community on the Caribbean coast. Many immigrants come from [Nicaragua]{NIC}. Life expectancy is among the highest in the Americas.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Costa Rica has an upper-middle-income economy. Medical devices, tourism, and ser
 
 ## International Relations
 
-Without an army, Costa Rica relies on international law and diplomacy and is known for promoting peace, human rights, and environmental protection. It hosts the Inter-American Court of Human Rights and has close ties with the United States.
+Without an army, Costa Rica relies on international law and diplomacy and is known for promoting peace, human rights, and environmental protection. It hosts the Inter-American Court of Human Rights and has close ties with the [United States]{USA}.

@@ -1,6 +1,6 @@
 ## History
 
-Saint Vincent's Kalinago and Garifuna people resisted European settlement into the 1700s. After a war, Britain deported most Garifuna to Central America in 1797. Sugar plantations used enslaved African labour until 1834. The country gained independence in 1979.
+Saint Vincent's Kalinago and Garifuna people resisted European settlement into the 1700s. After a war, [Britain]{GBR} deported most Garifuna to Central America in 1797. Sugar plantations used enslaved African labour until 1834. The country gained independence in 1979.
 
 ## People
 
@@ -12,4 +12,4 @@ The economy relies on agriculture, especially bananas, and tourism, particularly
 
 ## International Relations
 
-Saint Vincent and the Grenadines is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It recognizes Taiwan instead of China.
+Saint Vincent and the Grenadines is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It recognizes [Taiwan]{TWN} instead of [China]{CHN}.

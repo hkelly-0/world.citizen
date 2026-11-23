@@ -4,7 +4,7 @@ Anatolia was home to ancient civilizations and later the heart of the Byzantine 
 
 ## People
 
-Most people are ethnic Turks and Muslim, with a large Kurdish minority, mainly in the southeast. Turkish is the official language. Turkey hosts millions of refugees, mostly from Syria.
+Most people are ethnic Turks and Muslim, with a large Kurdish minority, mainly in the southeast. Turkish is the official language. Turkey hosts millions of refugees, mostly from [Syria]{SYR}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Turkey has a large, diverse economy, with strong manufacturing, especially cars,
 
 ## International Relations
 
-Turkey joined NATO in 1952 and controls the straits linking the Black Sea to the Mediterranean. It is an EU candidate, but talks have stalled. It plays a major role in Syria, and has long fought Kurdish militants.
+Turkey joined NATO in 1952 and controls the straits linking the Black Sea to the Mediterranean. It is an EU candidate, but talks have stalled. It plays a major role in [Syria]{SYR}, and has long fought Kurdish militants.

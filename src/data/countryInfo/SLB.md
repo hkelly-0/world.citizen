@@ -12,4 +12,4 @@ The Solomon Islands is one of the Pacific's poorest countries, relying on loggin
 
 ## International Relations
 
-The Solomon Islands switched recognition from Taiwan to China in 2019, and signed a security pact with China in 2022, worrying Australia and the US.
+The Solomon Islands switched recognition from [Taiwan]{TWN} to [China]{CHN} in 2019, and signed a security pact with China in 2022, worrying [Australia]{AUS} and the [US]{USA}.

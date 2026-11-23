@@ -8,8 +8,8 @@ Almost all people are ethnic Koreans. The state controls nearly all aspects of l
 
 ## Economy
 
-North Korea has a state-controlled economy that is very poor and depends heavily on trade with China. It is under heavy UN sanctions.
+North Korea has a state-controlled economy that is very poor and depends heavily on trade with [China]{CHN}. It is under heavy UN sanctions.
 
 ## International Relations
 
-North Korea has developed nuclear weapons and missiles, defying UN resolutions. It is closely aligned with China and Russia, and has sent troops to help Russia fight Ukraine.
+North Korea has developed nuclear weapons and missiles, defying UN resolutions. It is closely aligned with [China]{CHN} and [Russia]{RUS}, and has sent troops to help Russia fight [Ukraine]{UKR}.

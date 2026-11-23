@@ -1,7 +1,6 @@
 import countryBordersJson from '../../data/countryBorders.json'
 import { compareNames, countryFacts } from '../../shared/countryFacts'
 import { namedCountry } from '../extras/namingGame'
-import { isCountryNameCorrect } from './countryNameAnswer'
 
 // How many text boxes the borders question offers. Countries with fewer
 // neighbours are answered by leaving the rest blank.
@@ -19,13 +18,13 @@ export function borderingCountries(code: string): string[] {
 }
 
 // For each typed box, the bordering country it names (any name the country
-// name question accepts), or null if it is blank, names no bordering country,
-// or repeats one named in an earlier box.
+// name question accepts, typos included), or null if it is blank, names no
+// bordering country, or repeats one named in an earlier box.
 export function markBorderAnswers(typed: string[], borderCodes: string[]): (string | null)[] {
   const named: string[] = []
   return typed.map((text) => {
-    const code = borderCodes.find((code) => isCountryNameCorrect(text, countryFacts[code]))
-    if (code === undefined || named.includes(code)) return null
+    const code = namedCountry(text)
+    if (code === null || !borderCodes.includes(code) || named.includes(code)) return null
     named.push(code)
     return code
   })

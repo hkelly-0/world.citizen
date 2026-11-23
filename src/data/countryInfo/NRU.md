@@ -1,6 +1,6 @@
 ## History
 
-Nauru was settled by Micronesians and Polynesians. Germany annexed it in 1888, and after World War I it was run by Australia, New Zealand, and Britain. It became independent in 1968.
+Nauru was settled by Micronesians and Polynesians. [Germany]{DEU} annexed it in 1888, and after World War I it was run by [Australia]{AUS}, [New Zealand]{NZL}, and [Britain]{GBR}. It became independent in 1968.
 
 ## People
 
@@ -12,4 +12,4 @@ Phosphate mining made Nauru briefly one of the richest countries per person, but
 
 ## International Relations
 
-Nauru has close ties with Australia, which provides security and aid. It switched recognition from Taiwan to China in 2024.
+Nauru has close ties with [Australia]{AUS}, which provides security and aid. It switched recognition from [Taiwan]{TWN} to [China]{CHN} in 2024.

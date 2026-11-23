@@ -12,4 +12,4 @@ Saudi Arabia is the world's largest oil exporter and the leading member of OPEC.
 
 ## International Relations
 
-Saudi Arabia is a regional power, a G20 member, and a long-standing US partner. It led a military intervention in Yemen from 2015 and is a rival of Iran.
+Saudi Arabia is a regional power, a G20 member, and a long-standing [US]{USA} partner. It led a military intervention in [Yemen]{YEM} from 2015 and is a rival of [Iran]{IRN}.

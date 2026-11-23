@@ -1,6 +1,6 @@
 ## History
 
-The Indus Valley, in the northwest of the subcontinent, was home to one of the world's earliest civilizations. Over the centuries, successive empires, including the Maurya, Gupta, and Mughal, ruled much of the region before it came under British colonial rule. India gained independence in 1947, when it was partitioned from Pakistan amid mass violence.
+The Indus Valley, in the northwest of the subcontinent, was home to one of the world's earliest civilizations. Over the centuries, successive empires, including the Maurya, Gupta, and Mughal, ruled much of the region before it came under British colonial rule. India gained independence in 1947, when it was partitioned from [Pakistan]{PAK} amid mass violence.
 
 ## People
 
@@ -12,4 +12,4 @@ India is one of the world's largest and fastest-growing economies. Services, esp
 
 ## International Relations
 
-After independence in 1947, India helped found the Non-Aligned Movement and avoided Cold War alliances. It has fought wars with Pakistan and China, and relations remain tense. Today it belongs to the G20, BRICS, and Commonwealth, balancing ties with the US, Russia, and Europe.
+After independence in 1947, India helped found the Non-Aligned Movement and avoided Cold War alliances. It has fought wars with [Pakistan]{PAK} and [China]{CHN}, and relations remain tense. Today it belongs to the G20, BRICS, and Commonwealth, balancing ties with the [US]{USA}, [Russia]{RUS}, and Europe.

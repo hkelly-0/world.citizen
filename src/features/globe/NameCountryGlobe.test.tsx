@@ -40,6 +40,25 @@ describe('NameCountryGlobe', () => {
     expect(onAnswer).toHaveBeenCalledWith(true)
   })
 
+  it('counts a typo as correct and shows the name with it fixed', async () => {
+    const onAnswer = vi.fn()
+    render(<NameCountryGlobe country={turkey} fadesOut={false} onAnswer={onAnswer} />)
+
+    await userEvent.type(screen.getByLabelText('This is'), 'Turky')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    expect(screen.getByLabelText('Turkey')).toHaveClass('typed-answer__green')
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(onAnswer).toHaveBeenCalledWith(true)
+  })
+
+  it("fixes a correct name's accents but keeps it in lower case if typed that way", async () => {
+    render(<NameCountryGlobe country={turkey} fadesOut={false} onAnswer={vi.fn()} />)
+
+    await userEvent.type(screen.getByLabelText('This is'), 'turkiye')
+    await userEvent.click(screen.getByRole('button', { name: 'Reveal' }))
+    expect(screen.getByLabelText('türkiye')).toHaveClass('typed-answer__green')
+  })
+
   it('turns a wrong name red, types out the correct one, then enables Next', async () => {
     const onAnswer = vi.fn()
     render(<NameCountryGlobe country={turkey} fadesOut onAnswer={onAnswer} />)

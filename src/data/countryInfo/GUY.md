@@ -1,6 +1,6 @@
 ## History
 
-The Dutch settled Guyana in the 1600s and Britain took it in 1814. Enslaved Africans worked its sugar plantations, and after slavery ended, many indentured labourers came from India. Guyana gained independence in 1966 and became a republic in 1970.
+The Dutch settled Guyana in the 1600s and [Britain]{GBR} took it in 1814. Enslaved Africans worked its sugar plantations, and after slavery ended, many indentured labourers came from [India]{IND}. Guyana gained independence in 1966 and became a republic in 1970.
 
 ## People
 
@@ -12,4 +12,4 @@ Huge offshore oil discoveries since 2015 have made Guyana one of the fastest-gro
 
 ## International Relations
 
-Guyana is a member of the Commonwealth, and the Caribbean Community (CARICOM) is headquartered in its capital, Georgetown. Venezuela claims about two-thirds of its territory, the Essequibo region, a dispute before the International Court of Justice.
+Guyana is a member of the Commonwealth, and the Caribbean Community (CARICOM) is headquartered in its capital, Georgetown. [Venezuela]{VEN} claims about two-thirds of its territory, the Essequibo region, a dispute before the International Court of Justice.
