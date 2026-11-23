@@ -1,6 +1,6 @@
 ## History
 
-France and Britain fought over Grenada, which Britain controlled from 1783. Enslaved Africans worked its plantations until 1834. It gained independence in 1974. A revolutionary government took power in 1979, and after its leader Maurice Bishop was killed in 1983, the US invaded.
+[France]{FRA} and [Britain]{GBR} fought over Grenada, which Britain controlled from 1783. Enslaved Africans worked its plantations until 1834. It gained independence in 1974. A revolutionary government took power in 1979, and after its leader Maurice Bishop was killed in 1983, the [US]{USA} invaded.
 
 ## People
 
@@ -12,4 +12,4 @@ Grenada is known as the "Island of Spice" for its nutmeg and mace. Tourism and a
 
 ## International Relations
 
-Grenada is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It has close ties with the US, UK, and Canada.
+Grenada is a member of the Commonwealth, CARICOM, and the Organisation of Eastern Caribbean States, with the British monarch as head of state. It has close ties with the [US]{USA}, [UK]{GBR}, and [Canada]{CAN}.

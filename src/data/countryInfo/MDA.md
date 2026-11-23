@@ -1,6 +1,6 @@
 ## History
 
-Moldova's land was part of the Principality of Moldavia, and later Russia and Romania ruled it. It became a Soviet republic and gained independence in 1991. A short war in 1992 left Transnistria, a narrow strip in the east, controlled by Russian-backed separatists.
+Moldova's land was part of the Principality of Moldavia, and later [Russia]{RUS} and [Romania]{ROU} ruled it. It became a Soviet republic and gained independence in 1991. A short war in 1992 left Transnistria, a narrow strip in the east, controlled by Russian-backed separatists.
 
 ## People
 
@@ -12,4 +12,4 @@ Moldova is one of Europe's poorest countries. Its economy relies on agriculture,
 
 ## International Relations
 
-Moldova is a candidate to join the EU and has a pro-Western government, while Russia keeps troops in Transnistria. It has close ties with Romania.
+Moldova is a candidate to join the EU and has a pro-Western government, while [Russia]{RUS} keeps troops in Transnistria. It has close ties with [Romania]{ROU}.

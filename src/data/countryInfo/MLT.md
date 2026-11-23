@@ -1,6 +1,6 @@
 ## History
 
-Malta's location made it a prize for many powers, including Phoenicians, Romans, Arabs, and the Knights of St John, who held it from 1530. Britain ruled it from 1800, and it was heavily bombed in World War II. It became independent in 1964.
+Malta's location made it a prize for many powers, including Phoenicians, Romans, Arabs, and the Knights of St John, who held it from 1530. [Britain]{GBR} ruled it from 1800, and it was heavily bombed in World War II. It became independent in 1964.
 
 ## People
 

@@ -4,7 +4,7 @@ The coastal sheikhdoms, known as the Trucial States, were under British protecti
 
 ## People
 
-Only about a tenth of residents are Emirati citizens; most are foreign workers, especially from India, Pakistan, and Bangladesh. Most live in Dubai and Abu Dhabi. Islam is the state religion.
+Only about a tenth of residents are Emirati citizens; most are foreign workers, especially from [India]{IND}, [Pakistan]{PAK}, and [Bangladesh]{BGD}. Most live in Dubai and Abu Dhabi. Islam is the state religion.
 
 ## Economy
 
@@ -12,4 +12,4 @@ The UAE has one of the highest incomes per person in the world. Abu Dhabi has va
 
 ## International Relations
 
-The UAE is an influential regional power with close ties to the US, Gulf neighbours, China, and India. It established relations with Israel in 2020 and has been involved in conflicts in Yemen, Libya, and Sudan.
+The UAE is an influential regional power with close ties to the [US]{USA}, Gulf neighbours, [China]{CHN}, and [India]{IND}. It established relations with [Israel]{ISR} in 2020 and has been involved in conflicts in [Yemen]{YEM}, [Libya]{LBY}, and [Sudan]{SDN}.

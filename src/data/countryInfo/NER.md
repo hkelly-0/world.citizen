@@ -1,6 +1,6 @@
 ## History
 
-Niger was crossed by Saharan trade routes and was part of several empires. France colonized it, and it became independent in 1960. It has had several coups, most recently in 2023. Jihadist violence has grown in recent years.
+Niger was crossed by Saharan trade routes and was part of several empires. [France]{FRA} colonized it, and it became independent in 1960. It has had several coups, most recently in 2023. Jihadist violence has grown in recent years.
 
 ## People
 
@@ -12,4 +12,4 @@ Niger is one of the world's poorest countries. It relies on agriculture, livesto
 
 ## International Relations
 
-Niger's military government expelled French and US troops and turned to Russia. With Mali and Burkina Faso, it left ECOWAS to form the Alliance of Sahel States.
+Niger's military government expelled French and [US]{USA} troops and turned to [Russia]{RUS}. With [Mali]{MLI} and [Burkina Faso]{BFA}, it left ECOWAS to form the Alliance of Sahel States.

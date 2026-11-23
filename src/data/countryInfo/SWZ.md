@@ -8,8 +8,8 @@ Almost everyone is Swazi, and most people are Christian. Siswati and English are
 
 ## Economy
 
-Eswatini's economy relies on sugar, soft drink concentrates, and textiles, and it depends heavily on trade with South Africa. Much of the population is poor, while the royal family is very wealthy.
+Eswatini's economy relies on sugar, soft drink concentrates, and textiles, and it depends heavily on trade with [South Africa]{ZAF}. Much of the population is poor, while the royal family is very wealthy.
 
 ## International Relations
 
-Eswatini is a member of the Commonwealth and the Southern African Development Community. It is the only African country that recognizes Taiwan instead of China. Pro-democracy protests in 2021 were violently suppressed.
+Eswatini is a member of the Commonwealth and the Southern African Development Community. It is the only African country that recognizes [Taiwan]{TWN} instead of [China]{CHN}. Pro-democracy protests in 2021 were violently suppressed.

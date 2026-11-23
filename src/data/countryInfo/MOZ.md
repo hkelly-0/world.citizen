@@ -1,6 +1,6 @@
 ## History
 
-Mozambique's coast was part of Swahili trade networks. Portugal colonized it from the 1500s. FRELIMO fought a war of independence, which came in 1975. A civil war (1977–92) between FRELIMO and RENAMO, backed by white-ruled Rhodesia and South Africa, killed about one million people. An Islamist insurgency began in the north in 2017.
+Mozambique's coast was part of Swahili trade networks. [Portugal]{PRT} colonized it from the 1500s. FRELIMO fought a war of independence, which came in 1975. A civil war (1977–92) between FRELIMO and RENAMO, backed by white-ruled Rhodesia and [South Africa]{ZAF}, killed about one million people. An Islamist insurgency began in the north in 2017.
 
 ## People
 

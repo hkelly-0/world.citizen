@@ -12,4 +12,4 @@ Japan has one of the world's largest economies, known for cars, electronics, rob
 
 ## International Relations
 
-Japan is a close US ally and hosts many US troops. It belongs to the G7. Relations with China and the Koreas are affected by its wartime history and territorial disputes.
+Japan is a close [US]{USA} ally and hosts many US troops. It belongs to the G7. Relations with [China]{CHN} and the Koreas are affected by its wartime history and territorial disputes.

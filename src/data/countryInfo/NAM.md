@@ -1,6 +1,6 @@
 ## History
 
-Namibia became a German colony in 1884, and Germany carried out a genocide against the Herero and Nama peoples (1904–08). After World War I, South Africa ruled it and imposed apartheid. The SWAPO movement fought for independence, which came in 1990. SWAPO has governed ever since.
+Namibia became a German colony in 1884, and [Germany]{DEU} carried out a genocide against the Herero and Nama peoples (1904–08). After World War I, [South Africa]{ZAF} ruled it and imposed apartheid. The SWAPO movement fought for independence, which came in 1990. SWAPO has governed ever since.
 
 ## People
 
@@ -12,4 +12,4 @@ Namibia's economy relies on mining, especially diamonds and uranium, as well as 
 
 ## International Relations
 
-Namibia is a member of the Commonwealth and the Southern African Development Community. In 2021, Germany formally recognized the colonial genocide and offered development aid.
+Namibia is a member of the Commonwealth and the Southern African Development Community. In 2021, [Germany]{DEU} formally recognized the colonial genocide and offered development aid.

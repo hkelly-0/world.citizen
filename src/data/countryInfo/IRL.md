@@ -1,6 +1,6 @@
 ## History
 
-Ireland was ruled by England for centuries, and joined the United Kingdom in 1801. The Great Famine (1845–52) killed about one million people and drove millions more to emigrate. After a war of independence, most of Ireland became independent in 1922, while Northern Ireland stayed in the UK.
+Ireland was ruled by England for centuries, and joined the [United Kingdom]{GBR} in 1801. The Great Famine (1845–52) killed about one million people and drove millions more to emigrate. After a war of independence, most of Ireland became independent in 1922, while Northern Ireland stayed in the UK.
 
 ## People
 
@@ -12,4 +12,4 @@ Ireland has one of the highest incomes per person in the world, partly because m
 
 ## International Relations
 
-Ireland joined the EU in 1973 and uses the euro. It is militarily neutral and not in NATO. It works closely with the UK on peace in Northern Ireland, and has close ties with the US.
+Ireland joined the EU in 1973 and uses the euro. It is militarily neutral and not in NATO. It works closely with the [UK]{GBR} on peace in Northern Ireland, and has close ties with the [US]{USA}.

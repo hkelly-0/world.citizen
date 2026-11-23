@@ -1,6 +1,6 @@
 ## History
 
-Ancient Egypt, along the Nile, was one of the world's first civilizations, building the pyramids. It was later ruled by Greeks, Romans, Arabs, Ottomans, and Britain. It became independent in 1922. The 2011 revolution overthrew Hosni Mubarak, and the army took power again in 2013.
+Ancient Egypt, along the Nile, was one of the world's first civilizations, building the pyramids. It was later ruled by Greeks, Romans, Arabs, Ottomans, and [Britain]{GBR}. It became independent in 1922. The 2011 revolution overthrew Hosni Mubarak, and the army took power again in 2013.
 
 ## People
 
@@ -12,4 +12,4 @@ Egypt's economy relies on tourism, the Suez Canal, natural gas, agriculture, and
 
 ## International Relations
 
-Egypt made peace with Israel in 1979 and receives large US military aid. It is an influential mediator in Gaza and is in a dispute with Ethiopia over a large dam on the Nile.
+Egypt made peace with [Israel]{ISR} in 1979 and receives large [US]{USA} military aid. It is an influential mediator in Gaza and is in a dispute with [Ethiopia]{ETH} over a large dam on the Nile.

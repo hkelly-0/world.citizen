@@ -1,6 +1,6 @@
 ## History
 
-Kosovo was the heart of medieval Serbia, then ruled by the Ottomans for five centuries. It became part of Serbia and Yugoslavia in the 1900s. In 1998–99 a war between Serbian forces and Kosovo Albanian rebels ended with NATO bombing and UN administration. Kosovo declared independence in 2008.
+Kosovo was the heart of medieval [Serbia]{SRB}, then ruled by the Ottomans for five centuries. It became part of Serbia and Yugoslavia in the 1900s. In 1998–99 a war between Serbian forces and Kosovo Albanian rebels ended with NATO bombing and UN administration. Kosovo declared independence in 2008.
 
 ## People
 
@@ -12,4 +12,4 @@ Kosovo is one of Europe's poorer economies. Money sent home by emigrants is a la
 
 ## International Relations
 
-Kosovo is not a UN member; it's recognized by about half of UN members, including the US and most EU countries, but not by Serbia, Russia, or China. A NATO-led force still keeps the peace. Relations with Serbia remain tense.
+Kosovo is not a UN member; it's recognized by about half of UN members, including the [US]{USA} and most EU countries, but not by [Serbia]{SRB}, [Russia]{RUS}, or [China]{CHN}. A NATO-led force still keeps the peace. Relations with Serbia remain tense.

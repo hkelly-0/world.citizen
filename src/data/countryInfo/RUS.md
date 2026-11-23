@@ -8,8 +8,8 @@ Russia is the largest country in the world by area. Most people are ethnic Russi
 
 ## Economy
 
-Russia's economy relies heavily on oil, gas, metals, and grain exports. Since its invasion of Ukraine in 2022, it has faced heavy Western sanctions and shifted trade towards China and India.
+Russia's economy relies heavily on oil, gas, metals, and grain exports. Since its invasion of [Ukraine]{UKR} in 2022, it has faced heavy Western sanctions and shifted trade towards [China]{CHN} and [India]{IND}.
 
 ## International Relations
 
-Russia is a nuclear power and a permanent member of the UN Security Council. Its annexation of Crimea in 2014 and full invasion of Ukraine in 2022 caused a deep rift with the West. It is a founding member of BRICS.
+Russia is a nuclear power and a permanent member of the UN Security Council. Its annexation of Crimea in 2014 and full invasion of [Ukraine]{UKR} in 2022 caused a deep rift with the West. It is a founding member of BRICS.

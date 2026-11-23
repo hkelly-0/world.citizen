@@ -12,4 +12,4 @@ Monaco's economy is built on tourism, gambling, finance, and property. Its resid
 
 ## International Relations
 
-Monaco's defence is the responsibility of France, with which it has close ties. It is not in the EU but uses the euro and is a member of the UN.
+Monaco's defence is the responsibility of [France]{FRA}, with which it has close ties. It is not in the EU but uses the euro and is a member of the UN.

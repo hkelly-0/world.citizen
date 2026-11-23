@@ -12,4 +12,4 @@ Liechtenstein has one of the highest incomes per person in the world, based on f
 
 ## International Relations
 
-Liechtenstein is in a customs union with Switzerland, which also represents it abroad in many places. It is not in the EU but takes part in its single market.
+Liechtenstein is in a customs union with [Switzerland]{CHE}, which also represents it abroad in many places. It is not in the EU but takes part in its single market.

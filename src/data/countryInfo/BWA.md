@@ -1,6 +1,6 @@
 ## History
 
-The Tswana chiefs asked Britain for protection against Boer expansion, and Bechuanaland became a British protectorate in 1885. At independence in 1966, it was one of the world's poorest countries. Under Seretse Khama, its first president, it became a stable democracy. In 2024 the ruling party lost power for the first time.
+The Tswana chiefs asked [Britain]{GBR} for protection against Boer expansion, and Bechuanaland became a British protectorate in 1885. At independence in 1966, it was one of the world's poorest countries. Under Seretse Khama, its first president, it became a stable democracy. In 2024 the ruling party lost power for the first time.
 
 ## People
 

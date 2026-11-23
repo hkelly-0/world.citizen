@@ -1,6 +1,6 @@
 ## History
 
-Peru was home to early civilizations like the Nazca and Moche, and later the centre of the Inca Empire, which Spain conquered in 1532. Lima became the capital of Spanish South America. Peru gained independence in 1821. The Shining Path insurgency in the 1980s and 1990s killed tens of thousands.
+Peru was home to early civilizations like the Nazca and Moche, and later the centre of the Inca Empire, which [Spain]{ESP} conquered in 1532. Lima became the capital of Spanish South America. Peru gained independence in 1821. The Shining Path insurgency in the 1980s and 1990s killed tens of thousands.
 
 ## People
 
@@ -12,4 +12,4 @@ Peru's economy is built on mining, especially copper, gold, and silver, along wi
 
 ## International Relations
 
-Peru is a member of the Pacific Alliance, the Andean Community, and APEC. China is its largest trading partner and built a major port north of Lima. Frequent changes of president have made its politics unstable.
+Peru is a member of the Pacific Alliance, the Andean Community, and APEC. [China]{CHN} is its largest trading partner and built a major port north of Lima. Frequent changes of president have made its politics unstable.

@@ -1,6 +1,6 @@
 ## History
 
-Nigeria was home to kingdoms such as Oyo, Benin, and the Sokoto Caliphate. Britain colonized it, and it became independent in 1960. A civil war (1967–70) over Biafra killed about one million people. After years of military rule, it became a democracy in 1999.
+Nigeria was home to kingdoms such as Oyo, [Benin]{BEN}, and the Sokoto Caliphate. [Britain]{GBR} colonized it, and it became independent in 1960. A civil war (1967–70) over Biafra killed about one million people. After years of military rule, it became a democracy in 1999.
 
 ## People
 

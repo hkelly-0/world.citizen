@@ -12,4 +12,4 @@ Slovenia is the richest of the former Yugoslav republics, with strong exports of
 
 ## International Relations
 
-Slovenia joined the EU and NATO in 2004, and was the first former communist country to adopt the euro, in 2007. It has close ties with Austria, Italy, and Croatia.
+Slovenia joined the EU and NATO in 2004, and was the first former communist country to adopt the euro, in 2007. It has close ties with [Austria]{AUT}, [Italy]{ITA}, and [Croatia]{HRV}.

@@ -1,6 +1,6 @@
 ## History
 
-Finland was ruled by Sweden for about 600 years, then by Russia from 1809. It declared independence in 1917, followed by a brief civil war. It fought the Soviet Union twice during World War II, losing land but keeping its independence. It remained neutral during the Cold War.
+Finland was ruled by [Sweden]{SWE} for about 600 years, then by [Russia]{RUS} from 1809. It declared independence in 1917, followed by a brief civil war. It fought the Soviet Union twice during World War II, losing land but keeping its independence. It remained neutral during the Cold War.
 
 ## People
 
@@ -12,4 +12,4 @@ Finland has a wealthy, high-tech economy. Key sectors include forestry, paper, m
 
 ## International Relations
 
-Finland joined the EU in 1995 and adopted the euro. After Russia's invasion of Ukraine, it ended decades of neutrality by joining NATO in 2023. It shares a long border with Russia.
+Finland joined the EU in 1995 and adopted the euro. After [Russia]{RUS}'s invasion of [Ukraine]{UKR}, it ended decades of neutrality by joining NATO in 2023. It shares a long border with Russia.

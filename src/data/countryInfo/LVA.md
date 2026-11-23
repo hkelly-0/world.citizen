@@ -1,6 +1,6 @@
 ## History
 
-Latvia was ruled for centuries by Germans, Poles, Swedes, and then Russia. It became independent in 1918, but was occupied by the Soviet Union in 1940, when many Latvians were deported. It regained independence in 1991.
+Latvia was ruled for centuries by Germans, Poles, Swedes, and then [Russia]{RUS}. It became independent in 1918, but was occupied by the Soviet Union in 1940, when many Latvians were deported. It regained independence in 1991.
 
 ## People
 
@@ -12,4 +12,4 @@ Latvia has a high-income economy based on services, timber, transport, and food 
 
 ## International Relations
 
-Latvia joined the EU and NATO in 2004 and uses the euro. It strongly supports Ukraine and sees Russia as a major security threat.
+Latvia joined the EU and NATO in 2004 and uses the euro. It strongly supports [Ukraine]{UKR} and sees [Russia]{RUS} as a major security threat.

@@ -1,6 +1,6 @@
 ## History
 
-Belgium's King Leopold II ruled the Congo as his personal colony, where millions died under forced labour. It became independent in 1960. Mobutu Sese Seko ruled from 1965 to 1997. Wars from 1996 to 2003 killed millions, and conflict continues in the east.
+[Belgium]{BEL}'s King Leopold II ruled the Congo as his personal colony, where millions died under forced labour. It became independent in 1960. Mobutu Sese Seko ruled from 1965 to 1997. Wars from 1996 to 2003 killed millions, and conflict continues in the east.
 
 ## People
 
@@ -12,4 +12,4 @@ The Democratic Republic of the Congo has huge mineral wealth, including most of 
 
 ## International Relations
 
-The Democratic Republic of the Congo has fought the M23 rebel group, backed by Rwanda, in the east. A US-brokered peace deal was signed in 2025.
+The Democratic Republic of the Congo has fought the M23 rebel group, backed by [Rwanda]{RWA}, in the east. A US-brokered peace deal was signed in 2025.

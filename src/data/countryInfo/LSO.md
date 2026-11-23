@@ -4,12 +4,12 @@ King Moshoeshoe I united the Basotho in the 1820s, defending his mountain strong
 
 ## People
 
-Lesotho is entirely surrounded by South Africa and is the only country lying wholly above 1,000 metres. Almost everyone is Basotho, and most are Christian. Sesotho and English are official. HIV rates are among the world's highest.
+Lesotho is entirely surrounded by [South Africa]{ZAF} and is the only country lying wholly above 1,000 metres. Almost everyone is Basotho, and most are Christian. Sesotho and English are official. HIV rates are among the world's highest.
 
 ## Economy
 
-Lesotho's economy relies on clothing factories, diamonds, and selling water and hydropower to South Africa through a huge dam project. Many people work in South African mines or farms.
+Lesotho's economy relies on clothing factories, diamonds, and selling water and hydropower to [South Africa]{ZAF} through a huge dam project. Many people work in South African mines or farms.
 
 ## International Relations
 
-Lesotho depends heavily on South Africa, which surrounds it and shares its currency system. It is a member of the Commonwealth, the Southern African Development Community, and the Southern African Customs Union.
+Lesotho depends heavily on [South Africa]{ZAF}, which surrounds it and shares its currency system. It is a member of the Commonwealth, the Southern African Development Community, and the Southern African Customs Union.

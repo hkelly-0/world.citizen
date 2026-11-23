@@ -1,6 +1,6 @@
 ## History
 
-Genghis Khan united the Mongol tribes in 1206 and founded the largest contiguous land empire in history. Mongolia was later ruled by China's Qing dynasty, and became independent in 1911. A Soviet-backed communist state followed, until peaceful democratic change in 1990.
+Genghis Khan united the Mongol tribes in 1206 and founded the largest contiguous land empire in history. Mongolia was later ruled by [China]{CHN}'s Qing dynasty, and became independent in 1911. A Soviet-backed communist state followed, until peaceful democratic change in 1990.
 
 ## People
 
@@ -8,8 +8,8 @@ Mongolia is the least densely populated country in the world. About half of peop
 
 ## Economy
 
-Mongolia's economy depends on mining, especially coal, copper, and gold, most of which is exported to China. Herding livestock remains important.
+Mongolia's economy depends on mining, especially coal, copper, and gold, most of which is exported to [China]{CHN}. Herding livestock remains important.
 
 ## International Relations
 
-Mongolia is landlocked between Russia and China and seeks a "third neighbour" policy, building ties with the US, Japan, South Korea, and the EU.
+Mongolia is landlocked between [Russia]{RUS} and [China]{CHN} and seeks a "third neighbour" policy, building ties with the [US]{USA}, [Japan]{JPN}, [South Korea]{KOR}, and the EU.

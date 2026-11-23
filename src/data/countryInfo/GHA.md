@@ -1,6 +1,6 @@
 ## History
 
-Ghana was home to the Ashanti Empire, which grew rich from gold. Europeans built forts along the coast for the gold and slave trades. Britain colonized it as the Gold Coast, and in 1957 it became the first sub-Saharan African colony to gain independence, led by Kwame Nkrumah. After several coups, it has been a stable democracy since 1992.
+Ghana was home to the Ashanti Empire, which grew rich from gold. Europeans built forts along the coast for the gold and slave trades. [Britain]{GBR} colonized it as the Gold Coast, and in 1957 it became the first sub-Saharan African colony to gain independence, led by Kwame Nkrumah. After several coups, it has been a stable democracy since 1992.
 
 ## People
 

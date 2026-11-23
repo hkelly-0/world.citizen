@@ -1,6 +1,6 @@
 ## History
 
-Rome built an empire across the Mediterranean, and later Italy was the birthplace of the Renaissance. Divided for centuries, it was united in 1861. Benito Mussolini's Fascists ruled from 1922 and allied with Nazi Germany in World War II. Italy became a republic in 1946.
+Rome built an empire across the Mediterranean, and later Italy was the birthplace of the Renaissance. Divided for centuries, it was united in 1861. Benito Mussolini's Fascists ruled from 1922 and allied with Nazi [Germany]{DEU} in World War II. Italy became a republic in 1946.
 
 ## People
 

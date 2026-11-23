@@ -1,6 +1,6 @@
 ## History
 
-Vanuatu was settled about 3,000 years ago. Britain and France ruled it jointly as the New Hebrides from 1906, each with its own laws and schools. It became independent in 1980.
+Vanuatu was settled about 3,000 years ago. [Britain]{GBR} and [France]{FRA} ruled it jointly as the New Hebrides from 1906, each with its own laws and schools. It became independent in 1980.
 
 ## People
 
@@ -12,4 +12,4 @@ Vanuatu's economy relies on agriculture, tourism, and sales of citizenship to fo
 
 ## International Relations
 
-Vanuatu led a request to the International Court of Justice for an opinion on climate change, delivered in 2025. China is a major lender, and Australia a key aid donor.
+Vanuatu led a request to the International Court of Justice for an opinion on climate change, delivered in 2025. [China]{CHN} is a major lender, and [Australia]{AUS} a key aid donor.

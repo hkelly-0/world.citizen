@@ -1,6 +1,6 @@
 ## History
 
-Estonia was ruled for centuries by Germans, Danes, Swedes, and then Russia. It became independent in 1918, but was occupied by the Soviet Union in 1940, when many Estonians were deported. It regained independence in 1991.
+Estonia was ruled for centuries by Germans, Danes, Swedes, and then [Russia]{RUS}. It became independent in 1918, but was occupied by the Soviet Union in 1940, when many Estonians were deported. It regained independence in 1991.
 
 ## People
 
@@ -12,4 +12,4 @@ Estonia has a high-income economy and is a leader in digital government, allowin
 
 ## International Relations
 
-Estonia joined the EU and NATO in 2004 and uses the euro. It strongly supports Ukraine and sees Russia as a major security threat.
+Estonia joined the EU and NATO in 2004 and uses the euro. It strongly supports [Ukraine]{UKR} and sees [Russia]{RUS} as a major security threat.

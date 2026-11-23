@@ -1,6 +1,6 @@
 ## History
 
-Tuvalu's nine islands were settled by Polynesians. In the 1860s, slave traders kidnapped many islanders to work in South America. Britain ruled the islands as part of the Gilbert and Ellice Islands colony. The Ellice Islands voted to separate from the Gilberts (now Kiribati) in 1974 and became independent as Tuvalu in 1978.
+Tuvalu's nine islands were settled by Polynesians. In the 1860s, slave traders kidnapped many islanders to work in South America. [Britain]{GBR} ruled the islands as part of the Gilbert and Ellice Islands colony. The Ellice Islands voted to separate from the Gilberts (now [Kiribati]{KIR}) in 1974 and became independent as Tuvalu in 1978.
 
 ## People
 
@@ -12,4 +12,4 @@ Tuvalu's economy relies on fishing licences, income from its ".tv" internet doma
 
 ## International Relations
 
-Tuvalu is one of the countries most threatened by rising seas, as its highest point is only a few metres above sea level. In 2024, Australia agreed to offer residency to Tuvaluans. It recognizes Taiwan instead of China.
+Tuvalu is one of the countries most threatened by rising seas, as its highest point is only a few metres above sea level. In 2024, [Australia]{AUS} agreed to offer residency to Tuvaluans. It recognizes [Taiwan]{TWN} instead of [China]{CHN}.

@@ -4,7 +4,7 @@ Albania was ruled by the Ottomans for over four centuries and became independent
 
 ## People
 
-Most people are ethnic Albanians and speak Albanian. Muslims are the largest religious group, with Orthodox and Catholic minorities. Many Albanians live abroad, especially in Italy and Greece.
+Most people are ethnic Albanians and speak Albanian. Muslims are the largest religious group, with Orthodox and Catholic minorities. Many Albanians live abroad, especially in [Italy]{ITA} and [Greece]{GRC}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Albania's economy has grown since the 1990s and is based on services, tourism, a
 
 ## International Relations
 
-Albania joined NATO in 2009 and is a candidate to join the EU. It has close ties with Kosovo, where most people are ethnic Albanians, and with Italy.
+Albania joined NATO in 2009 and is a candidate to join the EU. It has close ties with [Kosovo]{XKX}, where most people are ethnic Albanians, and with [Italy]{ITA}.

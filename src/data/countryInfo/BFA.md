@@ -1,6 +1,6 @@
 ## History
 
-Burkina Faso was home to the Mossi kingdoms. France colonized it as Upper Volta, and it became independent in 1960. Thomas Sankara renamed it in 1984 and was killed in a 1987 coup. Jihadist violence has grown since 2015, and the military took power in 2022.
+Burkina Faso was home to the Mossi kingdoms. [France]{FRA} colonized it as Upper Volta, and it became independent in 1960. Thomas Sankara renamed it in 1984 and was killed in a 1987 coup. Jihadist violence has grown since 2015, and the military took power in 2022.
 
 ## People
 
@@ -12,4 +12,4 @@ Burkina Faso is one of the world's poorest countries. Gold is its main export, a
 
 ## International Relations
 
-Burkina Faso's military government expelled French troops and turned to Russia. With Mali and Niger, it left ECOWAS to form the Alliance of Sahel States.
+Burkina Faso's military government expelled French troops and turned to [Russia]{RUS}. With [Mali]{MLI} and [Niger]{NER}, it left ECOWAS to form the Alliance of Sahel States.

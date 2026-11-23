@@ -1,6 +1,6 @@
 ## History
 
-The Czech lands were the Kingdom of Bohemia, later ruled by the Habsburgs. Czechoslovakia was created in 1918, and Nazi Germany took it over in 1938–39. Communists seized power in 1948. The peaceful Velvet Revolution ended communism in 1989, and the country split peacefully from Slovakia in 1993.
+The Czech lands were the Kingdom of Bohemia, later ruled by the Habsburgs. Czechoslovakia was created in 1918, and Nazi [Germany]{DEU} took it over in 1938–39. Communists seized power in 1948. The peaceful Velvet Revolution ended communism in 1989, and the country split peacefully from [Slovakia]{SVK} in 1993.
 
 ## People
 
@@ -12,4 +12,4 @@ Czechia has one of the most developed economies in Central Europe, built on manu
 
 ## International Relations
 
-Czechia joined NATO in 1999 and the EU in 2004, but kept its own currency, the koruna. It has supported Ukraine against Russia.
+Czechia joined NATO in 1999 and the EU in 2004, but kept its own currency, the koruna. It has supported [Ukraine]{UKR} against [Russia]{RUS}.

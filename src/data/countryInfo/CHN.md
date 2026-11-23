@@ -12,4 +12,4 @@ China has the world's second-largest economy and is the biggest manufacturer and
 
 ## International Relations
 
-China is a nuclear power and permanent UN Security Council member, a rival of the US. Its Belt and Road Initiative funds infrastructure worldwide. It claims Taiwan and most of the South China Sea.
+China is a nuclear power and permanent UN Security Council member, a rival of the [US]{USA}. Its Belt and Road Initiative funds infrastructure worldwide. It claims [Taiwan]{TWN} and most of the South China Sea.

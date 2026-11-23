@@ -8,8 +8,8 @@ Most Canadians live near the southern border where winters are milder. European 
 
 ## Economy
 
-Canada has an advanced economy, built on abundant natural resources (energy, minerals, forestry, agriculture), with strong services, manufacturing, and finance sectors. Trade is vital, especially with the United States.
+Canada has an advanced economy, built on abundant natural resources (energy, minerals, forestry, agriculture), with strong services, manufacturing, and finance sectors. Trade is vital, especially with the [United States]{USA}.
 
 ## International Relations
 
-Canada fought alongside Britain in both World Wars, then helped found the UN and NATO and pioneered UN peacekeeping. Today it favours multilateralism, belongs to the G7, G20, and Commonwealth, and is closest to its largest trading partner, the United States.
+Canada fought alongside [Britain]{GBR} in both World Wars, then helped found the UN and NATO and pioneered UN peacekeeping. Today it favours multilateralism, belongs to the G7, G20, and Commonwealth, and is closest to its largest trading partner, the [United States]{USA}.

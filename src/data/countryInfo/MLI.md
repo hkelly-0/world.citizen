@@ -1,6 +1,6 @@
 ## History
 
-Mali was the centre of great empires, including the Mali Empire, whose ruler Mansa Musa was famed for his wealth, and Timbuktu was a centre of Islamic learning. France colonized it, and it became independent in 1960. Since 2012, rebels and jihadists have fought in the north, and the military has ruled since 2020.
+Mali was the centre of great empires, including the Mali Empire, whose ruler Mansa Musa was famed for his wealth, and Timbuktu was a centre of Islamic learning. [France]{FRA} colonized it, and it became independent in 1960. Since 2012, rebels and jihadists have fought in the north, and the military has ruled since 2020.
 
 ## People
 
@@ -12,4 +12,4 @@ Mali is one of the world's poorest countries. Its economy relies on gold, cotton
 
 ## International Relations
 
-Mali's military government expelled French troops and UN peacekeepers, turning to Russia for security. With Burkina Faso and Niger, it left ECOWAS to form the Alliance of Sahel States.
+Mali's military government expelled French troops and UN peacekeepers, turning to [Russia]{RUS} for security. With [Burkina Faso]{BFA} and [Niger]{NER}, it left ECOWAS to form the Alliance of Sahel States.

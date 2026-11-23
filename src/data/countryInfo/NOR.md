@@ -1,6 +1,6 @@
 ## History
 
-Norway was a Viking homeland and later united with Denmark for over four centuries. It was handed to Sweden in 1814 and became fully independent in 1905. Germany occupied it during World War II. Oil discovered in the North Sea in 1969 transformed the country.
+Norway was a Viking homeland and later united with [Denmark]{DNK} for over four centuries. It was handed to [Sweden]{SWE} in 1814 and became fully independent in 1905. [Germany]{DEU} occupied it during World War II. Oil discovered in the North Sea in 1969 transformed the country.
 
 ## People
 

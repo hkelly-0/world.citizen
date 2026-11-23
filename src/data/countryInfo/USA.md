@@ -12,4 +12,4 @@ The US has the world's largest economy, led by services, technology, finance, an
 
 ## International Relations
 
-The US emerged from World War II as a global superpower, and led the West against the Soviet Union in the Cold War. It helped overthrow governments in Iran, Guatemala, and Chile, and after 2001 invaded Afghanistan and Iraq. Today it is the world's leading military power, allied with NATO and countries across Asia.
+The US emerged from World War II as a global superpower, and led the West against the Soviet Union in the Cold War. It helped overthrow governments in [Iran]{IRN}, [Guatemala]{GTM}, and [Chile]{CHL}, and after 2001 invaded [Afghanistan]{AFG} and [Iraq]{IRQ}. Today it is the world's leading military power, allied with NATO and countries across Asia.

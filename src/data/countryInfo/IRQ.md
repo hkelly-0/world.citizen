@@ -12,4 +12,4 @@ Iraq's economy depends almost entirely on oil, which provides most government re
 
 ## International Relations
 
-Iraq balances ties with the US and neighbouring Iran, which has strong influence through allied militias. The Islamic State group seized large areas in 2014 before being defeated in 2017.
+Iraq balances ties with the [US]{USA} and neighbouring [Iran]{IRN}, which has strong influence through allied militias. The Islamic State group seized large areas in 2014 before being defeated in 2017.

@@ -1,10 +1,10 @@
 ## History
 
-Western Honduras was home to the Maya city of Copán. Spain colonized the region in the 1500s, and Honduras became independent in 1821. In the 1900s, US fruit companies dominated its economy and politics, giving rise to the term "banana republic". Military rule ended in 1982, and a coup removed the president in 2009.
+Western Honduras was home to the Maya city of Copán. [Spain]{ESP} colonized the region in the 1500s, and Honduras became independent in 1821. In the 1900s, [US]{USA} fruit companies dominated its economy and politics, giving rise to the term "banana republic". Military rule ended in 1982, and a coup removed the president in 2009.
 
 ## People
 
-Most Hondurans are mestizo and speak Spanish, with Lenca, Miskito, and Garifuna minorities. Catholicism and evangelical Protestantism are both widespread. Many people have emigrated to the United States.
+Most Hondurans are mestizo and speak Spanish, with Lenca, Miskito, and Garifuna minorities. Catholicism and evangelical Protestantism are both widespread. Many people have emigrated to the [United States]{USA}.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Honduras is one of the poorest countries in the Americas. Its economy relies on 
 
 ## International Relations
 
-Honduras is closely tied to the US, which has a military base there and is its main trading partner. It belongs to the Central American Integration System and switched its recognition from Taiwan to China in 2023.
+Honduras is closely tied to the [US]{USA}, which has a military base there and is its main trading partner. It belongs to the Central American Integration System and switched its recognition from [Taiwan]{TWN} to [China]{CHN} in 2023.

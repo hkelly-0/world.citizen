@@ -1,6 +1,6 @@
 ## History
 
-Algeria was home to Amazigh (Berber) peoples and became Muslim in the 600s. It was part of the Ottoman Empire, then colonized by France from 1830. A war of independence (1954–62) killed hundreds of thousands. A civil war in the 1990s also killed many.
+Algeria was home to Amazigh (Berber) peoples and became Muslim in the 600s. It was part of the Ottoman Empire, then colonized by [France]{FRA} from 1830. A war of independence (1954–62) killed hundreds of thousands. A civil war in the 1990s also killed many.
 
 ## People
 
@@ -12,4 +12,4 @@ Algeria's economy depends on oil and gas, which make up most of its exports, man
 
 ## International Relations
 
-Algeria supports the Polisario Front in Western Sahara, causing tension with Morocco. Relations with France are sensitive due to the colonial past. It has close ties with Russia.
+Algeria supports the Polisario Front in Western Sahara, causing tension with [Morocco]{MAR}. Relations with [France]{FRA} are sensitive due to the colonial past. It has close ties with [Russia]{RUS}.

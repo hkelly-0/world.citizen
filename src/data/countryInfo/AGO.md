@@ -1,6 +1,6 @@
 ## History
 
-Angola was home to the Kingdom of Kongo and Queen Nzinga's Ndongo. It became a Portuguese colony and a major source of enslaved people sent to Brazil. It won independence in 1975 after a war. A civil war (1975–2002) followed, with the US, South Africa, the Soviet Union, and Cuba backing different sides.
+Angola was home to the Kingdom of Kongo and Queen Nzinga's Ndongo. It became a Portuguese colony and a major source of enslaved people sent to [Brazil]{BRA}. It won independence in 1975 after a war. A civil war (1975–2002) followed, with the [US]{USA}, [South Africa]{ZAF}, the Soviet Union, and [Cuba]{CUB} backing different sides.
 
 ## People
 
@@ -12,4 +12,4 @@ Angola is one of Africa's largest oil producers, and oil makes up most of its ex
 
 ## International Relations
 
-Angola is a member of the Community of Portuguese Language Countries and the Southern African Development Community, and has close ties with China. It left OPEC in 2024.
+Angola is a member of the Community of Portuguese Language Countries and the Southern African Development Community, and has close ties with [China]{CHN}. It left OPEC in 2024.

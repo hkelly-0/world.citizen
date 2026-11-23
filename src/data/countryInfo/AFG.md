@@ -12,4 +12,4 @@ Afghanistan is one of the world's poorest countries. Most people rely on farming
 
 ## International Relations
 
-Only Russia formally recognizes the Taliban government. Afghanistan has tense relations with Pakistan, which has expelled many Afghan refugees.
+Only [Russia]{RUS} formally recognizes the Taliban government. Afghanistan has tense relations with [Pakistan]{PAK}, which has expelled many Afghan refugees.

@@ -1,6 +1,6 @@
 ## History
 
-Sudan's Nubian kingdoms, such as Kush, once ruled Egypt. Britain and Egypt ruled Sudan jointly from 1899, and it became independent in 1956. Civil wars led to South Sudan's independence in 2011. A genocide occurred in Darfur in the 2000s, and a war between the army and a paramilitary force began in 2023.
+Sudan's Nubian kingdoms, such as Kush, once ruled [Egypt]{EGY}. [Britain]{GBR} and Egypt ruled Sudan jointly from 1899, and it became independent in 1956. Civil wars led to [South Sudan]{SSD}'s independence in 2011. A genocide occurred in Darfur in the 2000s, and a war between the army and a paramilitary force began in 2023.
 
 ## People
 
@@ -12,4 +12,4 @@ Sudan's economy relies on agriculture, livestock, and gold. The war has destroye
 
 ## International Relations
 
-Sudan's war has drawn in foreign powers, with the UAE accused of backing the paramilitary force. It is one of the world's largest humanitarian crises.
+Sudan's war has drawn in foreign powers, with the [UAE]{ARE} accused of backing the paramilitary force. It is one of the world's largest humanitarian crises.

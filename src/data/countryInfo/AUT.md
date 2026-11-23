@@ -1,6 +1,6 @@
 ## History
 
-Austria was the centre of the Habsburg Empire, which ruled much of Central Europe for centuries. The empire collapsed after World War I. In 1938 Austria was annexed by Nazi Germany. After the war it was occupied by the Allies until 1955, when it became independent and permanently neutral.
+Austria was the centre of the Habsburg Empire, which ruled much of Central Europe for centuries. The empire collapsed after World War I. In 1938 Austria was annexed by Nazi [Germany]{DEU}. After the war it was occupied by the Allies until 1955, when it became independent and permanently neutral.
 
 ## People
 

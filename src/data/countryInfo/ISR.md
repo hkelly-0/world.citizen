@@ -12,4 +12,4 @@ Israel has a wealthy, high-tech economy, known as the "Start-up Nation", with st
 
 ## International Relations
 
-The US is Israel's closest ally. It has peace treaties with Egypt, Jordan, and several Gulf states, but has fought many wars with its neighbours. Its war in Gaza since 2023 has drawn widespread international criticism.
+The [US]{USA} is Israel's closest ally. It has peace treaties with [Egypt]{EGY}, [Jordan]{JOR}, and several Gulf states, but has fought many wars with its neighbours. Its war in Gaza since 2023 has drawn widespread international criticism.

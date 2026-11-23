@@ -4,7 +4,7 @@ Côte d'Ivoire was a French colony and became independent in 1960. Under Félix 
 
 ## People
 
-Côte d'Ivoire has over 60 ethnic groups and is split between a mostly Muslim north and a mostly Christian south. Many people have roots in Burkina Faso and Mali. French is official. Abidjan is the largest city, while Yamoussoukro is the capital.
+Côte d'Ivoire has over 60 ethnic groups and is split between a mostly Muslim north and a mostly Christian south. Many people have roots in [Burkina Faso]{BFA} and [Mali]{MLI}. French is official. Abidjan is the largest city, while Yamoussoukro is the capital.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Côte d'Ivoire is the world's largest cocoa producer and one of Africa's fastest
 
 ## International Relations
 
-Côte d'Ivoire is a member of ECOWAS and has close ties with France, whose base in Abidjan was handed over in 2025.
+Côte d'Ivoire is a member of ECOWAS and has close ties with [France]{FRA}, whose base in Abidjan was handed over in 2025.

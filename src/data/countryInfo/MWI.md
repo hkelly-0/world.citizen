@@ -1,6 +1,6 @@
 ## History
 
-The region was home to the Maravi kingdom and was affected by the Arab-Swahili slave trade. Britain colonized it as Nyasaland in 1891. It became independent in 1964, and Hastings Banda ruled as a dictator until 1994, when it became a multiparty democracy. In 2020, courts overturned a disputed election.
+The region was home to the Maravi kingdom and was affected by the Arab-Swahili slave trade. [Britain]{GBR} colonized it as Nyasaland in 1891. It became independent in 1964, and Hastings Banda ruled as a dictator until 1994, when it became a multiparty democracy. In 2020, courts overturned a disputed election.
 
 ## People
 

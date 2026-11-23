@@ -1,6 +1,6 @@
 ## History
 
-New Guinea has been inhabited for at least 50,000 years, and farming began there independently. Germany and Britain colonized its parts, which Australia later governed. Papua New Guinea became independent in 1975. Bougainville voted for independence in a non-binding referendum in 2019.
+New Guinea has been inhabited for at least 50,000 years, and farming began there independently. [Germany]{DEU} and [Britain]{GBR} colonized its parts, which [Australia]{AUS} later governed. Papua New Guinea became independent in 1975. Bougainville voted for independence in a non-binding referendum in 2019.
 
 ## People
 
@@ -12,4 +12,4 @@ Papua New Guinea's economy relies on mining, oil, and gas, but most people depen
 
 ## International Relations
 
-Papua New Guinea has close ties with Australia, its main aid donor. It is a member of the Commonwealth and the Pacific Islands Forum.
+Papua New Guinea has close ties with [Australia]{AUS}, its main aid donor. It is a member of the Commonwealth and the Pacific Islands Forum.

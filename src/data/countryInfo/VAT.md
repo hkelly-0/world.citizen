@@ -1,6 +1,6 @@
 ## History
 
-The Pope ruled the Papal States across central Italy for over one thousand years until they were taken over during Italy's unification in 1870. Vatican City was created in 1929 by a treaty with Italy, giving the Pope a sovereign territory.
+The Pope ruled the Papal States across central [Italy]{ITA} for over one thousand years until they were taken over during Italy's unification in 1870. Vatican City was created in 1929 by a treaty with Italy, giving the Pope a sovereign territory.
 
 ## People
 

@@ -12,4 +12,4 @@ The economy relies on cocoa, tourism, and foreign aid. Hopes of offshore oil wea
 
 ## International Relations
 
-São Tomé and Príncipe is a member of the Community of Portuguese Language Countries and has close ties with Portugal. It has had peaceful changes of government, though there were attempted coups.
+São Tomé and Príncipe is a member of the Community of Portuguese Language Countries and has close ties with [Portugal]{PRT}. It has had peaceful changes of government, though there were attempted coups.

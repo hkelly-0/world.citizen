@@ -12,4 +12,4 @@ Bosnia's economy is based on services, metals, energy, and wood. Unemployment is
 
 ## International Relations
 
-Bosnia is an EU candidate. An international High Representative oversees the peace agreement, and Serb leaders have threatened secession. Relations with neighbours Serbia and Croatia remain sensitive.
+Bosnia is an EU candidate. An international High Representative oversees the peace agreement, and Serb leaders have threatened secession. Relations with neighbours [Serbia]{SRB} and [Croatia]{HRV} remain sensitive.

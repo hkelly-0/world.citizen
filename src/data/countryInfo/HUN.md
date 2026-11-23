@@ -12,4 +12,4 @@ Hungary has a high-income economy, with car manufacturing by German companies, e
 
 ## International Relations
 
-Hungary joined NATO in 1999 and the EU in 2004. Under Viktor Orbán, it clashed with the EU over democracy and the rule of law, and kept friendlier ties with Russia and China than its allies.
+Hungary joined NATO in 1999 and the EU in 2004. Under Viktor Orbán, it clashed with the EU over democracy and the rule of law, and kept friendlier ties with [Russia]{RUS} and [China]{CHN} than its allies.

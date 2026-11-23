@@ -1,6 +1,6 @@
 ## History
 
-Georgia was one of the first countries to adopt Christianity, in the 300s, and had a medieval golden age. It became part of the Russian Empire and then the Soviet Union, gaining independence in 1991. Russia fought a short war with Georgia in 2008 and backs breakaway regions there.
+Georgia was one of the first countries to adopt Christianity, in the 300s, and had a medieval golden age. It became part of the Russian Empire and then the Soviet Union, gaining independence in 1991. [Russia]{RUS} fought a short war with Georgia in 2008 and backs breakaway regions there.
 
 ## People
 
@@ -12,4 +12,4 @@ Georgia's economy relies on tourism, agriculture, especially wine, and transport
 
 ## International Relations
 
-Russian troops occupy Abkhazia and South Ossetia, which make up about a fifth of Georgia's internationally recognized territory. It is an EU candidate, but its government has moved closer to Russia, sparking protests.
+Russian troops occupy Abkhazia and South Ossetia, which make up about a fifth of Georgia's internationally recognized territory. It is an EU candidate, but its government has moved closer to [Russia]{RUS}, sparking protests.

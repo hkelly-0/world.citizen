@@ -1,6 +1,6 @@
 ## History
 
-Brazil was colonized by Portugal from 1500, and about four million enslaved Africans were brought to work its plantations and mines. It became independent in 1822, was the last country in the Americas to abolish slavery, in 1888, and became a republic in 1889. A military dictatorship ruled from 1964 to 1985.
+Brazil was colonized by [Portugal]{PRT} from 1500, and about four million enslaved Africans were brought to work its plantations and mines. It became independent in 1822, was the last country in the Americas to abolish slavery, in 1888, and became a republic in 1889. A military dictatorship ruled from 1964 to 1985.
 
 ## People
 

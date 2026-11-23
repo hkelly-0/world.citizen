@@ -12,4 +12,4 @@ Romania's economy has grown quickly since joining the EU, led by IT, car manufac
 
 ## International Relations
 
-Romania joined NATO in 2004 and the EU in 2007. It hosts NATO forces and supports Ukraine and Moldova against Russia.
+Romania joined NATO in 2004 and the EU in 2007. It hosts NATO forces and supports [Ukraine]{UKR} and [Moldova]{MDA} against [Russia]{RUS}.

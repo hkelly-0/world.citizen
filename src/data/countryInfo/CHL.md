@@ -1,6 +1,6 @@
 ## History
 
-The Mapuche people resisted Spanish conquest for centuries. Chile gained independence in 1818 and won land from Peru and Bolivia in the War of the Pacific (1879–84). In 1973, a US-backed coup overthrew President Salvador Allende, and Augusto Pinochet ruled as a dictator until 1990.
+The Mapuche people resisted Spanish conquest for centuries. Chile gained independence in 1818 and won land from [Peru]{PER} and [Bolivia]{BOL} in the War of the Pacific (1879–84). In 1973, a US-backed coup overthrew President Salvador Allende, and Augusto Pinochet ruled as a dictator until 1990.
 
 ## People
 
@@ -12,4 +12,4 @@ Chile has one of the most developed economies in Latin America. It is the world'
 
 ## International Relations
 
-Chile is a member of the OECD, the Pacific Alliance, and APEC, and has free-trade agreements with many countries. It claims part of Antarctica. China is its largest trading partner.
+Chile is a member of the OECD, the Pacific Alliance, and APEC, and has free-trade agreements with many countries. It claims part of Antarctica. [China]{CHN} is its largest trading partner.

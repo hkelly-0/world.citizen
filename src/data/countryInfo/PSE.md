@@ -1,6 +1,6 @@
 ## History
 
-After centuries of Ottoman rule, the land came under British control in 1917. When Israel was founded in 1948, around 700,000 Palestinians fled or were expelled. Israel has occupied the West Bank and Gaza since 1967. The 1993 Oslo Accords created limited Palestinian self-rule, but no state has yet been established.
+After centuries of Ottoman rule, the land came under British control in 1917. When [Israel]{ISR} was founded in 1948, around 700,000 Palestinians fled or were expelled. Israel has occupied the West Bank and Gaza since 1967. The 1993 Oslo Accords created limited Palestinian self-rule, but no state has yet been established.
 
 ## People
 

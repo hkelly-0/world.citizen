@@ -1,6 +1,6 @@
 ## History
 
-Britain founded Freetown in 1787 as a home for freed slaves. Sierra Leone became a British colony and gained independence in 1961. A brutal civil war (1991–2002), fuelled by diamonds, killed tens of thousands. An Ebola epidemic struck in 2014–16.
+[Britain]{GBR} founded Freetown in 1787 as a home for freed slaves. Sierra Leone became a British colony and gained independence in 1961. A brutal civil war (1991–2002), fuelled by diamonds, killed tens of thousands. An Ebola epidemic struck in 2014–16.
 
 ## People
 

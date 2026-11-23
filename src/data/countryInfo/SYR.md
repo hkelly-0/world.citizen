@@ -12,4 +12,4 @@ Syria's economy has been devastated by war. It once relied on oil, agriculture, 
 
 ## International Relations
 
-Syria's new government is rebuilding ties with Arab states, Turkey, and the West, after the Assad government relied on Russia and Iran. Israel occupies the Golan Heights.
+Syria's new government is rebuilding ties with Arab states, [Turkey]{TUR}, and the West, after the Assad government relied on [Russia]{RUS} and [Iran]{IRN}. [Israel]{ISR} occupies the Golan Heights.

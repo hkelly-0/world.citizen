@@ -1,6 +1,6 @@
 ## History
 
-Mauritania was a crossroads of Amazigh, Arab, and Black African peoples, and the Almoravid movement that conquered Morocco and Spain began there. France colonized it, and it became independent in 1960. It has had several coups. It was the last country to abolish slavery, in 1981, though it continues in some forms.
+Mauritania was a crossroads of Amazigh, Arab, and Black African peoples, and the Almoravid movement that conquered [Morocco]{MAR} and [Spain]{ESP} began there. [France]{FRA} colonized it, and it became independent in 1960. It has had several coups. It was the last country to abolish slavery, in 1981, though it continues in some forms.
 
 ## People
 
@@ -8,7 +8,7 @@ Mauritania is mostly desert, and many people were once nomadic. Most people are 
 
 ## Economy
 
-Mauritania's economy relies on iron ore, gold, fishing, and livestock. An offshore gas field shared with Senegal began exporting in 2025.
+Mauritania's economy relies on iron ore, gold, fishing, and livestock. An offshore gas field shared with [Senegal]{SEN} began exporting in 2025.
 
 ## International Relations
 

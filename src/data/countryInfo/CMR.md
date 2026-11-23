@@ -1,6 +1,6 @@
 ## History
 
-Cameroon became a German colony in 1884, then was divided between France and Britain after World War I. French Cameroon became independent in 1960 after a violent independence struggle, and part of British Cameroon joined it in 1961. Paul Biya has been president since 1982. Since 2017, a separatist conflict has affected its English-speaking regions.
+Cameroon became a German colony in 1884, then was divided between [France]{FRA} and [Britain]{GBR} after World War I. French Cameroon became independent in 1960 after a violent independence struggle, and part of British Cameroon joined it in 1961. Paul Biya has been president since 1982. Since 2017, a separatist conflict has affected its English-speaking regions.
 
 ## People
 
@@ -12,4 +12,4 @@ Cameroon has one of Central Africa's largest economies, relying on oil, timber, 
 
 ## International Relations
 
-Cameroon is a member of the Commonwealth and the Francophonie, and has close ties with France. It fights Boko Haram in the far north, near Lake Chad.
+Cameroon is a member of the Commonwealth and the Francophonie, and has close ties with [France]{FRA}. It fights Boko Haram in the far north, near Lake Chad.

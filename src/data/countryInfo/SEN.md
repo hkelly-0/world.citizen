@@ -1,6 +1,6 @@
 ## History
 
-Senegal was part of several West African empires. Gorée Island became a symbol of the Atlantic slave trade. France colonized the region, and Dakar was the capital of French West Africa. Senegal became independent in 1960 under the poet Léopold Senghor. It has never had a military coup, and power has changed hands peacefully.
+Senegal was part of several West African empires. Gorée Island became a symbol of the Atlantic slave trade. [France]{FRA} colonized the region, and Dakar was the capital of French West Africa. Senegal became independent in 1960 under the poet Léopold Senghor. It has never had a military coup, and power has changed hands peacefully.
 
 ## People
 

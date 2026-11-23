@@ -1,6 +1,6 @@
 ## History
 
-Morocco was home to Amazigh (Berber) peoples and became Muslim in the 600s. Powerful dynasties ruled it, and the Alaouite dynasty has ruled since the 1600s. France and Spain divided it as protectorates in 1912, and it became independent in 1956.
+Morocco was home to Amazigh (Berber) peoples and became Muslim in the 600s. Powerful dynasties ruled it, and the Alaouite dynasty has ruled since the 1600s. [France]{FRA} and [Spain]{ESP} divided it as protectorates in 1912, and it became independent in 1956.
 
 ## People
 
@@ -12,4 +12,4 @@ Morocco's economy is based on agriculture, tourism, phosphates, and car and aero
 
 ## International Relations
 
-Morocco controls most of Western Sahara, whose status is disputed by the Polisario Front, backed by Algeria. It has close ties with France, Spain, the US, and Gulf states, and established relations with Israel in 2020.
+Morocco controls most of Western Sahara, whose status is disputed by the Polisario Front, backed by [Algeria]{DZA}. It has close ties with [France]{FRA}, [Spain]{ESP}, the [US]{USA}, and Gulf states, and established relations with [Israel]{ISR} in 2020.

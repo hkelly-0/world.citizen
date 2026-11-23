@@ -1,6 +1,6 @@
 ## History
 
-Rwanda was a kingdom before being colonized by Germany and then Belgium, which hardened divisions between Hutu and Tutsi. It became independent in 1962. In the 1994 genocide, about 800,000 people, mostly Tutsi, were killed in about 100 days. The rebel force that ended it was led by Paul Kagame, who has led Rwanda since.
+Rwanda was a kingdom before being colonized by [Germany]{DEU} and then [Belgium]{BEL}, which hardened divisions between Hutu and Tutsi. It became independent in 1962. In the 1994 genocide, about 800,000 people, mostly Tutsi, were killed in about 100 days. The rebel force that ended it was led by Paul Kagame, who has led Rwanda since.
 
 ## People
 
@@ -12,4 +12,4 @@ Rwanda's economy has grown quickly, relying on agriculture, especially coffee an
 
 ## International Relations
 
-Rwanda is a member of the Commonwealth and the East African Community. It is accused of backing the M23 rebel group in the Democratic Republic of the Congo, and its government is criticized for repressing opponents.
+Rwanda is a member of the Commonwealth and the East African Community. It is accused of backing the M23 rebel group in the [Democratic Republic of the Congo]{COD}, and its government is criticized for repressing opponents.

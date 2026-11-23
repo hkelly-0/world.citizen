@@ -1,6 +1,6 @@
 ## History
 
-Korea was united under various kingdoms for centuries, then annexed by Japan in 1910. After World War II it was divided, and the Korean War (1950–53) ended in an armistice, not a peace treaty. South Korea grew rapidly under military rule and became a democracy in 1987.
+Korea was united under various kingdoms for centuries, then annexed by [Japan]{JPN} in 1910. After World War II it was divided, and the Korean War (1950–53) ended in an armistice, not a peace treaty. South Korea grew rapidly under military rule and became a democracy in 1987.
 
 ## People
 
@@ -12,4 +12,4 @@ South Korea has a highly developed economy, a leader in electronics, semiconduct
 
 ## International Relations
 
-South Korea is a close US ally and hosts US troops to deter North Korea. It has strong trade ties with China and the US.
+South Korea is a close [US]{USA} ally and hosts US troops to deter [North Korea]{PRK}. It has strong trade ties with [China]{CHN} and the US.

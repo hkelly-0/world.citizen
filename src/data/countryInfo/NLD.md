@@ -1,10 +1,10 @@
 ## History
 
-The Dutch won independence from Spain in the 1500s and 1600s, and became a leading trading power with an empire in Indonesia, the Caribbean, and South Africa. Germany occupied the country in World War II, and most of its Jews were killed. Indonesia became independent in 1949.
+The Dutch won independence from [Spain]{ESP} in the 1500s and 1600s, and became a leading trading power with an empire in [Indonesia]{IDN}, the Caribbean, and [South Africa]{ZAF}. [Germany]{DEU} occupied the country in World War II, and most of its Jews were killed. Indonesia became independent in 1949.
 
 ## People
 
-The Netherlands is one of Europe's most densely populated countries. Most people speak Dutch, and many have roots in Turkey, Morocco, Suriname, and Indonesia. Much of the land lies below sea level, protected by dykes.
+The Netherlands is one of Europe's most densely populated countries. Most people speak Dutch, and many have roots in [Turkey]{TUR}, [Morocco]{MAR}, [Suriname]{SUR}, and [Indonesia]{IDN}. Much of the land lies below sea level, protected by dykes.
 
 ## Economy
 

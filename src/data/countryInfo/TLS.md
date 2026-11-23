@@ -1,10 +1,10 @@
 ## History
 
-Timor-Leste was a Portuguese colony for centuries. After Portugal left in 1975, Indonesia invaded, and up to a quarter of the population died during its occupation. After a 1999 vote, Indonesian-backed militias destroyed much of the country, and UN peacekeepers arrived. It became independent in 2002.
+Timor-Leste was a Portuguese colony for centuries. After [Portugal]{PRT} left in 1975, [Indonesia]{IDN} invaded, and up to a quarter of the population died during its occupation. After a 1999 vote, Indonesian-backed militias destroyed much of the country, and UN peacekeepers arrived. It became independent in 2002.
 
 ## People
 
-Most people are Catholic, making it one of only two mainly Catholic countries in Asia, alongside the Philippines. Tetum and Portuguese are official, and many local languages are spoken. The population is very young.
+Most people are Catholic, making it one of only two mainly Catholic countries in Asia, alongside the [Philippines]{PHL}. Tetum and Portuguese are official, and many local languages are spoken. The population is very young.
 
 ## Economy
 
@@ -12,4 +12,4 @@ Timor-Leste is one of Asia's poorest countries. It relies on oil and gas revenue
 
 ## International Relations
 
-Timor-Leste became ASEAN's newest member in 2025. It has close ties with Australia, Indonesia, and Portugal.
+Timor-Leste became ASEAN's newest member in 2025. It has close ties with [Australia]{AUS}, [Indonesia]{IDN}, and [Portugal]{PRT}.
