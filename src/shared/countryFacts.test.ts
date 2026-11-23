@@ -57,13 +57,11 @@ describe('countryFacts', () => {
     }
   })
 
-  it('has an IHDI breakdown exactly for countries with an IHDI, whose geometric mean is the IHDI', () => {
+  it('has an IHDI breakdown for every country with an IHDI, and none without an IHDI or estimate', () => {
     for (const country of countries) {
-      expect(country.ihdiBreakdown !== null).toBe(country.ihdi !== null)
-      if (country.ihdiBreakdown !== null) {
-        const { lifespan, education, income } = country.ihdiBreakdown
-        // The parts are rounded to 3 decimals, so allow a little more than UNDP's rounding.
-        expect(Math.cbrt(lifespan * education * income)).toBeCloseTo(country.ihdi!, 2)
+      if (country.ihdi !== null) expect(country.ihdiBreakdown).not.toBeNull()
+      if (country.ihdi === null && country.ihdiEstimate === null) {
+        expect(country.ihdiBreakdown).toBeNull()
       }
     }
   })
@@ -79,23 +77,11 @@ describe('countryFacts', () => {
     }
   })
 
-  it("has an estimate's breakdown only for estimates, whose geometric mean is the estimate", () => {
-    for (const country of countries) {
-      const breakdown = country.ihdiEstimateBreakdown
-      if (country.ihdiEstimate === null) expect(breakdown).toBeNull()
-      if (breakdown !== null) {
-        const { lifespan, education, income, estimatedParts } = breakdown
-        expect(Math.cbrt(lifespan * education * income)).toBeCloseTo(country.ihdiEstimate!, 2)
-        // Otherwise the IHDI would be real, not estimated.
-        expect(estimatedParts.length).toBeGreaterThan(0)
-        for (const part of estimatedParts) {
-          expect(['lifespan', 'education', 'income']).toContain(part)
-        }
-      }
-    }
-    // Fitted from other countries' IHDIs, as UNDP has no figures for either.
-    expect(countryFacts['XKX'].ihdiEstimateBreakdown).toBeNull()
-    expect(countryFacts['TWN'].ihdiEstimateBreakdown).toBeNull()
+  it('has no IHDI breakdown for estimated countries that UNDP has no figures for', () => {
+    expect(countryFacts['XKX'].ihdiEstimate).not.toBeNull()
+    expect(countryFacts['XKX'].ihdiBreakdown).toBeNull()
+    expect(countryFacts['TWN'].ihdiEstimate).not.toBeNull()
+    expect(countryFacts['TWN'].ihdiBreakdown).toBeNull()
   })
 
   it('puts every country in a group of 3 to 6, with one name per group', () => {

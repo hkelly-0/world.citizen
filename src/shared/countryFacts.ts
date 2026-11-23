@@ -30,47 +30,32 @@ export type CountryFacts = {
   // value for the country, shown as "no data".
   ihdi: number | null
   ihdiYear: number | null
-  // The IHDI's three parts, each adjusted for inequality (0–1), from the same
-  // year; the IHDI is their geometric mean. Null exactly when ihdi is null.
+  // The figures behind the real or estimated IHDI, shown from a "?" beside it.
+  // Null when there is neither, or UNDP lacks a figure (e.g. Kosovo).
   ihdiBreakdown: IhdiBreakdown | null
   // Our own estimate of the IHDI, from the country's other UNDP figures and
   // those of similar countries (see make-country-data.mjs), for countries that
   // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
-  // The estimate's three parts, for estimates made from the country's own
-  // UNDP figures with some inequality losses filled in. Null otherwise (no
-  // estimate, or one fitted from other countries' IHDIs, e.g. Kosovo).
-  ihdiEstimateBreakdown: IhdiEstimateBreakdown | null
   // The group of 3 to 6 similar neighbouring countries this one belongs to,
   // hand-written in countryGroups.json.
   groupId: string
   groupName: string
 }
 
-// The inequality-adjusted index of each part of the IHDI (0–1): health (life
-// expectancy), education (years of schooling) and income (per person).
-// lifespanYears is the (mean) life expectancy in years, educationYears the
-// average of expected and mean years of schooling, neither
-// inequality-adjusted, and incomeDollars the World Bank's median household
-// income or spending (PPP dollars per person per year, at the recent US
-// prices given by CPI_RECENT in make-country-data.mjs), shown in place of the
-// indices. isIncomeEstimated is true when that median is the World Bank's
-// model estimate for a country with no survey.
+// One figure for each part of the IHDI, none adjusted for inequality, so they
+// are the same whether the IHDI is real or estimated. lifespanYears is UNDP's
+// (mean) life expectancy in years, educationYears the average of UNDP's
+// expected and mean years of schooling, and incomeDollars the World Bank's
+// median household income or spending (PPP dollars per person per year, at
+// the recent US prices given by CPI_RECENT in make-country-data.mjs).
+// isIncomeEstimated is true when that median is the World Bank's model
+// estimate for a country with no survey.
 export type IhdiBreakdown = {
-  lifespan: number
-  education: number
-  income: number
   lifespanYears: number
   educationYears: number
   incomeDollars: number
   isIncomeEstimated: boolean
-}
-
-// An estimated IHDI's parts, with the names of those (e.g. "income") worked
-// out from a filled-in inequality loss. Strings rather than the part names'
-// type, as the JSON import types them as strings.
-export type IhdiEstimateBreakdown = IhdiBreakdown & {
-  estimatedParts: string[]
 }
 
 // All 197 countries (193 UN members + Vatican City, Palestine, Taiwan, and

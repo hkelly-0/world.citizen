@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useId, useRef, useState } from 'react'
-import type { IhdiBreakdown, IhdiEstimateBreakdown } from './countryFacts'
+import type { IhdiBreakdown } from './countryFacts'
 import { formatIncome } from './currencies'
 import { loadCurrency } from './settings'
 import './IhdiBreakdownButton.css'
@@ -24,7 +24,7 @@ export function IhdiBreakdownButton({
   breakdown,
   noDataNote,
 }: {
-  breakdown: IhdiBreakdown | IhdiEstimateBreakdown | null
+  breakdown: IhdiBreakdown | null
   noDataNote?: string[]
 }) {
   const [isOpen, setIsOpen] = useState(false)

@@ -1,10 +1,5 @@
 import { Fragment, lazy, Suspense, useEffect, useRef, useState, type FormEvent } from 'react'
-import {
-  countryFacts,
-  type CountryFacts,
-  type IhdiBreakdown,
-  type IhdiEstimateBreakdown,
-} from '../../shared/countryFacts'
+import { countryFacts, type CountryFacts, type IhdiBreakdown } from '../../shared/countryFacts'
 import { COUNTRY_INFO_HEADINGS, loadCountryInfo, type CountryInfo } from '../../shared/countryInfo'
 import { withoutLinks } from '../../shared/countryLinks'
 import { flagImageSrc } from '../../shared/flags'
@@ -258,7 +253,7 @@ export function Flashcard({
         {rangeQuestion !== undefined && (
           <RangeQuestionView
             question={rangeQuestion}
-            ihdiBreakdown={country.ihdiBreakdown ?? country.ihdiEstimateBreakdown}
+            ihdiBreakdown={country.ihdiBreakdown}
             ihdiRoughEstimate={IHDI_ROUGH_ESTIMATES[country.isoAlpha3]}
             answer={answer}
             onAnswer={(chosen) =>
@@ -363,10 +358,9 @@ function FlagQuestion({
 
 type RangeQuestionViewProps = {
   question: RangeQuestion
-  // The country's IHDI breakdown, opened from a "?" after the IHDI question's
-  // value. For an estimated IHDI, the estimate's breakdown, or null when it
-  // has none.
-  ihdiBreakdown: IhdiBreakdown | IhdiEstimateBreakdown | null
+  // The country's IHDI breakdown, real or estimated, opened from a "?" after
+  // the IHDI question's value. Null when it has none.
+  ihdiBreakdown: IhdiBreakdown | null
   // The country's rough IHDI range from IHDI_ROUGH_ESTIMATES (e.g. "3.8-5.6"),
   // noted after the IHDI question is answered. Undefined for most countries.
   ihdiRoughEstimate: string | undefined

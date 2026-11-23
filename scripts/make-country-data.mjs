@@ -176,20 +176,22 @@ await readCsv(
 // The UNDP file is Latin-1 encoded, not UTF-8.
 const hdis = {}
 const ihdis = {}
-const ihdiBreakdowns = {}
-// Every row of the UNDP file, kept for estimating missing IHDIs.
+// Every row of the UNDP file, kept for estimating missing IHDIs and for the
+// IHDI breakdown's figures.
 const undpRows = {}
 
-// --- IHDI broken down into its three inequality-adjusted dimension indices ---
-// The UNDP file doesn't list these, so they are worked out as UNDP does (HDR
-// technical notes): each dimension index from its indicators and fixed
-// goalposts, times (1 - that dimension's inequality loss). The IHDI is the
-// geometric mean of the three; this reproduces UNDP's IHDI to 3 decimals.
+// --- UNDP's IHDI formula, used by the estimates below ---
+// The IHDI's three inequality-adjusted dimension indices aren't in the UNDP
+// file, so they are worked out as UNDP does (HDR technical notes): each
+// dimension index from its indicators and fixed goalposts, times (1 - that
+// dimension's inequality loss). The IHDI is the geometric mean of the three;
+// this reproduces UNDP's IHDI to 3 decimals, which is checked for every country
+// with an IHDI (checkIhdiFormula), so a changed method in a new report is noticed.
 const LIFE_EXPECTANCY_GOALPOSTS = { min: 20, max: 85 }
 const EXPECTED_SCHOOLING_MAX = 18
 const MEAN_SCHOOLING_MAX = 15
 const INCOME_GOALPOSTS = { min: 100, max: 75000 }
-const IHDI_BREAKDOWN_TOLERANCE = 0.002
+const IHDI_FORMULA_TOLERANCE = 0.002
 
 // The breakdown's income in dollars is brought from the World Bank's 2021 PPP
 // dollars to recent US prices, by the US consumer price index (CPI-U, not seasonally
@@ -236,64 +238,29 @@ function dimensionIndices(row, year) {
   }
 }
 
-// UNDP's IHDI formula, shared by the breakdown and the estimates below: each
-// dimension index times (1 - its inequality loss), and the IHDI as the
-// geometric mean of the three. Losses are percentages.
-// Also the life expectancy in years, shown instead of the lifespan index: just
-// UNDP's (mean) life expectancy, with no inequality adjustment. The loss-
-// adjusted figure (the geometric mean of lifespans) was dropped, as early
-// deaths pull it far below a typical lifespan (around 34 years in Chad and
-// Nigeria). The years of schooling, shown instead of the education index,
-// are just the average of expected and mean years of schooling (uncapped,
-// unlike the index), with no inequality adjustment. The income shown instead
-// of the income index isn't from UNDP: it is the World Bank's median, added
-// by withMedianIncome. Neither years figure is used in the IHDI itself, which
-// adjusts the indices instead.
-function inequalityAdjusted(indices, losses) {
+// UNDP's IHDI formula: each dimension index times (1 - its inequality loss),
+// and the IHDI as the geometric mean of the three. Losses are percentages.
+function inequalityAdjustedIhdi(indices, losses) {
   const lifespan = indices.lifespan * (1 - losses.lifespan / 100)
   const education = indices.education * (1 - losses.education / 100)
   const income = indices.income * (1 - losses.income / 100)
-  const lifespanYears = indices.lifeExpectancy
-  const educationYears = (indices.expectedSchooling + indices.meanSchooling) / 2
-  return {
-    lifespan,
-    education,
-    income,
-    lifespanYears,
-    educationYears,
-    ihdi: Math.cbrt(lifespan * education * income),
-  }
+  return Math.cbrt(lifespan * education * income)
 }
 
-// Values from the same year as the IHDI, or null if any is missing.
-function ihdiBreakdown(row, year) {
+// Throws if the formula doesn't give UNDP's own IHDI for that year. Countries
+// missing an indicator or loss that year are skipped.
+function checkIhdiFormula(row, year) {
   const indices = dimensionIndices(row, year)
   const losses = {
     lifespan: undpValue(row, 'ineq_le', year),
     education: undpValue(row, 'ineq_edu', year),
     income: undpValue(row, 'ineq_inc', year),
   }
-  if (indices === null || Object.values(losses).includes(null)) return null
-  const adjusted = inequalityAdjusted(indices, losses)
-
-  // Check against UNDP's own IHDI, so a changed method in a new report is noticed.
+  if (indices === null || Object.values(losses).includes(null)) return
+  const workedOut = inequalityAdjustedIhdi(indices, losses)
   const ihdi = Number(row[`ihdi_${year}`])
-  if (Math.abs(adjusted.ihdi - ihdi) > IHDI_BREAKDOWN_TOLERANCE) {
-    throw new Error(`IHDI breakdown for ${row.iso3} gives ${adjusted.ihdi}, not UNDP's ${ihdi}`)
-  }
-  return roundedParts(adjusted)
-}
-
-// The three parts of an inequalityAdjusted result, rounded to 3 decimals, and
-// its lifespan and schooling in years, rounded to 1.
-function roundedParts(adjusted) {
-  const round = (value) => Math.round(value * 1000) / 1000
-  return {
-    lifespan: round(adjusted.lifespan),
-    education: round(adjusted.education),
-    income: round(adjusted.income),
-    lifespanYears: Math.round(adjusted.lifespanYears * 10) / 10,
-    educationYears: Math.round(adjusted.educationYears * 10) / 10,
+  if (Math.abs(workedOut - ihdi) > IHDI_FORMULA_TOLERANCE) {
+    throw new Error(`IHDI formula for ${row.iso3} gives ${workedOut}, not UNDP's ${ihdi}`)
   }
 }
 
@@ -316,8 +283,7 @@ await readCsv(UNDP_FILE, { gzipped: false, encoding: 'latin1' }, (row) => {
   const ihdi = latestUndpValue(row, 'ihdi')
   if (ihdi !== undefined) {
     ihdis[row.iso3] = ihdi
-    const breakdown = ihdiBreakdown(row, ihdi.year)
-    if (breakdown !== null) ihdiBreakdowns[row.iso3] = breakdown
+    checkIhdiFormula(row, ihdi.year)
   }
 })
 
@@ -465,19 +431,12 @@ function ihdiFromNearestFit(code) {
 }
 
 // The estimate from a country's own dimension indices and its losses, some of
-// them filled in (estimatedParts, in LOSS_PARTS order). Its parts are kept as
-// the estimate's breakdown, marking which ones used a filled-in loss.
-function fromLosses(indices, losses, estimatedParts, method) {
-  const adjusted = inequalityAdjusted(indices, losses)
-  return {
-    value: adjusted.ihdi,
-    breakdown: { ...roundedParts(adjusted), estimatedParts },
-    method,
-  }
+// them filled in.
+function fromLosses(indices, losses, method) {
+  return { value: inequalityAdjustedIhdi(indices, losses), method }
 }
 
-// Returns the estimate, its breakdown (null when it isn't made from the
-// country's own losses), and a description of how it was made, for the log.
+// Returns the estimate and a description of how it was made, for the log.
 function estimateIhdi(code) {
   const row = undpRows[code]
   const year = hdis[code].year
@@ -504,10 +463,8 @@ function estimateIhdi(code) {
   if (group !== undefined) {
     if (indices === null) throw new Error(`No HDI indicators for ${code} to use its group's losses`)
     const filled = []
-    const estimatedParts = []
     for (const [part, prefix] of LOSS_PARTS) {
       if (losses[part] !== null) continue
-      estimatedParts.push(part)
       const groupLosses = group.countries
         .map((other) => lossInHdiYear(other, prefix))
         .filter((loss) => loss !== null)
@@ -515,12 +472,7 @@ function estimateIhdi(code) {
       losses[part] = average(groupLosses)
       filled.push(`${part} loss ${losses[part].toFixed(1)}%`)
     }
-    return fromLosses(
-      indices,
-      losses,
-      estimatedParts,
-      `${group.name} group's average ${filled.join(', ')}`,
-    )
+    return fromLosses(indices, losses, `${group.name} group's average ${filled.join(', ')}`)
   }
 
   const missingOnlyIncome =
@@ -535,7 +487,6 @@ function estimateIhdi(code) {
     return fromLosses(
       indices,
       losses,
-      ['income'],
       `every country's average income loss ${losses.income.toFixed(1)}%`,
     )
   }
@@ -547,27 +498,19 @@ function estimateIhdi(code) {
       losses[part] = average(nearest.map((other) => lossInHdiYear(other, prefix)))
       filled.push(`${part} loss ${losses[part].toFixed(1)}% (nearest ${nearest.length})`)
     }
-    return fromLosses(
-      indices,
-      losses,
-      missingParts.map(([part]) => part),
-      `nearest countries' average ${filled.join(', ')}`,
-    )
+    return fromLosses(indices, losses, `nearest countries' average ${filled.join(', ')}`)
   }
   return {
     value: ihdiFromNearestFit(code),
-    breakdown: null,
     method: `line through nearest countries' HDI and IHDI`,
   }
 }
 
 const ihdiEstimates = {}
-const ihdiEstimateBreakdowns = {}
 for (const code of selectedCodes.toSorted()) {
   if (hdis[code] === undefined || ihdis[code] !== undefined) continue
-  const { value, breakdown, method } = estimateIhdi(code)
+  const { value, method } = estimateIhdi(code)
   ihdiEstimates[code] = Math.round(value * 1000) / 1000
-  if (breakdown !== null) ihdiEstimateBreakdowns[code] = breakdown
   console.log(`IHDI estimate for ${code}: ${ihdiEstimates[code]} (${method})`)
 }
 
@@ -598,15 +541,36 @@ for (const row of JSON.parse(readFileSync(join(sources, 'pip-median-2024.json'),
   }
 }
 
-// A breakdown with its income: the World Bank's median per year, and whether
-// it is a model estimate. Every country with a breakdown must have a median.
-function withMedianIncome(breakdown, code) {
-  if (breakdown === null) return null
+// --- The IHDI breakdown shown in the app, for real and estimated IHDIs alike ---
+// None of its figures is inequality-adjusted, so none depends on how an IHDI
+// was estimated:
+// - lifespanYears: UNDP's (mean) life expectancy. The loss-adjusted figure (the
+//   geometric mean of lifespans) was dropped, as early deaths pull it far
+//   below a typical lifespan (around 34 years in Chad and Nigeria).
+// - educationYears: the average of UNDP's expected and mean years of schooling
+//   (uncapped, unlike the education index).
+// - incomeDollars and isIncomeEstimated: the World Bank's median per year
+//   (not from UNDP), and whether it is a model estimate. Every country with a
+//   breakdown must have a median.
+// UNDP's figures are from the IHDI's year, or for an estimate the HDI's year.
+// Null when the country has neither IHDI nor estimate, or UNDP lacks one of the
+// figures (e.g. Kosovo and Taiwan, which it doesn't list).
+function ihdiBreakdownOf(code) {
+  const year = ihdis[code]?.year ?? (ihdiEstimates[code] === undefined ? null : hdis[code].year)
+  const row = undpRows[code]
+  if (year === null || row === undefined) return null
+  const indices = dimensionIndices(row, year)
+  if (indices === null) return null
   const median = medianIncomes[code]
   if (median === undefined) {
     throw new Error(`No World Bank median income for ${code} (release ${PIP_RELEASE})`)
   }
-  return { ...breakdown, incomeDollars: median.dollars, isIncomeEstimated: median.isEstimated }
+  return {
+    lifespanYears: Math.round(indices.lifeExpectancy * 10) / 10,
+    educationYears: Math.round(((indices.expectedSchooling + indices.meanSchooling) / 2) * 10) / 10,
+    incomeDollars: median.dollars,
+    isIncomeEstimated: median.isEstimated,
+  }
 }
 
 // --- Country groups: every country in exactly one group of 3 to 6 ---
@@ -686,17 +650,11 @@ for (const country of selected.sort((a, b) => a.cca3.localeCompare(b.cca3))) {
     // Null when UNDP has no IHDI for the country; shown as "no data".
     ihdi: ihdi === null ? null : ihdi.value,
     ihdiYear: ihdi === null ? null : ihdi.year,
-    // The IHDI's three inequality-adjusted parts (0–1), from the same year,
-    // with the World Bank's median income. Null when there is no IHDI or UNDP
-    // lacks a value it is worked out from.
-    ihdiBreakdown: withMedianIncome(ihdiBreakdowns[code] ?? null, code),
+    // Life expectancy, years of schooling, and median income, for the real or
+    // estimated IHDI (see ihdiBreakdownOf).
+    ihdiBreakdown: ihdiBreakdownOf(code),
     // Only for countries with an HDI but no IHDI; null otherwise.
     ihdiEstimate: ihdiEstimates[code] ?? null,
-    // The estimate's three parts, as in ihdiBreakdown, with estimatedParts
-    // naming those that used a filled-in loss. Kept apart from ihdiBreakdown
-    // so real and estimated values never mix. Null when there is no estimate,
-    // or it wasn't made from the country's own figures (e.g. Kosovo).
-    ihdiEstimateBreakdown: withMedianIncome(ihdiEstimateBreakdowns[code] ?? null, code),
     groupId: groupOf[code].id,
     groupName: groupOf[code].name,
   }
