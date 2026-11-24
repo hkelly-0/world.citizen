@@ -62,7 +62,7 @@
 .main-menu__option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   max-width: 280px;
   min-height: 56px;
@@ -81,7 +81,7 @@
    .arrow-button arrow is spaced by the button's flex gap alone (a flex item
    drops the space at the start of ' →'). */
 .main-menu__option .arrow-label {
-  gap: 8px;
+  gap: 10px;
 }
 
 /* The four main options, closer together and a little shorter than the
@@ -145,7 +145,7 @@
   grid-template-columns: auto 1fr;
   align-content: center;
   justify-items: start;
-  gap: 0 8px;
+  gap: 0 10px;
 }
 
 .main-menu__option--stacked .main-menu__count {
@@ -171,7 +171,7 @@
 .main-menu__settings {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   position: absolute;
   bottom: 16px;
   /* The left edge of the column of options above: 280px wide, centred, but
