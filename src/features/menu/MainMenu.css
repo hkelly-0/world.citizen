@@ -138,6 +138,22 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* The most important option of a menu (the Flashcards menu's Learn +
+   Practice): outlined and tinted green. */
+.main-menu__option--primary {
+  border: 1px solid var(--correct-green);
+  background: var(--correct-green-tint);
+}
+
+.main-menu__option--primary:hover {
+  background: var(--correct-green-tint-hover);
+}
+
+/* Disabled before the tutorial: dimmed with the others, but keeps its tint. */
+.main-menu__option--primary:disabled:hover {
+  background: var(--correct-green-tint);
+}
+
 /* The title on the first row with the arrow beside it, and a second line
    (the Passport's count) directly below the title. */
 .main-menu__option--stacked {

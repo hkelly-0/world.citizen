@@ -46,7 +46,11 @@ export function FlashcardsMenu({
           <ArrowLabel>Play Tutorial</ArrowLabel>
         </button>
       )}
-      <button className="main-menu__option" disabled={showTutorialButton} onClick={onOpenClassic}>
+      <button
+        className="main-menu__option main-menu__option--primary"
+        disabled={showTutorialButton}
+        onClick={onOpenClassic}
+      >
         <ArrowLabel>Learn + Practice</ArrowLabel>
       </button>
       <button
