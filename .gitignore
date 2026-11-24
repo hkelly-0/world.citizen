@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 build-commands.txt
+
+# Copy of the phone app's localStorage (personal progress)
+phone-local-storage.json
