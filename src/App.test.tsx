@@ -51,7 +51,7 @@ vi.mock('./features/extras/NameEveryCountry', () => ({
 // The globe screen needs WebGL, which the test environment doesn't have, so
 // only the menu and flashcards screens are tested here.
 describe('App', () => {
-  // A group of countries is being learned, so Classic goes straight to a new
+  // A group of countries is being learned, so Learn + Practice goes straight to a new
   // country instead of first asking for a group. The tutorial has been seen,
   // so the main menu doesn't offer it.
   beforeEach(() => {
@@ -146,12 +146,12 @@ describe('App', () => {
     expect(rows).toEqual(['DateHintsScoreTime', '22 Nov 2026230/442:05', '1 Nov 2026012/44-'])
   })
 
-  it('opens classic flashcards from the flashcards menu, and goes back to the main menu', async () => {
+  it('opens Learn + Practice flashcards from the flashcards menu, and goes back to the main menu', async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
     expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Learn + Practice' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Flag?')).toBeInTheDocument()
@@ -160,11 +160,11 @@ describe('App', () => {
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
-  it("goes from classic flashcards to the main menu with the browser's back button", async () => {
+  it("goes from Learn + Practice flashcards to the main menu with the browser's back button", async () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Learn + Practice' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     expect(screen.getByText('Flag?')).toBeInTheDocument()
@@ -177,7 +177,7 @@ describe('App', () => {
     render(<App />)
 
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Learn + Practice' })).toBeInTheDocument()
 
     history.back()
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
@@ -191,7 +191,7 @@ describe('App', () => {
     // The Passport is empty, and no new country is brought.
     expect(
       screen.getByText(
-        'No countries in your Passport yet. Discover new countries in Classic Mode.',
+        'No countries in your Passport yet. Discover new countries in Learn + Practice.',
       ),
     ).toBeInTheDocument()
 
@@ -213,7 +213,7 @@ describe('App', () => {
   it('saves progress after finishing a card', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Learn + Practice' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
 
@@ -261,7 +261,7 @@ describe('App', () => {
   it('opens the card\'s country on the globe with "See on Globe", and goes back to the card', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Learn + Practice' }))
     // Not on the discovery screen, which doesn't name the country.
     expect(screen.queryByRole('button', { name: 'See on Globe' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
@@ -315,7 +315,7 @@ describe('App', () => {
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
-  it('saves settings, then asks only the learned questions in Classic and offers only them in Custom Practice', async () => {
+  it('saves settings, then asks only the learned questions in Learn + Practice and offers only them in Custom Practice', async () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Settings' }))
     const unticked = ['Location', 'Flag', 'Area', 'Population', 'IHDI']
@@ -343,7 +343,7 @@ describe('App', () => {
 
     await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Flashcards' }))
-    await userEvent.click(screen.getByRole('button', { name: 'Classic Mode' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Learn + Practice' }))
     // A new country is introduced before its card.
     await userEvent.click(screen.getByRole('button', { name: 'Go' }))
     // Straight to the capital: no globe, flag, or range questions.
@@ -397,7 +397,7 @@ describe('Tutorial', () => {
     render(<App />)
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
 
-    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Learn + Practice' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Practice My Passport' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeDisabled()
     await userEvent.click(screen.getByRole('button', { name: 'Play Tutorial' }))
@@ -407,7 +407,7 @@ describe('Tutorial', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Skip tutorial' }))
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
-    expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Learn + Practice' })).toBeEnabled()
     expect(screen.queryByRole('button', { name: 'Play Tutorial' })).not.toBeInTheDocument()
   })
 
@@ -519,7 +519,7 @@ describe('Tutorial', () => {
     expect(loadLearnedQuestionIds()).toEqual(['population', 'ihdi', 'capital'])
 
     expect(screen.getByRole('heading', { name: 'Flashcards' })).toBeInTheDocument()
-    expect(screen.getByText(/Classic Mode is the main way to learn/)).toBeInTheDocument()
+    expect(screen.getByText(/Learn \+ Practice is the main mode/)).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Finish tutorial' }))
 
     expect(screen.getByRole('heading', { name: 'world.citizen' })).toBeInTheDocument()

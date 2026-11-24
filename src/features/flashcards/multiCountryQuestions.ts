@@ -7,7 +7,7 @@ import { orderingCountries, type OrderingStat } from './orderingQuestion'
 // The questions about several Passport countries at once, rather than one
 // country's card, plus Borders, which is about one country but is practiced
 // with them. They aren't QuestionIds: no FSRS progress, review log, or Settings
-// tick. Classic mixes them in between the cards; Custom Practice asks the
+// tick. Learn + Practice mixes them in between the cards; Custom Practice asks the
 // ticked ones one after another, or, with country card questions ticked too,
 // mixed in between the cards.
 export const MULTI_COUNTRY_QUESTION_IDS = [
@@ -20,7 +20,7 @@ export const MULTI_COUNTRY_QUESTION_IDS = [
 ] as const
 export type MultiCountryQuestionId = (typeof MULTI_COUNTRY_QUESTION_IDS)[number]
 
-// Each is only offered (asked in Classic, tickable in Custom Practice) when
+// Each is only offered (asked in Learn + Practice, tickable in Custom Practice) when
 // this question type is learned in Settings. Borders needs Location ('globe').
 export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId> = {
   borders: 'globe',
@@ -32,7 +32,7 @@ export const LEARNED_QUESTION_NEEDED: Record<MultiCountryQuestionId, QuestionId>
 }
 
 // The multi-country questions offered when `learnedQuestionIds` are learned
-// in Settings: each whose LEARNED_QUESTION_NEEDED is one of them. Classic asks
+// in Settings: each whose LEARNED_QUESTION_NEEDED is one of them. Learn + Practice asks
 // all of these; Custom Practice offers them to tick.
 export function offeredMultiCountryQuestionIds(
   learnedQuestionIds: QuestionId[],

@@ -32,7 +32,7 @@ The code is the source of truth; this lists where things live and the rules that
 
 Screens are switched with React state in `src/App.tsx` (no URL routing); each screen and the globe's info panel push a same-URL history entry so back steps through them (Android back via `@capacitor/app` in `src/main.tsx`). Features link up via ISO alpha-3 codes. Scope: 197 countries (193 UN members + Vatican, Palestine, Taiwan, and Kosovo).
 
-1. **Flashcards** (`src/features/flashcards/`) – one card per country; Classic and Custom Practice modes.
+1. **Flashcards** (`src/features/flashcards/`) – one card per country; Learn + Practice and Custom Practice modes.
    - Info question ids (`INFO_QUESTION_IDS`) are `CountryInfo`'s keys; they are saved, so never rename them.
    - The two globe questions (`LocateCountryGlobe.tsx`, `NameCountryGlobe.tsx`) share one FSRS progress.
    - Multi-country questions (`multiCountryQuestions.ts`) aren't `QuestionId`s: no FSRS progress, review log, or Settings tick.

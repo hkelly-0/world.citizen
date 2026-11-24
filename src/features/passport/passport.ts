@@ -14,7 +14,7 @@ import { countryRecall, pickingFamiliarity } from '../flashcards/familiarity'
 export const COUNTRY_COUNT = Object.keys(countryFacts).length
 
 // The countries in the Passport: those with at least one flashcard question
-// answered (in Classic or Custom Practice), in alphabetical order.
+// answered (in Learn + Practice or Custom Practice), in alphabetical order.
 export function collectedCountries(progress: DeckProgress): CountryFacts[] {
   return Object.values(countryFacts)
     .filter((country) => isCollected(progress, country.isoAlpha3))
@@ -85,7 +85,7 @@ export function randomUnseenCountryInGroup(
   return unseenCodes[Math.floor(random() * unseenCodes.length)]
 }
 
-// The weight of "a new country" when Classic picks its next card, against each
+// The weight of "a new country" when Learn + Practice picks its next card, against each
 // Passport country's weight of 1 − its familiarity (as in
 // `chooseRandomCountry`, where a never-answered country weighs 1). So the
 // chance of a new country is NEW_COUNTRY_WEIGHT ÷ (NEW_COUNTRY_WEIGHT + the
@@ -93,9 +93,9 @@ export function randomUnseenCountryInGroup(
 // and the less familiar they are.
 export const NEW_COUNTRY_WEIGHT = 5
 
-// Whether Classic's next card should be a new country rather than one from the
+// Whether Learn + Practice's next card should be a new country rather than one from the
 // Passport. Never once all countries are in the Passport. Otherwise always for
-// the first Classic card of the day (`isClassicPlayedToday` false), and when
+// the first Learn + Practice card of the day (`isClassicPlayedToday` false), and when
 // no Passport country may come (`allowedCodes`, those not played recently, is
 // empty); else one weighted pick between "a new country" (NEW_COUNTRY_WEIGHT)
 // and the allowed Passport countries, weighted by `pickingFamiliarity` for
@@ -142,7 +142,7 @@ const NEW_COUNTRY_WARNING_MIN_COUNTRIES = 12
 // the Passport, and more than MAX_UNFAMILIAR_COUNTRIES of them are below
 // UNFAMILIAR_RECALL for `questionIds`. A country with none of `questionIds`
 // answered has no familiarity and counts as unfamiliar. The Passport's "New
-// country" card warns when it is true (Classic flashcards don't use it; see
+// country" card warns when it is true (Learn + Practice flashcards don't use it; see
 // `isNextCardNewCountry`).
 export function isTooUnfamiliarForNewCountry(
   progress: DeckProgress,

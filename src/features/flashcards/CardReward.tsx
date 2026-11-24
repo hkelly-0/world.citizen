@@ -13,7 +13,7 @@ const RING_SIZE = 120
 
 type CardRewardProps = {
   reward: CardRewardDetails
-  // The continue button's text, e.g. "Next" in Classic, "Done" in the Passport.
+  // The continue button's text, e.g. "Next" in Learn + Practice, "Done" in the Passport.
   continueLabel: string
   // Whether the button gets an arrow: it does when it moves on to another card.
   continueHasArrow: boolean

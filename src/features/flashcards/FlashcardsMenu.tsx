@@ -15,7 +15,7 @@ type FlashcardsMenuProps = {
 }
 
 // Shown when Flashcards is chosen on the main menu: full country cards
-// (Classic), the same cards for Passport countries only (Practice My Passport),
+// (Learn + Practice), the same cards for Passport countries only (Practice My Passport),
 // or a choice of which question types to practice (Custom Practice).
 export function FlashcardsMenu({
   showTutorialButton,
@@ -50,7 +50,7 @@ export function FlashcardsMenu({
         disabled={showTutorialButton}
         onClick={onOpenClassic}
       >
-        Classic Mode
+        Learn + Practice
       </button>
       <button
         className="main-menu__option arrow-button"

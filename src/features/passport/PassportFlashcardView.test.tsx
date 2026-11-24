@@ -22,7 +22,7 @@ vi.mock('../globe/NameCountryGlobe', () => ({
 describe('PassportFlashcardView', () => {
   beforeEach(() => {
     localStorage.clear()
-    // Classic would ask the name question with this; this card never does.
+    // Learn + Practice would ask the name question with this; this card never does.
     vi.spyOn(Math, 'random').mockReturnValue(0.1)
   })
   afterEach(() => vi.restoreAllMocks())
@@ -53,7 +53,7 @@ describe('PassportFlashcardView', () => {
     expect(Object.keys(loadProgress().FRA).sort()).toEqual(['area', 'globe'])
   })
 
-  it('counts as played recently for the flashcards, but not as Classic', async () => {
+  it('counts as played recently for the flashcards, but not as Learn + Practice', async () => {
     render(
       <PassportFlashcardView
         countryIcon="outline"

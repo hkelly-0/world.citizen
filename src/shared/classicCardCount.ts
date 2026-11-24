@@ -1,4 +1,4 @@
-// How many cards Classic has finished since its last multi-country question
+// How many cards Learn + Practice has finished since its last multi-country question
 // was answered (or since one was due but the Passport couldn't make any).
 // Saved like the unfinished card, so leaving and coming back the same day
 // carries on the count, and asks a question that was due but not answered

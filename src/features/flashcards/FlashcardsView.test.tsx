@@ -86,9 +86,9 @@ function saveFranceArea(stability: number) {
   saveAreas(franceAndOthers(), stability)
 }
 
-// Today's first Classic card already played (on a made-up country, so none in
+// Today's first Learn + Practice card already played (on a made-up country, so none in
 // the Passport counts as played recently), and every random value 0.9, so
-// Classic's weighted pick lands on a Passport country rather than a new one.
+// Learn + Practice's weighted pick lands on a Passport country rather than a new one.
 function playPassportCountriesInClassic() {
   recordPlayedCountry('ZZZ', todayString(), true)
   vi.spyOn(Math, 'random').mockReturnValue(0.9)
@@ -162,10 +162,10 @@ describe('FlashcardsView', () => {
     expect(screen.getByText('Area?')).toBeInTheDocument()
   })
 
-  it("shows a new country for the day's first Classic card, whatever the pick", () => {
+  it("shows a new country for the day's first Learn + Practice card, whatever the pick", () => {
     saveFranceArea(0.2)
     saveLearningGroup('nordic')
-    // Played today, but not in Classic.
+    // Played today, but not in Learn + Practice.
     recordPlayedCountry('ZZZ', todayString(), false)
     vi.spyOn(Math, 'random').mockReturnValue(0.9)
     renderClassic()
@@ -340,7 +340,7 @@ describe('FlashcardsView', () => {
     expect(await screen.findByRole('button', { name: 'Name' })).toBeInTheDocument()
   })
 
-  describe('an unfinished card in Classic', () => {
+  describe('an unfinished card in Learn + Practice', () => {
     it('is resumed the same day at its next question', async () => {
       saveFranceArea(0.2)
       playPassportCountriesInClassic()
@@ -411,7 +411,7 @@ describe('FlashcardsView', () => {
   describe('multi-country questions', () => {
     const BORDERS = /^Name up to 4 countries which border/
 
-    it('in Classic, carries on the count of cards when opened again the same day', async () => {
+    it('in Learn + Practice, carries on the count of cards when opened again the same day', async () => {
       saveFranceArea(0.2)
       playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
@@ -425,7 +425,7 @@ describe('FlashcardsView', () => {
       expect(screen.getByText(BORDERS)).toBeInTheDocument()
     })
 
-    it('in Classic, asks a due one first when left on the reward before it', async () => {
+    it('in Learn + Practice, asks a due one first when left on the reward before it', async () => {
       saveFranceArea(0.2)
       playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
@@ -438,7 +438,7 @@ describe('FlashcardsView', () => {
       expect(screen.getByText(BORDERS)).toBeInTheDocument()
     })
 
-    it('in Classic, asks a due one again when left before it is answered', async () => {
+    it('in Learn + Practice, asks a due one again when left before it is answered', async () => {
       saveFranceArea(0.2)
       playPassportCountriesInClassic()
       const { unmount } = renderFlashcards(['area'], 'classic', ['locate'], ['borders'])
@@ -458,7 +458,7 @@ describe('FlashcardsView', () => {
     })
 
     it('skips one the Passport cannot make, and waits another two cards', async () => {
-      // Classic's case (the Custom Practice menu disables such questions),
+      // Learn + Practice's case (the Custom Practice menu disables such questions),
       // tested in Custom Practice so no new countries are discovered.
       // Islands only, so Borders can't be asked; one for each of the five
       // cards, as a country played recently can't come again.
@@ -475,8 +475,8 @@ describe('FlashcardsView', () => {
   })
 
   describe('in Practice My Passport', () => {
-    it("shows a Passport country for the day's first card, and doesn't count as Classic", async () => {
-      // Classic's first card of the day would be a new country.
+    it("shows a Passport country for the day's first card, and doesn't count as Learn + Practice", async () => {
+      // Learn + Practice's first card of the day would be a new country.
       saveFranceArea(0.2)
       renderFlashcards(['area'], 'passport')
 
@@ -496,7 +496,7 @@ describe('FlashcardsView', () => {
       expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
       expect(
         screen.getByText(
-          "You've practiced all your Passport countries recently. Discover new countries in Classic Mode.",
+          "You've practiced all your Passport countries recently. Discover new countries in Learn + Practice.",
         ),
       ).toBeInTheDocument()
     })
@@ -546,7 +546,7 @@ describe('FlashcardsView', () => {
       // none can come, and Custom Practice never brings a new one.
       expect(
         screen.getByText(
-          "You've practiced all your Passport countries recently. Discover new countries in Classic Mode.",
+          "You've practiced all your Passport countries recently. Discover new countries in Learn + Practice.",
         ),
       ).toBeInTheDocument()
     })
@@ -597,7 +597,7 @@ describe('FlashcardsView', () => {
 
       expect(
         screen.getByText(
-          'No countries in your Passport yet. Discover new countries in Classic Mode.',
+          'No countries in your Passport yet. Discover new countries in Learn + Practice.',
         ),
       ).toBeInTheDocument()
     })

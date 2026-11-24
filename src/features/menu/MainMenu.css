@@ -112,7 +112,7 @@
   background: var(--correct-green-tint-hover);
 }
 
-/* Classic Mode and Custom Practice before the tutorial has been played. */
+/* Learn + Practice and Custom Practice before the tutorial has been played. */
 .main-menu__option:disabled {
   opacity: 0.4;
   cursor: default;

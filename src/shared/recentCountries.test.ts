@@ -29,7 +29,7 @@ describe('recentCountries', () => {
     expect(recentCountryCodes(TODAY)).toEqual(['DEU', 'FRA'])
   })
 
-  it('remembers a Classic card was played, even after other screens', () => {
+  it('remembers a Learn + Practice card was played, even after other screens', () => {
     recordPlayedCountry('FRA', TODAY, true)
     recordPlayedCountry('DEU', TODAY, false)
     expect(isClassicPlayedToday(TODAY)).toBe(true)

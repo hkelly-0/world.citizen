@@ -239,7 +239,7 @@ export default function App() {
         />
       )
     }
-    // Classic's questions, without new countries.
+    // Learn + Practice's questions, without new countries.
     if (screen === 'passport-practice') {
       return (
         <FlashcardsView

@@ -43,4 +43,4 @@ export const SETTINGS_NOTE =
   "Select the information you're most interested in learning - only these questions will appear on flashcards.\n\nYou can update your choices at any time in Settings, and nothing you've learned is ever deleted.\n\nKeep in mind that it's easier to learn about many countries if you select fewer items."
 
 export const FLASHCARDS_MENU_NOTE =
-  'Classic Mode is the main way to learn: it mixes countries you know with new ones, one region at a time.\n\nCustom Practice lets you do targeted practice - for example if you want to just train flags today.'
+  'Learn + Practice is the main mode: it mixes countries you know with new ones, one region at a time.\n\nCustom Practice lets you do targeted practice - for example if you want to just train flags today.'

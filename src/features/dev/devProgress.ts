@@ -99,7 +99,7 @@ export function unseenCountriesInRandomGroups(
 
 // Adds the countries to the Passport with all 5 questions answered: 'well-known'
 // ones have high familiarity; 'shaky' ones have low familiarity (enough of
-// them stop Classic from showing new countries).
+// them stop Learn + Practice from showing new countries).
 export function addCountries(
   progress: DeckProgress,
   codes: string[],

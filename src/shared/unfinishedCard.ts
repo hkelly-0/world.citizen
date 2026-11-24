@@ -1,7 +1,7 @@
 import type { QuestionId } from '../features/flashcards/deck'
 
 // A flashcard being played: which country, how it was set up, and how far it
-// got. Classic saves its card whenever it changes, so leaving and coming back
+// got. Learn + Practice saves its card whenever it changes, so leaving and coming back
 // the same day resumes it (`FlashcardsView`). The answers themselves are
 // already in the progress and review log, saved as each one is given. Kept in
 // the browser's localStorage, on this device only.
@@ -52,7 +52,7 @@ export function saveUnfinishedCard(card: UnfinishedCard): void {
   }
 }
 
-// Used when Classic has no card to show, and by saving an edited Passport.
+// Used when Learn + Practice has no card to show, and by saving an edited Passport.
 export function clearUnfinishedCard(): void {
   try {
     localStorage.removeItem(STORAGE_KEY)

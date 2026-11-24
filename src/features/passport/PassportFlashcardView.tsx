@@ -32,7 +32,7 @@ type PassportFlashcardViewProps = {
 // One country's full flashcard, opened from its card in the Passport (or from
 // "New country", for an unseen one). It asks the questions chosen in Settings,
 // always finding the country on the globe (never naming it). Each answer is
-// reviewed and saved straight away, as in Classic. Its last "Next" leads to a
+// reviewed and saved straight away, as in Learn + Practice. Its last "Next" leads to a
 // reward: the Passport count going up for a new country, otherwise the
 // country's familiarity. The reward's "Done" returns to the Passport.
 export function PassportFlashcardView({

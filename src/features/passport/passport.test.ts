@@ -161,7 +161,7 @@ describe('isNextCardNewCountry', () => {
       () => random,
     )
 
-  it("is always new for the day's first Classic card", () => {
+  it("is always new for the day's first Learn + Practice card", () => {
     expect(pick(false, ['FRA'], 0.99)).toBe(true)
   })
 

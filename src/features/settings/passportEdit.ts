@@ -44,7 +44,7 @@ export function editedProgress(
 // Removed countries also lose their discovery times and logged answers; added
 // ones are discovered now. Their made-up answers aren't logged, as the review
 // log is for real answers. The chosen learning group is cleared, so the user
-// chooses a group again before the next new country. Classic's unfinished
+// chooses a group again before the next new country. Learn + Practice's unfinished
 // card is dropped too, as its country may have been added or removed.
 export function savePassport(codes: string[], learnedQuestionIds: QuestionId[], today: string) {
   const progress = loadProgress()

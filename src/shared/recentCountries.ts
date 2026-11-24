@@ -1,7 +1,7 @@
 // The countries whose flashcards were played today, for choosing the next
 // card (`FlashcardsView`): a country can't come again until RECENT_COUNTRY_GAP
-// other countries have been played since, and the first Classic card of the
-// day is a new country. Every single-country card counts (Classic, Custom
+// other countries have been played since, and the first Learn + Practice card of the
+// day is a new country. Every single-country card counts (Learn + Practice, Custom
 // Practice, the Passport's cards, and the tutorial's home card), from its first
 // answer; multi-country questions don't. Only kept for one day, so the next
 // day anything can come. Kept in the browser's localStorage, on this device
@@ -12,7 +12,7 @@ type RecentCountries = {
   // ISO alpha-3 codes, oldest first, each at most once and at most
   // RECENT_COUNTRY_GAP of them.
   codes: string[]
-  // Whether a Classic card has been answered today.
+  // Whether a Learn + Practice card has been answered today.
   isClassicPlayed: boolean
 }
 
@@ -41,7 +41,7 @@ export function recentCountryCodes(today: string): string[] {
   return loadRecentCountries(today).codes
 }
 
-// Whether a Classic card has been answered today.
+// Whether a Learn + Practice card has been answered today.
 export function isClassicPlayedToday(today: string): boolean {
   return loadRecentCountries(today).isClassicPlayed
 }

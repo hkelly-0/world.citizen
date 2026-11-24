@@ -33,7 +33,7 @@ const COUNTRY_IMAGES = '/country-images'
 
 type FlashcardProps = {
   country: CountryFacts
-  // Which questions to ask: those learned in Settings for Classic, or those
+  // Which questions to ask: those learned in Settings for Learn + Practice, or those
   // ticked for custom practice.
   questionIds: QuestionId[]
   // Whether the globe question names the country (true) or finds it (false).
