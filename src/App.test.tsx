@@ -183,6 +183,22 @@ describe('App', () => {
     expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
   })
 
+  it('opens Practice My Passport from the flashcards menu, and goes back to the main menu', async () => {
+    render(<App />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Practice My Passport' }))
+    // The Passport is empty, and no new country is brought.
+    expect(
+      screen.getByText(
+        'No countries in your Passport yet. Discover new countries in Classic Mode.',
+      ),
+    ).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: '← Menu' }))
+    expect(await screen.findByRole('button', { name: 'Flashcards' })).toBeInTheDocument()
+  })
+
   it('opens custom practice from the flashcards menu, and goes back to the main menu', async () => {
     render(<App />)
 
@@ -382,6 +398,7 @@ describe('Tutorial', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Flashcards' }))
 
     expect(screen.getByRole('button', { name: 'Classic Mode' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Practice My Passport' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Custom Practice' })).toBeDisabled()
     await userEvent.click(screen.getByRole('button', { name: 'Play Tutorial' }))
     expect(screen.getByRole('heading', { name: 'Welcome to world.citizen' })).toBeInTheDocument()

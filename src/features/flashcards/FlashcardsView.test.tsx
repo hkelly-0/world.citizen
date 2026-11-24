@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
-import { recordPlayedCountry } from '../../shared/recentCountries'
+import { isClassicPlayedToday, recordPlayedCountry } from '../../shared/recentCountries'
 import { AREA_RANGES, rangeOf } from '../../shared/statRanges'
 import { loadReviewLog } from '../../shared/reviewLog'
 import { loadUnfinishedCard, saveUnfinishedCard } from '../../shared/unfinishedCard'
@@ -96,7 +96,7 @@ function playPassportCountriesInClassic() {
 
 function renderFlashcards(
   questionIds: QuestionId[],
-  mode: 'classic' | 'custom',
+  mode: 'classic' | 'passport' | 'custom',
   globeKinds: GlobeKind[] = ['locate'],
   multiCountryQuestionIds: MultiCountryQuestionId[] = [],
 ) {
@@ -471,6 +471,48 @@ describe('FlashcardsView', () => {
         expect(screen.queryByText(BORDERS)).not.toBeInTheDocument()
         expect(screen.getByText('Area?')).toBeInTheDocument()
       }
+    })
+  })
+
+  describe('in Practice My Passport', () => {
+    it("shows a Passport country for the day's first card, and doesn't count as Classic", async () => {
+      // Classic's first card of the day would be a new country.
+      saveFranceArea(0.2)
+      renderFlashcards(['area'], 'passport')
+
+      expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+      expect(franceAndOthers().map(nameOf)).toContain(shownCountryName())
+      await answerArea()
+      expect(isClassicPlayedToday(todayString())).toBe(false)
+    })
+
+    it('never brings a new country, even when every Passport country was played recently', async () => {
+      saveAreas(['FRA'], 0.2)
+      renderFlashcards(['area'], 'passport')
+
+      expect(shownCountryName()).toBe('France')
+      await answerArea()
+      await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+      expect(screen.queryByText(DISCOVERING)).not.toBeInTheDocument()
+      expect(
+        screen.getByText(
+          "You've practiced all your Passport countries recently. Discover new countries in Classic Mode.",
+        ),
+      ).toBeInTheDocument()
+    })
+
+    it('does not resume an unfinished card', async () => {
+      // Two countries, as the one left part-way was played recently.
+      saveAreas(['FRA', 'DEU'], 0.2)
+      const { unmount } = renderFlashcards(['area', 'capital'], 'passport')
+      const name = shownCountryName()
+      await answerArea()
+      unmount()
+
+      expect(loadUnfinishedCard()).toBeNull()
+      renderFlashcards(['area', 'capital'], 'passport')
+      expect(shownCountryName()).not.toBe(name)
+      expect(screen.getByText('Area?')).toBeInTheDocument()
     })
   })
 

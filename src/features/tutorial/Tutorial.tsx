@@ -233,6 +233,7 @@ export function Tutorial({
               onPlayTutorial={() => {}}
               onBack={() => {}}
               onOpenClassic={() => {}}
+              onOpenPassportPractice={() => {}}
               onOpenCustomPractice={() => {}}
             />
           </div>

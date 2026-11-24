@@ -72,9 +72,10 @@ type FlashcardsViewProps = {
   // Classic discovers new countries, and saves its card and the count of
   // cards since the last multi-country question as they change, resuming
   // them when the screen is opened again the same day (unfinishedCard.ts,
-  // classicCardCount.ts). Custom Practice only shows countries already in the
-  // Passport, and starts afresh each time.
-  mode: 'classic' | 'custom'
+  // classicCardCount.ts). Practice My Passport ('passport') and Custom
+  // Practice only show countries already in the Passport, start afresh each
+  // time, and don't count as Classic played today (`isClassicPlayedToday`).
+  mode: 'classic' | 'passport' | 'custom'
   // Whether each card shows the country's outline or flag, chosen in Settings.
   countryIcon: CountryIcon
   onBack: () => void
@@ -91,8 +92,8 @@ type FlashcardsViewProps = {
 // (`isNextCardNewCountry`). New countries come from
 // the group of countries the user chose (learningGroup.ts) until all of them
 // are in the Passport; then a globe of the regions (country groups) asks for
-// the next one. In Custom Practice, when no Passport country may come, the
-// screen says so and points to Classic. A country not yet in the Passport is
+// the next one. In Practice My Passport and Custom Practice, when no Passport
+// country may come, the screen says so and points to Classic. A country not yet in the Passport is
 // introduced with a "Discovering a new country" screen before its card, and
 // after its card a reward shows the Passport count going up. After the card of
 // a country already in the Passport, a reward shows its familiarity instead.
@@ -119,7 +120,7 @@ export function FlashcardsView({
   const [progress, setProgress] = useState<DeckProgress>(loadProgress)
 
   // The group new countries come from, while some of its countries aren't in
-  // the Passport yet. Null in Custom Practice, or when a group must be chosen.
+  // the Passport yet. Null outside Classic, or when a group must be chosen.
   const [groupId, setGroupId] = useState<string | null>(() =>
     canDiscoverCountries ? pendingGroupId(loadLearningGroup(), progress) : null,
   )
@@ -129,7 +130,7 @@ export function FlashcardsView({
   // recently. A Passport country can still be asked a question for the first
   // time. Null in Classic when a new group must be chosen first (the only way
   // Classic has no card, as with every country in the Passport there are more
-  // than RECENT_COUNTRY_GAP to choose from), and in Custom Practice when no
+  // than RECENT_COUNTRY_GAP to choose from), and outside Classic when no
   // Passport country may come.
   function nextCountry(progress: DeckProgress, groupId: string | null): string | null {
     const recentCodes = recentCountryCodes(today)
@@ -372,7 +373,8 @@ export function FlashcardsView({
             <RegionGlobe progress={progress} onDiscover={chooseGroup} />
           </Suspense>
         ) : card === null ? (
-          // Only in Custom Practice, when no Passport country may come.
+          // Only in Practice My Passport and Custom Practice, when no
+          // Passport country may come.
           <p className="flashcards-view__done">
             {collectedCountries(progress).length === 0
               ? 'No countries in your Passport yet. Discover new countries in Classic Mode.'

@@ -5,21 +5,24 @@ import '../menu/MainMenu.css'
 
 type FlashcardsMenuProps = {
   // Whether to offer "Play Tutorial" (the same offer as the main menu's), with
-  // Classic Mode and Custom Practice disabled until it is finished or skipped.
+  // the other options disabled until it is finished or skipped.
   showTutorialButton: boolean
   onPlayTutorial: () => void
   onBack: () => void
   onOpenClassic: () => void
+  onOpenPassportPractice: () => void
   onOpenCustomPractice: () => void
 }
 
 // Shown when Flashcards is chosen on the main menu: full country cards
-// (Classic), or a choice of which question types to practice (Custom Practice).
+// (Classic), the same cards for Passport countries only (Practice My Passport),
+// or a choice of which question types to practice (Custom Practice).
 export function FlashcardsMenu({
   showTutorialButton,
   onPlayTutorial,
   onBack,
   onOpenClassic,
+  onOpenPassportPractice,
   onOpenCustomPractice,
 }: FlashcardsMenuProps) {
   // Starts loading the globes a flashcard screen opens with (lazy-loaded in
@@ -48,6 +51,13 @@ export function FlashcardsMenu({
         onClick={onOpenClassic}
       >
         Classic Mode
+      </button>
+      <button
+        className="main-menu__option arrow-button"
+        disabled={showTutorialButton}
+        onClick={onOpenPassportPractice}
+      >
+        Practice My Passport
       </button>
       <button
         className="main-menu__option arrow-button"

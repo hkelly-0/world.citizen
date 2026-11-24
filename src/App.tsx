@@ -38,7 +38,8 @@ const GlobeView = lazy(() => import('./features/globe/GlobeView'))
 const NameEveryCountry = lazy(() => import('./features/extras/NameEveryCountry'))
 
 // 'flashcards' is the flashcards menu, 'classic-flashcards' the full country
-// cards, 'custom-practice' the choice of question types to practice, and
+// cards, 'passport-practice' the same cards for Passport countries only,
+// 'custom-practice' the choice of question types to practice, and
 // 'custom-flashcards' the cards asking only those question types.
 // 'settings' chooses which information is learned at all, and
 // 'passport-editor' (opened from it) adds or removes Passport countries by
@@ -58,6 +59,7 @@ type Screen =
   | 'globe'
   | 'flashcards'
   | 'classic-flashcards'
+  | 'passport-practice'
   | 'custom-practice'
   | 'custom-flashcards'
   | 'extras'
@@ -108,7 +110,7 @@ export default function App() {
   )
   const [namingAreaId, setNamingAreaId] = useState<string>(namingAreaIdInHistory)
   // The information chosen in Settings. Everything else in the app (info
-  // panel, Classic, and Custom Practice) shows or asks only these.
+  // panel and every flashcards mode) shows or asks only these.
   const [learnedQuestionIds, setLearnedQuestionIds] = useState<QuestionId[]>(loadLearnedQuestionIds)
   // The picture shown for each country in the Passport, chosen in Settings.
   const [countryIcon, setCountryIcon] = useState<CountryIcon>(loadCountryIcon)
@@ -219,6 +221,7 @@ export default function App() {
           onPlayTutorial={replayTutorial}
           onBack={goToMenu}
           onOpenClassic={() => replaceScreen('classic-flashcards')}
+          onOpenPassportPractice={() => replaceScreen('passport-practice')}
           onOpenCustomPractice={() => replaceScreen('custom-practice')}
         />
       )
@@ -231,6 +234,20 @@ export default function App() {
           globeKinds={GLOBE_KINDS}
           multiCountryQuestionIds={offeredMultiCountryQuestionIds(learnedQuestionIds)}
           mode="classic"
+          countryIcon={countryIcon}
+          onBack={goToMenu}
+        />
+      )
+    }
+    // Classic's questions, without new countries.
+    if (screen === 'passport-practice') {
+      return (
+        <FlashcardsView
+          questionIds={learnedQuestionIds}
+          learnedQuestionIds={learnedQuestionIds}
+          globeKinds={GLOBE_KINDS}
+          multiCountryQuestionIds={offeredMultiCountryQuestionIds(learnedQuestionIds)}
+          mode="passport"
           countryIcon={countryIcon}
           onBack={goToMenu}
         />
