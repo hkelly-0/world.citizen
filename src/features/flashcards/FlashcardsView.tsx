@@ -288,6 +288,7 @@ export function FlashcardsView({
         code,
         card.isNewCountry,
         card.hasOnlyRightAnswers === true,
+        card.answeredIds.length,
         newProgress,
         card.recallBefore ?? null,
         learnedQuestionIds,

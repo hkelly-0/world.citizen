@@ -6,6 +6,7 @@ import { countryFacts } from '../../shared/countryFacts'
 import { saveLearningGroup } from '../../shared/learningGroup'
 import { loadProgress, saveProgress } from '../../shared/progress'
 import { recordPlayedCountry } from '../../shared/recentCountries'
+import { AREA_RANGES, rangeOf } from '../../shared/statRanges'
 import { loadReviewLog } from '../../shared/reviewLog'
 import { loadUnfinishedCard, saveUnfinishedCard } from '../../shared/unfinishedCard'
 import { todayString } from './dates'
@@ -272,11 +273,27 @@ describe('FlashcardsView', () => {
 
   it('says "Perfect" after a card with every answer right', async () => {
     saveFranceArea(0.2)
+    renderFlashcards(['globe', 'area'], 'custom')
+
+    // The globe stand-in always answers right; then the shown country's area.
+    await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
+    const country = Object.values(countryFacts).find(
+      (facts) => facts.commonName === shownCountryName(),
+    )!
+    const range = rangeOf(AREA_RANGES, country.areaKm2)
+    await userEvent.click(screen.getByRole('button', { name: `${range.bound} ${range.name}` }))
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }))
+    expect(screen.getByText('Perfect')).toBeInTheDocument()
+  })
+
+  it('does not say "Perfect" after a card of one question', async () => {
+    saveFranceArea(0.2)
     renderFlashcards(['globe'], 'custom')
 
     // The globe stand-in always answers right.
     await userEvent.click(await screen.findByRole('button', { name: 'Locate' }))
-    expect(screen.getByText('Perfect')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /^Familiarity \d+%$/ })).toBeInTheDocument()
+    expect(screen.queryByText('Perfect')).not.toBeInTheDocument()
   })
 
   it('does not say "Perfect" after a card with a wrong answer', async () => {

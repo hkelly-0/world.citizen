@@ -3,7 +3,8 @@ import { countryRecall } from './familiarity'
 import type { DeckProgress, QuestionId } from './deck'
 
 // The reward shown after every finished card (see `CardReward`). `isPerfect`
-// is whether every question on the card was answered right (not close).
+// is whether every question on the card was answered right (not close), on a
+// card of at least `MIN_ANSWERS_FOR_PERFECT` questions.
 export type CardRewardDetails =
   // A new country's first card: it has just joined the Passport, which had
   // `countBefore` countries.
@@ -18,6 +19,10 @@ export type CardRewardDetails =
       recallBefore: number | null
     }
 
+// A card of one question (possible in Custom Practice, or with every other
+// question type unticked in Settings) is too easy to call "Perfect".
+const MIN_ANSWERS_FOR_PERFECT = 2
+
 // Which reward follows the card of `code`. A country is new when it had no
 // question answered before this card, including ones not asked; it joined the
 // Passport at the card's first answer, so is counted in `progressAfter`. The
@@ -27,12 +32,14 @@ export type CardRewardDetails =
 export function rewardAfterCard(
   code: string,
   isNewCountry: boolean,
-  isPerfect: boolean,
+  hasOnlyRightAnswers: boolean,
+  answerCount: number,
   progressAfter: DeckProgress,
   recallBefore: number | null,
   learnedQuestionIds: QuestionId[],
   today: string,
 ): CardRewardDetails {
+  const isPerfect = hasOnlyRightAnswers && answerCount >= MIN_ANSWERS_FOR_PERFECT
   if (isNewCountry) {
     return {
       kind: 'new-country',

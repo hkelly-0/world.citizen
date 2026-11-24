@@ -53,11 +53,14 @@ export function PassportFlashcardView({
   // Whether every answer so far was right (not close), so the reward says
   // "Perfect". A ref, as the last answer finishes the card in the same call.
   const hasOnlyRightAnswers = useRef(true)
+  // How many questions have been answered, as a card of one isn't "Perfect".
+  const answerCount = useRef(0)
 
   // Saved straight away. The country joins the Passport, and is discovered,
   // at its first answer.
   function answerQuestion(id: QuestionId, result: AnswerResult, isCardFinished: boolean) {
     if (result !== 'right') hasOnlyRightAnswers.current = false
+    answerCount.current += 1
     const today = todayString()
     // Read fresh, as nothing else on this screen changes the progress.
     const progress = loadProgress()
@@ -78,6 +81,7 @@ export function PassportFlashcardView({
         isoAlpha3,
         isNewCountry,
         hasOnlyRightAnswers.current,
+        answerCount.current,
         newProgress,
         countryRecall(countryProgress, learnedQuestionIds, today),
         learnedQuestionIds,

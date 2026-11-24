@@ -27,7 +27,8 @@ type CardRewardProps = {
 // name. For a new country (with a ✓), the Passport count before it joined
 // rolls down to the new count. Otherwise, the country's familiarity ring
 // starts a little below its fill before the card and moves to its new fill. "Perfect" goes under the name when every question on
-// the card was answered right. Both wait a moment first (the timing is in
+// the card was answered right, on a card of more than one question
+// (`isPerfect`). Both wait a moment first (the timing is in
 // CardReward.css and RecallCircle.tsx).
 export function CardReward({
   reward,
