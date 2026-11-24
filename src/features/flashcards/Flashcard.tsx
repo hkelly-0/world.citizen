@@ -361,7 +361,7 @@ type RangeQuestionViewProps = {
   // The country's IHDI breakdown, real or estimated, opened from a "?" after
   // the IHDI question's value. Null when it has none.
   ihdiBreakdown: IhdiBreakdown | null
-  // The country's rough IHDI range from IHDI_ROUGH_ESTIMATES (e.g. "3.8-5.6"),
+  // The country's rough IHDI range from IHDI_ROUGH_ESTIMATES (e.g. "4.9-5.8"),
   // noted after the IHDI question is answered. Undefined for most countries.
   ihdiRoughEstimate: string | undefined
   answer: string | null
@@ -425,7 +425,7 @@ function RangeQuestionView({
         <p className="flashcard__note">Estimated: UNDP has no IHDI for this country.</p>
       )}
       {isAnswered && question.id === 'ihdi' && ihdiRoughEstimate !== undefined && (
-        <p className="flashcard__note">Est. {ihdiRoughEstimate}, significantly limited data</p>
+        <p className="flashcard__note">Est. {ihdiRoughEstimate}, limited data</p>
       )}
     </>
   )

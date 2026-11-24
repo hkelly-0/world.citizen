@@ -190,8 +190,7 @@ export function CountryInfoPanel({
                           breakdown={null}
                           noDataNote={[
                             `Est. ${IHDI_ROUGH_ESTIMATES[facts.isoAlpha3]}`,
-                            'Significantly',
-                            'limited data',
+                            'Limited data',
                           ]}
                         />
                       )

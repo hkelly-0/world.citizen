@@ -101,12 +101,27 @@ export function formatIhdi(ihdi: number): string {
 // IHDI nor an estimate, by ISO alpha-3 code. Shown as notes, in the globe's
 // info panel and after the IHDI flashcard is answered; the country stays
 // "No data" everywhere else.
-// North Korea's range is this app's own rough estimate: an HDI of 0.55-0.70,
-// from UNDP's life expectancy and expected schooling for it plus guessed mean
-// schooling (9-12 years) and income ($1,000-3,000 PPP), converted to an IHDI
-// with the same fit as the other estimates (scripts/make-country-data.mjs).
+// North Korea's range is this app's own rough estimate. Its dimension indices
+// use UNDP's 2023 life expectancy and expected schooling for it plus guessed
+// mean schooling (9-12 years) and income ($1,000-2,500 PPP), with UNDP's
+// formula and goalposts (dimensionIndices in scripts/make-country-data.mjs).
+// As in that script's estimates, it keeps North Korea's real lifespan and
+// education losses from UNDP, and its missing income loss is the average of
+// the nearest countries' (NEAREST_COUNT). The range's ends are the lowest and
+// highest guesses.
+// The income range covers these estimates, roughly converted to 2021 PPP
+// dollars (UNDP's unit):
+// - Bank of Korea, GNI per person in 2024: 1.72 million won, at South Korean
+//   prices, so converted with South Korea's PPP rate (about $1,800-2,100).
+//   https://view.asiae.co.kr/en/article/2026082311495478381
+// - Maddison Project Database 2023, GDP per person in 2022: $1,569 in 2011
+//   prices (about $1,900). The CIA World Factbook's $1,700 (2015) comes from
+//   the same line of estimates.
+//   https://ourworldindata.org/grapher/gdp-per-capita-maddison-project-database?country=PRK
+// - Night-time lights, for 2018: $790 in 2011 PPP (about $950), likely low, as
+//   power shortages dim the lights. https://www.nature.com/articles/s41599-020-0417-4
 export const IHDI_ROUGH_ESTIMATES: Record<string, string> = {
-  PRK: '3.8-5.6',
+  PRK: '4.9-5.8',
 }
 
 // A country's statistic: the range it falls in, and its rounded value as

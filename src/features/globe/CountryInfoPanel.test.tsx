@@ -122,10 +122,10 @@ describe('CountryInfoPanel', () => {
     const northKorea: CountryShape = { ...france, name: 'North Korea', isoAlpha3: 'PRK' }
     render(<CountryInfoPanel {...panelProps} country={northKorea} />)
     expect(valueOf('IHDI')).toHaveTextContent('No data?')
-    expect(screen.queryByText(/Significantly limited data/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Limited data/)).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: 'IHDI note' }))
-    expect(screen.getByText('Est. 3.8-5.6 Significantly limited data')).toBeInTheDocument()
+    expect(screen.getByText('Est. 4.9-5.8 Limited data')).toBeInTheDocument()
   })
 
   it('marks an estimated IHDI value with (est.)', () => {

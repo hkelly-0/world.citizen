@@ -437,7 +437,7 @@ describe('Flashcard', () => {
     expect(screen.queryByText(/Est\./)).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'No data' }))
 
-    expect(screen.getByText('Est. 3.8-5.6, significantly limited data')).toBeInTheDocument()
+    expect(screen.getByText('Est. 4.9-5.8, limited data')).toBeInTheDocument()
   })
 
   it("opens the IHDI's breakdown from a ? after its value, once answered", async () => {
