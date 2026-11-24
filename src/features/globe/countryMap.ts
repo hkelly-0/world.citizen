@@ -128,8 +128,8 @@ const IHDI_OPACITY = 0.5
 // The map is a globe when zoomed out and blends into a flat map between these
 // zoom levels. MapLibre's built-in 'globe' only goes flat at zoom 11-12, which
 // is further in than the 1:50m borders have detail for.
-const GLOBE_UNTIL_ZOOM = 4
-const FLAT_FROM_ZOOM = 5
+const GLOBE_UNTIL_ZOOM = 5
+const FLAT_FROM_ZOOM = 7
 
 // The 1:50m borders have no extra detail past about this zoom level, so
 // MapLibre stops cutting finer tiles and enlarges these ones instead.
