@@ -173,7 +173,11 @@ await readCsv(
 )
 
 // --- HDI and inequality-adjusted HDI: the latest year with a value, per country ---
+// An IHDI too much older than the country's HDI (e.g. Syria's, from 2015) is
+// treated as missing, so the country gets an estimate instead. The losses the
+// estimates use have the same limit.
 // The UNDP file is Latin-1 encoded, not UTF-8.
+const MAX_YEARS_OLDER_THAN_HDI = 2
 const hdis = {}
 const ihdis = {}
 // Every row of the UNDP file, kept for estimating missing IHDIs and for the
@@ -276,13 +280,19 @@ function latestUndpValue(row, prefix) {
   return { value: Number(row[`${prefix}_${latestYear}`]), year: latestYear }
 }
 
+// Whether an IHDI's or loss's year is close enough to the country's HDI's year.
+function isRecentEnough(year, hdiYear) {
+  return hdiYear - year <= MAX_YEARS_OLDER_THAN_HDI
+}
+
 await readCsv(UNDP_FILE, { gzipped: false, encoding: 'latin1' }, (row) => {
   undpRows[row.iso3] = row
   const hdi = latestUndpValue(row, 'hdi')
   if (hdi !== undefined) hdis[row.iso3] = hdi
   const ihdi = latestUndpValue(row, 'ihdi')
   if (ihdi !== undefined) {
-    ihdis[row.iso3] = ihdi
+    if (isRecentEnough(ihdi.year, hdi.year)) ihdis[row.iso3] = ihdi
+    // An IHDI too old to use still tests the formula.
     checkIhdiFormula(row, ihdi.year)
   }
 })
@@ -308,14 +318,14 @@ for (const [code, hdi] of Object.entries(HDI_BY_HAND)) {
   hdis[code] = hdi
 }
 
-// --- Estimated IHDI for countries that have an HDI but no IHDI ---
+// --- Estimated IHDI for countries that have an HDI but no recent IHDI ---
 // Methods were chosen by estimating the IHDI of each country that has one,
 // with its own IHDI hidden (leave-one-out). Keeping a country's real
 // inequality losses and estimating only the missing ones (tested on income)
-// beat fitting IHDI from HDI. Only losses from the same year as a country's
-// HDI count, both its own and those averaged from other countries, so an
-// older loss (e.g. Equatorial Guinea's 2015 income loss) is treated as
-// missing. Each country uses the first that applies:
+// beat fitting IHDI from HDI. Only losses at most MAX_YEARS_OLDER_THAN_HDI
+// older than a country's HDI count, both its own and those averaged from other
+// countries, so an older loss (e.g. Equatorial Guinea's 2015 income loss) is
+// treated as missing. Each country uses the first that applies:
 // 1. In a comparison group (COMPARISON_GROUPS): each missing loss is the
 //    average over the group countries that have it.
 // 2. Missing only the income loss, and in GLOBAL_INCOME_LOSS: the average
@@ -364,11 +374,11 @@ const COMPARISON_GROUPS = [
     countries: ['DZA', 'EGY', 'LBY', 'MAR', 'TUN'],
   },
   {
-    // Lebanon's nearest countries include Israel, Cyprus, Greece, and the
-    // Caucasus, whose education losses are far lower than its Arab neighbours'.
-    // Syria is left out, as it has no education loss.
+    // Lebanon's and Syria's nearest countries include Israel, Cyprus, Greece,
+    // and the Caucasus, whose education losses are far lower than their Arab
+    // neighbours'. Syria's own education and income losses are too old to use.
     name: 'Levant',
-    countries: ['EGY', 'IRQ', 'JOR', 'LBN', 'PSE'],
+    countries: ['EGY', 'IRQ', 'JOR', 'LBN', 'PSE', 'SYR'],
   },
 ]
 // Cuba has had a planned economy since 1959, so no nearby country is a good
@@ -387,11 +397,13 @@ for (const code of [
 
 const average = (values) => values.reduce((sum, value) => sum + value, 0) / values.length
 
-// A country's loss from the same year as its HDI, or null if missing.
-function lossInHdiYear(code, prefix) {
+// A country's latest loss, or null if missing or too much older than its HDI.
+function recentLoss(code, prefix) {
   const row = undpRows[code]
   if (row === undefined || hdis[code] === undefined) return null
-  return undpValue(row, prefix, hdis[code].year)
+  const loss = latestUndpValue(row, prefix)
+  if (loss === undefined || !isRecentEnough(loss.year, hdis[code].year)) return null
+  return loss.value
 }
 
 // Up to NEAREST_COUNT of the nearest countries that have the data needed.
@@ -441,11 +453,11 @@ function estimateIhdi(code) {
   const row = undpRows[code]
   const year = hdis[code].year
   const indices = row === undefined ? null : dimensionIndices(row, year)
-  // Losses from the HDI's year; null when missing.
+  // Null when missing or too old.
   const losses = {
-    lifespan: lossInHdiYear(code, 'ineq_le'),
-    education: lossInHdiYear(code, 'ineq_edu'),
-    income: lossInHdiYear(code, 'ineq_inc'),
+    lifespan: recentLoss(code, 'ineq_le'),
+    education: recentLoss(code, 'ineq_edu'),
+    income: recentLoss(code, 'ineq_inc'),
   }
 
   // A country may supply figures to several groups (e.g. Egypt), but one being
@@ -466,7 +478,7 @@ function estimateIhdi(code) {
     for (const [part, prefix] of LOSS_PARTS) {
       if (losses[part] !== null) continue
       const groupLosses = group.countries
-        .map((other) => lossInHdiYear(other, prefix))
+        .map((other) => recentLoss(other, prefix))
         .filter((loss) => loss !== null)
       if (groupLosses.length === 0) throw new Error(`No ${group.name} country has a ${part} loss`)
       losses[part] = average(groupLosses)
@@ -480,9 +492,7 @@ function estimateIhdi(code) {
   if (GLOBAL_INCOME_LOSS.includes(code)) {
     if (!missingOnlyIncome) throw new Error(`${code} is missing more than its income loss`)
     losses.income = average(
-      selectedCodes
-        .map((other) => lossInHdiYear(other, 'ineq_inc'))
-        .filter((loss) => loss !== null),
+      selectedCodes.map((other) => recentLoss(other, 'ineq_inc')).filter((loss) => loss !== null),
     )
     return fromLosses(
       indices,
@@ -494,8 +504,8 @@ function estimateIhdi(code) {
   if (indices !== null && missingParts.length <= 2) {
     const filled = []
     for (const [part, prefix] of missingParts) {
-      const nearest = nearestWith(code, (other) => lossInHdiYear(other, prefix) !== null)
-      losses[part] = average(nearest.map((other) => lossInHdiYear(other, prefix)))
+      const nearest = nearestWith(code, (other) => recentLoss(other, prefix) !== null)
+      losses[part] = average(nearest.map((other) => recentLoss(other, prefix)))
       filled.push(`${part} loss ${losses[part].toFixed(1)}% (nearest ${nearest.length})`)
     }
     return fromLosses(indices, losses, `nearest countries' average ${filled.join(', ')}`)

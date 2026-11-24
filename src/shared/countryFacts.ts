@@ -27,7 +27,8 @@ export type CountryFacts = {
   hdi: number | null
   hdiYear: number | null
   // Inequality-adjusted Human Development Index (0–1). Null when UNDP has no
-  // value for the country, shown as "no data".
+  // value for the country, or only one too much older than its HDI (see
+  // make-country-data.mjs), shown as "no data" if there is no estimate either.
   ihdi: number | null
   ihdiYear: number | null
   // The figures behind the real or estimated IHDI, shown from a "?" beside it.
@@ -35,7 +36,7 @@ export type CountryFacts = {
   ihdiBreakdown: IhdiBreakdown | null
   // Our own estimate of the IHDI, from the country's other UNDP figures and
   // those of similar countries (see make-country-data.mjs), for countries that
-  // have an HDI but no IHDI (null otherwise). Always shown as "estimated".
+  // have an HDI but no recent IHDI (null otherwise). Always shown as "estimated".
   ihdiEstimate: number | null
   // The group of 3 to 6 similar neighbouring countries this one belongs to,
   // hand-written in countryGroups.json.

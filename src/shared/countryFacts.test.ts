@@ -57,6 +57,16 @@ describe('countryFacts', () => {
     }
   })
 
+  it('has no IHDI more than 2 years older than the HDI', () => {
+    for (const country of countries) {
+      if (country.ihdiYear === null) continue
+      expect(country.hdiYear! - country.ihdiYear).toBeLessThanOrEqual(2)
+    }
+    // Syria's latest IHDI from UNDP is from 2015, so it has an estimate instead.
+    expect(countryFacts['SYR'].ihdi).toBeNull()
+    expect(countryFacts['SYR'].ihdiEstimate).not.toBeNull()
+  })
+
   it('has an IHDI breakdown for every country with an IHDI, and none without an IHDI or estimate', () => {
     for (const country of countries) {
       if (country.ihdi !== null) expect(country.ihdiBreakdown).not.toBeNull()
