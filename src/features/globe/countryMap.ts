@@ -12,7 +12,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 // script next to its own file, which doesn't exist once Vite has bundled the
 // app, so Vite copies the script and we tell MapLibre where it is.
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
-import type { FeatureCollection, Geometry, Position } from 'geojson'
+import type { Feature, FeatureCollection, Geometry, Position } from 'geojson'
 import { loadCountryShapes, wholeCountryGeometry } from '../../shared/countries'
 import { countryFacts } from '../../shared/countryFacts'
 import groupColoursJson from '../../data/countryGroupColours.json'
@@ -21,7 +21,7 @@ import {
   DISPUTED_BORDERS,
   SHAPES_WITH_DISPUTED_BORDERS,
 } from './disputedBorders'
-import { prepareGeometryForFlatMap } from './flatMapGeometry'
+import { hasPoleEdges, outlineWithoutPoleEdges, prepareGeometryForFlatMap } from './flatMapGeometry'
 import { focusZoomFor, WIDE_SCREEN_MIN_PX } from './focusZoom'
 import { mainLandmassCentre, mainLandmassWidthKm } from './mainLandmass'
 import { regionBounds, regionCentre, regionWidthKm } from './regionBounds'
@@ -155,15 +155,19 @@ const HIGHEST_IHDI = Math.max(...IHDI_VALUES)
 // carry their group's id and colour as "groupId" and "groupColour", and their
 // real or else estimated IHDI as "ihdi" (null if they have neither); other map
 // areas have none of these. Shapes with a disputed border carry
-// "bordersDrawnSeparately", as BORDER_LINE_FEATURES draws their outlines.
+// "bordersDrawnSeparately", as BORDER_LINE_FEATURES draws their outlines; so
+// does Antarctica, whose polygon has added edges along the pole.
 const COUNTRY_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
   features: COUNTRY_SHAPES.map((shape, index) => {
     const facts = shape.isoAlpha3 === null ? undefined : countryFacts[shape.isoAlpha3]
+    const geometry = prepareGeometryForFlatMap(shape.geometry)
+    const bordersDrawnSeparately =
+      SHAPES_WITH_DISPUTED_BORDERS.has(shape.name) || hasPoleEdges(geometry)
     return {
       type: 'Feature',
       id: index,
-      geometry: prepareGeometryForFlatMap(shape.geometry),
+      geometry,
       properties: {
         ...(facts === undefined
           ? {}
@@ -172,24 +176,40 @@ const COUNTRY_FEATURES: FeatureCollection = {
               groupColour: GROUP_COLOURS[facts.groupId],
               ihdi: facts.ihdi ?? facts.ihdiEstimate,
             }),
-        ...(SHAPES_WITH_DISPUTED_BORDERS.has(shape.name) ? { bordersDrawnSeparately: true } : {}),
+        ...(bordersDrawnSeparately ? { bordersDrawnSeparately: true } : {}),
       },
     }
   }),
 }
 
+// Antarctica's outline, without the edges that close its polygon along the
+// pole. Has the same properties as the solid lines from borderLineFeatures.
+const POLE_SHAPE_LINE_FEATURES: Feature[] = COUNTRY_SHAPES.flatMap((shape, index) => {
+  const { geometry } = COUNTRY_FEATURES.features[index]
+  if (!hasPoleEdges(geometry)) return []
+  return outlineWithoutPoleEdges(geometry).map((line) => ({
+    type: 'Feature' as const,
+    geometry: line,
+    properties: { disputed: false, shape: shape.name, partner: '' },
+  }))
+})
+
 // The outlines of the shapes with a disputed border, with those borders
 // dashed and drawn once (see borderLineFeatures). Made from the same prepared
-// outlines as COUNTRY_FEATURES, so they line up exactly.
+// outlines as COUNTRY_FEATURES, so they line up exactly. Also holds
+// Antarctica's outline.
 const BORDER_LINE_FEATURES: FeatureCollection = {
   type: 'FeatureCollection',
-  features: borderLineFeatures(
-    COUNTRY_SHAPES.map((shape, index) => ({
-      name: shape.name,
-      geometry: COUNTRY_FEATURES.features[index].geometry,
-    })),
-    DISPUTED_BORDERS,
-  ),
+  features: [
+    ...borderLineFeatures(
+      COUNTRY_SHAPES.map((shape, index) => ({
+        name: shape.name,
+        geometry: COUNTRY_FEATURES.features[index].geometry,
+      })),
+      DISPUTED_BORDERS,
+    ),
+    ...POLE_SHAPE_LINE_FEATURES,
+  ],
 }
 
 // The positions in COUNTRY_SHAPES of each group's countries, by group id.
@@ -360,8 +380,8 @@ const MAP_STYLE: StyleSpecification = {
       },
     },
     {
-      // Every outline but those of the shapes with a disputed border, which
-      // the two layers below draw.
+      // Every outline but those of the shapes with a disputed border and
+      // Antarctica's, which the two layers below draw.
       id: 'country-borders',
       type: 'line',
       source: 'countries',

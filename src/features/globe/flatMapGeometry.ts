@@ -1,4 +1,4 @@
-import type { Geometry, Position } from 'geojson'
+import type { Geometry, LineString, Position } from 'geojson'
 
 // world-atlas outlines are made for a true globe: shapes that cross the 180°
 // meridian (Russia, Fiji) or surround a pole (Antarctica) are stored as one
@@ -54,4 +54,34 @@ function prepareRing(ring: Position[]): Position[] {
   const averageLatitude = continuous.reduce((sum, point) => sum + point[1], 0) / continuous.length
   const poleLatitude = averageLatitude < 0 ? -90 : 90
   return [...continuous, [last[0], poleLatitude], [first[0], poleLatitude], first]
+}
+
+// Whether prepareRing closed this ring by running it along a pole.
+function runsAlongPole(ring: Position[]): boolean {
+  return ring.some((point) => Math.abs(point[1]) === 90)
+}
+
+// Whether prepareGeometryForFlatMap closed any of the geometry's rings along a
+// pole (only Antarctica's).
+export function hasPoleEdges(prepared: Geometry): boolean {
+  return ringsOf(prepared).some(runsAlongPole)
+}
+
+// The real outline of a geometry from prepareGeometryForFlatMap, without the
+// edges it added to and along a pole. They are only for filling: the map's
+// tiles stop at about 85°, so drawn as a border they make a ring around the pole.
+export function outlineWithoutPoleEdges(prepared: Geometry): LineString[] {
+  return ringsOf(prepared).map((ring) => ({
+    type: 'LineString',
+    // A ring run along a pole ends with the two pole points and then its first
+    // point again. Without those three, it is the open coastline, whose ends
+    // are the same place on the globe (360° apart).
+    coordinates: runsAlongPole(ring) ? ring.slice(0, -3) : ring,
+  }))
+}
+
+function ringsOf(geometry: Geometry): Position[][] {
+  if (geometry.type === 'Polygon') return geometry.coordinates
+  if (geometry.type === 'MultiPolygon') return geometry.coordinates.flat()
+  return []
 }
