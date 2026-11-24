@@ -588,10 +588,33 @@ export function flyToCountries(
   })
 }
 
+// Antarctica's position in COUNTRY_SHAPES.
+const ANTARCTICA_INDEX = COUNTRY_SHAPES.findIndex((shape) => shape.name === 'Antarctica')
+
+// The map's tiles end at this latitude north and south (the Mercator limit).
+const TILES_END_LATITUDE = 85.0511
+
+// How far, in pixels, the globe's nearest point can be from a screen point
+// that still counts as on the globe; only allows for rounding.
+const ON_GLOBE_TOLERANCE_PX = 1
+
+// Whether `point` is on the part of the globe south of the tiles, all of it
+// Antarctica. MapLibre draws fills on over it, but queryRenderedFeatures
+// finds nothing there, as it only looks inside tiles.
+function isInSouthPoleCap(map: MapLibreMap, point: PointLike): boolean {
+  const position = map.unproject(point)
+  if (position.lat >= -TILES_END_LATITUDE) return false
+  // Off the globe, unproject gives the nearest point on its edge, which can
+  // be in the cap, but is drawn away from `point`.
+  return Point.convert(point).dist(map.project(position)) <= ON_GLOBE_TOLERANCE_PX
+}
+
 // Returns the position in COUNTRY_SHAPES of the country a tap at `point` (screen
 // pixels) picked, or null for the ocean. Shapes within the tap buffer
 // (tapBufferPxFor) can count as tapped (see tapBuffer.ts for which one wins).
 export function findTappedCountryIndex(map: MapLibreMap, point: PointLike): number | null {
+  if (isInSouthPoleCap(map, point)) return ANTARCTICA_INDEX
+
   const [exact] = map.queryRenderedFeatures(point, { layers: ['country-fills'] })
   const tap = Point.convert(point)
   const bufferPx = tapBufferPxFor(map.getContainer().clientWidth)
