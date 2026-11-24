@@ -13,7 +13,6 @@
   /* The green of a right answer. */
   color: var(--correct-green);
   font-size: 1.7rem;
-  font-weight: bold;
 }
 
 /* In the normal text colour, smaller than the country's name. Relative so
