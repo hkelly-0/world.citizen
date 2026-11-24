@@ -86,8 +86,8 @@ export function randomUnseenCountryInGroup(
 }
 
 // The weight of "a new country" when Learn + Practice picks its next card, against each
-// Passport country's weight of 1 − its familiarity (as in
-// `chooseRandomCountry`, where a never-answered country weighs 1). So the
+// Passport country's weight of 1 − its familiarity (a never-answered country
+// weighs 1). So the
 // chance of a new country is NEW_COUNTRY_WEIGHT ÷ (NEW_COUNTRY_WEIGHT + the
 // Passport countries' weights): lower the more Passport countries there are
 // and the less familiar they are.
@@ -100,8 +100,9 @@ export const NEW_COUNTRY_WEIGHT = 5
 // empty); else one weighted pick between "a new country" (NEW_COUNTRY_WEIGHT)
 // and the allowed Passport countries, weighted by `pickingFamiliarity` for
 // `questionIds`. When it lands on the Passport, `chooseRandomCountry` picks
-// which country with the same weights, so together they are one weighted pick
-// over every choice. `random` is a parameter so tests can make the choice
+// which country, with those weights raised to UNFAMILIARITY_POWER. The power is
+// left out here because it shrinks the weights, which would make new countries
+// far more likely. `random` is a parameter so tests can make the choice
 // predictable.
 export function isNextCardNewCountry(
   progress: DeckProgress,

@@ -1,6 +1,11 @@
 import { State } from 'ts-fsrs'
 import { describe, expect, it } from 'vitest'
-import { chooseRandomCountry, QUESTION_IDS, type CountryProgress } from './deck'
+import {
+  chooseRandomCountry,
+  QUESTION_IDS,
+  UNFAMILIARITY_POWER,
+  type CountryProgress,
+} from './deck'
 import { pickingFamiliarity } from './familiarity'
 import type { QuestionProgress } from './fsrs'
 
@@ -30,8 +35,11 @@ describe('chooseRandomCountry', () => {
   }
   const codes = ['FRA', 'PER', 'JPN']
 
-  it('picks by 1 − familiarity, walking along the weights', () => {
-    const weights = codes.map((code) => 1 - pickingFamiliarity(progress[code], QUESTION_IDS, TODAY))
+  it('picks by (1 − familiarity) ^ UNFAMILIARITY_POWER, walking along the weights', () => {
+    const weights = codes.map(
+      (code) =>
+        (1 - pickingFamiliarity(progress[code], QUESTION_IDS, TODAY)) ** UNFAMILIARITY_POWER,
+    )
     const total = weights[0] + weights[1] + weights[2]
     // Just inside each country's share of the total.
     const pickAt = (share: number) =>

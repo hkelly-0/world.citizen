@@ -45,10 +45,15 @@ export type CountryProgress = Partial<Record<QuestionId, QuestionProgress>>
 // Countries that have never been reviewed have no entry.
 export type DeckProgress = Record<string, CountryProgress>
 
+// How strongly `chooseRandomCountry` favours unfamiliar countries: 1 makes a
+// country's chance proportional to its unfamiliarity (1 − its familiarity), and
+// higher favours the least familiar ones more.
+export const UNFAMILIARITY_POWER = 2.5
+
 // Picks a random country from `codes` for the next card (the caller leaves out
 // those played recently). The less familiar a country is for `questionIds`
 // (`pickingFamiliarity`), the likelier it is: each country's chance is
-// proportional to 1 − its familiarity. Returns null if `codes` is empty.
+// proportional to (1 − its familiarity) ^ UNFAMILIARITY_POWER. Returns null if `codes` is empty.
 // `random` is a parameter so tests can make the choice predictable.
 export function chooseRandomCountry(
   codes: string[],
@@ -59,7 +64,9 @@ export function chooseRandomCountry(
 ): string | null {
   if (codes.length === 0) return null
 
-  const weights = codes.map((code) => 1 - pickingFamiliarity(progress[code], questionIds, today))
+  const weights = codes.map(
+    (code) => (1 - pickingFamiliarity(progress[code], questionIds, today)) ** UNFAMILIARITY_POWER,
+  )
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
   // Every country perfectly familiar: each is equally likely.
   if (totalWeight <= 0) return codes[Math.floor(random() * codes.length)]
