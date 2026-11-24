@@ -32,6 +32,7 @@ import {
   VERY_SMALL_AREA_KM2,
   type ScreenPoint,
 } from './tapBuffer'
+import { panOnTrackpadSwipe } from './trackpadSwipe'
 import { zoomLimitsFor } from './zoomLimits'
 
 setWorkerUrl(maplibreWorkerUrl)
@@ -668,7 +669,8 @@ export function resumeHoverHighlight(map: MapLibreMap) {
 }
 
 // Creates the country map (globe zoomed out, flat map zoomed in) inside the
-// container, with hover highlighting on devices that can hover. The groups in
+// container, with hover highlighting on devices that can hover and trackpad
+// swipes that move the map (panOnTrackpadSwipe). The groups in
 // `tintedGroupIds` are tinted in their colours (the region globe, and the
 // globe screen, which starts with the tint hidden by `isTintShown`). The caller
 // handles clicks and must call map.remove() when done.
@@ -698,6 +700,8 @@ export function createCountryMap(
   }
   updateZoomLimits()
   map.on('move', updateZoomLimits)
+
+  panOnTrackpadSwipe(map)
 
   // MapLibre only logs errors itself when nothing listens for them, so this
   // has to log the others. Population tiles fail wherever there is nothing to
