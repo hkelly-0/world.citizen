@@ -1,4 +1,5 @@
 import { BackButton } from '../../shared/BackButton'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 // Same layout and buttons as the main menu.
 import '../menu/MainMenu.css'
 
@@ -27,14 +28,14 @@ export function ExtrasMenu({
       <BackButton onClick={onBack} />
       <h1>Extras</h1>
       <div className="main-menu__options">
-        <button className="main-menu__option arrow-button" onClick={onOpenCountryTable}>
-          All country data
+        <button className="main-menu__option" onClick={onOpenCountryTable}>
+          <ArrowLabel>All country data</ArrowLabel>
         </button>
-        <button className="main-menu__option arrow-button" onClick={onOpenWhatCountsAsCountry}>
-          What counts as a country?
+        <button className="main-menu__option" onClick={onOpenWhatCountsAsCountry}>
+          <ArrowLabel>What counts as a country?</ArrowLabel>
         </button>
-        <button className="main-menu__option arrow-button" onClick={onOpenNameEveryCountry}>
-          Game: Name Every Country
+        <button className="main-menu__option" onClick={onOpenNameEveryCountry}>
+          <ArrowLabel>Game: Name Every Country</ArrowLabel>
         </button>
       </div>
     </main>

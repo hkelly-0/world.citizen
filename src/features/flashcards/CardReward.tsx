@@ -5,6 +5,7 @@ import { RecallCircle } from '../passport/RecallCircle'
 import { TutorialNote } from '../tutorial/TutorialNote'
 import type { CardRewardDetails } from './rewardAfterCard'
 import './CardReward.css'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 
 const COUNTRY_TOTAL = Object.keys(countryFacts).length
 
@@ -62,14 +63,12 @@ export function CardReward({
       {note !== undefined && <TutorialNote text={note} />}
       <button
         type="button"
-        className={
-          continueHasArrow ? 'card-reward__continue arrow-button' : 'card-reward__continue'
-        }
+        className="card-reward__continue"
         onClick={onContinue}
         // Focused so Enter presses it.
         autoFocus
       >
-        {continueLabel}
+        {continueHasArrow ? <ArrowLabel>{continueLabel}</ArrowLabel> : continueLabel}
       </button>
     </div>
   )

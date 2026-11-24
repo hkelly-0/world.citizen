@@ -10,6 +10,7 @@ import {
   setGroupFeatureState,
   stopHoverHighlight,
 } from './countryMap'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 import './CountryInfoPanel.css'
 import './RegionGlobe.css'
 
@@ -124,11 +125,8 @@ export default function RegionGlobe({ progress, onDiscover }: RegionGlobeProps) 
           <p className="country-info-panel__note">
             {selected.seenCount} / {selected.size} countries
           </p>
-          <button
-            className="region-globe__discover arrow-button"
-            onClick={() => onDiscover(selected.id)}
-          >
-            Discover this region
+          <button className="region-globe__discover" onClick={() => onDiscover(selected.id)}>
+            <ArrowLabel>Discover this region</ArrowLabel>
           </button>
         </aside>
       )}

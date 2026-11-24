@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { BackButton } from '../../shared/BackButton'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 // Same layout and buttons as the main menu.
 import '../menu/MainMenu.css'
 
@@ -41,30 +42,26 @@ export function FlashcardsMenu({
       <BackButton onClick={onBack} />
       <h1>Flashcards</h1>
       {showTutorialButton && (
-        <button className="main-menu__tutorial arrow-button" onClick={onPlayTutorial}>
-          Play Tutorial
+        <button className="main-menu__tutorial" onClick={onPlayTutorial}>
+          <ArrowLabel>Play Tutorial</ArrowLabel>
         </button>
       )}
-      <button
-        className="main-menu__option arrow-button"
-        disabled={showTutorialButton}
-        onClick={onOpenClassic}
-      >
-        Learn + Practice
+      <button className="main-menu__option" disabled={showTutorialButton} onClick={onOpenClassic}>
+        <ArrowLabel>Learn + Practice</ArrowLabel>
       </button>
       <button
-        className="main-menu__option arrow-button"
+        className="main-menu__option"
         disabled={showTutorialButton}
         onClick={onOpenPassportPractice}
       >
-        Practice My Passport
+        <ArrowLabel>Practice My Passport</ArrowLabel>
       </button>
       <button
-        className="main-menu__option arrow-button"
+        className="main-menu__option"
         disabled={showTutorialButton}
         onClick={onOpenCustomPractice}
       >
-        Custom Practice
+        <ArrowLabel>Custom Practice</ArrowLabel>
       </button>
     </main>
   )

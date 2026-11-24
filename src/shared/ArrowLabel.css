@@ -1,0 +1,18 @@
+/* The text and the arrow side by side, the arrow vertically centred. Never
+   wider than the button, so the text wraps before the arrow is pushed out. */
+.arrow-label {
+  display: inline-flex;
+  align-items: center;
+  /* One space, as Roboto Mono's characters are all 1ch wide. */
+  gap: 1ch;
+  max-width: 100%;
+}
+
+/* Lets the text shrink (and wrap) to leave room for the arrow. */
+.arrow-label__text {
+  min-width: 0;
+}
+
+.arrow-label__arrow {
+  flex-shrink: 0;
+}

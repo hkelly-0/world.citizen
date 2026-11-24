@@ -21,6 +21,7 @@ import {
   randomUnseenCountryInGroup,
   sortedCollectedCountries,
 } from './passport'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 import './PassportView.css'
 
 // The globe (MapLibre + border data) is large, so it is loaded only when a new
@@ -104,8 +105,8 @@ export function PassportView({
   )
 
   const playButtonClassName = warnBeforeNewCountry
-    ? 'passport__play passport__play--warning arrow-button'
-    : 'passport__play arrow-button'
+    ? 'passport__play passport__play--warning'
+    : 'passport__play'
 
   function changeSort(next: PassportSort) {
     setSort(next)
@@ -214,10 +215,10 @@ export function PassportView({
               onClose={() => setOpenCode(null)}
             />
             <button
-              className="passport__play arrow-button"
+              className="passport__play"
               onClick={() => onPlayFlashcard(openCountry.isoAlpha3)}
             >
-              Play flashcard
+              <ArrowLabel>Play flashcard</ArrowLabel>
             </button>
           </div>
         </div>
@@ -249,11 +250,11 @@ export function PassportView({
             </aside>
             {groupId === null ? (
               <button className={playButtonClassName} onClick={() => setIsChoosingRegion(true)}>
-                {warnBeforeNewCountry ? 'Go anyway' : 'Choose a region'}
+                <ArrowLabel>{warnBeforeNewCountry ? 'Go anyway' : 'Choose a region'}</ArrowLabel>
               </button>
             ) : (
               <button className={playButtonClassName} onClick={() => playNewCountry(groupId)}>
-                {warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard'}
+                <ArrowLabel>{warnBeforeNewCountry ? 'Go anyway' : 'Play flashcard'}</ArrowLabel>
               </button>
             )}
           </div>

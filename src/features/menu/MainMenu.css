@@ -77,6 +77,13 @@
   cursor: pointer;
 }
 
+/* The arrow as far from the text as on the one-word options, whose
+   .arrow-button arrow is spaced by the button's flex gap alone (a flex item
+   drops the space at the start of ' →'). */
+.main-menu__option .arrow-label {
+  gap: 8px;
+}
+
 /* The four main options, closer together and a little shorter than the
    options in the other menus, which share .main-menu__option. */
 .main-menu__options {

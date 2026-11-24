@@ -1,4 +1,5 @@
 import './TutorialNote.css'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 
 type TutorialNoteProps = {
   text: string
@@ -32,13 +33,8 @@ export function TutorialNote({
     <aside className={className} aria-label="Tutorial">
       <p className="tutorial-note__text">{text}</p>
       {buttonLabel !== undefined && (
-        <button
-          className={
-            buttonHasArrow ? 'tutorial-note__button arrow-button' : 'tutorial-note__button'
-          }
-          onClick={onButtonClick}
-        >
-          {buttonLabel}
+        <button className="tutorial-note__button" onClick={onButtonClick}>
+          {buttonHasArrow ? <ArrowLabel>{buttonLabel}</ArrowLabel> : buttonLabel}
         </button>
       )}
     </aside>

@@ -3,6 +3,7 @@ import { COUNTRY_COUNT } from '../passport/passport'
 import './MainMenu.css'
 import { SpinningLogo } from './SpinningLogo'
 import { useFitTextToWidth } from './useFitTextToWidth'
+import { ArrowLabel } from '../../shared/ArrowLabel'
 
 type MainMenuProps = {
   // How many countries are in the Passport, shown as e.g. "42/197".
@@ -44,8 +45,8 @@ export function MainMenu({
       </h1>
       <p className="main-menu__subtitle">learn every country</p>
       {showTutorialButton && (
-        <button className="main-menu__tutorial arrow-button" onClick={onPlayTutorial}>
-          Play Tutorial
+        <button className="main-menu__tutorial" onClick={onPlayTutorial}>
+          <ArrowLabel>Play Tutorial</ArrowLabel>
         </button>
       )}
       <div className="main-menu__options">

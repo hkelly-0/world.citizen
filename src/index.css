@@ -81,7 +81,8 @@ body {
 }
 
 /* An arrow after the text of every button that moves on to something else
-   (not, e.g., Reveal, Done, or Saved). */
+   (not, e.g., Reveal, Done, or Saved). Labels that can wrap use ArrowLabel
+   instead. */
 .arrow-button::after {
   content: ' →';
 }

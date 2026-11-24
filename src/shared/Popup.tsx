@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { ArrowLabel } from './ArrowLabel'
 import './Popup.css'
 
 // A card over the dimmed screen, with its buttons side by side along the
@@ -37,14 +38,13 @@ export function Popup({
               className={[
                 'popup__button',
                 button.colour === undefined ? '' : `popup__button--${button.colour}`,
-                button.hasArrow ? 'arrow-button' : '',
               ]
                 .filter((name) => name !== '')
                 .join(' ')}
               onClick={button.onClick}
               autoFocus={index === 0}
             >
-              {button.label}
+              {button.hasArrow ? <ArrowLabel>{button.label}</ArrowLabel> : button.label}
             </button>
           ))}
         </div>
